@@ -1,0 +1,4 @@
+class startscreen {
+	
+	void showscreen();
+} 
