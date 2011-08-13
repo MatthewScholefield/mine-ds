@@ -1,0 +1,1 @@
+startscreenbg.o: startscreenbg.s
