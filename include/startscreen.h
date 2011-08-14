@@ -1,5 +1,5 @@
-class startscreen {
+#include "scene.h"
+class startscreen: public Scene {
 	public:
-	startscreen();
-	void showscreen();
+	void update();
 };
