@@ -1,6 +1,6 @@
 #include "scene.h"
 Scene::Scene(){}
 Scene::~Scene(){}
-Scene::update(){
+void Scene::update(){
 return;
 }
