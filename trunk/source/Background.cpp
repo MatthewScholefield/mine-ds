@@ -1,13 +1,6 @@
 #include "Background.h"
 #include<nds.h>
 
-Background bg2;
-Background bg3;
-Background bg6;
-Background bg7;
-
-TiledBackground bg1;
-
 void copy16(const void* src, void* dest, u32 len)
 {
 	len /= 2;
