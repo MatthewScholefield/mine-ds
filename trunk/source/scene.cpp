@@ -1,6 +1,12 @@
+#include <stdio.h>
 #include "scene.h"
-Scene::Scene(){}
+
+Scene::Scene(){
+	nxtsc=NULL; //Just in case...
+}
 Scene::~Scene(){}
-void Scene::update(){
-return;
+void Scene::update(){}
+void Scene::start(){}
+void Scene::ChangeScene(Scene* nc){
+	nxtsc=nc;
 }
