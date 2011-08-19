@@ -8,16 +8,15 @@
 exitscene::exitscene(){
 
 }
-void exitscene::start(){/*
+void exitscene::start(){
 	videoSetMode(MODE_FB0);
 	vramSetBankA(VRAM_A_LCD);
 	int x;
 	for (x=0;x<=256*192;x++)
-		VRAM_A[x]=0;*/
-	//videoSetModeSub(MODE_5_2D);
-	//videoSetMode(MODE_0_2D);
-	//Background bg2 = Background(0,0);
-	//bg2.print("Press Start to exit",tahoma11,RGB15(31,31,31),50,50);
+		VRAM_A[x]=0;
+	videoSetModeSub(MODE_5_2D);
+	Background bg2 = Background(6,0);
+	bg2.print("Press Start to exit",tahoma11,RGB15(31,31,31),50,50);
 }
 void exitscene::update(){
 	scanKeys();
