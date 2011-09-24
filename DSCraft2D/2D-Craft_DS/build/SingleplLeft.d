@@ -1,0 +1,1 @@
+SingleplLeft.o: SingleplLeft.s
