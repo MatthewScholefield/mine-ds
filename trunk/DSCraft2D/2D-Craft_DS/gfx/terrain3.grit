@@ -1,0 +1,10 @@
+# 8 bit bitmap
+-gB8
+
+# tiled format
+-gt
+-gT FF00FF
+
+-Mh2 -Mw2
+# -Zl
+
