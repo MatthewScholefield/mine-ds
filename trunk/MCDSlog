@@ -1,0 +1,24 @@
+MC DS TODO LOG:
+
+
+A 2D creation of minecraft
+
+
+IDEAS:
+
+-Blocks will be 32x32 in size, this makes it VERY easy to code, great for new coders to understand
+-Blocks will be rendered as 63 sprites, this leaves 65 left for mobs and special effects.
+-We will then have 2 bgs under the sprites they wil be BG 3 & 2
+-One BG will be 256*256 and consist of only clouds this bg will move at a rate of 1px every 4 frames
+-Another BG will be 256*512 and consist of the colours of the sky.
+-The first 192px (height) will be the colour of the day's light blue.
+-Next there will be a 64px gradient which goes from the day's light blue to the nights purple.
+-Next there is the nights purple colour (192px height)
+-Then another 64px gradient will go from the nights purple to the day's light blue again.
+-192 sky + 64 gradient + 192 night + 64 graident=512px (height of BG)!
+-The Sky BG will wait 36000 frames (10 minutes) Then scroll down 64 px at a rate of 0.5 px every frame
+-sky BG is now at night.
+-The game has taken 12 minutes and 8 seconds to get here.
+
+-WIP
+
