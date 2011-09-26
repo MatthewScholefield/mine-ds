@@ -18,7 +18,20 @@ IDEAS:
 -192 sky + 64 gradient + 192 night + 64 graident=512px (height of BG)!
 -The Sky BG will wait 36000 frames (10 minutes) Then scroll down 64 px at a rate of 0.5 px every frame
 -sky BG is now at night.
--The game has taken 12 minutes and 8 seconds to get here.
+-The game has taken 12 minutes and 8 seconds to get to night.
+-Now the game waits 2160 frames (6 minutes) Then scrolls down 64 px at a rate of 0.5px every frame (2 minutes and 8 seconds)
+-A whole day-night cycle is 10+6+2+2=20 minutes 16 seconds.
+-When the BG scroll gets to 512 change it to zero.
+-There is a "MAX MOB COUNT" of 50, this leaves about 15 sprites for room. (In case something goes wrong)
 
--WIP
-
+TODO (in order)
+-Do the day, night cycle first, this will probably be the hardest part.
+-Then create a block struct.
+-Fill some block structs and code a renderer.
+-Scroll around world and see if it works.
+-Add a 'player'
+-Write a world generator
+-Create some mobs
+-Make a particle engine (Block breaking)
+-Add a Title Screen
+-Add multiplayer, (google "NiFi Nintendo DS Homebrew")
