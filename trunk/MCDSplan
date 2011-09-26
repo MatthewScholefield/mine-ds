@@ -7,6 +7,8 @@ What graphics are going to use a lot of space, this is where we neede to focus t
 What are the two MAIN elements that need vram? (MAIN_BG,MAIN_SPRITES,SUB_SPRITES,SUB_BG)
 How are the screens going to be set up?
 How much memory shoud be mapped to each element?
+Is there anything that should be written in ASM? (Hint: lag in real minecraft)
+
 
 MAIN VRAM ELEMENTS:
 -
@@ -26,6 +28,3 @@ F: EXTENDED PALETTE
 G:
 H:
 I:
-
-Is there anything that should be written in ASM? (Hint: lag in real minecraft)
-
