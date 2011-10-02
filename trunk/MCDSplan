@@ -30,3 +30,5 @@ H:
 I:
 
 *I think the player dont have to use much KB (Not much animations, mobs have more). But do you think its possible to let the player use own Player skins? We need the extended palette for the blocks, right?*
+
+We HAVE to use the blocks and items as 16x16 images and resize them to 32x32 in the game, because for the itembar or other things, we need them as 16x16. So we resize them for ingame blocks :D
