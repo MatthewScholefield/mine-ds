@@ -2,19 +2,21 @@
 
 #include "TitleBottom.h"
 #include "TitleTop.h"
-#include "SingleplLeft.h"
-#include "SingleplMid.h"
-#include "SingleplRight.h"
+#include "Block1.h"
+#include "Block2.h"
+#include "Block3.h"
 #include "PlayerR.h"
 #include "PlayerL.h"
 
 int count;
 int e = 0;
 int Spr1X,Spr2X,Spr1Y,Spr2Y,Spr3X,Spr3Y,PlX,PlY;
+int FallSpeed = 0;
+bool falling = false;
 
 void timer()
 {
-		scanKeys();
+	    scanKeys();
 		int held = keysHeld();
  
 		if( held & KEY_LEFT)
@@ -23,15 +25,45 @@ void timer()
 		if( held & KEY_RIGHT)
 		PlX = PlX +1;
 		
- 		if( held & KEY_UP)
-		PlY = PlY -1;
+		int i;
 		
-		if( held & KEY_DOWN)
-		PlY = PlY +1;
+		if( held & KEY_UP)
+		{
+		 falling = false;
+		  for (i = 0; i < 16; i++)
+		  {
+		   PlY = PlY -1;
+			  if (i = 16) 
+			  falling = true;
+		  }
+		}
 		
-		if( held & KEY_TOUCH)
-		PlY = PlY -1;
-
+		if (PlY == 256)
+		{
+		PlY = 0;
+		}
+			
+		if (PlX == Spr1X)
+		{
+		  if (PlY == Spr1Y)
+		  {
+		    falling = false;
+		  }
+		}
+		else
+		{
+		  falling = true;
+		  PlY = PlY +FallSpeed;
+		  if (FallSpeed == 10)
+		  {
+		  
+		  }
+		  else
+		  {
+		    FallSpeed = FallSpeed +1;
+		  }
+		}
+		
 }
 
 
@@ -62,30 +94,38 @@ int main(void)
   
   int i;
   
-  for (i=0;i<=SingleplLeftPalLen;i++)
-  VRAM_F_EXT_SPR_PALETTE[0][i] = SingleplLeftPal[i];
-  for (i=0;i<=SingleplMidPalLen;i++)
-  VRAM_F_EXT_SPR_PALETTE[1][i] = SingleplMidPal[i];
-  for (i=0;i<=SingleplRightPalLen;i++)
-  VRAM_F_EXT_SPR_PALETTE[2][i] = SingleplRightPal[i];
-  for (i=0;i<=SingleplRightPalLen;i++)
+  for (i=0;i<Block1PalLen;i++)
+  VRAM_F_EXT_SPR_PALETTE[0][i] = Block1Pal[i];
+  for (i=0;i<=Block2PalLen;i++)
+  VRAM_F_EXT_SPR_PALETTE[1][i] = Block2Pal[i];
+  for (i=0;i<=Block3PalLen;i++)
+  VRAM_F_EXT_SPR_PALETTE[2][i] = Block3Pal[i];
+  for (i=0;i<=PlayerRPalLen;i++)
   VRAM_F_EXT_SPR_PALETTE[3][i] = PlayerRPal[i];
+  for (i=0;i<=PlayerRPalLen;i++)
+  VRAM_F_EXT_SPR_PALETTE[4][i] = PlayerLPal[i];
 	
   vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
   
-  u16* SingleplLeft = oamAllocateGfx(&oamMain, SpriteSize_32x16, SpriteColorFormat_256Color);
-  u16* SingleplMid = oamAllocateGfx(&oamMain, SpriteSize_32x16, SpriteColorFormat_256Color);
-  u16* SingleplRight = oamAllocateGfx(&oamMain, SpriteSize_32x16, SpriteColorFormat_256Color);
+  u16* Block1 = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+  u16* Block2 = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+  u16* Block3 = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
   u16* PlayerR = oamAllocateGfx(&oamMain, SpriteSize_32x64, SpriteColorFormat_256Color);
+  u16* PlayerL = oamAllocateGfx(&oamMain, SpriteSize_32x64, SpriteColorFormat_256Color);
   
-  dmaCopy(SingleplLeftTiles, SingleplLeft, SingleplLeftTilesLen);
-  dmaCopy(SingleplMidTiles, SingleplMid, SingleplMidTilesLen);
-  dmaCopy(SingleplRightTiles, SingleplRight, SingleplRightTilesLen);
+  dmaCopy(Block1Tiles, Block1, Block1TilesLen);
+  dmaCopy(Block2Tiles, Block2, Block2TilesLen);
+  dmaCopy(Block3Tiles, Block3, Block3TilesLen);
   dmaCopy(PlayerRTiles, PlayerR, PlayerRTilesLen);
+  dmaCopy(PlayerLTiles, PlayerL, PlayerLTilesLen);
   
   Spr1X = 32;
-  Spr2X = 64;
-  Spr3X = 96;
+  Spr1Y = 128;
+  Spr2X = 48;
+  Spr2Y = 128;
+  Spr3X = 64;
+  Spr3Y = 128;
+  PlX = 32;
   PlY = 64;
   
   timerStart(0, ClockDivider_256, TIMER_FREQ(490), timer);
@@ -99,9 +139,9 @@ int main(void)
 			Spr1X, Spr1Y, //Sprite X and Y variables)
 			0, //Priority (0 render last)
 			0, //Palete number if Multiple Paletes
-			SpriteSize_32x16,
+			SpriteSize_16x16,
 			SpriteColorFormat_256Color,
-			SingleplLeft, //Pointer to the graphic
+			Block1, //Pointer to the graphic
 			-1, //Sprite rotation data
 			false, //double the size when rotating?
 			false, //hide the sprite?
@@ -113,9 +153,9 @@ int main(void)
 			Spr2X, Spr2Y,
 			0,
 			1,
-			SpriteSize_32x16,
+			SpriteSize_16x16,
 			SpriteColorFormat_256Color,
-			SingleplMid,
+			Block2,
 			-1,
 			false,
 			false,
@@ -127,9 +167,9 @@ int main(void)
 			Spr3X, Spr3Y,
 			0,
 			2,
-			SpriteSize_32x16,
+			SpriteSize_16x16,
 			SpriteColorFormat_256Color,
-			SingleplRight,
+			Block3,
 			-1,
 			false,
 			false,
@@ -150,6 +190,7 @@ int main(void)
 			false, false,
 			false
 			);
+			
 			
 	swiWaitForVBlank();
 	oamUpdate(&oamMain);
