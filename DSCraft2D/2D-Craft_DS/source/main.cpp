@@ -29,12 +29,9 @@ void timer()
 		
 		if( held & KEY_UP)
 		{
-		 falling = false;
 		  for (i = 0; i < 16; i++)
 		  {
 		   PlY = PlY -1;
-			  if (i = 16) 
-			  falling = true;
 		  }
 		}
 		
@@ -43,13 +40,14 @@ void timer()
 		PlY = 0;
 		}
 			
-		if (PlX == Spr1X)
-		{
-		  if (PlY == Spr1Y)
-		  {
-		    falling = false;
-		  }
-		}
+        if(PlX >= Spr1X && PlX <= Spr1X+16)
+         {
+           if(PlY >= Spr1Y && PlY <= Spr1Y+16)
+            {
+             falling = false;
+			 FallSpeed == 0;
+            }
+         }
 		else
 		{
 		  falling = true;
@@ -70,7 +68,7 @@ void timer()
 int main(void)
 {
 
-   	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
+   	vramSetBankB(VRAM_B_MAIN_BG_0x06000000);
 
         int bg = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
 
@@ -88,7 +86,7 @@ int main(void)
 
 
   videoSetMode(MODE_5_2D);
-  vramSetBankF(VRAM_F_MAIN_SPRITE);
+  vramSetBankA(VRAM_A_MAIN_SPRITE);
   oamInit(&oamMain,SpriteMapping_1D_32,true);
   vramSetBankF(VRAM_F_LCD);
   
