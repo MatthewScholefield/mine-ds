@@ -52,15 +52,6 @@ dmaCopy(blocksPal,VRAM_F_EXT_SPR_PALETTE[0],blocksPalLen); //A Quick way of doin
 dmaCopy(PlayerRPal,VRAM_F_EXT_SPR_PALETTE[1],PlayerRPalLen); //A Quick way of doing a for loop copy
 }
 int main(){
-
-    vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
-
-    int bg = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
-
-    dmaCopy(TitleTopBitmap, bgGetGfxPtr(bg), 256*256);
-    dmaCopy(TitleTopPal, BG_PALETTE, 256*2);
-
-
 	videoSetMode(MODE_5_2D);
 	setupOam();
 	vramSetBankA(VRAM_A_MAIN_SPRITE);//Make room for Sprites THIS USES A
