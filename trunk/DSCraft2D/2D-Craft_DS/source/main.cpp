@@ -2,7 +2,7 @@
 #include "gameshelper.h"
 #include "blocks.h"
 #include "PlayerR.h"
-#include "TitleTop.h"
+#include "Day.h"
 int x,y,vy;
 int gravity=1;
 int blockposx[8];
@@ -52,6 +52,7 @@ dmaCopy(blocksPal,VRAM_F_EXT_SPR_PALETTE[0],blocksPalLen); //A Quick way of doin
 dmaCopy(PlayerRPal,VRAM_F_EXT_SPR_PALETTE[1],PlayerRPalLen); //A Quick way of doing a for loop copy
 }
 int main(){
+
 	videoSetMode(MODE_5_2D);
 	setupOam();
 	vramSetBankA(VRAM_A_MAIN_SPRITE);//Make room for Sprites THIS USES A
@@ -94,7 +95,16 @@ int main(){
 	blockposx[5]=160;
 	blockposx[6]=192;
 	blockposx[7]=224;
+	
+	lcdMainOnBottom();
 	swiWaitForVBlank();
+	
+    vramSetBankD(VRAM_D_MAIN_BG_0x06000000);
+
+    int bg = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
+
+    dmaCopy(DayBitmap, bgGetGfxPtr(bg), 256*256);
+    dmaCopy(DayPal, BG_PALETTE, 256*2);
 
 	while(1)
 	{
