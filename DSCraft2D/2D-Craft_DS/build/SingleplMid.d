@@ -1,1 +1,0 @@
-SingleplMid.o: SingleplMid.s

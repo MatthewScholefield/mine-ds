@@ -1,1 +1,0 @@
-TitleBottom.o: TitleBottom.s
