@@ -16,3 +16,4 @@
 #define LEAF 9
 #define LEAVES 9
 #define TORCH 10
+#define AIR 8123 //Some Random Number
