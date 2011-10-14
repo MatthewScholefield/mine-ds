@@ -28,5 +28,6 @@ int main(){
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
 		resetSpriteCount(); //And set the sprite number counter to 0
+
 	}
 }
