@@ -1,3 +1,4 @@
+//A typedef struct is a structure and puts heaps of varibles in one place
 typedef struct{
 	int x;
 	int y;
@@ -8,6 +9,7 @@ typedef struct{
 	int playerseed; //For multiplayer
 	bool pointingleft;
 }playerActor;
+//Function definations 
 void updateplayer(playerActor* player);
 u16* playerGfx();
 void playerCreateGfx();
