@@ -1,12 +1,13 @@
 //The main.cpp is the simplist file of all, and it should be
 //BUT it depends on many other files that are more complex
 #include <nds.h>
-#include "ndsvideo.h" // Include the video difanations (for setupVideo();)
+#include "ndsvideo.h" // Include the video functions (for setupVideo();)
 #include "player.h" // The player fuctions
 #include "sprcount.h" //The sprite number counter
 #include "world.h" //A World!!!!!
 #include <stdio.h> //For Rand
-#include "blockID.h"
+#include <time.h>
+#include "blockID.h" //The Block ID numbers to a word
 int main(){
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
 	playerActor MainPlayer; //Create a Player Object
@@ -14,15 +15,19 @@ int main(){
 	MainPlayer.y=192/2-32;
 	worldObject CurrentWorld;
 	//CurrentWorld.CamX=256; //Testing stuff
-	srand(11534355); //The seed :)
+	srand(time(NULL)); //The seed :)
 	rand(); //junk
+	consoleDemoInit();
 	int i;
 	for(i=0;i<=32*32;i++){
-		CurrentWorld.blocks[i]=rand()%12;
+		CurrentWorld.blocks[i]=rand()%11;
 		if (CurrentWorld.blocks[i]==11) CurrentWorld.blocks[i]=8123;//Air
 	}
 	worldSetUp();
 	while(1){
+		consoleClear();
+		iprintf("%d,%d",CurrentWorld.CamX,CurrentWorld.CamY);
+		iprintf(",,%d,%d",MainPlayer.x,MainPlayer.y);
 		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
 		worldUpdate(&CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank

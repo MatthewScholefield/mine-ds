@@ -1,8 +1,8 @@
 #include "world.h"
 //A typedef struct is a structure and puts heaps of varibles in one place
 typedef struct{
-	unsigned int x;
-	unsigned int y;
+	int x;
+	int y;
 	int vy;
 	int framenum;
 	int playerseed; //For multiplayer
