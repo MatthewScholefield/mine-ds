@@ -4,7 +4,7 @@
 #include "../blockID.h"
 u16* stonegfx;
 void STONE_render(int x,int y){
-	if (x>-32 && x<288 && y>-32 && y<224)createsprite32x32(x,y,stonegfx,false,0);	
+	if (y<192 && x<256 && x>(-32) && y>(-32)) createsprite32x32(x,y,stonegfx,false,0);	
 }
 void STONE_setup(){
 	stonegfx=oamAllocateGfx(&oamMain,SpriteSize_32x32,SpriteColorFormat_256Color);
