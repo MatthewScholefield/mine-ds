@@ -16,4 +16,8 @@
 #define LEAF 9
 #define LEAVES 9
 #define TORCH 10
+#define COBBLE 11
+#define BADROCK 12
+#define SAND 13
+#define GRAVEL 14
 #define AIR 8123 //Some Random Number
