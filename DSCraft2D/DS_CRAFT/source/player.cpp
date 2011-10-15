@@ -12,13 +12,13 @@ void updateplayer(playerActor* player,worldObject* world){
 	//Move the player
 	if (keysHeld() & KEY_UP) player->y--;
 	else if (keysHeld() & KEY_DOWN) player->y++;
-	if (keysHeld() & KEY_LEFT) player->x--;
+	if (keysHeld() & KEY_LEFT)player->x--;
 	else if (keysHeld() & KEY_RIGHT) player->x++;
 	//Testing STUFF in the world.
-	if (keysHeld() & KEY_X) world->CamY--;
-	else if (keysHeld() & KEY_B ) world->CamY++;
-	if (keysHeld() & KEY_Y) world->CamX--;
-	else if (keysHeld() & KEY_A ) world->CamX++;
+	if (keysHeld() & KEY_UP) world->CamY--;
+	else if (keysHeld() & KEY_DOWN ) world->CamY++;
+	if (keysHeld() & KEY_LEFT) world->CamX--;
+	else if (keysHeld() & KEY_RIGHT ) world->CamX++;
 	//Stop at end of map
 	if (world->CamX>1024) world->CamX=1024;
 	else if (world->CamX<0) world->CamX=0;
