@@ -18,11 +18,11 @@ int main(){
 	srand(time(NULL)); //The seed :)
 	rand(); //junk
 	consoleDemoInit();
-	int i;
-	for(i=0;i<=32*32;i++){
-		CurrentWorld.blocks[i]=rand()%11;
-		if (CurrentWorld.blocks[i]==11) CurrentWorld.blocks[i]=8123;//Air
-	}
+	int i,j;
+	for(i=0;i<=32;i++){
+		for(j=0;j<=32;j++){
+			CurrentWorld.blocks[i][j]=rand()%11;//11 is the amount of blocks implemented
+	}}
 	worldSetUp();
 	while(1){
 		consoleClear();
