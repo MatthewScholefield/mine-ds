@@ -9,6 +9,7 @@
 #include <stdio.h> //For Rand
 #include <time.h>
 #include "blockID.h" //The Block ID numbers to a word
+
 int main(){
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
 	lcdMainOnBottom();
@@ -23,15 +24,37 @@ int main(){
 	MainPlayer.y=CurrentWorld.CamY+96-32;
 	worldSetUp();
 	touchPosition touch;
+	CurrentWorld.ChoosedBlock = 0;
+	CurrentWorld.DELmode = false;
+
 	while(1){
 		scanKeys();
+		if (keysDown() & KEY_L && CurrentWorld.DELmode == false){ //Switchting between blocks
+		    CurrentWorld.ChoosedBlock-=1; //One block down
+			}
+		if (keysDown() & KEY_R && CurrentWorld.DELmode == false){
+		    CurrentWorld.ChoosedBlock+=1; //One block up
+			}
+			
+		if (keysDown() & KEY_SELECT){
+		    if (CurrentWorld.DELmode == false){
+		          CurrentWorld.DELmode = true;
+		          CurrentWorld.ChoosedBlock = 8123;
+				  }
+			else if (CurrentWorld.DELmode == true){
+			      CurrentWorld.DELmode = false;
+				  CurrentWorld.ChoosedBlock = 0;
+				  }
+			}
+			
 		if (keysHeld() & KEY_TOUCH){
 			touchRead(&touch);
 			int lax=touch.px/32;
 			int lay=touch.py/32;
 			lax+=CurrentWorld.CamX/32;
 			lay+=CurrentWorld.CamY/32;
-			CurrentWorld.blocks[lax][lay]=8123;
+            CurrentWorld.blocks[lax][lay]=CurrentWorld.ChoosedBlock; //WorldObject has now ChoosedBlock	  
+
 		}
 		fixgrass(&CurrentWorld);
 		consoleClear();
@@ -41,6 +64,7 @@ int main(){
 		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
 		iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
 		iprintf("Sprites on Screen: %d\n",nextSprite());
+		iprintf("Choosed Block: %d\n",CurrentWorld.ChoosedBlock);
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
 		resetSpriteCount(); //And set the sprite number counter to 0
