@@ -18,7 +18,7 @@ int main(){
 	int i,j;
 	for(i=0;i<=33;i++){
 		for(j=0;j<=33;j++){
-			CurrentWorld.blocks[i][j]=rand()%22;
+			CurrentWorld.blocks[i][j]=rand()%23;
 		}
 	}
 	CurrentWorld.CamX=0; //Testing stuff
