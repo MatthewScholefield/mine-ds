@@ -28,4 +28,6 @@
 #define COAL_ORE 18
 #define IRON_ORE 19
 #define GOLD_ORE 20
+#define DIAMOND_ORE 21
+#define REDSTONE_ORE 22
 #define AIR 8123 //Some Random Number

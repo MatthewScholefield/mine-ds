@@ -17,3 +17,5 @@
 #include "blocks/coal_ore.h"
 #include "blocks/iron_ore.h"
 #include "blocks/gold_ore.h"
+#include "blocks/diamond_ore.h"
+#include "blocks/redstone_ore.h"
