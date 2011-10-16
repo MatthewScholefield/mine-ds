@@ -11,6 +11,7 @@
 #include "blockID.h" //The Block ID numbers to a word
 int main(){
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
+	lcdMainOnBottom();
 	playerActor MainPlayer; //Create a Player Object
 	worldObject CurrentWorld;
 	srand(time(NULL)); //The seed :)
@@ -21,7 +22,18 @@ int main(){
 	MainPlayer.x=CurrentWorld.CamX+128-16;//Place the player in the middle of the screen
 	MainPlayer.y=CurrentWorld.CamY+96-32;
 	worldSetUp();
+	touchPosition touch;
 	while(1){
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH){
+			touchRead(&touch);
+			int lax=touch.px/32;
+			int lay=touch.py/32;
+			lax+=CurrentWorld.CamX/32;
+			lay+=CurrentWorld.CamY/32;
+			CurrentWorld.blocks[lax][lay]=8123;
+		}
+		fixgrass(&CurrentWorld);
 		consoleClear();
 		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
 		worldUpdate(&CurrentWorld);
