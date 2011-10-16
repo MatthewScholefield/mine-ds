@@ -27,6 +27,8 @@ void worldUpdate(worldObject* world){
 			else if (world->blocks[i][j]==COAL_ORE) COAL_ORE_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==IRON_ORE) IRON_ORE_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==GOLD_ORE) GOLD_ORE_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==DIAMOND_ORE) DIAMOND_ORE_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==REDSTONE_ORE) REDSTONE_ORE_render(i*32-world->CamX,j*32-world->CamY);
 		}	
 	}
 }
@@ -50,4 +52,6 @@ void worldSetUp(){
 	IRON_ORE_setup();
 	GOLD_ORE_setup();
 	COAL_ORE_setup();
+	DIAMOND_ORE_setup();
+	REDSTONE_ORE_setup();
 }
