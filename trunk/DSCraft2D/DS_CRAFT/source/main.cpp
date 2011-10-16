@@ -14,12 +14,11 @@ int main(){
 	worldObject CurrentWorld;
 
 	srand(time(NULL)); //The seed :)
-	rand(); //junk
 	consoleDemoInit();
 	int i,j;
-	for(i=0;i<=32;i++){
-		for(j=0;j<=32;j++){
-			CurrentWorld.blocks[i][j]=rand()%15;//11 is the amount of blocks implemented
+	for(i=0;i<=33;i++){
+		for(j=0;j<=33;j++){
+			CurrentWorld.blocks[i][j]=rand()%22;
 		}
 	}
 	CurrentWorld.CamX=0; //Testing stuff
@@ -29,11 +28,12 @@ int main(){
 	worldSetUp();
 	while(1){
 		consoleClear();
+		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
+		worldUpdate(&CurrentWorld);
 		iprintf("Camera Position:%d,%d\n",CurrentWorld.CamX,CurrentWorld.CamY);
 		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
 		iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
-		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
-		worldUpdate(&CurrentWorld);
+		iprintf("Sprites on Screen: %d\n",nextSprite());
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
 		resetSpriteCount(); //And set the sprite number counter to 0

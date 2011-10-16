@@ -18,6 +18,15 @@ void worldUpdate(worldObject* world){
 			else if (world->blocks[i][j]==SAND) SAND_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==DOOR_OPEN_TOP) DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==DOOR_OPEN_BOTTOM) DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY-32);
+			else if (world->blocks[i][j]==DOOR_CLOSED_TOP) DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==DOOR_CLOSED_BOTTOM) DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY-32);
+			else if (world->blocks[i][j]==GRAVEL) GRAVEL_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==WHITE_WOOD) WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==DARK_WOOD) DARK_WOOD_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==SANDSTONE) SANDSTONE_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==COAL_ORE) COAL_ORE_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==IRON_ORE) IRON_ORE_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==GOLD_ORE) GOLD_ORE_render(i*32-world->CamX,j*32-world->CamY);
 		}	
 	}
 }
@@ -33,4 +42,12 @@ void worldSetUp(){
 	BEDROCK_setup();
 	SAND_setup();
 	DOOR_OPEN_setup();
+	DOOR_CLOSED_setup();
+	GRAVEL_setup();
+	WHITE_WOOD_setup();
+	DARK_WOOD_setup();
+	SANDSTONE_setup();
+	IRON_ORE_setup();
+	GOLD_ORE_setup();
+	COAL_ORE_setup();
 }

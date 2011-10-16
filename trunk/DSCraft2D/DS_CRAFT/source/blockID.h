@@ -23,7 +23,8 @@
 #define GRAVEL 14
 #define WHITE_WOOD 15
 #define DARK_WOOD 16
-#define SAND_STONE 17
+#define WOOD_DARK 16
+#define SANDSTONE 17
 #define COAL_ORE 18
 #define IRON_ORE 19
 #define GOLD_ORE 20

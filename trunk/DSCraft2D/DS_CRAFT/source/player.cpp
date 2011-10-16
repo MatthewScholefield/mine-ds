@@ -22,11 +22,11 @@ void updateplayer(playerActor* player,worldObject* world){
 	player->blockx=(player->x+15)/32;
 	player->blocky=(player->y+32)/32;	
 	//Stop at end of map
-	if (world->CamX>800) world->CamX=800;
+	if (world->CamX>768) world->CamX=768;
 	else if (world->CamX<0) world->CamX=0;
-	if (world->CamY>800) world->CamY=800;
+	if (world->CamY>860) world->CamY=860;
 	else if (world->CamY<0) world->CamY=0;
-	if (player->x>1024)player->x=1024;
+	if (player->x>992)player->x=992;
 	else if (player->x<0)player->x=0;
 	if (player->y>928) player->y=928;
 	else if (player->y<0) player->y=0;
