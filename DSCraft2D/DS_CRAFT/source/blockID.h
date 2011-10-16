@@ -18,6 +18,13 @@
 #define TORCH 10
 #define COBBLE 11
 #define BADROCK 12
+#define BEDROCK 12
 #define SAND 13
 #define GRAVEL 14
+#define WHITE_WOOD 15
+#define DARK_WOOD 16
+#define SAND_STONE 17
+#define COAL_ORE 18
+#define IRON_ORE 19
+#define GOLD_ORE 20
 #define AIR 8123 //Some Random Number
