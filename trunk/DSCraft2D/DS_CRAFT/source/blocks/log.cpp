@@ -4,7 +4,7 @@
 #include "../blockID.h"
 u16* LOGgfx;
 void LOG_render(int x,int y){
-	if (y<192 && x<256 && x>(-32) && y>(-32))createsprite32x32(x,y,LOGgfx,false,0);	
+	createsprite32x32(x,y,LOGgfx,false,0);	
 }
 void LOG_setup(){
 	LOGgfx=oamAllocateGfx(&oamMain,SpriteSize_32x32,SpriteColorFormat_256Color);

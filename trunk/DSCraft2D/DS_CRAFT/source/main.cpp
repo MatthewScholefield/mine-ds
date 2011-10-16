@@ -29,8 +29,9 @@ int main(){
 	worldSetUp();
 	while(1){
 		consoleClear();
-		iprintf("%d,%d",CurrentWorld.CamX,CurrentWorld.CamY);
-		iprintf(",,%d,%d",MainPlayer.x,MainPlayer.y);
+		iprintf("Camera Position:%d,%d\n",CurrentWorld.CamX,CurrentWorld.CamY);
+		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
+		iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
 		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
 		worldUpdate(&CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank

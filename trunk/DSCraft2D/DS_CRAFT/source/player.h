@@ -5,6 +5,7 @@ typedef struct{
 	int y;
 	int vy;
 	int framenum;
+	int blockx,blocky;
 	int playerseed; //For multiplayer
 	bool pointingleft;
 }playerActor;
