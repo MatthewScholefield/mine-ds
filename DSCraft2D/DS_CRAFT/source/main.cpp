@@ -11,11 +11,8 @@
 int main(){
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
 	playerActor MainPlayer; //Create a Player Object
-	MainPlayer.x=256;//Place the player in the middle of the screen
-	MainPlayer.y=192;
 	worldObject CurrentWorld;
-	CurrentWorld.CamX=0; //Testing stuff
-	CurrentWorld.CamY=0;
+
 	srand(time(NULL)); //The seed :)
 	rand(); //junk
 	consoleDemoInit();
@@ -25,6 +22,10 @@ int main(){
 			CurrentWorld.blocks[i][j]=rand()%15;//11 is the amount of blocks implemented
 		}
 	}
+	CurrentWorld.CamX=0; //Testing stuff
+	CurrentWorld.CamY=0;
+	MainPlayer.x=CurrentWorld.CamX+128-16;//Place the player in the middle of the screen
+	MainPlayer.y=CurrentWorld.CamY+96-32;
 	worldSetUp();
 	while(1){
 		consoleClear();
