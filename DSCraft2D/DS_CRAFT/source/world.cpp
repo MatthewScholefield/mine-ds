@@ -3,6 +3,7 @@
 #include "blocks/stone.h"
 #include "blocks/grass.h"
 #include "blocks/dirt.h"
+#include "blocks/log.h"
 #include "blocks/leaves.h"
 int i,j;
 void worldUpdate(worldObject* world){
@@ -11,6 +12,7 @@ void worldUpdate(worldObject* world){
 			if (world->blocks[i][j]==STONE) STONE_render(i*32-world->CamX,j*32-world->CamY);	
 			else if (world->blocks[i][j]==GRASS) GRASS_render(i*32-world->CamX,j*32-world->CamY);	
 			else if (world->blocks[i][j]==DIRT) DIRT_render(i*32-world->CamX,j*32-world->CamY);	
+			else if (world->blocks[i][j]==LOG) LOG_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==LEAVES) LEAVES_render(i*32-world->CamX,j*32-world->CamY);
 		}	
 	}
@@ -19,5 +21,6 @@ void worldSetUp(){
 	STONE_setup();
 	GRASS_setup();
 	DIRT_setup();
+	LOG_setup();
 	LEAVES_setup();
 }
