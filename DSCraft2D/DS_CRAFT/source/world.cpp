@@ -1,10 +1,14 @@
 #include "world.h"
+
 #include "blockID.h"
 #include "blocks/stone.h"
 #include "blocks/grass.h"
 #include "blocks/dirt.h"
 #include "blocks/log.h"
 #include "blocks/leaves.h"
+#include "blocks/planks.h"
+#include "blocks/torch.h"
+
 int i,j;
 void worldUpdate(worldObject* world){
 	for (i=0;i<=32;i++){//Cycle through the block array
@@ -14,6 +18,8 @@ void worldUpdate(worldObject* world){
 			else if (world->blocks[i][j]==DIRT) DIRT_render(i*32-world->CamX,j*32-world->CamY);	
 			else if (world->blocks[i][j]==LOG) LOG_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==LEAVES) LEAVES_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==PLANKS) PLANKS_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==TORCH) TORCH_render(i*32-world->CamX,j*32-world->CamY);
 		}	
 	}
 }
@@ -23,4 +29,6 @@ void worldSetUp(){
 	DIRT_setup();
 	LOG_setup();
 	LEAVES_setup();
+	PLANKS_setup();
+	TORCH_setup();
 }
