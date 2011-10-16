@@ -5,6 +5,7 @@
 #include "player.h" // The player fuctions
 #include "sprcount.h" //The sprite number counter
 #include "world.h" //A World!!!!!
+#include "worldgen.h"
 #include <stdio.h> //For Rand
 #include <time.h>
 #include "blockID.h" //The Block ID numbers to a word
@@ -12,15 +13,9 @@ int main(){
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
 	playerActor MainPlayer; //Create a Player Object
 	worldObject CurrentWorld;
-
 	srand(time(NULL)); //The seed :)
 	consoleDemoInit();
-	int i,j;
-	for(i=0;i<=33;i++){
-		for(j=0;j<=33;j++){
-			CurrentWorld.blocks[i][j]=rand()%23;
-		}
-	}
+	generateWorld(&CurrentWorld);
 	CurrentWorld.CamX=0; //Testing stuff
 	CurrentWorld.CamY=0;
 	MainPlayer.x=CurrentWorld.CamX+128-16;//Place the player in the middle of the screen
