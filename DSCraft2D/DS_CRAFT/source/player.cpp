@@ -33,6 +33,10 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 				iprintf("block on left\n");
 				return LEFT;
 			}
+			if (blockx1==blockx2 && blocky1-1 == blocky2){
+				iprintf("block above\n");
+				return UP;
+			}
 	}	
 	return 7;
 }
