@@ -1,3 +1,5 @@
+#ifndef player_h
+#include <nds.h>
 #include "world.h"
 //A typedef struct is a structure and puts heaps of varibles in one place
 typedef struct{
@@ -13,3 +15,5 @@ typedef struct{
 void updateplayer(playerActor* player,worldObject* world);
 u16* playerGfx();
 void playerCreateGfx();
+#define player_h
+#endif
