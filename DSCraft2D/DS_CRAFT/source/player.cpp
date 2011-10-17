@@ -3,6 +3,8 @@
 #include "player.h" //Include the player structure
 #include "PlayerR.h" //Include the player graphics
 #include "world.h" //A world!!!
+int WORLD_HEIGHTpx=WORLD_HEIGHT*32; //32 pixels in every block
+int WORLD_WIDTHpx=WORLD_WIDTH*32;
 u16* playerGraphics;
 //Update the player
 //Called by main();
@@ -19,19 +21,20 @@ void updateplayer(playerActor* player,worldObject* world){
 	else if (keysHeld() & KEY_DOWN ) world->CamY++;
 	if (keysHeld() & KEY_LEFT) world->CamX--;
 	else if (keysHeld() & KEY_RIGHT ) world->CamX++;
+	//Create the block positions
 	player->blockx=(player->x+15)/32;
 	player->blocky=(player->y+32)/32;	
 	//Stop at end of map
-	if (world->CamX>768) world->CamX=768;
+	if (world->CamX>WORLD_WIDTHpx-(256-32)) world->CamX=WORLD_WIDTHpx-(256-32);
 	else if (world->CamX<0) world->CamX=0;
-	if (world->CamY>860) world->CamY=860;
+	if (world->CamY>WORLD_WIDTHpx-(192-32)) world->CamY=WORLD_WIDTHpx-(192-32); //Why the take 32? try it without to find out, (it hides the last block)
 	else if (world->CamY<0) world->CamY=0;
-	if (player->x>992)player->x=992;
+	if (player->x>WORLD_WIDTHpx)player->x=WORLD_WIDTHpx;
 	else if (player->x<0)player->x=0;
-	if (player->y>928) player->y=928;
+	if (player->y>WORLD_HEIGHTpx-32) player->y=WORLD_WIDTHpx-32;//Take one block (even though the last block is bedrock :P)
 	else if (player->y<0) player->y=0;
 	//Draw the player on the screen
-	if (player->y-world->CamY<192 && player->x-world->CamX<256 && player->x-world->CamX>(-32) && player->y-world->CamY>(-32))createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics,keysHeld() & KEY_LEFT,1);
+	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics,keysHeld() & KEY_LEFT,1);
 }
 //Stuff
 u16* playerGfx(){
