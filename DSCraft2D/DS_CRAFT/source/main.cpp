@@ -41,7 +41,7 @@ int main(){
 		if (keysDown() & KEY_SELECT){
 		    if (CurrentWorld.DELmode == false){
 		          CurrentWorld.DELmode = true;
-		          CurrentWorld.ChoosedBlock = 8123; //AIR
+		          CurrentWorld.ChoosedBlock = 255; //AIR
 				  }
 			else if (CurrentWorld.DELmode == true){
 			      CurrentWorld.DELmode = false;
@@ -55,20 +55,20 @@ int main(){
 			int lay=touch.py/32;
 			lax+=CurrentWorld.CamX/32;
 			lay+=CurrentWorld.CamY/32;
-        		CurrentWorld.blocks[lax][lay]=CurrentWorld.ChoosedBlock; //WorldObject has now ChoosedBlock //Hrm I'd prefer not, can we add the mining stuff to a mining.cpp file and keep the Choosenblock in that .cpp file) 
+        		CurrentWorld.blocks[lax][lay]=CurrentWorld.ChoosedBlock; //WorldObject has now ChooseNBlock //Hrm I'd prefer not, can we add the mining stuff to a mining.cpp file and keep the Choosenblock in that .cpp file) 
 
 		}
-		if (framecounte%240==0) fixgrass(&CurrentWorld);
-		consoleClear();
 		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
 		worldUpdate(&CurrentWorld);
+		if (framecounte%240==0) fixgrass(&CurrentWorld);
+		swiWaitForVBlank(); //Wait for a VBlank
+		oamUpdate(&oamMain); //Update the sprites
+		consoleClear();
 		iprintf("Camera Position:%d,%d\n",CurrentWorld.CamX,CurrentWorld.CamY);
 		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
 		iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
 		iprintf("Sprites on Screen: %d\n",nextSprite());
-		iprintf("Choosed Block: %d\n",CurrentWorld.ChoosedBlock);
-		swiWaitForVBlank(); //Wait for a VBlank
-		oamUpdate(&oamMain); //Update the sprites
+		iprintf("Choosen Block: %d\n",CurrentWorld.ChoosedBlock);
 		resetSpriteCount(); //And set the sprite number counter to 0
 		if (framecounte>240) framecounte=1;
 

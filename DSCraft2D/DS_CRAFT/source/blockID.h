@@ -30,4 +30,4 @@
 #define GOLD_ORE 20
 #define DIAMOND_ORE 21
 #define REDSTONE_ORE 22
-#define AIR 8123 //Some Random Number
+#define AIR 255 //Some Random Number
