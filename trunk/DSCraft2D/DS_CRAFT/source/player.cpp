@@ -4,6 +4,7 @@
 #include "player.h" //Include the player structure
 #include "PlayerR.h" //Include the player graphics
 #include "world.h" //A world!!!
+#include "allblocks.h"
 #include "gameshelper.h"
 #include "blockID.h"
 #define INSIDE 0
@@ -14,6 +15,7 @@
 #define U_L 5
 #define U_R 6
 u16* playerGraphics;
+#define gravity 1
 int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2){
 	if (spritecol(x1+8,y1,x2,y2,16,64,32,32)){
 		//A good square colision
@@ -41,7 +43,7 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 	return 7;
 }
 void playerGravity(playerActor* player,worldObject* world){
-	
+	//colisionAdv(player->blockx,player->blocky,i,j,player->x,player->y,i*32,j*32)
 }
 //Update the player
 //Called by main();
@@ -73,11 +75,12 @@ void updateplayer(playerActor* player,worldObject* world){
 	//Draw the player on the screen
 	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics,keysHeld() & KEY_LEFT,1);
 	int i,j;
-	for (i=0;i<=WORLD_WIDTH;i++)
+	/*for (i=0;i<=WORLD_WIDTH;i++)
 		for(j=0;j<=WORLD_HEIGHT;j++)
 		{
 			if (world->blocks[i][j]!=AIR) colisionAdv(player->blockx,player->blocky,i,j,player->x,player->y,i*32,j*32);
-		}
+		}*/
+	playerGravity(player,world);
 }
 //Stuff
 u16* playerGfx(){
