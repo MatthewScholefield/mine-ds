@@ -1,0 +1,10 @@
+Ha, I'm nice, I added .txt to the end of a file, I dont have to do that in linux :P
+
+
+
+1. Finish off the world generator, add 4 blocks of air before the ground
+2. Create a proper Item chooser.
+3. Fix the camera, make the camera follow the guy in the world and not go off screen
+4. Remove the random variables in player.cpp (where did I get 1024 from, where did I get 968 from)
+5. Do good stuff for the top screen (show selected item)
+6. Change the map size to 64x64
