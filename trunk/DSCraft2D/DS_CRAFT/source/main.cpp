@@ -11,6 +11,7 @@
 #include "blockID.h" //The Block ID numbers to a word
 
 int main(){
+	int framecounte=0; //framecount
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
 	lcdMainOnBottom();
 	playerActor MainPlayer; //Create a Player Object
@@ -28,6 +29,7 @@ int main(){
 	CurrentWorld.DELmode = false;
 
 	while(1){
+		framecounte++;
 		scanKeys();
 		if (keysDown() & KEY_L && CurrentWorld.DELmode == false){ //Switchting between blocks
 		    CurrentWorld.ChoosedBlock-=1; //One block down
@@ -39,7 +41,7 @@ int main(){
 		if (keysDown() & KEY_SELECT){
 		    if (CurrentWorld.DELmode == false){
 		          CurrentWorld.DELmode = true;
-		          CurrentWorld.ChoosedBlock = 8123;
+		          CurrentWorld.ChoosedBlock = 8123; //AIR
 				  }
 			else if (CurrentWorld.DELmode == true){
 			      CurrentWorld.DELmode = false;
@@ -53,10 +55,10 @@ int main(){
 			int lay=touch.py/32;
 			lax+=CurrentWorld.CamX/32;
 			lay+=CurrentWorld.CamY/32;
-            CurrentWorld.blocks[lax][lay]=CurrentWorld.ChoosedBlock; //WorldObject has now ChoosedBlock	  
+        		CurrentWorld.blocks[lax][lay]=CurrentWorld.ChoosedBlock; //WorldObject has now ChoosedBlock //Hrm I'd prefer not, can we add the mining stuff to a mining.cpp file and keep the Choosenblock in that .cpp file) 
 
 		}
-		fixgrass(&CurrentWorld);
+		if (framecounte%240==0) fixgrass(&CurrentWorld);
 		consoleClear();
 		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
 		worldUpdate(&CurrentWorld);
@@ -68,6 +70,7 @@ int main(){
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
 		resetSpriteCount(); //And set the sprite number counter to 0
+		if (framecounte>240) framecounte=1;
 
 	}
 }
