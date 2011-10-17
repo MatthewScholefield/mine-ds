@@ -5,7 +5,7 @@
 #define world_heightpx WORLD_HEIGHT*32
 #define world_widthpx WORLD_WIDTH*32
 typedef struct{
-	char blocks[WORLD_WIDTH+1][WORLD_HEIGHT+1]; //A world will have 32 by 32 blocks, for now as for testing
+	int blocks[WORLD_WIDTH+1][WORLD_HEIGHT+1]; //A world will have 32 by 32 blocks, for now as for testing
 	int ChoosedBlock;
 	bool DELmode;
 	int CamY;
