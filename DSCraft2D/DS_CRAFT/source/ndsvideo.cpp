@@ -8,8 +8,12 @@
 void setupVideo(){
 	//Set Modes and Banks
 	videoSetMode(MODE_5_2D);
+	videoSetModeSub(MODE_5_2D);
 	vramSetBankA(VRAM_A_MAIN_SPRITE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
+	vramSetBankC(VRAM_C_SUB_BG);
+	vramSetBankD(VRAM_D_SUB_SPRITE);
+	vramSetBankG(VRAM_G_MAIN_BG); //Later a smaller one because the tiled BG doesnt need 64 KB, you said?
 	vramSetBankF(VRAM_F_LCD);
 	//Copy the Sprite Palettes
 	dmaCopy(blockPal,VRAM_F_EXT_SPR_PALETTE[0],blockPalLen);
