@@ -2,9 +2,11 @@ Ha, I'm nice, I added .txt to the end of a file, I dont have to do that in linux
 
 
 
-1. Finish off the world generator, add 4 blocks of air before the ground
-2. Create a proper Item chooser.
-3. Fix the camera, make the camera follow the guy in the world and not go off screen
-4. Remove the random variables in player.cpp (where did I get 1024 from, where did I get 968 from)
+1. Finish off the world generator, add 4 blocks of air before the ground					[DONE!]
+2. Create a proper Item chooser.										
+3. Make the guy stay in the middle of the screen ALWAYS,							[DONE!]
+4. Remove the random variables in player.cpp (where did I get 1024 from, where did I get 968 from)		[DONE!]
 5. Do good stuff for the top screen (show selected item)
-6. Change the map size to 64x64
+6. Change the map size to 64x64	EDIT: :( Minecraft Crashes when I change it to 64,64. Its 48x48 instead		[DONE!]
+7. Make everything rely on the world_width and world_height #define's in world.h				[DONE!]
+8. Add gravity colision etc. :(
