@@ -17,6 +17,13 @@
 u16* playerGraphics;
 bool top;
 #define gravity 1
+int spritecol(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
+	if ((fx + fSizex > sx )&& (fx < sx+sSizex) && (sy + sSizey > fy) && (sy < fy+fSizey)) 
+		return 1;
+	else 
+		return 0;
+	return 0;
+}
 int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2){
 	if (spritecol(x1+8,y1,x2,y2,16,64,32,32)){
 		//A good square colision

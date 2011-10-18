@@ -8,6 +8,7 @@
 #include "worldgen.h"
 #include <stdio.h> //For Rand
 #include <time.h>
+#include "mining.h"
 #include "blockID.h" //The Block ID numbers to a word
 int main(){
 	int framecounte=0; //framecount
@@ -23,38 +24,12 @@ int main(){
 	MainPlayer.x=CurrentWorld->CamX+128-16;//Place the player in the middle of the screen
 	MainPlayer.y=CurrentWorld->CamY+96-32;
 	worldSetUp();
-	touchPosition touch;
 	CurrentWorld->ChoosedBlock = 255;
 	CurrentWorld->DELmode = false;
 
 	while(1){
 		framecounte++;
-		scanKeys();
-		if (keysDown() & KEY_L && CurrentWorld->DELmode == false){ //Switchting between blocks
-			//CurrentWorld->ChoosedBlock-=1; //One block down
-		}
-		else if (keysDown() & KEY_R && CurrentWorld->DELmode == false){
-			//CurrentWorld->ChoosedBlock+=1; //One block up
-		}
-		if (keysDown() & KEY_SELECT){
-		  	if (CurrentWorld->DELmode == false){
-		        	CurrentWorld->DELmode = true;
-		       		CurrentWorld->ChoosedBlock = 255; //AIR
-			}
-			else if (CurrentWorld->DELmode == true){
-			      CurrentWorld->DELmode = false;
-				  CurrentWorld->ChoosedBlock = 1;
-			}
-		}
-		if (keysHeld() & KEY_TOUCH){
-			touchRead(&touch);
-			int lax=touch.px/32;
-			int lay=touch.py/32;
-			lax+=CurrentWorld->CamX/32;
-			lay+=CurrentWorld->CamY/32;
-        		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && (lax!=MainPlayer.blockx || (lay!=MainPlayer.blocky && lay!=MainPlayer.blocky-1))) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
-			//the lax!=Mainplayer.**** stuff makes your your not placing a block inside the player
-		}
+		miningUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		worldUpdate(CurrentWorld);
 		if (framecounte%240==0) fixgrass(CurrentWorld);
