@@ -9,66 +9,63 @@
 #include <stdio.h> //For Rand
 #include <time.h>
 #include "blockID.h" //The Block ID numbers to a word
-
 int main(){
 	int framecounte=0; //framecount
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
 	lcdMainOnBottom();
 	playerActor MainPlayer; //Create a Player Object
-	worldObject CurrentWorld;
+	worldObject* CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
 	srand(time(NULL)); //The seed :)
 	consoleDemoInit();
-	generateWorld(&CurrentWorld);
-	CurrentWorld.CamX=0; //Testing stuff
-	CurrentWorld.CamY=0;
-	MainPlayer.x=CurrentWorld.CamX+128-16;//Place the player in the middle of the screen
-	MainPlayer.y=CurrentWorld.CamY+96-32;
+	generateWorld(CurrentWorld);
+	CurrentWorld->CamX=0; //Testing stuff
+	CurrentWorld->CamY=0;
+	MainPlayer.x=CurrentWorld->CamX+128-16;//Place the player in the middle of the screen
+	MainPlayer.y=CurrentWorld->CamY+96-32;
 	worldSetUp();
 	touchPosition touch;
-	CurrentWorld.ChoosedBlock = 0;
-	CurrentWorld.DELmode = false;
+	CurrentWorld->ChoosedBlock = 255;
+	CurrentWorld->DELmode = false;
 
 	while(1){
 		framecounte++;
 		scanKeys();
-		if (keysDown() & KEY_L && CurrentWorld.DELmode == false){ //Switchting between blocks
-		    CurrentWorld.ChoosedBlock-=1; //One block down
-			}
-		if (keysDown() & KEY_R && CurrentWorld.DELmode == false){
-		    CurrentWorld.ChoosedBlock+=1; //One block up
-			}
-			
+		if (keysDown() & KEY_L && CurrentWorld->DELmode == false){ //Switchting between blocks
+			//CurrentWorld->ChoosedBlock-=1; //One block down
+		}
+		else if (keysDown() & KEY_R && CurrentWorld->DELmode == false){
+			//CurrentWorld->ChoosedBlock+=1; //One block up
+		}
 		if (keysDown() & KEY_SELECT){
-		    if (CurrentWorld.DELmode == false){
-		          CurrentWorld.DELmode = true;
-		          CurrentWorld.ChoosedBlock = 255; //AIR
-				  }
-			else if (CurrentWorld.DELmode == true){
-			      CurrentWorld.DELmode = false;
-				  CurrentWorld.ChoosedBlock = 0;
-				  }
+		  	if (CurrentWorld->DELmode == false){
+		        	CurrentWorld->DELmode = true;
+		       		CurrentWorld->ChoosedBlock = 255; //AIR
 			}
-			
+			else if (CurrentWorld->DELmode == true){
+			      CurrentWorld->DELmode = false;
+				  CurrentWorld->ChoosedBlock = 1;
+			}
+		}
 		if (keysHeld() & KEY_TOUCH){
 			touchRead(&touch);
 			int lax=touch.px/32;
 			int lay=touch.py/32;
-			lax+=CurrentWorld.CamX/32;
-			lay+=CurrentWorld.CamY/32;
-        		CurrentWorld.blocks[lax][lay]=CurrentWorld.ChoosedBlock; //WorldObject has now ChooseNBlock //Hrm I'd prefer not, can we add the mining stuff to a mining.cpp file and keep the Choosenblock in that .cpp file) 
-
+			lax+=CurrentWorld->CamX/32;
+			lay+=CurrentWorld->CamY/32;
+        		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && (lax!=MainPlayer.blockx || (lay!=MainPlayer.blocky && lay!=MainPlayer.blocky-1))) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+			//the lax!=Mainplayer.**** stuff makes your your not placing a block inside the player
 		}
-		updateplayer(&MainPlayer,&CurrentWorld);	//Update the player
-		worldUpdate(&CurrentWorld);
-		if (framecounte%240==0) fixgrass(&CurrentWorld);
+		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
+		worldUpdate(CurrentWorld);
+		if (framecounte%240==0) fixgrass(CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
 		consoleClear();
-		iprintf("Camera Position:%d,%d\n",CurrentWorld.CamX,CurrentWorld.CamY);
+		iprintf("Camera Position:%d,%d\n",CurrentWorld->CamX,CurrentWorld->CamY);
 		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
 		iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
 		iprintf("Sprites on Screen: %d\n",nextSprite());
-		iprintf("Choosen Block: %d\n",CurrentWorld.ChoosedBlock);
+		iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
 		resetSpriteCount(); //And set the sprite number counter to 0
 		if (framecounte>240) framecounte=1;
 

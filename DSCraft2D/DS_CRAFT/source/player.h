@@ -6,10 +6,11 @@ typedef struct{
 	int x;
 	int y;
 	int vy;
-	int framenum;
+	bool handout; //for punching (next release)
 	int blockx,blocky;
 	int playerseed; //For multiplayer
-	bool pointingleft;
+	bool onblock;
+	
 }playerActor;
 //Function definations 
 void updateplayer(playerActor* player,worldObject* world);
