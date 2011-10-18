@@ -10,6 +10,8 @@
 #include <time.h>
 #include "mining.h"
 #include "blockID.h" //The Block ID numbers to a word
+#include "top-screen.h"
+#include "day-night.h"
 int main(){
 	int framecounte=0; //framecount
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
@@ -26,6 +28,8 @@ int main(){
 	worldSetUp();
 	CurrentWorld->ChoosedBlock = 255;
 	CurrentWorld->DELmode = false;
+	mainBGUpdate(); //Main Background (Yeah we will create later a tiled BG)
+	subBGUpdate(); //Sub Background, turn this off to see the Debug things...(The white lines ARE the Debugtext xD)
 
 	while(1){
 		framecounte++;

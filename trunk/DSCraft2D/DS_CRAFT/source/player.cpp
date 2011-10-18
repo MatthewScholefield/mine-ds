@@ -66,7 +66,7 @@ void playerGravity(playerActor* player,worldObject* world){
 			else if (world->blocks[x][y]==BEDROCK) BEDROCK_colision(player,world,x,y,result);
 		}
 	if(player->onblock==false) player->y+=player->vy;
-	if(keysHeld() & KEY_A && player->onblock==1)
+	if(keysHeld() & KEY_UP && player->onblock==1)
 	{
 		player->vy=-11; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
 		player->y-=1;
@@ -75,8 +75,8 @@ void playerGravity(playerActor* player,worldObject* world){
 void updateplayer(playerActor* player,worldObject* world){
 	//Scan the keys and move that minecraft guy, soon this will need the world values	
 	scanKeys();
-	if (keysHeld() & KEY_LEFT)player->x--;
-	else if (keysHeld() & KEY_RIGHT) player->x++;
+	if (keysHeld() & KEY_LEFT)player->x-=2;
+	else if (keysHeld() & KEY_RIGHT) player->x+=2;
 	world->CamX=player->x-(256/2-16);
 	world->CamY=player->y-(192/2-32);
 	//Create the block positions
