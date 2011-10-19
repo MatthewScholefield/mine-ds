@@ -14,6 +14,7 @@
 #define UP 4
 #define U_L 5
 #define U_R 6
+int framecount;
 u16* playerGraphics;
 bool top;
 #define gravity 1
@@ -54,23 +55,38 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 }
 void playerGravity(playerActor* player,worldObject* world){
 	//colisionAdv(player->blockx,player->blocky,i,j,player->x,player->y,i*32,j*32)
-	printf("Gravity\n");
+	//printf("Gravity\n");
 	int x,y;
 	player->onblock=false;
-	if (player->vy<12) player->vy+=gravity; //vy is speed
+	if (player->vy<12 && framecount %4==0) player->vy+=gravity; //vy is speed
 	for (x=0;x<=WORLD_WIDTH;x++)
 		for(y=0;y<=WORLD_HEIGHT;y++){
 			int result=colisionAdv(player->blockx,player->blocky,x,y,player->x,player->y,x*32,y*32);
 			if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==DIRT) DIRT_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==BEDROCK) BEDROCK_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==COAL_ORE) COAL_ORE_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==DIAMOND_ORE) DIAMOND_ORE_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==GOLD_ORE) GOLD_ORE_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==GRAVEL) GRAVEL_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==IRON_ORE) IRON_ORE_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==REDSTONE_ORE) REDSTONE_ORE_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==PLANKS) PLANKS_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==PLACED_LOG) LOG_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==SAND) SAND_colision(player,world,x,y,result);			
+			else if (world->blocks[x][y]==SANDSTONE) SANDSTONE_colision(player,world,x,y,result);			
+			else if (world->blocks[x][y]==STONE) STONE_colision(player,world,x,y,result);			
+			else if (world->blocks[x][y]==PLACED_LOG_W) WHITE_WOOD_colision(player,world,x,y,result);			
+			else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
+			
 		}
 	if(player->onblock==false) player->y+=player->vy;
-	if(keysHeld() & KEY_UP && player->onblock==1)
+	if((keysHeld() & KEY_A || keysHeld() & KEY_UP) && player->onblock==1)
 	{
-		player->vy=-11; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
+		player->vy=-5; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
 		player->y-=1;
 	}
+	framecount++;
 }
 void updateplayer(playerActor* player,worldObject* world){
 	//Scan the keys and move that minecraft guy, soon this will need the world values	

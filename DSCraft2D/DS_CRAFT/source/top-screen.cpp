@@ -6,11 +6,9 @@
 #include "top-screen.h"
 #include "subscreen.h" //image file
 
-void subBGUpdate(){
+void subBGSetup(){ //Its a setup function, not a update function :P
 
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
-
-    vramSetBankC(VRAM_C_SUB_BG_0x06200000);
 
     int bg = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
 

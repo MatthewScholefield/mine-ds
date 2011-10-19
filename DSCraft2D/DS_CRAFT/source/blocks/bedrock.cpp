@@ -22,10 +22,10 @@ void BEDROCK_colision(playerActor* player,worldObject* world,int bx,int by,int r
 		player->onblock=true;
 	}
 	if (result==3){//player colides on right
-		player->x--; //Move him back one so he is not coliding anymore :)
+		player->x-=2; //Move him back one so he is not coliding anymore :)
 	}
 	if (result==1){//colides on left
-		player->x++;
+		player->x+=2;
 	}
 	if (result==4){
 		player->vy=0;	
