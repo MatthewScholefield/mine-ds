@@ -11,13 +11,20 @@ int spritecol2(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int 
 		return 0;
 	return 0;
 }
+void chooseBlock(worldObject* CurrentWorld,playerActor* MainPlayer){
+	oamClear(&oamMain,0,127);
+	for (i=0;i<=256-32;i+=32)
+		for (j=0;j<=192-32;j+=32){
+			
+		}
+}
 void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 		scanKeys();
 		if (keysDown() & KEY_L && CurrentWorld->DELmode == false){ //Switchting between blocks
-			//CurrentWorld->ChoosedBlock-=1; //One block down
+			if (CurrentWorld->ChoosedBlock>0)CurrentWorld->ChoosedBlock-=1; //One block down
 		}
 		else if (keysDown() & KEY_R && CurrentWorld->DELmode == false){
-			//CurrentWorld->ChoosedBlock+=1; //One block up
+			if (CurrentWorld->ChoosedBlock<200)CurrentWorld->ChoosedBlock+=1; //One block up
 		}
 		if (keysDown() & KEY_SELECT){
 		  	if (CurrentWorld->DELmode == false){
@@ -26,7 +33,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 			}
 			else if (CurrentWorld->DELmode == true){
 			      CurrentWorld->DELmode = false;
-				  CurrentWorld->ChoosedBlock = 1;
+				  CurrentWorld->ChoosedBlock = 0;
 			}
 		}
 		if (keysHeld() & KEY_TOUCH){

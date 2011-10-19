@@ -7,13 +7,13 @@
 #include "sprcount.h" //Include the sprite ID counter
 void setupVideo(){
 	//Set Modes and Banks
-	videoSetMode(MODE_5_2D);
+	videoSetMode(MODE_5_2D| DISPLAY_BG0_ACTIVE);
 	videoSetModeSub(MODE_5_2D);
 	vramSetBankA(VRAM_A_MAIN_SPRITE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
-	vramSetBankC(VRAM_C_SUB_BG);
+  	vramSetBankC(VRAM_C_SUB_BG_0x06200000);
 	vramSetBankD(VRAM_D_SUB_SPRITE);
-	vramSetBankG(VRAM_G_MAIN_BG); //Later a smaller one because the tiled BG doesnt need 64 KB, you said?
+	vramSetBankG(VRAM_G_MAIN_BG_0x06000000); //Later a smaller one because the tiled BG doesnt need 64 KB, you said? //Great, execpt you can not fit 96KB in a 64KB space :)
 	vramSetBankF(VRAM_F_LCD);
 	//Copy the Sprite Palettes
 	dmaCopy(blockPal,VRAM_F_EXT_SPR_PALETTE[0],blockPalLen);
