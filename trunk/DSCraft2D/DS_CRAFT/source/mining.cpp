@@ -115,8 +115,16 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 		scanKeys();
 		if (keysDown() & KEY_R){
 			CurrentWorld->ChoosedBlock = AIR;
+			}
+		else if (keysDown() & KEY_SELECT){
+		    CurrentWorld->ChoosedBlock = AIR;
 		}
-		if (keysDown() & KEY_L) CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
+		if (keysDown() & KEY_L){
+           CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
+		   }
+		else if (keysDown() & KEY_START){
+             CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
+			 }
 		if (keysHeld() & KEY_TOUCH){
 			touchRead(&touch);
 			int x=touch.px;
