@@ -51,11 +51,11 @@ void mainBGSetup(){
 }
 void mainBGUpdate(){
 	framecounter++;
-	if (framecounter==1200){
+	if (framecounter==600){
 		timeinworld+=1;
-		framecounter-=1200;
+		framecounter-=600;
 		printf("Whatever!\n");
-		if (timeinworld>30 && timeinworld<60)
+		if (timeinworld>40 && timeinworld<71)
 		{
 			//Update the palette
 			g--;
@@ -63,7 +63,7 @@ void mainBGUpdate(){
 			if (g<1) timeinworld=70;
 			BG_PALETTE[0]=RGB15(r/3,g,b);
 		}
-		else if (timeinworld>75 && timeinworld<105)
+		else if (timeinworld>105 && timeinworld<136)
 		{
 				//Update the palette
 			g++;

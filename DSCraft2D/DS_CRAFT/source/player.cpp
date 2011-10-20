@@ -65,6 +65,7 @@ void playerGravity(playerActor* player,worldObject* world){
 			if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==DIRT) DIRT_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==BEDROCK) BEDROCK_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==COBBLE) COBBLE_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==COAL_ORE) COAL_ORE_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==DIAMOND_ORE) DIAMOND_ORE_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==GOLD_ORE) GOLD_ORE_colision(player,world,x,y,result);
@@ -78,6 +79,7 @@ void playerGravity(playerActor* player,worldObject* world){
 			else if (world->blocks[x][y]==STONE) STONE_colision(player,world,x,y,result);			
 			else if (world->blocks[x][y]==PLACED_LOG_W) WHITE_WOOD_colision(player,world,x,y,result);			
 			else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result); //I can not be bothered to write proper colision
 			
 		}
 	if(player->onblock==false) player->y+=player->vy;

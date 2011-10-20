@@ -31,6 +31,7 @@ int main(){
 	worldSetUp();
 	CurrentWorld->ChoosedBlock = 255;
 	CurrentWorld->DELmode = false;
+	doneSetup();
 	mainBGSetup(); //Main Background (Yeah we will create later a tiled BG)
 	if (!debug) subBGSetup(); //Sub Background, turn this off to see the Debug things...(The white lines ARE the Debugtext xD) Nice, but I want to talk about what needs to go there
 	while(1){
