@@ -30,6 +30,8 @@
 #define GOLD_ORE 20
 #define DIAMOND_ORE 21
 #define REDSTONE_ORE 22
+#define LAPIS_ORE 23
+#define GLASS 24
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253
