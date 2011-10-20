@@ -5,6 +5,7 @@
 #include "PlayerR.h" //Include the player graphics
 #include "player.h" //Include the player functions
 #include "sprcount.h" //Include the sprite ID counter
+#include "done.h"
 void setupVideo(){
 	//Set Modes and Banks
 	videoSetMode(MODE_5_2D| DISPLAY_BG0_ACTIVE);
@@ -18,6 +19,8 @@ void setupVideo(){
 	//Copy the Sprite Palettes
 	dmaCopy(blockPal,VRAM_F_EXT_SPR_PALETTE[0],blockPalLen);
 	dmaCopy(PlayerRPal,VRAM_F_EXT_SPR_PALETTE[1],PlayerRPalLen);
+
+	dmaCopy(donePal,VRAM_F_EXT_SPR_PALETTE[2],donePalLen);
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites

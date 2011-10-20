@@ -28,6 +28,8 @@ void COBBLE_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		player->x+=2;
 	}
 	if (result==4){
-		player->vy=0;	
+		//colision upwards
+		player->vy=0;
+		player->y+=2;	
 	}
 }
