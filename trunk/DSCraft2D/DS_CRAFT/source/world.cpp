@@ -32,6 +32,8 @@ void worldUpdate(worldObject* world){
 			else if (world->blocks[i][j]==GOLD_ORE) GOLD_ORE_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==DIAMOND_ORE) DIAMOND_ORE_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==REDSTONE_ORE) REDSTONE_ORE_render(i*32-world->CamX,j*32-world->CamY);
+			else if (world->blocks[i][j]==LAPIS_ORE) LAPIS_ORE_render(i*32-world->CamX,j*32-world->CamY);
+	        else if (world->blocks[i][j]==GLASS) GLASS_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==PLACED_LEAF) LEAVES_render(i*32-world->CamX,j*32-world->CamY);
 		}	
 	}
@@ -58,4 +60,6 @@ void worldSetUp(){
 	COAL_ORE_setup();
 	DIAMOND_ORE_setup();
 	REDSTONE_ORE_setup();
+	LAPIS_ORE_setup();
+	GLASS_setup();
 }

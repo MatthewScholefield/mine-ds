@@ -19,3 +19,5 @@
 #include "blocks/gold_ore.h"
 #include "blocks/diamond_ore.h"
 #include "blocks/redstone_ore.h"
+#include "blocks/lapis_ore.h"
+#include "blocks/glass.h"
