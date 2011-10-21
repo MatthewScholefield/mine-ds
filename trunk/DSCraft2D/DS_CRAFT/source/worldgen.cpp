@@ -20,8 +20,22 @@ void fixgrass(worldObject* world){
 }
 void rockwall(worldObject* world,int x,int y){
 	int i;
-	for (i=y;i<=WORLD_HEIGHT;i++)
+	for (i=y;i<=WORLD_HEIGHT;i++){
 		world->blocks[x][i]=STONE;
+	}
+}
+void addore(worldObject* world){
+	//First COAL
+	int i,j;
+	for (i=0;i<=WORLD_WIDTH;i++)
+		for (j=0;j<=WORLD_HEIGHT;j++){
+			if (j>(WORLD_HEIGHT/3+2) && (rand() % 7 == 0)){
+				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
+			}	
+			else if (j>(WORLD_HEIGHT/2+2) && (rand() % 5 == 0)){
+				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
+			}
+		}
 }
 void addrock(worldObject* world){
 	int i,j;
@@ -52,6 +66,7 @@ void generateWorld(worldObject* world){
 	}
 
 	addrock(world);
+	addore(world);
 	fixgrass(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
