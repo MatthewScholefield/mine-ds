@@ -22,13 +22,13 @@ void generateWorld(worldObject* world){
 	//This is the function that I dont want to program :P
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
-		for (j=0;j<=8;j++){
+		for (j=0;j<=WORLD_HEIGHT;j++){
 			world->blocks[i][j]=GRASS;
 		}	
 	for (i=0;i<=WORLD_WIDTH;i++)
 		world->blocks[i][WORLD_HEIGHT]=BEDROCK;
 	for (i=0;i<=WORLD_WIDTH;i++)
-		for(j=0;j<=5;j++)
+		for(j=0;j<=8;j++)
 			world->blocks[i][j]=AIR;
 	fixgrass(world);
 }

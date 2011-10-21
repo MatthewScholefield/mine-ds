@@ -61,6 +61,7 @@ void mainBGUpdate(){
 		g--;
 		r++;
 		if (g<1) timeinworld=72;
+		if (r>30) timeinworld=72;
 		BG_PALETTE[0]=RGB15(r/3,g,b);
 	}
 	else if (timeinworld>105 && timeinworld<131)
@@ -73,4 +74,8 @@ void mainBGUpdate(){
 		BG_PALETTE[0]=RGB15(r/3,g,b);
 	}
 	else if (timeinworld==133) timeinworld=0;
+	if (g<1) timeinworld=72;
+	if (r>30) timeinworld=72;
+	if (r<1) timeinworld=132;
+	if (g>30) timeinworld=132;
 }
