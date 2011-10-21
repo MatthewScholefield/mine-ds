@@ -50,7 +50,6 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	while(fertig==false){	
 		scanKeys();
 		touchRead(&touch);
-		printf("akdf");
 		if (keysHeld() & KEY_TOUCH){
 			if (spritecol2(touch.px,touch.py,0,0,1,1,32,32)){
 				i=DIRT;
@@ -121,18 +120,12 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 }
 void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 		scanKeys();
-		if (keysDown() & KEY_R){
+		if (keysDown() & KEY_R || keysDown() & KEY_Y){
 			CurrentWorld->ChoosedBlock = AIR;
-			}
-		else if (keysDown() & KEY_SELECT){
-		    CurrentWorld->ChoosedBlock = AIR;
+		}         
+		if (keysDown() & KEY_L || keysDown() & KEY_X) ){
+           		CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
 		}
-		if (keysDown() & KEY_L){
-           CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
-		   }
-		else if (keysDown() & KEY_START){
-             CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
-			 }
 		if (keysHeld() & KEY_TOUCH){
 			touchRead(&touch);
 			int x=touch.px;
