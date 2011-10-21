@@ -14,9 +14,8 @@ void subBGSetup(){ //Its a setup function, not a update function :P
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 	vramSetBankI(VRAM_I_SUB_SPRITE);
 	gfx = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color);
-   	int bg = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
-    	dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), 256*256);
-    	dmaCopy(subscreen2Pal, BG_PALETTE_SUB, 256*2);
+   	int bg = bgInitSub(3, BgType_Bmp16, BgSize_B16_256x256, 0,0);
+    	dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), subscreen2BitmapLen);
 	dmaCopy(blockPal,SPRITE_PALETTE_SUB,blockPalLen);
 }
 void subShowBlock(int block){
