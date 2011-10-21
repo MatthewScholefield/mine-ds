@@ -6,6 +6,7 @@
 #include "allblocks.h"
 #include "gameshelper.h"
 #include "sprcount.h"
+#include "top-screen.h"
 #include "done.h"
 #include <stdio.h>
 touchPosition touch;
@@ -47,10 +48,11 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	GLASS_render(64,64);
 	oamSet(&oamMain,nextSprite(),256/2-32,192-32,0,2,SpriteSize_64x32,SpriteColorFormat_256Color,donegfx,-1,false,false,false,false,false); 
 	oamUpdate(&oamMain);
-	while(fertig==false){	
+	while(fertig==false){
+		//38,32 //A reminder to myself	
 		scanKeys();
 		touchRead(&touch);
-		if (keysHeld() & KEY_TOUCH){
+		if (keysDown() & KEY_TOUCH){
 			if (spritecol2(touch.px,touch.py,0,0,1,1,32,32)){
 				i=DIRT;
 			}
@@ -112,6 +114,9 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 			else {
 				i=AIR;
 			}
+			subShowBlock(i);
+			swiWaitForVBlank();
+			oamUpdate(&oamSub);
 		}
 	
 	}
@@ -123,7 +128,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 		if (keysDown() & KEY_R || keysDown() & KEY_Y){
 			CurrentWorld->ChoosedBlock = AIR;
 		}         
-		if (keysDown() & KEY_L || keysDown() & KEY_X) ){
+		if (keysDown() & KEY_L || keysDown() & KEY_X){
            		CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
 		}
 		if (keysHeld() & KEY_TOUCH){
