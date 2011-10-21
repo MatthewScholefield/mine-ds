@@ -18,19 +18,44 @@ void fixgrass(worldObject* world){
 			}
 		}
 }
-void generateWorld(worldObject* world){
-	//This is the function that I dont want to program :P
+void rockwall(worldObject* world,int x,int y){
+	int i;
+	for (i=y;i<=WORLD_HEIGHT;i++)
+		world->blocks[x][i]=STONE;
+}
+void addrock(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for (j=0;j<=WORLD_HEIGHT;j++){
-			world->blocks[i][j]=GRASS;
-		}	
-	for (i=0;i<=WORLD_WIDTH;i++)
-		world->blocks[i][WORLD_HEIGHT]=BEDROCK;
-	for (i=0;i<=WORLD_WIDTH;i++)
-		for(j=0;j<=8;j++)
-			world->blocks[i][j]=AIR;
+			if(world->blocks[i][j]==DIRT){
+				rockwall(world,i,j+rand()%3+1);
+				j=WORLD_HEIGHT+1;  			   //And Exit this X
+			}
+			else if (world->blocks[i][j]!=AIR){ //And If we have not encountered dirt and we are at a different block
+				j=WORLD_HEIGHT+1;			    //Exit this X
+			}
+		}
+}
+void generateWorld(worldObject* world){
+	int x=0;
+	int y=rand() % WORLD_HEIGHT/4 + WORLD_HEIGHT/8;
+	int i;
+	for(i=0;i<=WORLD_WIDTH;i++)
+		for (x=0;x<=WORLD_HEIGHT;x++) world->blocks[i][x]=AIR;
+	for (x=0;x<=WORLD_WIDTH;x++){
+		y+=rand() % 5-2;
+		if (y<5) y=5;
+		if (y>WORLD_HEIGHT/3) y=WORLD_HEIGHT/3;
+		int i;
+		printf("%d\n",y);
+		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
+	}
+
+	addrock(world);
 	fixgrass(world);
+	for (x=0;x<=WORLD_WIDTH;x++){
+		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
+	}
 }
 void randGenerate(worldObject* world){
 	int i,j;
