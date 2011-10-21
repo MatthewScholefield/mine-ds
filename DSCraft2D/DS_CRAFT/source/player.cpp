@@ -17,6 +17,7 @@
 int framecount;
 u16* playerGraphics;
 bool top;
+bool oldtop;
 #define gravity 1
 int spritecol(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
 	if ((fx + fSizex > sx )&& (fx < sx+sSizex) && (sy + sSizey > fy) && (sy < fy+fSizey)) 
@@ -26,7 +27,7 @@ int spritecol(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int s
 	return 0;
 }
 int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2){
-	if (spritecol(x1+8,y1,x2,y2,16,64,32,32)){
+	if (spritecol(x1+11,y1,x2,y2,10,64,32,32)){
 		//A good square colision
 			if (blockx1==blockx2 && blocky1 == blocky2){
 				return INSIDE;
@@ -40,6 +41,12 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 			}
 			if (blockx1+1==blockx2 && blocky1-1 == blocky2){
 				return RIGHT;
+			}
+			if (blockx1+1==blockx2 && blocky1+1 == blocky2 && !oldtop){
+				return RIGHT;
+			}
+			if (blockx1-1==blockx2 && blocky1+1 == blocky2 && !oldtop){
+				return LEFT;
 			}
 			if (blockx1-1==blockx2 && blocky1 == blocky2){
 				return LEFT;
@@ -57,6 +64,7 @@ void playerGravity(playerActor* player,worldObject* world){
 	//colisionAdv(player->blockx,player->blocky,i,j,player->x,player->y,i*32,j*32)
 	//printf("Gravity\n");
 	int x,y;
+	oldtop=player->onblock;
 	player->onblock=false;
 	if (player->vy<12 && framecount %4==0) player->vy+=gravity; //vy is speed
 	for (x=0;x<=WORLD_WIDTH;x++)
@@ -79,6 +87,8 @@ void playerGravity(playerActor* player,worldObject* world){
 			else if (world->blocks[x][y]==STONE) STONE_colision(player,world,x,y,result);			
 			else if (world->blocks[x][y]==PLACED_LOG_W) WHITE_WOOD_colision(player,world,x,y,result);			
 			else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==LAPIS_ORE) LAPIS_ORE_colision(player,world,x,y,result);
+			else if (world->blocks[x][y]==GLASS) GLASS_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result); //I can not be bothered to write proper colision
 			
 		}

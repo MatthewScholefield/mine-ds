@@ -14,26 +14,31 @@
 #include "day-night.h"
 int main(){
 	int framecounte=0; //framecount
-	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
+	setupVideo(); 
 	lcdMainOnBottom();
 	scanKeys();
 	bool debug = false;
-	if (keysDown() & KEY_START || keysHeld() & KEY_START) debug=true; // Press Start when booting the game to show the debug text :)
-	playerActor MainPlayer; //Create a Player Object
+	if (keysDown() & KEY_START || keysHeld() & KEY_START) debug=true;
+	playerActor MainPlayer;
 	worldObject* CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
-	srand(time(NULL)); //The seed :)
+	srand(time(NULL));
 	if (debug) consoleDemoInit();
 	generateWorld(CurrentWorld);
-	CurrentWorld->CamX=0; //Testing stuff
-	CurrentWorld->CamY=0;
-	MainPlayer.x=CurrentWorld->CamX+128-16;//Place the player in the middle of the screen
-	MainPlayer.y=CurrentWorld->CamY+96-32;
 	worldSetUp();
 	CurrentWorld->ChoosedBlock = 255;
 	CurrentWorld->DELmode = false;
 	doneSetup();
-	mainBGSetup(); //Main Background (Yeah we will create later a tiled BG)
-	if (!debug) subBGSetup(); //Sub Background, turn this off to see the Debug things...(The white lines ARE the Debugtext xD) Nice, but I want to talk about what needs to go there
+	mainBGSetup();
+	if (!debug) subBGSetup();
+	//Place the player on the first "non grass" block (The Camera will take one frame to Update)
+	int i;
+	for (i=0;i<=WORLD_HEIGHT;i++)
+		if (CurrentWorld->blocks[0][i]!=AIR)
+		{
+			MainPlayer.y=i*32-64;
+			MainPlayer.x=0;
+			i=WORLD_HEIGHT+1;
+		}
 	while(1){
 		framecounte++;
 		mainBGUpdate();
