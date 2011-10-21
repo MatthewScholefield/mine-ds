@@ -66,10 +66,12 @@ void playerGravity(playerActor* player,worldObject* world){
 	int x,y;
 	oldtop=player->onblock;
 	player->onblock=false;
+	if (player->vy<-12) player->vy=-12; //Make the player not go too fast upwards.
 	if (player->vy<12 && framecount %4==0) player->vy+=gravity; //vy is speed
 	for (x=0;x<=WORLD_WIDTH;x++)
 		for(y=0;y<=WORLD_HEIGHT;y++){
 			int result=colisionAdv(player->blockx,player->blocky,x,y,player->x,player->y,x*32,y*32);
+			//This handles collisions when adding a block copy a line and change the *******_colision to yourblock_colision :P
 			if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==DIRT) DIRT_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==BEDROCK) BEDROCK_colision(player,world,x,y,result);
@@ -89,14 +91,14 @@ void playerGravity(playerActor* player,worldObject* world){
 			else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==LAPIS_ORE) LAPIS_ORE_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==GLASS) GLASS_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result); //I can not be bothered to write proper colision
+			else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result);
 			
 		}
 	if(player->onblock==false) player->y+=player->vy;
 	if((keysHeld() & KEY_A || keysHeld() & KEY_UP) && player->onblock==1)
 	{
 		player->vy=-5; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
-		player->y-=1;
+		player->y-=1; //Make it come off the ground (not collide)
 	}
 	framecount++;
 }
