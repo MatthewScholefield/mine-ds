@@ -42,12 +42,15 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
+
+		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		worldUpdate(CurrentWorld);
 		if (framecounte%240==0) fixgrass(CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
+		oamUpdate(&oamSub);
 		consoleClear();
 		iprintf("Camera Position:%d,%d\n",CurrentWorld->CamX,CurrentWorld->CamY);
 		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);

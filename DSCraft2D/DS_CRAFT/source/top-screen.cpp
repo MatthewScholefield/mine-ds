@@ -4,14 +4,46 @@
 #include "blockID.h" //Want to use it to display the current block
 #include "world.h"
 #include "top-screen.h"
-#include "subscreen.h" //image file
-
+#include "block.h"
+#include <stdio.h>
+#include "subscreen2.h" //image file
+int oldblock=0;
+u16* gfx;
 void subBGSetup(){ //Its a setup function, not a update function :P
-
-	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
-
-    int bg = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
-
-    dmaCopy(subscreenBitmap, bgGetGfxPtr(bg), 256*256);
-    dmaCopy(subscreenPal, BG_PALETTE_SUB, 256*2);
+	oamInit(&oamSub, SpriteMapping_1D_32, false);
+	vramSetBankD(VRAM_D_SUB_SPRITE);
+	vramSetBankI(VRAM_I_SUB_SPRITE);
+	gfx = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color);
+   	int bg = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
+    	dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), 256*256);
+    	dmaCopy(subscreen2Pal, BG_PALETTE_SUB, 256*2);
+	dmaCopy(blockPal,SPRITE_PALETTE_SUB,blockPalLen);
+}
+void subShowBlock(int block){
+	if (block==AIR) oamClear(&oamSub,0,3);
+	if (block==PLACED_LOG) block=LOG;
+	if (block==PLACED_LOG_W) block=WHITE_WOOD;
+	if (block==PLACED_LOG_D) block=DARK_WOOD;
+	if (block==PLACED_LEAF) block=LEAVES;
+	if (block<128){
+		char* blockgfx;
+		blockgfx=(char*)blockTiles;
+		blockgfx+=(32*32)*block;
+		dmaCopy(blockgfx,gfx,32*32);
+		oamSet(&oamSub,0, 
+			38, 
+			32, 
+			0, 
+			0,
+			SpriteSize_32x32, 
+			SpriteColorFormat_256Color, 
+			gfx, 
+			-1, 
+			false, 
+			false,			
+			false, false, 
+			false	
+			);    	
+	}
+	
 }
