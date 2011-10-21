@@ -19,17 +19,17 @@ void subBGSetup(){ //Its a setup function, not a update function :P
 	dmaCopy(blockPal,SPRITE_PALETTE_SUB,blockPalLen);
 }
 void subShowBlock(int block){
-	if (block==AIR) oamClear(&oamSub,0,3);
-	if (block==PLACED_LOG) block=LOG;
-	if (block==PLACED_LOG_W) block=WHITE_WOOD;
-	if (block==PLACED_LOG_D) block=DARK_WOOD;
-	if (block==PLACED_LEAF) block=LEAVES;
-	if (block<128){
-		char* blockgfx;
+	if (block==AIR) oamClear(&oamSub,0,3); //If the block is air, remove all of the sprite's with oam Clear
+	if (block==PLACED_LOG) block=LOG; //If the block is a PLACED_LOG pretend it is a normal LOG
+	if (block==PLACED_LOG_W) block=WHITE_WOOD; //Look up
+	if (block==PLACED_LOG_D) block=DARK_WOOD;//^
+	if (block==PLACED_LEAF) block=LEAVES;//^
+	if (block<128){//If the block is actually in the block.png file
+		char* blockgfx;//Copy the graphics into memory
 		blockgfx=(char*)blockTiles;
-		blockgfx+=(32*32)*block;
-		dmaCopy(blockgfx,gfx,32*32);
-		oamSet(&oamSub,0, 
+		blockgfx+=(32*32)*block;//this is in the block/*.cpp
+		dmaCopy(blockgfx,gfx,32*32);//^
+		oamSet(&oamSub,0, //Then draw the sprite on the screen
 			38, 
 			32, 
 			0, 
