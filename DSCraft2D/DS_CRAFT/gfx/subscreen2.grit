@@ -1,5 +1,8 @@
-# 8 bit bitmap
--gB8
+-W3
+# disable alpha and set opaque bit for all pixels
+-gT!
 
-# bitmap format
+# 16 bit bitmap
+-gB16
+
 -gb
