@@ -30,7 +30,6 @@ int main(){
 	CurrentWorld->DELmode = false;
 	doneSetup();
 	mainBGSetup();
-	subLifes();
 	if (!debug) subBGSetup();
 	//Place the player on the first "non grass" block (The Camera will take one frame to Update)
 	int i;
@@ -44,7 +43,7 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
-
+		subLifes();
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
