@@ -26,7 +26,7 @@ void subBGSetup(){ //Its a setup function, not a update function :P
 	dmaCopy(h1gfx,heartgfx,8*8);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 }
-void subLifes(){
+void subLifes(int count){
     int i;
 
 	oamSet(&oamSub,5, //Then draw the sprite on the screen
