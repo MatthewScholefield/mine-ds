@@ -29,15 +29,29 @@ void addore(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for (j=0;j<=WORLD_HEIGHT;j++){
-			if (j>(WORLD_HEIGHT/3+2) && (rand() % 15 == 0)){
+			if (j>(WORLD_HEIGHT/3+2) && (rand() % 19 == 0)){
 				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
 			}	
-			else if (j>(WORLD_HEIGHT/2+2) && (rand() % 12 == 0)){
+			else if (j>(WORLD_HEIGHT/2+2) && (rand() % 15 == 0)){
 				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
 			}
-			else if (j>(WORLD_HEIGHT/2+WORLD_HEIGHT/4) && (rand() % 9 == 0)){
+			else if (j>(WORLD_HEIGHT/2+WORLD_HEIGHT/8*3) && (rand() % 13 == 0)){
 				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
 			}
+		}
+	//Now we generate IRON
+	for (i=0;i<=WORLD_WIDTH;i++)
+		for (j=0;j<=WORLD_HEIGHT;j++){
+			if (j>(WORLD_HEIGHT/3+ WORLD_HEIGHT/8) && (rand() % 18 == 0)){
+				if (world->blocks[i][j]==STONE) world->blocks[i][j]=IRON_ORE;
+				if (world->blocks[i][j]==COAL_ORE) world->blocks[i][j]=IRON_ORE;
+			}	
+			//else if (j>(WORLD_HEIGHT/2+2) && (rand() % 15 == 0)){
+			//	if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
+			//}
+			//else if (j>(WORLD_HEIGHT/2+WORLD_HEIGHT/8*3) && (rand() % 13 == 0)){
+			//	if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
+			//}
 		}
 }
 void addrock(worldObject* world){
