@@ -27,11 +27,11 @@ void subBGSetup(){ //Its a setup function, not a update function :P
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 }
 void subLifes(int count){
-    oamClear(&oamSub,1,11); //clear the 10 lives sprites
+    oamClear(&oamSub,3,11); //clear the 10 lives sprites
     int i=1;
 	if (count==1){
 
-	oamSet(&oamSub,1, //Then draw the sprite on the screen
+	oamSet(&oamSub,3, //Then draw the sprite on the screen
 	89, 
 	89, 
 	0, 
@@ -49,7 +49,7 @@ void subLifes(int count){
 }
 
 void subShowBlock(int block){
-	if (block==AIR) oamClear(&oamSub,0,0); //If the block is air, remove all of the sprite's with oam Clear
+	if (block==AIR) oamClear(&oamSub,0,3); //If the block is air, remove all of the sprite's with oam Clear
 	if (block==PLACED_LOG) block=LOG; //If the block is a PLACED_LOG pretend it is a normal LOG
 	if (block==PLACED_LOG_W) block=WHITE_WOOD; //Look up
 	if (block==PLACED_LOG_D) block=DARK_WOOD;//^
