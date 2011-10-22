@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <nds.h>	
 #define COAL_START WORLD_HEIGHT/3+1
-#define COAL_RARENESS 18
+#define COAL_RARENESS 20
+#define IRON_START 24
+#define IRON_RARENESS 26
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
@@ -13,10 +15,10 @@ void fixgrass(worldObject* world){
 		for (j=0;j<=WORLD_HEIGHT;j++){
 			if(world->blocks[i][j]==DIRT){
 				world->blocks[i][j]=GRASS; //Then if a block should be grass make it grass
-				j=54;  			   //And Exit this X
+				j=WORLD_HEIGHT+1;  			   //And Exit this X
 			}
 			else if (world->blocks[i][j]!=AIR){ //And If we have not encountered dirt and we are at a different block
-				j=54;			    //Exit this X
+				j=WORLD_HEIGHT+1;			    //Exit this X
 			}
 		}
 }
@@ -42,7 +44,22 @@ void addore(worldObject* world){
 		if (y%2) rareness--;
 		y++;
 	}
+	y=IRON_START;
+	id=IRON_ORE;
+	rareness=IRON_RARENESS;
+	while(y<WORLD_HEIGHT){
+		for (i=0;i<=WORLD_WIDTH;i++){
+			if (rand() % rareness ==0){
+				//Place a block
+				if (world->blocks[i][y]==STONE) world->blocks[i][y]=id;
+				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
+			}		
+		}
+		if (y%2) rareness--;
+		y++;
+	}
 }
+
 void addrock(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
