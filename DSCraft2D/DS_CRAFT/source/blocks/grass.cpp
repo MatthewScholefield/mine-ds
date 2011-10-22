@@ -33,3 +33,18 @@ void GRASS_colision(playerActor* player,worldObject* world,int bx,int by,int res
 		player->y+=2;	
 	}
 }
+void GRASS_update(int bx,int by,worldObject* world,playerActor* player){
+	int i=bx;
+	int j;
+	bool grass=true;
+		for (j=0;j<=WORLD_HEIGHT;j++){
+			if(world->blocks[i][j]==GRASS){ //Then if a block should be grass
+				j=WORLD_HEIGHT+1;  			   //Exit this X
+			}
+			else if (world->blocks[i][j]!=AIR ){ //And If we have not encountered dirt and we are at a different block
+				grass=false;
+				j=WORLD_HEIGHT+1;			    //Exit this X
+			}
+		}
+	if (grass==false) world->blocks[bx][by]=DIRT;
+}
