@@ -2,6 +2,8 @@
 #include "blockID.h"
 #include <stdio.h>
 #include <nds.h>	
+#define COAL_START WORLD_HEIGHT/3+1
+#define COAL_RARENESS 18
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
@@ -25,34 +27,21 @@ void rockwall(worldObject* world,int x,int y){
 	}
 }
 void addore(worldObject* world){
-	//First COAL
-	int i,j;
-	for (i=0;i<=WORLD_WIDTH;i++)
-		for (j=0;j<=WORLD_HEIGHT;j++){
-			if (j>(WORLD_HEIGHT/3+2) && (rand() % 19 == 0)){
-				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
-			}	
-			else if (j>(WORLD_HEIGHT/2+2) && (rand() % 15 == 0)){
-				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
-			}
-			else if (j>(WORLD_HEIGHT/2+WORLD_HEIGHT/8*3) && (rand() % 13 == 0)){
-				if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
-			}
+	int y=COAL_START;
+	int i;
+	int id=COAL_ORE;
+	int rareness=COAL_RARENESS;
+	while(y<WORLD_HEIGHT){
+		for (i=0;i<=WORLD_WIDTH;i++){
+			if (rand() % rareness ==0){
+				//Place a block
+				if (world->blocks[i][y]==STONE) world->blocks[i][y]=id;
+				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
+			}		
 		}
-	//Now we generate IRON
-	for (i=0;i<=WORLD_WIDTH;i++)
-		for (j=0;j<=WORLD_HEIGHT;j++){
-			if (j>(WORLD_HEIGHT/3+ WORLD_HEIGHT/8) && (rand() % 18 == 0)){
-				if (world->blocks[i][j]==STONE) world->blocks[i][j]=IRON_ORE;
-				if (world->blocks[i][j]==COAL_ORE) world->blocks[i][j]=IRON_ORE;
-			}	
-			//else if (j>(WORLD_HEIGHT/2+2) && (rand() % 15 == 0)){
-			//	if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
-			//}
-			//else if (j>(WORLD_HEIGHT/2+WORLD_HEIGHT/8*3) && (rand() % 13 == 0)){
-			//	if (world->blocks[i][j]==STONE) world->blocks[i][j]=COAL_ORE;
-			//}
-		}
+		if (y%2) rareness--;
+		y++;
+	}
 }
 void addrock(worldObject* world){
 	int i,j;
@@ -61,9 +50,6 @@ void addrock(worldObject* world){
 			if(world->blocks[i][j]==DIRT){
 				rockwall(world,i,j+rand()%3+1);
 				j=WORLD_HEIGHT+1;  			   //And Exit this X
-			}
-			else if (world->blocks[i][j]!=AIR){ //And If we have not encountered dirt and we are at a different block
-				j=WORLD_HEIGHT+1;			    //Exit this X
 			}
 		}
 }
