@@ -1,6 +1,7 @@
 #include <nds.h>
 #include "../ndsvideo.h"
 #include "block.h"
+#include "../world.h"
 #include "../blockID.h"
 u16* TORCHgfx;
 void TORCH_render(int x,int y){

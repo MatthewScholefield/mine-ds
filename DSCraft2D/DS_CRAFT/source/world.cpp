@@ -1,7 +1,6 @@
 #include "world.h"
 #include "blockID.h"
 #include "allblocks.h"
-
 int i,j;
 void worldUpdate(worldObject* world){
 	for (i=0;i<=WORLD_WIDTH;i++){//Cycle through the block array
