@@ -10,12 +10,13 @@
 #include "subscreen2.h" //image file
 int oldblock=0;
 u16* gfx;
+u16* heartgfx;
 void subBGSetup(){ //Its a setup function, not a update function :P
 	oamInit(&oamSub, SpriteMapping_1D_32, true);
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 	vramSetBankI(VRAM_I_LCD);
 	gfx = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color);
-	gfx = oamAllocateGfx(&oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
+	heartgfx = oamAllocateGfx(&oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
    	int bg = bgInitSub(3, BgType_Bmp16, BgSize_B16_256x256, 0,0);
     	dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), subscreen2BitmapLen);
 	dmaCopy(blockPal,VRAM_I_EXT_SPR_PALETTE[0],blockPalLen);
@@ -26,14 +27,15 @@ void subLifes(){
     int i;
 	char* h1gfx;//Copy the graphics into memory
     h1gfx=(char*)h1Tiles;
-	  		oamSet(&oamSub,4, //Then draw the sprite on the screen
+	dmaCopy(h1gfx,heartgfx,8*8);
+	  		oamSet(&oamSub,5, //Then draw the sprite on the screen
 			89, 
 			89, 
 	    	0, 
 			1,
 			SpriteSize_8x8, 
 			SpriteColorFormat_256Color, 
-			gfx, 
+			heartgfx, 
 			-1, 
 			false, 
 			false,			
