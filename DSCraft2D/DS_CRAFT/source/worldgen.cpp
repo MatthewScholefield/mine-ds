@@ -65,7 +65,7 @@ void addrock(worldObject* world){
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for (j=0;j<=WORLD_HEIGHT;j++){
 			if(world->blocks[i][j]==DIRT){
-				rockwall(world,i,j+rand()%3+1);
+				rockwall(world,i,j+rand()%(3)+3);
 				j=WORLD_HEIGHT+1;  			   //And Exit this X
 			}
 		}
