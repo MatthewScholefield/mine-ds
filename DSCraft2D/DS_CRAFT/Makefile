@@ -22,7 +22,9 @@ SOURCES		:=	source source/blocks
 INCLUDES	:=	include
 DATA		:=	data  
 GRAPHICS	:=	gfx  
-
+GAME_TITLE     :=   Minecraft DS
+GAME_SUBTITLE1 :=	By ray & CoolAs
+GAME_SUBTITLE2 :=	In 2D! (pre)
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
