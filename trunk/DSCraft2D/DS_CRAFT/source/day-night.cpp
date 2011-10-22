@@ -39,10 +39,10 @@ void mainBGSetup(){
 	for (i=0;i<=64;i++){
 		tileMemory[i]=theTile[i];
 	}
-	r=0;
-	g=31;
-	b=31;
-	BG_PALETTE[0]=RGB15(0,31,31);
+	r=112;
+	g=219;
+	b=255;
+	BG_PALETTE[0]=RGB15(112,219,255);
 	framecounter=0;
 	//create a map in map memory
 	for(i = 0; i < 32 * 32; i++)
