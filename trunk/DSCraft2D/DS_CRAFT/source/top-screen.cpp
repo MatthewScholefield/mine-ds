@@ -21,31 +21,32 @@ void subBGSetup(){ //Its a setup function, not a update function :P
     	dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), subscreen2BitmapLen);
 	dmaCopy(blockPal,VRAM_I_EXT_SPR_PALETTE[0],blockPalLen);
 	dmaCopy(h1Pal,VRAM_I_EXT_SPR_PALETTE[1],h1PalLen);
+	char* h1gfx;//Copy the graphics into memory
+  	h1gfx=(char*)h1Tiles;
+	dmaCopy(h1gfx,heartgfx,8*8);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 }
 void subLifes(){
     int i;
-	char* h1gfx;//Copy the graphics into memory
-    h1gfx=(char*)h1Tiles;
-	dmaCopy(h1gfx,heartgfx,8*8);
-	  		oamSet(&oamSub,5, //Then draw the sprite on the screen
-			89, 
-			89, 
-	    	0, 
-			1,
-			SpriteSize_8x8, 
-			SpriteColorFormat_256Color, 
-			heartgfx, 
-			-1, 
-			false, 
-			false,			
-			false, false, 
-			false	
-			);   
-		}
+
+	oamSet(&oamSub,5, //Then draw the sprite on the screen
+	89, 
+	89, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);   
+}
 
 void subShowBlock(int block){
-	if (block==AIR) oamClear(&oamSub,0,3); //If the block is air, remove all of the sprite's with oam Clear
+	if (block==AIR) oamClear(&oamSub,0,0); //If the block is air, remove all of the sprite's with oam Clear
 	if (block==PLACED_LOG) block=LOG; //If the block is a PLACED_LOG pretend it is a normal LOG
 	if (block==PLACED_LOG_W) block=WHITE_WOOD; //Look up
 	if (block==PLACED_LOG_D) block=DARK_WOOD;//^
