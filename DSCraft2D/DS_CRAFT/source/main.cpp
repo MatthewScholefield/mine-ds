@@ -12,7 +12,7 @@
 #include "blockID.h" //The Block ID numbers to a word
 #include "top-screen.h"
 #include "day-night.h"
-#include "blockupdate.h"
+//#include "blockupdate.h"
 int main(){
 	int framecounte=0; //framecount
 	setupVideo(); 
@@ -30,6 +30,7 @@ int main(){
 	CurrentWorld->DELmode = false;
 	doneSetup();
 	mainBGSetup();
+	subLifes();
 	if (!debug) subBGSetup();
 	//Place the player on the first "non grass" block (The Camera will take one frame to Update)
 	int i;
@@ -48,7 +49,7 @@ int main(){
 		miningUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		worldUpdate(CurrentWorld);
-		updateBlocks(CurrentWorld,&MainPlayer);
+		//updateBlocks(CurrentWorld,&MainPlayer);
 		//if (framecounte%240==0) fixgrass(CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
