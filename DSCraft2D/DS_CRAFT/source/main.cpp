@@ -43,7 +43,7 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
-		subLifes();
+		subLifes(1);
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
