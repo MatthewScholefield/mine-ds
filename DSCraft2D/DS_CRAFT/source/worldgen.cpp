@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include <nds.h>	
 #define COAL_START WORLD_HEIGHT/3+1
-#define COAL_RARENESS 20
+#define COAL_RARENESS 28
 #define IRON_START 24
-#define IRON_RARENESS 26
+#define IRON_RARENESS 34
 #define GOLD_START 28
-#define GOLD_RARENESS 30
+#define GOLD_RARENESS 38
+#define REDSTONE_START 35
+#define REDSTONE_RARENESS 28
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
@@ -43,7 +45,7 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%2) rareness--;
+		if (y%3==0) rareness--;
 		y++;
 	}
 	y=IRON_START;
@@ -57,7 +59,7 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%2) rareness--;
+		if (y%3==0) rareness--;
 		y++;
 	}
 	y=GOLD_START;
@@ -71,7 +73,21 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%2) rareness--;
+		if (y%3==0) rareness--;
+		y++;
+	}
+	y=REDSTONE_START;
+	id=REDSTONE_ORE;
+	rareness=REDSTONE_RARENESS;
+	while(y<WORLD_HEIGHT){
+		for (i=0;i<=WORLD_WIDTH;i++){
+			if (rand() % rareness ==0){
+				//Place a block
+				if (world->blocks[i][y]==STONE) world->blocks[i][y]=id;
+				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
+			}		
+		}
+		if (y%3==0) rareness--;
 		y++;
 	}
 }
