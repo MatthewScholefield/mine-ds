@@ -28,6 +28,7 @@ int main(){
 	if (debug) consoleDemoInit();
 	generateWorld(CurrentWorld);
 	worldSetUp();
+	saveInit();
 	CurrentWorld->ChoosedBlock = 255;
 	CurrentWorld->DELmode = false;
 	doneSetup();
