@@ -11,7 +11,6 @@ typedef struct{
 	int blockx,blocky;
 	int playerseed; //For multiplayer
 	bool onblock;
-	int health;
 	
 }playerActor;
 //Function definations 
