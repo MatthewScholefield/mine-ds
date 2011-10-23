@@ -17,5 +17,6 @@ typedef struct{
 void updateplayer(playerActor* player,worldObject* world);
 u16* playerGfx();
 void playerCreateGfx();
+void playerHurt(playerActor* player,int much);
 #define player_h
 #endif
