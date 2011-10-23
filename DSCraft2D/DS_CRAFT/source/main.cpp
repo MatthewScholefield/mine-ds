@@ -13,6 +13,7 @@
 #include "top-screen.h"
 #include "day-night.h"
 #include "blockupdate.h"
+#include "saver.h"
 int main(){
 	int framecounte=0; //framecount
 	setupVideo(); 
@@ -43,6 +44,7 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
+		saveUpdate(CurrentWorld,&MainPlayer);
 		subLifes(8);
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
