@@ -46,6 +46,8 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	DIAMOND_ORE_render(0,64);
 	LAPIS_ORE_render(32,64);
 	GLASS_render(64,64);
+	//Here Lapis-BLOCK
+	WOOL_WHITE_render(128,64);
 	oamSet(&oamMain,nextSprite(),256/2-32,192-32,0,2,SpriteSize_64x32,SpriteColorFormat_256Color,donegfx,-1,false,false,false,false,false); 
 	oamUpdate(&oamMain);
 	while(fertig==false){
@@ -109,6 +111,10 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 			}
 			else if (spritecol2(touch.px,touch.py,64,64,1,1,32,32)){
 				i=GLASS;
+			}
+			//Here Lapis-Block
+			else if (spritecol2(touch.px,touch.py,128,64,1,1,32,32)){
+				i=WOOL_WHITE;
 			}
 			else if (spritecol2(touch.px,touch.py,256/2-32,192-32,1,1,64,32)) fertig=true;
 			else {
