@@ -18,5 +18,6 @@ void updateplayer(playerActor* player,worldObject* world);
 u16* playerGfx();
 void playerCreateGfx();
 void playerHurt(playerActor* player,int much,bool instant);
+void test();
 #define player_h
 #endif

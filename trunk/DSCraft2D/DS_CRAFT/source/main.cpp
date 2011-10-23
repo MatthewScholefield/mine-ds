@@ -52,7 +52,10 @@ int main(){
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
         	if (MainPlayer.health <= 0) gameover(CurrentWorld,&MainPlayer);
-		if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
+		if (keysHeld() & KEY_START){
+		playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
+		test();
+		}
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		worldUpdate(CurrentWorld);
 		updateBlocks(CurrentWorld,&MainPlayer);
