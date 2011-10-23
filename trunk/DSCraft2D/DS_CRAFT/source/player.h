@@ -6,6 +6,7 @@ typedef struct{
 	int x;
 	int y;
 	int vy;
+	int health;
 	bool handout; //for punching (next release)
 	int blockx,blocky;
 	int playerseed; //For multiplayer
