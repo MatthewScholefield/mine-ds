@@ -45,8 +45,8 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
-		scanKeys();
-		if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
+		//scanKeys();
+		//if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
 		saveUpdate(CurrentWorld,&MainPlayer);
 		subLifes(MainPlayer.health);
 		subShowBlock(CurrentWorld->ChoosedBlock);
