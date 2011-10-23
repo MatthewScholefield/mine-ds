@@ -45,12 +45,12 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
-		//scanKeys();
-		//if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
 		saveUpdate(CurrentWorld,&MainPlayer);
 		subLifes(MainPlayer.health);
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
+
+		if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		worldUpdate(CurrentWorld);
 		updateBlocks(CurrentWorld,&MainPlayer);
