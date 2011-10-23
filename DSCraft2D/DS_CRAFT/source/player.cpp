@@ -136,6 +136,6 @@ void playerCreateGfx(){
 	playerGraphics=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
 	dmaCopy(PlayerRTiles,playerGraphics,PlayerRTilesLen);
 }
-void playerHurt(playerActor* player,int much){
-	if (framecount%60==0) player->health-=much;
+void playerHurt(playerActor* player,int much,bool instant){
+	if (framecount%60==0 || instant) player->health-=much;
 }
