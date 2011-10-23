@@ -45,6 +45,8 @@ int main(){
 	while(1){
 		framecounte++;
 		mainBGUpdate();
+		scanKeys();
+		if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10); //Press start to kill your self :P
 		saveUpdate(CurrentWorld,&MainPlayer);
 		subLifes(MainPlayer.health);
 		subShowBlock(CurrentWorld->ChoosedBlock);
@@ -63,7 +65,6 @@ int main(){
 		printf("Sprites on Screen: %d\n",nextSprite());
 		iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
 		resetSpriteCount(); //And set the sprite number counter to 0
-		if (keysDown() & KEY_START) playerHurt(&MainPlayer,10); //Press start to kill your self :P
 		if (framecounte>240) framecounte=1;
 
 	}

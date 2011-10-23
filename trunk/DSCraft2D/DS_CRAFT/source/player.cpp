@@ -137,5 +137,5 @@ void playerCreateGfx(){
 	dmaCopy(PlayerRTiles,playerGraphics,PlayerRTilesLen);
 }
 void playerHurt(playerActor* player,int much){
-	if (framecount%60) player->health-=much;
+	if (framecount%60==0) player->health-=much;
 }
