@@ -10,8 +10,8 @@
 #define GOLD_RARENESS 38
 #define REDSTONE_START 35
 #define REDSTONE_RARENESS 28
-#define DIAMOND_START 47
-#define DIAMOND_RARENESS 1
+#define DIAMOND_START 38
+#define DIAMOND_RARENESS 96
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
