@@ -16,6 +16,7 @@ void gameover(worldObject* world, playerActor* player){
 			player->x=0;
 			i=WORLD_HEIGHT+1;
 		}
+		player->health = 10;
 }
 
 	

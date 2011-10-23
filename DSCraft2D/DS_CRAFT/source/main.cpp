@@ -14,6 +14,7 @@
 #include "day-night.h"
 #include "blockupdate.h"
 #include "saver.h"
+#include "gameover.h"
 int main(){
 	int framecounte=0; //framecount
 	setupVideo(); 
@@ -50,7 +51,7 @@ int main(){
 		subLifes(MainPlayer.health);
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
-
+        if (MainPlayer.health == 0) gameover(CurrentWorld,&MainPlayer);
 		if (keysHeld() & KEY_START) playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		worldUpdate(CurrentWorld);
