@@ -8,6 +8,8 @@
 #include "gameshelper.h"
 #include "blockID.h"
 #include "top-screen.h"
+#include "PlayerHurt.h"
+#include "PlayerHit.h"
 #define INSIDE 0
 #define LEFT 1
 #define UNDER 2
@@ -136,6 +138,12 @@ void playerCreateGfx(){
 	playerGraphics=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
 	dmaCopy(PlayerRTiles,playerGraphics,PlayerRTilesLen);
 }
+void test(){
+	playerGraphics=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
+    dmaCopy(PlayerHitTiles,playerGraphics,PlayerHitTilesLen);
+
+}
 void playerHurt(playerActor* player,int much,bool instant){
 	if (framecount%60==0 || instant) player->health-=much;
 }
+

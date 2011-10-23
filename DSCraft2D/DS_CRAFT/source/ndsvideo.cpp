@@ -4,6 +4,7 @@
 #include "block.h" //Include the block graphics
 #include "PlayerR.h" //Include the player graphics
 #include "player.h" //Include the player functions
+#include "PlayerHit.h"
 #include "sprcount.h" //Include the sprite ID counter
 #include "done.h"
 void setupVideo(){
@@ -19,9 +20,10 @@ void setupVideo(){
 	//Copy the Sprite Palettes
 	dmaCopy(blockPal,VRAM_F_EXT_SPR_PALETTE[0],blockPalLen);
 	dmaCopy(PlayerRPal,VRAM_F_EXT_SPR_PALETTE[1],PlayerRPalLen);
-
+		
 	dmaCopy(donePal,VRAM_F_EXT_SPR_PALETTE[2],donePalLen);
 	
+	dmaCopy(PlayerHitPal,VRAM_F_EXT_SPR_PALETTE[3],donePalLen);
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites
