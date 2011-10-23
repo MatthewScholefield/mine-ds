@@ -149,7 +149,39 @@ void subLifes(int count){
 	false,			
 	false, false, 
 	false	
+	); 
+	if (count>=9){
+	oamSet(&oamSub,11, //Then draw the sprite on the screen
+	72, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
 	);  
+	if (count>=10){
+	oamSet(&oamSub,12, //Then draw the sprite on the screen
+	81, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);  
+	}  
+	}  
 	}   
 	} 
 	} 

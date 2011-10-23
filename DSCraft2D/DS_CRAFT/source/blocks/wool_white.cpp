@@ -4,6 +4,7 @@
 #include "../blockID.h"
 #include "../world.h"
 #include "../player.h"
+int hurttime;
 u16* WOOL_WHITEgfx;
 void WOOL_WHITE_render(int x,int y){
 	createsprite32x32(x,y,WOOL_WHITEgfx,false,0);	
@@ -16,6 +17,10 @@ void WOOL_WHITE_setup(){
 	dmaCopy(blocktiles,WOOL_WHITEgfx,32*32);
 }
 void WOOL_WHITE_colision(playerActor* player,worldObject* world,int bx,int by,int result){
+    hurttime++; //Add one to the framecount
+    if (hurttime==60){//Every 1 second loose a heart
+	   player->health--; //take one heart
+	   }
 	if (result==0 || result==2){
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
