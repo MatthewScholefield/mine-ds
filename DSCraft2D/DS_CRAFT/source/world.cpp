@@ -33,6 +33,8 @@ void worldUpdate(worldObject* world){
 			else if (world->blocks[i][j]==REDSTONE_ORE) REDSTONE_ORE_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==LAPIS_ORE) LAPIS_ORE_render(i*32-world->CamX,j*32-world->CamY);
 	        else if (world->blocks[i][j]==GLASS) GLASS_render(i*32-world->CamX,j*32-world->CamY);
+		    //Here Lapis-BLOCK
+			else if (world->blocks[i][j]==WOOL_WHITE) WOOL_WHITE_render(i*32-world->CamX,j*32-world->CamY);
 			else if (world->blocks[i][j]==PLACED_LEAF) LEAVES_render(i*32-world->CamX,j*32-world->CamY);
 		}	
 	}
@@ -61,4 +63,6 @@ void worldSetUp(){
 	REDSTONE_ORE_setup();
 	LAPIS_ORE_setup();
 	GLASS_setup();
+	//Here Lapis-BLOCK
+	WOOL_WHITE_setup();
 }

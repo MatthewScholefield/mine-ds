@@ -91,6 +91,8 @@ void playerGravity(playerActor* player,worldObject* world){
 			else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==LAPIS_ORE) LAPIS_ORE_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==GLASS) GLASS_colision(player,world,x,y,result);
+			//Here Lapis-BLOCK
+			else if (world->blocks[x][y]==WOOL_WHITE) WOOL_WHITE_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result);
 			
 		}
