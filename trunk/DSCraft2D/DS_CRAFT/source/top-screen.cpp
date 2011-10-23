@@ -29,11 +29,11 @@ void subBGSetup(){ //Its a setup function, not a update function :P
 void subLifes(int count){
     oamClear(&oamSub,3,11); //clear the 10 lives sprites
     int i=1;
-	if (count==1){
+	if (count>=1){
 
 	oamSet(&oamSub,3, //Then draw the sprite on the screen
-	89, 
-	89, 
+	1, 
+	176, 
 	0, 
 	1,
 	SpriteSize_8x8, 
@@ -45,7 +45,120 @@ void subLifes(int count){
 	false, false, 
 	false	
 	);   
+	if (count>=2){
+	oamSet(&oamSub,4, //Then draw the sprite on the screen
+	9, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	); 
+	if (count>=3){
+	oamSet(&oamSub,5, //Then draw the sprite on the screen
+	18, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);  
+	if (count>=4){
+	oamSet(&oamSub,6, //Then draw the sprite on the screen
+	27, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	); 
+	if (count>=5){
+	oamSet(&oamSub,7, //Then draw the sprite on the screen
+	36, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);  
+	if (count>=6){
+	oamSet(&oamSub,8, //Then draw the sprite on the screen
+	45, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);  
+	if (count>=7){
+	oamSet(&oamSub,9, //Then draw the sprite on the screen
+	54, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);
+	if (count>=8){
+	oamSet(&oamSub,10, //Then draw the sprite on the screen
+	63, 
+	176, 
+	0, 
+	1,
+	SpriteSize_8x8, 
+	SpriteColorFormat_256Color, 
+	heartgfx, 
+	-1, 
+	false, 
+	false,			
+	false, false, 
+	false	
+	);  
+	}   
+	} 
+	} 
+	} 
 	}
+	} 
+	}
+	}
+
 }
 
 void subShowBlock(int block){
