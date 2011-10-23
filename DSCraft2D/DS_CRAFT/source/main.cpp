@@ -22,6 +22,7 @@ int main(){
 	bool debug = false;
 	if (keysDown() & KEY_START || keysHeld() & KEY_START) debug=true;
 	playerActor MainPlayer;
+	MainPlayer.health=10;
 	worldObject* CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
 	srand(time(NULL));
 	if (debug) consoleDemoInit();
@@ -45,7 +46,7 @@ int main(){
 		framecounte++;
 		mainBGUpdate();
 		saveUpdate(CurrentWorld,&MainPlayer);
-		subLifes(8);
+		subLifes(MainPlayer.health);
 		subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
