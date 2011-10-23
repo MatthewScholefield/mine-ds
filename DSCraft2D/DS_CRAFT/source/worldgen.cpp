@@ -6,6 +6,8 @@
 #define COAL_RARENESS 20
 #define IRON_START 24
 #define IRON_RARENESS 26
+#define GOLD_START 28
+#define GOLD_RARENESS 30
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
@@ -47,6 +49,20 @@ void addore(worldObject* world){
 	y=IRON_START;
 	id=IRON_ORE;
 	rareness=IRON_RARENESS;
+	while(y<WORLD_HEIGHT){
+		for (i=0;i<=WORLD_WIDTH;i++){
+			if (rand() % rareness ==0){
+				//Place a block
+				if (world->blocks[i][y]==STONE) world->blocks[i][y]=id;
+				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
+			}		
+		}
+		if (y%2) rareness--;
+		y++;
+	}
+	y=GOLD_START;
+	id=GOLD_ORE;
+	rareness=GOLD_RARENESS;
 	while(y<WORLD_HEIGHT){
 		for (i=0;i<=WORLD_WIDTH;i++){
 			if (rand() % rareness ==0){
