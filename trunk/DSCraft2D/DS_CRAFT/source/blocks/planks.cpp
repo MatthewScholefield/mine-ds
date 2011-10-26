@@ -4,7 +4,9 @@
 #include "../blockID.h"
 #include "../player.h"
 #include "../world.h"
+#include "../sounds.h"
 u16* PLANKSgfx;
+int plankslx,planksly,planksls;
 void PLANKS_render(int x,int y){
 	createsprite32x32(x,y,PLANKSgfx,false,0);	
 }
@@ -20,6 +22,25 @@ void PLANKS_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==plankslx && by==planksly)){
+			plankslx=bx,planksly=by;
+			if (planksls==0){
+				playSound(WOOD_A);		
+				planksls++;
+			}
+			else if (planksls==1){
+				playSound(WOOD_B);
+				planksls++;
+			}	
+			else if (planksls==2){
+				playSound(WOOD_C);
+				planksls++;
+			}			
+			else if (planksls==3){
+				playSound(WOOD_D);
+				planksls=0;
+			}
+		}	
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)

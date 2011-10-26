@@ -3,17 +3,17 @@
 #include <stdio.h>
 #include <nds.h>	
 #define COAL_START WORLD_HEIGHT/3+1
-#define COAL_RARENESS 28
+#define COAL_RARENESS 48
 #define IRON_START 24
-#define IRON_RARENESS 34
+#define IRON_RARENESS 64
 #define GOLD_START 28
-#define GOLD_RARENESS 38
+#define GOLD_RARENESS 68
 #define REDSTONE_START 35
-#define REDSTONE_RARENESS 28
+#define REDSTONE_RARENESS 48
 #define DIAMOND_START 38
-#define DIAMOND_RARENESS 96
+#define DIAMOND_RARENESS 186
 #define LAPIS_START 30
-#define LAPIS_RARENESS 48
+#define LAPIS_RARENESS 88
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
