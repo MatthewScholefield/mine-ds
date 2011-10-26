@@ -39,7 +39,7 @@ void mainBGSetup(){
 	for (i=0;i<=64;i++){
 		tileMemory[i]=theTile[i];
 	}
-	r=112;
+	r=112; 
 	g=219;
 	b=255;
 	BG_PALETTE[0]=RGB15(112,219,255);
@@ -51,9 +51,9 @@ void mainBGSetup(){
 }
 void mainBGUpdate(){
 	framecounter++;
-	if (framecounter==600){
+	if (framecounter==6){
 		timeinworld+=1;
-		framecounter-=600;
+		framecounter-=6;
 	}
 	if (timeinworld>42 && timeinworld<71)
 	{
@@ -61,8 +61,10 @@ void mainBGUpdate(){
 		g--;
 		r++;
 		if (g<1) timeinworld=72;
-		if (r>30) timeinworld=72;
+		if (r>112) timeinworld=72;
 		BG_PALETTE[0]=RGB15(r/3,g,b);
+
+		BG_PALETTE[1]=RGB15(r/3,g,b);
 	}
 	else if (timeinworld>105 && timeinworld<131)
 	{

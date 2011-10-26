@@ -2,7 +2,7 @@
 2. Fly mode.
 3. Menu's.
 4. Sounds.
-5. Data on a per block basis. - WIP
-6. A better grass grower. - WIP
+5. Data on a per block basis. - DONE! (Not every block uses this yet though)
+6. A better grass grower. - DONE!
 7. Health - DONE!
 8. Sun and Moon 

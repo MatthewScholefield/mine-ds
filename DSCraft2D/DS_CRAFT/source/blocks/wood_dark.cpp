@@ -4,7 +4,10 @@
 #include "../blockID.h"
 #include "../world.h"
 #include "../player.h"
+#include "../sounds.h"
 u16* DARK_WOODgfx;
+
+int wood_darklx,wood_darkly,wood_darkls;
 void DARK_WOOD_render(int x,int y){
 	createsprite32x32(x,y,DARK_WOODgfx,false,0);	
 }
@@ -20,6 +23,25 @@ void DARK_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,int
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==wood_darklx && by==wood_darkly)){
+			wood_darklx=bx,wood_darkly=by;
+			if (wood_darkls==0){
+				playSound(WOOD_A);		
+				wood_darkls++;
+			}
+			else if (wood_darkls==1){
+				playSound(WOOD_B);
+				wood_darkls++;
+			}	
+			else if (wood_darkls==2){
+				playSound(WOOD_C);
+				wood_darkls++;
+			}			
+			else if (wood_darkls==3){
+				playSound(WOOD_D);
+				wood_darkls=0;
+			}
+		}
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)

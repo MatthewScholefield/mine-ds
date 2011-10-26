@@ -10,6 +10,7 @@
 #include "top-screen.h"
 #include "PlayerHurt.h"
 #include "PlayerHit.h"
+#include "sounds.h"
 #define INSIDE 0
 #define LEFT 1
 #define UNDER 2
@@ -144,6 +145,10 @@ void test(){
 
 }
 void playerHurt(playerActor* player,int much,bool instant){
-	if (framecount%60==0 || instant) player->health-=much;
+	
+	if (framecount%60==0 || instant){
+		player->health-=much;
+		playSound(HURT);
+	}
 }
 

@@ -10,4 +10,13 @@
 #define GRAVEL_B 9
 #define GRAVEL_C 10
 #define GRAVEL_D 11
+#define HURT 12
+#define WOOD_A 13
+#define WOOD_B 14
+#define WOOD_C 15
+#define WOOD_D 16
+#define SAND_A 17
+#define SAND_B 18
+#define SAND_C 19
+#define SAND_D 20
 void playSound(int sound);
