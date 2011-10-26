@@ -4,7 +4,9 @@
 #include "../blockID.h"
 #include "../world.h"
 #include "../player.h"
+#include "../sounds.h"
 u16* IRON_OREgfx;
+int iron_orelx,iron_orely,iron_orels;
 void IRON_ORE_render(int x,int y){
 	createsprite32x32(x,y,IRON_OREgfx,false,0);	
 }
@@ -20,6 +22,25 @@ void IRON_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int 
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==iron_orelx && by==iron_orely)){
+			iron_orelx=bx,iron_orely=by;
+			if (iron_orels==0){
+				playSound(STONE_A);		
+				iron_orels++;
+			}
+			else if (iron_orels==1){
+				playSound(STONE_B);
+				iron_orels++;
+			}	
+			else if (iron_orels==2){
+				playSound(STONE_C);
+				iron_orels++;
+			}			
+			else if (iron_orels==3){
+				playSound(STONE_D);
+				iron_orels=0;
+			}
+		}	
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)

@@ -4,7 +4,10 @@
 #include "../blockID.h"
 #include "../world.h"
 #include "../player.h"
+#include "../sounds.h"
 u16* REDSTONE_OREgfx;
+
+int redston_orelx,redston_orely,redston_orels;
 void REDSTONE_ORE_render(int x,int y){
 	createsprite32x32(x,y,REDSTONE_OREgfx,false,0);	
 }
@@ -20,6 +23,25 @@ void REDSTONE_ORE_colision(playerActor* player,worldObject* world,int bx,int by,
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==redston_orelx && by==redston_orely)){
+			redston_orelx=bx,redston_orely=by;
+			if (redston_orels==0){
+				playSound(STONE_A);		
+				redston_orels++;
+			}
+			else if (redston_orels==1){
+				playSound(STONE_B);
+				redston_orels++;
+			}	
+			else if (redston_orels==2){
+				playSound(STONE_C);
+				redston_orels++;
+			}			
+			else if (redston_orels==3){
+				playSound(STONE_D);
+				redston_orels=0;
+			}
+		}
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)

@@ -1,0 +1,13 @@
+#define GRASS_A 0
+#define GRASS_B 1
+#define GRASS_C 2
+#define GRASS_D 3
+#define STONE_A 4
+#define STONE_B 5
+#define STONE_C 6
+#define STONE_D 7
+#define GRAVEL_A 8
+#define GRAVEL_B 9
+#define GRAVEL_C 10
+#define GRAVEL_D 11
+void playSound(int sound);
