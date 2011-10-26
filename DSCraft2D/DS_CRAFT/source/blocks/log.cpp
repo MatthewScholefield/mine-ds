@@ -4,7 +4,10 @@
 #include "../blockID.h"
 #include "../player.h"
 #include "../world.h"
+#include "../sounds.h"
 u16* LOGgfx;
+
+int woodlx,woodly,woodls;
 void LOG_render(int x,int y){
 	createsprite32x32(x,y,LOGgfx,false,0);	
 }
@@ -20,6 +23,25 @@ void LOG_colision(playerActor* player,worldObject* world,int bx,int by,int resul
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==woodlx && by==woodly)){
+			woodlx=bx,woodly=by;
+			if (woodls==0){
+				playSound(WOOD_A);		
+				woodls++;
+			}
+			else if (woodls==1){
+				playSound(WOOD_B);
+				woodls++;
+			}	
+			else if (woodls==2){
+				playSound(WOOD_C);
+				woodls++;
+			}			
+			else if (woodls==3){
+				playSound(WOOD_D);
+				woodls=0;
+			}
+		}
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)

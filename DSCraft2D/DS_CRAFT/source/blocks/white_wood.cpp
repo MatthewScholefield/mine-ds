@@ -4,7 +4,9 @@
 #include "../blockID.h"
 #include "../world.h"
 #include "../player.h"
+#include "../sounds.h"
 u16* WHITE_WOODgfx;
+int wood_whitelx,wood_whitely,wood_whitels;
 void WHITE_WOOD_render(int x,int y){
 	createsprite32x32(x,y,WHITE_WOODgfx,false,0);	
 }
@@ -20,6 +22,25 @@ void WHITE_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,in
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==wood_whitelx && by==wood_whitely)){
+			wood_whitelx=bx,wood_whitely=by;
+			if (wood_whitels==0){
+				playSound(WOOD_A);		
+				wood_whitels++;
+			}
+			else if (wood_whitels==1){
+				playSound(WOOD_B);
+				wood_whitels++;
+			}	
+			else if (wood_whitels==2){
+				playSound(WOOD_C);
+				wood_whitels++;
+			}			
+			else if (wood_whitels==3){
+				playSound(WOOD_D);
+				wood_whitels=0;
+			}
+		}
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)

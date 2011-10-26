@@ -4,7 +4,10 @@
 #include "../blockID.h"
 #include "../player.h"
 #include "../world.h"
+#include "../sounds.h"
 u16* SANDSTONEgfx;
+
+int sandstonelx,sandstonely,sandstonels;
 void SANDSTONE_render(int x,int y){
 	createsprite32x32(x,y,SANDSTONEgfx,false,0);	
 }
@@ -20,6 +23,25 @@ void SANDSTONE_colision(playerActor* player,worldObject* world,int bx,int by,int
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==sandstonelx && by==sandstonely)){
+			sandstonelx=bx,sandstonely=by;
+			if (sandstonels==0){
+				playSound(STONE_A);		
+				sandstonels++;
+			}
+			else if (sandstonels==1){
+				playSound(STONE_B);
+				sandstonels++;
+			}	
+			else if (sandstonels==2){
+				playSound(STONE_C);
+				sandstonels++;
+			}			
+			else if (sandstonels==3){
+				playSound(STONE_D);
+				sandstonels=0;
+			}
+		}
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)
