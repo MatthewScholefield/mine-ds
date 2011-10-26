@@ -12,6 +12,8 @@
 #define REDSTONE_RARENESS 28
 #define DIAMOND_START 38
 #define DIAMOND_RARENESS 96
+#define LAPIS_START 30
+#define LAPIS_RARENESS 48
 void fixgrass(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
@@ -47,7 +49,7 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%3==0) rareness--;
+		if (y%5==0) rareness--;
 		y++;
 	}
 	y=IRON_START;
@@ -61,7 +63,7 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%3==0) rareness--;
+		if (y%5==0) rareness--;
 		y++;
 	}
 	y=GOLD_START;
@@ -75,7 +77,7 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%3==0) rareness--;
+		if (y%5==0) rareness--;
 		y++;
 	}
 	y=REDSTONE_START;
@@ -89,7 +91,7 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%3==0) rareness--;
+		if (y%5==0) rareness--;
 		y++;
 	}
 	y=DIAMOND_START;
@@ -103,7 +105,21 @@ void addore(worldObject* world){
 				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
 			}		
 		}
-		if (y%3==0) rareness--;
+		if (y%5==0) rareness--;
+		y++;
+	}
+	y=LAPIS_START;
+	id=LAPIS_ORE;
+	rareness=LAPIS_RARENESS;
+	while(y<WORLD_HEIGHT){
+		for (i=0;i<=WORLD_WIDTH;i++){
+			if (rand() % rareness ==0){
+				//Place a block
+				if (world->blocks[i][y]==STONE) world->blocks[i][y]=id;
+				else if (world->blocks[i][y]==COAL_ORE) world->blocks[i][y]=id;
+			}		
+		}
+		if (y%5==0) rareness--;
 		y++;
 	}
 }

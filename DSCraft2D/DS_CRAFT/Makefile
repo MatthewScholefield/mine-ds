@@ -22,6 +22,7 @@ SOURCES		:=	source source/blocks
 INCLUDES	:=	include
 DATA		:=	data  
 GRAPHICS	:=	gfx  
+AUDIO    	:=  audio
 GAME_TITLE     :=   Minecraft DS
 GAME_SUBTITLE1 :=	By ray & CoolAs
 GAME_SUBTITLE2 :=	In 2D! (pre)
@@ -44,7 +45,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project (order is important)
 #---------------------------------------------------------------------------------
-LIBS	:= -lfat	-lnds9
+LIBS	:= -lmm9 -lfat	-lnds9
  
  
 #---------------------------------------------------------------------------------
@@ -72,8 +73,9 @@ CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
- 
+BINFILES  	:=  $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.bin))) soundbank.bin
+export AUDIOFILES := $(foreach dir,$(notdir $(wildcard $(AUDIO)/*.*)),$(CURDIR)/$(AUDIO)/$(dir))
+
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
 #---------------------------------------------------------------------------------
@@ -140,6 +142,13 @@ $(OUTPUT).elf	:	$(OFILES)
 # grit takes an image file and a .grit describing how the file is to be processed
 # add additional rules like this for each image extension
 # you use in the graphics folders
+#-------------------------------------------------------------
+# rule for generating soundbank file from audio files
+#-------------------------------------------------------------
+soundbank.bin:	$(AUDIOFILES)
+#-------------------------------------------------------------
+	@mmutil $^ -osoundbank.bin -hsoundbank.h -d
+
 #---------------------------------------------------------------------------------
 %.s %.h   : %.png %.grit
 #---------------------------------------------------------------------------------

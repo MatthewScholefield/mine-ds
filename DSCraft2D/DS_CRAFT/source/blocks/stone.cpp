@@ -4,7 +4,9 @@
 #include "../ndsvideo.h"
 #include "block.h" //Include the block graphics
 #include "../blockID.h"
+#include "../sounds.h"
 u16* stonegfx;
+int stonelx,stonely,stonels;
 void STONE_render(int x,int y){
 	createsprite32x32(x,y,stonegfx,false,0);	
 }
@@ -13,6 +15,25 @@ void STONE_colision(playerActor* player,worldObject* world,int bx,int by,int res
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==stonelx && by==stonely)){
+			stonelx=bx,stonely=by;
+			if (stonels==0){
+				playSound(STONE_A);		
+				stonels++;
+			}
+			else if (stonels==1){
+				playSound(STONE_B);
+				stonels++;
+			}	
+			else if (stonels==2){
+				playSound(STONE_C);
+				stonels++;
+			}			
+			else if (stonels==3){
+				playSound(STONE_D);
+				stonels=0;
+			}
+		}	
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)
@@ -32,4 +53,5 @@ void STONE_setup(){
 	blocktiles=(char*)&blockTiles;
 	blocktiles+=(32*32)*STONE;
 	dmaCopy(blocktiles,stonegfx,32*32);
+	stonels=0;
 }
