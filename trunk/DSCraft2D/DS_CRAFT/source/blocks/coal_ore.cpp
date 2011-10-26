@@ -4,7 +4,9 @@
 #include "../blockID.h"
 #include "../world.h"
 #include "../player.h"
+#include "../sounds.h"
 u16* COAL_OREgfx;
+int coallx,coally,coalls;
 void COAL_ORE_render(int x,int y){
 	createsprite32x32(x,y,COAL_OREgfx,false,0);	
 }
@@ -20,6 +22,25 @@ void COAL_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int 
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
+		if (!(bx==coallx && by==coally)){
+			coallx=bx,coally=by;
+			if (coalls==0){
+				playSound(STONE_A);		
+				coalls++;
+			}
+			else if (coalls==1){
+				playSound(STONE_B);
+				coalls++;
+			}	
+			else if (coalls==2){
+				playSound(STONE_C);
+				coalls++;
+			}			
+			else if (coalls==3){
+				playSound(STONE_D);
+				coalls=0;
+			}
+		}	
 	}
 	if (result==3){//player colides on right
 		player->x-=2; //Move him back one so he is not coliding anymore :)
