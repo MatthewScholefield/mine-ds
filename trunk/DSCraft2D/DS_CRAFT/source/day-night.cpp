@@ -39,7 +39,7 @@ void mainBGSetup(){
 	for (i=0;i<=64;i++){
 		tileMemory[i]=theTile[i];
 	}
-	r=112; 
+	r=112; //Changing this means that I have to recode the mainBGUpdate (dont do it again PLEASE)
 	g=219;
 	b=255;
 	BG_PALETTE[0]=RGB15(112,219,255);
@@ -51,33 +51,20 @@ void mainBGSetup(){
 }
 void mainBGUpdate(){
 	framecounter++;
-	if (framecounter==6){
-		timeinworld+=1;
-		framecounter-=6;
+	if (framecounter%120==0){
+		timeinworld++;		
 	}
-	if (timeinworld>42 && timeinworld<71)
+	if (timeinworld>50 && timeinworld<100)
 	{
-		//Update the palette
 		g--;
-		r++;
-		if (g<1) timeinworld=72;
-		if (r>112) timeinworld=72;
-		BG_PALETTE[0]=RGB15(r/3,g,b);
-
-		BG_PALETTE[1]=RGB15(r/3,g,b);
+		BG_PALETTE[0]=RGB15(r,g,b);
+		if (g<219-25) timeinworld=101;
 	}
-	else if (timeinworld>105 && timeinworld<131)
+	if (timeinworld>200 && timeinworld<250)
 	{
-			//Update the palette
 		g++;
-		r--;
-		if (g>30) timeinworld=132;
-		if (r<1) timeinworld=132;
-		BG_PALETTE[0]=RGB15(r/3,g,b);
+		BG_PALETTE[0]=RGB15(r,g,b);
+		if (g>219) timeinworld=251;
 	}
-	else if (timeinworld==133) timeinworld=0;
-	if (g<1) timeinworld=72;
-	if (r>30) timeinworld=72;
-	if (r<1) timeinworld=132;
-	if (g>30) timeinworld=132;
+	if (timeinworld>350) timeinworld=0;
 }
