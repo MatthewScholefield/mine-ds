@@ -1,10 +1,12 @@
 #include "world.h"
 #include "blockID.h"
 #include "allblocks.h"
+#include "player.h"
 int i,j;
-void worldUpdate(worldObject* world){
-	for (i=0;i<=WORLD_WIDTH;i++){//Cycle through the block array
-		for (j=0;j<=WORLD_HEIGHT;j++){
+void worldUpdate(worldObject* world,void* player2){
+	playerActor* player=(playerActor*)player2;
+	for (i=player->blockx-16;i<=player->blockx+16;i++){//Cycle through the block array
+		for (j=player->blocky-16;j<=player->blocky+16;j++){
 			if (world->blocks[i][j]==STONE) STONE_render(i*32-world->CamX,j*32-world->CamY);	
 			else if (world->blocks[i][j]==GRASS) GRASS_render(i*32-world->CamX,j*32-world->CamY);	
 			else if (world->blocks[i][j]==DIRT) DIRT_render(i*32-world->CamX,j*32-world->CamY);	
