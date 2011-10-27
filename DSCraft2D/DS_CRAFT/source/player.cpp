@@ -105,7 +105,7 @@ void playerGravity(playerActor* player,worldObject* world){
 	if(player->onblock==false) player->y+=player->vy;
 	if((keysHeld() & KEY_A || keysHeld() & KEY_UP) && player->onblock==1)
 	{
-		player->vy=-5; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
+		player->vy=-6; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
 		player->y-=1; //Make it come off the ground (not collide)
 	}
 	framecount++;
