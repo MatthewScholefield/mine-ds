@@ -59,7 +59,7 @@ void GRASS_update(int bx,int by,worldObject* world,playerActor* player){
 	int i=bx;
 	int j;
 	bool grass=true;
-		for (j=0;j<=WORLD_HEIGHT;j++){
+		for (j=0;j<=player->blocky+16 && j<=WORLD_HEIGHT;j++){
 			if(world->blocks[i][j]==GRASS){ //Then if a block should be grass
 				j=WORLD_HEIGHT+1;  			   //Exit this X
 			}
