@@ -134,6 +134,16 @@ void addrock(worldObject* world){
 			}
 		}
 }
+void modifyWorld(worldObject* world){
+
+	addrock(world);
+	addore(world);
+	int x;
+	fixgrass(world);
+	for (x=0;x<=WORLD_WIDTH;x++){
+		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
+	}
+}
 void generateWorld(worldObject* world){
 	int x=0;
 	int y=rand() % WORLD_HEIGHT/4 + WORLD_HEIGHT/8;
@@ -142,19 +152,13 @@ void generateWorld(worldObject* world){
 		for (x=0;x<=WORLD_HEIGHT;x++) world->blocks[i][x]=AIR;
 	for (x=0;x<=WORLD_WIDTH;x++){
 		y+=rand() % 5-2;
-		if (y<5) y=5;
-		if (y>WORLD_HEIGHT/3) y=WORLD_HEIGHT/3;
+		if (y<5) y-=rand() %3-3;
+		if (y>WORLD_HEIGHT/3) y-=rand()%3;
 		int i;
 		printf("%d\n",y);
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
 	}
-
-	addrock(world);
-	addore(world);
-	fixgrass(world);
-	for (x=0;x<=WORLD_WIDTH;x++){
-		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
-	}
+	modifyWorld(world);
 }
 void randGenerate(worldObject* world){
 	int i,j;

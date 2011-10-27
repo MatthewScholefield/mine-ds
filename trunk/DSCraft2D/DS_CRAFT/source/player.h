@@ -1,7 +1,7 @@
 #ifndef player_h
 #include <nds.h>
-#include "world.h"
 //A typedef struct is a structure and puts heaps of varibles in one place
+#include "world.h"
 typedef struct{
 	int x;
 	int y;

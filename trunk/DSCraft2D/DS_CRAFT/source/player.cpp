@@ -72,8 +72,8 @@ void playerGravity(playerActor* player,worldObject* world){
 	player->onblock=false;
 	if (player->vy<-12) player->vy=-12; //Make the player not go too fast upwards.
 	if (player->vy<12 && framecount %4==0) player->vy+=gravity; //vy is speed
-	for (x=0;x<=WORLD_WIDTH;x++)
-		for(y=0;y<=WORLD_HEIGHT;y++){
+	for (x=player->blockx-16;x<=player->blockx+16;x++)//Cycle through the block array
+		for (y=player->blocky-16;y<=player->blocky+16;y++){
 			int result=colisionAdv(player->blockx,player->blocky,x,y,player->x,player->y,x*32,y*32);
 			//This handles collisions when adding a block copy a line and change the *******_colision to yourblock_colision :P
 			if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
