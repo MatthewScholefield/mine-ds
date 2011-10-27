@@ -48,17 +48,17 @@ int main(){
 		framecounte++;
 		mainBGUpdate();
 		saveUpdate(CurrentWorld,&MainPlayer);
-		subLifes(MainPlayer.health);
-		subShowBlock(CurrentWorld->ChoosedBlock);
+		if (!debug) subLifes(MainPlayer.health);
+		if (!debug) subShowBlock(CurrentWorld->ChoosedBlock);
 		miningUpdate(CurrentWorld,&MainPlayer);
         	if (MainPlayer.health <= 0) gameover(CurrentWorld,&MainPlayer);
 		if (keysHeld() & KEY_START){
-		playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
-		test();
+		//playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
+		//test();
 		}
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
-		worldUpdate(CurrentWorld);
 		updateBlocks(CurrentWorld,&MainPlayer);
+		worldUpdate(CurrentWorld,(void*)&MainPlayer);
 		//if (framecounte%240==0) fixgrass(CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
