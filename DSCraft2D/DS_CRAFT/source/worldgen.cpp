@@ -2,17 +2,17 @@
 #include "blockID.h"
 #include <stdio.h>
 #include <nds.h>	
-#define COAL_START WORLD_HEIGHT/3+1
+#define COAL_START WORLD_HEIGHT/8
 #define COAL_RARENESS 48
-#define IRON_START 24
+#define IRON_START WORLD_HEIGHT/3
 #define IRON_RARENESS 64
-#define GOLD_START 28
+#define GOLD_START WORLD_HEIGHT/3+20
 #define GOLD_RARENESS 68
-#define REDSTONE_START 35
+#define REDSTONE_START WORLD_HEIGHT/2
 #define REDSTONE_RARENESS 48
-#define DIAMOND_START 38
+#define DIAMOND_START WORLD_HEIGHT/3*2
 #define DIAMOND_RARENESS 186
-#define LAPIS_START 30
+#define LAPIS_START WORLD_HEIGHT/3*2
 #define LAPIS_RARENESS 88
 void fixgrass(worldObject* world){
 	int i,j;
@@ -40,7 +40,7 @@ void addore(worldObject* world){
 	int y=COAL_START;
 	int i;
 	int id=COAL_ORE;
-	int rareness=COAL_RARENESS;
+	int rareness=COAL_RARENESS*2;
 	while(y<WORLD_HEIGHT){
 		for (i=0;i<=WORLD_WIDTH;i++){
 			if (rand() % rareness ==0){
@@ -54,7 +54,7 @@ void addore(worldObject* world){
 	}
 	y=IRON_START;
 	id=IRON_ORE;
-	rareness=IRON_RARENESS;
+	rareness=IRON_RARENESS*2;
 	while(y<WORLD_HEIGHT){
 		for (i=0;i<=WORLD_WIDTH;i++){
 			if (rand() % rareness ==0){
@@ -82,7 +82,7 @@ void addore(worldObject* world){
 	}
 	y=REDSTONE_START;
 	id=REDSTONE_ORE;
-	rareness=REDSTONE_RARENESS;
+	rareness=REDSTONE_RARENESS*2;
 	while(y<WORLD_HEIGHT){
 		for (i=0;i<=WORLD_WIDTH;i++){
 			if (rand() % rareness ==0){
@@ -96,7 +96,7 @@ void addore(worldObject* world){
 	}
 	y=DIAMOND_START;
 	id=DIAMOND_ORE;
-	rareness=DIAMOND_RARENESS;
+	rareness=DIAMOND_RARENESS*2;
 	while(y<WORLD_HEIGHT){
 		for (i=0;i<=WORLD_WIDTH;i++){
 			if (rand() % rareness ==0){
@@ -110,7 +110,7 @@ void addore(worldObject* world){
 	}
 	y=LAPIS_START;
 	id=LAPIS_ORE;
-	rareness=LAPIS_RARENESS;
+	rareness=LAPIS_RARENESS*2;
 	while(y<WORLD_HEIGHT){
 		for (i=0;i<=WORLD_WIDTH;i++){
 			if (rand() % rareness ==0){
