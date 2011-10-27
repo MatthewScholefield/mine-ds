@@ -35,13 +35,13 @@ int main(){
 	doneSetup();
 	mainBGSetup();
 	if (!debug) subBGSetup();
-	//Place the player on the first "non grass" block (The Camera will take one frame to Update)
+	//Place the player on the first "non grass" block
 	int i;
 	for (i=0;i<=WORLD_HEIGHT;i++)
-		if (CurrentWorld->blocks[0][i]!=AIR)
+		if (CurrentWorld->blocks[WORLD_WIDTH/2][i]!=AIR)
 		{
 			MainPlayer.y=i*32-64;
-			MainPlayer.x=0;
+			MainPlayer.x=WORLD_WIDTHpx/2;
 			i=WORLD_HEIGHT+1;
 		}
 	while(1){

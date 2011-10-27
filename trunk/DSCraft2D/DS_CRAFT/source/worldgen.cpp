@@ -146,7 +146,7 @@ void modifyWorld(worldObject* world){
 }
 void generateWorld(worldObject* world){
 	int x=0;
-	int y=rand() % WORLD_HEIGHT/4 + WORLD_HEIGHT/8;
+	int y=rand() % (WORLD_HEIGHT/3-8)+5;
 	int i;
 	for(i=0;i<=WORLD_WIDTH;i++)
 		for (x=0;x<=WORLD_HEIGHT;x++) world->blocks[i][x]=AIR;
