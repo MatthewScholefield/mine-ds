@@ -123,7 +123,34 @@ void addore(worldObject* world){
 		y++;
 	}
 }
+void addtree(worldObject* world,int x,int y,int type){
+	int id;
+	if (type==0) id=LOG;
+	else if (type==1) id=DARK_WOOD;
+	else if (type==2) id=WHITE_WOOD;
+	int height=rand() % 2+2;
+	int i;
+	for(i=0;i<=height;i++){
+		y--;
+		world->blocks[x][y]=id;
+	}
+	y--;
+	height=rand() %2+2;
+	x-=height;
+	for (i=0;i<=height;i++){
+		x++;
+		if (world->blocks[x][y]==AIR) world->blocks[x][y]=LEAF;	
+	}
 
+	x-=height;
+	height-=2;
+	y--;
+	x-=height/2;
+	for (i=0;i<=height;i++){
+		x++;
+		if (world->blocks[x][y]==AIR) world->blocks[x][y]=LEAF;	
+	}
+}
 void addrock(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
@@ -132,7 +159,21 @@ void addrock(worldObject* world){
 				rockwall(world,i,j+rand()%(3)+3);
 				j=WORLD_HEIGHT+1;  			   //And Exit this X
 			}
+			else if(world->blocks[i][j]==SAND){
+				int startrock = j+rand() % 3+3;
+				int k;
+				for (k=j+rand() % 2+1;k<=startrock;k++) world->blocks[i][k]=SANDSTONE;
+				rockwall(world,i,startrock);
+				j=WORLD_HEIGHT+1;  			   //And Exit this X
+			}
 		}
+}
+void addTrees(worldObject* world){
+	int i,j;
+	for (i=0;i<=WORLD_WIDTH;i+=rand() % 5+5)
+		for (j=0;j<=WORLD_HEIGHT;j++)
+			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
+
 }
 void modifyWorld(worldObject* world){
 
@@ -140,9 +181,60 @@ void modifyWorld(worldObject* world){
 	addore(world);
 	int x;
 	fixgrass(world);
+	addTrees(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
+}
+int mountainbiome(worldObject* world,int startx,int starty,int endx){
+	int y=starty;
+	for (int x=startx;x<=endx;x++){
+		y+=rand() % 5-2;
+		if (y<5) y-=rand() %3-3;
+		if (y>WORLD_HEIGHT/3) y-=rand()%3;
+		int i;
+		printf("%d\n",y);
+		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
+	}
+	return y;
+}
+int flatbiome(worldObject* world,int startx,int starty,int endx){
+	int y=starty;
+	int x;
+	int changey=0;
+	int i;
+	int times=rand()%3+1;
+	for (x=startx;x<=endx;x++){
+		if (changey==0){
+			y+=rand() % 3-1;	
+			times++;	
+			if (y<5) y-=rand() %2-2;
+			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
+			changey=rand() % 5+2;
+		}
+		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
+		changey--;
+	}
+	return y;
+}
+int sandbiome(worldObject* world,int startx,int starty,int endx){
+	int y=starty;
+	int x;
+	int changey=0;
+	int i;
+	int times=rand()%3+1;
+	for (x=startx;x<=endx;x++){
+		if (changey==0){
+			y+=rand() % 3-1;	
+			times++;	
+			if (y<5) y-=rand() %2-2;
+			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
+			changey=4+rand() % 2;
+		}
+		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SAND;
+		changey--;
+	}
+	return y;
 }
 void generateWorld(worldObject* world){
 	int x=0;
@@ -150,13 +242,21 @@ void generateWorld(worldObject* world){
 	int i;
 	for(i=0;i<=WORLD_WIDTH;i++)
 		for (x=0;x<=WORLD_HEIGHT;x++) world->blocks[i][x]=AIR;
-	for (x=0;x<=WORLD_WIDTH;x++){
-		y+=rand() % 5-2;
-		if (y<5) y-=rand() %3-3;
-		if (y>WORLD_HEIGHT/3) y-=rand()%3;
-		int i;
-		printf("%d\n",y);
-		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
+	x=0;
+	int sizex=0;
+	int endx=0;
+	int biometype=0;
+	int y2;
+	while(x!=WORLD_WIDTH){
+		sizex=rand() % 16+16;
+		endx=x+sizex;
+		if (endx>WORLD_WIDTH) endx=WORLD_WIDTH;
+		biometype=rand() %3;
+		if (biometype==0) y2=mountainbiome(world,x,y,endx);
+		else if (biometype==1) y2=flatbiome(world,x,y,endx);
+		else if (biometype==2) y2=sandbiome(world,x,y,endx);
+		x=endx;
+		y=y2;
 	}
 	modifyWorld(world);
 }
