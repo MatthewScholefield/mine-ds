@@ -7,7 +7,7 @@
 #include "../sounds.h"
 u16* DARK_WOODgfx;
 
-int wood_darklx,wood_darkly,wood_darkls;
+int wood_darkls;
 void DARK_WOOD_render(int x,int y){
 	createsprite32x32(x,y,DARK_WOODgfx,false,0);	
 }
@@ -23,8 +23,8 @@ void DARK_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,int
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==wood_darklx && by==wood_darkly)){
-			wood_darklx=bx,wood_darkly=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (wood_darkls==0){
 				playSound(WOOD_A);		
 				wood_darkls++;

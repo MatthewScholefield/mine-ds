@@ -6,7 +6,7 @@
 #include "../blockID.h"
 #include "../sounds.h"
 u16* stonegfx;
-int stonelx,stonely,stonels;
+int stonels;
 void STONE_render(int x,int y){
 	createsprite32x32(x,y,stonegfx,false,0);	
 }
@@ -15,8 +15,8 @@ void STONE_colision(playerActor* player,worldObject* world,int bx,int by,int res
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==stonelx && by==stonely)){
-			stonelx=bx,stonely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (stonels==0){
 				playSound(STONE_A);		
 				stonels++;

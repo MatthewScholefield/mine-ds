@@ -193,7 +193,7 @@ int mountainbiome(worldObject* world,int startx,int starty,int endx){
 		if (y<5) y-=rand() %3-3;
 		if (y>WORLD_HEIGHT/3) y-=rand()%3;
 		int i;
-		printf("%d\n",y);
+		//iprintf("%d\n",y);
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
 	}
 	return y;

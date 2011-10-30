@@ -21,7 +21,6 @@
 int framecount;
 u16* playerGraphics;
 bool top;
-bool oldtop;
 #define gravity 1
 int spritecol(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
 	if ((fx + fSizex > sx )&& (fx < sx+sSizex) && (sy + sSizey > fy) && (sy < fy+fSizey)) 
@@ -30,7 +29,7 @@ int spritecol(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int s
 		return 0;
 	return 0;
 }
-int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2){
+int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2,playerActor* player){
 	if (spritecol(x1+11,y1,x2,y2,10,64,32,32)){
 		//A good square colision
 			if (blockx1==blockx2 && blocky1 == blocky2){
@@ -46,10 +45,10 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 			if (blockx1+1==blockx2 && blocky1-1 == blocky2){
 				return RIGHT;
 			}
-			if (blockx1+1==blockx2 && blocky1+1 == blocky2 && !oldtop){
+			if (blockx1+1==blockx2 && blocky1+1 == blocky2 && !player->oldtop){
 				return RIGHT;
 			}
-			if (blockx1-1==blockx2 && blocky1+1 == blocky2 && !oldtop){
+			if (blockx1-1==blockx2 && blocky1+1 == blocky2 && !player->oldtop){
 				return LEFT;
 			}
 			if (blockx1-1==blockx2 && blocky1 == blocky2){
@@ -68,7 +67,7 @@ void playerGravity(playerActor* player,worldObject* world){
 	//colisionAdv(player->blockx,player->blocky,i,j,player->x,player->y,i*32,j*32)
 	//printf("Gravity\n");
 	int x,y;
-	oldtop=player->onblock;
+	player->oldtop=player->onblock;
 	player->onblock=false;
 	if (player->vy<-12) player->vy=-12; //Make the player not go too fast upwards.
 	if (player->vy<12 && framecount %4==0) player->vy+=gravity; //vy is speed
@@ -76,7 +75,7 @@ void playerGravity(playerActor* player,worldObject* world){
 		for (y=player->blocky-16;y<=player->blocky+16 && y<=WORLD_HEIGHT;y++){
 			if (x<=-1) x=-1;
 			if (y<=-1) y=-1;
-			int result=colisionAdv(player->blockx,player->blocky,x,y,player->x,player->y,x*32,y*32);
+			int result=colisionAdv(player->blockx,player->blocky,x,y,player->x,player->y,x*32,y*32,player);
 			//This handles collisions when adding a block copy a line and change the *******_colision to yourblock_colision :P
 			if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
 			else if (world->blocks[x][y]==DIRT) DIRT_colision(player,world,x,y,result);
@@ -103,21 +102,26 @@ void playerGravity(playerActor* player,worldObject* world){
 			
 		}
 	if(player->onblock==false) player->y+=player->vy;
-	if((keysHeld() & KEY_A || keysHeld() & KEY_UP) && player->onblock==1)
+	if((keysHeld() & KEY_A || keysHeld() & KEY_UP ) && player->onblock==1 && player->person)
 	{
 		player->vy=-6; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
 		player->y-=1; //Make it come off the ground (not collide)
 	}
-	framecount++;
 }
 void updateplayer(playerActor* player,worldObject* world){
 	//Scan the keys and move that minecraft guy, soon this will need the world values	
-	scanKeys();
-	if (keysHeld() & KEY_LEFT)player->x-=2;
-	else if (keysHeld() & KEY_RIGHT) player->x+=2;
-	world->CamX=player->x-(256/2-16);
-	world->CamY=player->y-(192/2-32);
-	//Create the block positions
+	
+	if (keysHeld() & KEY_LEFT && player->person){
+		player->x-=2;
+		player->facing_left=true;
+	}
+	else if (keysHeld() & KEY_RIGHT && player->person){
+		player->x+=2;
+		player->facing_left=false;
+	}
+	if (player->person) world->CamX=player->x-(256/2-16);
+	if (player->person) world->CamY=player->y-(192/2-32);
+	//Createthe block positions
 	player->blockx=(player->x+15)/32;
 	player->blocky=(player->y+32)/32;	
 	//Stop at end of map
@@ -130,7 +134,9 @@ void updateplayer(playerActor* player,worldObject* world){
 	if (player->y>world_heightpx-32) player->y=world_heightpx-32;
 	else if (player->y<0) player->y=0;
 	playerGravity(player,world);
-	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics,keysHeld() & KEY_LEFT,1);
+}
+void renderPlayer(playerActor* player,worldObject* world){
+	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics,player->facing_left,1);
 }
 u16* playerGfx(){
 	return playerGraphics;
@@ -145,6 +151,9 @@ void test(){
 	playerGraphics=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
     dmaCopy(PlayerHitTiles,playerGraphics,PlayerHitTilesLen);
 
+}
+void playerFrame(){
+	framecount++;
 }
 void playerHurt(playerActor* player,int much,bool instant){
 	

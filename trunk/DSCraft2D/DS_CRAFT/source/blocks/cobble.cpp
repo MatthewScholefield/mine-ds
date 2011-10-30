@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../sounds.h"
 u16* COBBLEgfx;
-int cobblelx,cobblely,cobblels;
+int cobblels;
 void COBBLE_render(int x,int y){
 	createsprite32x32(x,y,COBBLEgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void COBBLE_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==cobblelx && by==cobblely)){
-			cobblelx=bx,cobblely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (cobblels==0){
 				playSound(STONE_A);		
 				cobblels++;

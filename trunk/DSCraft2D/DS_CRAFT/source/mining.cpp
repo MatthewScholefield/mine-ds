@@ -130,7 +130,6 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	return i;
 }
 void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
-		scanKeys();
 		if (keysDown() & KEY_R || keysDown() & KEY_Y){
 			CurrentWorld->ChoosedBlock = AIR;
 		}         

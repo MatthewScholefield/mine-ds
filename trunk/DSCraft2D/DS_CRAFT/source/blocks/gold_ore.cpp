@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../sounds.h"
 u16* GOLD_OREgfx;
-int gold_orelx,gold_orely,gold_orels;
+int gold_orels;
 void GOLD_ORE_render(int x,int y){
 	createsprite32x32(x,y,GOLD_OREgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void GOLD_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int 
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==gold_orelx && by==gold_orely)){
-			gold_orelx=bx,gold_orely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (gold_orels==0){
 				playSound(STONE_A);		
 				gold_orels++;

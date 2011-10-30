@@ -7,7 +7,6 @@
 #include "../sounds.h"
 u16* GRAVELgfx;
 int gravells=0;
-int gravellx,gravelly;
 void GRAVEL_render(int x,int y){
 	createsprite32x32(x,y,GRAVELgfx,false,0);	
 }
@@ -23,8 +22,8 @@ void GRAVEL_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==gravellx && by==gravelly)){
-			gravellx=bx,gravelly=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (gravells==0){
 				playSound(GRAVEL_A);		
 				gravells++;

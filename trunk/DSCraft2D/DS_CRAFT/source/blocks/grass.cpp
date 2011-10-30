@@ -7,7 +7,6 @@
 #include "../sounds.h"
 u16* GRASSgfx;
 int GRASSls=0;
-int GRASSlx,GRASSly;
 void GRASS_render(int x,int y){
 	createsprite32x32(x,y,GRASSgfx,false,0);	
 }
@@ -23,8 +22,8 @@ void GRASS_colision(playerActor* player,worldObject* world,int bx,int by,int res
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==GRASSlx && by==GRASSly)){
-			GRASSlx=bx,GRASSly=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (GRASSls==0){
 				playSound(GRASS_A);		
 				GRASSls++;
