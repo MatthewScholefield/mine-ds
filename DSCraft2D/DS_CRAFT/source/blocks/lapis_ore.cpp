@@ -7,7 +7,7 @@
 #include "../sounds.h"
 u16* LAPIS_OREgfx;
 
-int lapis_orelx,lapis_orely,lapis_orels;
+int lapis_orels;
 void LAPIS_ORE_render(int x,int y){
 	createsprite32x32(x,y,LAPIS_OREgfx,false,0);	
 }
@@ -23,8 +23,8 @@ void LAPIS_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==lapis_orelx && by==lapis_orely)){
-			lapis_orelx=bx,lapis_orely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (lapis_orels==0){
 				playSound(STONE_A);		
 				lapis_orels++;

@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../sounds.h"
 u16* COAL_OREgfx;
-int coallx,coally,coalls;
+int coalls;
 void COAL_ORE_render(int x,int y){
 	createsprite32x32(x,y,COAL_OREgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void COAL_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int 
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==coallx && by==coally)){
-			coallx=bx,coally=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (coalls==0){
 				playSound(STONE_A);		
 				coalls++;

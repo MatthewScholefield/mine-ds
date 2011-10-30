@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../sounds.h"
 u16* IRON_OREgfx;
-int iron_orelx,iron_orely,iron_orels;
+int iron_orels;
 void IRON_ORE_render(int x,int y){
 	createsprite32x32(x,y,IRON_OREgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void IRON_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int 
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==iron_orelx && by==iron_orely)){
-			iron_orelx=bx,iron_orely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (iron_orels==0){
 				playSound(STONE_A);		
 				iron_orels++;

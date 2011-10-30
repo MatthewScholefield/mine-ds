@@ -15,9 +15,12 @@
 #include "blockupdate.h"
 #include "saver.h"
 #include "gameover.h"
+
+#include "mob.h"
 int main(){
 	int framecounte=0; //framecount
 	setupVideo(); 
+	mobSetup();
 	lcdMainOnBottom();
 	scanKeys();
 	bool debug = false;
@@ -45,8 +48,10 @@ int main(){
 			i=WORLD_HEIGHT+1;
 		}
 	while(1){
+		scanKeys();
 		framecounte++;
 		mainBGUpdate();
+		playerFrame();
 		saveUpdate(CurrentWorld,&MainPlayer);
 		if (!debug) subLifes(MainPlayer.health);
 		if (!debug) subShowBlock(CurrentWorld->ChoosedBlock);
@@ -56,19 +61,20 @@ int main(){
 		//playerHurt(&MainPlayer,10,true); //Press start to kill your self :P
 		//test();
 		}
+		mobUpdate(CurrentWorld,&MainPlayer);
 		updateplayer(&MainPlayer,CurrentWorld);	//Update the player
 		updateBlocks(CurrentWorld,&MainPlayer);
+		renderPlayer(&MainPlayer,CurrentWorld);
 		worldUpdate(CurrentWorld,(void*)&MainPlayer);
 		//if (framecounte%240==0) fixgrass(CurrentWorld);
 		swiWaitForVBlank(); //Wait for a VBlank
 		oamUpdate(&oamMain); //Update the sprites
 		oamUpdate(&oamSub);
-		consoleClear();
-		iprintf("Camera Position:%d,%d\n",CurrentWorld->CamX,CurrentWorld->CamY);
-		iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
-		iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
-		printf("Sprites on Screen: %d\n",nextSprite());
-		iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
+		//iprintf("Camera Position:%d,%d\n",CurrentWorld->CamX,CurrentWorld->CamY);
+		//iprintf("Player Position:%d,%d\n",MainPlayer.x,MainPlayer.y);
+		//iprintf("Player BlockPos:%d,%d\n",MainPlayer.blockx,MainPlayer.blocky);
+		//printf("Sprites on Screen: %d\n",nextSprite());
+		//iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
 		resetSpriteCount(); //And set the sprite number counter to 0
 		if (framecounte>240) framecounte=1;
 

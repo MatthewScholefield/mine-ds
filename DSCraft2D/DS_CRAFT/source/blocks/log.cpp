@@ -7,7 +7,7 @@
 #include "../sounds.h"
 u16* LOGgfx;
 
-int woodlx,woodly,woodls;
+int woodls;
 void LOG_render(int x,int y){
 	createsprite32x32(x,y,LOGgfx,false,0);	
 }
@@ -23,8 +23,8 @@ void LOG_colision(playerActor* player,worldObject* world,int bx,int by,int resul
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==woodlx && by==woodly)){
-			woodlx=bx,woodly=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (woodls==0){
 				playSound(WOOD_A);		
 				woodls++;
