@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../sounds.h"
 u16* WHITE_WOODgfx;
-int wood_whitelx,wood_whitely,wood_whitels;
+int wood_whitels;
 void WHITE_WOOD_render(int x,int y){
 	createsprite32x32(x,y,WHITE_WOODgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void WHITE_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,in
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==wood_whitelx && by==wood_whitely)){
-			wood_whitelx=bx,wood_whitely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (wood_whitels==0){
 				playSound(WOOD_A);		
 				wood_whitels++;

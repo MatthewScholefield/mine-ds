@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../sounds.h"
 u16* DIAMOND_OREgfx;
-int diamond_orelx,diamond_orely,diamond_orels;
+int diamond_orels;
 void DIAMOND_ORE_render(int x,int y){
 	createsprite32x32(x,y,DIAMOND_OREgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void DIAMOND_ORE_colision(playerActor* player,worldObject* world,int bx,int by,i
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==diamond_orelx && by==diamond_orely)){
-			diamond_orelx=bx,diamond_orely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (diamond_orels==0){
 				playSound(STONE_A);		
 				diamond_orels++;

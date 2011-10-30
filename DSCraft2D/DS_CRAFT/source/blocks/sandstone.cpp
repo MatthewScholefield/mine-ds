@@ -7,7 +7,7 @@
 #include "../sounds.h"
 u16* SANDSTONEgfx;
 
-int sandstonelx,sandstonely,sandstonels;
+int sandstonels;
 void SANDSTONE_render(int x,int y){
 	createsprite32x32(x,y,SANDSTONEgfx,false,0);	
 }
@@ -23,8 +23,8 @@ void SANDSTONE_colision(playerActor* player,worldObject* world,int bx,int by,int
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==sandstonelx && by==sandstonely)){
-			sandstonelx=bx,sandstonely=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (sandstonels==0){
 				playSound(STONE_A);		
 				sandstonels++;

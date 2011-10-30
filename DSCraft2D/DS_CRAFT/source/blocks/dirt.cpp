@@ -8,7 +8,6 @@
 u16* dirtgfx;
 
 int dirtls=0;
-int dirtlx,dirtly;
 void DIRT_render(int x,int y){
 	createsprite32x32(x,y,dirtgfx,false,0);	
 }
@@ -24,8 +23,8 @@ void DIRT_colision(playerActor* player,worldObject* world,int bx,int by,int resu
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==dirtlx && by==dirtly)){
-			dirtlx=bx,dirtly=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (dirtls==0){
 				playSound(GRAVEL_A);		
 				dirtls++;

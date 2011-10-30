@@ -6,7 +6,7 @@
 #include "../world.h"
 #include "../sounds.h"
 u16* SANDgfx;
-int sandlx,sandly,sandls;
+int sandls;
 void SAND_render(int x,int y){
 	createsprite32x32(x,y,SANDgfx,false,0);	
 }
@@ -22,8 +22,8 @@ void SAND_colision(playerActor* player,worldObject* world,int bx,int by,int resu
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		if (!(bx==sandlx && by==sandly)){
-			sandlx=bx,sandly=by;
+		if (!(bx==player->sx && by==player->sy)){
+			player->sx=bx,player->sy=by;
 			if (sandls==0){
 				playSound(SAND_A);		
 				sandls++;
