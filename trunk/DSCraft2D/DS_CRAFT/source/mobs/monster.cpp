@@ -8,7 +8,6 @@ void monsterUpdate(monsterActor* monster,worldObject* world,playerActor* player)
 		monster->alive=false;
 			iprintf("Killed monster at %d,%d\n",monster->monsterPlayer.x,monster->monsterPlayer.y);
 	}
-	monster->monsterPlayer.person=false;
 	updateplayer(&monster->monsterPlayer,world);
 	if (monster->monsterPlayer.onblock==true){
 		monster->frames_till_jump++;

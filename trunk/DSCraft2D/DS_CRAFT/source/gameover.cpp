@@ -10,12 +10,7 @@
 void gameover(worldObject* world, playerActor* player){
 	int i;
 	for (i=0;i<=WORLD_HEIGHT;i++)
-		if (world->blocks[0][i]!=AIR)
-		{
-			player->y=i*32-64;
-			player->x=WORLD_WIDTHpx/2;
-			i=WORLD_HEIGHT+1;
-		}
+		
 		player->health = 10;
 }
 

@@ -64,8 +64,6 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 	return 7;
 }
 void playerGravity(playerActor* player,worldObject* world){
-	//colisionAdv(player->blockx,player->blocky,i,j,player->x,player->y,i*32,j*32)
-	//printf("Gravity\n");
 	int x,y;
 	player->oldtop=player->onblock;
 	player->onblock=false;
@@ -77,28 +75,30 @@ void playerGravity(playerActor* player,worldObject* world){
 			if (y<=-1) y=-1;
 			int result=colisionAdv(player->blockx,player->blocky,x,y,player->x,player->y,x*32,y*32,player);
 			//This handles collisions when adding a block copy a line and change the *******_colision to yourblock_colision :P
-			if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==DIRT) DIRT_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==BEDROCK) BEDROCK_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==COBBLE) COBBLE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==COAL_ORE) COAL_ORE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==DIAMOND_ORE) DIAMOND_ORE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==GOLD_ORE) GOLD_ORE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==GRAVEL) GRAVEL_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==IRON_ORE) IRON_ORE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==REDSTONE_ORE) REDSTONE_ORE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==PLANKS) PLANKS_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==PLACED_LOG) LOG_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==SAND) SAND_colision(player,world,x,y,result);			
-			else if (world->blocks[x][y]==SANDSTONE) SANDSTONE_colision(player,world,x,y,result);			
-			else if (world->blocks[x][y]==STONE) STONE_colision(player,world,x,y,result);			
-			else if (world->blocks[x][y]==PLACED_LOG_W) WHITE_WOOD_colision(player,world,x,y,result);			
-			else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==LAPIS_ORE) LAPIS_ORE_colision(player,world,x,y,result);
-			else if (world->blocks[x][y]==GLASS) GLASS_colision(player,world,x,y,result);
-			//Here Lapis-BLOCK
-			else if (world->blocks[x][y]==WOOL_WHITE) WOOL_WHITE_colision(player,world,x,y,result); 
-			else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result);
+			if (world->blocks[x][y]!=AIR || world->blocks[x][y]!=LEAF || world->blocks[x][y]!=LOG){
+				if (world->blocks[x][y]==GRASS) GRASS_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==DIRT) DIRT_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==STONE) STONE_colision(player,world,x,y,result);		
+				else if (world->blocks[x][y]==PLACED_LOG_W) WHITE_WOOD_colision(player,world,x,y,result);			
+				else if (world->blocks[x][y]==PLACED_LOG_D) DARK_WOOD_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==PLACED_LEAF) LEAVES_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==PLANKS) PLANKS_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==PLACED_LOG) LOG_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==COBBLE) COBBLE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==COAL_ORE) COAL_ORE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==DIAMOND_ORE) DIAMOND_ORE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==GOLD_ORE) GOLD_ORE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==GRAVEL) GRAVEL_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==IRON_ORE) IRON_ORE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==REDSTONE_ORE) REDSTONE_ORE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==SAND) SAND_colision(player,world,x,y,result);			
+				else if (world->blocks[x][y]==SANDSTONE) SANDSTONE_colision(player,world,x,y,result);	
+				else if (world->blocks[x][y]==LAPIS_ORE) LAPIS_ORE_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==GLASS) GLASS_colision(player,world,x,y,result);
+				else if (world->blocks[x][y]==BEDROCK) BEDROCK_colision(player,world,x,y,result);
+				//Here Lapis-BLOCK
+				else if (world->blocks[x][y]==WOOL_WHITE) WOOL_WHITE_colision(player,world,x,y,result); 
+			}
 			
 		}
 	if(player->onblock==false) player->y+=player->vy;
@@ -125,10 +125,12 @@ void updateplayer(playerActor* player,worldObject* world){
 	player->blockx=(player->x+15)/32;
 	player->blocky=(player->y+32)/32;	
 	//Stop at end of map
-	if (world->CamX>world_widthpx-(256-32)) world->CamX=world_widthpx-(256-32);
-	else if (world->CamX<0) world->CamX=0;
-	if (world->CamY>world_heightpx-(192-32)) world->CamY=world_heightpx-(192-32);
-	else if (world->CamY<0) world->CamY=0;
+	if (player->person){
+		if (world->CamX>world_widthpx-(256-32)) world->CamX=world_widthpx-(256-32);
+		else if (world->CamX<0) world->CamX=0;
+		if (world->CamY>world_heightpx-(192-32)) world->CamY=world_heightpx-(192-32);
+		else if (world->CamY<0) world->CamY=0;
+	}
 	if (player->x>world_widthpx) player->x=world_widthpx;
 	else if (player->x<0)player->x=0;
 	if (player->y>world_heightpx-32) player->y=world_heightpx-32;
