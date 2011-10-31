@@ -199,7 +199,7 @@ void subShowBlock(int block){
 	if (block==PLACED_LOG_W) block=WHITE_WOOD; //Look up
 	if (block==PLACED_LOG_D) block=DARK_WOOD;//^
 	if (block==PLACED_LEAF) block=LEAVES;//^
-	if (block<128){//If the block is actually in the block.png file
+	if (block<128 && block!=oldblock){//If the block is actually in the block.png file
 		char* blockgfx;//Copy the graphics into memory
 		blockgfx=(char*)blockTiles;
 		blockgfx+=(32*32)*block;//this is in the block/*.cpp
@@ -219,6 +219,7 @@ void subShowBlock(int block){
 			false	
 			);    	
 	}
+	oldblock=block;
 
 }
 	
