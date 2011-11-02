@@ -47,7 +47,7 @@ void mainBGSetup(){
 	//create a map in map memory
 	for(i = 0; i < 32 * 32; i++)
 		mapMemory[i] = 0;
-	timeinworld=0;
+	timeinworld=251;
 }
 void mainBGUpdate(){
 	framecounter++;
