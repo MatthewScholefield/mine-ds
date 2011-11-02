@@ -11,6 +11,7 @@ typedef struct{
 	bool facing_left;
 	int frame; //for punching (next release)
 	int blockx,blocky;
+	int respawn_x;
 	int playerseed; //For multiplayer
 	bool onblock;
 	bool oldtop;
