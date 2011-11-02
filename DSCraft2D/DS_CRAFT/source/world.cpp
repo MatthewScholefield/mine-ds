@@ -10,37 +10,40 @@ void worldUpdate(worldObject* world,void* player2){
 			if (i<=-1) i=-1;
 			if (j<=-1) j=-1;
 			if (world->blocks[i][j]!=AIR){
-				if (world->blocks[i][j]==STONE) STONE_render(i*32-world->CamX,j*32-world->CamY);	
-				else if (world->blocks[i][j]==GRASS) GRASS_render(i*32-world->CamX,j*32-world->CamY);	
-				else if (world->blocks[i][j]==DIRT) DIRT_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==SAND) SAND_render(i*32-world->CamX,j*32-world->CamY);	
-				else if (world->blocks[i][j]==WHITE_WOOD) WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==DARK_WOOD) DARK_WOOD_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==PLACED_LOG_W) WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==PLACED_LOG_D) DARK_WOOD_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==LOG) LOG_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==PLACED_LOG) LOG_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==LEAVES) LEAVES_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==PLANKS) PLANKS_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==TORCH) TORCH_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==COBBLE) COBBLE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==BEDROCK) BEDROCK_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==DOOR_OPEN_TOP) DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==DOOR_OPEN_BOTTOM) DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY-32);
-				else if (world->blocks[i][j]==DOOR_CLOSED_TOP) DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==DOOR_CLOSED_BOTTOM) DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY-32);
-				else if (world->blocks[i][j]==GRAVEL) GRAVEL_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==SANDSTONE) SANDSTONE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==COAL_ORE) COAL_ORE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==IRON_ORE) IRON_ORE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==GOLD_ORE) GOLD_ORE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==DIAMOND_ORE) DIAMOND_ORE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==REDSTONE_ORE) REDSTONE_ORE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==LAPIS_ORE) LAPIS_ORE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==GLASS) GLASS_render(i*32-world->CamX,j*32-world->CamY);
-			    //Here Lapis-BLOCK
-				else if (world->blocks[i][j]==WOOL_WHITE) WOOL_WHITE_render(i*32-world->CamX,j*32-world->CamY);
-				else if (world->blocks[i][j]==PLACED_LEAF) LEAVES_render(i*32-world->CamX,j*32-world->CamY);
+				switch(world->blocks[i][j])
+				{
+					case STONE: STONE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case GRASS: GRASS_render(i*32-world->CamX,j*32-world->CamY); break;	
+					case DIRT: DIRT_render(i*32-world->CamX,j*32-world->CamY); break;
+					case SAND: SAND_render(i*32-world->CamX,j*32-world->CamY);	 break;
+					case WHITE_WOOD: WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
+					case DARK_WOOD: DARK_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
+					case PLACED_LOG_W: WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
+					case PLACED_LOG_D: DARK_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
+					case LOG: LOG_render(i*32-world->CamX,j*32-world->CamY); break;
+					case PLACED_LOG: LOG_render(i*32-world->CamX,j*32-world->CamY); break;
+					case LEAVES: LEAVES_render(i*32-world->CamX,j*32-world->CamY); break;
+					case PLANKS: PLANKS_render(i*32-world->CamX,j*32-world->CamY); break;
+					case TORCH: TORCH_render(i*32-world->CamX,j*32-world->CamY); break;
+					case COBBLE: COBBLE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case BEDROCK: BEDROCK_render(i*32-world->CamX,j*32-world->CamY); break;
+					case DOOR_OPEN_TOP: DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY); break;
+					case DOOR_OPEN_BOTTOM: DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY-32); break;
+					case DOOR_CLOSED_TOP: DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY); break;
+					case DOOR_CLOSED_BOTTOM: DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY-32); break;
+					case GRAVEL: GRAVEL_render(i*32-world->CamX,j*32-world->CamY); break;
+					case SANDSTONE: SANDSTONE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case COAL_ORE: COAL_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case IRON_ORE: IRON_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case GOLD_ORE: GOLD_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case DIAMOND_ORE: DIAMOND_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case REDSTONE_ORE: REDSTONE_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case LAPIS_ORE: LAPIS_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case GLASS: GLASS_render(i*32-world->CamX,j*32-world->CamY); break;
+				    //Here Lapis-BLOCK
+					case WOOL_WHITE: WOOL_WHITE_render(i*32-world->CamX,j*32-world->CamY); break;
+					case PLACED_LEAF: LEAVES_render(i*32-world->CamX,j*32-world->CamY); break;
+				}
 			}
 		}	
 	}
