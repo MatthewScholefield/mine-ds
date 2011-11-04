@@ -11,6 +11,7 @@
 #include "PlayerHurt.h"
 #include "PlayerHit.h"
 #include "sounds.h"
+#include "colision.h"
 #define INSIDE 0
 #define LEFT 1
 #define UNDER 2
@@ -19,16 +20,10 @@
 #define U_L 5
 #define U_R 6
 int framecount;
-u16* playerGraphics;
+u16* playerGraphics[3];
 bool top;
 #define gravity 1
-int spritecol(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
-	if ((fx + fSizex > sx )&& (fx < sx+sSizex) && (sy + sSizey > fy) && (sy < fy+fSizey)) 
-		return 1;
-	else 
-		return 0;
-	return 0;
-}
+
 int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2,playerActor* player){
 	if (spritecol(x1+11,y1,x2,y2,10,64,32,32)){
 		//A good square colision
@@ -113,7 +108,7 @@ void playerGravity(playerActor* player,worldObject* world){
 }
 void updateplayer(playerActor* player,worldObject* world){
 	//Scan the keys and move that minecraft guy, soon this will need the world values	
-	
+	player->framecount++;
 	if (keysHeld() & KEY_LEFT && player->person){
 		player->x-=2;
 		player->facing_left=true;
@@ -141,30 +136,43 @@ void updateplayer(playerActor* player,worldObject* world){
 	playerGravity(player,world);
 }
 void renderPlayer(playerActor* player,worldObject* world){
-	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics,player->facing_left,1);
+	if (player->frame!=0) player->frametime--;
+	if (player->frametime==0) player->frame=0;
+	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[player->frame],player->facing_left,1);
 }
 u16* playerGfx(){
-	return playerGraphics;
+	return playerGraphics[0];
 }
 void playerCreateGfx(){
 	//Copy the player graphics into memory
 	//Called by setupVideo();
-	playerGraphics=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
-	dmaCopy(PlayerRTiles,playerGraphics,PlayerRTilesLen);
+	playerGraphics[0]=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
+	dmaCopy(PlayerRTiles,playerGraphics[0],32*64);
+	u8* Tiles=(u8*)&PlayerRTiles;
+	Tiles+=32*64;
+	playerGraphics[1]=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
+	dmaCopy(Tiles,playerGraphics[1],32*64);	
+	Tiles+=32*64;
+	playerGraphics[2]=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
+	dmaCopy(Tiles,playerGraphics[2],32*64);
+	
 }
-void test(){
-	playerGraphics=oamAllocateGfx(&oamMain,SpriteSize_32x64, SpriteColorFormat_256Color);
-    dmaCopy(PlayerHitTiles,playerGraphics,PlayerHitTilesLen);
-
+void PlayerPunch(playerActor* player){
+	if (player->frame==0){
+		player->frame=2;
+		player->frametime=15;
+	}
 }
 void playerFrame(){
 	framecount++;
 }
 void playerHurt(playerActor* player,int much,bool instant){
 	
-	if (framecount%60==0 || instant){
+	if (player->framecount%60==0 || instant){
 		player->health-=much;
 		playSound(HURT);
+		player->frame=1;
+		player->frametime=30;
 	}
 }
 

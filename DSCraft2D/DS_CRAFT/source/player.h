@@ -10,6 +10,8 @@ typedef struct{
 	int health;
 	bool facing_left;
 	int frame; //for punching (next release)
+	int frametime; //for punching (next release)
+	int framecount;
 	int blockx,blocky;
 	int respawn_x;
 	int playerseed; //For multiplayer
@@ -24,6 +26,5 @@ u16* playerGfx();
 void playerFrame();
 void playerCreateGfx();
 void playerHurt(playerActor* player,int much,bool instant);
-void test();
 #define player_h
 #endif

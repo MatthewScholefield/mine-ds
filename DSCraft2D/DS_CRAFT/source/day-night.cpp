@@ -1,5 +1,6 @@
 #include <nds.h>
 #include <stdio.h>
+#include "day-night.h"
 #include "ndsvideo.h" // Include the video functions (for setupVideo();)
 //#include "mainscreen.h" //image file (Just a test background, later the tiled BG)
 u8 theTile[64] = 
@@ -18,7 +19,7 @@ int r;
 int g;
 int b;
 bool up;
-int timeinworld;
+timeStruct timeinworld;
 /*void mainBGUpdate(){
 
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
@@ -47,24 +48,31 @@ void mainBGSetup(){
 	//create a map in map memory
 	for(i = 0; i < 32 * 32; i++)
 		mapMemory[i] = 0;
-	timeinworld=251;
+	timeinworld.ticks=251;
 }
 void mainBGUpdate(){
 	framecounter++;
 	if (framecounter%120==0){
-		timeinworld++;		
+		timeinworld.ticks++;		
 	}
-	if (timeinworld>50 && timeinworld<100)
+	if (timeinworld.ticks>50 && timeinworld.ticks<100)
 	{
 		g--;
+		if (timeinworld.ticks%2==1) r--;
 		BG_PALETTE[0]=RGB15(r,g,b);
-		if (g<219-25) timeinworld=101;
+		if (g<219-25) timeinworld.ticks=101;
 	}
-	if (timeinworld>200 && timeinworld<250)
+	if (timeinworld.ticks>200 && timeinworld.ticks<250)
 	{
 		g++;
+		if (timeinworld.ticks%2==1) r++;
 		BG_PALETTE[0]=RGB15(r,g,b);
-		if (g>219) timeinworld=251;
+		if (g>219) timeinworld.ticks=251;
 	}
-	if (timeinworld>350) timeinworld=0;
+	if (timeinworld.ticks>350) timeinworld.ticks=0;
 }
+timeStruct* timeGet(){
+	timeStruct* returner=&timeinworld;
+	return returner;
+}
+

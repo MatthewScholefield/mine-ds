@@ -5,50 +5,55 @@
 #include <stdio.h>
 int mobs_frame=0;
 int mobs_on_screen=0;
-monsterActor monsters[100];
-bool spawnMonster(playerActor* player){
+mobsStruct Mobs;
+
+bool spawnMonster(){
 	int i;
-	for (i=0;i<=99;i++){
-		if (monsters[i].alive==false){
-			monsters[i].alive=true;
-			monsters[i].monsterPlayer.person=false;
-			monsters[i].monsterPlayer.x=rand() % WORLD_WIDTHpx;
-			monsters[i].monsterPlayer.y=0;
-			monsters[i].monsterPlayer.health=5;
-			iprintf("Spawned mob at %d,%d\n",monsters[i].monsterPlayer.x,monsters[i].monsterPlayer.y);	
+	for (i=0;i<=49;i++){
+		if (Mobs.mobs[i].alive==false){
+			Mobs.mobs[i].alive=true;
+			Mobs.mobs[i].mobPlayer.person=false;
+			Mobs.mobs[i].mobPlayer.x=rand() % WORLD_WIDTHpx;
+			Mobs.mobs[i].mobPlayer.y=0;
+			Mobs.mobs[i].mobPlayer.health=5;
+			Mobs.mobs[i].data[0]=1;
+			iprintf("Spawned mob at %d,%d\n",Mobs.mobs[i].mobPlayer.x,Mobs.mobs[i].mobPlayer.y);	
 			return true;
 		}
 	}
 	iprintf("Failed to Spawn mob\n");
 	return false;
 }
-bool deSpawnMonster(playerActor* player){
+bool deSpawnMonster(){
 	int i;
-	for (i=0;i<=99;i++){
-		if (monsters[i].alive==true){
-			monsters[i].alive=false;
-			monsters[i].monsterPlayer.person=false;
-			iprintf("DeSpawned mob at %d,%d\n",monsters[i].monsterPlayer.x,monsters[i].monsterPlayer.y);	
+	for (i=0;i<=49;i++){
+		if (Mobs.mobs[i].alive==true && !(Mobs.mobs[i].type==1 && Mobs.mobs[i].data[0]==0)){
+			Mobs.mobs[i].alive=false;
+			Mobs.mobs[i].mobPlayer.person=false;
+			iprintf("DeSpawned mob at %d,%d\n",Mobs.mobs[i].mobPlayer.x,Mobs.mobs[i].mobPlayer.y);	
 			return true;
 		}
 	}
 	iprintf("Failed to DeSpawn mob\n");
 	return false;
 }
-void mobUpdate(worldObject* world,playerActor* player){
+void mobUpdate(worldObject* world){
 	mobs_frame++;
-	//if (mobs_frame% 600==0 ) spawnMonster(player);
 	if (keysDown() & KEY_SELECT){
-		if (!spawnMonster(player)) iprintf("Failed to spawn a mob\n");
+		if (!spawnMonster()) iprintf("Failed to spawn a mob\n");
 	}if (keysDown() & KEY_B){
-		if (!deSpawnMonster(player)) iprintf("Failed to spawn a mob\n");
+		if (!deSpawnMonster()) iprintf("Failed to spawn a mob\n");
 	}
 	int i;
-	for(i=0;i<=100;i++){
-		if (monsters[i].alive) monsterUpdate(&monsters[i],world,player);
+	for(i=0;i<=49;i++){
+		if (Mobs.mobs[i].alive) monsterUpdate(&Mobs.mobs[i],world,&Mobs.mobs[0].mobPlayer);
 	}
 }
-void mobSetup(){
+playerActor* mobSetup(){
 	int i;
-	for(i=0;i<=100;i++) monsters[i].alive=false;
+	for(i=0;i<=49;i++) Mobs.mobs[i].alive=false;
+	Mobs.mobs[0].alive=true;
+	Mobs.mobs[0].type=1;
+	Mobs.mobs[0].data[0]=0;
+	return &Mobs.mobs[0].mobPlayer;
 }
