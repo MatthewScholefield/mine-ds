@@ -4,15 +4,16 @@
 #include "block.h" //Include the block graphics
 #include "PlayerR.h" //Include the player graphics
 #include "player.h" //Include the player functions
-#include "PlayerHit.h"
 #include "sprcount.h" //Include the sprite ID counter
 #include "done.h"
+#include "mining.h"
+#include "world.h"
 void setupVideo(){
 	//Set Modes and Banks
 	videoSetMode(MODE_5_2D| DISPLAY_BG0_ACTIVE);
 	videoSetModeSub(MODE_5_2D);
-	vramSetBankA(VRAM_A_MAIN_SPRITE);
-	vramSetBankB(VRAM_B_MAIN_SPRITE);
+	vramSetBankA(VRAM_A_MAIN_SPRITE_0x06400000);
+	vramSetBankB(VRAM_B_MAIN_SPRITE_0x06420000);
   	vramSetBankC(VRAM_C_SUB_BG_0x06200000);
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 	vramSetBankG(VRAM_G_MAIN_BG_0x06000000); //Later a smaller one because the tiled BG doesnt need 64 KB, you said? //Great, execpt you can not fit 96KB in a 64KB space :)
@@ -22,14 +23,16 @@ void setupVideo(){
 	dmaCopy(PlayerRPal,VRAM_F_EXT_SPR_PALETTE[1],PlayerRPalLen);
 		
 	dmaCopy(donePal,VRAM_F_EXT_SPR_PALETTE[2],donePalLen);
-	
-	dmaCopy(PlayerHitPal,VRAM_F_EXT_SPR_PALETTE[3],donePalLen);
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites
 	oamInit(&oamMain,SpriteMapping_1D_32,true);
 	//Copy PlayerGraphics
 	playerCreateGfx();
+	swiWaitForVBlank();
+        doneSetup();
+	swiWaitForVBlank();
+	worldSetUp();
 }
 //These two functions make it easier to display stuff and gets rid of all the unrememberable stuff like SpriteColorFormat_256Color that we ALWAYS copy-paste.
 void createsprite32x64(int x,int y,u16* graphics,bool flipped,int palette){
