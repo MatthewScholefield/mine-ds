@@ -9,6 +9,7 @@
 #include "top-screen.h"
 #include "done.h"
 #include <stdio.h>
+#include "colision.h"
 touchPosition touch;
 u16* donegfx;
 int spritecol2(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
@@ -144,8 +145,8 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 			y+=CurrentWorld->CamY;
 			int i,j;
 			int lax,lay;
-			for(i=0;i<=WORLD_WIDTH;i++)
-				for(j=0;j<=WORLD_HEIGHT;j++)
+			for(i=MainPlayer->blockx-2;i<=MainPlayer->blockx+2;i++)
+				for(j=MainPlayer->blocky-2;j<=MainPlayer->blocky+2;j++)
 					if (spritecol2(x,y,i*32,j*32,1,1,32,32)){
 						lax=i;
 						lay=j;

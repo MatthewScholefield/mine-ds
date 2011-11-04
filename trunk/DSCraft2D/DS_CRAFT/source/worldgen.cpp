@@ -257,6 +257,7 @@ void generateWorld(worldObject* world){
 		else if (biometype==2) y2=sandbiome(world,x,y,endx);
 		x=endx;
 		y=y2;
+	swiWaitForVBlank();
 	}
 	modifyWorld(world);
 }

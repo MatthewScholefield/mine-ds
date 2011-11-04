@@ -3,31 +3,36 @@
 #include "../world.h"
 #include <stdio.h>
 int monsterFrames=0;
-void monsterUpdate(monsterActor* monster,worldObject* world,playerActor* player){
-	updateplayer(&monster->monsterPlayer,world);
-	if (!(monster->monsterPlayer.x < player->x-320 || monster->monsterPlayer.x > player->x+320)){
-		if (monster->monsterPlayer.onblock==true){
-			monster->frames_till_jump++;
-			if (monster->frames_till_jump%60==0){
-				monster->monsterPlayer.vy=-6;
-				monster->monsterPlayer.y-=1;
+#include "../colision.h"
+void monsterUpdate(mobActor* monster,worldObject* world,playerActor* player){
+	updateplayer(&monster->mobPlayer,world);
+	if (!(monster->mobPlayer.x < player->x-320 || monster->mobPlayer.x > player->x+320) && monster->data[0]==1){
+		if (monster->mobPlayer.onblock==true){
+			monster->data[1]++;
+			if (monster->data[1]%60==0){
+				monster->mobPlayer.vy=-6;
+				monster->mobPlayer.y-=1;
 			}
 		}
-		if (player->x > monster->monsterPlayer.x){
-			if (monster->monsterPlayer.onblock==false) monster->monsterPlayer.x+=1;
-			monster->monsterPlayer.x+=1;
-			monster->monsterPlayer.facing_left=false;
+		if (player->x > monster->mobPlayer.x){
+			if (monster->mobPlayer.onblock==false) monster->mobPlayer.x+=1;
+			monster->mobPlayer.x+=1;
+			monster->mobPlayer.facing_left=false;
 		}
-		else if (player->x < monster->monsterPlayer.x){		
-			if (monster->monsterPlayer.onblock==false) monster->monsterPlayer.x-=1;
-			monster->monsterPlayer.x-=1;
-			monster->monsterPlayer.facing_left=true;
+		else if (player->x < monster->mobPlayer.x){		
+			if (monster->mobPlayer.onblock==false) monster->mobPlayer.x-=1;
+			monster->mobPlayer.x-=1;
+			monster->mobPlayer.facing_left=true;
 		}
-		if (monster->monsterPlayer.health<0){
+		if (monster->mobPlayer.health<0){
 			monster->alive=false;
-			iprintf("Killed monster at %d,%d\n",monster->monsterPlayer.x,monster->monsterPlayer.y);
+			iprintf("Killed monster at %d,%d\n",monster->mobPlayer.x,monster->mobPlayer.y);
 		}
-		renderPlayer(&monster->monsterPlayer,world);
+		renderPlayer(&monster->mobPlayer,world);
+	}
+	else if (monster->data[0]==0){
+		//This is the PlayerMonster not the Mob Monster...
+                renderPlayer(player,world);	
 	}
 }
 
