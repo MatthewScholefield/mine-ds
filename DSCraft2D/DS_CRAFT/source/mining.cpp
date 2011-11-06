@@ -124,9 +124,10 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 				i=AIR;
 			}
 			subShowBlock(i);
+		}
+
 			swiWaitForVBlank();
 			oamUpdate(&oamSub);
-		}
 	
 	}
 	while(keysHeld() & KEY_TOUCH) scanKeys();

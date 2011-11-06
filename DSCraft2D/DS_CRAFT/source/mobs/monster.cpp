@@ -14,12 +14,12 @@ void monsterUpdate(mobActor* monster,worldObject* world,playerActor* player){
 				monster->mobPlayer.y-=1;
 			}
 		}
-		if (player->x > monster->mobPlayer.x){
+		if (player->x > monster->mobPlayer.x && monster->mobPlayer.frame==0){
 			if (monster->mobPlayer.onblock==false) monster->mobPlayer.x+=1;
 			monster->mobPlayer.x+=1;
 			monster->mobPlayer.facing_left=false;
 		}
-		else if (player->x < monster->mobPlayer.x){		
+		else if (player->x < monster->mobPlayer.x && monster->mobPlayer.frame==0){		
 			if (monster->mobPlayer.onblock==false) monster->mobPlayer.x-=1;
 			monster->mobPlayer.x-=1;
 			monster->mobPlayer.facing_left=true;
