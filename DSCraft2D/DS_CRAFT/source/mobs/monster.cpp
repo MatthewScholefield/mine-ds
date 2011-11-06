@@ -28,6 +28,9 @@ void monsterUpdate(mobActor* monster,worldObject* world,playerActor* player){
 			monster->alive=false;
 			iprintf("Killed monster at %d,%d\n",monster->mobPlayer.x,monster->mobPlayer.y);
 		}
+		if (spritecol(player->x,player->y,monster->mobPlayer.x,monster->mobPlayer.y,32,64,32,64)){
+			playerHurt(player,1,false);
+		}
 		renderPlayer(&monster->mobPlayer,world);
 	}
 	else if (monster->data[0]==0){

@@ -15,13 +15,13 @@
 #include "blockupdate.h"
 #include "saver.h"
 #include "gameover.h"
-
+#include "controls.h"
 #include "mob.h"
 int main(){
         int framecounte=0; //framecount
         setupVideo(); 
         lcdMainOnBottom();
-        scanKeys();
+	scanKeys();
         bool debug = false;
         if (keysDown() & KEY_START || keysHeld() & KEY_START) debug=true;
         playerActor* MainPlayer;
@@ -48,7 +48,7 @@ int main(){
         MainPlayer->health=10;
 	MainPlayer->person=true;
         while(1){
-                scanKeys();
+		controlsFrame();
                 framecounte++;
                 mainBGUpdate();
                 playerFrame();

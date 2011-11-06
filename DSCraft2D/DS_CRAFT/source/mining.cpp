@@ -10,7 +10,9 @@
 #include "done.h"
 #include <stdio.h>
 #include "colision.h"
-touchPosition touch;
+#include "controls.h"
+touchPosition mine_touch;
+int mine_frame;
 u16* donegfx;
 int spritecol2(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
 	if ((fx + fSizex > sx )&& (fx < sx+sSizex) && (sy + sSizey > fy) && (sy < fy+fSizey)) 
@@ -54,70 +56,70 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	while(fertig==false){
 		//38,32 //A reminder to myself	
 		scanKeys();
-		touchRead(&touch);
+		touchRead(&mine_touch);
 		if (keysDown() & KEY_TOUCH){
-			if (spritecol2(touch.px,touch.py,0,0,1,1,32,32)){
+			if (spritecol2(mine_touch.px,mine_touch.py,0,0,1,1,32,32)){
 				i=DIRT;
 			}
-			else if (spritecol2(touch.px,touch.py,32,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,32,0,1,1,32,32)){
 				i=STONE;
 			}
-			else if (spritecol2(touch.px,touch.py,64,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,64,0,1,1,32,32)){
 				i=COBBLE;
 			}
-			else if (spritecol2(touch.px,touch.py,96,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,96,0,1,1,32,32)){
 				i=WOOD;
 			}
-			else if (spritecol2(touch.px,touch.py,128,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,128,0,1,1,32,32)){
 				i=PLACED_LOG;
 			}
-			else if (spritecol2(touch.px,touch.py,160,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,160,0,1,1,32,32)){
 				i=TORCH;
 			}
-			else if (spritecol2(touch.px,touch.py,192,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,192,0,1,1,32,32)){
 				i=SAND;
 			}
-			else if (spritecol2(touch.px,touch.py,224,0,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,224,0,1,1,32,32)){
 				i=SANDSTONE;
 			}
-			else if (spritecol2(touch.px,touch.py,32,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,32,32,1,1,32,32)){
 				i=PLACED_LOG_D;
 			}
-			else if (spritecol2(touch.px,touch.py,64,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,64,32,1,1,32,32)){
 				i=PLACED_LOG_W;
 			}
-			else if (spritecol2(touch.px,touch.py,96,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,96,32,1,1,32,32)){
 				i=PLACED_LEAF;
 			}
-			else if (spritecol2(touch.px,touch.py,0,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,0,32,1,1,32,32)){
 				i=GRAVEL;
 			}
-			else if (spritecol2(touch.px,touch.py,128,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,128,32,1,1,32,32)){
 				i=COAL_ORE;
 			}			
-			else if (spritecol2(touch.px,touch.py,160,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,160,32,1,1,32,32)){
 				i=IRON_ORE;
 			}
-			else if (spritecol2(touch.px,touch.py,192,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,192,32,1,1,32,32)){
 				i=GOLD_ORE;
 			}
-			else if (spritecol2(touch.px,touch.py,224,32,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,224,32,1,1,32,32)){
 				i=REDSTONE_ORE;
 			}
-			else if (spritecol2(touch.px,touch.py,0,64,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,0,64,1,1,32,32)){
 				i=DIAMOND_ORE;
 			}
-			else if (spritecol2(touch.px,touch.py,32,64,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,32,64,1,1,32,32)){
 				i=LAPIS_ORE;
 			}
-			else if (spritecol2(touch.px,touch.py,64,64,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,64,64,1,1,32,32)){
 				i=GLASS;
 			}
 			//Here Lapis-Block
-			else if (spritecol2(touch.px,touch.py,128,64,1,1,32,32)){
+			else if (spritecol2(mine_touch.px,mine_touch.py,128,64,1,1,32,32)){
 				i=WOOL_WHITE;
 			}
-			else if (spritecol2(touch.px,touch.py,256/2-32,192-32,1,1,64,32)) fertig=true;
+			else if (spritecol2(mine_touch.px,mine_touch.py,256/2-32,192-32,1,1,64,32)) fertig=true;
 			else {
 				i=AIR;
 			}
@@ -138,21 +140,24 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
            		CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
 		}
 		if (keysHeld() & KEY_TOUCH){
-			touchRead(&touch);
-			int x=touch.px;
-			int y=touch.py;
+			mine_frame++;
+			mine_touch=controlsTouch();
+			int x=mine_touch.px;
+			int y=mine_touch.py;
 			x+= CurrentWorld->CamX;
 			y+=CurrentWorld->CamY;
 			int i,j;
 			int lax,lay;
-			for(i=MainPlayer->blockx-2;i<=MainPlayer->blockx+2;i++)
-				for(j=MainPlayer->blocky-2;j<=MainPlayer->blocky+2;j++)
+			MainPlayer->facing_left=x<MainPlayer->x;
+			for(i=MainPlayer->blockx-4;i<=MainPlayer->blockx+4;i++)
+				for(j=MainPlayer->blocky-4;j<=MainPlayer->blocky+4;j++)
 					if (spritecol2(x,y,i*32,j*32,1,1,32,32)){
 						lax=i;
 						lay=j;
 						j=WORLD_HEIGHT+2;
 						i=WORLD_WIDTH+2;
 					}
+			if (CurrentWorld->blocks[lax][lay]!=AIR) PlayerPunch(MainPlayer);
         		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && (lax!=MainPlayer->blockx || (lay!=MainPlayer->blocky && lay!=MainPlayer->blocky-1))) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
 			//the lax!=MainPlayer->**** stuff makes your your not placing a block inside the player
 		}
