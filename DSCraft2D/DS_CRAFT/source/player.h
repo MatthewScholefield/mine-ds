@@ -19,7 +19,8 @@ typedef struct{
 	bool oldtop;
 	bool person; //A mob can use the player's function's for gravity and stuff, I added this so that if a mob wants to use the players gravity functions it sets this to false.
 }playerActor;
-//Function definations 
+//Function definations
+void PlayerPunch(playerActor* player); 
 void updateplayer(playerActor* player,worldObject* world);
 void renderPlayer(playerActor* player,worldObject* world);
 u16* playerGfx();

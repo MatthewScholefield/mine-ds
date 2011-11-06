@@ -6,3 +6,4 @@ typedef struct time{
 	int ticks;
 }timeStruct;
 timeStruct* timeGet();
+void timeSet(timeStruct* time);
