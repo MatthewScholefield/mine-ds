@@ -19,7 +19,8 @@ int r;
 int g;
 int b;
 bool up;
-timeStruct timeinworld;
+timeStruct timeinworld2;
+int timeinworld;
 /*void mainBGUpdate(){
 
 	setupVideo(); //Setup all the video we need (in ndsvideo.h/cpp)
@@ -48,36 +49,43 @@ void mainBGSetup(){
 	//create a map in map memory
 	for(i = 0; i < 32 * 32; i++)
 		mapMemory[i] = 0;
-	timeinworld.ticks=251;
+	timeinworld2.ticks=251;
+	timeinworld=251;
 }
 void mainBGUpdate(){
-	framecounter++;
-	if (framecounter%100==0){
-		timeinworld.ticks++;
-		if (timeinworld.ticks>50 && timeinworld.ticks<100)
-		{
-			g--;
-			if (timeinworld.ticks%2==1) r--;
-			if (timeinworld.ticks%3==1) b--;
-			BG_PALETTE[0]=RGB15(r,g,b);
-			if (g<219-25) timeinworld.ticks=101;
-		}
-		if (timeinworld.ticks>200 && timeinworld.ticks<250)
-		{
-			g++;
-			if (timeinworld.ticks%2==1) r++;
-			if (timeinworld.ticks%3==1) b++;
-			BG_PALETTE[0]=RGB15(r,g,b);
-			if (g>219) timeinworld.ticks=251;
-		}
-		if (timeinworld.ticks>350) timeinworld.ticks-=350;	
-	}
-
+        framecounter++;
+        if (framecounter%120==0){
+                timeinworld++;          
+        }
+        if (timeinworld>50 && timeinworld<100)
+        {
+                g--;
+                BG_PALETTE[0]=RGB15(r,g,b);
+                if (g<219-25) timeinworld=101;
+        }
+        if (timeinworld>200 && timeinworld<250)
+        {
+                g++;
+                BG_PALETTE[0]=RGB15(r,g,b);
+                if (g>219) timeinworld=251;
+        }
+        if (timeinworld>350) timeinworld=0;
 }
+
+
 timeStruct* timeGet(){
-	timeStruct* returner=&timeinworld;
+	timeinworld2.ticks=timeinworld;
+	timeStruct* returner=&timeinworld2;
 	return returner;
 }
-void timeSet(timeStruct* time){
-	timeinworld.ticks=time->ticks;
+void timeSet(int time){
+	timeinworld=0;
+	int i;	
+	r=0;
+	g=0;
+	b=0;
+	for(i=0;i<=time;i++)
+	{
+		mainBGUpdate(); //Updates the BG time times
+	}
 }

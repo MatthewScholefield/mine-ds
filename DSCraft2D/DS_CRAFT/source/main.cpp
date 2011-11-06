@@ -30,11 +30,12 @@ int main(){
         srand(time(NULL));
         if (debug) consoleDemoInit();
         generateWorld(CurrentWorld);
-        saveInit();
         CurrentWorld->ChoosedBlock = 255;
         CurrentWorld->DELmode = false;
         mainBGSetup();
         if (!debug) subBGSetup();
+
+        saveInit();
         //Place the player on the first "non grass" block
         int i;
         for (i=0;i<=WORLD_HEIGHT;i++)
@@ -48,12 +49,11 @@ int main(){
         MainPlayer->health=10;
 	MainPlayer->person=true;
         while(1){
+                saveUpdate(CurrentWorld,MainPlayer);
 		controlsFrame();
                 framecounte++;
                 mainBGUpdate();
                 playerFrame();
-                saveUpdate(CurrentWorld,MainPlayer);
-
                 if (!debug) subLifes(MainPlayer->health);
                 if (!debug) subShowBlock(CurrentWorld->ChoosedBlock);
 

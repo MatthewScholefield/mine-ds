@@ -5,22 +5,32 @@
 #include "world.h"
 #include "top-screen.h"
 #include "block.h"
+#include "load.h"
+#include "numbers.h"
+#include "save.h"
+#include "blank.h"
+#include "world_img.h"
 #include <stdio.h>
 #include "h1.h" //Include Heart graphics 
 #include "subscreen2.h" //image file
 int oldblock=0;
 u16* gfx;
 u16* heartgfx;
+int bg;
 void subBGSetup(){ //Its a setup function, not a update function :P
-        oamInit(&oamSub, SpriteMapping_1D_32, true);
+        oamInit(&oamSub, SpriteMapping_1D_128, true);
         vramSetBankD(VRAM_D_SUB_SPRITE);
         vramSetBankI(VRAM_I_LCD);
         gfx = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color);
         heartgfx = oamAllocateGfx(&oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
-        int bg = bgInitSub(3, BgType_Bmp16, BgSize_B16_256x256, 0,0);
+        bg = bgInitSub(3, BgType_Bmp16, BgSize_B16_256x256, 0,0);
         dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), subscreen2BitmapLen);
         dmaCopy(blockPal,VRAM_I_EXT_SPR_PALETTE[0],blockPalLen);
         dmaCopy(h1Pal,VRAM_I_EXT_SPR_PALETTE[1],h1PalLen);
+        dmaCopy(world_imgPal,VRAM_I_EXT_SPR_PALETTE[2],world_imgPalLen);
+        dmaCopy(numbersPal,VRAM_I_EXT_SPR_PALETTE[3],numbersPalLen);
+        dmaCopy(loadPal,VRAM_I_EXT_SPR_PALETTE[4],loadPalLen);
+        dmaCopy(savePal,VRAM_I_EXT_SPR_PALETTE[5],savePalLen);
         char* h1gfx;//Copy the graphics into memory
         h1gfx=(char*)h1Tiles;
         dmaCopy(h1gfx,heartgfx,8*8);
@@ -189,4 +199,11 @@ void subShowBlock(int block){
         }
 
 }
-        
+void blankTopScreen(){
+        dmaCopy(blankBitmap, bgGetGfxPtr(bg), blankBitmapLen);
+	subLifes(-1);
+	subShowBlock(AIR);
+}
+void unBlankTopScreen(){
+        dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), subscreen2BitmapLen);
+}
