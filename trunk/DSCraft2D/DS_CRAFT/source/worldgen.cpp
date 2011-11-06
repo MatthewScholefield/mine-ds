@@ -29,6 +29,7 @@ void fixgrass(worldObject* world){
 				j=WORLD_HEIGHT+1;			    //Exit this X
 			}
 		}
+	swiWaitForVBlank();
 }
 void rockwall(worldObject* world,int x,int y){
 	int i;
@@ -52,6 +53,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
+	swiWaitForVBlank();
 	y=IRON_START;
 	id=IRON_ORE;
 	rareness=IRON_RARENESS*2;
@@ -66,6 +68,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
+	swiWaitForVBlank();
 	y=GOLD_START;
 	id=GOLD_ORE;
 	rareness=GOLD_RARENESS;
@@ -80,6 +83,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
+	swiWaitForVBlank();
 	y=REDSTONE_START;
 	id=REDSTONE_ORE;
 	rareness=REDSTONE_RARENESS*2;
@@ -94,6 +98,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
+	swiWaitForVBlank();
 	y=DIAMOND_START;
 	id=DIAMOND_ORE;
 	rareness=DIAMOND_RARENESS*2;
@@ -167,24 +172,28 @@ void addrock(worldObject* world){
 				j=WORLD_HEIGHT+1;  			   //And Exit this X
 			}
 		}
+
+	swiWaitForVBlank();
 }
 void addTrees(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i+=rand() % 5+5)
 		for (j=0;j<=WORLD_HEIGHT;j++)
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
-
+	swiWaitForVBlank();
 }
 void modifyWorld(worldObject* world){
 
 	addrock(world);
 	addore(world);
+	swiWaitForVBlank();
 	int x;
 	fixgrass(world);
 	addTrees(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
+	swiWaitForVBlank();
 }
 int mountainbiome(worldObject* world,int startx,int starty,int endx){
 	int y=starty;
@@ -211,6 +220,7 @@ int flatbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=rand() % 5+2;
+			swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
 		changey--;
@@ -230,6 +240,7 @@ int sandbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=4+rand() % 2;
+			swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SAND;
 		changey--;

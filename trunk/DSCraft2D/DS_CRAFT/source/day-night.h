@@ -4,6 +4,9 @@ void mainBGUpdate();
 void mainBGSetup();
 typedef struct time{
 	int ticks;
+	int r;
+	int g;
+	int b;
 }timeStruct;
 timeStruct* timeGet();
-void timeSet(timeStruct* time);
+void timeSet(int time);

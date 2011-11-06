@@ -5,6 +5,7 @@
 #include "colision.h" 
 #include "controls.h"
 #include "day-night.h"
+#include <fat.h>
 #include <stdio.h>
 #include <nds.h>
 int mobs_frame=0;
@@ -45,10 +46,16 @@ bool deSpawnMonster(){
 	iprintf("Failed to DeSpawn mob\n");
 	return false;
 }
+void mobsSave(FILE* save_file){
+	fwrite(&Mobs, 1, sizeof(Mobs), save_file);
+}
+void mobsLoad(FILE* save_file){
+	fread(&Mobs, 1, sizeof(Mobs), save_file);
+}
 void mobUpdate(worldObject* world){
 	mobs_frame++;
 	mob_time=timeGet();
-	if (mob_time->ticks>100 && mob_time->ticks<250){
+        if (mob_time->ticks>100 && mob_time->ticks<250){
 		//It is night time
 		if (mobs_frame%1500==0) spawnMonster();
 	}
