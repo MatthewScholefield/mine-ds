@@ -25,7 +25,7 @@ bool top;
 #define gravity 1
 
 int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,int x2,int y2,playerActor* player){
-	if (spritecol(x1+11,y1,x2,y2,10,64,32,32)){
+	if (spritecol(x1+11,y1+6,x2,y2,10,58,32,32)){
 		//A good square colision
 			if (blockx1==blockx2 && blocky1 == blocky2){
 				return INSIDE;
@@ -108,7 +108,7 @@ void playerGravity(playerActor* player,worldObject* world){
 }
 void updateplayer(playerActor* player,worldObject* world){
 	//Scan the keys and move that minecraft guy, soon this will need the world values	
-	player->framecount++;
+	if (player->framecount!=0) player->framecount--;
 	if (keysHeld() & KEY_LEFT && player->person){
 		player->x-=2;
 		player->facing_left=true;
@@ -138,7 +138,8 @@ void updateplayer(playerActor* player,worldObject* world){
 void renderPlayer(playerActor* player,worldObject* world){
 	if (player->frame!=0) player->frametime--;
 	if (player->frametime==0) player->frame=0;
-	createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[player->frame],player->facing_left,1);
+	if (!(player->frame==2 && player->frametime>15)) createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[player->frame],player->facing_left,1); 
+	else createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[0],player->facing_left,1); 
 }
 u16* playerGfx(){
 	return playerGraphics[0];
@@ -160,7 +161,7 @@ void playerCreateGfx(){
 void PlayerPunch(playerActor* player){
 	if (player->frame==0){
 		player->frame=2;
-		player->frametime=15;
+		player->frametime=30;
 	}
 }
 void playerFrame(){
@@ -168,11 +169,12 @@ void playerFrame(){
 }
 void playerHurt(playerActor* player,int much,bool instant){
 	
-	if (player->framecount%60==0 || instant){
+	if (player->framecount==0 || instant){
 		player->health-=much;
 		playSound(HURT);
 		player->frame=1;
 		player->frametime=30;
+		player->framecount=60;
 	}
 }
 

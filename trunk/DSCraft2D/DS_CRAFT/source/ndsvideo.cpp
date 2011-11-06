@@ -12,6 +12,7 @@ void setupVideo(){
 	//Set Modes and Banks
 	videoSetMode(MODE_5_2D| DISPLAY_BG0_ACTIVE);
 	videoSetModeSub(MODE_5_2D);
+//	vramSetMainBanks(VRAM_A_MAIN_SPRITE_0x06400000,VRAM_B_MAIN_SPRITE_0x06420000,VRAM_C_SUB_BG_0x06200000,VRAM_D_SUB_SPRITE);
 	vramSetBankA(VRAM_A_MAIN_SPRITE_0x06400000);
 	vramSetBankB(VRAM_B_MAIN_SPRITE_0x06420000);
   	vramSetBankC(VRAM_C_SUB_BG_0x06200000);
@@ -26,7 +27,7 @@ void setupVideo(){
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites
-	oamInit(&oamMain,SpriteMapping_1D_32,true);
+	oamInit(&oamMain,SpriteMapping_1D_128,true);
 	//Copy PlayerGraphics
 	playerCreateGfx();
 	swiWaitForVBlank();
