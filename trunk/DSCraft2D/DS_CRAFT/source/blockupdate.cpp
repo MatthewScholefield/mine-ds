@@ -1,5 +1,4 @@
 #include "player.h"
-#include "structures.h"
 #include "world.h"
 #include "allblocks.h"
 #include "blockID.h"
