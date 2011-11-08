@@ -17,12 +17,15 @@ bool spawnMonster(){
 	int i;
 	for (i=0;i<=49;i++){
 		if (Mobs.mobs[i].alive==false){
-			setpos:
 			Mobs.mobs[i].mobPlayer.x=Mobs.mobs[0].mobPlayer.x-(rand() % 1536)+768;
-			if (Mobs.mobs[i].mobPlayer.x>Mobs.mobs[0].mobPlayer.x-64 && Mobs.mobs[i].mobPlayer.x>Mobs.mobs[0].mobPlayer.x+64) goto setpos;
+			if (rand()%2){
+				Mobs.mobs[i].mobPlayer.x=Mobs.mobs[0].mobPlayer.x-rand()%768-96;
+			}
+			else{
+				Mobs.mobs[i].mobPlayer.x=Mobs.mobs[0].mobPlayer.x+rand()%768+96;
+			}
 			Mobs.mobs[i].alive=true;
 			Mobs.mobs[i].mobPlayer.person=false;
-
 			Mobs.mobs[i].mobPlayer.y=0;
 			Mobs.mobs[i].mobPlayer.health=5;
 			Mobs.mobs[i].data[0]=1;
@@ -57,10 +60,10 @@ void mobUpdate(worldObject* world){
 	mob_time=timeGet();
         if (mob_time->ticks>100 && mob_time->ticks<250){
 		//It is night time
-		if (mobs_frame%1500==0) spawnMonster();
+		if (mobs_frame%750==0) spawnMonster();
 	}
-	if (keysDown() & KEY_SELECT){
-	//	if (!spawnMonster()) iprintf("Failed to spawn a mob\n");
+	if (keysDown() & KEY_B){
+		if (!spawnMonster()) iprintf("Failed to spawn a mob\n");
 	}if (keysDown() & KEY_B){
 	//	if (!deSpawnMonster()) iprintf("Failed to spawn a mob\n");
 	}
@@ -89,5 +92,6 @@ playerActor* mobSetup(){
 	Mobs.mobs[0].alive=true;
 	Mobs.mobs[0].type=1;
 	Mobs.mobs[0].data[0]=0;
+	Mobs.mobs[0].mobPlayer.height=2;
 	return &Mobs.mobs[0].mobPlayer;
 }

@@ -34,7 +34,7 @@ int main(){
         CurrentWorld->DELmode = false;
         mainBGSetup();
         if (!debug) subBGSetup();
-
+	MainPlayer->height=2;
         saveInit();
         //Place the player on the first "non grass" block
         int i;
@@ -43,6 +43,7 @@ int main(){
                 {
                         MainPlayer->y=i*32-64;
                         MainPlayer->x=WORLD_WIDTHpx/2;
+			if (CurrentWorld->blocks[WORLD_WIDTH/2][i]==CATUS) MainPlayer->x+=32;
                         i=WORLD_HEIGHT+1;
                 }
 

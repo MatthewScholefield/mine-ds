@@ -52,7 +52,7 @@ int colisionAdv(int blockx1,int blocky1,int blockx2,int blocky2,int x1,int y1,in
 			if (blockx1-1==blockx2 && blocky1-1 == blocky2){
 				return LEFT;
 			}
-			if (blockx1==blockx2 && blocky1-1 == blocky2){
+			if (blockx1==blockx2 && blocky1-(player->height-1) == blocky2){
 				return UP;
 			}
 	}	
@@ -93,6 +93,7 @@ void playerGravity(playerActor* player,worldObject* world){
 				case LAPIS_ORE: LAPIS_ORE_colision(player,world,x,y,result); break;
 				case GLASS: GLASS_colision(player,world,x,y,result); break;
 				case BEDROCK: BEDROCK_colision(player,world,x,y,result); break;
+				case CATUS: CATUS_colision(player,world,x,y,result); break;
 				//Here Lapis-BLOCK 
 				case WOOL_WHITE: WOOL_WHITE_colision(player,world,x,y,result);  break;
 				}
@@ -109,11 +110,11 @@ void playerGravity(playerActor* player,worldObject* world){
 void updateplayer(playerActor* player,worldObject* world){
 	//Scan the keys and move that minecraft guy, soon this will need the world values	
 	if (player->framecount!=0) player->framecount--;
-	if (keysHeld() & KEY_LEFT && player->person && player->frame!=1){
+	if (keysHeld() & KEY_LEFT && player->person){
 		player->x-=2;
 		player->facing_left=true;
 	}
-	else if (keysHeld() & KEY_RIGHT && player->person && player->frame!=1){
+	else if (keysHeld() & KEY_RIGHT && player->person){
 		player->x+=2;
 		player->facing_left=false;
 	}
@@ -138,7 +139,7 @@ void updateplayer(playerActor* player,worldObject* world){
 void renderPlayer(playerActor* player,worldObject* world){
 	if (player->frame!=0) player->frametime--;
 	if (player->frametime==0) player->frame=0;
-	if (!(player->frame==2 && player->frametime>15)) createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[player->frame],player->facing_left,1); 
+	if (!(player->frame==2 && player->frametime>7)) createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[player->frame],player->facing_left,1); 
 	else createsprite32x64(player->x-world->CamX,player->y-world->CamY,playerGraphics[0],player->facing_left,1); 
 }
 u16* playerGfx(){
@@ -172,7 +173,7 @@ void playerHurt(playerActor* player,int much,bool instant){
 	if (player->framecount==0 || instant){
 		player->health-=much;
 		playSound(HURT);
-		player->vy=-3;
+		player->vy=-4;
 		player->y-=1;
 		player->frame=1;
 		player->frametime=30;
