@@ -175,11 +175,21 @@ void addrock(worldObject* world){
 
 	swiWaitForVBlank();
 }
+void addCatus(worldObject* world,int x,int y){
+	int height=rand() %1+1;
+	int i;
+	for (i=0;i<=height;i++){
+		y--;
+		world->blocks[x][y]=CATUS;
+	}
+}
 void addTrees(worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i+=rand() % 5+5)
-		for (j=0;j<=WORLD_HEIGHT;j++)
+		for (j=0;j<=WORLD_HEIGHT;j++){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
+			else if (world->blocks[i][j]==SAND) addCatus(world,i,j);		
+		}
 	swiWaitForVBlank();
 }
 void modifyWorld(worldObject* world){
@@ -194,6 +204,7 @@ void modifyWorld(worldObject* world){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
 	swiWaitForVBlank();
+	world->version=1;
 }
 int mountainbiome(worldObject* world,int startx,int starty,int endx){
 	int y=starty;
@@ -263,6 +274,7 @@ void generateWorld(worldObject* world){
 		endx=x+sizex;
 		if (endx>WORLD_WIDTH) endx=WORLD_WIDTH;
 		biometype=rand() %3;
+		//biometype=1; //testing stuff
 		if (biometype==0) y2=mountainbiome(world,x,y,endx);
 		else if (biometype==1) y2=flatbiome(world,x,y,endx);
 		else if (biometype==2) y2=sandbiome(world,x,y,endx);

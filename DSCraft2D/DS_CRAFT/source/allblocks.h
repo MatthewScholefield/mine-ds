@@ -23,3 +23,4 @@
 #include "blocks/glass.h"
 //here Lapis-Block
 #include "blocks/wool_white.h"
+#include "blocks/catus.h"

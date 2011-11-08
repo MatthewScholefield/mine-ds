@@ -9,11 +9,12 @@ typedef struct{
 	int sx,sy;
 	int health;
 	bool facing_left;
-	int frame; //for punching (next release)
-	int frametime; //for punching (next release)
+	int frame; //for punching 
+	int frametime; //for punching 
 	int framecount;
 	int blockx,blocky;
 	int respawn_x;
+	int height; //For mobs
 	int playerseed; //For multiplayer
 	bool onblock;
 	bool oldtop;
