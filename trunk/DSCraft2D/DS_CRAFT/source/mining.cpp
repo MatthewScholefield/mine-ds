@@ -49,6 +49,7 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	DIAMOND_ORE_render(0,64);
 	LAPIS_ORE_render(32,64);
 	GLASS_render(64,64);
+	CATUS_render(96,64);
 	//Here Lapis-BLOCK
 	WOOL_WHITE_render(128,64);
 	oamSet(&oamMain,nextSprite(),256/2-32,192-32,0,2,SpriteSize_64x32,SpriteColorFormat_256Color,donegfx,-1,false,false,false,false,false); 
@@ -115,6 +116,9 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 			else if (spritecol2(mine_touch.px,mine_touch.py,64,64,1,1,32,32)){
 				i=GLASS;
 			}
+			else if (spritecol2(mine_touch.px,mine_touch.py,96,64,1,1,32,32)){
+				i=CATUS;
+			}
 			//Here Lapis-Block
 			else if (spritecol2(mine_touch.px,mine_touch.py,128,64,1,1,32,32)){
 				i=WOOL_WHITE;
@@ -159,7 +163,9 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						i=WORLD_WIDTH+2;
 					}
 			if (CurrentWorld->blocks[lax][lay]!=AIR) PlayerPunch(MainPlayer);
-        		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && (lax!=MainPlayer->blockx || (lay!=MainPlayer->blocky && lay!=MainPlayer->blocky-1))) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+        		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && (lax!=MainPlayer->blockx || (lay!=MainPlayer->blocky && lay!=MainPlayer->blocky-1))){
+				if ((lax==MainPlayer->blockx && lay==MainPlayer->blocky+1&& CurrentWorld->blocks[lax][lay-1]==AIR && CurrentWorld->blocks[lax][lay-2]==AIR) || lax!=MainPlayer->blockx || lay<MainPlayer->blocky) if (mine_frame % 15==0)CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+			}
 			//the lax!=MainPlayer->**** stuff makes your your not placing a block inside the player
 		}
 }

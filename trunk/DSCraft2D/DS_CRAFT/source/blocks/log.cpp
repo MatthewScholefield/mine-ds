@@ -52,6 +52,6 @@ void LOG_colision(playerActor* player,worldObject* world,int bx,int by,int resul
 	if (result==4){
 		//colision upwards
 		player->vy=0;
-		player->y+=2;	
+		player->y=by*32+33;
 	}
 }

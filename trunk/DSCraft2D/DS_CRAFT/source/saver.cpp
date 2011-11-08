@@ -90,7 +90,8 @@ void saveMenu(worldObject* world,playerActor* player){
 	swiWaitForVBlank();
 	oamUpdate(&oamSub);
 	int count;
-	for (count=0;count<=60;count++) swiWaitForVBlank();
+	if( world->version!=1) saveMenu(world,player);
+	else for (count=0;count<=60;count++) swiWaitForVBlank();
 }
 void saveUpdate(worldObject* world,playerActor* player){
 
@@ -99,6 +100,7 @@ void saveUpdate(worldObject* world,playerActor* player){
 		saveMenu(world,player);
         }
 	else if (controlsKeysH() & KEY_SELECT){
+		lcdSwap();
 		generateWorld(world);
 		int i;
 		for (i=0;i<=WORLD_HEIGHT;i++)
@@ -106,12 +108,14 @@ void saveUpdate(worldObject* world,playerActor* player){
                 {
                         player->y=i*32-64;
                         player->x=WORLD_WIDTHpx/2;
+			if (world->blocks[WORLD_WIDTH/2][i]==CATUS) player->x+=32;
                         i=WORLD_HEIGHT+1;
                 }
 		mobSetup();
 		timeStruct time;
 		time.ticks=0;
 		timeSet(time.ticks);
+		lcdSwap();
 	}
 }
 void saveInit(){

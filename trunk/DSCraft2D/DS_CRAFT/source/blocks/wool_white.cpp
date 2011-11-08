@@ -21,20 +21,16 @@ void WOOL_WHITE_colision(playerActor* player,worldObject* world,int bx,int by,in
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
-		playerHurt(player,1,false);
 	}
 	if (result==3){//player colides on right
 	player->x-=2; //Move him back one so he is not coliding anymore :)
-		playerHurt(player,1,false);
 	}
 	if (result==1){//colides on left
 	player->x+=2;
-		playerHurt(player,1,false);
 	}
 	if (result==4){
-	//colision upwards
-	player->vy=0;
-	player->y+=2;
-		playerHurt(player,1,false);
+		//colision upwards
+		player->vy=0;
+		player->y=by*32+33;
 	}	
 } 

@@ -12,6 +12,7 @@ typedef struct{
 	bool DELmode;
 	int CamY;
 	int CamX;
+	int version; //To keep track of the world version number
 }worldObject;
 void worldUpdate(worldObject* world,void* player2);
 void worldSetUp();
