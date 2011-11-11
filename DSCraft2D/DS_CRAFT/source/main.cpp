@@ -43,7 +43,7 @@ int main(){
                 {
                         MainPlayer->y=i*32-64;
                         MainPlayer->x=WORLD_WIDTHpx/2;
-			if (CurrentWorld->blocks[WORLD_WIDTH/2][i]==CATUS) MainPlayer->x+=32;
+			if (CurrentWorld->blocks[WORLD_WIDTH/2][i]==CACTUS) MainPlayer->x+=32;
                         i=WORLD_HEIGHT+1;
                 }
 
@@ -57,11 +57,10 @@ int main(){
                 playerFrame();
                 if (!debug) subLifes(MainPlayer->health);
                 if (!debug) subShowBlock(CurrentWorld->ChoosedBlock);
-
                 miningUpdate(CurrentWorld,MainPlayer);
+                updateBlocks(CurrentWorld,MainPlayer);
                 if (MainPlayer->health <= 0) gameover(CurrentWorld,MainPlayer);
                 mobUpdate(CurrentWorld); //The Player is updated as a mob.
-                updateBlocks(CurrentWorld,MainPlayer);
                 worldUpdate(CurrentWorld,(void*)MainPlayer);
                 //if (framecounte%240==0) fixgrass(CurrentWorld);
                 swiWaitForVBlank(); //Wait for a VBlank
