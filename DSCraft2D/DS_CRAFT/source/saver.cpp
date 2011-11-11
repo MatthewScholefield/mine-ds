@@ -108,7 +108,7 @@ void saveUpdate(worldObject* world,playerActor* player){
                 {
                         player->y=i*32-64;
                         player->x=WORLD_WIDTHpx/2;
-			if (world->blocks[WORLD_WIDTH/2][i]==CATUS) player->x+=32;
+			if (world->blocks[WORLD_WIDTH/2][i]==CACTUS) player->x+=32;
                         i=WORLD_HEIGHT+1;
                 }
 		mobSetup();

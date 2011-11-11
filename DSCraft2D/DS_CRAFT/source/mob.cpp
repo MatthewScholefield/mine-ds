@@ -63,7 +63,7 @@ void mobUpdate(worldObject* world){
 		if (mobs_frame%750==0) spawnMonster();
 	}
 	if (keysDown() & KEY_B){
-		if (!spawnMonster()) iprintf("Failed to spawn a mob\n");
+		//if (!spawnMonster()) iprintf("Failed to spawn a mob\n");
 	}if (keysDown() & KEY_B){
 	//	if (!deSpawnMonster()) iprintf("Failed to spawn a mob\n");
 	}

@@ -175,12 +175,12 @@ void addrock(worldObject* world){
 
 	swiWaitForVBlank();
 }
-void addCatus(worldObject* world,int x,int y){
+void addCACTUS(worldObject* world,int x,int y){
 	int height=rand() %1+1;
 	int i;
 	for (i=0;i<=height;i++){
 		y--;
-		world->blocks[x][y]=CATUS;
+		world->blocks[x][y]=CACTUS;
 	}
 }
 void addTrees(worldObject* world){
@@ -188,7 +188,7 @@ void addTrees(worldObject* world){
 	for (i=0;i<=WORLD_WIDTH;i+=rand() % 5+5)
 		for (j=0;j<=WORLD_HEIGHT;j++){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
-			else if (world->blocks[i][j]==SAND) addCatus(world,i,j);		
+			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);		
 		}
 	swiWaitForVBlank();
 }

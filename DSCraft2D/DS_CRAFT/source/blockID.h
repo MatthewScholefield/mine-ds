@@ -33,7 +33,7 @@
 #define LAPIS_ORE 23
 #define GLASS 24
 //Here Lapis-BLOCK
-#define CATUS 25 //:P
+#define CACTUS 25 //:P
 #define WOOL_WHITE 26
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252

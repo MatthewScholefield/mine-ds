@@ -93,7 +93,7 @@ void playerGravity(playerActor* player,worldObject* world){
 				case LAPIS_ORE: LAPIS_ORE_colision(player,world,x,y,result); break;
 				case GLASS: GLASS_colision(player,world,x,y,result); break;
 				case BEDROCK: BEDROCK_colision(player,world,x,y,result); break;
-				case CATUS: CATUS_colision(player,world,x,y,result); break;
+				case CACTUS: CACTUS_colision(player,world,x,y,result); break;
 				//Here Lapis-BLOCK 
 				case WOOL_WHITE: WOOL_WHITE_colision(player,world,x,y,result);  break;
 				}

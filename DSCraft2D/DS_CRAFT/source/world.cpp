@@ -40,7 +40,7 @@ void worldUpdate(worldObject* world,void* player2){
 					case REDSTONE_ORE: REDSTONE_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case LAPIS_ORE: LAPIS_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case GLASS: GLASS_render(i*32-world->CamX,j*32-world->CamY); break;
-					case CATUS: CATUS_render(i*32-world->CamX,j*32-world->CamY); break;
+					case CACTUS: CACTUS_render(i*32-world->CamX,j*32-world->CamY); break;
 				    //Here Lapis-BLOCK
 					case WOOL_WHITE: WOOL_WHITE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case PLACED_LEAF: LEAVES_render(i*32-world->CamX,j*32-world->CamY); break;
@@ -73,7 +73,7 @@ void worldSetUp(){
 	REDSTONE_ORE_setup();
 	LAPIS_ORE_setup();
 	GLASS_setup();
-	CATUS_setup();
+	CACTUS_setup();
 	//Here Lapis-BLOCK
 	WOOL_WHITE_setup();
 }
