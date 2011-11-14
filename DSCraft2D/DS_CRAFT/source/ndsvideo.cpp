@@ -8,6 +8,7 @@
 #include "done.h"
 #include "mining.h"
 #include "world.h"
+#include "pig.h"
 void setupVideo(){
 	//Set Modes and Banks
 	videoSetMode(MODE_5_2D| DISPLAY_BG0_ACTIVE);
@@ -24,6 +25,8 @@ void setupVideo(){
 	dmaCopy(PlayerRPal,VRAM_F_EXT_SPR_PALETTE[1],PlayerRPalLen);
 		
 	dmaCopy(donePal,VRAM_F_EXT_SPR_PALETTE[2],donePalLen);
+	
+    dmaCopy(pigPal,VRAM_F_EXT_SPR_PALETTE[3],pigPalLen);
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites
@@ -42,9 +45,17 @@ void createsprite32x64(int x,int y,u16* graphics,bool flipped,int palette){
 	if (y<192 && x<256 && x>(-32) && y>(-64)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_32x64,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
 	//nextSprite is a call in the sprcount.cpp that returns the next oamID number
 } 
+void createsprite64x32(int x,int y,u16* graphics,bool flipped,int palette){
+	if (y<192 && x<256 && x>(-64) && y>(-32)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_64x32,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
+	//nextSprite is a call in the sprcount.cpp that returns the next oamID number
+} 
 void createsprite32x32(int x,int y,u16* graphics,bool flipped,int palette){
 	if (y<192 && x<256 && x>(-32) && y>(-32)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_32x32,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
 }
 void createsprite8x8(int x,int y,u16* graphics,bool flipped,int palette){
 	if (y<192 && x<256 && x>(-8) && y>(-8)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_8x8,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
+}
+void createsprite64x32(int x,int y,u16* graphics,bool flipped,int palette){
+ if (y<192 && x<256 && x>(-64) && y>(-32)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_64x32,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
+ //nextSprite is a call in the sprcount.cpp that returns the next oamID number
 }

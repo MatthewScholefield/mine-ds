@@ -13,6 +13,9 @@ int mobs_on_screen=0;
 mobsStruct Mobs;
 timeStruct* mob_time;
 touchPosition touch3;
+
+PIG_update(&Mobs.mobs[1],world,player);
+
 bool spawnMonster(){
 	int i;
 	for (i=0;i<=49;i++){

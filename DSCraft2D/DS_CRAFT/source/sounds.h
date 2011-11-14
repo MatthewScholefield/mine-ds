@@ -19,4 +19,5 @@
 #define SAND_B 18
 #define SAND_C 19
 #define SAND_D 20
+#define PIG_A 21
 void playSound(int sound);

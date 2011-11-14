@@ -17,6 +17,7 @@
 #include "gameover.h"
 #include "controls.h"
 #include "mob.h"
+#include "sounds.h"
 int main(){
         int framecounte=0; //framecount
         setupVideo(); 
@@ -50,6 +51,7 @@ int main(){
         MainPlayer->health=10;
 	MainPlayer->person=true;
         while(1){
+				if (keysDown() & KEY_B) playSound(PIG_A);
                 saveUpdate(CurrentWorld,MainPlayer);
 		controlsFrame();
                 framecounte++;
