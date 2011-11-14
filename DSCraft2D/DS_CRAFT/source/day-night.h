@@ -1,4 +1,5 @@
 #include <nds.h>
+#include <stdio.h>
 #include "ndsvideo.h" // Include the video functions (for setupVideo();)
 void mainBGUpdate();
 void mainBGSetup();
@@ -10,3 +11,5 @@ typedef struct time{
 }timeStruct;
 timeStruct* timeGet();
 void timeSet(int time);
+void timeSave(FILE* save_file);
+void timeLoad(FILE* save_file);

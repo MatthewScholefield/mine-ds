@@ -204,7 +204,7 @@ void modifyWorld(worldObject* world){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
 	swiWaitForVBlank();
-	world->version=1;
+	world->version=2;
 }
 int mountainbiome(worldObject* world,int startx,int starty,int endx){
 	int y=starty;

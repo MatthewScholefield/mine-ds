@@ -35,6 +35,8 @@ void setupVideo(){
 	swiWaitForVBlank();
 	worldSetUp();
 }
+
+
 //These two functions make it easier to display stuff and gets rid of all the unrememberable stuff like SpriteColorFormat_256Color that we ALWAYS copy-paste.
 void createsprite32x64(int x,int y,u16* graphics,bool flipped,int palette){
 	if (y<192 && x<256 && x>(-32) && y>(-64)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_32x64,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
