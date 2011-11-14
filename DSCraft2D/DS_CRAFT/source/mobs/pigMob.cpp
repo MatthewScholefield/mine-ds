@@ -5,10 +5,10 @@
 #include "../player.h"
 #include "pig.h" //Pig images
 
-u16* pigGfx[4]!;
+u16* pigGfx[4];
 
 void PIG_update(mobActor* monster,worldObject* world,playerActor* player){
-  createsprite64x32(70,70,pigGfx,false,3);
+	createsprite64x32(70,70,pigGfx[0],false,3);
 }
 
 void PIG_spawn(){
@@ -16,7 +16,7 @@ void PIG_spawn(){
 
 void PIG_setup(){
  char* pigtiles;
- pigTiles=(char*)&pigTiles;
+ pigtiles=(char*)&pigTiles;
  pigGfx[0]=oamAllocateGfx(&oamMain,SpriteSize_64x32, SpriteColorFormat_256Color);
  dmaCopy(pigtiles,pigGfx[0],64*32);
  pigtiles+=64*32;
