@@ -30,7 +30,7 @@ void setupVideo(){
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites
-	oamInit(&oamMain,SpriteMapping_1D_128,true);
+	oamInit(&oamMain,SpriteMapping_1D_256,true);
 	//Copy PlayerGraphics
 	playerCreateGfx();
 	swiWaitForVBlank();
@@ -54,8 +54,4 @@ void createsprite32x32(int x,int y,u16* graphics,bool flipped,int palette){
 }
 void createsprite8x8(int x,int y,u16* graphics,bool flipped,int palette){
 	if (y<192 && x<256 && x>(-8) && y>(-8)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_8x8,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
-}
-void createsprite64x32(int x,int y,u16* graphics,bool flipped,int palette){
- if (y<192 && x<256 && x>(-64) && y>(-32)) oamSet(&oamMain,nextSprite(),x,y,0,palette,SpriteSize_64x32,SpriteColorFormat_256Color,graphics,-1,false,false,flipped,false,false); 
- //nextSprite is a call in the sprcount.cpp that returns the next oamID number
 }

@@ -5,6 +5,7 @@
 #include "colision.h" 
 #include "controls.h"
 #include "day-night.h"
+#include "mobs/pigMob.h"
 #include <fat.h>
 #include <stdio.h>
 #include <nds.h>
@@ -13,8 +14,6 @@ int mobs_on_screen=0;
 mobsStruct Mobs;
 timeStruct* mob_time;
 touchPosition touch3;
-
-PIG_update(&Mobs.mobs[1],world,player);
 
 bool spawnMonster(){
 	int i;
@@ -65,8 +64,8 @@ void mobUpdate(worldObject* world){
 		//It is night time
 		if (mobs_frame%750==0) spawnMonster();
 	}
-	if (keysDown() & KEY_B){
-		//if (!spawnMonster()) iprintf("Failed to spawn a mob\n");
+	if (keysHeld() & KEY_B){
+		PIG_update(&Mobs.mobs[1],world,&Mobs.mobs[0].mobPlayer);
 	}if (keysDown() & KEY_B){
 	//	if (!deSpawnMonster()) iprintf("Failed to spawn a mob\n");
 	}
@@ -96,5 +95,6 @@ playerActor* mobSetup(){
 	Mobs.mobs[0].type=1;
 	Mobs.mobs[0].data[0]=0;
 	Mobs.mobs[0].mobPlayer.height=2;
+	PIG_setup();
 	return &Mobs.mobs[0].mobPlayer;
 }
