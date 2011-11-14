@@ -58,6 +58,11 @@ void saveMenu(worldObject* world,playerActor* player){
 			for (i=0;i<=4;i++){
 				if (touch2.py>i*36 && touch2.py<i*36+36) row=i;
 			}
+			for (i=0;i<=-16;i--){
+				swiWaitForVBlank();
+				swiWaitForVBlank();
+				setBrightness(1,i);
+			}
 			//Row now holds the world number
 			if (touch2.px<256-66 && touch2.px>256-(66*2)){
 				//Save the world		
@@ -65,9 +70,8 @@ void saveMenu(worldObject* world,playerActor* player){
 				FILE* save_file = fopen(worldName, "w");         
 				fwrite(world, 1, sizeof(STUF), save_file);
 				mobsSave(save_file);
-				timeStruct* time_save;
-				time_save=timeGet();
-				fwrite(time_save, 1, sizeof(STUFFF), save_file);
+				timeSave(save_file);
+				//fwrite(time_save, 1, sizeof(STUFFF), save_file);
 				fclose(save_file);	
 			}
 			else if (touch2.px>256-66){
@@ -76,22 +80,25 @@ void saveMenu(worldObject* world,playerActor* player){
 				FILE* save_file = fopen(worldName, "r");         
 				fread(world, 1, sizeof(STUF), save_file);
 				mobsLoad(save_file);
-				timeStruct* time_save;
-				fread(time_save, 1, sizeof(STUFFF), save_file);
-				timeSet(time_save->ticks);
+				timeLoad(save_file);
 				fclose(save_file);	
 			}
                         fertig=true;
                 }
         }
+	int i;
         lcdMainOnBottom();
 	unBlankTopScreen();
 	oamClear(&oamSub,0,128);
 	swiWaitForVBlank();
 	oamUpdate(&oamSub);
+	for (i=-16;i<=0;i++){
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		setBrightness(1,i);
+	}
 	int count;
-	if( world->version!=1) saveMenu(world,player);
-	else for (count=0;count<=60;count++) swiWaitForVBlank();
+	if( world->version!=2) saveMenu(world,player);
 }
 void saveUpdate(worldObject* world,playerActor* player){
 

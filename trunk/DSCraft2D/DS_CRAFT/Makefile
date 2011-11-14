@@ -25,7 +25,7 @@ GRAPHICS	:=	gfx
 AUDIO    	:=  audio
 GAME_TITLE     :=   Minecraft DS
 GAME_SUBTITLE1 :=	By ray & CoolAs
-GAME_SUBTITLE2 :=	With Mobs! (Testing)
+GAME_SUBTITLE2 :=	With Mobs!
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------

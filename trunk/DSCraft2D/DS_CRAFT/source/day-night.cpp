@@ -81,11 +81,26 @@ timeStruct* timeGet(){
 void timeSet(int time){
 	timeinworld=0;
 	int i;	
-	r=0;
-	g=0;
-	b=0;
-	for(i=0;i<=time;i++)
+	r=112; //Changing this means that I have to recode the mainBGUpdate (dont do it again PLEASE)
+	g=219;
+	b=255;
+	for(i=0;i<=time*120;i++)
 	{
 		mainBGUpdate(); //Updates the BG time times
 	}
+	BG_PALETTE[0]=RGB15(r,g,b);
+}
+void timeSave(FILE* save_file){
+	fwrite(&timeinworld, 1, sizeof(timeinworld), save_file);
+	fwrite(&r, 1, sizeof(r), save_file);
+	fwrite(&g, 1, sizeof(g), save_file);
+	fwrite(&b, 1, sizeof(b), save_file);
+	BG_PALETTE[0]=RGB15(r,g,b);
+}
+void timeLoad(FILE* save_file){
+	fread(&timeinworld, 1, sizeof(timeinworld), save_file);
+	fread(&r, 1, sizeof(r), save_file);
+	fread(&g, 1, sizeof(g), save_file);
+	fread(&b, 1, sizeof(b), save_file);
+	BG_PALETTE[0]=RGB15(r,g,b);
 }
