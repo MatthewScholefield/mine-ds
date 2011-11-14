@@ -46,6 +46,12 @@ void saveMenu(worldObject* world,playerActor* player){
         lcdSwap();
 	renderSaveScreen();
         worldObject STUF;
+	int i;
+	for (i=0;i>=-16;i--){
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		setBrightness(1,i);
+	}
 	timeStruct STUFFF; //This is silly :P
         bool fertig=false;
         while(!fertig){
@@ -53,16 +59,11 @@ void saveMenu(worldObject* world,playerActor* player){
                 if (keysDown() & KEY_TOUCH){    
                         touchRead(&touch2);
            		// Get the row that the pen is on.
-			int i;
 			int row=0;
 			for (i=0;i<=4;i++){
 				if (touch2.py>i*36 && touch2.py<i*36+36) row=i;
 			}
-			for (i=0;i<=-16;i--){
-				swiWaitForVBlank();
-				swiWaitForVBlank();
-				setBrightness(1,i);
-			}
+
 			//Row now holds the world number
 			if (touch2.px<256-66 && touch2.px>256-(66*2)){
 				//Save the world		
@@ -86,12 +87,13 @@ void saveMenu(worldObject* world,playerActor* player){
                         fertig=true;
                 }
         }
-	int i;
         lcdMainOnBottom();
 	unBlankTopScreen();
 	oamClear(&oamSub,0,128);
-	swiWaitForVBlank();
-	oamUpdate(&oamSub);
+        worldUpdate(world,(void*)player);
+        swiWaitForVBlank(); //Wait for a VBlank
+        oamUpdate(&oamMain); //Update the sprites
+        oamUpdate(&oamSub);
 	for (i=-16;i<=0;i++){
 		swiWaitForVBlank();
 		swiWaitForVBlank();
@@ -107,9 +109,13 @@ void saveUpdate(worldObject* world,playerActor* player){
 		saveMenu(world,player);
         }
 	else if (controlsKeysH() & KEY_SELECT){
-		lcdSwap();
-		generateWorld(world);
 		int i;
+		for (i=0;i>=-16;i--){
+			swiWaitForVBlank();
+			swiWaitForVBlank();
+			setBrightness(1,i);
+		}
+		generateWorld(world);
 		for (i=0;i<=WORLD_HEIGHT;i++)
                 if (world->blocks[WORLD_WIDTH/2][i]!=AIR)
                 {
@@ -122,7 +128,21 @@ void saveUpdate(worldObject* world,playerActor* player){
 		timeStruct time;
 		time.ticks=0;
 		timeSet(time.ticks);
-		lcdSwap();
+                worldUpdate(world,(void*)player);
+                //if (framecounte%240==0) fixgrass(world);
+                swiWaitForVBlank(); //Wait for a VBlank
+                oamUpdate(&oamMain); //Update the sprites
+                oamUpdate(&oamSub);
+                //iprintf("Camera Position:%d,%d\n",world->CamX,world->CamY);
+                //iprintf("Player Position:%d,%d\n",player->x,player->y);
+                //iprintf("Player BlockPos:%d,%d\n",player->blockx,player->blocky);
+                //printf("Sprites on Screen: %d\n",nextSprite());
+                //iprintf("Choosen Block: %d\n",world->ChoosedBlock);
+		for (i=-16;i<=0;i++){
+			swiWaitForVBlank();
+			swiWaitForVBlank();
+			setBrightness(1,i);
+		}
 	}
 }
 void saveInit(){
