@@ -18,14 +18,14 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/blocks source/mobs
+SOURCES		:=	source
 INCLUDES	:=	include
 DATA		:=	data  
 GRAPHICS	:=	gfx  
 AUDIO    	:=  audio
-GAME_TITLE     :=   Minecraft DS
-GAME_SUBTITLE1 :=	By ray & CoolAs
-GAME_SUBTITLE2 :=	With Mobs!
+GAME_TITLE     :=   Pickn Sticks
+GAME_SUBTITLE1 :=	By ray
+GAME_SUBTITLE2 :=	With help from CoolAs
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
