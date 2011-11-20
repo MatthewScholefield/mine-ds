@@ -10,7 +10,8 @@ int held = keysHeld();
 
 void move(){
   scanKeys();
-    if (held () & KEY_LEFT)
+  held=keysHeld();
+    if (held & KEY_LEFT)
      x1-=1;
 }
 
@@ -46,6 +47,9 @@ int main(void)
   y1 = 96;
   
   while(1){
+	move(); //To Make the player move you have to call move xD
+		//It wont be automatically called xD
+
   oamSet(&oamMain, //main graphics engine context
     0, //oam index (0 to 127) (spritenumber)
     x1, y1, //x and y pixle location of the sprite
