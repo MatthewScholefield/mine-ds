@@ -13,6 +13,12 @@ void move(){
   held=keysHeld();
     if (held & KEY_LEFT)
      x1-=1;
+	if (held & KEY_RIGHT)
+     x1+=1;
+	if (held & KEY_UP)
+     y1-=1;
+	if (held & KEY_DOWN)
+     y1+=1;
 }
 
 int main(void)
@@ -78,7 +84,17 @@ int main(void)
     false, false,
     false
   );
- 
+  
+  if (x1<x2+32 && y1+32>=y2 && y1<y2+32 && x1+32>=x2){
+    if (x1+32>x2 && x1+32<x2)
+	  x1+=2;
+	if (x1<x2+32 && x1>x2+32)
+	  x1-=2;
+	if (y1+32>y2 && y1+32<y2)
+      y1+=2;
+	if (y1<y2+32 && y1>y2+32)
+	  y1-=2;
+ }
   swiWaitForVBlank();
   oamUpdate(&oamMain);
   }
