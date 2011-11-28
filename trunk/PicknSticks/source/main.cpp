@@ -86,14 +86,8 @@ int main(void)
   );
   
   if (x1<x2+32 && y1+32>=y2 && y1<y2+32 && x1+32>=x2){
-    if (x1+32>x2 && x1+32<x2)
-	  x1+=2;
-	if (x1<x2+32 && x1>x2+32)
-	  x1-=2;
-	if (y1+32>y2 && y1+32<y2)
-      y1+=2;
-	if (y1<y2+32 && y1>y2+32)
-	  y1-=2;
+	x2=rand()%(256-32);
+	y2=rand()%(192-32);
  }
   swiWaitForVBlank();
   oamUpdate(&oamMain);
