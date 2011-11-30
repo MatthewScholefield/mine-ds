@@ -1,8 +1,13 @@
 #include <nds.h>
 #include <stdio.h>
+#include <time.h>
 #include "day-night.h"
 #include "ndsvideo.h" // Include the video functions (for setupVideo();)
 //#include "mainscreen.h" //image file (Just a test background, later the tiled BG)
+
+int h = 0;
+int k = 0;
+
 u8 theTile[64] = 
 {
 	1,1,1,1,1,1,1,1,
@@ -55,7 +60,14 @@ void mainBGSetup(){
 void mainBGUpdate(){
         framecounter++;
         if (framecounter%120==0){
-                timeinworld++;          
+                timeinworld++;
+                k--; 
+			if (k <= -20)
+		    swiWaitForVBlank();
+		    swiWaitForVBlank();
+			h--;
+			if (h >= -10)
+		    setBrightness(1,h+2);         
         }
         if (timeinworld>50 && timeinworld<100)
         {

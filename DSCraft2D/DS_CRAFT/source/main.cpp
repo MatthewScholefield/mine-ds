@@ -18,6 +18,29 @@
 #include "controls.h"
 #include "mob.h"
 #include "sounds.h"
+
+/*	void time(){
+		for (int h=0;h>=-16;h--){
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		swiWaitForVBlank();
+		setBrightness(1,h);
+		}
+	}
+*/
+		
+		
 int main(){
         int framecounte=0; //framecount
         setupVideo(); 
@@ -50,6 +73,7 @@ int main(){
 
         MainPlayer->health=10;
 	MainPlayer->person=true;
+		
         while(1){
 				if (keysDown() & KEY_B) playSound(PIG_A);
                 saveUpdate(CurrentWorld,MainPlayer);
