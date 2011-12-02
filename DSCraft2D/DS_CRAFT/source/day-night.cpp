@@ -7,6 +7,7 @@
 
 int h = 0;
 int k = 0;
+bool night = false;
 
 u8 theTile[64] = 
 {
@@ -61,13 +62,29 @@ void mainBGUpdate(){
         framecounter++;
         if (framecounter%120==0){
                 timeinworld++;
-                k--; 
-			if (k <= -20)
-		    swiWaitForVBlank();
-		    swiWaitForVBlank();
-			h--;
-			if (h >= -10)
-		    setBrightness(1,h+2);         
+
+				k++;
+				if (k >=10 && k < 50){
+				  while (h>= -10){  
+				    h--;
+					swiWaitForVBlank();
+					swiWaitForVBlank();
+				    setBrightness(1,h);
+					}
+				}
+				if (k >= 30 && k < 50){
+				  while (h <= 0){
+				    h++;
+					swiWaitForVBlank();
+					swiWaitForVBlank();
+				    setBrightness(1,h);
+					}
+				}
+				if (k >= 50){
+				  k = 0;
+				}
+
+         
         }
         if (timeinworld>50 && timeinworld<100)
         {
