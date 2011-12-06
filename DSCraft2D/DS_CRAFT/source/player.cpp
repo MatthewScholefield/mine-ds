@@ -74,6 +74,7 @@ void playerGravity(playerActor* player,worldObject* world){
 				switch (world->blocks[x][y])
 				{
 				case GRASS: GRASS_colision(player,world,x,y,result); break;
+				case SNOW_GRASS: SNOW_GRASS_colision(player,world,x,y,result); break;
 				case DIRT:  DIRT_colision(player,world,x,y,result);  break;
 				case STONE: STONE_colision(player,world,x,y,result); break;	
 				case PLACED_LOG_W: WHITE_WOOD_colision(player,world,x,y,result);	break;		

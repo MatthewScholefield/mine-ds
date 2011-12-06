@@ -24,3 +24,4 @@
 //here Lapis-Block
 #include "blocks/wool_white.h"
 #include "blocks/cactus.h"
+#include "blocks/snow_grass.h"
