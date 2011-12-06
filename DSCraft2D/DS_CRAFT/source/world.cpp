@@ -14,6 +14,7 @@ void worldUpdate(worldObject* world,void* player2){
 				{
 					case STONE: STONE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case GRASS: GRASS_render(i*32-world->CamX,j*32-world->CamY); break;	
+					case SNOW_GRASS: SNOW_GRASS_render(i*32-world->CamX,j*32-world->CamY); break;	
 					case DIRT: DIRT_render(i*32-world->CamX,j*32-world->CamY); break;
 					case SAND: SAND_render(i*32-world->CamX,j*32-world->CamY);	 break;
 					case WHITE_WOOD: WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
@@ -76,4 +77,5 @@ void worldSetUp(){
 	CACTUS_setup();
 	//Here Lapis-BLOCK
 	WOOL_WHITE_setup();
+	SNOW_GRASS_setup();
 }
