@@ -67,16 +67,16 @@ void mainBGUpdate(){
 				if (k >=10 && k < 50){
 				  while (h>= -10){  
 				    h--;
-					swiWaitForVBlank();
-					swiWaitForVBlank();
+				//	swiWaitForVBlank();
+					//swiWaitForVBlank();
 				    setBrightness(1,h);
 					}
 				}
 				if (k >= 30 && k < 50){
 				  while (h <= 0){
 				    h++;
-					swiWaitForVBlank();
-					swiWaitForVBlank();
+					//swiWaitForVBlank();
+					//swiWaitForVBlank();
 				    setBrightness(1,h);
 					}
 				}
