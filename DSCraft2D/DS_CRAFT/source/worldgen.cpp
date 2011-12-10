@@ -258,6 +258,28 @@ int sandbiome(worldObject* world,int startx,int starty,int endx){
 	}
 	return y;
 }
+
+int snowbiome(worldObject* world,int startx,int starty,int endx){
+	int y=starty;
+	int x;
+	int changey=0;
+	int i;
+	int times=rand()%3+1;
+	for (x=startx;x<=endx;x++){
+		if (changey==0){
+			y+=rand() % 3-1;	
+			times++;	
+			if (y<5) y-=rand() %2-2;
+			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
+			changey=4+rand() % 2;
+			swiWaitForVBlank();
+		}
+		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SNOW_GRASS;
+		changey--;
+	}
+	return y;
+}
+
 void generateWorld(worldObject* world){
 	int x=0;
 	int y=rand() % (WORLD_HEIGHT/3-8)+5;
@@ -278,6 +300,7 @@ void generateWorld(worldObject* world){
 		if (biometype==0) y2=mountainbiome(world,x,y,endx);
 		else if (biometype==1) y2=flatbiome(world,x,y,endx);
 		else if (biometype==2) y2=sandbiome(world,x,y,endx);
+		else if (biometype==3) y2=snowbiome(world,x,y,endx);
 		x=endx;
 		y=y2;
 	swiWaitForVBlank();
