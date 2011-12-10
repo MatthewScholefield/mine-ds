@@ -1,45 +1,46 @@
-//Inventory slots!0-44 (45). I dunno if my Idea will work, but who cares? xD
-#define 0
-#define 1
-#define 2
-#define 4
-#define 5
-#define 6
-#define 7
-#define 8
-#define 9
-#define 10
-#define 11
-#define 12
-#define 13
-#define 14
-#define 15
-#define 16
-#define 17
-#define 18
-#define 19
-#define 20
-#define 21
-#define 22
-#define 23
-#define 24
-#define 25
-#define 26
-#define 27
-#define 28
-#define 29
-#define 30
-#define 31
-#define 32
-#define 33
-#define 34
-#define 35
-#define 36
-#define 37
-#define 38
-#define 39
-#define 40
-#define 41
-#define 42
-#define 43
-#define 44
+//Inventory slots!1-45. I dunno if my Idea will work, but who cares? xD
+#define SLOT1 1
+#define SLOT2 2
+#define SLOT3 3
+#define SLOT4 4
+#define SLOT5 5
+#define SLOT6 6
+#define SLOT7 7
+#define SLOT8 8
+#define SLOT9 9
+#define SLOT10 10
+#define SLOT11 11
+#define SLOT12 12
+#define SLOT13 13
+#define SLOT14 14
+#define SLOT15 15
+#define SLOT16 16
+#define SLOT17 17
+#define SLOT18 18
+#define SLOT19 19
+#define SLOT20 20
+#define SLOT21 21
+#define SLOT22 22
+#define SLOT23 23
+#define SLOT24 24
+#define SLOT25 25
+#define SLOT26 26
+#define SLOT27 27
+#define SLOT28 28
+#define SLOT29 29
+#define SLOT30 30
+#define SLOT31 31
+#define SLOT32 32
+#define SLOT33 33
+#define SLOT34 34
+#define SLOT35 35
+#define SLOT36 36
+#define SLOT37 37
+#define SLOT38 38
+#define SLOT39 39
+#define SLOT40 40
+#define SLOT41 41
+#define SLOT42 42
+#define SLOT43 43
+#define SLOT44 44
+#define SLOT45 45
