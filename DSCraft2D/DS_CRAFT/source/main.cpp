@@ -1,6 +1,7 @@
 //The main.cpp is the simplist file of all, and it should be
 //BUT it depends on many other files that are more complex
 #include <nds.h>
+#include "inventory.h"
 #include "ndsvideo.h" // Include the video functions (for setupVideo();)
 #include "player.h" // The player fuctions
 #include "sprcount.h" //The sprite number counter
@@ -60,6 +61,7 @@ int main(){
         if (!debug) subBGSetup();
 	MainPlayer->height=2;
         saveInit();
+	inventoryInit();
         //Place the player on the first "non grass" block
         int i;
         for (i=0;i<=WORLD_HEIGHT;i++)
@@ -88,6 +90,7 @@ int main(){
                 if (MainPlayer->health <= 0) gameover(CurrentWorld,MainPlayer);
                 mobUpdate(CurrentWorld); //The Player is updated as a mob.
                 worldUpdate(CurrentWorld,(void*)MainPlayer);
+		DrawAmount(CurrentWorld);
                 //if (framecounte%240==0) fixgrass(CurrentWorld);
                 swiWaitForVBlank(); //Wait for a VBlank
                 oamUpdate(&oamMain); //Update the sprites
@@ -99,7 +102,6 @@ int main(){
                 //iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
                 resetSpriteCount(); //And set the sprite number counter to 0
                 if (framecounte>240) framecounte=1;
-
         }
 
 }
