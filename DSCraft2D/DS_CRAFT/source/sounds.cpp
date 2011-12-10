@@ -31,9 +31,10 @@ void initSounds(){
     mmLoad(MOD_CALM);
 	mmLoad(MOD_LIVINGMICE);
 	mmLoad(MOD_WETHANDS);
-	//mmStart(MOD_CALM,MM_PLAY_LOOP);
-	//mmStart(MOD_WETHANDS,MM_PLAY_LOOP);
-	mmStart(MOD_LIVINGMICE,MM_PLAY_LOOP);
+	int musictype=rand()%3;
+      if (musictype==0) mmStart(MOD_CALM,MM_PLAY_LOOP);
+	  else if (musictype==1) mmStart(MOD_LIVINGMICE,MM_PLAY_LOOP);
+	  else if (musictype==2) mmStart(MOD_WETHANDS,MM_PLAY_LOOP);
 	maxModInit=true;
 }
 void playSound(int sound){
