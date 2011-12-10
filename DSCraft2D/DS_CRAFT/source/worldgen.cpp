@@ -188,7 +188,8 @@ void addTrees(worldObject* world){
 	for (i=0;i<=WORLD_WIDTH;i+=rand() % 5+5)
 		for (j=0;j<=WORLD_HEIGHT;j++){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
-			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);		
+			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);	
+            else if (world->blocks[i][j]==SNOW_GRASS && (world->blocks[i-1][j]==SNOW_GRASS || world->blocks[i+1][j]==SNOW_GRASS)) addtree(world,i,j,0);
 		}
 	swiWaitForVBlank();
 }
@@ -295,7 +296,7 @@ void generateWorld(worldObject* world){
 		sizex=rand() % 16+16;
 		endx=x+sizex;
 		if (endx>WORLD_WIDTH) endx=WORLD_WIDTH;
-		biometype=rand() %3;
+		biometype=rand() %4;
 		//biometype=1; //testing stuff
 		if (biometype==0) y2=mountainbiome(world,x,y,endx);
 		else if (biometype==1) y2=flatbiome(world,x,y,endx);
