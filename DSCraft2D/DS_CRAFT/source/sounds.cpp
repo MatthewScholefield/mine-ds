@@ -28,6 +28,8 @@ void initSounds(){
 	mmLoadEffect( SFX_SAND_C);
 	mmLoadEffect( SFX_SAND_D);
 	mmLoadEffect( SFX_PIG_A);
+    mmLoad(MOD_CALM);
+	mmStart(MOD_CALM,MM_PLAY_LOOP);
 	maxModInit=true;
 }
 void playSound(int sound){
@@ -54,4 +56,5 @@ void playSound(int sound){
 	else if (sound==SAND_C) mmEffect(SFX_SAND_C);
 	else if (sound==SAND_D) mmEffect(SFX_SAND_D);
 	else if (sound==PIG_A) mmEffect(SFX_PIG_A);
+
 }
