@@ -150,6 +150,8 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 		if (keysDown() & KEY_L || keysDown() & KEY_X){
            		CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
 		}
+		if (keysDown() & KEY_TOUCH){
+		}
 		if (keysHeld() & KEY_TOUCH){
 			mine_frame++;
 			mine_touch=controlsTouch();
@@ -170,14 +172,17 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 					}
 			if (CurrentWorld->blocks[lax][lay]!=AIR) PlayerPunch(MainPlayer);
         		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && !spritecol2(x,y,MainPlayer->x,MainPlayer->y,1,1,32,64)){
-				if (CurrentWorld->ChoosedBlock==AIR){ //REmoving blocks
+				if (CurrentWorld->blocks[lax][lay]!=AIR){ //REmoving blocks
 					switch(CurrentWorld->blocks[lax][lay])
 					{
 						case GRASS:  GRASS_mine(CurrentWorld,&mine_frame,lax,lay);
 						case DIRT:  DIRT_mine(CurrentWorld,&mine_frame,lax,lay);
+						case SNOW_GRASS:  SNOW_GRASS_mine(CurrentWorld,&mine_frame,lax,lay);
+						case SAND:  SAND_mine(CurrentWorld,&mine_frame,lax,lay);
+						case STONE:  STONE_mine(CurrentWorld,&mine_frame,lax,lay);
 					}
 				}
-				else if (CurrentWorld->ChoosedBlock!=AIR){ //REmoving blocks
+				else if (CurrentWorld->blocks[lax][lay]==AIR){ //Adding Blocks...
 						if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
 				}
 			}

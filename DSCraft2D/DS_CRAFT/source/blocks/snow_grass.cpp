@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* SNOW_GRASSgfx;
 int SNOW_GRASSls=0;
 void SNOW_GRASS_render(int x,int y){
@@ -61,5 +62,12 @@ void SNOW_GRASS_update(int bx,int by,worldObject* world,playerActor* player){
 		for (i=0;i<=by;i++){
 			if (i<by && world->blocks[bx][i]!=AIR) world->blocks[bx][by]=DIRT;	
 		}	
+	}
+}
+void SNOW_GRASS_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>54){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
 	}
 }
