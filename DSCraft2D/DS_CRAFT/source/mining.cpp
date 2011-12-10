@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include "colision.h"
 #include "controls.h"
+#include "inventory.h"
+
 touchPosition mine_touch;
 int mine_frame;
 u16* donegfx;
@@ -148,8 +150,8 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 		if (keysDown() & KEY_L || keysDown() & KEY_X){
            		CurrentWorld->ChoosedBlock=chooseBlock(CurrentWorld,MainPlayer);
 		}
+		if (mine_frame>0) mine_frame--;
 		if (keysHeld() & KEY_TOUCH){
-			mine_frame++;
 			mine_touch=controlsTouch();
 			int x=mine_touch.px;
 			int y=mine_touch.py;
@@ -167,8 +169,20 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						i=WORLD_WIDTH+2;
 					}
 			if (CurrentWorld->blocks[lax][lay]!=AIR) PlayerPunch(MainPlayer);
-        		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && (lax!=MainPlayer->blockx || (lay!=MainPlayer->blocky && lay!=MainPlayer->blocky-1))){
-				if ((lax==MainPlayer->blockx && lay==MainPlayer->blocky+1&& CurrentWorld->blocks[lax][lay-1]==AIR && CurrentWorld->blocks[lax][lay-2]==AIR) || lax!=MainPlayer->blockx || lay<MainPlayer->blocky) if (mine_frame % 15==0)CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+        		if (CurrentWorld->blocks[lax][lay]!=BEDROCK && !spritecol2(x,y,MainPlayer->x,MainPlayer->y,1,1,32,64)){
+				if (CurrentWorld->ChoosedBlock==AIR){ //REmoving blocks
+					if (mine_frame==0){
+						if (CurrentWorld->blocks[lax][lay]==GRASS) CurrentWorld->blocks[lax][lay]=DIRT;
+						inventoryAdd(CurrentWorld->blocks[lax][lay]);
+						CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+					}
+				}
+				else if (CurrentWorld->ChoosedBlock!=AIR){ //REmoving blocks
+					if (mine_frame==0){
+						if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+					}
+				}
+				mine_frame=15;
 			}
 			//the lax!=MainPlayer->**** stuff makes your your not placing a block inside the player
 		}

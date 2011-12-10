@@ -18,7 +18,7 @@ touchPosition touch2;
 u16* world_gfx;
 u16* load_gfx;
 u16* save_gfx;
-u16* numbers[10];
+u16* numbers[11];
 char worldName [30] = "fat:/world_01.mcl\0\0";
 
 //2= world
@@ -156,6 +156,12 @@ void saveInit(){
 	numbers[2] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
 	numbers[3] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
 	numbers[4] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	numbers[5] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	numbers[6] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	numbers[7] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	numbers[8] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	numbers[9] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	numbers[10] = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
         char* numbersgfx;//Copy the graphics into memory
         numbersgfx=(char*)numbersTiles;
         dmaCopy(numbersgfx,numbers[0],16*16);
@@ -167,8 +173,25 @@ void saveInit(){
         dmaCopy(numbersgfx,numbers[3],16*16);
 	numbersgfx+=16*16;
         dmaCopy(numbersgfx,numbers[4],16*16);
+	numbersgfx+=16*16;
+        dmaCopy(numbersgfx,numbers[5],16*16);
+	numbersgfx+=16*16;
+        dmaCopy(numbersgfx,numbers[6],16*16);
+	numbersgfx+=16*16;
+        dmaCopy(numbersgfx,numbers[7],16*16);
+	numbersgfx+=16*16;
+        dmaCopy(numbersgfx,numbers[8],16*16);
+	numbersgfx+=16*16;
+        dmaCopy(numbersgfx,numbers[9],16*16);
+	numbersgfx+=16*16;
+        dmaCopy(numbersgfx,numbers[10],16*16);
         dmaCopy(world_imgTiles,world_gfx,64*32);
         dmaCopy(loadTiles,load_gfx,64*32);
         dmaCopy(saveTiles,save_gfx,64*32);
+}
+u16* numberReturn(int number){
+	if (number==0) return numbers[10];
+	else return numbers[number-1];
+	return NULL;
 }
 
