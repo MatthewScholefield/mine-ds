@@ -37,13 +37,13 @@ void subBGSetup(){ //Its a setup function, not a update function :P
         vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 }
 void subLifes(int count){
-    oamClear(&oamSub,3,30); //clear the 10 lives sprites
+    oamClear(&oamSub,3,13); //clear the 10 lives sprites
     int i=1;
         if (count>=1){
 
         oamSet(&oamSub,3, //Then draw the sprite on the screen
         1, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -58,7 +58,7 @@ void subLifes(int count){
         if (count>=2){
         oamSet(&oamSub,4, //Then draw the sprite on the screen
         9, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -73,7 +73,7 @@ void subLifes(int count){
         if (count>=3){
         oamSet(&oamSub,5, //Then draw the sprite on the screen
         18, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -88,7 +88,7 @@ void subLifes(int count){
         if (count>=4){
         oamSet(&oamSub,6, //Then draw the sprite on the screen
         27, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -103,7 +103,7 @@ void subLifes(int count){
         if (count>=5){
         oamSet(&oamSub,7, //Then draw the sprite on the screen
         36, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -118,7 +118,7 @@ void subLifes(int count){
         if (count>=6){
         oamSet(&oamSub,8, //Then draw the sprite on the screen
         45, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -133,7 +133,7 @@ void subLifes(int count){
         if (count>=7){
         oamSet(&oamSub,9, //Then draw the sprite on the screen
         54, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -148,7 +148,7 @@ void subLifes(int count){
         if (count>=8){
         oamSet(&oamSub,10, //Then draw the sprite on the screen
         63, 
-        176, 
+        2, 
         0, 
         1,
         SpriteSize_8x8, 
@@ -160,6 +160,36 @@ void subLifes(int count){
         false, false, 
         false   
         );  
+        if (count>=9){
+        oamSet(&oamSub,11, //Then draw the sprite on the screen
+        72, 
+        2, 
+        0, 
+        1,
+        SpriteSize_8x8, 
+        SpriteColorFormat_256Color, 
+        heartgfx, 
+        -1, 
+        false, 
+        false,                  
+        false, false, 
+        false   
+        ); 
+        if (count>=10){
+        oamSet(&oamSub,12, //Then draw the sprite on the screen
+        81, 
+        2, 
+        0, 
+        1,
+        SpriteSize_8x8, 
+        SpriteColorFormat_256Color, 
+        heartgfx, 
+        -1, 
+        false, 
+        false,                  
+        false, false, 
+        false   
+        );   
         }   
         } 
         } 
@@ -168,6 +198,8 @@ void subLifes(int count){
         } 
         }
         }
+		}
+		}
 
 }
 
@@ -183,8 +215,8 @@ void subShowBlock(int block){
                 blockgfx+=(32*32)*block;//this is in the block/*.cpp
                 dmaCopy(blockgfx,gfx,32*32);//^
                 oamSet(&oamSub,0, //Then draw the sprite on the screen
-                        38, 
-                        32, 
+                        24, 
+                        31, 
                         0, 
                         0,
                         SpriteSize_32x32, 
