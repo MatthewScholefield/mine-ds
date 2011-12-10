@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* dirtgfx;
 
 int dirtls=0;
@@ -72,5 +73,12 @@ void DIRT_update(int bx,int by,worldObject* world,playerActor* player){
 
         }
         else world->data[bx][by]++;
+}
+void DIRT_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>45){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
+	}
 }
 
