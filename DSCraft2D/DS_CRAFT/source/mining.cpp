@@ -12,6 +12,7 @@
 #include "colision.h"
 #include "controls.h"
 #include "inventory.h"
+#include "invID.h"
 
 touchPosition mine_touch;
 int mine_frame;

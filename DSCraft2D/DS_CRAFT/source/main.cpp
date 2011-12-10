@@ -78,6 +78,7 @@ int main(){
 		
         while(1){
 				if (keysDown() & KEY_B) playSound(PIG_A);
+
                 saveUpdate(CurrentWorld,MainPlayer);
 		controlsFrame();
                 framecounte++;
