@@ -29,7 +29,11 @@ void initSounds(){
 	mmLoadEffect( SFX_SAND_D);
 	mmLoadEffect( SFX_PIG_A);
     mmLoad(MOD_CALM);
-	mmStart(MOD_CALM,MM_PLAY_LOOP);
+	mmLoad(MOD_LIVINGMICE);
+	mmLoad(MOD_WETHANDS);
+	//mmStart(MOD_CALM,MM_PLAY_LOOP);
+	//mmStart(MOD_WETHANDS,MM_PLAY_LOOP);
+	mmStart(MOD_LIVINGMICE,MM_PLAY_LOOP);
 	maxModInit=true;
 }
 void playSound(int sound){
