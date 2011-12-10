@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* GRASSgfx;
 int GRASSls=0;
 void GRASS_render(int x,int y){
@@ -68,4 +69,11 @@ void GRASS_update(int bx,int by,worldObject* world,playerActor* player){
 			}
 		}
 	if (grass==false) world->blocks[bx][by]=DIRT;
+}
+void GRASS_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>54){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
+	}
 }

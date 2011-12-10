@@ -31,6 +31,23 @@ void fixgrass(worldObject* world){
 		}
 	swiWaitForVBlank();
 }
+void fixsnowgrass(worldObject* world){
+	int i,j;
+	for (i=0;i<=WORLD_WIDTH;i++)
+		for (j=0;j<=WORLD_HEIGHT;j++)
+			if (world->blocks[i][j]==SNOW_GRASS) world->blocks[i][j]=1207; //Change all the SNOW_GRASS blocks into <bugfixer> blocks
+	for (i=0;i<=WORLD_WIDTH;i++)
+		for (j=0;j<=WORLD_HEIGHT;j++){
+			if(world->blocks[i][j]==1207){
+				world->blocks[i][j]=SNOW_GRASS; //Then if a block should be grass make it grass
+				j=WORLD_HEIGHT+1;  			   //And Exit this X
+			}
+			else if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG){ //And If we have not encountered dirt and we are at a different block
+				j=WORLD_HEIGHT+1;			    //Exit this X
+			}
+		}
+	swiWaitForVBlank();
+}
 void rockwall(worldObject* world,int x,int y){
 	int i;
 	for (i=y;i<=WORLD_HEIGHT;i++){
@@ -195,11 +212,12 @@ void addTrees(worldObject* world){
 }
 void modifyWorld(worldObject* world){
 
-	addrock(world);
-	addore(world);
 	swiWaitForVBlank();
 	int x;
 	fixgrass(world);
+	fixsnowgrass(world);
+	addrock(world);
+	addore(world);
 	addTrees(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
