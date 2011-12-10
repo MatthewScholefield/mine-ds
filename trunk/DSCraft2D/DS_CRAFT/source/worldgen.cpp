@@ -189,7 +189,7 @@ void addTrees(worldObject* world){
 		for (j=0;j<=WORLD_HEIGHT;j++){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
 			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);	
-            else if (world->blocks[i][j]==SNOW_GRASS && (world->blocks[i-1][j]==SNOW_GRASS || world->blocks[i+1][j]==SNOW_GRASS)) addtree(world,i,j,0);
+            //else if (world->blocks[i][j]==SNOW_GRASS && (world->blocks[i-1][j]==SNOW_GRASS || world->blocks[i+1][j]==SNOW_GRASS)) addtree(world,i,j,0);
 		}
 	swiWaitForVBlank();
 }

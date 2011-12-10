@@ -28,5 +28,6 @@ u16* playerGfx();
 void playerFrame();
 void playerCreateGfx();
 void playerHurt(playerActor* player,int much,bool instant);
+void openInv();
 #define player_h
 #endif
