@@ -5,6 +5,7 @@
 #include "../player.h"
 #include "../world.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* SANDgfx;
 int sandls;
 void SAND_render(int x,int y){
@@ -52,5 +53,12 @@ void SAND_colision(playerActor* player,worldObject* world,int bx,int by,int resu
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void SAND_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>45){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(SAND);
+		*mine_time=0;
 	}
 }

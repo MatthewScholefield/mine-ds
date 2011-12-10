@@ -1,10 +1,12 @@
 #include <nds.h> //BLAH
+#include <stdio.h>
 #include "../player.h"
 #include "../world.h"
 #include "../ndsvideo.h"
 #include "block.h" //Include the block graphics
 #include "../blockID.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* stonegfx;
 int stonels;
 void STONE_render(int x,int y){
@@ -54,4 +56,18 @@ void STONE_setup(){
 	blocktiles+=(32*32)*STONE;
 	dmaCopy(blocktiles,stonegfx,32*32);
 	stonels=0;
+}
+void STONE_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>450 && world->ChoosedBlock!= COBBLE){
+		world->blocks[x][y]=AIR;
+		if (rand()%6==0) inventoryAdd(STONE);
+		else inventoryAdd(COBBLE);
+		*mine_time=0;
+	}
+	else if (*mine_time>69 && world->ChoosedBlock== COBBLE){
+		world->blocks[x][y]=AIR;
+		if (rand()%6==0) inventoryAdd(STONE);
+		else inventoryAdd(COBBLE);
+		*mine_time=0;
+	}
 }

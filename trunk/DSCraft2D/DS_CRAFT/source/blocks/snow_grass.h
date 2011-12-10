@@ -5,3 +5,4 @@ void SNOW_GRASS_setup(); //And copy the blocks graphics
 #include "../world.h"
 void SNOW_GRASS_colision(playerActor* player,worldObject* world,int bx,int by,int result);
 void SNOW_GRASS_update(int bx,int by,worldObject* world,playerActor* player);
+void SNOW_GRASS_mine(worldObject* world,int* mine_time,int x,int y);

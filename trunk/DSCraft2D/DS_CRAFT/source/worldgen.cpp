@@ -46,6 +46,9 @@ void fixsnowgrass(worldObject* world){
 				j=WORLD_HEIGHT+1;			    //Exit this X
 			}
 		}
+	for (i=0;i<=WORLD_WIDTH;i++)
+		for (j=0;j<=WORLD_HEIGHT;j++)
+			if (world->blocks[i][j]==1207) world->blocks[i][j]=DIRT; //Change all the SNOW_GRASS blocks into <bugfixer> blocks
 	swiWaitForVBlank();
 }
 void rockwall(worldObject* world,int x,int y){
