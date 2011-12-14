@@ -9,5 +9,6 @@ typedef struct{
 }monsterActor;
 
 void monsterUpdate(mobActor* monster,worldObject* world,playerActor* player);
+void monster_setup();
 #define monster_H
 #endif

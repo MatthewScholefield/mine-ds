@@ -3,7 +3,9 @@
 #include "soundbank.h"  // Soundbank definitions
 #include "soundbank_bin.h"
 #include "sounds.h"
+#include <stdio.h>
 bool maxModInit=false;
+musicStruct music;
 void initSounds(){
   	mmInitDefaultMem( (mm_addr)soundbank_bin );
 	mmLoadEffect( SFX_GRASS_A );
@@ -31,10 +33,11 @@ void initSounds(){
     mmLoad(MOD_CALM);
 	mmLoad(MOD_LIVINGMICE);
 	mmLoad(MOD_WETHANDS);
-	int musictype=rand()%3;
-      if (musictype==0) mmStart(MOD_CALM,MM_PLAY_LOOP);
-	  else if (musictype==1) mmStart(MOD_LIVINGMICE,MM_PLAY_LOOP);
-	  else if (musictype==2) mmStart(MOD_WETHANDS,MM_PLAY_LOOP);
+	music.musictype=rand()%3;
+	music.volume=0;
+	music.playing=false;
+	music.frames=0;
+	music.volumechanging=0; //0 for no changing, 1 for fade in, 2 for fade out...
 	maxModInit=true;
 }
 void playSound(int sound){
@@ -61,5 +64,49 @@ void playSound(int sound){
 	else if (sound==SAND_C) mmEffect(SFX_SAND_C);
 	else if (sound==SAND_D) mmEffect(SFX_SAND_D);
 	else if (sound==PIG_A) mmEffect(SFX_PIG_A);
-
+}
+void soundUpdate(){
+	music.frames++;
+	if (music.frames==30){
+		if(rand()%256==0 ){	//rand() is a number between 0 to 65535 we use % to limit this range.
+				//Here I don't want to limit this range... We have a 1 in 65535 chance of the music stopping or starting...
+			iprintf("BLARG");
+			if (music.playing==false){
+				music.playing=true;
+				iprintf("Start");
+				music.volumechanging=1;
+				music.musictype=rand() %3;
+				music.volume=0;
+				if (music.musictype==0) mmStart(MOD_CALM,MM_PLAY_ONCE);
+				else if (music.musictype==1) mmStart(MOD_LIVINGMICE,MM_PLAY_ONCE);
+				else if (music.musictype==2) mmStart(MOD_WETHANDS,MM_PLAY_ONCE);
+				mmSetModuleVolume(music.volume);						
+			}
+			else if (music.playing==true){
+				iprintf("Stop");
+				music.playing=false;
+				music.volumechanging=2;
+				music.volume=1024;
+				mmSetModuleVolume(music.volume);						
+			}
+			 
+		}
+		music.frames=0;
+	}
+	if (music.volumechanging==1){
+		iprintf("VUP");
+		music.volume++;
+		mmSetModuleVolume(music.volume);	
+		if (music.volume==1024) music.volumechanging=0;
+	}
+	if (music.volumechanging==2){
+		iprintf("VDOwn");
+		music.volume--;
+		mmSetModuleVolume(music.volume);	
+		if (music.volume==0){
+			music.volumechanging=0;
+			mmStop();
+		}
+	}
+	if (mmActive()==0) music.playing=false;
 }

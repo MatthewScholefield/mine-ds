@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* CACTUSgfx;
 int CACTUSls;
 void CACTUS_render(int x,int y){
@@ -24,6 +25,18 @@ void CACTUS_colision(playerActor* player,worldObject* world,int bx,int by,int re
 
 }
 void CACTUS_update(int bx,int by,worldObject* world,playerActor* player){
+	world->data[bx][by]+=1;
 	if (world->blocks[bx][by+1]==SAND || world->blocks[bx][by+1]==CACTUS);
-	else world->blocks[bx][by]=AIR;
+	else {
+		world->blocks[bx][by]=AIR;
+		inventoryAdd(CACTUS);	
+	}
+	
+}
+void CACTUS_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>36){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(CACTUS);
+		*mine_time=0;
+	}
 }
