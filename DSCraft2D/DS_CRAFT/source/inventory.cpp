@@ -61,11 +61,10 @@ int inventoryRemove(int blockID){
 	}
 	return 1;
 }
-void DrawAmount(worldObject* world){
+void DrawAmountNum(int blockID){
 	int i;
 	int foundID;
 	bool found=false;
-	int blockID=world->ChoosedBlock;
 	for (i=0;i<=35;i++){
 	//Find an entry of "blockID"
 		if (inventory.blockID[i]==blockID){
@@ -74,17 +73,33 @@ void DrawAmount(worldObject* world){
 			found=true;
 		}
 	}
-	if (!found){
-		world->ChoosedBlock=AIR;		
-	}
-	else if (found){
-		sprintf (buffer, "%daa",inventory.blockAmount[foundID]);
+	oamClear(&oamSub,19,25);
+	if (found){
+		if (blockID!=255) sprintf (buffer, "%daa",inventory.blockAmount[foundID]+1);
+		else sprintf(buffer,"0aaa");// aa is displayed as a blank letter...
 		int number1=buffer[0]-48;
 		int number2=buffer[1]-48;
 		if (number1!=0)oamSet(&oamSub,20,70,64,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(10),-1,false,false,false, false,false); 
 		if (number1!=0)oamSet(&oamSub,21,86,64,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(number1),-1,false,false,false, false,false); 
 		oamSet(&oamSub,22,102,64,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(number2),-1,false,false,false, false,false); 
 	}
-	
 }
+void DrawAmount(worldObject* world){
+	int blockID=world->ChoosedBlock;
+	int i;
+	int foundID;
+	bool found=false;
+	for (i=0;i<=35;i++){
+	//Find an entry of "blockID"
+		if (inventory.blockID[i]==blockID){
+			i=37;
+			found=true;
+		}
+	}
+	if (!found){
+		world->ChoosedBlock=AIR;		
+	}
+	DrawAmountNum(blockID);
+}
+
 

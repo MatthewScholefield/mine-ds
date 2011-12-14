@@ -21,3 +21,12 @@
 #define SAND_D 20
 #define PIG_A 21
 void playSound(int sound);
+void initSounds();
+void soundUpdate();
+typedef struct{
+int musictype;
+int volumechanging;
+int volume;
+bool playing;
+int frames;
+}musicStruct;

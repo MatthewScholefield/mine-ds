@@ -47,7 +47,7 @@ int main(){
         setupVideo(); 
         lcdMainOnBottom();
 	scanKeys();
-        bool debug = false;
+        bool debug = true;
         if (keysDown() & KEY_START || keysHeld() & KEY_START) debug=true;
         playerActor* MainPlayer;
 	MainPlayer = mobSetup();
@@ -62,6 +62,7 @@ int main(){
 	MainPlayer->height=2;
         saveInit();
 	inventoryInit();
+	initSounds();
         //Place the player on the first "non grass" block
         int i;
         for (i=0;i<=WORLD_HEIGHT;i++)
@@ -78,7 +79,7 @@ int main(){
 		
         while(1){
 				if (keysDown() & KEY_B) playSound(PIG_A);
-
+		soundUpdate();
                 saveUpdate(CurrentWorld,MainPlayer);
 		controlsFrame();
                 framecounte++;
