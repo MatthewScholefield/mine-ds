@@ -8,6 +8,7 @@
 #include "done.h"
 #include "mining.h"
 #include "world.h"
+#include "monsterGfx.h"
 #include "pig.h"
 void setupVideo(){
 	//Set Modes and Banks
@@ -27,6 +28,7 @@ void setupVideo(){
 	dmaCopy(donePal,VRAM_F_EXT_SPR_PALETTE[2],donePalLen);
 	
     dmaCopy(pigPal,VRAM_F_EXT_SPR_PALETTE[3],pigPalLen);
+    dmaCopy(monsterGfxPal,VRAM_F_EXT_SPR_PALETTE[4],monsterGfxPalLen);
 	//Set Bank F
   	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	//Init Sprites

@@ -7,3 +7,4 @@ int inventoryAdd(int blockID);
 int inventoryRemove(int blockID);
 void inventoryInit();
 void DrawAmount(worldObject* world);
+void DrawAmountNum(int i);

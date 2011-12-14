@@ -96,5 +96,6 @@ playerActor* mobSetup(){
 	Mobs.mobs[0].data[0]=0;
 	Mobs.mobs[0].mobPlayer.height=2;
 	PIG_setup();
+	monster_setup();
 	return &Mobs.mobs[0].mobPlayer;
 }
