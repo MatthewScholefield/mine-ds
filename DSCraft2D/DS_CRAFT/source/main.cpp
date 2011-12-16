@@ -47,7 +47,7 @@ int main(){
         setupVideo(); 
         lcdMainOnBottom();
 	scanKeys();
-        bool debug = true;
+        bool debug = false;
         if (keysDown() & KEY_START || keysHeld() & KEY_START) debug=true;
         playerActor* MainPlayer;
 	MainPlayer = mobSetup();

@@ -204,6 +204,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						case STONE:  STONE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case CACTUS:  CACTUS_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case COAL_ORE:  COAL_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case COBBLE: COBBLE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 					}
 				}
 				else if (block_action==1 && (lax!=MainPlayer->blockx || lay!=MainPlayer->blocky) ){ //Adding Blocks...
