@@ -10,6 +10,7 @@
 #include "blockID.h"
 #include "save.h"
 #include "day-night.h"
+#include "inventory.h"
 #include "mob.h"
 #include "top-screen.h"
 #include "worldgen.h"
@@ -72,6 +73,7 @@ void saveMenu(worldObject* world,playerActor* player){
 				fwrite(world, 1, sizeof(STUF), save_file);
 				mobsSave(save_file);
 				timeSave(save_file);
+				invSave(save_file);
 				//fwrite(time_save, 1, sizeof(STUFFF), save_file);
 				fclose(save_file);	
 			}
@@ -82,6 +84,7 @@ void saveMenu(worldObject* world,playerActor* player){
 				fread(world, 1, sizeof(STUF), save_file);
 				mobsLoad(save_file);
 				timeLoad(save_file);
+				invLoad(save_file);
 				fclose(save_file);	
 			}
                         fertig=true;
