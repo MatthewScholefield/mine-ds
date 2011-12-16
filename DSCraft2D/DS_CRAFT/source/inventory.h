@@ -1,4 +1,5 @@
 #include "world.h"
+#include <stdio.h>
 typedef struct{
 	int blockID[36];
 	int blockAmount[36];
@@ -8,3 +9,5 @@ int inventoryRemove(int blockID);
 void inventoryInit();
 void DrawAmount(worldObject* world);
 void DrawAmountNum(int i);
+void invLoad(FILE* save_file);
+void invSave(FILE* save_file);

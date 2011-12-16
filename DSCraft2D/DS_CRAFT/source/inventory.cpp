@@ -101,5 +101,11 @@ void DrawAmount(worldObject* world){
 	}
 	DrawAmountNum(blockID);
 }
+void invSave(FILE* save_file){
+        fwrite(&inventory, 1, sizeof(inventory), save_file);
+}
+void invLoad(FILE* save_file){
+        fread(&inventory, 1, sizeof(inventory), save_file);
+}
 
 
