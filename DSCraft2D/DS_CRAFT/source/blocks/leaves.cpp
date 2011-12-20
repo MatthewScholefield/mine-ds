@@ -4,6 +4,7 @@
 #include "../blockID.h"
 #include "../player.h"
 #include "../world.h"
+#include "../inventory.h"
 u16* LEAVESgfx;
 void LEAVES_render(int x,int y){
 	createsprite32x32(x,y,LEAVESgfx,false,0);	
@@ -31,5 +32,12 @@ void LEAVES_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void LEAVES_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>18){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LEAF);
+		*mine_time=0;
 	}
 }

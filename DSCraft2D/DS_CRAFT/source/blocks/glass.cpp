@@ -33,3 +33,10 @@ void GLASS_colision(playerActor* player,worldObject* world,int bx,int by,int res
 		player->y=by*32+33;
 	}
 }
+void GLASS_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>27){
+		world->blocks[x][y]=AIR;
+		//Can't be picked up...
+		*mine_time=0;
+	}
+}

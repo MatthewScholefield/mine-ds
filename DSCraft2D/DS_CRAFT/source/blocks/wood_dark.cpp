@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* DARK_WOODgfx;
 
 int wood_darkls;
@@ -53,5 +54,12 @@ void DARK_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,int
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void DARK_WOOD_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>180){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_D);
+		*mine_time=0;
 	}
 }

@@ -102,7 +102,7 @@ void playerGravity(playerActor* player,worldObject* world){
 			
 		}
 	if(player->onblock==false) player->y+=player->vy;
-	if((keysHeld() & KEY_UP ) && player->onblock==1 && player->person)
+	if((keysHeld() & (KEY_UP | KEY_A)) && player->onblock==1 && player->person)
 	{
 		player->vy=-5; // The -value is the rate which the guy jumps (DONT make it 1 hundred :P OR 1)
 		player->y-=1; //Make it come off the ground (not collide)
@@ -170,10 +170,6 @@ void playerFrame(){
 	framecount++;
 }
 
-void openInv(){
-  if(keysHeld() & KEY_A)
-    lcdMainOnBottom;
-	}
 
 void playerHurt(playerActor* player,int much,bool instant){
 	
