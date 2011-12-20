@@ -5,6 +5,7 @@
 #include "../player.h"
 #include "../world.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* SANDSTONEgfx;
 
 int sandstonels;
@@ -53,5 +54,17 @@ void SANDSTONE_colision(playerActor* player,worldObject* world,int bx,int by,int
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void SANDSTONE_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>240 && world->ChoosedBlock!=COBBLE){
+		world->blocks[x][y]=AIR;
+		//inventoryAdd(COBBLE); //If mined with the hand, don't give it to the player...
+		*mine_time=0;
+	}
+	else if (*mine_time>36 && world->ChoosedBlock==COBBLE){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(SANDSTONE);
+		*mine_time=0;
 	}
 }

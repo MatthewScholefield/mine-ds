@@ -5,6 +5,7 @@
 #include "../player.h"
 #include "../world.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* PLANKSgfx;
 int planksls;
 void PLANKS_render(int x,int y){
@@ -52,5 +53,12 @@ void PLANKS_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void PLANKS_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>180){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLANKS);
+		*mine_time=0;
 	}
 }

@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* WHITE_WOODgfx;
 int wood_whitels;
 void WHITE_WOOD_render(int x,int y){
@@ -52,5 +53,12 @@ void WHITE_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,in
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void WHITE_WOOD_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>180){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_W);
+		*mine_time=0;
 	}
 }

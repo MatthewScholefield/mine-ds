@@ -5,6 +5,7 @@
 #include "../player.h"
 #include "../world.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* LOGgfx;
 
 int woodls;
@@ -53,5 +54,12 @@ void LOG_colision(playerActor* player,worldObject* world,int bx,int by,int resul
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void LOG_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>180){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG);
+		*mine_time=0;
 	}
 }

@@ -201,10 +201,28 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						case DIRT:  DIRT_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case SNOW_GRASS:  SNOW_GRASS_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case SAND:  SAND_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case SANDSTONE:  SANDSTONE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case STONE:  STONE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case CACTUS:  CACTUS_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case COAL_ORE:  COAL_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case COBBLE: COBBLE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case DIAMOND_ORE: DIAMOND_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case GLASS: GLASS_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case GOLD_ORE: GOLD_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case IRON_ORE: IRON_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case REDSTONE_ORE: REDSTONE_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case LAPIS_ORE: LAPIS_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case GRAVEL: GRAVEL_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case LEAVES: LEAVES_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case LOG: LOG_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case WHITE_WOOD: WHITE_WOOD_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case PLACED_LOG: LOG_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case PLACED_LOG_W: WHITE_WOOD_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case PLACED_LOG_D: DARK_WOOD_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case DARK_WOOD: DARK_WOOD_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case PLANKS: PLANKS_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case TORCH: TORCH_mine(CurrentWorld,&mine_frame,lax,lay); break;
+
 					}
 				}
 				else if (block_action==1 && (lax!=MainPlayer->blockx || lay!=MainPlayer->blocky) ){ //Adding Blocks...
