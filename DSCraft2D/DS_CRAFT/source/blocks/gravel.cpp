@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* GRAVELgfx;
 int gravells=0;
 void GRAVEL_render(int x,int y){
@@ -54,3 +55,11 @@ void GRAVEL_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		player->y=by*32+33;
 	}
 }
+void GRAVEL_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>54){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(GRAVEL);
+		*mine_time=0;
+	}
+}
+

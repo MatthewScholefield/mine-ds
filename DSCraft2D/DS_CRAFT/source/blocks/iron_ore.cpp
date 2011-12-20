@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* IRON_OREgfx;
 int iron_orels;
 void IRON_ORE_render(int x,int y){
@@ -52,5 +53,12 @@ void IRON_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int 
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
+	}
+}
+void IRON_ORE_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>900){
+		world->blocks[x][y]=AIR;
+		//inventoryAdd(COBBLE); //If mined with anything (no tools to pick it up now...) don't give it to the player...
+		*mine_time=0;
 	}
 }

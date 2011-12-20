@@ -55,3 +55,10 @@ void LAPIS_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int
 		player->y=by*32+33;
 	}
 }
+void LAPIS_ORE_mine(worldObject* world,int* mine_time,int x,int y){
+	if (*mine_time>900){
+		world->blocks[x][y]=AIR;
+		//If mined with anything (no tools to pick it up now...) don't give it to the player...
+		*mine_time=0;
+	}
+}
