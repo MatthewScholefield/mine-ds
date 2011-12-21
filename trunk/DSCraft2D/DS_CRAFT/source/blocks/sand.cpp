@@ -8,7 +8,10 @@
 #include "../inventory.h"
 u16* SANDgfx;
 int sandls;
-void SAND_render(int x,int y){
+void SAND_render(int x,int y,int i,int j,worldObject* world){
+	createsprite32x32(x,y+(world->data[i][j]),SANDgfx,false,0);	
+}
+void SAND_render_nofall(int x,int y){
 	createsprite32x32(x,y,SANDgfx,false,0);	
 }
 void SAND_setup(){
@@ -60,5 +63,17 @@ void SAND_mine(worldObject* world,int* mine_time,int x,int y){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(SAND);
 		*mine_time=0;
+	}
+}
+void SAND_update(int bx,int by,worldObject* world,playerActor* player){
+	if (world->blocks[bx][by+1]==AIR){
+		if (world->data[bx][by]==0) world->data[bx][by]++; //Move the block 1 pixel down...	
+		world->data[bx][by]+=world->data[bx][by];
+	}
+	else world->data[bx][by]=0;
+	if (world->data[bx][by]>=32){
+		world->data[bx][by]=0;
+		world->blocks[bx][by]=AIR;
+		world->blocks[bx][by+1]=SAND;
 	}
 }
