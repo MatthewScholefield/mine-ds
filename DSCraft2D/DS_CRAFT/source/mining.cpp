@@ -39,7 +39,7 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	PLANKS_render(96,0);
 	LOG_render(128,0);
 	TORCH_render(160,0);
-	SAND_render(192,0);
+	SAND_render_nofall(192,0);
 	SANDSTONE_render(224,0);
 	GRAVEL_render(0,32);
 	DARK_WOOD_render(32,32);

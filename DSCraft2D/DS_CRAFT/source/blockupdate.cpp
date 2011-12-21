@@ -17,6 +17,7 @@ void updateBlocks(worldObject* world,playerActor* player){
 				case SNOW_GRASS: SNOW_GRASS_update(i,j,world,player); break;
 				case DIRT: DIRT_update(i,j,world,player); break;
 				case CACTUS: CACTUS_update(i,j,world,player); break;
+				case SAND: SAND_update(i,j,world,player); break;
 			}
 		}
 }
