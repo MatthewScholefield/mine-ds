@@ -16,7 +16,7 @@ void worldUpdate(worldObject* world,void* player2){
 					case GRASS: GRASS_render(i*32-world->CamX,j*32-world->CamY); break;	
 					case SNOW_GRASS: SNOW_GRASS_render(i*32-world->CamX,j*32-world->CamY); break;	
 					case DIRT: DIRT_render(i*32-world->CamX,j*32-world->CamY); break;
-					case SAND: SAND_render(i*32-world->CamX,j*32-world->CamY);	 break;
+					case SAND: SAND_render(i*32-world->CamX,j*32-world->CamY,i,j,world);	 break; //Sand needs extra parameters because it needs to "fall"
 					case WHITE_WOOD: WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
 					case DARK_WOOD: DARK_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
 					case PLACED_LOG_W: WHITE_WOOD_render(i*32-world->CamX,j*32-world->CamY); break;
