@@ -6,3 +6,4 @@ void LEAVES_colision(playerActor* player,worldObject* world,int bx,int by,int re
 void LEAVES_mine(worldObject* world,int* mine_time,int x,int y);
 
 
+void LEAVES_update(int bx,int by,worldObject* world,playerActor* player);
