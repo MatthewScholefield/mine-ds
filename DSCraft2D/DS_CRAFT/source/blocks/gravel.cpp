@@ -2,13 +2,16 @@
 #include "../ndsvideo.h"
 #include "block.h" //Include the block graphics
 #include "../blockID.h"
-#include "../world.h"
 #include "../player.h"
+#include "../world.h"
 #include "../sounds.h"
 #include "../inventory.h"
 u16* GRAVELgfx;
-int gravells=0;
-void GRAVEL_render(int x,int y){
+int GRAVELls;
+void GRAVEL_render(int x,int y,int i,int j,worldObject* world){
+	createsprite32x32(x,y+(world->data[i][j]),GRAVELgfx,false,0);	
+}
+void GRAVEL_render_nofall(int x,int y){
 	createsprite32x32(x,y,GRAVELgfx,false,0);	
 }
 void GRAVEL_setup(){
@@ -25,21 +28,21 @@ void GRAVEL_colision(playerActor* player,worldObject* world,int bx,int by,int re
 		player->onblock=true;
 		if (!(bx==player->sx && by==player->sy)){
 			player->sx=bx,player->sy=by;
-			if (gravells==0){
+			if (GRAVELls==0){
 				playSound(GRAVEL_A);		
-				gravells++;
+				GRAVELls++;
 			}
-			else if (gravells==1){
+			else if (GRAVELls==1){
 				playSound(GRAVEL_B);
-				gravells++;
+				GRAVELls++;
 			}	
-			else if (gravells==2){
+			else if (GRAVELls==2){
 				playSound(GRAVEL_C);
-				gravells++;
+				GRAVELls++;
 			}			
-			else if (gravells==3){
+			else if (GRAVELls==3){
 				playSound(GRAVEL_D);
-				gravells=0;
+				GRAVELls=0;
 			}
 		}
 	}
@@ -62,4 +65,15 @@ void GRAVEL_mine(worldObject* world,int* mine_time,int x,int y){
 		*mine_time=0;
 	}
 }
-
+void GRAVEL_update(int bx,int by,worldObject* world,playerActor* player){
+	if (world->blocks[bx][by+1]==AIR){
+		if (world->data[bx][by]==0) world->data[bx][by]++; //Move the block 1 pixel down...	
+		world->data[bx][by]+=world->data[bx][by];
+	}
+	else world->data[bx][by]=0;
+	if (world->data[bx][by]>=32){
+		world->data[bx][by]=0;
+		world->blocks[bx][by]=AIR;
+		world->blocks[bx][by+1]=GRAVEL;
+	}
+}

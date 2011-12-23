@@ -2,6 +2,8 @@
 #include "blockID.h"
 #include <stdio.h>
 #include <nds.h>	
+#define GRAVEL_START WORLD_HEIGHT/8
+#define GRAVEL_RARENESS 20
 #define COAL_START WORLD_HEIGHT/8
 #define COAL_RARENESS 48
 #define IRON_START WORLD_HEIGHT/3
@@ -205,7 +207,7 @@ void addCACTUS(worldObject* world,int x,int y){
 }
 
 void addFLOWER_RED(worldObject* world,int x,int y){
-	int height=rand() %2+2;
+	int height=rand() %20;
 	int i;
 	for (i=0;i<=height;i++){
 		y--;
@@ -214,12 +216,30 @@ void addFLOWER_RED(worldObject* world,int x,int y){
 }
 
 void addFLOWER_YELLOW(worldObject* world,int x,int y){
-	int height=rand() %2+2;
+	int height=rand() %20;
 	int i;
 	for (i=0;i<=height;i++){
 		y--;
         world->blocks[x][y]=FLOWER_YELLOW;
 		}
+}
+
+void addGRAVEL(worldObject* world){
+	int y=GRAVEL_START;
+	int i;
+	int id=GRAVEL;
+	int rareness=GRAVEL_RARENESS*2;
+	while(y<WORLD_HEIGHT){
+		for (i=0;i<=WORLD_WIDTH;i++){
+			if (rand() % rareness ==0){
+				//Place a block
+				if (world->blocks[i][y]==STONE) world->blocks[i][y]=id;
+				else if (world->blocks[i][y]==GRAVEL) world->blocks[i][y]=id;
+			}		
+		}
+		if (y%5==0) rareness--;
+		y++;
+	}
 }
 
 void addTrees(worldObject* world){
@@ -244,6 +264,7 @@ void modifyWorld(worldObject* world){
 	addrock(world);
 	addore(world);
 	addTrees(world);
+	addGRAVEL(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
