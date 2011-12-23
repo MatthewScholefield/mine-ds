@@ -36,6 +36,7 @@
 #define CACTUS 25 //:P
 #define WOOL_WHITE 26
 #define SNOW_GRASS 27
+#define FLOWER_RED 33
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253

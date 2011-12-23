@@ -56,6 +56,7 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	//Here Lapis-BLOCK
 	WOOL_WHITE_render(128,64);
 	SNOW_GRASS_render(160,64);
+	FLOWER_RED_render(192,64);
 	oamSet(&oamMain,nextSprite(),256/2-32,192-32,0,2,SpriteSize_64x32,SpriteColorFormat_256Color,donegfx,-1,false,false,false,false,false); 
 	oamUpdate(&oamMain);
 	while(fertig==false){
@@ -129,6 +130,9 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 			}
 			else if (spritecol2(mine_touch.px,mine_touch.py,160,64,1,1,32,32)){
 				i=SNOW_GRASS;
+			}
+			else if (spritecol2(mine_touch.px,mine_touch.py,192,64,1,1,32,32)){
+				i=FLOWER_RED;
 			}
 			else if (spritecol2(mine_touch.px,mine_touch.py,256/2-32,192-32,1,1,64,32)) fertig=true;
 			else {
