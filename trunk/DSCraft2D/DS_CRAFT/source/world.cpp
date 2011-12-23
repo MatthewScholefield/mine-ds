@@ -32,7 +32,7 @@ void worldUpdate(worldObject* world,void* player2){
 					case DOOR_OPEN_BOTTOM: DOOR_OPEN_render(i*32-world->CamX,j*32-world->CamY-32); break;
 					case DOOR_CLOSED_TOP: DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY); break;
 					case DOOR_CLOSED_BOTTOM: DOOR_CLOSED_render(i*32-world->CamX,j*32-world->CamY-32); break;
-					case GRAVEL: GRAVEL_render(i*32-world->CamX,j*32-world->CamY); break;
+					case GRAVEL: GRAVEL_render(i*32-world->CamX,j*32-world->CamY,i,j,world); break;
 					case SANDSTONE: SANDSTONE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case COAL_ORE: COAL_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case IRON_ORE: IRON_ORE_render(i*32-world->CamX,j*32-world->CamY); break;
