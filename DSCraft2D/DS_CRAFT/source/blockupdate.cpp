@@ -14,6 +14,7 @@ void updateBlocks(worldObject* world,playerActor* player){
 			{
 				case TORCH: TORCH_update(i,j,world,player); break;
 				case FLOWER_RED: FLOWER_RED_update(i,j,world,player); break;
+				case FLOWER_YELLOW: FLOWER_YELLOW_update(i,j,world,player); break;
 				case GRASS: GRASS_update(i,j,world,player); break;
 				case SNOW_GRASS: SNOW_GRASS_update(i,j,world,player); break;
 				case DIRT: DIRT_update(i,j,world,player); break;

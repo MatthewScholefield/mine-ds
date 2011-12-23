@@ -26,3 +26,4 @@
 #include "blocks/cactus.h"
 #include "blocks/snow_grass.h"
 #include "blocks/flower_red.h"
+#include "blocks/flower_yellow.h"

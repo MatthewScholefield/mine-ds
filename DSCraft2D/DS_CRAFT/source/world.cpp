@@ -45,6 +45,8 @@ void worldUpdate(worldObject* world,void* player2){
 				    //Here Lapis-BLOCK
 					case WOOL_WHITE: WOOL_WHITE_render(i*32-world->CamX,j*32-world->CamY); break;
 					case PLACED_LEAF: LEAVES_render(i*32-world->CamX,j*32-world->CamY); break;
+					case FLOWER_RED: FLOWER_RED_render(i*32-world->CamX,j*32-world->CamY); break;
+					case FLOWER_YELLOW: FLOWER_YELLOW_render(i*32-world->CamX,j*32-world->CamY); break;
 				}
 			}
 		}	
@@ -78,4 +80,6 @@ void worldSetUp(){
 	//Here Lapis-BLOCK
 	WOOL_WHITE_setup();
 	SNOW_GRASS_setup();
+	FLOWER_RED_setup();
+	FLOWER_YELLOW_setup();
 }

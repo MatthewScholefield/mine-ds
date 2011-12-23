@@ -204,12 +204,21 @@ void addCACTUS(worldObject* world,int x,int y){
 	}
 }
 
-void addFLOWERS(worldObject* world,int x,int y){
-	int height=rand() %1+1;
+void addFLOWER_RED(worldObject* world,int x,int y){
+	int height=rand() %2+2;
 	int i;
 	for (i=0;i<=height;i++){
 		y--;
-		world->blocks[x][y]=FLOWER_RED;
+        world->blocks[x][y]=FLOWER_RED;
+		}
+}
+
+void addFLOWER_YELLOW(worldObject* world,int x,int y){
+	int height=rand() %2+2;
+	int i;
+	for (i=0;i<=height;i++){
+		y--;
+        world->blocks[x][y]=FLOWER_YELLOW;
 		}
 }
 
@@ -220,7 +229,8 @@ void addTrees(worldObject* world){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
 			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);	
             else if (world->blocks[i][j]==SNOW_GRASS && (world->blocks[i-1][j]==SNOW_GRASS || world->blocks[i+1][j]==SNOW_GRASS)) addtree(world,i,j,1); //1 makes the trees have darker wood...
-			else if (world->blocks[i][j]==GRASS) addFLOWERS(world,i,j);	
+			else if (world->blocks[i][j]==GRASS) addFLOWER_RED(world,i,j);	
+			else if (world->blocks[i][j]==GRASS) addFLOWER_YELLOW(world,i,j);	
 		}
 	swiWaitForVBlank();
 }
