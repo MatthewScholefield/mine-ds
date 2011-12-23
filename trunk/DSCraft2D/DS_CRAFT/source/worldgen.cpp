@@ -281,7 +281,7 @@ void modifyWorld(worldObject* world){
 }
 int mountainbiome(worldObject* world,int startx,int starty,int endx){
 	int y=starty;
-	for (int x=startx;x<=endx;x++){
+	for (int x=startx;x<endx;x++){
 		y+=rand() % 5-2;
 		if (y<5) y-=rand() %3-3;
 		if (y>WORLD_HEIGHT/3) y-=rand()%3;
@@ -297,7 +297,7 @@ int flatbiome(worldObject* world,int startx,int starty,int endx){
 	int changey=0;
 	int i;
 	int times=rand()%3+1;
-	for (x=startx;x<=endx;x++){
+	for (x=startx;x<endx;x++){
 		if (changey==0){
 			y+=rand() % 3-1;	
 			times++;	
@@ -317,7 +317,7 @@ int sandbiome(worldObject* world,int startx,int starty,int endx){
 	int changey=0;
 	int i;
 	int times=rand()%3+1;
-	for (x=startx;x<=endx;x++){
+	for (x=startx;x<endx;x++){
 		if (changey==0){
 			y+=rand() % 3-1;	
 			times++;	
@@ -337,7 +337,7 @@ int snowbiome(worldObject* world,int startx,int starty,int endx){
 	int changey=0;
 	int i;
 	int times=rand()%3+1;
-	for (x=startx;x<=endx;x++){
+	for (x=startx;x<endx;x++){
 		if (changey==0){
 			y+=rand() % 3-1;	
 			times++;	
@@ -372,9 +372,8 @@ void generateWorld(worldObject* world){
 		else if (biometype==1) y2=flatbiome(world,x,y,endx);
 		else if (biometype==2) y2=sandbiome(world,x,y,endx);
 		else if (biometype==3) y2=snowbiome(world,x,y,endx);
-		x=endx; //Plus 1 x to move one block between biomes
+		x=endx;
 		y=y2;
-		//x++;
 	}
 	modifyWorld(world);
 }
