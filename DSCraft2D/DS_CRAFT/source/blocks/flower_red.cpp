@@ -21,6 +21,7 @@ void FLOWER_RED_update(int bx,int by,worldObject* world,playerActor* player){
 	else if (world->blocks[bx][by+1]==FLOWER_RED) world->blocks[bx][by]=AIR;
 }
 void FLOWER_RED_mine(worldObject* world,int* mine_time,int x,int y){
+	world->blocks[x][y]=AIR;
 	inventoryAdd(FLOWER_RED);
 	*mine_time=0;
 }
