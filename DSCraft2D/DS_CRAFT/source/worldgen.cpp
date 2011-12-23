@@ -75,7 +75,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 	y=IRON_START;
 	id=IRON_ORE;
 	rareness=IRON_RARENESS*2;
@@ -90,7 +90,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 	y=GOLD_START;
 	id=GOLD_ORE;
 	rareness=GOLD_RARENESS;
@@ -105,7 +105,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 	y=REDSTONE_START;
 	id=REDSTONE_ORE;
 	rareness=REDSTONE_RARENESS*2;
@@ -120,7 +120,7 @@ void addore(worldObject* world){
 		if (y%5==0) rareness--;
 		y++;
 	}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 	y=DIAMOND_START;
 	id=DIAMOND_ORE;
 	rareness=DIAMOND_RARENESS*2;
@@ -195,7 +195,7 @@ void addrock(worldObject* world){
 			}
 		}
 
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 }
 void addCACTUS(worldObject* world,int x,int y){
 	int height=rand() %1+1;
@@ -249,10 +249,10 @@ void addTrees(worldObject* world){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
 			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);	
             else if (world->blocks[i][j]==SNOW_GRASS && (world->blocks[i-1][j]==SNOW_GRASS || world->blocks[i+1][j]==SNOW_GRASS)) addtree(world,i,j,1); //1 makes the trees have darker wood...
-			else if (world->blocks[i][j]==GRASS) addFLOWER_RED(world,i,j);	
+			else if (world->blocks[i][j]==GRASS && rand() % 2) addFLOWER_RED(world,i,j);	//rand() %2 makes a 1/2 chance of running addFLOWER_RED only if the addFLOWER_RED was NOT run, will the addFLOWER_YELLOW run... you need chance of the addFLOW_RED not running for the YELLOW to run..
 			else if (world->blocks[i][j]==GRASS) addFLOWER_YELLOW(world,i,j);	
 		}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 }
 
 void modifyWorld(worldObject* world){
@@ -268,7 +268,7 @@ void modifyWorld(worldObject* world){
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 	world->version=2;
 }
 int mountainbiome(worldObject* world,int startx,int starty,int endx){
@@ -296,7 +296,7 @@ int flatbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=rand() % 5+2;
-			swiWaitForVBlank();
+			//swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=DIRT;
 		changey--;
@@ -316,7 +316,7 @@ int sandbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=4+rand() % 2;
-			swiWaitForVBlank();
+			//swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SAND;
 		changey--;
@@ -337,7 +337,7 @@ int snowbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=4+rand() % 2;
-			swiWaitForVBlank();
+			//swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SNOW_GRASS;
 		changey--;
