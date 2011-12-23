@@ -78,7 +78,7 @@ int main(){
 	MainPlayer->person=true;
 		
         while(1){
-				if (keysDown() & KEY_B) playSound(PIG_A);
+				//if (keysDown() & KEY_B) playSound(PIG_A);
 		soundUpdate();
                 saveUpdate(CurrentWorld,MainPlayer);
 		controlsFrame();
