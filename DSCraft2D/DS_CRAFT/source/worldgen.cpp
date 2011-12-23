@@ -44,7 +44,7 @@ void fixsnowgrass(worldObject* world){
 				world->blocks[i][j]=SNOW_GRASS; //Then if a block should be grass make it grass
 				j=WORLD_HEIGHT+1;  			   //And Exit this X
 			}
-			else if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG){ //And If we have not encountered dirt and we are at a different block
+			else if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=DARK_WOOD){ //And If we have not encountered dirt and we are at a different block
 				j=WORLD_HEIGHT+1;			    //Exit this X
 			}
 		}
