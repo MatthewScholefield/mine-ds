@@ -326,8 +326,8 @@ void generateWorld(worldObject* world){
 		else if (biometype==3) y2=snowbiome(world,x,y,endx);
 		x=endx; //Plus 1 x to move one block between biomes
 		y=y2;
-		x++;
-		swiWaitForVBlank();
+		//x++;
+		//swiWaitForVBlank();
 	}
 	modifyWorld(world);
 }
