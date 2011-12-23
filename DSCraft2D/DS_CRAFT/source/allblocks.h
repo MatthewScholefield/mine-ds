@@ -25,3 +25,4 @@
 #include "blocks/wool_white.h"
 #include "blocks/cactus.h"
 #include "blocks/snow_grass.h"
+#include "blocks/flower_red.h"
