@@ -17,6 +17,7 @@ void FLOWER_YELLOW_setup(){
 	dmaCopy(blocktiles,FLOWER_YELLOWgfx,32*32);
 }
 void FLOWER_YELLOW_update(int bx,int by,worldObject* world,playerActor* player){
+	//AHEM, you need to give the flower when it can't stay on the current block...
 	if (world->blocks[bx][by+1]==AIR) world->blocks[bx][by]=AIR;
 	else if (world->blocks[bx][by+1]==FLOWER_YELLOW) world->blocks[bx][by]=AIR;
 }

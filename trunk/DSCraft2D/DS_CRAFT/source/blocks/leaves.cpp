@@ -41,3 +41,18 @@ void LEAVES_mine(worldObject* world,int* mine_time,int x,int y){
 		*mine_time=0;
 	}
 }
+void LEAVES_update(int bx,int by,worldObject* world,playerActor* player){
+	if (rand() % 200==0){
+		int i,j;
+		bool log=false;
+		for (i=bx-4;i<=bx+4;i++){
+			for(j=by-4;j<=by+4;j++){
+				if (world->blocks[i][j]==LOG || world->blocks[i][j]==WHITE_WOOD || world->blocks[i][j]==DARK_WOOD || world->blocks[i][j]==PLACED_LOG || world->blocks[i][j]==PLACED_LOG_W || world->blocks[i][j]==PLACED_LOG_D){
+					log=true;
+				}
+			}
+		}
+		if (log==false) world->blocks[bx][by]=AIR;
+	}
+}
+

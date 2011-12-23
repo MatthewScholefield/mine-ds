@@ -249,7 +249,14 @@ void addTrees(worldObject* world){
 			if (world->blocks[i][j]==GRASS && (world->blocks[i-1][j]==GRASS || world->blocks[i+1][j]==GRASS)) addtree(world,i,j,0);
 			else if (world->blocks[i][j]==SAND) addCACTUS(world,i,j);	
             else if (world->blocks[i][j]==SNOW_GRASS && (world->blocks[i-1][j]==SNOW_GRASS || world->blocks[i+1][j]==SNOW_GRASS)) addtree(world,i,j,1); //1 makes the trees have darker wood...
-			else if (world->blocks[i][j]==GRASS && rand() % 2) addFLOWER_RED(world,i,j);	//rand() %2 makes a 1/2 chance of running addFLOWER_RED only if the addFLOWER_RED was NOT run, will the addFLOWER_YELLOW run... you need chance of the addFLOW_RED not running for the YELLOW to run..
+		}
+	//swiWaitForVBlank();
+}
+void addFlowers(worldObject* world){
+	int i,j;
+	for (i=0;i<=WORLD_WIDTH;i+=rand() % 10+2)
+		for (j=0;j<=WORLD_HEIGHT;j++){
+			if ((world->blocks[i][j]==GRASS || world->blocks[i][j]==SNOW_GRASS) && rand() % 2) addFLOWER_RED(world,i,j);	//rand() %2 makes a 1/2 chance of running addFLOWER_RED only if the addFLOWER_RED was NOT run, will the addFLOWER_YELLOW run... you need chance of the addFLOW_RED not running for the YELLOW to run..
 			else if (world->blocks[i][j]==GRASS) addFLOWER_YELLOW(world,i,j);	
 		}
 	//swiWaitForVBlank();
@@ -265,6 +272,7 @@ void modifyWorld(worldObject* world){
 	addore(world);
 	addTrees(world);
 	addGRAVEL(world);
+	addFlowers(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}
@@ -316,7 +324,6 @@ int sandbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=4+rand() % 2;
-			//swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SAND;
 		changey--;
@@ -337,7 +344,6 @@ int snowbiome(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=4+rand() % 2;
-			//swiWaitForVBlank();
 		}
 		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=SNOW_GRASS;
 		changey--;
@@ -369,7 +375,6 @@ void generateWorld(worldObject* world){
 		x=endx; //Plus 1 x to move one block between biomes
 		y=y2;
 		//x++;
-		//swiWaitForVBlank();
 	}
 	modifyWorld(world);
 }
