@@ -58,7 +58,7 @@ void STONE_setup(){
 	stonels=0;
 }
 void STONE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>4 && world->ChoosedBlock!= COBBLE){
+	if (*mine_time>450 && world->ChoosedBlock!= COBBLE){
 		world->blocks[x][y]=AIR;
 		if (rand()%6==0) inventoryAdd(STONE);
 		else inventoryAdd(COBBLE);
