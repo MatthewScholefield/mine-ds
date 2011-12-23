@@ -64,9 +64,10 @@ void mobUpdate(worldObject* world){
 		//It is night time
 		if (mobs_frame%750==0) spawnMonster();
 	}
-	if (keysHeld() & KEY_B){
-		PIG_update(&Mobs.mobs[1],world,&Mobs.mobs[0].mobPlayer);
-	}if (keysDown() & KEY_B){
+	//if (keysHeld() & KEY_B){
+		//PIG_update(&Mobs.mobs[1],world,&Mobs.mobs[0].mobPlayer);
+	//}
+	if (keysDown() & KEY_B){
 	//	if (!deSpawnMonster()) iprintf("Failed to spawn a mob\n");
 	}
 	
