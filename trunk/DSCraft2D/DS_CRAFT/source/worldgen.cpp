@@ -207,21 +207,11 @@ void addCACTUS(worldObject* world,int x,int y){
 }
 
 void addFLOWER_RED(worldObject* world,int x,int y){
-	int height=rand() %20;
-	int i;
-	for (i=0;i<=height;i++){
-		y--;
-        world->blocks[x][y]=FLOWER_RED;
-		}
+        world->blocks[x][y-1]=FLOWER_RED;
 }
 
 void addFLOWER_YELLOW(worldObject* world,int x,int y){
-	int height=rand() %20;
-	int i;
-	for (i=0;i<=height;i++){
-		y--;
-        world->blocks[x][y]=FLOWER_YELLOW;
-		}
+        world->blocks[x][y-1]=FLOWER_YELLOW;
 }
 
 void addGRAVEL(worldObject* world){
@@ -270,9 +260,9 @@ void modifyWorld(worldObject* world){
 	fixsnowgrass(world);
 	addrock(world);
 	addore(world);
+	addFlowers(world);
 	addTrees(world);
 	addGRAVEL(world);
-	addFlowers(world);
 	for (x=0;x<=WORLD_WIDTH;x++){
 		world->blocks[x][WORLD_HEIGHT]=BEDROCK;	
 	}

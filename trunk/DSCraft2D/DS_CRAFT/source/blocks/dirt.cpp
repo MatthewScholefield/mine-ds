@@ -58,14 +58,23 @@ void DIRT_colision(playerActor* player,worldObject* world,int bx,int by,int resu
 }
 void DIRT_update(int bx,int by,worldObject* world,playerActor* player){
         int j;
+	int i=bx;
         if (world->data[bx][by]>rand() % 128 + 384){
                 for (j=0;j<=WORLD_HEIGHT;j++){
                         if(world->blocks[bx][j]==DIRT && j==by){
-                                world->blocks[bx][by]=GRASS;
+				bool cangrow;
+				int a,b;
+				for (a=bx-1;a<=bx+1;a++)
+					for(b=by-2;b<=by+1;b++){
+						if (world->blocks[a][b]==GRASS) 
+                         			       world->blocks[bx][by]=GRASS;	
+						else if (world->blocks[a][b]==SNOW_GRASS)	
+                         			       world->blocks[bx][by]=SNOW_GRASS;		
+					}
                                 world->data[bx][by]=0;
                                 j=WORLD_HEIGHT+1;       
                         }
-                        else if (world->blocks[bx][j]!=AIR){ //And If we have not encountered dirt and we are at a different block
+                        else if (world->blocks[bx][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG && world->blocks[i][j]!=DARK_WOOD && world->blocks[i][j]!=FLOWER_RED && world->blocks[i][j]!=FLOWER_YELLOW){ //And If we have not encountered dirt and we are at a different block
                                 world->data[bx][by]=0;
                                 j=WORLD_HEIGHT+1;                           //Exit this X
                         }

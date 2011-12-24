@@ -13,7 +13,7 @@ void monsterUpdate(mobActor* monster,worldObject* world,playerActor* player){
 		if (monster->mobPlayer.onblock==true){
 			monster->data[1]++;
 			if (monster->data[1]%60==0){
-				monster->mobPlayer.vy=-6;
+				monster->mobPlayer.vy=-5;
 				monster->mobPlayer.y-=1;
 			}
 		}
