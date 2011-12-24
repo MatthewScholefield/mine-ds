@@ -56,13 +56,19 @@ void SNOW_GRASS_colision(playerActor* player,worldObject* world,int bx,int by,in
 	}
 }
 void SNOW_GRASS_update(int bx,int by,worldObject* world,playerActor* player){
-	if (!(bx<player->sx-32 && bx>player->sx+32)){
-		//Check for change to dirt
-		int i;
-		for (i=0;i<=by;i++){
-			if (i<by && world->blocks[bx][i]!=AIR) world->blocks[bx][by]=DIRT;	
-		}	
-	}
+	int i=bx;
+	int j;
+	bool grass=true;
+		for (j=0;j<=player->blocky+16 && j<=WORLD_HEIGHT;j++){
+			if(world->blocks[i][j]==SNOW_GRASS){ //Then if a block should be grass
+				j=WORLD_HEIGHT+1;  			   //Exit this X
+			}
+			else if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG && world->blocks[i][j]!=DARK_WOOD && world->blocks[i][j]!=FLOWER_RED && world->blocks[i][j]!=FLOWER_YELLOW){ 	
+				grass=false;
+				j=WORLD_HEIGHT+1;			    //Exit this X
+			}
+		}
+	if (grass==false) world->blocks[bx][by]=DIRT;
 }
 void SNOW_GRASS_mine(worldObject* world,int* mine_time,int x,int y){
 	if (*mine_time>54){
