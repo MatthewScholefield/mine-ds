@@ -63,7 +63,7 @@ void GRASS_update(int bx,int by,worldObject* world,playerActor* player){
 			if(world->blocks[i][j]==GRASS){ //Then if a block should be grass
 				j=WORLD_HEIGHT+1;  			   //Exit this X
 			}
-			else if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG){ 	
+			else if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG && world->blocks[i][j]!=DARK_WOOD && world->blocks[i][j]!=FLOWER_RED && world->blocks[i][j]!=FLOWER_YELLOW){ 	
 				grass=false;
 				j=WORLD_HEIGHT+1;			    //Exit this X
 			}

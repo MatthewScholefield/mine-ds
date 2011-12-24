@@ -69,7 +69,7 @@ void soundUpdate(){
 	music.frames++;
 	if (music.frames==30){
 		if(rand()%256==0 ){	//rand() is a number between 0 to 65535 we use % to limit this range.
-				//Here I don't want to limit this range... We have a 1 in 65535 chance of the music stopping or starting...
+				//What?!?!?!?!?! Weird comment xD
 			iprintf("BLARG");
 			if (music.playing==false){
 				music.playing=true;
@@ -82,7 +82,7 @@ void soundUpdate(){
 				else if (music.musictype==2) mmStart(MOD_WETHANDS,MM_PLAY_ONCE);
 				mmSetModuleVolume(music.volume);						
 			}
-			else if (music.playing==true){
+			else if (music.playing==true && rand() % 2){
 				iprintf("Stop");
 				music.playing=false;
 				music.volumechanging=2;
@@ -94,13 +94,11 @@ void soundUpdate(){
 		music.frames=0;
 	}
 	if (music.volumechanging==1){
-		iprintf("VUP");
 		music.volume++;
 		mmSetModuleVolume(music.volume);	
 		if (music.volume==1024) music.volumechanging=0;
 	}
 	if (music.volumechanging==2){
-		iprintf("VDOwn");
 		music.volume--;
 		mmSetModuleVolume(music.volume);	
 		if (music.volume==0){
