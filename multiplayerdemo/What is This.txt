@@ -1,0 +1,6 @@
+This is a Team Drawing Demo demonstrating the DS2DS Functions that have been written...
+It is sometimes called NiFi.
+For This demo to work, you MUST follow the instructions at 
+http://www.youwrite.com/greenacorn/index.php?option=com_content&view=article&id=18%3Anifi-ds-to-ds-comms&catid=9%3Ands&Itemid=1
+That will modify your copy of libnds to allow the use of some NiFi functions.
+Do NOT use their NiFi example code, it was written with PALib instead to test the new NiFi functions compile this demo.
