@@ -85,7 +85,8 @@ void mobUpdate(worldObject* world){
 	y+=world->CamY;
 	for (i=1;i<=49;i++){
 		if (spritecol(x,y,Mobs.mobs[i].mobPlayer.x,Mobs.mobs[i].mobPlayer.y,2,2,32,64) && x>Mobs.mobs[0].mobPlayer.x-96 && x<Mobs.mobs[0].mobPlayer.x+96 && y>Mobs.mobs[0].mobPlayer.y-96 && y<Mobs.mobs[0].mobPlayer.y+96 ){
-			playerHurt(&Mobs.mobs[i].mobPlayer,1,false);				
+			if (keysDown() & KEY_TOUCH) playerHurt(&Mobs.mobs[i].mobPlayer,1,true);		
+					
 		}
 	}
 }
