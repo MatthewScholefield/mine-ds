@@ -119,6 +119,8 @@ void updateplayer(playerActor* player,worldObject* world){
 		player->x+=2;
 		player->facing_left=false;
 	}
+	if (player->frame==1 && player->facing_left && player->framecount%2) player->x++;
+	else if (player->frame==1 && player->facing_left==false && player->framecount%2) player->x--;
 	if (player->person) world->CamX=player->x-(256/2-16);
 	if (player->person) world->CamY=player->y-(192/2-32);
 	//Createthe block positions
