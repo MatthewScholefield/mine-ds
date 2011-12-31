@@ -68,12 +68,11 @@ void playSound(int sound){
 void soundUpdate(){
 	music.frames++;
 	if (music.frames==30){
-		if(rand()%256==0 ){	//rand() is a number between 0 to 65535 we use % to limit this range.
-				//What?!?!?!?!?! Weird comment xD
-			iprintf("BLARG");
+		if(rand()%256==0 ){	
+			//iprintf("BLARG");
 			if (music.playing==false){
 				music.playing=true;
-				iprintf("Start");
+				//iprintf("Start");
 				music.volumechanging=1;
 				music.musictype=rand() %3;
 				music.volume=0;
@@ -83,7 +82,7 @@ void soundUpdate(){
 				mmSetModuleVolume(music.volume);						
 			}
 			else if (music.playing==true && rand() % 2){
-				iprintf("Stop");
+				//iprintf("Stop");
 				music.playing=false;
 				music.volumechanging=2;
 				music.volume=1024;

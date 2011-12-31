@@ -107,5 +107,20 @@ void invSave(FILE* save_file){
 void invLoad(FILE* save_file){
         fread(&inventory, 1, sizeof(inventory), save_file);
 }
-
+bool invHave(int blockID){
+	int i;
+	int found=0;
+	int foundID=0;
+	for (i=0;i<=35;i++){
+	//Find an entry of "blockID"
+		if (inventory.blockID[i]==blockID){
+			found=1;
+			foundID=i;//Keep the entry """address""" in the variable foundID...
+			i=37;
+		}
+	}
+	if (found==0) return 0;
+	else return 1;
+	return 0;
+}
 
