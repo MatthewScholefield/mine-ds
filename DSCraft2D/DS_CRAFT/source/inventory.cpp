@@ -123,4 +123,19 @@ bool invHave(int blockID){
 	else return 1;
 	return 0;
 }
-
+bool invHaveAmount(int blockID,int amount){
+	int i;
+	int found=0;
+	int foundID=0;
+	for (i=0;i<=35;i++){
+	//Find an entry of "blockID"
+		if (inventory.blockID[i]==blockID){
+			found=1;
+			foundID=i;//Keep the entry """address""" in the variable foundID...
+			i=37;
+		}
+	}
+	if (inventory.blockAmount[foundID]<amount) return 0;
+	else return 1;
+	return 0;
+}
