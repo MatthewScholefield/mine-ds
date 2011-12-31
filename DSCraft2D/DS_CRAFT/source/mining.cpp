@@ -15,6 +15,7 @@
 int block_action;
 touchPosition mine_touch;
 int mine_frame;
+int mine_timeout;
 u16* donegfx;
 int olax, olay;
 int spritecol2(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int sSizey){
@@ -33,6 +34,7 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	resetSpriteCount();
 	int i=AIR;
 	oamClear(&oamMain,0,127);
+	
 	DIRT_render(0,0);
 	STONE_render(32,0);
 	COBBLE_render(64,0);
@@ -202,7 +204,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 			olay=lay; //Create a variable of the last position...
 			olax=lax;
 			if (CurrentWorld->blocks[lax][lay]!=AIR) PlayerPunch(MainPlayer);
-				if (block_action==0){ //REmoving blocks
+				if (block_action==0 && !(keysHeld() & KEY_B || keysHeld() & KEY_DOWN )){ //REmoving blocks
 					switch(CurrentWorld->blocks[lax][lay])
 					{
 						case GRASS:  GRASS_mine(CurrentWorld,&mine_frame,lax,lay); break;
@@ -235,14 +237,16 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 
 					}
 				}
-				else if (block_action==1 && (lax!=MainPlayer->blockx || lay!=MainPlayer->blocky) ){ //Adding Blocks...
-						if (CurrentWorld->blocks[lax][lay]==AIR){ // You can only place blocks on air...
+				else if (block_action==1 && (lax!=MainPlayer->blockx || lay!=MainPlayer->blocky) && !(keysHeld() & KEY_B || keysHeld() & KEY_DOWN) && mine_timeout==0){ //Adding Blocks...
+						if (CurrentWorld->blocks[lax][lay]==AIR ){ // You can only place blocks on air...
 							if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+						mine_timeout=31;
 						}
 				}
-				if (CurrentWorld->blocks[lax][lay]==AIR) mine_frame=0;
+				//if (CurrentWorld->blocks[lax][lay]==AIR) mine_frame=0;
 			}
 		else {
 			mine_frame=0;		
 		}
+		if (mine_timeout>0) mine_timeout--;
 }
