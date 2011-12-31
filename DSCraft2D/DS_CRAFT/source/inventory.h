@@ -11,3 +11,4 @@ void DrawAmount(worldObject* world);
 void DrawAmountNum(int i);
 void invLoad(FILE* save_file);
 void invSave(FILE* save_file);
+bool invHave(int blockID);

@@ -52,6 +52,8 @@ void worldUpdate(worldObject* world,void* player2){
 		}	
 	}
 }
+void drawBlock(int block){
+}
 void worldSetUp(){
 	STONE_setup();
 	GRASS_setup();

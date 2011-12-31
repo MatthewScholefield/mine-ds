@@ -25,123 +25,106 @@ int spritecol2(int fx,int fy,int sx,int sy,int fSizex,int fSizey,int sSizex,int 
 		return 0;
 	return 0;
 }
+void drawBlock(int block,int x,int y){
+	//When implementing a new block that you can pick up.. you MUST update this function as well...
+	switch(block)
+	{
+		case STONE: STONE_render(x,y); break;
+		case GRASS: GRASS_render(x,y); break;	
+		case SNOW_GRASS: SNOW_GRASS_render(x,y); break;	
+		case DIRT: DIRT_render(x,y); break;
+		case SAND: SAND_render_nofall(x,y);	 break; //Sand needs extra parameters because it needs to "fall"
+		case WHITE_WOOD: WHITE_WOOD_render(x,y); break;
+		case DARK_WOOD: DARK_WOOD_render(x,y); break;
+		case PLACED_LOG_W: WHITE_WOOD_render(x,y); break;
+		case PLACED_LOG_D: DARK_WOOD_render(x,y); break;
+		case LOG: LOG_render(x,y); break;
+		case PLACED_LOG: LOG_render(x,y); break;
+		case LEAVES: LEAVES_render(x,y); break;
+		case PLANKS: PLANKS_render(x,y); break;
+		case TORCH: TORCH_render(x,y); break;
+		case COBBLE: COBBLE_render(x,y); break;
+		case BEDROCK: BEDROCK_render(x,y); break;
+		case DOOR_OPEN_TOP: DOOR_OPEN_render(x,y); break;
+		case DOOR_OPEN_BOTTOM: DOOR_OPEN_render(x,y-32); break;
+		case DOOR_CLOSED_TOP: DOOR_CLOSED_render(x,y); break;
+		case DOOR_CLOSED_BOTTOM: DOOR_CLOSED_render(x,y-32); break;
+		case GRAVEL: GRAVEL_render_nofall(x,y); break;
+		case SANDSTONE: SANDSTONE_render(x,y); break;
+		case COAL_ORE: COAL_ORE_render(x,y); break;
+		case IRON_ORE: IRON_ORE_render(x,y); break;
+		case GOLD_ORE: GOLD_ORE_render(x,y); break;
+		case DIAMOND_ORE: DIAMOND_ORE_render(x,y); break;
+		case REDSTONE_ORE: REDSTONE_ORE_render(x,y); break;
+		case LAPIS_ORE: LAPIS_ORE_render(x,y); break;
+		case GLASS: GLASS_render(x,y); break;
+		case CACTUS: CACTUS_render(x,y); break;
+	    //Here Lapis-BLOCK
+		case WOOL_WHITE: WOOL_WHITE_render(x,y); break;
+		case PLACED_LEAF: LEAVES_render(x,y); break;
+		case FLOWER_RED: FLOWER_RED_render(x,y); break;
+		case FLOWER_YELLOW: FLOWER_YELLOW_render(x,y); break;
+	}
+}
 void doneSetup(){
 	donegfx=oamAllocateGfx(&oamMain,SpriteSize_64x32,SpriteColorFormat_256Color);
 	dmaCopy(doneTiles,donegfx,64*32);
+	int i;
+	
 }
 int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	int fertig=false;
 	resetSpriteCount();
 	int i=AIR;
 	oamClear(&oamMain,0,127);
-	
-	DIRT_render(0,0);
-	STONE_render(32,0);
-	COBBLE_render(64,0);
-	PLANKS_render(96,0);
-	LOG_render(128,0);
-	TORCH_render(160,0);
-	SAND_render_nofall(192,0);
-	SANDSTONE_render(224,0);
-	GRAVEL_render_nofall(0,32);
-	DARK_WOOD_render(32,32);
-	WHITE_WOOD_render(64,32);
-	LEAVES_render(96,32);
-	COAL_ORE_render(128,32);
-	IRON_ORE_render(160,32);
-	GOLD_ORE_render(192,32);
-	REDSTONE_ORE_render(224,32);
-	DIAMOND_ORE_render(0,64);
-	LAPIS_ORE_render(32,64);
-	GLASS_render(64,64);
-	CACTUS_render(96,64);
-	//Here Lapis-BLOCK
-	WOOL_WHITE_render(128,64);
-	SNOW_GRASS_render(160,64);
-	FLOWER_RED_render(192,64);
-	FLOWER_YELLOW_render(224,64);
+	//DIRT_render(0,0); //DEBUG STUFF...........
+	int x=0;
+	int y=0;
+	int blocks[4][8];
+	int a=0;
+	int b;
+	//Clear the blocks[4][8] array...
+	for (b=0;b<=3;b++)
+		for(a=0;a<=7;a++)
+			blocks[b][a]=AIR;
+	bool done=false;
+	b=0;
+	//Display all the collected blocks...
+	while(y<4 && b<128){
+		if (invHave(b)){
+			//If you have the block "B"
+			//iprintf("%d,%d,%d\n",b,x,y);
+			drawBlock(b,x*32,y*32);
+			blocks[y][x]=b;
+			x++;
+		}
+		if (x==7){
+			y++;
+			x=0;		
+		}
+		b++;
+	}
 	oamSet(&oamMain,nextSprite(),256/2-32,192-32,0,2,SpriteSize_64x32,SpriteColorFormat_256Color,donegfx,-1,false,false,false,false,false); 
 	oamUpdate(&oamMain);
+	a=0;
 	while(fertig==false){
 		//38,32 //A reminder to myself	
 		scanKeys();
 		touchRead(&mine_touch);
 		if (keysDown() & KEY_TOUCH){
-			if (spritecol2(mine_touch.px,mine_touch.py,0,0,1,1,32,32)){
-				i=DIRT;
+			bool touched=false;
+			//Check whether a block was touched...
+			for (y=0;y<=3;y++){
+				for(x=0;x<=7;x++){
+					if (spritecol2(mine_touch.px,mine_touch.py,x*32,y*32,1,1,32,32)){
+						i=blocks[y][x];
+						//iprintf("Collision! %d %d %d\n",i,y,x);
+						touched=true;				
+					}
+				}			
 			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,32,0,1,1,32,32)){
-				i=STONE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,64,0,1,1,32,32)){
-				i=COBBLE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,96,0,1,1,32,32)){
-				i=WOOD;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,128,0,1,1,32,32)){
-				i=PLACED_LOG;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,160,0,1,1,32,32)){
-				i=TORCH;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,192,0,1,1,32,32)){
-				i=SAND;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,224,0,1,1,32,32)){
-				i=SANDSTONE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,32,32,1,1,32,32)){
-				i=PLACED_LOG_D;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,64,32,1,1,32,32)){
-				i=PLACED_LOG_W;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,96,32,1,1,32,32)){
-				i=PLACED_LEAF;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,0,32,1,1,32,32)){
-				i=GRAVEL;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,128,32,1,1,32,32)){
-				i=COAL_ORE;
-			}			
-			else if (spritecol2(mine_touch.px,mine_touch.py,160,32,1,1,32,32)){
-				i=IRON_ORE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,192,32,1,1,32,32)){
-				i=GOLD_ORE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,224,32,1,1,32,32)){
-				i=REDSTONE_ORE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,0,64,1,1,32,32)){
-				i=DIAMOND_ORE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,32,64,1,1,32,32)){
-				i=LAPIS_ORE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,64,64,1,1,32,32)){
-				i=GLASS;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,96,64,1,1,32,32)){
-				i=CACTUS;
-			}
-			//Here Lapis-Block
-			else if (spritecol2(mine_touch.px,mine_touch.py,128,64,1,1,32,32)){
-				i=WOOL_WHITE;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,160,64,1,1,32,32)){
-				i=SNOW_GRASS;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,192,64,1,1,32,32)){
-				i=FLOWER_RED;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,224,64,1,1,32,32)){
-				i=FLOWER_YELLOW;
-			}
-			else if (spritecol2(mine_touch.px,mine_touch.py,256/2-32,192-32,1,1,64,32)) fertig=true;
-			else {
+			if (spritecol2(mine_touch.px,mine_touch.py,256/2-32,192-32,1,1,64,32)) fertig=true;
+			else if (touched==false){
 				i=AIR;
 			}
 			subShowBlock(i);
@@ -152,6 +135,7 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 			oamUpdate(&oamSub);
 	
 	}
+	//iprintf("Current i %d", i);
 	while(keysHeld() & KEY_TOUCH) scanKeys();
 	return i;
 }
