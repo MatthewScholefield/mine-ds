@@ -136,6 +136,7 @@ void saveUpdate(worldObject* world,playerActor* player){
                 swiWaitForVBlank(); //Wait for a VBlank
                 oamUpdate(&oamMain); //Update the sprites
                 oamUpdate(&oamSub);
+		inventoryInit();
                 //iprintf("Camera Position:%d,%d\n",world->CamX,world->CamY);
                 //iprintf("Player Position:%d,%d\n",player->x,player->y);
                 //iprintf("Player BlockPos:%d,%d\n",player->blockx,player->blocky);

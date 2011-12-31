@@ -36,8 +36,9 @@
 #define CACTUS 25 //:P
 #define WOOL_WHITE 26
 #define SNOW_GRASS 27
-#define FLOWER_RED 28 //:D
-#define FLOWER_YELLOW 29 //:D
+#define FLOWER_RED 28 //:D xD You did a good job on this...
+#define FLOWER_YELLOW 29 //:D xD
+#define CRAFT_TABLE 64 //Had a Big ID so that We did not have (BIG) merging problems...
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253
