@@ -5,6 +5,7 @@
 #define DIRT 1
 #define GRASS 2
 #define PLANKS 3
+#define PLANK 3
 #define WOOD 3
 #define LOG 4
 #define DOOR_OPEN_TOP 5
@@ -38,7 +39,7 @@
 #define SNOW_GRASS 27
 #define FLOWER_RED 28 //:D xD You did a good job on this...
 #define FLOWER_YELLOW 29 //:D xD
-#define CRAFT_TABLE 64 //Had a Big ID so that We did not have (BIG) merging problems...
+#define CRAFT_TABLE 31 
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253
