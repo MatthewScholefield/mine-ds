@@ -54,7 +54,7 @@ void mainBGSetup(){
 }
 void mainBGUpdate(){
         framecounter++;
-        if (framecounter%10==0){
+        if (framecounter%120==0){
                 timeinworld++;          
 		if (timeinworld>50 && timeinworld<60)
 		{
