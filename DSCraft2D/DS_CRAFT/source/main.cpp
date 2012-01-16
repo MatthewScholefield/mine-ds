@@ -1,6 +1,7 @@
 //The main.cpp is the simplist file of all, and it should be
 //BUT it depends on many other files that are more complex
 #include <nds.h>
+#include "crafting.h"
 #include "inventory.h"
 #include "ndsvideo.h" // Include the video functions (for setupVideo();)
 #include "player.h" // The player fuctions
@@ -34,6 +35,7 @@
 		swiWaitForVBlank();
 		swiWaitForVBlank();
 		swiWaitForVBlank();
+			resetSpriteCount();
 		swiWaitForVBlank();
 		swiWaitForVBlank();
 		setBrightness(1,h);
@@ -63,6 +65,7 @@ int main(){
         saveInit();
 	inventoryInit();
 	initSounds();
+	crafting_init();
         //Place the player on the first "non grass" block
         int i;
         for (i=0;i<=WORLD_HEIGHT;i++)
@@ -87,8 +90,11 @@ int main(){
                 playerFrame();
                 if (!debug) subLifes(MainPlayer->health);
                 if (!debug) subShowBlock(CurrentWorld->ChoosedBlock);
+               if (keysHeld() & KEY_R) iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
                 miningUpdate(CurrentWorld,MainPlayer);
+
                 updateBlocks(CurrentWorld,MainPlayer);
+		if (keysHeld() & KEY_Y) crafting_2x2_menu();
                 if (MainPlayer->health <= 0) gameover(CurrentWorld,MainPlayer);
                 mobUpdate(CurrentWorld); //The Player is updated as a mob.
                 worldUpdate(CurrentWorld,(void*)MainPlayer);
@@ -101,7 +107,6 @@ int main(){
                 //iprintf("Player Position:%d,%d\n",MainPlayer->x,MainPlayer->y);
                 //iprintf("Player BlockPos:%d,%d\n",MainPlayer->blockx,MainPlayer->blocky);
                 //printf("Sprites on Screen: %d\n",nextSprite());
-                //iprintf("Choosen Block: %d\n",CurrentWorld->ChoosedBlock);
                 resetSpriteCount(); //And set the sprite number counter to 0
                 if (framecounte>240) framecounte=1;
         }

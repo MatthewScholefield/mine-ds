@@ -41,10 +41,10 @@ void mainBGSetup(){
         for (i=0;i<=64;i++){
                 tileMemory[i]=theTile[i];
         }
-        r=112; //Changing this means that I have to recode the mainBGUpdate (dont do it again PLEASE)
-        g=219;
-        b=255;
-        BG_PALETTE[0]=RGB15(112,219,255);
+        r=14; //Changing this means that I have to recode the mainBGUpdate (dont do it again PLEASE)
+        g=26;
+        b=31;
+        BG_PALETTE[0]=RGB15(r,g,b);
         framecounter=0;
         //create a map in map memory
         for(i = 0; i < 32 * 32; i++)
@@ -54,20 +54,23 @@ void mainBGSetup(){
 }
 void mainBGUpdate(){
         framecounter++;
-        if (framecounter%120==0){
+        if (framecounter%10==0){
                 timeinworld++;          
-        }
-        if (timeinworld>50 && timeinworld<100)
-        {
-                g--;
-                BG_PALETTE[0]=RGB15(r,g,b);
-                if (g<219-25) timeinworld=101;
-        }
-        if (timeinworld>200 && timeinworld<250)
-        {
-                g++;
-                BG_PALETTE[0]=RGB15(r,g,b);
-                if (g>219) timeinworld=251;
+		if (timeinworld>50 && timeinworld<60)
+		{
+			b=31-(timeinworld-50);
+		        g=26-((timeinworld-50)*2);
+			r=14-(timeinworld-50);
+		        BG_PALETTE[0]=RGB15(r,g,b);
+		}
+		else if (timeinworld>200 && timeinworld<210)
+		{
+			b=21+(timeinworld-200);
+		        g=6+((timeinworld-200)*2);
+			r=4+(timeinworld-200);
+		        BG_PALETTE[0]=RGB15(r,g,b);
+		}
+		iprintf("%d,%d,%d\n",r,g,b);
         }
         if (timeinworld>350) timeinworld=0;
 }
@@ -104,4 +107,3 @@ void timeLoad(FILE* save_file){
         fread(&b, 1, sizeof(b), save_file);
         BG_PALETTE[0]=RGB15(r,g,b);
 }
-
