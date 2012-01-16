@@ -90,7 +90,7 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	bool done=false;
 	b=0;
 	//Display all the collected blocks...
-	while(y<4 && b<128){
+	while(y<4 && b<512){
 		if (invHave(b)){
 			//If you have the block "B"
 			//iprintf("%d,%d,%d\n",b,x,y);
@@ -208,6 +208,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						case LAPIS_ORE: LAPIS_ORE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case GRAVEL: GRAVEL_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case LEAVES: LEAVES_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case PLACED_LEAF: LEAVES_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case LOG: LOG_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case WHITE_WOOD: WHITE_WOOD_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case PLACED_LOG: LOG_mine(CurrentWorld,&mine_frame,lax,lay); break;

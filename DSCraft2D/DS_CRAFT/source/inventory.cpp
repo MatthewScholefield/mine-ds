@@ -39,6 +39,29 @@ int inventoryAdd(int blockID){
 	}
 	return 0;
 }
+int inventoryAddAmount(int blockID,int amount){
+	int i;
+	int found=0;
+	int foundID=0;
+	for (i=0;i<=35;i++){
+	//Find an entry of "blockID"
+		if (inventory.blockID[i]==blockID){
+			foundID=i;//Keep the entry """address""" in the variable foundID...
+			inventory.blockAmount[foundID]+=amount; //Add $amount to the amount of those blocks...
+			i=37;
+			return 1;
+		}
+		else if (inventory.blockID[i]==255){
+			//We have found a AIR block which can serve as an empty space...
+			foundID=i;
+			inventory.blockID[foundID]=blockID;
+			inventory.blockAmount[foundID]=amount-1; //an amount of 0 is held in inventory.. a value of 1 holds 2 blocks... to add one block to the inventory amount MUST be one... but if we are setting air to the block the amount has to be 0 therefor I added -1... (It is confusing, but without it there is a crafting table glitch...)
+			i=37;	
+			return 1;
+		}
+	}
+	return 0;
+}
 int inventoryRemove(int blockID){
 	int i;
 	int found=0;

@@ -18,7 +18,7 @@ u16* gfx;
 u16* heartgfx;
 int bg;
 void subBGSetup(){ //Its a setup function, not a update function :P
-        oamInit(&oamSub, SpriteMapping_1D_128, true);
+        oamInit(&oamSub, SpriteMapping_1D_256, true);
         vramSetBankD(VRAM_D_SUB_SPRITE);
         vramSetBankI(VRAM_I_LCD);
         gfx = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color);

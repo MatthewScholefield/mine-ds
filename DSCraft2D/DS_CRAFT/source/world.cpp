@@ -47,12 +47,11 @@ void worldUpdate(worldObject* world,void* player2){
 					case PLACED_LEAF: LEAVES_render(i*32-world->CamX,j*32-world->CamY); break;
 					case FLOWER_RED: FLOWER_RED_render(i*32-world->CamX,j*32-world->CamY); break;
 					case FLOWER_YELLOW: FLOWER_YELLOW_render(i*32-world->CamX,j*32-world->CamY); break;
+					case CRAFT_TABLE: CRAFT_TABLE_render(i*32-world->CamX,j*32-world->CamY); break;
 				}
 			}
 		}	
 	}
-}
-void drawBlock(int block){
 }
 void worldSetUp(){
 	STONE_setup();
