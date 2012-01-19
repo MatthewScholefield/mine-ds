@@ -14,6 +14,7 @@
 #include "inventory.h"
 int block_action;
 touchPosition mine_touch;
+//int nonplacable[]={}
 int mine_frame;
 int mine_timeout;
 u16* donegfx;
@@ -224,6 +225,9 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 				}
 				else if (block_action==1 && (lax!=MainPlayer->blockx || lay!=MainPlayer->blocky) && !(keysHeld() & KEY_B || keysHeld() & KEY_DOWN) && mine_timeout==0){ //Adding Blocks...
 						if (CurrentWorld->blocks[lax][lay]==AIR ){ // You can only place blocks on air...
+							//First check that you are allowed to place this plock...
+							//Basically DONT PLACE ITEMS
+							
 							if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
 						mine_timeout=31;
 						}

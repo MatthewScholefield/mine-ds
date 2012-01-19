@@ -8,8 +8,6 @@
 #include "gameshelper.h"
 #include "blockID.h"
 #include "top-screen.h"
-#include "PlayerHurt.h"
-#include "PlayerHit.h"
 #include "sounds.h"
 #include "colision.h"
 #define INSIDE 0
