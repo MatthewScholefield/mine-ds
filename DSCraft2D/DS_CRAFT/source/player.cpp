@@ -107,7 +107,7 @@ void playerGravity(playerActor* player,worldObject* world){
 	}
 }
 void updateplayer(playerActor* player,worldObject* world){
-	//Scan the keys and move that minecraft guy, soon this will need the world values	
+	//[s]Scan the keys and move that minecraft guy, soon this will need the world values[/s] LOLOLOL xD	
 	if (player->framecount!=0) player->framecount--;
 	if (keysHeld() & KEY_LEFT && player->person){
 		player->x-=2;
