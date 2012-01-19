@@ -19,7 +19,7 @@ void CRAFT_TABLE_setup(){
 	dmaCopy(blocktiles,CRAFT_TABLEgfx,32*32);
 }
 void CRAFT_TABLE_colision(playerActor* player,worldObject* world,int bx,int by,int result){
-	if (result==0 || result==2){
+	/*if (result==0 || result==2){
 		player->y=by*32-63; //64 == playerheight
 		player->vy=0;
 		player->onblock=true;
@@ -53,7 +53,7 @@ void CRAFT_TABLE_colision(playerActor* player,worldObject* world,int bx,int by,i
 		//colision upwards
 		player->vy=0;
 		player->y=by*32+33;
-	}
+	}*///Should there be colision for the crafting table?
 }
 void CRAFT_TABLE_mine(worldObject* world,int* mine_time,int x,int y){
 	if (*mine_time>225){

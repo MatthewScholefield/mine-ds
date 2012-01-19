@@ -83,4 +83,6 @@ void worldSetUp(){
 	SNOW_GRASS_setup();
 	FLOWER_RED_setup();
 	FLOWER_YELLOW_setup();
+	CRAFT_TABLE_setup();
+	STICK_setup();
 }

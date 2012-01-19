@@ -14,7 +14,8 @@
 #include "inventory.h"
 int block_action;
 touchPosition mine_touch;
-//int nonplacable[]={}
+int non_placeable[]={STICK};//List of items you can not place...
+#define NON_PLACEABLE_NUM 1
 int mine_frame;
 int mine_timeout;
 u16* donegfx;
@@ -65,6 +66,8 @@ void drawBlock(int block,int x,int y){
 		case PLACED_LEAF: LEAVES_render(x,y); break;
 		case FLOWER_RED: FLOWER_RED_render(x,y); break;
 		case FLOWER_YELLOW: FLOWER_YELLOW_render(x,y); break;
+		case CRAFT_TABLE: CRAFT_TABLE_render(x,y); break;
+		case STICK: STICK_render(x,y); break;
 	}
 }
 void doneSetup(){
@@ -227,8 +230,13 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						if (CurrentWorld->blocks[lax][lay]==AIR ){ // You can only place blocks on air...
 							//First check that you are allowed to place this plock...
 							//Basically DONT PLACE ITEMS
-							
-							if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
+							bool allow=true;
+							int place_scan=0;
+							for (place_scan=0;place_scan<NON_PLACEABLE_NUM;place_scan++){
+								if (CurrentWorld->ChoosedBlock==non_placeable[place_scan]) allow=false;
+							}
+							if (allow)
+								if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
 						mine_timeout=31;
 						}
 				}
