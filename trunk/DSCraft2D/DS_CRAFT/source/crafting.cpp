@@ -15,13 +15,15 @@ PLACED_LOG_W,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
 PLACED_LOG_D,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
 DARK_WOOD,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
 WHITE_WOOD,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
-PLANK,PLANK,AIR,PLANK,PLANK,AIR,AIR,AIR,AIR,2,2,CRAFT_TABLE,1}; //Crafting table! :D
-#define AMOUNT_OF_RECIPIES 6
+PLANK,PLANK,AIR,PLANK,PLANK,AIR,AIR,AIR,AIR,2,2,CRAFT_TABLE,1, //Crafting table! :D
+PLANK,AIR,AIR,PLANK,AIR,AIR,AIR,AIR,AIR,1,2,STICK,4};
+#define AMOUNT_OF_RECIPIES 8
 u16* gfx_of_blocks[3][3];
 int blockId[3][3];
 int block_crafting_Amount[3][3];
 u16* dirt;
 void crafting_2x2_menu(){
+	bool reopen=false;
 	char* blocktiles;
 	playerActor* player_something;
 	worldObject* world_something;
@@ -168,6 +170,8 @@ void crafting_2x2_menu(){
 						for (j=0;j<=3;j++){
 							block_crafting_Amount[i][j]--;
 							if (block_crafting_Amount[i][j]==0) blockId[i][j]=AIR;
+							reopen=true;
+							inmenu=false;
 						}	
 					}		
 				}					
@@ -183,6 +187,7 @@ void crafting_2x2_menu(){
 	oamClear(&oamSub,0,127);
 	swiWaitForVBlank();
 	oamUpdate(&oamSub);
+	if(reopen) crafting_2x2_menu();
 	while(keysHeld()) scanKeys();
 }
 void crafting_init(){

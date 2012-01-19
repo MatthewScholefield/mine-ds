@@ -39,7 +39,12 @@
 #define SNOW_GRASS 27
 #define FLOWER_RED 28 //:D xD You did a good job on this...
 #define FLOWER_YELLOW 29 //:D xD
-#define CRAFT_TABLE 31 
+#define MUSIC_BOX 30
+#define CRAFT_TABLE 31
+#define FURNACE 32
+#define FURNACE_BURN 33
+#define CHEST 34
+#define STICK 35 //:D
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253
