@@ -68,7 +68,7 @@ void crafting_2x2_menu(){
 			blocktiles=(char*)&blockTiles;
 			blocktiles+=(32*32)*blockId[i][j];
 			if (blockId[i][j]<128) craft_x=1;
-			else if (blockId[i][j]==AIR) craft_x=1;
+			else if (blockId[i][j]==AIR) craft_x=2;
 			else if (blockId[i][j]==PLACED_LOG){
 				blocktiles=(char*)&blockTiles;
 				blocktiles+=(32*32)*LOG;
@@ -85,7 +85,7 @@ void crafting_2x2_menu(){
 				craft_x=1;
 			}
 			if (craft_x==1)dmaCopy(blocktiles,gfx_of_blocks[i][j],32*32);
-			oamSet(&oamSub,spritenum,c,b,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,gfx_of_blocks[i][j],-1,false,blockId[i][j]==AIR,false,false,false);
+			oamSet(&oamSub,spritenum,c,b,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,gfx_of_blocks[i][j],-1,false,craft_x==2,false,false,false);
 			spritenum++;
 			b+=36;
 			}
@@ -169,9 +169,10 @@ void crafting_2x2_menu(){
 					for (i=0;i<=3;i++)
 						for (j=0;j<=3;j++){
 							block_crafting_Amount[i][j]--;
-							if (block_crafting_Amount[i][j]==0) blockId[i][j]=AIR;
-							reopen=true;
-							inmenu=false;
+							if (block_crafting_Amount[i][j]==0){
+								blockId[i][j]=AIR;
+								block_crafting_Amount[i][j]=1;
+							}
 						}	
 					}		
 				}					
