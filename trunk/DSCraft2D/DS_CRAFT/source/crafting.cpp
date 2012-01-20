@@ -19,11 +19,14 @@ PLANK,PLANK,AIR,PLANK,PLANK,AIR,AIR,AIR,AIR,2,2,CRAFT_TABLE,1, //Crafting table!
 PLANK,AIR,AIR,PLANK,AIR,AIR,AIR,AIR,AIR,1,2,STICK,4};
 #define AMOUNT_OF_RECIPIES 8
 u16* gfx_of_blocks[3][3];
+int result;
 int blockId[3][3];
 int block_crafting_Amount[3][3];
 u16* dirt;
+u16* result_gfx;
 void crafting_2x2_menu(){
 	bool reopen=false;
+	result=AIR;
 	char* blocktiles;
 	playerActor* player_something;
 	worldObject* world_something;
@@ -92,6 +95,10 @@ void crafting_2x2_menu(){
 			b=31;
 			c+=36;
 		}
+		blocktiles=(char*)&blockTiles;
+		blocktiles+=(32*32)*result;
+		dmaCopy(blocktiles,result_gfx,32*32);
+		oamSet(&oamSub,10,217,51,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,result_gfx,-1,false,result==AIR,false,false,false);
 		oamSet(&oamSub,45, //Then draw the sprite on the screen
                         0, 
                         192-32, 
@@ -149,35 +156,53 @@ void crafting_2x2_menu(){
 		if( blockId[0][0]==AIR && blockId[0][1]==AIR) craft_x=1;
 		if(blockId[0][0]==AIR && blockId[1][0]==AIR) craft_y=1;
 	//iprintf("Recipie %d\n",recipie);
-
+		bool result_to_air=true;
 		int checked[9]={0,0,0,0,0,0,0,0,0};
 		if (recipie==1){
 			int a;
 			for (a=0;a<AMOUNT_OF_RECIPIES;a++){
+				//First check how many blank tiles there are...
 				for(i=0;i<=9;i++)checked[i]=0;
-				for(i=0;i<crafting_recipies[a][9];i++)
-					for(j=0;j<crafting_recipies[a][10];j++){
-						if (blockId[i+craft_x][j+craft_y]==crafting_recipies[a][i+(j*3)]) checked[i+(j*3)]=1;
-					}			
+				for(i=0;i<3;i++)
+					for(j=0;j<3;j++){
+						if (blockId[i][j]==AIR) checked[i+(j*3)]=1;
+				}	
 				int count=0;
 				for (i=0;i<=9;i++) if (checked[i]==1) count++;
-				if( count==(crafting_recipies[a][9]*crafting_recipies[a][10])){
-					//Recipie is true 217,51
-					if (crafting_touch.px>217 && crafting_touch.px<217+32 && crafting_touch.py>51 && crafting_touch.py<51+32 && keysDown() & KEY_TOUCH){
-					inventoryAddAmount(crafting_recipies[a][11],crafting_recipies[a][12]);
-					iprintf("DEBUG:%d,%d,%d,%d,%d,%d,%d\n",count,(crafting_recipies[a][9]*crafting_recipies[a][10]),crafting_recipies[a][11],crafting_recipies[a][12],craft_x,craft_y,a);
-					for (i=0;i<=3;i++)
-						for (j=0;j<=3;j++){
-							block_crafting_Amount[i][j]--;
-							if (block_crafting_Amount[i][j]==0){
-								blockId[i][j]=AIR;
-								block_crafting_Amount[i][j]=1;
-							}
-						}	
-					}		
-				}					
+				//Count now holds how many AIR blocks there are in the table
+				if (count==9-(crafting_recipies[a][9]*crafting_recipies[a][10])){ //If there are 9- Area of recipie AIR blocks contine... (Check that there is only the recipie and nothing else outside it)
+					for(i=0;i<=9;i++)checked[i]=0;
+					for(i=0;i<crafting_recipies[a][9];i++)
+						for(j=0;j<crafting_recipies[a][10];j++){
+							if (blockId[i+craft_x][j+craft_y]==crafting_recipies[a][i+(j*3)]) checked[i+(j*3)]=1;
+						}			
+					count=0;
+					for (i=0;i<=9;i++) if (checked[i]==1) count++;
+				
+					if( count==(crafting_recipies[a][9]*crafting_recipies[a][10])){
+						//Recipie is true 
+						result=crafting_recipies[a][11];
+						result_to_air=false;
+						if (crafting_touch.px>217 && crafting_touch.px<217+32 && crafting_touch.py>51 && crafting_touch.py<51+32 && keysDown() & KEY_TOUCH){
+							inventoryAddAmount(crafting_recipies[a][11],crafting_recipies[a][12]);
+							iprintf("DEBUG:%d,%d,%d,%d,%d,%d,%d\n",count,(crafting_recipies[a][9]*crafting_recipies[a][10]),crafting_recipies[a][11],crafting_recipies[a][12],craft_x,craft_y,a);
+							for (i=0;i<=3;i++)
+								for (j=0;j<=3;j++){
+									block_crafting_Amount[i][j]--;
+									if (block_crafting_Amount[i][j]==0){
+										blockId[i][j]=AIR;
+										block_crafting_Amount[i][j]=1;
+									}
+								}
+							result=AIR;	
+						}
+							
+					}	
+				}
+							
 			}	
 		}
+		if (result_to_air) result=AIR;
 		if (!invHave(chosen_block)) chosen_block=AIR;
 		DrawAmountNum(chosen_block);
 		subShowBlock(chosen_block);
@@ -192,11 +217,13 @@ void crafting_2x2_menu(){
 	while(keysHeld()) scanKeys();
 }
 void crafting_init(){
+	result=AIR;
 	int i;
 	for (i=0;i<=3;i++)
 		for (int j=0;j<=3;j++){
  	gfx_of_blocks[i][j] = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color); 
 	}
+	result_gfx = oamAllocateGfx(&oamSub, SpriteSize_32x32, SpriteColorFormat_256Color); 
 	dirt= oamAllocateGfx(&oamSub , SpriteSize_32x32, SpriteColorFormat_256Color);
 	char* blocktiles;
 	blocktiles=(char*)&blockTiles;
