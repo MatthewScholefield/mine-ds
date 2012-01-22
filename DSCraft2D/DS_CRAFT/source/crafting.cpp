@@ -5,6 +5,7 @@
 #include "top-screen.h"
 #include "sprcount.h"
 #include <nds.h>
+#include <stdio.h>
 #include "block.h"
 #include "blockID.h"
 #include "crafting.h"
@@ -19,15 +20,16 @@ PLANK,PLANK,AIR,PLANK,PLANK,AIR,AIR,AIR,AIR,2,2,CRAFT_TABLE,1, //Crafting table!
 PLANK,AIR,AIR,PLANK,AIR,AIR,AIR,AIR,AIR,1,2,STICK,4};
 #define AMOUNT_OF_RECIPIES 8
 u16* gfx_of_blocks[3][3];
+char* blockGfxIndex[3][3];
 int result;
 int blockId[3][3];
+int gfx_Id[3][3];
 int block_crafting_Amount[3][3];
 u16* dirt;
 u16* result_gfx;
 void crafting_2x2_menu(){
 	bool reopen=false;
 	result=AIR;
-	char* blocktiles;
 	playerActor* player_something;
 	worldObject* world_something;
 	bool inmenu=true;
@@ -62,39 +64,8 @@ void crafting_2x2_menu(){
 		if (keysDown() & KEY_R){
 			iprintf("%d,%d\n%d,%d\n%d,%d\n%d,%d\n",blockId[0][0],blockId[0][1],blockId[1][0],blockId[1][1],block_crafting_Amount[0][0],block_crafting_Amount[0][1],block_crafting_Amount[1][0],block_crafting_Amount[1][1]);
 		}
-		int c,b;
-		c=121;
-		craft_x=0;
-		int spritenum=5;
-		for (i=0;i<=1;i++){
-			for(j=0;j<=1;j++){
-			blocktiles=(char*)&blockTiles;
-			blocktiles+=(32*32)*blockId[i][j];
-			if (blockId[i][j]<128) craft_x=1;
-			else if (blockId[i][j]==AIR) craft_x=2;
-			else if (blockId[i][j]==PLACED_LOG){
-				blocktiles=(char*)&blockTiles;
-				blocktiles+=(32*32)*LOG;
-				craft_x=1;
-			}	
-			else if (blockId[i][j]==PLACED_LOG_D){
-				blocktiles=(char*)&blockTiles;
-				blocktiles+=(32*32)*DARK_WOOD;
-				craft_x=1;
-			}	
-			else if (blockId[i][j]==PLACED_LOG_W){
-				blocktiles=(char*)&blockTiles;
-				blocktiles+=(32*32)*WHITE_WOOD;
-				craft_x=1;
-			}
-			if (craft_x==1)dmaCopy(blocktiles,gfx_of_blocks[i][j],32*32);
-			oamSet(&oamSub,spritenum,c,b,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,gfx_of_blocks[i][j],-1,false,craft_x==2,false,false,false);
-			spritenum++;
-			b+=36;
-			}
-			b=31;
-			c+=36;
-		}
+		
+		char* blocktiles;
 		blocktiles=(char*)&blockTiles;
 		blocktiles+=(32*32)*result;
 		dmaCopy(blocktiles,result_gfx,32*32);
@@ -204,6 +175,32 @@ void crafting_2x2_menu(){
 		}
 		if (result_to_air) result=AIR;
 		if (!invHave(chosen_block)) chosen_block=AIR;
+		int c,b;
+		c=121;
+		b=31;
+		craft_x=0;
+		for (i=0;i<=1;i++)
+			for(j=0;j<=1;j++){
+				gfx_Id[i][j]=blockId[i][j];
+				if(gfx_Id[i][j]==PLACED_LEAF) gfx_Id[i][j]=LEAF;
+				else if (gfx_Id[i][j]==PLACED_LOG) gfx_Id[i][j]=LOG;
+				else if (gfx_Id[i][j]==PLACED_LOG_W) gfx_Id[i][j]=WHITE_WOOD;
+				else if (gfx_Id[i][j]==PLACED_LOG_D) gfx_Id[i][j]=DARK_WOOD;
+			}
+		int spritenum=96;
+		for (i=0;i<=1;i++){
+			b=31;
+			for(j=0;j<=1;j++){
+				blockGfxIndex[i][j]=(char*)&blockTiles;
+				blockGfxIndex[i][j]+=(32*32)*gfx_Id[i][j];
+				
+				dmaCopy(blockGfxIndex[i][j],gfx_of_blocks[i][j],32*32);
+				oamSet(&oamSub,96+(i+j*3),c,b,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,gfx_of_blocks[i][j],-1,false,blockId[i][j]==AIR,false,false,false);
+				spritenum++;
+				b+=36;
+			}
+			c+=36;
+		}
 		DrawAmountNum(chosen_block);
 		subShowBlock(chosen_block);
 		swiWaitForVBlank();
@@ -233,7 +230,7 @@ void crafting_init(){
 		for (int j=0;j<=3;j++){
 			blockId[i][j]=AIR;
 			block_crafting_Amount[i][j]=1;
-
+			gfx_Id[i][j]=AIR;
 		}
 	}
 }
