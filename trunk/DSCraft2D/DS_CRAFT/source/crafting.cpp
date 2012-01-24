@@ -22,6 +22,7 @@ PLANK,AIR,AIR,PLANK,AIR,AIR,AIR,AIR,AIR,1,2,STICK,4};
 u16* gfx_of_blocks[3][3];
 char* blockGfxIndex[3][3];
 int result;
+char* blocktiles;
 int blockId[3][3];
 int gfx_Id[3][3];
 int block_crafting_Amount[3][3];
@@ -64,26 +65,6 @@ void crafting_2x2_menu(){
 		if (keysDown() & KEY_R){
 			iprintf("%d,%d\n%d,%d\n%d,%d\n%d,%d\n",blockId[0][0],blockId[0][1],blockId[1][0],blockId[1][1],block_crafting_Amount[0][0],block_crafting_Amount[0][1],block_crafting_Amount[1][0],block_crafting_Amount[1][1]);
 		}
-		
-		char* blocktiles;
-		blocktiles=(char*)&blockTiles;
-		blocktiles+=(32*32)*result;
-		dmaCopy(blocktiles,result_gfx,32*32);
-		oamSet(&oamSub,10,217,51,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,result_gfx,-1,false,result==AIR,false,false,false);
-		oamSet(&oamSub,45, //Then draw the sprite on the screen
-                        0, 
-                        192-32, 
-                        0, 
-                        0,
-                        SpriteSize_32x32, 
-                        SpriteColorFormat_256Color, 
-             		dirt, 
-                        -1, 
-                        false, 
-                        false,                  
-                        false, false, 
-                        false   
-                        );  
 		scanKeys();
 		touchRead(&crafting_touch);
 		if (keysHeld() & KEY_START){
@@ -159,8 +140,8 @@ void crafting_2x2_menu(){
 							iprintf("DEBUG:%d,%d,%d,%d,%d,%d,%d\n",count,(crafting_recipies[a][9]*crafting_recipies[a][10]),crafting_recipies[a][11],crafting_recipies[a][12],craft_x,craft_y,a);
 							for (i=0;i<=3;i++)
 								for (j=0;j<=3;j++){
-									block_crafting_Amount[i][j]--;
-									if (block_crafting_Amount[i][j]==0){
+									if (block_crafting_Amount[i][j]>1) block_crafting_Amount[i][j]--;
+									else{
 										blockId[i][j]=AIR;
 										block_crafting_Amount[i][j]=1;
 									}
@@ -201,6 +182,11 @@ void crafting_2x2_menu(){
 			}
 			c+=36;
 		}
+    blocktiles=(char*)&blockTiles;
+                blocktiles+=(32*32)*result;
+                dmaCopy(blocktiles,result_gfx,32*32);
+                oamSet(&oamSub,10,217,51,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,result_gfx,-1,false,result==AIR,false,false,false);
+
 		DrawAmountNum(chosen_block);
 		subShowBlock(chosen_block);
 		swiWaitForVBlank();
