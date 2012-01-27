@@ -21,11 +21,11 @@ void initSounds(){
 	mmLoadEffect( SFX_GRAVEL_C );
 	mmLoadEffect( SFX_GRAVEL_D );
 	mmLoadEffect( SFX_HURT );
-	mmLoadEffect(SFX_WOOD_A);
+	mmLoadEffect( SFX_WOOD_A);
 	mmLoadEffect( SFX_WOOD_B);
 	mmLoadEffect( SFX_WOOD_C);
 	mmLoadEffect( SFX_WOOD_D);
-	mmLoadEffect(SFX_SAND_A);
+	mmLoadEffect( SFX_SAND_A);
 	mmLoadEffect( SFX_SAND_B);
 	mmLoadEffect( SFX_SAND_C);
 	mmLoadEffect( SFX_SAND_D);
@@ -42,33 +42,36 @@ void initSounds(){
 }
 void playSound(int sound){
 	if (maxModInit==false) initSounds();
-	if (sound==GRASS_A) mmEffect( SFX_GRASS_A );
-	else if (sound==GRASS_B) mmEffect( SFX_GRASS_B );
-	else if (sound==GRASS_C) mmEffect( SFX_GRASS_C );
-	else if (sound==GRASS_D) mmEffect( SFX_GRASS_D );
-	else if (sound==STONE_A) mmEffect( SFX_STONE_A );
-	else if (sound==STONE_B) mmEffect( SFX_STONE_B );
-	else if (sound==STONE_C) mmEffect( SFX_STONE_C );
-	else if (sound==STONE_D) mmEffect( SFX_STONE_D );
-	else if (sound==GRAVEL_A) mmEffect( SFX_GRAVEL_A );
-	else if (sound==GRAVEL_B) mmEffect( SFX_GRAVEL_B );
-	else if (sound==GRAVEL_C) mmEffect( SFX_GRAVEL_C );
-	else if (sound==GRAVEL_D) mmEffect( SFX_GRAVEL_D );
-	else if (sound==HURT) mmEffect( SFX_HURT );
-	else if (sound==WOOD_A) mmEffect(SFX_WOOD_A);
-	else if (sound==WOOD_B) mmEffect (SFX_WOOD_B);
-	else if (sound==WOOD_C) mmEffect(SFX_WOOD_C);
-	else if (sound==WOOD_D) mmEffect(SFX_WOOD_D);
-	else if (sound==SAND_A) mmEffect(SFX_SAND_A);
-	else if (sound==SAND_B) mmEffect (SFX_SAND_B);
-	else if (sound==SAND_C) mmEffect(SFX_SAND_C);
-	else if (sound==SAND_D) mmEffect(SFX_SAND_D);
-	else if (sound==PIG_A) mmEffect(SFX_PIG_A);
+	switch(sound)
+	{
+	case:GRASS_A mmEffect( SFX_GRASS_A );break;
+	case:GRASS_B mmEffect( SFX_GRASS_B ); break;
+	case:GRASS_C mmEffect( SFX_GRASS_C ); break;
+	case:GRASS_D mmEffect( SFX_GRASS_D ); break;
+	case:STONE_A mmEffect( SFX_STONE_A ); break;
+	case:STONE_B mmEffect( SFX_STONE_B ); break;
+	case:STONE_C mmEffect( SFX_STONE_C ); break;
+	case:STONE_D mmEffect( SFX_STONE_D ); break;
+	case:GRAVEL_A mmEffect( SFX_GRAVEL_A ); break;
+	case:GRAVEL_B mmEffect( SFX_GRAVEL_B ); break;
+	case:GRAVEL_C mmEffect( SFX_GRAVEL_C ); break;
+	case:GRAVEL_D mmEffect( SFX_GRAVEL_D ); break;
+	case:HURT mmEffect( SFX_HURT ); break;
+	case:WOOD_A mmEffect(SFX_WOOD_A); break;
+	case:WOOD_B mmEffect (SFX_WOOD_B); break;
+	case:WOOD_C mmEffect(SFX_WOOD_C); break;
+	case:WOOD_D mmEffect(SFX_WOOD_D); break;
+	case:SAND_A mmEffect(SFX_SAND_A); break;
+	case:SAND_B mmEffect (SFX_SAND_B); break;
+	case:SAND_C mmEffect(SFX_SAND_C); break;
+	case:SAND_D mmEffect(SFX_SAND_D); break;
+	case:PIG_A mmEffect(SFX_PIG_A); break;
+	}
 }
 void soundUpdate(){
 	music.frames++;
 	if (music.frames==30){
-		if(rand()%256==0 ){	
+		if(rand()%256==0 ){
 			//iprintf("BLARG");
 			if (music.playing==false){
 				music.playing=true;
@@ -79,27 +82,27 @@ void soundUpdate(){
 				if (music.musictype==0) mmStart(MOD_CALM,MM_PLAY_ONCE);
 				else if (music.musictype==1) mmStart(MOD_LIVINGMICE,MM_PLAY_ONCE);
 				else if (music.musictype==2) mmStart(MOD_WETHANDS,MM_PLAY_ONCE);
-				mmSetModuleVolume(music.volume);						
+				mmSetModuleVolume(music.volume);
 			}
 			else if (music.playing==true && rand() % 2){
 				//iprintf("Stop");
 				music.playing=false;
 				music.volumechanging=2;
 				music.volume=1024;
-				mmSetModuleVolume(music.volume);						
+				mmSetModuleVolume(music.volume);
 			}
-			 
+
 		}
 		music.frames=0;
 	}
 	if (music.volumechanging==1){
 		music.volume++;
-		mmSetModuleVolume(music.volume);	
+		mmSetModuleVolume(music.volume);
 		if (music.volume==1024) music.volumechanging=0;
 	}
 	if (music.volumechanging==2){
 		music.volume--;
-		mmSetModuleVolume(music.volume);	
+		mmSetModuleVolume(music.volume);
 		if (music.volume==0){
 			music.volumechanging=0;
 			mmStop();
