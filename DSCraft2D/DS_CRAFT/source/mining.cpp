@@ -12,6 +12,7 @@
 #include "colision.h"
 #include "controls.h"
 #include "inventory.h"
+#include "crafting.h"
 int block_action;
 touchPosition mine_touch;
 int non_placeable[]={STICK};//List of items you can not place...
@@ -223,6 +224,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						case TORCH: TORCH_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case FLOWER_RED: FLOWER_RED_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case FLOWER_YELLOW: FLOWER_YELLOW_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case CRAFT_TABLE: CRAFT_TABLE_mine(CurrentWorld,&mine_frame,lax,lay); break;
 
 					}
 				}
@@ -239,6 +241,9 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 								if (inventoryRemove(CurrentWorld->ChoosedBlock)) CurrentWorld->blocks[lax][lay]=CurrentWorld->ChoosedBlock; 
 						mine_timeout=31;
 						}
+				}
+				else if (block_action==0){
+					if( CurrentWorld->blocks[lax][lay]==CRAFT_TABLE) crafting_3x3_menu();				
 				}
 				//if (CurrentWorld->blocks[lax][lay]==AIR) mine_frame=0;
 			}
