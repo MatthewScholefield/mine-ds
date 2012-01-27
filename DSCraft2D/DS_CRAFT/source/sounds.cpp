@@ -44,28 +44,28 @@ void playSound(int sound){
 	if (maxModInit==false) initSounds();
 	switch(sound)
 	{
-	case:GRASS_A mmEffect( SFX_GRASS_A );break;
-	case:GRASS_B mmEffect( SFX_GRASS_B ); break;
-	case:GRASS_C mmEffect( SFX_GRASS_C ); break;
-	case:GRASS_D mmEffect( SFX_GRASS_D ); break;
-	case:STONE_A mmEffect( SFX_STONE_A ); break;
-	case:STONE_B mmEffect( SFX_STONE_B ); break;
-	case:STONE_C mmEffect( SFX_STONE_C ); break;
-	case:STONE_D mmEffect( SFX_STONE_D ); break;
-	case:GRAVEL_A mmEffect( SFX_GRAVEL_A ); break;
-	case:GRAVEL_B mmEffect( SFX_GRAVEL_B ); break;
-	case:GRAVEL_C mmEffect( SFX_GRAVEL_C ); break;
-	case:GRAVEL_D mmEffect( SFX_GRAVEL_D ); break;
-	case:HURT mmEffect( SFX_HURT ); break;
-	case:WOOD_A mmEffect(SFX_WOOD_A); break;
-	case:WOOD_B mmEffect (SFX_WOOD_B); break;
-	case:WOOD_C mmEffect(SFX_WOOD_C); break;
-	case:WOOD_D mmEffect(SFX_WOOD_D); break;
-	case:SAND_A mmEffect(SFX_SAND_A); break;
-	case:SAND_B mmEffect (SFX_SAND_B); break;
-	case:SAND_C mmEffect(SFX_SAND_C); break;
-	case:SAND_D mmEffect(SFX_SAND_D); break;
-	case:PIG_A mmEffect(SFX_PIG_A); break;
+	case GRASS_A : mmEffect( SFX_GRASS_A );break;
+	case GRASS_B : mmEffect( SFX_GRASS_B ); break;
+	case GRASS_C : mmEffect( SFX_GRASS_C ); break;
+	case GRASS_D : mmEffect( SFX_GRASS_D ); break;
+	case STONE_A : mmEffect( SFX_STONE_A ); break;
+	case STONE_B : mmEffect( SFX_STONE_B ); break;
+	case STONE_C : mmEffect( SFX_STONE_C ); break;
+	case STONE_D : mmEffect( SFX_STONE_D ); break;
+	case GRAVEL_A : mmEffect( SFX_GRAVEL_A ); break;
+	case GRAVEL_B : mmEffect( SFX_GRAVEL_B ); break;
+	case GRAVEL_C : mmEffect( SFX_GRAVEL_C ); break;
+	case GRAVEL_D : mmEffect( SFX_GRAVEL_D ); break;
+	case HURT : mmEffect( SFX_HURT ); break;
+	case WOOD_A : mmEffect(SFX_WOOD_A); break;
+	case WOOD_B : mmEffect (SFX_WOOD_B); break;
+	case WOOD_C : mmEffect(SFX_WOOD_C); break;
+	case WOOD_D : mmEffect(SFX_WOOD_D); break;
+	case SAND_A : mmEffect(SFX_SAND_A); break;
+	case SAND_B : mmEffect (SFX_SAND_B); break;
+	case SAND_C : mmEffect(SFX_SAND_C); break;
+	case SAND_D : mmEffect(SFX_SAND_D); break;
+	case PIG_A : mmEffect(SFX_PIG_A); break;
 	}
 }
 void soundUpdate(){
