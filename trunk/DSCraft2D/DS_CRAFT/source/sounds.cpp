@@ -8,32 +8,10 @@ bool maxModInit=false;
 musicStruct music;
 void initSounds(){
   	mmInitDefaultMem( (mm_addr)soundbank_bin );
-	mmLoadEffect( SFX_GRASS_A );
-	mmLoadEffect( SFX_GRASS_B );
-	mmLoadEffect( SFX_GRASS_C );
-	mmLoadEffect( SFX_GRASS_D );
-	mmLoadEffect( SFX_STONE_A );
-	mmLoadEffect( SFX_STONE_B );
-	mmLoadEffect( SFX_STONE_C );
-	mmLoadEffect( SFX_STONE_D );
-	mmLoadEffect( SFX_GRAVEL_A );
-	mmLoadEffect( SFX_GRAVEL_B );
-	mmLoadEffect( SFX_GRAVEL_C );
-	mmLoadEffect( SFX_GRAVEL_D );
-	mmLoadEffect( SFX_HURT );
-	mmLoadEffect( SFX_WOOD_A);
-	mmLoadEffect( SFX_WOOD_B);
-	mmLoadEffect( SFX_WOOD_C);
-	mmLoadEffect( SFX_WOOD_D);
-	mmLoadEffect( SFX_SAND_A);
-	mmLoadEffect( SFX_SAND_B);
-	mmLoadEffect( SFX_SAND_C);
-	mmLoadEffect( SFX_SAND_D);
-	mmLoadEffect( SFX_PIG_A);
-    mmLoad(MOD_CALM);
-	mmLoad(MOD_LIVINGMICE);
-	mmLoad(MOD_WETHANDS);
-	music.musictype=rand()%3;
+int i;
+for (i=0;i<MSL_NSAMPS;i++)mmLoadEffect(i); //loads all sfx
+for (i=0;i<MSL_NSONGS;i++)mmLoad(i); //loads all songs
+	music.musictype=rand()%MSL_NSONGS;//randomly choose a song
 	music.volume=0;
 	music.playing=false;
 	music.frames=0;
