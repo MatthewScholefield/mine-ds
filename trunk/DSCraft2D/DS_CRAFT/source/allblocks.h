@@ -29,3 +29,6 @@
 #include "blocks/flower_yellow.h"
 #include "blocks/craft_table.h"
 #include "blocks/stick.h"
+#include "blocks/coal.h"
+#include "blocks/WOOD_PICK.h"
+#include "blocks/WOOD_SHOVEL.h"

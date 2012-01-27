@@ -45,6 +45,10 @@
 #define FURNACE_BURN 33
 #define CHEST 34
 #define STICK 35 //:D
+#define WOOD_PICK 36
+#define COAL 37
+#define COBBLE_PICK 38
+#define WOOD_SHOVEL 39
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253

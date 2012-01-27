@@ -8,13 +8,49 @@
 char buffer[4];	
 u16* x;
 inventoryStruct inventory;
+int non_stackable[]={WOOD_PICK,WOOD_SHOVEL};//List of items you can not place...
+#define NON_STACKABLE_NUM 2
 void inventoryInit(){
 	int i;
 	for (i=0;i<=35;i++){
 		inventory.blockID[i]=255;
 		inventory.blockAmount[i]=0;
 	}
+	inventory.blockID[0]=CRAFT_TABLE;
+	inventory.blockAmount[0]=1;
+	inventory.blockID[1]=PLACED_LOG;
+	inventory.blockAmount[1]=55;
 	x=numberReturn(10); //10 is the "x" Symbol... (Yeah I know suckish implementation...)
+}
+void setData(int blockID,int amount,bool relative){
+	int i;
+	int found=0;
+	int foundID=0;
+	for (i=0;i<=35;i++){
+	//Find an entry of "blockID"
+		if (inventory.blockID[i]==blockID){
+			
+			foundID=i;//Keep the entry """address""" in the variable foundID...
+			if (!relative) inventory.data[foundID]=amount;
+			else if (relative) inventory.data[foundID]+=amount;
+			i=37;
+		}
+	}
+}
+int getData(int blockID){
+	int i;
+	int found=0;
+	int foundID=0;
+	for (i=0;i<=35;i++){
+	//Find an entry of "blockID"
+		if (inventory.blockID[i]==blockID){
+			
+			foundID=i;//Keep the entry """address""" in the variable foundID...
+			return inventory.data[foundID];
+			i=37;
+		}
+	}
+	return -1;
 }
 int inventoryAdd(int blockID){
 	int i;
@@ -22,9 +58,16 @@ int inventoryAdd(int blockID){
 	int foundID=0;
 	for (i=0;i<=35;i++){
 	//Find an entry of "blockID"
-		if (inventory.blockID[i]==blockID){
+		int j;
+		bool allow=true;
+		for (j=0;j<NON_STACKABLE_NUM;j++){
+			if (non_stackable[j]==blockID) allow=false;
+		}
+		if (inventory.blockID[i]==blockID && allow){
+			
 			foundID=i;//Keep the entry """address""" in the variable foundID...
 			inventory.blockAmount[foundID]++; //Add one to the amount of those blocks...
+			inventory.data[foundID]=0;
 			i=37;
 			return 1;
 		}
@@ -33,6 +76,7 @@ int inventoryAdd(int blockID){
 			foundID=i;
 			inventory.blockID[foundID]=blockID;
 			inventory.blockAmount[foundID]=0;
+			inventory.data[foundID]=0;
 			i=37;	
 			return 1;
 		}
@@ -44,10 +88,16 @@ int inventoryAddAmount(int blockID,int amount){
 	int found=0;
 	int foundID=0;
 	for (i=0;i<=35;i++){
-	//Find an entry of "blockID"
-		if (inventory.blockID[i]==blockID){
+	//Find an entry of "blockID"		
+		int j;
+		bool allow=true;
+		for (j=0;j<NON_STACKABLE_NUM;j++){
+			if (non_stackable[j]==blockID) allow=false;
+		}
+		if (inventory.blockID[i]==blockID && allow){
 			foundID=i;//Keep the entry """address""" in the variable foundID...
 			inventory.blockAmount[foundID]+=amount; //Add $amount to the amount of those blocks...
+			inventory.data[foundID]=0;
 			i=37;
 			return 1;
 		}
@@ -56,6 +106,7 @@ int inventoryAddAmount(int blockID,int amount){
 			foundID=i;
 			inventory.blockID[foundID]=blockID;
 			inventory.blockAmount[foundID]=amount-1; //an amount of 0 is held in inventory.. a value of 1 holds 2 blocks... to add one block to the inventory amount MUST be one... but if we are setting air to the block the amount has to be 0 therefor I added -1... (It is confusing, but without it there is a crafting table glitch...)
+			inventory.data[foundID]=0;
 			i=37;	
 			return 1;
 		}

@@ -85,4 +85,7 @@ void worldSetUp(){
 	FLOWER_YELLOW_setup();
 	CRAFT_TABLE_setup();
 	STICK_setup();
+	WOOD_PICK_setup();
+	COAL_setup();
+	WOOD_SHOVEL_setup();
 }

@@ -18,8 +18,11 @@ PLACED_LOG_D,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
 DARK_WOOD,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
 WHITE_WOOD,AIR,AIR,AIR,AIR,AIR,AIR,AIR,AIR,1,1,PLANK,4,
 PLANK,PLANK,AIR,PLANK,PLANK,AIR,AIR,AIR,AIR,2,2,CRAFT_TABLE,1, //Crafting table! :D
-PLANK,AIR,AIR,PLANK,AIR,AIR,AIR,AIR,AIR,1,2,STICK,4};
-#define AMOUNT_OF_RECIPIES 8
+PLANK,AIR,AIR,PLANK,AIR,AIR,AIR,AIR,AIR,1,2,STICK,4,
+PLANK,PLANK,PLANK,AIR,STICK,AIR,AIR,STICK,AIR,3,3,WOOD_PICK,1,
+COAL,AIR,AIR,STICK,AIR,AIR,AIR,AIR,AIR,1,2,TORCH,4,
+PLANK,AIR,AIR,STICK,AIR,AIR,STICK,AIR,AIR,1,3,WOOD_SHOVEL,1};
+#define AMOUNT_OF_RECIPIES 11
 u16* gfx_of_blocks[3][3];
 char* blockGfxIndex[3][3];
 int result;
@@ -111,8 +114,8 @@ void crafting_3x3_menu(){
 		int recipie=1;
 		if( blockId[0][0]==AIR && blockId[0][1]==AIR && blockId[0][2]==AIR) craft_x=1;
 		if(blockId[0][0]==AIR && blockId[1][0]==AIR && blockId[2][0]==AIR) craft_y=1;
-		if( blockId[1][0]==AIR && blockId[1][1]==AIR && blockId[1][2]==AIR) craft_x=2;
-		if(blockId[0][1]==AIR && blockId[1][1]==AIR && blockId[2][1]==AIR) craft_y=2;
+		if( blockId[1][0]==AIR && blockId[1][1]==AIR && blockId[1][2]==AIR && craft_x==1) craft_x=2;
+		if(blockId[0][1]==AIR && blockId[1][1]==AIR && blockId[2][1]==AIR && craft_y==1) craft_y=2;
 	//iprintf("Recipie %d\n",recipie);
 		bool result_to_air=true;
 		int checked[9]={0,0,0,0,0,0,0,0,0};
@@ -128,7 +131,7 @@ void crafting_3x3_menu(){
 				int count=0;
 				for (i=0;i<=9;i++) if (checked[i]==1) count++;
 				//Count now holds how many AIR blocks there are in the table
-				if (count==9-(crafting_recipies[a][9]*crafting_recipies[a][10])){ //If there are 9- Area of recipie AIR blocks contine... (Check that there is only the recipie and nothing else outside it)
+				if (count>=9-(crafting_recipies[a][9]*crafting_recipies[a][10])){ //If there are 9- Area of recipie AIR blocks contine... (Check that there is only the recipie and nothing else outside it)
 					for(i=0;i<=9;i++)checked[i]=0;
 					for(i=0;i<crafting_recipies[a][9];i++)
 						for(j=0;j<crafting_recipies[a][10];j++){
@@ -141,7 +144,7 @@ void crafting_3x3_menu(){
 						//Recipie is true 
 						result=crafting_recipies[a][11];
 						result_to_air=false;
-						if (crafting_touch.px>217 && crafting_touch.px<217+32 && crafting_touch.py>51 && crafting_touch.py<51+32 && keysDown() & KEY_TOUCH){
+						if (crafting_touch.px>217 && crafting_touch.px<217+32 && crafting_touch.py>104 && crafting_touch.py<104+32 && keysDown() & KEY_TOUCH){
 							inventoryAddAmount(crafting_recipies[a][11],crafting_recipies[a][12]);
 							iprintf("DEBUG:%d,%d,%d,%d,%d,%d,%d\n",count,(crafting_recipies[a][9]*crafting_recipies[a][10]),crafting_recipies[a][11],crafting_recipies[a][12],craft_x,craft_y,a);
 							for (i=0;i<=3;i++)
@@ -163,11 +166,11 @@ void crafting_3x3_menu(){
 		if (result_to_air) result=AIR;
 		if (!invHave(chosen_block)) chosen_block=AIR;
 		int c,b;
-		c=121;
-		b=31;
+		c=83;
+		b=67;
 		craft_x=0;
-		for (i=0;i<=1;i++)
-			for(j=0;j<=1;j++){
+		for (i=0;i<=2;i++)
+			for(j=0;j<=2;j++){
 				gfx_Id[i][j]=blockId[i][j];
 				if(gfx_Id[i][j]==PLACED_LEAF) gfx_Id[i][j]=LEAF;
 				else if (gfx_Id[i][j]==PLACED_LOG) gfx_Id[i][j]=LOG;
@@ -175,9 +178,9 @@ void crafting_3x3_menu(){
 				else if (gfx_Id[i][j]==PLACED_LOG_D) gfx_Id[i][j]=DARK_WOOD;
 			}
 		int spritenum=96;
-		for (i=0;i<=1;i++){
-			b=31;
-			for(j=0;j<=1;j++){
+		for (i=0;i<=2;i++){
+			b=67;
+			for(j=0;j<=2;j++){
 				blockGfxIndex[i][j]=(char*)&blockTiles;
 				blockGfxIndex[i][j]+=(32*32)*gfx_Id[i][j];
 				
@@ -191,7 +194,7 @@ void crafting_3x3_menu(){
     blocktiles=(char*)&blockTiles;
                 blocktiles+=(32*32)*result;
                 dmaCopy(blocktiles,result_gfx,32*32);
-                oamSet(&oamSub,10,217,51,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,result_gfx,-1,false,result==AIR,false,false,false);
+                oamSet(&oamSub,10,217,104,0,0,SpriteSize_32x32,SpriteColorFormat_256Color,result_gfx,-1,false,result==AIR,false,false,false);
 
 		DrawAmountNum(chosen_block);
 		subShowBlock(chosen_block);

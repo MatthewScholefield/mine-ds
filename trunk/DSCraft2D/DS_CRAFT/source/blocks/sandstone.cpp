@@ -57,14 +57,19 @@ void SANDSTONE_colision(playerActor* player,worldObject* world,int bx,int by,int
 	}
 }
 void SANDSTONE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>240 && world->ChoosedBlock!=COBBLE){
+	if (*mine_time>240 && world->ChoosedBlock!= WOOD_PICK && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
-		//inventoryAdd(COBBLE); //If mined with the hand, don't give it to the player...
 		*mine_time=0;
 	}
-	else if (*mine_time>36 && world->ChoosedBlock==COBBLE){
+	else if(*mine_time>240 && world->ChoosedBlock!= WOOD_PICK && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
+	}
+	else if (*mine_time>36 && world->ChoosedBlock==WOOD_PICK){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(SANDSTONE);
+		setData(WOOD_PICK,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }
