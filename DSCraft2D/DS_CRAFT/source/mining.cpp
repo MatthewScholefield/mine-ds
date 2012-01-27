@@ -15,8 +15,8 @@
 #include "crafting.h"
 int block_action;
 touchPosition mine_touch;
-int non_placeable[]={STICK};//List of items you can not place...
-#define NON_PLACEABLE_NUM 1
+int non_placeable[]={STICK,WOOD_PICK,COAL,WOOD_SHOVEL};//List of items you can not place...
+#define NON_PLACEABLE_NUM 4
 int mine_frame;
 int mine_timeout;
 u16* donegfx;
@@ -69,6 +69,9 @@ void drawBlock(int block,int x,int y){
 		case FLOWER_YELLOW: FLOWER_YELLOW_render(x,y); break;
 		case CRAFT_TABLE: CRAFT_TABLE_render(x,y); break;
 		case STICK: STICK_render(x,y); break;
+		case WOOD_PICK: WOOD_PICK_render(x,y); break;
+		case WOOD_SHOVEL: WOOD_SHOVEL_render(x,y); break;
+		case COAL: COAL_render(x,y); break;
 	}
 }
 void doneSetup(){
@@ -145,6 +148,16 @@ int chooseBlock(worldObject* world,playerActor* MainPlayer){
 	return i;
 }
 void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
+		if(CurrentWorld->ChoosedBlock==WOOD_PICK){
+				int use;
+				use=getData(WOOD_PICK);
+				if(use>59) inventoryRemove(WOOD_PICK); //The pickaxe breaks at 60 use...
+		}
+		else if(CurrentWorld->ChoosedBlock==WOOD_SHOVEL){
+				int use;
+				use=getData(WOOD_SHOVEL);
+				if(use>59) inventoryRemove(WOOD_SHOVEL); //The asdf breaks at 60 use...
+		}
 		if (keysDown() & KEY_R || keysDown() & KEY_Y){
 			CurrentWorld->ChoosedBlock = AIR;
 		}         
