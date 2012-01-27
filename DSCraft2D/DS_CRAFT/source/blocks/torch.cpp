@@ -21,6 +21,7 @@ void TORCH_update(int bx,int by,worldObject* world,playerActor* player){
 	else if (world->blocks[bx][by+1]==TORCH) world->blocks[bx][by]=AIR;
 }
 void TORCH_mine(worldObject* world,int* mine_time,int x,int y){
-	inventoryAdd(SANDSTONE);
+	inventoryAdd(TORCH);
+	world->blocks[x][y]=AIR;
 	*mine_time=0;
 }

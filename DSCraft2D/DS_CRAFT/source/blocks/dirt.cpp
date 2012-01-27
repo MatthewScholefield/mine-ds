@@ -84,10 +84,22 @@ void DIRT_update(int bx,int by,worldObject* world,playerActor* player){
         else world->data[bx][by]++;
 }
 void DIRT_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>45){
+	if (*mine_time>45 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(DIRT);
 		*mine_time=0;
+	}
+	else if(*mine_time>45 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
+	}
+	else if (*mine_time>24 && world->ChoosedBlock==WOOD_SHOVEL){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
+		setData(WOOD_SHOVEL,1,true); //Add 1 "use"
 	}
 }
 

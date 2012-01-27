@@ -153,9 +153,9 @@ void DrawAmountNum(int blockID){
 		else sprintf(buffer,"0aaa");// aa is displayed as a blank letter...
 		int number1=buffer[0]-48;
 		int number2=buffer[1]-48;
-		if (number1!=0)oamSet(&oamSub,20,70,64,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(10),-1,false,false,false, false,false); 
-		if (number1!=0)oamSet(&oamSub,21,86,64,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(number1),-1,false,false,false, false,false); 
-		if (number2<10)oamSet(&oamSub,22,102,64,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(number2),-1,false,false,false, false,false); 
+		if (number1!=0)oamSet(&oamSub,20,70,32,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(10),-1,false,false,false, false,false); 
+		if (number1!=0)oamSet(&oamSub,21,86,32,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(number1),-1,false,false,false, false,false); 
+		if (number2<10)oamSet(&oamSub,22,102,32,0,3,SpriteSize_16x16,SpriteColorFormat_256Color,numberReturn(number2),-1,false,false,false, false,false); 
 	}
 }
 void DrawAmount(worldObject* world){

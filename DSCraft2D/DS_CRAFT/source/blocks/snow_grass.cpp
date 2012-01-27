@@ -71,9 +71,21 @@ void SNOW_GRASS_update(int bx,int by,worldObject* world,playerActor* player){
 	if (grass==false) world->blocks[bx][by]=DIRT;
 }
 void SNOW_GRASS_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>54){
+	if (*mine_time>54 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(DIRT);
 		*mine_time=0;
+	}
+	else if(*mine_time>54 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
+	}
+	else if (*mine_time>27 && world->ChoosedBlock==WOOD_SHOVEL){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(DIRT);
+		*mine_time=0;
+		setData(WOOD_SHOVEL,1,true); //Add 1 "use"
 	}
 }
