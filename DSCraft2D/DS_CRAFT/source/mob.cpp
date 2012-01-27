@@ -6,6 +6,7 @@
 #include "controls.h"
 #include "day-night.h"
 #include "mobs/pigMob.h"
+#include "blockID.h"
 #include <fat.h>
 #include <stdio.h>
 #include <nds.h>
@@ -15,7 +16,7 @@ mobsStruct Mobs;
 timeStruct* mob_time;
 touchPosition touch3;
 
-bool spawnMonster(){
+bool spawnMonster(worldObject* world){
 	int i;
 	for (i=0;i<=49;i++){
 		if (Mobs.mobs[i].alive==false){
@@ -26,9 +27,21 @@ bool spawnMonster(){
 			else{
 				Mobs.mobs[i].mobPlayer.x=Mobs.mobs[0].mobPlayer.x+rand()%768+96;
 			}
+			int asdf=(Mobs.mobs[i].mobPlayer.x/32)-8;
+			int i;
 			Mobs.mobs[i].alive=true;
+			int j;
+			//Kill mobs if within a 16 block distance around a torch...
+			for(j=asdf;j<=asdf+16;j++)
+				for (i=0;i<=WORLD_HEIGHT;i++)	if(world->blocks[asdf][i]==TORCH) Mobs.mobs[i].alive=false;
 			Mobs.mobs[i].mobPlayer.person=false;
-			Mobs.mobs[i].mobPlayer.y=0;
+			//Spawn on first non air block... (includes cactus...)
+			for(i=0;i<=WORLD_HEIGHT;i++) 
+				if(world->blocks[asdf][i]!=AIR)
+				{
+					Mobs.mobs[i].mobPlayer.y=i*32;
+					i=WORLD_HEIGHT+1;
+				}
 			Mobs.mobs[i].mobPlayer.health=5;
 			Mobs.mobs[i].data[0]=1;
 			iprintf("Spawned mob at %d,%d\n",Mobs.mobs[i].mobPlayer.x,Mobs.mobs[i].mobPlayer.y);	
@@ -62,7 +75,7 @@ void mobUpdate(worldObject* world){
 	mob_time=timeGet();
         if (mob_time->ticks>100 && mob_time->ticks<250){
 		//It is night time
-		if (mobs_frame%750==0) spawnMonster();
+		if (mobs_frame%750==0) spawnMonster(world);
 	}
 	//if (keysHeld() & KEY_B){
 		//PIG_update(&Mobs.mobs[1],world,&Mobs.mobs[0].mobPlayer);
