@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "h1.h" //Include Heart graphics 
 #include "subscreen2.h" //image file
+#include "craft.h"
 int oldblock=0;
 u16* gfx;
 u16* heartgfx;
@@ -238,4 +239,7 @@ void blankTopScreen(){
 }
 void unBlankTopScreen(){
         dmaCopy(subscreen2Bitmap, bgGetGfxPtr(bg), subscreen2BitmapLen);
+}
+void craftTopScreen(){
+        dmaCopy(craftBitmap, bgGetGfxPtr(bg), craftBitmapLen);
 }
