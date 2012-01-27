@@ -16,10 +16,10 @@ void inventoryInit(){
 		inventory.blockID[i]=255;
 		inventory.blockAmount[i]=0;
 	}
-	inventory.blockID[0]=CRAFT_TABLE;
+/*	inventory.blockID[0]=CRAFT_TABLE;
 	inventory.blockAmount[0]=1;
 	inventory.blockID[1]=PLACED_LOG;
-	inventory.blockAmount[1]=55;
+	inventory.blockAmount[1]=55;*/
 	x=numberReturn(10); //10 is the "x" Symbol... (Yeah I know suckish implementation...)
 }
 void setData(int blockID,int amount,bool relative){
