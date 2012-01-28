@@ -88,4 +88,6 @@ void worldSetUp(){
 	WOOD_PICK_setup();
 	COAL_setup();
 	WOOD_SHOVEL_setup();
+	WOOD_AXE_setup();
+	DOOR_setup();
 }
