@@ -65,7 +65,7 @@ void COBBLE_mine(worldObject* world,int* mine_time,int x,int y){
 		*mine_time=0;
 		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
 	}
-	else if (*mine_time>90 && world->ChoosedBlock==COBBLE){
+	else if (*mine_time>90 && world->ChoosedBlock==WOOD_PICK){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(COBBLE);
 		setData(WOOD_PICK,1,true); //Add 1 "use" to the pickaxe...

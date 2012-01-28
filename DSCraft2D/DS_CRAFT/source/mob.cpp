@@ -27,13 +27,9 @@ bool spawnMonster(worldObject* world){
 			else{
 				Mobs.mobs[i].mobPlayer.x=Mobs.mobs[0].mobPlayer.x+rand()%768+96;
 			}
-			int asdf=(Mobs.mobs[i].mobPlayer.x/32)-8;
-			int i;
+			int asdf=(Mobs.mobs[i].mobPlayer.x+15)/32;
+			int asdf2=(Mobs.mobs[i].mobPlayer.y+32)/32;
 			Mobs.mobs[i].alive=true;
-			int j;
-			//Kill mobs if within a 16 block distance around a torch...
-			for(j=asdf;j<=asdf+16;j++)
-				for (i=0;i<=WORLD_HEIGHT;i++)	if(world->blocks[asdf][i]==TORCH) Mobs.mobs[i].alive=false;
 			Mobs.mobs[i].mobPlayer.person=false;
 			//Spawn on first non air block... (includes cactus...)
 			for(i=0;i<=WORLD_HEIGHT;i++) 
@@ -42,6 +38,12 @@ bool spawnMonster(worldObject* world){
 					Mobs.mobs[i].mobPlayer.y=i*32;
 					i=WORLD_HEIGHT+1;
 				}
+			int j;
+			int i;
+			//Kill mobs if within a 16 block distance around a torch...
+			for(j=asdf-8;j<=asdf+8;j++)
+				for(i=asdf2-8;i<=asdf2+8;i++)
+					if(world->blocks[j][i]==TORCH) spawnMonster(world);
 			Mobs.mobs[i].mobPlayer.health=5;
 			Mobs.mobs[i].data[0]=1;
 			iprintf("Spawned mob at %d,%d\n",Mobs.mobs[i].mobPlayer.x,Mobs.mobs[i].mobPlayer.y);	
@@ -73,9 +75,9 @@ void mobsLoad(FILE* save_file){
 void mobUpdate(worldObject* world){
 	mobs_frame++;
 	mob_time=timeGet();
-        if (mob_time->ticks>100 && mob_time->ticks<250){
+        if (mob_time->ticks>60 && mob_time->ticks<200){
 		//It is night time
-		if (mobs_frame%750==0) spawnMonster(world);
+		if (mobs_frame%550==0) spawnMonster(world);
 	}
 	//if (keysHeld() & KEY_B){
 		//PIG_update(&Mobs.mobs[1],world,&Mobs.mobs[0].mobPlayer);

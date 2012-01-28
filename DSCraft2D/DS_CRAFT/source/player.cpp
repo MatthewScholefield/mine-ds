@@ -96,6 +96,8 @@ void playerGravity(playerActor* player,worldObject* world){
 				//Here Lapis-BLOCK 
 				case WOOL_WHITE: WOOL_WHITE_colision(player,world,x,y,result);  break;
 				case CRAFT_TABLE: CRAFT_TABLE_colision(player,world,x,y,result);  break;
+				case DOOR_CLOSED_TOP: DOOR_colision(player,world,x,y,result);  break;
+				case DOOR_CLOSED_BOTTOM: DOOR_colision(player,world,x,y,result);  break;
 				}
 			}
 			

@@ -71,7 +71,10 @@ void drawBlock(int block,int x,int y){
 		case STICK: STICK_render(x,y); break;
 		case WOOD_PICK: WOOD_PICK_render(x,y); break;
 		case WOOD_SHOVEL: WOOD_SHOVEL_render(x,y); break;
+		case WOOD_AXE: WOOD_AXE_render(x,y); break;
 		case COAL: COAL_render(x,y); break;
+		case DOOR: DOOR_render(x,y); break;
+		
 	}
 }
 void doneSetup(){
@@ -152,11 +155,19 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 				int use;
 				use=getData(WOOD_PICK);
 				if(use>59) inventoryRemove(WOOD_PICK); //The pickaxe breaks at 60 use...
+				setData(CurrentWorld->ChoosedBlock,0,false);
 		}
 		else if(CurrentWorld->ChoosedBlock==WOOD_SHOVEL){
 				int use;
 				use=getData(WOOD_SHOVEL);
 				if(use>59) inventoryRemove(WOOD_SHOVEL); //The asdf breaks at 60 use...
+				setData(CurrentWorld->ChoosedBlock,0,false);
+		}
+		else if(CurrentWorld->ChoosedBlock==WOOD_AXE){
+				int use;
+				use=getData(CurrentWorld->ChoosedBlock);
+				if(use>59) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at 60 use...
+				setData(CurrentWorld->ChoosedBlock,0,false);
 		}
 		if (keysDown() & KEY_R || keysDown() & KEY_Y){
 			CurrentWorld->ChoosedBlock = AIR;
@@ -238,6 +249,10 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						case FLOWER_RED: FLOWER_RED_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case FLOWER_YELLOW: FLOWER_YELLOW_mine(CurrentWorld,&mine_frame,lax,lay); break;
 						case CRAFT_TABLE: CRAFT_TABLE_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case DOOR_OPEN_TOP: DOOR_mine(CurrentWorld,&mine_frame,lax,lay+1); break;
+						case DOOR_OPEN_BOTTOM: DOOR_mine(CurrentWorld,&mine_frame,lax,lay); break;
+						case DOOR_CLOSED_TOP: DOOR_mine(CurrentWorld,&mine_frame,lax,lay+1); break;
+						case DOOR_CLOSED_BOTTOM: DOOR_mine(CurrentWorld,&mine_frame,lax,lay); break;
 
 					}
 				}
@@ -255,8 +270,13 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 						mine_timeout=31;
 						}
 				}
-				else if (block_action==0){
-					if( CurrentWorld->blocks[lax][lay]==CRAFT_TABLE) crafting_3x3_menu();				
+				else if (block_action==0 && mine_timeout==0){
+					if( CurrentWorld->blocks[lax][lay]==CRAFT_TABLE) crafting_3x3_menu();	
+					else if (CurrentWorld->blocks[lax][lay]==DOOR_CLOSED_BOTTOM) CurrentWorld->blocks[lax][lay]=DOOR_OPEN_BOTTOM;
+					else if (CurrentWorld->blocks[lax][lay]==DOOR_OPEN_BOTTOM) CurrentWorld->blocks[lax][lay]=DOOR_CLOSED_BOTTOM;
+					else if (CurrentWorld->blocks[lax][lay+1]==DOOR_CLOSED_BOTTOM) CurrentWorld->blocks[lax][lay+1]=DOOR_OPEN_BOTTOM;
+					else if (CurrentWorld->blocks[lax][lay+1]==DOOR_OPEN_BOTTOM) CurrentWorld->blocks[lax][lay+1]=DOOR_CLOSED_BOTTOM;
+					mine_timeout=31;		
 				}
 				//if (CurrentWorld->blocks[lax][lay]==AIR) mine_frame=0;
 			}

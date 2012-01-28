@@ -59,7 +59,7 @@ void DIRT_colision(playerActor* player,worldObject* world,int bx,int by,int resu
 void DIRT_update(int bx,int by,worldObject* world,playerActor* player){
         int j;
 	int i=bx;
-        if (world->data[bx][by]>rand() % 128 + 384){
+        if (world->data[bx][by]>rand() % 256 + 512){
                 for (j=0;j<=WORLD_HEIGHT;j++){
                         if(world->blocks[bx][j]==DIRT && j==by){
 				bool cangrow;
