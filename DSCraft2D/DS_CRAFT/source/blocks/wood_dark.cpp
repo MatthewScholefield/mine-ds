@@ -57,9 +57,21 @@ void DARK_WOOD_colision(playerActor* player,worldObject* world,int bx,int by,int
 	}
 }
 void DARK_WOOD_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>180){
+	if (*mine_time>180 && world->ChoosedBlock!= WOOD_AXE && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(PLACED_LOG_D);
+		*mine_time=0;
+	}
+	else if(*mine_time>180 && world->ChoosedBlock!= WOOD_AXE && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_D);
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
+	}
+	else if (*mine_time>90 && world->ChoosedBlock==WOOD_AXE){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_D);
+		setData(WOOD_PICK,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }

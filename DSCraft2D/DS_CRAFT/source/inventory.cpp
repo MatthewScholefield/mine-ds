@@ -8,18 +8,16 @@
 char buffer[4];	
 u16* x;
 inventoryStruct inventory;
-int non_stackable[]={WOOD_PICK,WOOD_SHOVEL};//List of items you can not place...
-#define NON_STACKABLE_NUM 2
 void inventoryInit(){
 	int i;
 	for (i=0;i<=35;i++){
 		inventory.blockID[i]=255;
 		inventory.blockAmount[i]=0;
 	}
-/*	inventory.blockID[0]=CRAFT_TABLE;
-	inventory.blockAmount[0]=1;
-	inventory.blockID[1]=PLACED_LOG;
-	inventory.blockAmount[1]=55;*/
+	//inventory.blockID[0]=CRAFT_TABLE;
+	//inventory.blockAmount[0]=1;
+	//inventory.blockID[1]=PLACED_LOG;
+//	inventory.blockAmount[1]=55;
 	x=numberReturn(10); //10 is the "x" Symbol... (Yeah I know suckish implementation...)
 }
 void setData(int blockID,int amount,bool relative){
@@ -60,9 +58,9 @@ int inventoryAdd(int blockID){
 	//Find an entry of "blockID"
 		int j;
 		bool allow=true;
-		for (j=0;j<NON_STACKABLE_NUM;j++){
-			if (non_stackable[j]==blockID) allow=false;
-		}
+	//	for (j=0;j<NON_STACKABLE_NUM;j++){
+	//		if (non_stackable[j]==blockID) allow=false;
+	//	}
 		if (inventory.blockID[i]==blockID && allow){
 			
 			foundID=i;//Keep the entry """address""" in the variable foundID...
@@ -91,9 +89,9 @@ int inventoryAddAmount(int blockID,int amount){
 	//Find an entry of "blockID"		
 		int j;
 		bool allow=true;
-		for (j=0;j<NON_STACKABLE_NUM;j++){
-			if (non_stackable[j]==blockID) allow=false;
-		}
+	//	for (j=0;j<NON_STACKABLE_NUM;j++){
+	//		if (non_stackable[j]==blockID) allow=false;
+	//	}
 		if (inventory.blockID[i]==blockID && allow){
 			foundID=i;//Keep the entry """address""" in the variable foundID...
 			inventory.blockAmount[foundID]+=amount; //Add $amount to the amount of those blocks...

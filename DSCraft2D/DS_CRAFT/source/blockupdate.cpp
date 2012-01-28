@@ -22,6 +22,11 @@ void updateBlocks(worldObject* world,playerActor* player){
 				case SAND: SAND_update(i,j,world,player); break;
 				case GRAVEL: GRAVEL_update(i,j,world,player); break;
 				case LEAVES: LEAVES_update(i,j,world,player); break;
+				case DOOR: DOOR_update(i,j,world,player); break;
+				case DOOR_CLOSED_BOTTOM: ACTUAL_DOORUpdate(world,i,j);
+				case DOOR_OPEN_BOTTOM: ACTUAL_DOORUpdate(world,i,j);	
+				case DOOR_OPEN_TOP: DOOR_TOP_update(world,i,j);		
+				case DOOR_CLOSED_TOP: DOOR_TOP_update(world,i,j);		
 			}
 		}
 }

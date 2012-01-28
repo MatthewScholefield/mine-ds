@@ -12,7 +12,7 @@
 #define DOOR_OPEN_BOTTOM 6
 #define DOOR_OPEN 5
 #define DOOR_CLOSED_TOP 7
-#define DOOR_CLOSED_BOTTOM 8
+#define DOOR_CLOSED_BOTTOM 8 
 #define DOOR_CLOSED 7
 #define LEAF 9
 #define LEAVES 9
@@ -49,6 +49,8 @@
 #define COAL 37
 #define COBBLE_PICK 38
 #define WOOD_SHOVEL 39
+#define WOOD_AXE 40
+#define DOOR 41
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253

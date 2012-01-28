@@ -32,3 +32,5 @@
 #include "blocks/coal.h"
 #include "blocks/WOOD_PICK.h"
 #include "blocks/WOOD_SHOVEL.h"
+#include "blocks/wood_axe.h"
+#include "blocks/door.h"
