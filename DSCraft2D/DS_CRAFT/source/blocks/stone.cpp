@@ -58,11 +58,11 @@ void STONE_setup(){
 	stonels=0;
 }
 void STONE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>450 && world->ChoosedBlock!= WOOD_PICK && world->ChoosedBlock==AIR){
+	if (*mine_time>450 && world->ChoosedBlock!= WOOD_PICK && world->ChoosedBlock!=COBBLE_PICKAXE && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
 		*mine_time=0;
 	}
-	else if(*mine_time>450 && world->ChoosedBlock!= WOOD_PICK && world->ChoosedBlock!=AIR){
+	else if(*mine_time>450 && world->ChoosedBlock!= WOOD_PICK && world->ChoosedBlock!=AIR && world->ChoosedBlock!=COBBLE_PICKAXE){
 		world->blocks[x][y]=AIR;
 		*mine_time=0;
 		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
@@ -71,6 +71,12 @@ void STONE_mine(worldObject* world,int* mine_time,int x,int y){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(COBBLE);
 		setData(WOOD_PICK,1,true); //Add 1 "use" to the pickaxe...
+		*mine_time=0;
+	}
+	else if (*mine_time>36 && world->ChoosedBlock== COBBLE_PICKAXE){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(COBBLE);
+		setData(COBBLE_PICKAXE,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }
