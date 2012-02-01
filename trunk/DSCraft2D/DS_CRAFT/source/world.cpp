@@ -90,4 +90,6 @@ void worldSetUp(){
 	WOOD_SHOVEL_setup();
 	WOOD_AXE_setup();
 	DOOR_setup();
+	COBBLE_PICKAXE_setup();
+	LAPIS_setup();
 }

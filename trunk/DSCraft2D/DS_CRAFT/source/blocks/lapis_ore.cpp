@@ -5,6 +5,7 @@
 #include "../player.h"
 #include "../world.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* LAPIS_OREgfx;
 
 int lapis_orels;
@@ -56,9 +57,19 @@ void LAPIS_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int
 	}
 }
 void LAPIS_ORE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>900){
+	if (*mine_time>900 && world->ChoosedBlock!= COBBLE_PICKAXE  && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
-		//If mined with anything (no tools to pick it up now...) don't give it to the player...
+		*mine_time=0;
+	}
+	else if(*mine_time>900 && world->ChoosedBlock!= COBBLE_PICKAXE  && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the pickaxe...
+	}
+	else if (*mine_time>69 && world->ChoosedBlock==COBBLE_PICKAXE){
+		world->blocks[x][y]=AIR;
+		inventoryAddAmount(LAPIS,rand()% 4 + 4); //4-8 amount of lapis...
+		setData(COBBLE_PICKAXE,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }
