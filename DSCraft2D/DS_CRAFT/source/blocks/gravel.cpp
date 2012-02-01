@@ -59,12 +59,12 @@ void GRAVEL_colision(playerActor* player,worldObject* world,int bx,int by,int re
 	}
 }
 void GRAVEL_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>54 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock==AIR){
+	if (*mine_time>54 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock!=COBBLE_SHOVEL && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(GRAVEL);
 		*mine_time=0;
 	}
-	else if(*mine_time>54 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock!=AIR){
+	else if(*mine_time>54 && world->ChoosedBlock!= WOOD_SHOVEL && world->ChoosedBlock!=COBBLE_SHOVEL && world->ChoosedBlock!=AIR){
 		world->blocks[x][y]=AIR;
 		inventoryAdd(GRAVEL);
 		*mine_time=0;
@@ -75,6 +75,12 @@ void GRAVEL_mine(worldObject* world,int* mine_time,int x,int y){
 		inventoryAdd(GRAVEL);
 		*mine_time=0;
 		setData(WOOD_SHOVEL,1,true); //Add 1 "use"
+	}
+	else if (*mine_time>15 && world->ChoosedBlock==COBBLE_SHOVEL){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(GRAVEL);
+		*mine_time=0;
+		setData(world->ChoosedBlock,1,true); //Add 1 "use"
 	}
 }
 void GRAVEL_update(int bx,int by,worldObject* world,playerActor* player){

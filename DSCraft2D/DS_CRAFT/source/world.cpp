@@ -92,4 +92,5 @@ void worldSetUp(){
 	DOOR_setup();
 	COBBLE_PICKAXE_setup();
 	LAPIS_setup();
+	COBBLE_SHOVEL_setup();
 }
