@@ -128,6 +128,7 @@ int inventoryRemove(int blockID){
 		if (inventory.blockAmount[foundID]>0){
 			inventory.blockAmount[foundID]--;
 			inventory.data[foundID]=0; // When removeing blocks their data gets set to 0
+		}
 		else{
 			inventory.blockID[foundID]=255;
 			inventory.blockAmount[foundID]=0;

@@ -52,6 +52,7 @@
 #define WOOD_AXE 40
 #define DOOR 41
 #define LAPIS 42
+#define COBBLE_SHOVEL 43
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253
