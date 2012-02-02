@@ -77,6 +77,7 @@ void drawBlock(int block,int x,int y){
 		case DOOR: DOOR_render(x,y); break;
 		case LAPIS: LAPIS_render(x,y); break;
 		case COBBLE_SHOVEL: COBBLE_SHOVEL_render(x,y); break;
+		case COBBLE_AXE: COBBLE_AXE_render(x,y); break;
 		
 	}
 }
@@ -179,6 +180,12 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 				//setData(CurrentWorld->ChoosedBlock,0,false);
 		}
 		else if(CurrentWorld->ChoosedBlock==COBBLE_SHOVEL){
+				int use;
+				use=getData(CurrentWorld->ChoosedBlock);
+				if(use>131) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at asdf use...
+				//setData(CurrentWorld->ChoosedBlock,0,false);
+		}
+		else if(CurrentWorld->ChoosedBlock==COBBLE_AXE){
 				int use;
 				use=getData(CurrentWorld->ChoosedBlock);
 				if(use>131) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at asdf use...
