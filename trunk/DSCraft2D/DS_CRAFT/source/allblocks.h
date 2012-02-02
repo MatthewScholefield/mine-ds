@@ -37,4 +37,4 @@
 #include "blocks/lapis.h"
 #include "blocks/door.h"
 #include "blocks/cobble_shovel.h"
-#include "blocks/cobble_axe.h"
+#include "blocks/cobble_pickaxe.h"
