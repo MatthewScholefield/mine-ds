@@ -77,7 +77,7 @@ void drawBlock(int block,int x,int y){
 		case DOOR: DOOR_render(x,y); break;
 		case LAPIS: LAPIS_render(x,y); break;
 		case COBBLE_SHOVEL: COBBLE_SHOVEL_render(x,y); break;
-		case COBBLE_AXE: COBBLE_AXE_render(x,y); break;
+		case COBBLE_AXE: COBBLE_PICKAXE_render(x,y); break;
 		
 	}
 }

@@ -93,5 +93,5 @@ void worldSetUp(){
 	COBBLE_PICKAXE_setup();
 	LAPIS_setup();
 	COBBLE_SHOVEL_setup();
-	COBBLE_AXE_setup();
+	COBBLE_PICKAXE_setup();
 }
