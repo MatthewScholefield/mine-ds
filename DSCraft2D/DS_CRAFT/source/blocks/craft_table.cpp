@@ -56,9 +56,27 @@ void CRAFT_TABLE_colision(playerActor* player,worldObject* world,int bx,int by,i
 	}//Should there be colision for the crafting table?
 }
 void CRAFT_TABLE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>225){
+	if (*mine_time>225 && world->ChoosedBlock!= WOOD_AXE && world->ChoosedBlock!=COBBLE_AXE && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
-		inventoryAdd(CRAFT_TABLE);
+		inventoryAdd(PLACED_LOG_D);
+		*mine_time=0;
+	}
+	else if(*mine_time>225 && world->ChoosedBlock!= WOOD_AXE && world->ChoosedBlock!=COBBLE_AXE && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_D);
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); //Add 1 "use" to the asdf
+	}
+	else if (*mine_time>114 && world->ChoosedBlock==WOOD_AXE){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_D);
+		setData(WOOD_PICK,1,true); //Add 1 "use" to the pickaxe...
+		*mine_time=0;
+	}
+	else if (*mine_time>57 && world->ChoosedBlock==COBBLE_AXE){
+		world->blocks[x][y]=AIR;
+		inventoryAdd(PLACED_LOG_D);
+		setData(WOOD_PICK,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }
