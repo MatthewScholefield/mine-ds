@@ -5,6 +5,7 @@
 #include "../world.h"
 #include "../player.h"
 #include "../sounds.h"
+#include "../inventory.h"
 u16* REDSTONE_OREgfx;
 
 int redston_orels;
@@ -56,9 +57,19 @@ void REDSTONE_ORE_colision(playerActor* player,worldObject* world,int bx,int by,
 	}
 }
 void REDSTONE_ORE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>900){
+	if (*mine_time>900 && world->ChoosedBlock!=IRON_PICKAXE && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
-		//inventoryAdd(COBBLE); //If mined with anything (no tools to pick it up now...) don't give it to the player...
+		*mine_time=0;
+	}
+	else if(*mine_time>900 && world->ChoosedBlock!=IRON_PICKAXE && world->ChoosedBlock!=AIR){
+		world->blocks[x][y]=AIR;
+		*mine_time=0;
+		setData(world->ChoosedBlock,2,true); 
+	}
+	else if (*mine_time>45 && world->ChoosedBlock== IRON_PICKAXE){
+		world->blocks[x][y]=AIR;
+		inventoryAddAmount(REDSTONE,rand()%2 + 4);
+		setData(IRON_PICKAXE,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }

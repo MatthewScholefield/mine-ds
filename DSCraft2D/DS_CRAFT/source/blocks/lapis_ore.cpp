@@ -57,7 +57,7 @@ void LAPIS_ORE_colision(playerActor* player,worldObject* world,int bx,int by,int
 	}
 }
 void LAPIS_ORE_mine(worldObject* world,int* mine_time,int x,int y){
-	if (*mine_time>900 && world->ChoosedBlock!= COBBLE_PICKAXE  && world->ChoosedBlock==AIR){
+	if (*mine_time>900 && world->ChoosedBlock!= COBBLE_PICKAXE  && world->ChoosedBlock!= IRON_PICKAXE && world->ChoosedBlock==AIR){
 		world->blocks[x][y]=AIR;
 		*mine_time=0;
 	}
@@ -70,6 +70,12 @@ void LAPIS_ORE_mine(worldObject* world,int* mine_time,int x,int y){
 		world->blocks[x][y]=AIR;
 		inventoryAddAmount(LAPIS,rand()% 4 + 4); //4-8 amount of lapis...
 		setData(COBBLE_PICKAXE,1,true); //Add 1 "use" to the pickaxe...
+		*mine_time=0;
+	}
+	else if (*mine_time>45 && world->ChoosedBlock==IRON_PICKAXE){
+		world->blocks[x][y]=AIR;
+		inventoryAddAmount(LAPIS,rand()% 4 + 4); //4-8 amount of lapis...
+		setData(IRON_PICKAXE,1,true); //Add 1 "use" to the pickaxe...
 		*mine_time=0;
 	}
 }
