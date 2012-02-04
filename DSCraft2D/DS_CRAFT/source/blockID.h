@@ -54,6 +54,11 @@
 #define LAPIS 42
 #define COBBLE_SHOVEL 43
 #define COBBLE_AXE 44
+#define IRON 46
+#define IRON_PICKAXE 45
+#define DIAMOND 47
+#define GOLD 48
+#define REDSTONE 49
 #define PLACED_LEAF 251
 #define PLACED_LOG_W 252
 #define PLACED_LOG_D 253

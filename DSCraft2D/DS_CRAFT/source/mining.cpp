@@ -15,8 +15,8 @@
 #include "crafting.h"
 int block_action;
 touchPosition mine_touch;
-int non_placeable[]={STICK,WOOD_PICK,COAL,WOOD_SHOVEL,COBBLE_PICKAXE,LAPIS,COBBLE_SHOVEL};//List of items you can not place...
-#define NON_PLACEABLE_NUM 7
+int non_placeable[]={STICK,WOOD_PICK,COAL,WOOD_SHOVEL,COBBLE_PICKAXE,LAPIS,COBBLE_SHOVEL,COBBLE_AXE,IRON,IRON_PICKAXE,DIAMOND,GOLD,REDSTONE};//List of items you can not place...
+#define NON_PLACEABLE_NUM 13
 int mine_frame;
 int mine_timeout;
 u16* donegfx;
@@ -71,13 +71,19 @@ void drawBlock(int block,int x,int y){
 		case STICK: STICK_render(x,y); break;
 		case WOOD_PICK: WOOD_PICK_render(x,y); break;
 		case COBBLE_PICKAXE: COBBLE_PICKAXE_render(x,y); break;
+		case IRON_PICKAXE: IRON_PICKAXE_render(x,y); break;
 		case WOOD_SHOVEL: WOOD_SHOVEL_render(x,y); break;
 		case WOOD_AXE: WOOD_AXE_render(x,y); break;
 		case COAL: COAL_render(x,y); break;
+		case IRON: IRON_render(x,y); break;
 		case DOOR: DOOR_render(x,y); break;
+		case DIAMOND: DIAMOND_render(x,y); break;
+		case REDSTONE: REDSTONE_render(x,y); break;
+		case GOLD: GOLD_render(x,y); break;
 		case LAPIS: LAPIS_render(x,y); break;
 		case COBBLE_SHOVEL: COBBLE_SHOVEL_render(x,y); break;
 		case COBBLE_AXE: COBBLE_PICKAXE_render(x,y); break;
+		
 		
 	}
 }
@@ -186,6 +192,12 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 				//setData(CurrentWorld->ChoosedBlock,0,false);
 		}
 		else if(CurrentWorld->ChoosedBlock==COBBLE_AXE){
+				int use;
+				use=getData(CurrentWorld->ChoosedBlock);
+				if(use>131) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at asdf use...
+				//setData(CurrentWorld->ChoosedBlock,0,false);
+		}
+		else if(CurrentWorld->ChoosedBlock==IRON_AXE){
 				int use;
 				use=getData(CurrentWorld->ChoosedBlock);
 				if(use>131) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at asdf use...

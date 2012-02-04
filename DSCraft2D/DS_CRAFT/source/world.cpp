@@ -94,4 +94,9 @@ void worldSetUp(){
 	LAPIS_setup();
 	COBBLE_SHOVEL_setup();
 	COBBLE_PICKAXE_setup();
+	IRON_setup();
+	IRON_PICKAXE_setup();
+	DIAMOND_setup();
+	GOLD_setup();
+	REDSTONE_setup();
 }
