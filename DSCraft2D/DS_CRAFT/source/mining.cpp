@@ -197,7 +197,7 @@ void miningUpdate(worldObject* CurrentWorld,playerActor* MainPlayer){
 				if(use>131) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at asdf use...
 				//setData(CurrentWorld->ChoosedBlock,0,false);
 		}
-		else if(CurrentWorld->ChoosedBlock==IRON_AXE){
+		else if(CurrentWorld->ChoosedBlock==IRON_PICKAXE){
 				int use;
 				use=getData(CurrentWorld->ChoosedBlock);
 				if(use>131) inventoryRemove(CurrentWorld->ChoosedBlock); //The asdf breaks at asdf use...

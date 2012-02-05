@@ -38,3 +38,9 @@
 #include "blocks/door.h"
 #include "blocks/cobble_shovel.h"
 #include "blocks/cobble_pickaxe.h"
+#include "blocks/iron_pickaxe.h"
+#include "blocks/iron.h"
+#include "blocks/diamond.h"
+#include "blocks/redstone.h"
+#include "blocks/gold.h"
+
