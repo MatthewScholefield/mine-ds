@@ -1,0 +1,1 @@
+stick.o: stick.s
