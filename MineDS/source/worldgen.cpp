@@ -302,9 +302,9 @@ void modifyWorld(worldObject* world){
 
 	swiWaitForVBlank();
 	int x;
-	//fixgrass(world);
-	//fixsnowgrass(world);
-	//addrock(world);
+	fixgrass(world);
+	fixsnowgrass(world);
+	addrock(world);
 	addore(world);
 	addFlowers(world);
 	addTrees(world);
