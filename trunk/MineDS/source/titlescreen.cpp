@@ -1,6 +1,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mainGame.h"
+#include "sounds.h"
 #include <nds.h>
 #include <stdio.h>
 //Single Player
@@ -39,6 +40,7 @@ void drawButtonColored(int x,int y, int sizex)
 }
 int titlescreen()
 {
+    playMusic(CALM);
 	uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
@@ -72,6 +74,7 @@ int titlescreen()
 				for (i=0;i<=32;i++)
 					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
 				consoleClear();
+				stopMusic();
 				mainGame(0);
 			}
 			else drawButton(8,9,14);

@@ -231,7 +231,7 @@ void addrock(worldObject* world){
 	//swiWaitForVBlank();
 }
 ///@breif This function adds a cactus to the ground at x,y
-///The x,y value should point to the actual ground, not where the plant should be.
+///The x,y value should point to the actual ground, not where the cactus should be.
 void addCACTUS(worldObject* world,int x,int y){
 	int height=rand() %1+1;
 	int i;
@@ -427,6 +427,7 @@ int mountainSomethingBiome(worldObject* world,int startx,int starty,int endx)
 ///After picking a biome it then runs the biomeGenerate function.
 ///It also calls modifyWorld(world); which plants trees and flowers, generates bedrock and adds ores.
 void generateWorld(worldObject* world){
+
 	int x=0;
 	int y=rand() % (WORLD_HEIGHT/3-8)+5;
 	int i;
@@ -437,6 +438,7 @@ void generateWorld(worldObject* world){
 	int endx=0;
 	int biometype=0;
 	int y2;
+
 	while(x!=WORLD_WIDTH){
 		sizex=rand() % 16+16;
 		endx=x+sizex;
