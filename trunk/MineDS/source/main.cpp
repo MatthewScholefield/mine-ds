@@ -23,10 +23,8 @@
 int screen_x,screen_y;
 void beginRender(int a,int b);
 void renderWorld(worldObject* world);
-Graphic graphics[9];
-int texty;
-bool up;
-char text[]={'M','i','n','e','c','r','a','f','t'};
+//Graphic graphics[9];
+
 
 int main()
 {

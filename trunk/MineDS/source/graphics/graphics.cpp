@@ -57,12 +57,12 @@ void graphicsInit()
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE_0x06400000);
 	//Set the bank for our Graphics.
+	oamInit(&oamMain,SpriteMapping_1D_256,true);
 	vramSetBankF(VRAM_F_LCD);
 	//Start copying palettes
 	dmaCopy(mobsPal,VRAM_F_EXT_SPR_PALETTE[0],mobsPalLen);
 	dmaCopy(particlesPal,VRAM_F_EXT_SPR_PALETTE[1],particlesPalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
-	oamInit(&oamMain,SpriteMapping_1D_256,true);
 	oamInit(&oamSub,SpriteMapping_1D_256,true);
         vramSetBankI(VRAM_I_LCD);
 	//Vram I is for Sub Sprite Palette!
@@ -213,6 +213,7 @@ void loadGraphicSub(Graphic* g,bool font,int frame)
 */
 void showGraphic(Graphic* g,int x,int y)
 {
+	//None of the g->main thingies work... :(
 	if (g->main)
 	{
 		if (g->mob)
