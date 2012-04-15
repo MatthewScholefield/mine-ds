@@ -14,7 +14,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys)
 		{
 			world->blocks[x][y]=TORCH;
 			world->lightemit[x][y]=1;
-			brightnessSpread(world,x,y,2);
+			brightnessSpread(world,x,y,0);
 		}
 		else
 		{
