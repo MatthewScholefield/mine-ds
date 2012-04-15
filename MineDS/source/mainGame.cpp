@@ -7,6 +7,11 @@
 #include "worldRender.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
+
+int texty;
+bool up;
+char text[]={'M','i','n','e','c','r','a','f','t'};
+Graphic graphics[9];
 void mainGame(int Mode)
 {
 	lcdMainOnBottom();
@@ -24,6 +29,10 @@ void mainGame(int Mode)
 	}	
 	CurrentWorld->CamX=0;
 	CurrentWorld->CamY=0;
+	for (i=0;i<=8;i++)
+	{
+		loadGraphic(&graphics[i],true, 0);
+	}
 	while(1){
 		scanKeys();
 		touchRead(&touch);
@@ -38,10 +47,14 @@ void mainGame(int Mode)
 		if (CurrentWorld->CamY<0) CurrentWorld->CamY = 0;
 		if( CurrentWorld->CamX>WORLD_WIDTH*16-256) CurrentWorld->CamX = WORLD_WIDTH*16-256;
 		if (CurrentWorld->CamY>(WORLD_HEIGHT+1)*16-192) CurrentWorld->CamY = (WORLD_HEIGHT+1)*16-192;
-		//if (up) texty--;
-		//else texty++;
-		//if (texty>96) up=true;
-		//else if (texty<64) up=false;
+		if (up) texty--;
+		else texty++;
+		if (texty>96) up=true;
+		else if (texty<64) up=false;
+		for (i=0;i<=8;i++)
+		{
+			showGraphic(&graphics[i],i*8,texty);
+		}
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);

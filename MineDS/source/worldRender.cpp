@@ -156,7 +156,7 @@ void worldRender_Init()
 	bg2ptr=bgGetMapPtr(2); //The Map Base
 	dmaCopy(&block_smallTiles, bgGetGfxPtr(2), block_smallTilesLen); //Copy Tiles
 	BlockShader();
-	sunlight=0;
+	sunlight=2;
 	int i,j;
 	for (i=0;i<=16;i++)
 		for (j=0;j<=16;j++)
