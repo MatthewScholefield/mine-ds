@@ -22,7 +22,6 @@ baseMob::baseMob(int a,int b)
     vy=0;
     vx=0;
     alive=true;
-    showGraphic(&baseMobGraphic[0],x,y); 
 }
 void baseMob::resetVelocity()
 {
