@@ -444,7 +444,7 @@ void generateWorld(worldObject* world){
 		endx=x+sizex;
 		if (endx>WORLD_WIDTH) endx=WORLD_WIDTH;
 		biometype=rand() %5;
-		//biometype=4; //Used to test certain biomes.
+		biometype=2; //Used to test certain biomes.
 		if (biometype==0) y2=mountainbiome(world,x,y,endx);
 		else if (biometype==1) y2=flatbiome(world,x,y,endx);
 		else if (biometype==2) y2=sandbiome(world,x,y,endx);
