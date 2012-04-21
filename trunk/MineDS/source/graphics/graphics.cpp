@@ -212,7 +212,7 @@ void loadGraphicSub(Graphic* g,bool font,int frame)
 */
 void showGraphic(Graphic* g,int x,int y)
 {
-	//None of the g->main thingies work... :(
+	if (x<-32 || x>256+32 || y<-32 || y>244) return;
 	if (g->main)
 	{
 		if (g->mob)
