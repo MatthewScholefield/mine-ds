@@ -72,6 +72,7 @@ int titlescreen()
 		{
 			if (touch.px > 64 && touch.px < 176 && touch.py > 72 && touch.py < 88)
 			{
+			drawButtonColored(8,9,14);
 				for (i=0;i<=32;i++)
 					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
 				consoleClear();
