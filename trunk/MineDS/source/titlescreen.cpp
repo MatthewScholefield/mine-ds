@@ -63,6 +63,7 @@ int titlescreen()
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
+			touchRead(&touch);
 			//Check if over SinglePlayerButton
 			if (touch.px > 64 && touch.px < 176 && touch.py > 72 && touch.py < 88)
 				drawButtonColored(8,9,14);

@@ -7,14 +7,17 @@
 #include "worldRender.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
-
+#include <stdio.h>
 int texty;
 bool up;
 char text[]={'M','i','n','e','c','r','a','f','t'};
 Graphic graphics[9];
 void mainGame(int Mode)
 {
+	consoleClear();
+	texty=64;
 	lcdMainOnBottom();
+	iprintf("\x1b[7;0HGenerating world...\n");
 	touchPosition touch;
 	worldObject* CurrentWorld;
 	int i,j;
@@ -31,8 +34,9 @@ void mainGame(int Mode)
 	CurrentWorld->CamY=0;
 	for (i=0;i<=8;i++)
 	{
-		loadGraphic(&graphics[i],true, 0);
+		loadGraphicSub(&graphics[i],true, text[i]);
 	}
+	iprintf("Done!\n");
 	while(1){
 		scanKeys();
 		touchRead(&touch);
@@ -53,7 +57,7 @@ void mainGame(int Mode)
 		else if (texty<64) up=false;
 		for (i=0;i<=8;i++)
 		{
-			showGraphic(&graphics[i],i*8,texty);
+			showGraphic(&graphics[i],i*8+128,texty);
 		}
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		swiWaitForVBlank();
