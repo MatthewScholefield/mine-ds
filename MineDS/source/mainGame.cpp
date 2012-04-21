@@ -1,4 +1,5 @@
 #include <nds.h>
+#include <stdio.h>
 #include "world.h"
 #include "worldgen.h"
 #include "mining.h"
@@ -7,11 +8,12 @@
 #include "worldRender.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
-#include <stdio.h>
+#include "mobs/mobHandler.h"
 int texty;
 bool up;
 char text[]={'M','i','n','e','c','r','a','f','t'};
 Graphic graphics[9];
+void mobHandlerUpdate(worldObject* world);
 void mainGame(int Mode)
 {
 	consoleClear();
@@ -60,6 +62,7 @@ void mainGame(int Mode)
 			showGraphic(&graphics[i],i*8+128,texty);
 		}
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
+		mobHandlerUpdate(CurrentWorld);
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
