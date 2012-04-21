@@ -47,8 +47,12 @@ int main()
 	graphicsInit();
 	while(1)
 	{
+	    graphicFrame();
 		titlescreen();
 		//mainGame(0);	
+		swiWaitForVBlank();
+		oamUpdate(&oamMain);
+		oamUpdate(&oamSub);
 	}
 	return 1;
 }
