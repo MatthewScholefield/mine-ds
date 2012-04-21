@@ -22,6 +22,7 @@
 #include "mainGame.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
+#include "mobs/mobHandler.h"
 int screen_x,screen_y;
 void beginRender(int a,int b); 
 void renderWorld(worldObject* world);
@@ -44,6 +45,7 @@ int main()
 	//	loadGraphicSub(&graphics[i],true, text[i]);
 	//}
 	worldRender_Init();
+	mobHandlerInit();
 	graphicsInit();
 	while(1)
 	{

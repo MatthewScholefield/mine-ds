@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include "../world.h"
+bool canBaseMobSpawnHere(worldObject* world,int x,int y);
+
 class baseMob
 {
     public:
@@ -6,13 +9,15 @@ class baseMob
 	int y;
 	int vy;
 	int vx;
+	bool alive;
     //bool potioneffects[5];
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	void setXYPos(int x,int y);
     void resetVelocity();	
-    virtual void updateMob();	
+    virtual void updateMob(worldObject* world);	
 	baseMob();
     baseMob(int x,int y);
 };
+void baseMobInit();
