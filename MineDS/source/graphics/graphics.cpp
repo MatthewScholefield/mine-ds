@@ -55,21 +55,20 @@ void graphicsInit()
 {
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
-	vramSetBankB(VRAM_B_MAIN_SPRITE_0x06400000);
 	//Set the bank for our Graphics.
-	oamInit(&oamMain,SpriteMapping_1D_256,true);
-	vramSetBankF(VRAM_F_LCD);
-	//Start copying palettes
-	dmaCopy(mobsPal,VRAM_F_EXT_SPR_PALETTE[0],mobsPalLen);
-	dmaCopy(particlesPal,VRAM_F_EXT_SPR_PALETTE[1],particlesPalLen);
-	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	oamInit(&oamSub,SpriteMapping_1D_256,true);
         vramSetBankI(VRAM_I_LCD);
 	//Vram I is for Sub Sprite Palette!
 	dmaCopy(subPal,VRAM_I_EXT_SPR_PALETTE[0],subPalLen);
 	dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[1],fontPalLen);
         vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
-	
+	vramSetBankB(VRAM_B_MAIN_SPRITE);
+	oamInit(&oamMain,SpriteMapping_1D_256,true);
+	vramSetBankF(VRAM_F_LCD);
+	//Start copying palettes
+	dmaCopy(mobsPal,VRAM_F_EXT_SPR_PALETTE[0],mobsPalLen);
+	dmaCopy(particlesPal,VRAM_F_EXT_SPR_PALETTE[1],particlesPalLen);
+	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
 void loadGraphicMob(Graphic* g,int frame,int x,int y)
