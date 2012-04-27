@@ -1,1 +1,1 @@
-bool isBlockWalkThrough(int blockID);
+bool isBlockWalkThrough(int a);

@@ -26,9 +26,6 @@ void mainGame(int Mode)
 	if (Mode==0) // Generate new world!
 	{
 		CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
-		for (i=0;i<=WORLD_WIDTH;i++)
-			for(j=0;j<=WORLD_HEIGHT;j++)
-				CurrentWorld->blocks[i][j]=AIR;
 		generateWorld(CurrentWorld);
 		Calculate_Brightness(CurrentWorld);
 	}	
@@ -40,6 +37,7 @@ void mainGame(int Mode)
 	}
 	iprintf("Done!\n");
 	while(1){
+		iprintf("\x1b[7;0HDone!\n");
 		scanKeys();
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());

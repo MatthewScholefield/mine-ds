@@ -2,11 +2,9 @@
 #include <nds.h>
 #include "baseMob.h"
 baseMob* mobs[100];
-int stopcheck;
 void mobHandlerInit()
 {
 	baseMobInit();
-	stopcheck=0;
 	int i;
 	for (i=0;i<=100;i++)
 	{
@@ -14,7 +12,7 @@ void mobHandlerInit()
 		mobs[i] -> alive = false;
 	}
 }
-int findFreeMobSpawn()
+int findFreeMobSpawnNum()
 {
 	int i;
 	for (i=0;i<=100;i++)
@@ -22,34 +20,42 @@ int findFreeMobSpawn()
 			return i;
 	return -1; 
 }
-void spawnBaseMob(worldObject* world)
+bool canMobSpawnHere(int mobId,worldObject* world, int a, int b)
+{	
+	switch(mobId)
+	{
+		case 0: return canBaseMobSpawnHere(world,a,b); break;
+		default: break;
+	}
+	return false;
+}
+void spawnMob(int mobId,worldObject* world)
 {
 	int i;
 	int j;
 	for (j=0;j<=WORLD_WIDTH;j++)
 	for (i=0;i<=WORLD_HEIGHT;i++)
-		if (canBaseMobSpawnHere(world,j,i))
+		if (canMobSpawnHere(mobId,world,j,i))
 		{
-			int mobId=findFreeMobSpawn();
-			if (mobId!=-1)
+			int mobNum=findFreeMobSpawnNum();
+			if (mobNum!=-1)
 			{
-				mobs[mobId]= new baseMob(j*16,i*16);
+				
+				switch(mobId)
+				{
+					case 0: mobs[mobNum]= new baseMob(j*16,i*16); break;
+					default: break;
+				}
+				mobs[mobNum]->host=true;
 			}
 			i=WORLD_HEIGHT+1;
 			j=WORLD_WIDTH+1;
 		}
 }
-void spawnMob(int mobId,worldObject* world)
-{
-	switch(mobId)
-	{
-		case 0: spawnBaseMob(world); break;
-	}
-}
 void mobHandlerUpdate(worldObject* world)
 {
 	int i;
-	for(i=0;i<=stopcheck;i++)
+	for(i=0;i<=100;i++)
 	{
 		if (mobs[i]->alive==true)
 		{

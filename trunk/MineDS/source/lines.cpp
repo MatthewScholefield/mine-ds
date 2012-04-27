@@ -1,18 +1,15 @@
-#include <cstdlib>
 #include "world.h"
-////////////////////////////////////////////////////////////////////////////////
-
-///@breif Draws a line from x1,y1 to x2,y2 with blockId in the worldObject* world
-///Copied from devscene and modified a tiny bit, probably.
-void drawLineDown(worldObject* world,int x, int y, int blockId)
+#include <cstdlib>
+#include "blockID.h"
+void drawLineDown(worldObject* world,int x, int y)
 {
 	int i;
 	for (i=y;i<WORLD_HEIGHT;i++)
 	{
-		world->blocks[x][i]=blockId;
+		world->blocks[x][i]=STONE;
 	}
 }
-void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2,int blockId)
+void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2)
 {
     // if x1 == x2 or y1 == y2, then it does not matter what we set here
     int delta_x(x2 - x1);
@@ -23,7 +20,7 @@ void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2,int blockId)
     signed char iy((delta_y > 0) - (delta_y < 0));
     delta_y = std::abs(delta_y) << 1;
  
-    drawLineDown(world,x1,y1,blockId);
+    drawLineDown(world,x1,y1);
  
     if (delta_x >= delta_y)
     {
@@ -46,7 +43,7 @@ void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2,int blockId)
             x1 += ix;
             error += delta_y;
  
-			drawLineDown(world,x1,y1,blockId);
+			drawLineDown(world,x1,y1);
         }
     }
     else
@@ -70,9 +67,7 @@ void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2,int blockId)
             y1 += iy;
             error += delta_x;
  
-			drawLineDown(world,x1,y1,blockId);
+			drawLineDown(world,x1,y1);
         }
     }
 }
-
-
