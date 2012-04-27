@@ -10,6 +10,7 @@ class baseMob
 	int vy;
 	int vx;
 	bool alive;
+	bool host; // Was this mob spawn'd by this nds?
     //bool potioneffects[5];
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);

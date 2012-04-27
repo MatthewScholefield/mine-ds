@@ -10,6 +10,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys)
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
 		//iprintf("Pen touched at: %d,%d\n",x,y);
+		iprintf("Block: %d\n",world->blocks[x][y]);
 		if (world->blocks[x][y]!=TORCH)
 		{
 			world->blocks[x][y]=TORCH;

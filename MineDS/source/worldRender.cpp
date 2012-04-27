@@ -11,6 +11,7 @@
 #include "world.h"
 #include "worldRender.h"
 #include "blockID.h"
+#include "blocks.h"
 #include <math.h>
 int sunlight;
 int xMin, xMax, yMin, yMax;
@@ -60,14 +61,14 @@ void brightnessSpread(worldObject* world,int x,int y, int brightness)
 	if (world->brightness[x][y]>brightness)
 	{
 		world->brightness[x][y]=brightness;
-		if (world->blocks[x][y]!=AIR && world->blocks[x][y]!=LEAF && world->blocks[x][y]!=LOG && world->blocks[x][y]!=DARK_WOOD && world->blocks[x][y]!=FLOWER_RED && world->blocks[x][y]!=FLOWER_YELLOW && world->blocks[x][y]!=CACTUS)
+		if (!isBlockWalkThrough(world->blocks[x][y]))
 		{
 			brightnessSpread(world,x-1,y,brightness+4);
 			brightnessSpread(world,x,y-1,brightness+4);
 			brightnessSpread(world,x+1,y,brightness+4);
 			brightnessSpread(world,x,y+1,brightness+4);
 		}
-		else if (world->blocks[x][y]==AIR || world->blocks[x][y]==LEAF || world->blocks[x][y]==LOG || world->blocks[x][y]==DARK_WOOD || world->blocks[x][y]==FLOWER_RED || world->blocks[x][y]==FLOWER_YELLOW || world->blocks[x][y]==CACTUS)
+		else if (isBlockWalkThrough(world->blocks[x][y]))
 		{
 			brightnessSpread(world,x-1,y,brightness+1);
 			brightnessSpread(world,x,y-1,brightness+1);
@@ -82,7 +83,7 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 {
 	int sx,sy;
 	for (sx=x-14;sx<=x+14;sx++)
-		for(sy=y-14;sy<=y+14;sy++)
+		for(sy=0;sy<=y+14;sy++)
 		{
 			world->brightness[sx][sy]=15;
 		}
@@ -100,6 +101,25 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 				int light=world->lightemit[sx][sy]-1;		
 				brightnessSpread(world,sx,sy,light);
 			}
+		}
+	int i = x;
+	bool startshade=false;
+	int j;
+	for (j=0;j<=WORLD_HEIGHT;j++)
+		{
+			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
+			{
+				world->lightemit[i][j]=1+sunlight;
+				startshade=true;
+			}
+			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight;
+			
+			if (world->lightemit[i][j]!=0)
+			{
+				int light=world->lightemit[i][j]-1;
+				brightnessSpread(world,i,j,light);
+			}
+			if(world->brightness[i][j]==16) world->brightness[i][j]=15;
 		}
 	
 }
@@ -121,12 +141,13 @@ void Calculate_Brightness(worldObject* world)
 		//First put sunshine on the top-blocks.
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
-			if(world->blocks[i][j]!=AIR && !startshade)
+			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
 			{
 				world->lightemit[i][j]=1+sunlight;
 				//world->brightness[i][j]=0; //Will be set later
 				startshade=true;
 			}
+			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight;
 			/*else if(world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG && world->blocks[i][j]!=DARK_WOOD && world->blocks[i][j]!=FLOWER_RED && world->blocks[i][j]!=FLOWER_YELLOW && world->blocks[i][j]!=CACTUS && world->brightness[i][j-1]<=12)
 			{
 				world->brightness[i][j]=world->brightness[i][j-1]+4;
