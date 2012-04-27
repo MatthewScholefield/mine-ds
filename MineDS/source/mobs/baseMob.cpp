@@ -30,6 +30,7 @@ void baseMob::resetVelocity()
 }
 void baseMob::updateMob(worldObject* world)
 {
+	iprintf("BaseMob Updating!\n");
 	 showGraphic(&baseMobGraphic[0],x-world->CamX,y-world->CamY);
 }
 void baseMob::setXYPos(int a,int b)

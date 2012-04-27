@@ -15,7 +15,7 @@
 #define TOP_SLABS 6
 #define BRICK 7
 #define TNT 8
-#define TNT_TOP 9
+#define SNOW_TOP 9
 #define TNT_BOTTOM 10
 #define COBWEB 11
 #define FLOWER_RED 12
@@ -103,6 +103,6 @@
 #define WHEAT_7 94
 #define WHEAT_8 95
 #define LAPIS_ORE 160
-#define DARK_WOOD 116
-#define WHITE_WOOD 117
+#define OAK_WOOD 116
+#define BIRCH_WOOD 117
 #define SANDSTONE 192
