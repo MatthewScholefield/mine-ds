@@ -13,7 +13,7 @@ baseMob::baseMob()
     y=0;
     vy=0;
     vx=0;
-    alive=true;
+    alive=false;
 }
 baseMob::baseMob(int a,int b)
 {
@@ -21,7 +21,7 @@ baseMob::baseMob(int a,int b)
     y=b;
     vy=0;
     vx=0;
-    alive=true;
+    alive=false;
 }
 void baseMob::resetVelocity()
 {
@@ -56,4 +56,12 @@ bool canBaseMobSpawnHere(worldObject* world,int x,int y)
 void baseMobInit()
 {
 	loadGraphic(&baseMobGraphic[0],true,0);
+}
+void baseMob::killMob()
+{
+	alive=false;
+}
+void baseMob::unKillMob()
+{
+	alive=true;
 }

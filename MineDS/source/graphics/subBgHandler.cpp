@@ -3,6 +3,7 @@
 #include "sub_bg.h"
 uint16 *bgptr;
 uint16 *fontgfx;
+
 inline void setSubTileXY(int x, int y, uint16 tile,int palette,int flip)
 {
 	tile |= palette<<12;
