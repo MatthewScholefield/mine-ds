@@ -9,7 +9,7 @@ void mobHandlerInit()
 	for (i=0;i<=100;i++)
 	{
 		mobs[i] = new baseMob();
-		mobs[i] -> alive = false;
+		mobs[i] -> killMob();
 	}
 }
 int findFreeMobSpawnNum()
@@ -43,7 +43,7 @@ void spawnMob(int mobId,worldObject* world)
 				
 				switch(mobId)
 				{
-					case 0: mobs[mobNum]= new baseMob(j*16,i*16); break;
+					case 0: mobs[mobNum]= new baseMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					default: break;
 				}
 				mobs[mobNum]->host=true;
@@ -55,11 +55,11 @@ void spawnMob(int mobId,worldObject* world)
 void mobHandlerUpdate(worldObject* world)
 {
 	int i;
-	for(i=0;i<=100;i++)
+	for(i=1;i<100;i++)
 	{
 		if (mobs[i]->alive==true)
 		{
-		 mobs[i]->updateMob(world);
+			mobs[i]->updateMob(world);
 		}
 	}
 	if (keysDown() & KEY_Y) spawnMob(0,world);
