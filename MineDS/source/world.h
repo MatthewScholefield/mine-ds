@@ -26,7 +26,7 @@ typedef struct{
 	int CamX;
 	int version; //To keep track of the world version number
 }worldObject;
-void worldUpdate(worldObject* world,void* player2);
-void worldSetUp();
+int findFirstBlock(worldObject* world,int x);
+int findFirstBiomeBlock(worldObject* world,int x);
 #define WORLD_H
 #endif

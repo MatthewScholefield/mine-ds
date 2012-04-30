@@ -18,8 +18,8 @@
 #define SNOW_TOP 9
 #define TNT_BOTTOM 10
 #define COBWEB 11
-#define FLOWER_RED 12
-#define FLOWER_YELLOW 13
+#define RED_FLOWER 12
+#define YELLOW_FLOWER 13
 #define SAPLING 15
 #define COBBLE 16
 #define COBBLESTONE 16
@@ -27,7 +27,7 @@
 #define SAND 18
 #define GRAVEL 19
 #define LOG 20
-#define LOG_TOP 21
+#define REDWOOD_LEAF 21
 #define IRON_BLOCK 22
 #define GOLD_BLOCK 23
 #define DIAMOND_BLOCK 24
@@ -102,7 +102,47 @@
 #define WHEAT_6 93
 #define WHEAT_7 94
 #define WHEAT_8 95
-#define LAPIS_ORE 160
+#define LEVER 96
+#define DOOR_BOTTOM 97
+#define IRON_DOOR_BOTTOM 98
+#define REDSTONE_TORCH 99
+#define MOSSY_STONE_BRICK 100
+#define CRACKED_STONE_BRICK 101
+#define PUMPKIN_TOP 102 //Derp...
+#define NETHERRACK 103
+#define SOUL_SAND 104
+#define GLOWSTONE 105
+#define STICKY_PISTON_FACE 106//Derp...
+#define PISTON_FACE 107 //Derp...
+#define PISTON_BASE 108
+#define PISTON_DERP 109
+#define PISTON_DERP_2 110
+#define MELON_STALK 111
+#define MINECART_TRACK_CURVE 112
+#define BLACK_WOOL 113
+#define GRAY_WOOL 114
+#define REDSTONE_TORCH_OFF 115
 #define OAK_WOOD 116
 #define BIRCH_WOOD 117
+#define PUMPKIN_SIDE_1 118
+#define PUMPKIN_SIDE_2 119
+#define PUMPKIN_LIGHT 120 //Needs a better name
+#define CAKE_TOP 121 //Derp
+#define CAKE_SIDE 122
+#define CAKE_SIDE_BITTEN 123 //123 AND CAKE, WHAT A LIE!
+#define CAKE_BOTTOM 124//Derp
+#define GIANT_RED_MUSHROOM 125
+#define GIANT_BROWN_MUSHROOM_THING 126
+#define MELON_STALK_BENT 127
+#define MINECART_TRACK_STRAIGHT 128
+#define RED_WOOL 129
+#define PINK_WOOL 130
+#define REDSTONE_REPEATER_OFF 131
+#define REDWOOD_LEAF_BIOME 132
+#define BED_TOP_1 134
+#define BED_TOP_2 135
+#define MELON_SIDE 136
+#define MELON_TOP 137
+#define COULDRON_TOP 138
+#define LAPIS_ORE 160
 #define SANDSTONE 192

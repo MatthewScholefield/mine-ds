@@ -16,6 +16,7 @@ Graphic graphics[9];
 void mobHandlerUpdate(worldObject* world);
 void mainGame(int Mode)
 {
+	mobsReset();
 	consoleClear();
 	texty=64;
 	lcdMainOnBottom();
@@ -37,20 +38,11 @@ void mainGame(int Mode)
 	}
 	iprintf("Done!\n");
 	while(1){
-		iprintf("\x1b[7;0HDone!\n");
 		scanKeys();
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
 		if (keysDown() & KEY_START) break;
-		if(keysHeld() & KEY_DOWN) CurrentWorld->CamY++;
-		else if (keysHeld() & KEY_UP) CurrentWorld->CamY--;
-		if (keysHeld() & KEY_LEFT) CurrentWorld->CamX--;
-		else if (keysHeld() & KEY_RIGHT) CurrentWorld->CamX++;
 		if (keysDown() & KEY_A) Calculate_Brightness(CurrentWorld);
-		if( CurrentWorld->CamX <0) CurrentWorld->CamX = 0;
-		if (CurrentWorld->CamY<0) CurrentWorld->CamY = 0;
-		if( CurrentWorld->CamX>WORLD_WIDTH*16-256) CurrentWorld->CamX = WORLD_WIDTH*16-256;
-		if (CurrentWorld->CamY>(WORLD_HEIGHT+1)*16-192) CurrentWorld->CamY = (WORLD_HEIGHT+1)*16-192;
 		if (up) texty--;
 		else texty++;
 		if (texty>96) up=true;
