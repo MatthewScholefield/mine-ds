@@ -13,6 +13,8 @@
 #include "blockID.h"
 #include "blocks.h"
 #include <math.h>
+#define sizeOfArray(x) (sizeof(x)/4)
+int execptions[]={AIR};
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
@@ -40,13 +42,14 @@ void BlockShader(){
 			g << 5 |
 			b << 10 |
 			a << 15;
+
 		}
 	}
 	for(int j = 0; j < 256; j++)
 	{
 		VRAM_E_EXT_PALETTE[2][15][j] = 0;
 	}
-	
+	int i;
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 }
 inline void setTileXY(int x, int y, uint16 tile,int palette)
@@ -224,7 +227,8 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 		//Check The Block is on screen
 		if(onScreen(16,i,j,1,1))
 			{
-				renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+				if (world->blocks[i][j]!=AIR) renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+				else renderTile16(i,j,world->blocks[i][j],0);
 
 			}
 		}
