@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "baseMob.h"
 #include "mobPlayer.h"
+#include "mobFunctions.h"
 baseMob* mobs[100];
 bool hasSpawnPlayer;
 void mobsReset()
@@ -83,6 +84,7 @@ void mobHandlerUpdate(worldObject* world)
 	{
 		if (mobs[i]->alive==true)
 		{
+			calculateMiscData(world,mobs[i]);
 			mobs[i]->updateMob(world);
 		}
 	}
