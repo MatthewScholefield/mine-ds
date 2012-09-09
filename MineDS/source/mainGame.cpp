@@ -12,7 +12,7 @@
 int texty;
 bool up;
 char text[]={'M','i','n','e','c','r','a','f','t'};
-Graphic graphics[9];
+Graphic graphics[10];
 void mobHandlerUpdate(worldObject* world);
 void mainGame(int Mode)
 {
@@ -34,8 +34,9 @@ void mainGame(int Mode)
 	CurrentWorld->CamY=0;
 	for (i=0;i<=8;i++)
 	{
-		loadGraphicSub(&graphics[i],true, text[i]);
+		loadGraphicSub(&graphics[i],1, text[i]);
 	}
+	loadGraphicSub(&graphics[9],2,8);
 	iprintf("Done!\n");
 	while(1){
 		scanKeys();
@@ -51,6 +52,7 @@ void mainGame(int Mode)
 		{
 			showGraphic(&graphics[i],i*8+128,texty);
 		}
+		showGraphic(&graphics[9],0,0);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		mobHandlerUpdate(CurrentWorld);
 		swiWaitForVBlank();

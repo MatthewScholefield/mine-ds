@@ -13,7 +13,7 @@ typedef struct
 	//! \breif y Size of Graphic in pixels.
 	int sy;
 	//! \breif Whether Graphic is a mob or a particle.
-	bool mob;
+	int mob;
 	//! \breif Whether loaded for main or sub OAM.
 	bool main;
 }Graphic;
@@ -23,8 +23,8 @@ void loadGraphicMob(Graphic* g,int frame);
 void loadGraphic(Graphic* g,bool mob,int frame,int x,int y);
 void loadGraphic(Graphic* g,bool mob,int frame);
 void loadGraphicSubMob(Graphic* g,int frame);
-void loadGraphicSub(Graphic* g,bool mob,int frame,int x,int y);
-void loadGraphicSub(Graphic* g,bool mob,int frame);
+void loadGraphicSub(Graphic* g,int mob,int frame,int x,int y);
+void loadGraphicSub(Graphic* g,int mob,int frame);
 void showGraphic(Graphic* g,int x,int y);
 void unloadGraphic(Graphic* g);
 #define unloadGraphicSub(x) unloadGraphic(x)
