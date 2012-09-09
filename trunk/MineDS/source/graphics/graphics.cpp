@@ -61,7 +61,7 @@ void graphicsInit()
 	//Vram I is for Sub Sprite Palette!
 	dmaCopy(subPal,VRAM_I_EXT_SPR_PALETTE[0],subPalLen);
 	dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[1],fontPalLen);
-	dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[2],block_smallPalLen);
+	//dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[2],block_smallPalLen);
         vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain,SpriteMapping_1D_256,true);
