@@ -9,34 +9,45 @@
 Graphic baseMobGraphic[3];
 baseMob::baseMob()
 {
-    x=0;
-    y=0;
-    vy=0;
-    vx=0;
-    alive=false;
+	x=0;
+	y=0;
+	vy=0;
+	vx=0;
+	alive=false;
+	onground=false;
 }
 baseMob::baseMob(int a,int b)
 {
-    x=a;
-    y=b;
-    vy=0;
-    vx=0;
-    alive=false;
+	gravity=8;
+	gravityValue=8;
+	sx=16;
+	sy=32;
+	x=a;
+	y=b;
+	vy=0;
+	vx=0;
+	onground=false;
+	alive=false;
 }
 void baseMob::resetVelocity()
 {
-    vy=0;
-    vx=0;
+	vy=0;
+	vx=0;
 }
 void baseMob::updateMob(worldObject* world)
 {
-	iprintf("BaseMob Updating!\n");
 	 showGraphic(&baseMobGraphic[0],x-world->CamX,y-world->CamY);
+	if (host==true)
+	{
+		if (colisions[0]==false) y+=vy;
+		else vy=0;
+		//iprintf("colisions = %d\n",colisions[0]);
+	}
 }
 void baseMob::setXYPos(int a,int b)
 {
-    x=a;
-    y=b;
+	x=a;
+	y=b;
 }
 void baseMob::sendWifiUpdate()
 {

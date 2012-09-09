@@ -10,8 +10,14 @@ class baseMob
 	int y;
 	int vy;
 	int vx;
+	int sx;
+	int sy;
+	int gravityValue;
+	int gravity;
+	bool onground;
 	bool alive;
 	bool host; // Was this mob spawn'd by this nds?
+	bool colisions[5];
     //bool potioneffects[5];
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);

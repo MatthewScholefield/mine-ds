@@ -102,5 +102,5 @@ void generateWorld (worldObject* world){
 		i=i+sizex+1;
 	}
 
-	//generateBedrock(world);
+	generateBedrock(world);
 }

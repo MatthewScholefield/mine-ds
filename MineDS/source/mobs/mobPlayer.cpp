@@ -10,19 +10,25 @@
 Graphic playerMobGraphic[3];
 playerMob::playerMob()
 {
-    x=0;
-    y=0;
-    vy=0;
-    vx=0;
-    alive=false;
+	x=0;
+	y=0;
+	vy=0;
+	vx=0;
+	alive=false;
+	onground=false;
 }
 playerMob::playerMob(int a,int b)
 {
-    x=a;
-    y=b;
-    vy=0;
-    vx=0;
-    alive=false;
+	gravity=4;
+	gravityValue=4;
+	sx=6;
+	sy=32;
+	x=a;
+	y=b;
+	vy=0;
+	vx=0;
+	alive=false;
+	onground=false;
 	iprintf("%d,%d\n",a,b);
 }
 void playerMob::updateMob(worldObject* world)
@@ -35,10 +41,27 @@ void playerMob::updateMob(worldObject* world)
 		if (world->CamY<0) world->CamY = 0;
 		if( world->CamX>WORLD_WIDTH*16-256) world->CamX = WORLD_WIDTH*16-256;
 		if (world->CamY>(WORLD_HEIGHT+1)*16-192) world->CamY = (WORLD_HEIGHT+1)*16-192;
-		if (keysHeld()&KEY_RIGHT) x++;
-		if (keysHeld()&KEY_LEFT) x--;
-		if (keysHeld()&KEY_UP) y--;
-		if (keysHeld()&KEY_DOWN) y++;
+		if (keysHeld()&KEY_RIGHT && !colisions[1] && !colisions[3]) x++;
+		if (keysHeld()&KEY_LEFT && !colisions[2] && !colisions[3]) x--;
+		if (colisions[3]==true)
+		{
+			vy=0;
+			y+=1;
+			iprintf("ASDF!\n");
+		}
+		if (colisions[0]==false)
+		{
+		 y+=vy; 
+		}
+		else vy=0;
+		if (keysDown() & KEY_L)
+		{
+			int a;
+			for(a=0;a<=4;a++)
+				iprintf("%d",colisions[a]);
+			iprintf("\n");
+		}
+		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
 	showGraphic(&playerMobGraphic[0],x-world->CamX,y-world->CamY);
