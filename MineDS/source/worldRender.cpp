@@ -19,6 +19,7 @@ int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
 void BlockShader(){
+	setBackdropColor(RGB15(0,0,31));
 	vramSetBankE(VRAM_E_LCD);
 	//Extreme Thanks to dirbaio...
 	for(int i = 1; i < 16; i++)
