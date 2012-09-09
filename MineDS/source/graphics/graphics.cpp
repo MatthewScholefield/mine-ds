@@ -5,6 +5,7 @@
 #include "particles.h"
 #include "sub.h"
 #include "sub_bg.h"
+#include "block_top.h"
 #include "font.h"
 /** 
 	\file graphics.cpp
@@ -61,7 +62,7 @@ void graphicsInit()
 	//Vram I is for Sub Sprite Palette!
 	dmaCopy(subPal,VRAM_I_EXT_SPR_PALETTE[0],subPalLen);
 	dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[1],fontPalLen);
-	//dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[2],block_smallPalLen);
+	dmaCopy(block_topPal,VRAM_I_EXT_SPR_PALETTE[2],block_topPalLen);
         vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain,SpriteMapping_1D_256,true);
@@ -169,7 +170,7 @@ void loadGraphicSubFont(Graphic* g, int frame,int x,int y)
 		u8* Tiles=(u8*)&fontTiles;
 		Tiles+=frame*(8*8);
 		dmaCopy(Tiles,graphics,8*8);
-		g->mob=true;
+		g->mob=1;
 		g->sx=x;
 		g->sy=y;
 		g->Gfx=graphics;
@@ -179,17 +180,30 @@ void loadGraphicSubFont(Graphic* g, int frame,int x,int y)
 		iprintf("Error loading graphics!\n");
 	}
 }
+void loadGraphicSubBlock(Graphic* g, int frame,int x,int y)
+{
+	u16 * graphics=oamAllocateGfx(&oamSub,SpriteSize_16x16, SpriteColorFormat_256Color);
+	u8* Tiles=(u8*)&block_topTiles;
+	Tiles+=frame*(16*8);
+	dmaCopy(Tiles,graphics,8*16);
+	dmaCopy(Tiles+8*16*16,graphics+8*8,8*16);
+	g->mob=2;
+	g->sx=x;
+	g->sy=y;
+	g->Gfx=graphics;
+}
 /** 
 	\breif A function used to load graphics for use on the Sub screen, The screen with the Logo on it.
 	\param g A pointer to a newly allocated Graphic structure. 
-	\param font To choose between loading a font graphic (true) or loading a particle (false).
+	\param font To choose between loading different types of graphic 0 = Particle 1 = font 2 = Block
 	\param frame Tile of Graphic to load
 	\param x x Size of Tile
 	\param y y Size of Tile
 */
-void loadGraphicSub(Graphic* g,bool font,int frame,int x,int y)
+void loadGraphicSub(Graphic* g,int font,int frame,int x,int y)
 {
-	if (font) loadGraphicSubFont(g,frame,x,y);
+	if (font == 1) loadGraphicSubFont(g,frame,x,y);
+	else if (font == 2) loadGraphicSubBlock(g,frame,x,y);
 	else if (!font) loadGraphicSubParticle(g,frame,x,y);
 	g->main=false;
 }
@@ -198,10 +212,10 @@ void loadGraphicSub(Graphic* g,bool font,int frame,int x,int y)
 	This function assmumes that the particle or font graphic is of 8x8 size.
 	(Which is generally ok for the Sub screen)
 	\param g A pointer to a newly allocated Graphic structure. 
-	\param font To choose between loading a font graphic (true) or loading a particle (false).
+	\param font To choose between loading different types of graphic 0 = Particle 1 = font 2 = Block
 	\param frame Tile of Graphic to load
 */
-void loadGraphicSub(Graphic* g,bool font,int frame)
+void loadGraphicSub(Graphic* g,int font,int frame)
 {
 	loadGraphicSub(g,font,frame,8,8);
 }
@@ -223,11 +237,15 @@ void showGraphic(Graphic* g,int x,int y)
 	}
 	else
 	{
-		if (g->mob)
+		if (g->mob==1)
 		{
 			oamSet(&oamSub,graphicNextSub(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
 		}
-		else if (g->sx==8 && g->sy==8)
+		else if (g->mob==2)
+		{
+			oamSet(&oamSub,graphicNextSub(),x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
+		}
+		else if (g->sx==8 && g->sy==8 && g->mob==0)
 			oamSet(&oamSub,graphicNextSub(),x,y,0,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
 	}
 }
