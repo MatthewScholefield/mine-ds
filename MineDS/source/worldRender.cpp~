@@ -82,7 +82,18 @@ void brightnessSpread(worldObject* world,int x,int y, int brightness)
 	}
 	else return;
 }
-
+void resetLightEmitAround(worldObject* world, int x, int y)
+{
+	int sx,sy;
+	for (sx=x-14;sx<=x+14;sx++)
+		for(sy=0;sy<=WORLD_HEIGHT;sy++)
+		{
+			if (isBlockALightSource(world->blocks[sx][sy]))
+			{
+				world->lightemit[sx][sy]=1+getLightAmount(world->blocks[sx][sy]);
+			}
+		}
+}
 void updateBrightnessAround(worldObject* world,int x,int y)
 {
 	int sx,sy;
@@ -90,11 +101,8 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 		for(sy=0;sy<=WORLD_HEIGHT;sy++)
 		{
 			world->brightness[sx][sy]=15;
-			if (world->sun[sx][sy]==true)
-			{
-				world->sun[sx][sy]=false;
-				world->lightemit[sx][sy]=0;
-			}
+			world->sun[sx][sy]=false;
+			world->lightemit[sx][sy]=0;
 		}
 	bool startshade=false;
 	int j;
@@ -162,7 +170,7 @@ void Calculate_Brightness(worldObject* world)
 				//world->brightness[i][j]=0; //Will be set later
 				startshade=true;
 			}
-			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight;
+			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight; world->sun[i][j]=true;
 			if (world->lightemit[i][j]!=0)
 			{
 				int light=world->lightemit[i][j]-1;
@@ -187,7 +195,7 @@ void worldRender_Init()
 	bg2ptr=bgGetMapPtr(2); //The Map Base
 	dmaCopy(&block_smallTiles, bgGetGfxPtr(2), block_smallTilesLen); //Copy Tiles
 	BlockShader();
-	sunlight=2;
+	sunlight=0;
 	int i,j;
 	for (i=0;i<=16;i++)
 		for (j=0;j<=16;j++)

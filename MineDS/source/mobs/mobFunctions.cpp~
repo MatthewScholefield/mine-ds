@@ -12,7 +12,7 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		mob -> gravityValue = mob -> gravity;
 	}
 	int blockx = (mob->x + mob -> sx/2)/16;
-	int blocky = (mob->y + 4 + mob -> sy/2)/16;
+	int blocky = (mob->y + 6 + mob -> sy/2)/16;
 	bool oldtop= mob -> colisions[0];
 	for (int i=0;i<4;i++)
 	mob -> colisions[i]=false;
@@ -61,6 +61,6 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		mob -> y = (blocky-1)*16 +1;
 		mob -> vy = 0;		
 	}
-
+	if (mob->y < 0) mob->y=0;
 
 }
