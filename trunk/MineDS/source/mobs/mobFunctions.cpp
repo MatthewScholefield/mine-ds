@@ -61,6 +61,6 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		mob -> y = (blocky-1)*16 +1;
 		mob -> vy = 0;		
 	}
-
+	if (mob->x < 0) mob->x=0;
 
 }

@@ -185,6 +185,7 @@ void loadGraphicSubBlock(Graphic* g, int frame,int x,int y)
 	u16 * graphics=oamAllocateGfx(&oamSub,SpriteSize_16x16, SpriteColorFormat_256Color);
 	u8* Tiles=(u8*)&block_topTiles;
 	Tiles+=frame*(16*8);
+	Tiles+=frame/16*(8*16*16);
 	dmaCopy(Tiles,graphics,8*16);
 	dmaCopy(Tiles+8*16*16,graphics+8*8,8*16);
 	g->mob=2;

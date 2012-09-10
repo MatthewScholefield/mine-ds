@@ -36,7 +36,7 @@ void mainGame(int Mode)
 	{
 		loadGraphicSub(&graphics[i],1, text[i]);
 	}
-	loadGraphicSub(&graphics[9],2,8);
+	//loadGraphicSub(&graphics[9],2,8);
 	iprintf("Done!\n");
 	while(1){
 		scanKeys();
@@ -52,7 +52,7 @@ void mainGame(int Mode)
 		{
 			showGraphic(&graphics[i],i*8+128,texty);
 		}
-		showGraphic(&graphics[9],0,0);
+		//showGraphic(&graphics[9],0,0);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		mobHandlerUpdate(CurrentWorld);
 		swiWaitForVBlank();
