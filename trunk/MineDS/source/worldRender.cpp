@@ -87,17 +87,24 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 {
 	int sx,sy;
 	for (sx=x-14;sx<=x+14;sx++)
-		for(sy=0;sy<=y+14;sy++)
+		for(sy=0;sy<=WORLD_HEIGHT;sy++)
 		{
 			world->brightness[sx][sy]=15;
+			if (world->sun[sx][sy]==true)
+			{
+				world->sun[sx][sy]=false;
+				world->lightemit[sx][sy]=0;
+			}
 		}
+	bool startshade=false;
+	int j;
 	for (x>15 ? sx=x-15 : sx=0;x<WORLD_WIDTH-15 ? sx<=x+15 : sx<=WORLD_WIDTH;sx++)
-		for (y>15 ? sy=y-15 : sy=0;y<WORLD_HEIGHT-15 ? sy<=y+15 : sy<=WORLD_HEIGHT;sy++)
+		for (sy=0;sy<=WORLD_HEIGHT;sy++)
 		{
 			if(world->brightness[sx][sy]!=15)
 			{
-				int bright=world->brightness[sx][sy]; //HAXXY CODE
-				world->brightness[sx][sy]=15;//HAXXY CODE
+				int bright=world->brightness[sx][sy];
+				world->brightness[sx][sy]=15;
 				brightnessSpread(world,sx,sy,bright);
 			}
 			if (world->lightemit[sx][sy]!=0)
@@ -106,26 +113,27 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 				brightnessSpread(world,sx,sy,light);
 			}
 		}
-	int i = x;
-	bool startshade=false;
-	int j;
-	for (j=0;j<=WORLD_HEIGHT;j++)
-		{
-			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
+	for (int i=x-14;i<=x+14;i++)
+	{
+		startshade=false;
+		for (j=0;j<=WORLD_HEIGHT;j++)
 			{
-				world->lightemit[i][j]=1+sunlight;
-				startshade=true;
+				if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
+				{
+					world->lightemit[i][j]=1+sunlight;
+					world->sun[i][j]=true; // This is a block that is lit by the sun...
+					//world->brightness[i][j]=0; //Will be set later
+					startshade=true;
+				}
+				else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight; world->sun[i][j]=true;
+				if (world->lightemit[i][j]!=0)
+				{
+					int light=world->lightemit[i][j]-1;
+					brightnessSpread(world,i,j,light);
+				}
+				if(world->brightness[i][j]==16) world->brightness[i][j]=15;
 			}
-			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight;
-			
-			if (world->lightemit[i][j]!=0)
-			{
-				int light=world->lightemit[i][j]-1;
-				brightnessSpread(world,i,j,light);
-			}
-			if(world->brightness[i][j]==16) world->brightness[i][j]=15;
-		}
-	
+	}
 }
 void Calculate_Brightness(worldObject* world)
 {
@@ -135,7 +143,9 @@ void Calculate_Brightness(worldObject* world)
 	{
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
-		world->brightness[i][j]=15;
+			world->brightness[i][j]=15;
+			world->sun[i][j]=false;
+			world->lightemit[i][j]=0;
 		}
 	}
 	for(i=0;i<=WORLD_WIDTH;i++)
@@ -148,15 +158,11 @@ void Calculate_Brightness(worldObject* world)
 			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
 			{
 				world->lightemit[i][j]=1+sunlight;
+				world->sun[i][j]=true; // This is a block that is lit by the sun...
 				//world->brightness[i][j]=0; //Will be set later
 				startshade=true;
 			}
-			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight;
-			/*else if(world->blocks[i][j]!=AIR && world->blocks[i][j]!=LEAF && world->blocks[i][j]!=LOG && world->blocks[i][j]!=DARK_WOOD && world->blocks[i][j]!=FLOWER_RED && world->blocks[i][j]!=FLOWER_YELLOW && world->blocks[i][j]!=CACTUS && world->brightness[i][j-1]<=12)
-			{
-				world->brightness[i][j]=world->brightness[i][j-1]+4;
-			}
-			else if (world->blocks[i][j]==AIR || world->blocks[i][j]==LEAF || world->blocks[i][j]==LOG || world->blocks[i][j]==DARK_WOOD || world->blocks[i][j]==FLOWER_RED || world->blocks[i][j]==FLOWER_YELLOW || world->blocks[i][j]==CACTUS) world->brightness[i][j]=world->brightness[i][j-1];*/
+			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight; world->sun[i][j]=true;
 			if (world->lightemit[i][j]!=0)
 			{
 				int light=world->lightemit[i][j]-1;
@@ -238,8 +244,6 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 
 void worldRender_Render(worldObject* world,int screen_x,int screen_y)
 {
-	if (keysDown() & KEY_L) sunlight++;
-	if (keysDown() & KEY_R) sunlight--;
 	beginRender(screen_x,screen_y);
 	renderWorld(world,screen_x,screen_y);
 }
