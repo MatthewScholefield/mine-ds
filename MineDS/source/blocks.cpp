@@ -7,7 +7,7 @@
 */
 #include "blockID.h"
 #define sizeOfArray(x) (sizeof(x)/4)
-int walkThroughBlocks[]={LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,AIR,CACTUS,TORCH,SNOW_TOP,REDWOOD_LEAF};
+int walkThroughBlocks[]={LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,AIR,CACTUS,TORCH,SNOW_TOP,REDWOOD_LEAF,SNOW};
 int isBlockWalkThrough(int blockID)
 {
         int i;
