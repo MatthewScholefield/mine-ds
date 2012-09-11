@@ -16,11 +16,12 @@ playerMob::playerMob()
 	vx=0;
 	alive=false;
 	onground=false;
+	animation=0;
 }
 playerMob::playerMob(int a,int b)
 {
-	gravity=5;
-	gravityValue=8;
+	gravity=4;
+	gravityValue=4;
 	sx=6;
 	sy=32;
 	x=a;
@@ -29,7 +30,7 @@ playerMob::playerMob(int a,int b)
 	vx=0;
 	alive=false;
 	onground=false;
-	iprintf("%d,%d\n",a,b);
+	animation=0;
 }
 void playerMob::updateMob(worldObject* world)
 {
@@ -41,8 +42,9 @@ void playerMob::updateMob(worldObject* world)
 		if (world->CamY<0) world->CamY = 0;
 		if( world->CamX>WORLD_WIDTH*16-256) world->CamX = WORLD_WIDTH*16-256;
 		if (world->CamY>(WORLD_HEIGHT+1)*16-192) world->CamY = (WORLD_HEIGHT+1)*16-192;
-		if (keysHeld()&KEY_RIGHT && !colisions[1] && !colisions[3]) x++;
-		if (keysHeld()&KEY_LEFT && !colisions[2] && !colisions[3]) x--;
+		if (keysHeld()&KEY_RIGHT && !colisions[1] && !colisions[3]){ x++; animation=0;}
+		if (keysHeld()&KEY_LEFT && !colisions[2] && !colisions[3])
+{ x--; animation=1; }
 		if (colisions[3]==true)
 		{
 			vy=0;
@@ -64,7 +66,7 @@ void playerMob::updateMob(worldObject* world)
 		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
-	showGraphic(&playerMobGraphic[0],x-world->CamX,y-world->CamY);
+	showGraphic(&playerMobGraphic[0],x-world->CamX - (animation ? 13:0),y-world->CamY,animation ? true:false);
 }
 void playerMob::sendWifiUpdate()
 {
