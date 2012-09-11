@@ -9,6 +9,8 @@
 #define sizeOfArray(x) (sizeof(x)/4)
 int walkThroughBlocks[]={LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,AIR,CACTUS,TORCH,SNOW_TOP,REDWOOD_LEAF,SNOW};
 int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT};
+#define NUM_OF_LIGHT_SOURCES 2
+//The Number is equal to 15 - minecraftlightemitvalue
 int sourceAmount[]={1,0};
 int isBlockWalkThrough(int blockID)
 {
@@ -28,7 +30,7 @@ bool isBlockALightSource(int blockID)
 {
 	int i;
         bool isLightSource=false;
-        for(i=0;i<=sizeOfArray(lightSourceBlocks);i++)
+        for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
         {
                 if (lightSourceBlocks[i]==blockID) isLightSource=true;
         }
@@ -38,7 +40,7 @@ int getLightAmount(int blockID)
 {
 	int i;
         bool isLightSource=false;
-        for(i=0;i<=sizeOfArray(lightSourceBlocks);i++)
+        for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
         {
                 if (lightSourceBlocks[i]==blockID) return sourceAmount[i];
         }

@@ -65,7 +65,7 @@ void brightnessSpread(worldObject* world,int x,int y, int brightness)
 	if (world->brightness[x][y]>brightness)
 	{
 		world->brightness[x][y]=brightness;
-		if (!isBlockWalkThrough(world->blocks[x][y]))
+		/*if (!isBlockWalkThrough(world->blocks[x][y]))
 		{
 			brightnessSpread(world,x-1,y,brightness+4);
 			brightnessSpread(world,x,y-1,brightness+4);
@@ -78,7 +78,11 @@ void brightnessSpread(worldObject* world,int x,int y, int brightness)
 			brightnessSpread(world,x,y-1,brightness+1);
 			brightnessSpread(world,x+1,y,brightness+1);
 			brightnessSpread(world,x,y+1,brightness+1);
-		}
+		}*/
+		brightnessSpread(world,x-1,y,brightness + (isBlockWalkThrough(world->blocks[x-1][y]) ? 1 : 4));
+		brightnessSpread(world,x,y-1,brightness + (isBlockWalkThrough(world->blocks[x][y-1]) ? 1 : 4));
+		brightnessSpread(world,x+1,y,brightness + (isBlockWalkThrough(world->blocks[x+1][y]) ? 1 : 4));
+		brightnessSpread(world,x,y+1,brightness + (isBlockWalkThrough(world->blocks[x][y+1]) ? 1 : 4));
 	}
 	else return;
 }
@@ -91,6 +95,7 @@ void resetLightEmitAround(worldObject* world, int x, int y)
 			if (isBlockALightSource(world->blocks[sx][sy]))
 			{
 				world->lightemit[sx][sy]=1+getLightAmount(world->blocks[sx][sy]);
+				iprintf("DEBUG: %d\n",world->lightemit[sx][sy]);
 			}
 		}
 }
