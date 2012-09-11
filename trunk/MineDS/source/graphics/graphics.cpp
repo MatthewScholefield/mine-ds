@@ -226,27 +226,31 @@ void loadGraphicSub(Graphic* g,int font,int frame)
 	\param x The x position of where the sprite should be displayed.
 	\param y The y position of where the sprite should be displayed.
 */
-void showGraphic(Graphic* g,int x,int y)
+void showGraphic(Graphic* g,int x,int y,bool flip)
 {
 	if (x<-32 || x>256+32 || y<-32 || y>244) return;
 	if (g->main)
 	{
 		if (g->mob)
-			oamSet(&oamMain,graphicNextMain(),x,y,0,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
+			oamSet(&oamMain,graphicNextMain(),x,y,0,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->sx==8 && g->sy==8)
-			oamSet(&oamMain,graphicNextMain(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
+			oamSet(&oamMain,graphicNextMain(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
 	else
 	{
 		if (g->mob==1)
 		{
-			oamSet(&oamSub,graphicNextSub(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
+			oamSet(&oamSub,graphicNextSub(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		}
 		else if (g->mob==2)
 		{
-			oamSet(&oamSub,graphicNextSub(),x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
+			oamSet(&oamSub,graphicNextSub(),x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		}
 		else if (g->sx==8 && g->sy==8 && g->mob==0)
-			oamSet(&oamSub,graphicNextSub(),x,y,0,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,false,false,false); 
+			oamSet(&oamSub,graphicNextSub(),x,y,0,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
+}
+void showGraphic(Graphic* g,int x,int y)
+{
+	showGraphic(g,x,y,false);
 }
