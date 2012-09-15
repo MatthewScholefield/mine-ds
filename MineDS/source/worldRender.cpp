@@ -95,7 +95,6 @@ void resetLightEmitAround(worldObject* world, int x, int y)
 			if (isBlockALightSource(world->blocks[sx][sy]))
 			{
 				world->lightemit[sx][sy]=1+getLightAmount(world->blocks[sx][sy]);
-				iprintf("DEBUG: %d\n",world->lightemit[sx][sy]);
 			}
 		}
 }

@@ -5,7 +5,7 @@
 #include "particles.h"
 #include "sub.h"
 #include "sub_bg.h"
-#include "block_top.h"
+#include "block_small.h"
 #include "font.h"
 /** 
 	\file graphics.cpp
@@ -62,7 +62,7 @@ void graphicsInit()
 	//Vram I is for Sub Sprite Palette!
 	dmaCopy(subPal,VRAM_I_EXT_SPR_PALETTE[0],subPalLen);
 	dmaCopy(fontPal,VRAM_I_EXT_SPR_PALETTE[1],fontPalLen);
-	dmaCopy(block_topPal,VRAM_I_EXT_SPR_PALETTE[2],block_topPalLen);
+	dmaCopy(block_smallPal,VRAM_I_EXT_SPR_PALETTE[2],block_smallPalLen);
         vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain,SpriteMapping_1D_256,true);
@@ -183,11 +183,12 @@ void loadGraphicSubFont(Graphic* g, int frame,int x,int y)
 void loadGraphicSubBlock(Graphic* g, int frame,int x,int y)
 {
 	u16 * graphics=oamAllocateGfx(&oamSub,SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles=(u8*)&block_topTiles;
-	Tiles+=frame*(16*8);
-	Tiles+=frame/16*(8*16*16);
-	dmaCopy(Tiles,graphics,8*16);
-	dmaCopy(Tiles+8*16*16,graphics+8*8,8*16);
+	u8* Tiles=(u8*)&block_smallTiles;
+	Tiles+=frame*(16*16);
+	dmaCopy(Tiles,graphics,8*8);
+	dmaCopy(Tiles+8*8*2,graphics+8*4,8*8);
+	dmaCopy(Tiles+8*8,graphics+8*4*2,8*8);
+	dmaCopy(Tiles+8*8*3,graphics+8*4*3,8*8);
 	g->mob=2;
 	g->sx=x;
 	g->sy=y;

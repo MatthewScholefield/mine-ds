@@ -79,10 +79,10 @@ void brightnessSpread(worldObject* world,int x,int y, int brightness)
 			brightnessSpread(world,x+1,y,brightness+1);
 			brightnessSpread(world,x,y+1,brightness+1);
 		}*/
-		brightnessSpread(world,x-1,y,brightness + isBlockWalkThrough(world->blocks[x-1][y]) ? 1 : 4);
-		brightnessSpread(world,x,y-1,brightness + isBlockWalkThrough(world->blocks[x][y-1]) ? 1 : 4);
-		brightnessSpread(world,x+1,y,brightness + isBlockWalkThrough(world->blocks[x+1][y]) ? 1 : 4);
-		brightnessSpread(world,x,y+1,brightness + isBlockWalkThrough(world->blocks[x][y+1]) ? 1 : 4);
+		brightnessSpread(world,x-1,y,brightness + (isBlockWalkThrough(world->blocks[x-1][y]) ? 1 : 4));
+		brightnessSpread(world,x,y-1,brightness + (isBlockWalkThrough(world->blocks[x][y-1]) ? 1 : 4));
+		brightnessSpread(world,x+1,y,brightness + (isBlockWalkThrough(world->blocks[x+1][y]) ? 1 : 4));
+		brightnessSpread(world,x,y+1,brightness + (isBlockWalkThrough(world->blocks[x][y+1]) ? 1 : 4));
 	}
 	else return;
 }
