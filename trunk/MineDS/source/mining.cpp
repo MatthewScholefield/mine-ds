@@ -22,7 +22,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys)
 		int y = (touch.py+b)/16;
 		int a;
 		world->blocks[x][y]=selectedblock;
-		//updateBrightnessAround(world,x,y);
+		updateBrightnessAround(world,x,y);
 	}
 	if (keys & KEY_L)
 	{
