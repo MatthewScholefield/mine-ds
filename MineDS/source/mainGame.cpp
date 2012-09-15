@@ -53,9 +53,9 @@ void mainGame(int Mode)
 			showGraphic(&graphics[i],i*8+128,texty);
 		}
 		//showGraphic(&graphics[9],0,0);
-		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		mobHandlerUpdate(CurrentWorld);
 		swiWaitForVBlank();
+		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
