@@ -49,20 +49,12 @@ void playerMob::updateMob(worldObject* world)
 		{
 			vy=0;
 			y+=1;
-			iprintf("ASDF!\n");
 		}
 		if (colisions[0]==false)
 		{
 		 y+=vy; 
 		}
 		else vy=0;
-		if (keysDown() & KEY_L)
-		{
-			int a;
-			for(a=0;a<=4;a++)
-				iprintf("%d",colisions[a]);
-			iprintf("\n");
-		}
 		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)

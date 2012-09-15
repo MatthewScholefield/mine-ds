@@ -49,7 +49,6 @@ void playerMob::updateMob(worldObject* world)
 		{
 			vy=0;
 			y+=1;
-			iprintf("ASDF!\n");
 		}
 		if (colisions[0]==false)
 		{
@@ -60,13 +59,11 @@ void playerMob::updateMob(worldObject* world)
 		{
 			int a;
 			for(a=0;a<=4;a++)
-				iprintf("%d",colisions[a]);
-			iprintf("\n");
 		}
 		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
-	showGraphic(&playerMobGraphic[0],x-world->CamX - (animation ? 13:0),y-world->CamY,animation ? true:false);
+	showGraphic(&playerMobGraphic[0],x-world->CamX - (animation ? 10:0),y-world->CamY,animation ? true:false);
 }
 void playerMob::sendWifiUpdate()
 {
