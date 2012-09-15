@@ -6,11 +6,13 @@
 #include "graphics/graphics.h"
 
 int selectedblock=0;
+bool loadedgraphic=false;
 Graphic topBlock;
 void calculateTopBlock()
 {
-	unloadGraphic(&topBlock);
+	if (loadedgraphic) unloadGraphic(&topBlock);
 	loadGraphicSub(&topBlock,2,selectedblock);
+	loadedgraphic = true;
 }
 void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys)
 {
@@ -20,7 +22,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys)
 		int y = (touch.py+b)/16;
 		int a;
 		world->blocks[x][y]=selectedblock;
-		updateBrightnessAround(world,x,y);
+		//updateBrightnessAround(world,x,y);
 	}
 	if (keys & KEY_L)
 	{
