@@ -18,6 +18,8 @@
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
+
+
 void BlockShader(){
 	setBackdropColor(RGB15(0,0,31));
 	vramSetBankE(VRAM_E_LCD);
@@ -58,14 +60,14 @@ inline void setTileXY(int x, int y, uint16 tile,int palette)
 	tile |= palette<<12;
 	bg2ptr[(x%64) + (y%64)*64] = tile;
 }
-void brightnessSpread(worldObject* world,int x,int y, int brightness)
+/*void brightnessSpread(worldObject* world,int x,int y, int brightness)
 {
 	if (y>WORLD_HEIGHT+1) return;
 	if (y<0) return;
 	if (brightness>15) return;
 	if (world->brightness[x][y]>brightness)
 	{
-		world->brightness[x][y]=brightness;
+		world->brightness[x][y]=brightness; */
 		/*if (!isBlockWalkThrough(world->blocks[x][y]))
 		{
 			brightnessSpread(world,x-1,y,brightness+4);
@@ -79,20 +81,21 @@ void brightnessSpread(worldObject* world,int x,int y, int brightness)
 			brightnessSpread(world,x,y-1,brightness+1);
 			brightnessSpread(world,x+1,y,brightness+1);
 			brightnessSpread(world,x,y+1,brightness+1);
-		}*/
+		}*//*
 		brightnessSpread(world,x-1,y,brightness + (isBlockWalkThrough(world->blocks[x-1][y]) ? 1 : 4));
 		brightnessSpread(world,x,y-1,brightness + (isBlockWalkThrough(world->blocks[x][y-1]) ? 1 : 4));
 		brightnessSpread(world,x+1,y,brightness + (isBlockWalkThrough(world->blocks[x+1][y]) ? 1 : 4));
 		brightnessSpread(world,x,y+1,brightness + (isBlockWalkThrough(world->blocks[x][y+1]) ? 1 : 4));
 	}
 	else return;
-}
+}*/
 
 
 void updateBrightnessAround(worldObject* world,int x,int y)
 {
 	int i,j;
 	bool startshade=false;
+	//testfunction();
 	//Set all the light values to 0
 	//Then set light emit to the approate value.
 	for (x>15 ? i=x-15 : i=0;x<WORLD_WIDTH-15 ? i<=x+15 : i<=WORLD_WIDTH;i++)
