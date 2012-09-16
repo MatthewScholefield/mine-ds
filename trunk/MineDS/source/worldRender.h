@@ -12,5 +12,7 @@
 void worldRender_Init();
 void worldRender_Render(worldObject* world, int screen_x, int screen_y);
 void Calculate_Brightness(worldObject* world);
-void brightnessSpread(worldObject* world,int x,int y, int brightness);
+extern "C" {
+        void brightnessSpread(worldObject* world,int x,int y,int brightness);
+}
 void updateBrightnessAround(worldObject* world,int x,int y);
