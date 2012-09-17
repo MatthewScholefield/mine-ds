@@ -125,7 +125,12 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 					//world->brightness[i][j]=0; //Will be set later
 					startshade=true;
 				}
-			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight; world->sun[i][j]=true;
+			else if (!startshade && world->blocks[i][j]!=AIR)
+			{
+			 world->lightemit[i][j]=1+sunlight;
+			 world->sun[i][j]=true;
+			}
+			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR) world->brightness[i][j]=sunlight;
 			if (world->lightemit[i][j]!=0)
 				{
 					int light=world->lightemit[i][j]-1;
@@ -244,7 +249,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 
 void worldRender_Render(worldObject* world,int screen_x,int screen_y)
 {
-	iprintf("%d,%d\n",screen_x,screen_y);
+	//iprintf("%d,%d\n",screen_x,screen_y);
 	beginRender(screen_x,screen_y);
 	renderWorld(world,screen_x,screen_y);
 }

@@ -1,9 +1,9 @@
-	.section .itcm,"ax",%progbits
 	.align	2
 	.global	brightnessSpread
 	.code	16
 	.thumb_func
 	.type	brightnessSpread, %function
+
 brightnessSpread:
 	@@brightnessSpread(worldObject* world,int x,int y, int brightness)
 	.cfi_startproc
@@ -28,14 +28,18 @@ _S1:
 	ble return @@ if (world->brightness[x][y]>brightness) return;
 	str r3, [r5, r0] @@ world->brightness[x][y]=brightness
 	add r2, r2, #1
-	add r3, r3, #4
+	mov r5, r3
+	bl brightnessAddAmount
 	bl brightnessSpread
 	sub r2, r2, #2	
+	bl brightnessAddAmount
 	bl brightnessSpread
 	add r2, r2, #1
 	add r1, r1, #1
+	bl brightnessAddAmount
 	bl brightnessSpread
 	sub r1, r1, #2
+	bl brightnessAddAmount
 	bl brightnessSpread
 return:
 	pop	{r0, r1, r2, r3, r4, r5, r6, r7, pc}
@@ -45,5 +49,33 @@ words:
 	.word	-1057808
 	.word	-1057800
 	.cfi_endproc
+brightnessAddAmount:
+	@@ r0= worldObject*
+	@@ r1= x
+	@@ r2= y
+	@@ r5= baseBrightness
+	@@ r6 is erased
+	@@ r3= newbrightness
+	push {r0, lr}
+	mov r7, r1
+	lsl r6, r7, #7
+	add r6, r6, r7
+	add r6, r6, r2
+	lsl r6, r6, #2
+	add r6, r6, r0
+	ldr r0, [r6]
+	push {r1, r2, r4, r5}
+	bl	_Z18isBlockWalkThroughi
+	pop {r1, r2, r4, r5}
+	mov r3, #2
+	cmp r0, #1
+	bge _B2
+	mov r3, #5
+
+
+_B2:	add r3, r3, r5
+	pop {r0, pc}
+	
+	
 sizes:
 	.size	brightnessSpread, .-brightnessSpread
