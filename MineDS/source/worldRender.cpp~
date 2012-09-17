@@ -67,7 +67,7 @@ inline void setTileXY(int x, int y, uint16 tile,int palette)
 	if (brightness>15) return;
 	if (world->brightness[x][y]>brightness)
 	{
-		world->brightness[x][y]=brightness; 
+		world->brightness[x][y]=brightness; */
 		/*if (!isBlockWalkThrough(world->blocks[x][y]))
 		{
 			brightnessSpread(world,x-1,y,brightness+4);
@@ -125,7 +125,12 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 					//world->brightness[i][j]=0; //Will be set later
 					startshade=true;
 				}
-			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight; world->sun[i][j]=true;
+			else if (!startshade && world->blocks[i][j]!=AIR)
+			{
+			 world->lightemit[i][j]=1+sunlight;
+			 world->sun[i][j]=true;
+			}
+			else if (!startshade) world->brightness[i][j]=sunlight;
 			if (world->lightemit[i][j]!=0)
 				{
 					int light=world->lightemit[i][j]-1;
@@ -244,7 +249,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 
 void worldRender_Render(worldObject* world,int screen_x,int screen_y)
 {
-	iprintf("%d,%d\n",screen_x,screen_y);
+	//iprintf("%d,%d\n",screen_x,screen_y);
 	beginRender(screen_x,screen_y);
 	renderWorld(world,screen_x,screen_y);
 }

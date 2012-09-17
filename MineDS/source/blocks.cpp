@@ -7,7 +7,7 @@
 */
 #include "blockID.h"
 #define sizeOfArray(x) (sizeof(x)/4)
-int walkThroughBlocks[]={LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,AIR,CACTUS,TORCH,SNOW_TOP,REDWOOD_LEAF,SNOW};
+int walkThroughBlocks[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,AIR,CACTUS,TORCH,SNOW_TOP,REDWOOD_LEAF,SNOW};
 int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT};
 #define NUM_OF_LIGHT_SOURCES 2
 //The Number is equal to 15 - minecraftlightemitvalue
