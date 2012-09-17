@@ -32,6 +32,8 @@ void mainGame(int Mode)
 	}	
 	CurrentWorld->CamX=0;
 	CurrentWorld->CamY=0;
+	int* a = (int*) CurrentWorld;
+
 	for (i=0;i<=8;i++)
 	{
 		loadGraphicSub(&graphics[i],1, text[i]);
