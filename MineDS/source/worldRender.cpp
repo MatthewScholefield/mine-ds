@@ -125,7 +125,8 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 					//world->brightness[i][j]=0; //Will be set later
 					startshade=true;
 				}
-			else if (!startshade && world->blocks[i][j]!=AIR)
+			else if (!startshade) world->brightness[i][j]=sunlight;
+			if (!startshade && world->blocks[i][j]!=AIR)
 			{
 			 world->lightemit[i][j]=1+sunlight;
 			 world->sun[i][j]=true;
@@ -151,28 +152,38 @@ void Calculate_Brightness(worldObject* world)
 			world->brightness[i][j]=15;
 			world->sun[i][j]=false;
 			world->lightemit[i][j]=0;
+			if (isBlockALightSource(world->blocks[i][j]))
+			{
+				world->lightemit[i][j]=1+getLightAmount(world->blocks[i][j]);
+			}
 		}
 	}
 	for(i=0;i<=WORLD_WIDTH;i++)
 	{
 
 		bool startshade=false;
-		//First put sunshine on the top-blocks.
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
 			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
+				{
+					world->lightemit[i][j]=1+sunlight;
+					world->sun[i][j]=true; // This is a block that is lit by the sun...
+					//world->brightness[i][j]=0; //Will be set later
+					startshade=true;
+				}
+
+			else if (!startshade) world->brightness[i][j]=sunlight;
+			if (!startshade && world->blocks[i][j]!=AIR)
 			{
-				world->lightemit[i][j]=1+sunlight;
-				world->sun[i][j]=true; // This is a block that is lit by the sun...
-				//world->brightness[i][j]=0; //Will be set later
-				startshade=true;
+			 world->lightemit[i][j]=1+sunlight;
+			 world->sun[i][j]=true;
 			}
-			else if (!startshade && world->blocks[i][j]!=AIR) world->lightemit[i][j]=1+sunlight; world->sun[i][j]=true;
+			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR && i!=0) world->brightness[i][j]=sunlight;
 			if (world->lightemit[i][j]!=0)
-			{
-				int light=world->lightemit[i][j]-1;
-				brightnessSpread(world,i,j,light);
-			}
+				{
+					int light=world->lightemit[i][j]-1;
+					brightnessSpread(world,i,j,light);
+				}
 			if(world->brightness[i][j]==16) world->brightness[i][j]=15;
 		}
 	}
@@ -224,6 +235,7 @@ void renderTile16(int x,int y,int tile,int palette)
 	x=x*2; //Convert tiles of 16 to tiles of 8
 	y=y*2;
 	tile=tile*4;
+	if (palette > 15) palette=15;
 	//Draw the 4 (8x8) tiles
 	setTileXY(x,y,tile,palette);
 	setTileXY(x+1,y,tile+2,palette);
@@ -239,7 +251,12 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 		//Check The Block is on screen
 		if(onScreen(16,i,j,1,1))
 			{
-				if (world->blocks[i][j]!=AIR) renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+				if (world->blocks[i][j]!=AIR)
+				{				
+				 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+				}
+				else if (world->bgblocks[i][j]!=AIR && alwaysRenderBright(world->bgblocks[i][j])==false) renderTile16(i,j,world->bgblocks[i][j],world->brightness[i][j]+6);
+				else if (world->bgblocks[i][j]!=AIR) renderTile16(i,j,world->bgblocks[i][j],world->brightness[i][j]);
 				else renderTile16(i,j,world->blocks[i][j],0);
 
 			}

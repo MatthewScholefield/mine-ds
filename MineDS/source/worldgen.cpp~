@@ -101,6 +101,5 @@ void generateWorld (worldObject* world){
 		else if (biome == 2) desertBiome(world,i,i+sizex);
 		i=i+sizex+1;
 	}
-
 	generateBedrock(world);
 }
