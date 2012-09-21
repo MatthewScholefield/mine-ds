@@ -101,6 +101,10 @@ void generateWorld (worldObject* world){
 		else if (biome == 2) desertBiome(world,i,i+sizex);
 		i=i+sizex+1;
 	}
-
 	generateBedrock(world);
+	for (i=0;i<=WORLD_WIDTH;i++)
+		for (j=0;j<=WORLD_HEIGHT;j++)
+			{
+			 if (world->blocks[i][j]!=AIR) world->bgblocks[i][j]=world->blocks[i][j];			
+			}
 }

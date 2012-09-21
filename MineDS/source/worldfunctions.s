@@ -67,10 +67,10 @@ brightnessAddAmount:
 	push {r1, r2, r4, r5}
 	bl	_Z18isBlockWalkThroughi
 	pop {r1, r2, r4, r5}
-	mov r3, #2
+	mov r3, #1
 	cmp r0, #1
 	bge _B2
-	mov r3, #5
+	mov r3, #4
 
 
 _B2:	add r3, r3, r5
