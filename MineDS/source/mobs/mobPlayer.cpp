@@ -17,6 +17,7 @@ playerMob::playerMob()
 	alive=false;
 	onground=false;
 	animation=0;
+	mobtype=1;
 }
 playerMob::playerMob(int a,int b)
 {
@@ -31,6 +32,7 @@ playerMob::playerMob(int a,int b)
 	alive=false;
 	onground=false;
 	animation=0;
+	mobtype=1;
 }
 void playerMob::updateMob(worldObject* world)
 {
