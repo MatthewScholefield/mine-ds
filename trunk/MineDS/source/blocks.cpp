@@ -9,10 +9,10 @@
 #define sizeOfArray(x) (sizeof(x)/4)
 int walkThroughBlocks[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,SNOW_TOP,REDWOOD_LEAF};
 int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF};
-int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT};
-#define NUM_OF_LIGHT_SOURCES 2
+int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT,GLOWSTONE};
+#define NUM_OF_LIGHT_SOURCES 3
 //The Number is equal to 15 - minecraftlightemitvalue
-int sourceAmount[]={1,0};
+int sourceAmount[]={1,0,0};
 int isBlockWalkThrough(int blockID)
 {
         int i;

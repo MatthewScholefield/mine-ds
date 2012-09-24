@@ -32,8 +32,6 @@ void mainGame(int Mode)
 	}	
 	CurrentWorld->CamX=0;
 	CurrentWorld->CamY=0;
-	int* a = (int*) CurrentWorld;
-
 	for (i=0;i<=8;i++)
 	{
 		loadGraphicSub(&graphics[i],1, text[i]);
@@ -57,9 +55,9 @@ void mainGame(int Mode)
 		//showGraphic(&graphics[9],0,0);
 		mobHandlerUpdate(CurrentWorld);
 		swiWaitForVBlank();
-		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
+		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		graphicFrame();
 	}
 	free(CurrentWorld);

@@ -17,6 +17,7 @@ class baseMob
 	bool onground;
 	bool alive;
 	int animation;
+	int mobtype;
 	bool host; // Was this mob spawn'd by this nds?
 	bool colisions[5];
     //bool potioneffects[5];

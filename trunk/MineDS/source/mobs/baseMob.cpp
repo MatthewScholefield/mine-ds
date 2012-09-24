@@ -15,6 +15,7 @@ baseMob::baseMob()
 	vx=0;
 	alive=false;
 	onground=false;
+	mobtype=0;
 }
 baseMob::baseMob(int a,int b)
 {
@@ -28,6 +29,7 @@ baseMob::baseMob(int a,int b)
 	vx=0;
 	onground=false;
 	alive=false;
+	mobtype=0;
 }
 void baseMob::resetVelocity()
 {
