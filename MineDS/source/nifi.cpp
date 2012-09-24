@@ -16,6 +16,7 @@ int frame;
 bool clientReInit;
 int clients[8];
 int noOfClients=0;
+bool wifiEnabled=false;
 unsigned short buffer[100];
 void Handler(int packetID, int readlength)
 {
@@ -118,6 +119,13 @@ void Handler(int packetID, int readlength)
 			if ( test_id == server_id && test2_id == client_id) setBlock(x,y,block_id,bgblock_id,amount);
 		}
 	}
+	else if (!strcmp("[MOB:",message))
+	{
+		int test_id;
+		int a,b,c,d,e;
+		sscanf(packet,"%*s %d %d %d %d %d %d %d",&test_id, &a,&b,&c,&d,&e);
+		if ( test_id == server_id) recievedMobUpdate(b,c,d,e,a);
+	}
 }
 int getServerID()
 {
@@ -146,12 +154,18 @@ void nifiEnable()
 		for (i=0;i<=8;i++) clients[i]=0;
 	}
 	else 	Wifi_EnableWifi();
+	wifiEnabled=true;
 }
 void nifiDisable()
 {
 	Wifi_DisableWifi();
 	for (int i=0;i<=8;i++) clients[i]=0;
 	clientReInit = true;
+	wifiEnabled=false;
+}
+bool isWifi()
+{
+	return wifiEnabled;
 }
 bool hostNifiInit()
 {

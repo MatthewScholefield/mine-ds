@@ -46,6 +46,7 @@ void multiplayerGame(bool host)
 		}
 		else return;
 	}
+	lcdMainOnBottom();
 	world->CamX=0;
 	world->CamY=0;
 	iprintf("Done!\n");
