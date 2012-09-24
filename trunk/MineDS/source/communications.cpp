@@ -12,6 +12,7 @@ int code=0;
 //2 = Revieved Handshake, Game Mismatch. //TODO
 //3 = worldTransmit complete!
 //4 = Recieved block
+int addamount;
 worldObject* world;
 int doHandshake()
 {
@@ -43,10 +44,6 @@ void connectCode(int code2)
 {
 	code = code2;
 }
-int getFirstAirBlock(int x)
-{
-	
-}
 void recieveWorld(worldObject* world2)
 {
 	code = 0;
@@ -75,6 +72,7 @@ void recieveWorld(worldObject* world2)
 				}
 				swiWaitForVBlank();
 			}
+			j+=addamount;
 		}
 	}
 }
@@ -82,16 +80,33 @@ void communicationInit(worldObject* world2)
 {
 	world = world2;
 }
-void setBlock(int x,int y,int block,int bgblock)
+void setBlock(int x,int y,int block,int bgblock,int amount)
 {
-	world->blocks[x][y]=block;
-	world->bgblocks[x][y]=bgblock;
+	int i;
+	for (i=y;i<=y+amount;i++)
+	{
+		world->blocks[x][i]=block;
+		world->bgblocks[x][i]=bgblock;
+	}
 	code = 4;
+	addamount=amount;
 }
 void sendblock(int client_id,int x, int y)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();	
-	sprintf((char *)buffer,"[B: %d %d %d %d %d %d", server_id, client_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+	int i;
+	int a = world->blocks[x][y];
+	int b = world->bgblocks[x][y];
+	int num=0;
+	for (i=y;i<=WORLD_HEIGHT;i++)
+	{
+		if (world->blocks[x][i]==a && world->bgblocks[x][i]==b)
+		{
+			 num++;
+		} 
+		else i = WORLD_HEIGHT+1;
+	}
+	sprintf((char *)buffer,"[B: %d %d %d %d %d %d %d", server_id, client_id, x, y, world->blocks[x][y],world->bgblocks[x][y],num-1);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 }

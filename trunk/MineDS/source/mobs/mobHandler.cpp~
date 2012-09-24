@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "baseMob.h"
 #include "mobPlayer.h"
+#include "mobFunctions.h"
 baseMob* mobs[100];
 bool hasSpawnPlayer;
 void mobsReset()

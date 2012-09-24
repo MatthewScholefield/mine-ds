@@ -113,8 +113,9 @@ void Handler(int packetID, int readlength)
 			int test2_id;
 			int x,y;
 			int block_id,bgblock_id;
-			sscanf(packet,"%*s %d %d %d %d %d %d",&test_id, &test2_id,&x, &y, &block_id, &bgblock_id);
-			if ( test_id == server_id && test2_id == client_id) setBlock(x,y,block_id,bgblock_id);
+			int amount;
+			sscanf(packet,"%*s %d %d %d %d %d %d %d",&test_id, &test2_id,&x, &y, &block_id, &bgblock_id,&amount);
+			if ( test_id == server_id && test2_id == client_id) setBlock(x,y,block_id,bgblock_id,amount);
 		}
 	}
 }
