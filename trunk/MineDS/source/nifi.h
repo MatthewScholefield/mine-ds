@@ -6,3 +6,4 @@ void nifiDisable();
 bool clientNifiInit();
 int getServerID();
 int getClientID();
+bool isWifi();

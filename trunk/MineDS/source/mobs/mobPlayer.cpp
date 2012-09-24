@@ -17,7 +17,8 @@ playerMob::playerMob()
 	alive=false;
 	onground=false;
 	animation=0;
-	mobtype=1;
+	mobtype=2;
+
 }
 playerMob::playerMob(int a,int b)
 {
@@ -32,7 +33,8 @@ playerMob::playerMob(int a,int b)
 	alive=false;
 	onground=false;
 	animation=0;
-	mobtype=1;
+	mobtype=2;
+	timeTillWifiUpdate=rand()%4+4;
 }
 void playerMob::updateMob(worldObject* world)
 {
