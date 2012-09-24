@@ -66,7 +66,6 @@ void spawnMob(int mobId,worldObject* world)
 					default: break;
 				}
 				mobs[mobNum]->host=true;
-				iprintf("MobHandler.cpp!\n");
 			}
 			i=WORLD_HEIGHT+1;
 			j=WORLD_WIDTH+1;
