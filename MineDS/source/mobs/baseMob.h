@@ -18,6 +18,7 @@ class baseMob
 	bool alive;
 	int animation;
 	int mobtype;
+	int timeTillWifiUpdate;
 	bool host; // Was this mob spawn'd by this nds?
 	bool colisions[5];
     //bool potioneffects[5];

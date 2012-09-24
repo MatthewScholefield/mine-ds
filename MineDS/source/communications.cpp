@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "nifi.h"
 #include "world.h"
+#include "mobs/mobHandler.h"
+#include "mobs/baseMob.h"
 int code=0;
 
 //0 = Nothing
@@ -109,4 +111,15 @@ void sendblock(int client_id,int x, int y)
 	}
 	sprintf((char *)buffer,"[B: %d %d %d %d %d %d %d", server_id, client_id, x, y, world->blocks[x][y],world->bgblocks[x][y],num-1);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+}
+void sendMobUpdater(baseMob* mob,int mobNum)
+{
+	unsigned short buffer[100];
+	int server_id = getServerID();	
+	sprintf((char *)buffer,"[MOB: %d %d %d %d %d %d", server_id, mobNum, mob->x, mob->y, mob->animation, mob->mobtype);
+	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+}
+void recievedMobUpdate(int x,int y,int animation,int mobtype,int mobNum)
+{
+	mobHandlerReadWifiUpdate(x,y,animation,mobtype,mobNum,world);
 }
