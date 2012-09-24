@@ -45,7 +45,7 @@ return:
 	pop	{r0, r1, r2, r3, r4, r5, r6, r7, pc}
 	.align	2
 words:
-	.word	264450 @@add to worldObject* to get pointer to 
+	.word	132354 @@add to worldObject* to get pointer to brighntess
 	.word	-1057808
 	.word	-1057800
 	.cfi_endproc
@@ -70,7 +70,7 @@ brightnessAddAmount:
 	mov r3, #1
 	cmp r0, #1
 	bge _B2
-	mov r3, #4
+	mov r3, #3
 
 
 _B2:	add r3, r3, r5

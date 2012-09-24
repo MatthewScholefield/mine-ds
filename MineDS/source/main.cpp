@@ -23,6 +23,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
+#include "nifi.h"
 int screen_x,screen_y;
 void beginRender(int a,int b); 
 void renderWorld(worldObject* world);
@@ -35,6 +36,7 @@ int main()
 	srand(time(NULL));
 	subBgInit();
 	setupFont();
+	nifiInit();
 	swiWaitForVBlank();
 	//setSubBgTile(1,0,1);
 	//iprintf("Some Random DEBUG int:%d\n",0);
@@ -49,7 +51,8 @@ int main()
 	graphicsInit();
 	while(1)
 	{
-	    graphicFrame();
+	    	graphicFrame();
+		oamClear(&oamSub,0,127);
 		titlescreen();
 		//mainGame(0);	
 		swiWaitForVBlank();

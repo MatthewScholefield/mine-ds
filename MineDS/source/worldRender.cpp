@@ -60,14 +60,14 @@ inline void setTileXY(int x, int y, uint16 tile,int palette)
 	tile |= palette<<12;
 	bg2ptr[(x%64) + (y%64)*64] = tile;
 }
-/*void brightnessSpread(worldObject* world,int x,int y, int brightness)
+void brightnessSpread2(worldObject* world,int x,int y, int brightness)
 {
 	if (y>WORLD_HEIGHT+1) return;
 	if (y<0) return;
 	if (brightness>15) return;
 	if (world->brightness[x][y]>brightness)
 	{
-		world->brightness[x][y]=brightness; */
+		world->brightness[x][y]=brightness; 
 		/*if (!isBlockWalkThrough(world->blocks[x][y]))
 		{
 			brightnessSpread(world,x-1,y,brightness+4);
@@ -81,14 +81,14 @@ inline void setTileXY(int x, int y, uint16 tile,int palette)
 			brightnessSpread(world,x,y-1,brightness+1);
 			brightnessSpread(world,x+1,y,brightness+1);
 			brightnessSpread(world,x,y+1,brightness+1);
-		}*//*
-		brightnessSpread(world,x-1,y,brightness + (isBlockWalkThrough(world->blocks[x-1][y]) ? 1 : 4));
-		brightnessSpread(world,x,y-1,brightness + (isBlockWalkThrough(world->blocks[x][y-1]) ? 1 : 4));
-		brightnessSpread(world,x+1,y,brightness + (isBlockWalkThrough(world->blocks[x+1][y]) ? 1 : 4));
-		brightnessSpread(world,x,y+1,brightness + (isBlockWalkThrough(world->blocks[x][y+1]) ? 1 : 4));
+		}*/
+		brightnessSpread2(world,x-1,y,brightness + (isBlockWalkThrough(world->blocks[x-1][y]) ? 1 : 4));
+		brightnessSpread2(world,x,y-1,brightness + (isBlockWalkThrough(world->blocks[x][y-1]) ? 1 : 4));
+		brightnessSpread2(world,x+1,y,brightness + (isBlockWalkThrough(world->blocks[x+1][y]) ? 1 : 4));
+		brightnessSpread2(world,x,y+1,brightness + (isBlockWalkThrough(world->blocks[x][y+1]) ? 1 : 4));
 	}
 	else return;
-}*/
+}
 
 
 void updateBrightnessAround(worldObject* world,int x,int y)
@@ -98,7 +98,7 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 	//testfunction();
 	//Set all the light values to 0
 	//Then set light emit to the approate value.
-	for (x>15 ? i=x-15 : i=0;x<WORLD_WIDTH-15 ? i<=x+15 : i<=WORLD_WIDTH;i++)
+	for (x>15 ? i=x-14 : i=0;x<WORLD_WIDTH-15 ? i<=x+14 : i<=WORLD_WIDTH;i++)
 	{
 		startshade=false;
 		for (j=0;j<=WORLD_HEIGHT;j++)
@@ -118,6 +118,10 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 		startshade=false;
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
+			if (world->brightness[i][j]<15)
+			{
+				brightnessSpread(world,i+1,j,world->brightness[i][j]+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3));
+			}
 			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
 				{
 					world->lightemit[i][j]=1+sunlight;
@@ -125,7 +129,6 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 					//world->brightness[i][j]=0; //Will be set later
 					startshade=true;
 				}
-			else if (!startshade) world->brightness[i][j]=sunlight;
 			if (!startshade && world->blocks[i][j]!=AIR)
 			{
 			 world->lightemit[i][j]=1+sunlight;
@@ -136,7 +139,8 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 				{
 					int light=world->lightemit[i][j]-1;
 					brightnessSpread(world,i,j,light);
-				}
+				}			
+			
 			if(world->brightness[i][j]==16) world->brightness[i][j]=15;
 		}
 	}
@@ -235,7 +239,7 @@ void renderTile16(int x,int y,int tile,int palette)
 	x=x*2; //Convert tiles of 16 to tiles of 8
 	y=y*2;
 	tile=tile*4;
-	if (palette > 15) palette=15;
+	if (palette > 15) palette=14;
 	//Draw the 4 (8x8) tiles
 	setTileXY(x,y,tile,palette);
 	setTileXY(x+1,y,tile+2,palette);

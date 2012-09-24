@@ -3,7 +3,9 @@
 #include "sub_bg.h"
 uint16 *bgptr;
 uint16 *fontgfx;
-
+#define V_FLIP 2
+#define H_FLIP 1
+#define BOTH_FLIP 3
 inline void setSubTileXY(int x, int y, uint16 tile,int palette,int flip)
 {
 	tile |= palette<<12;
@@ -48,4 +50,36 @@ void subBgInit()
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
 	dmaCopy(&sub_bgTiles, bgGetGfxPtr(bg), sub_bgTilesLen);
 	dmaCopy(&fontTiles, fontgfx, fontTilesLen);
+}
+void drawButton(int x,int y, int sizex)
+{
+	int i;
+	setSubBgTile(x,y,26);
+	setSubBgTile(x,y+2,26,V_FLIP);
+	setSubBgTile(x+sizex,y,26,H_FLIP);
+	setSubBgTile(x+sizex,y+2,26,BOTH_FLIP);
+	for(i=0;i<=sizex-1;i++)
+		setSubBgTile(x+1+i,y,30);
+	for(i=0;i<=sizex-1;i++)
+		setSubBgTile(x+1+i,y+2,30,V_FLIP);
+	setSubBgTile(x,y+1,27);
+	setSubBgTile(x+sizex,y+1,27,H_FLIP);
+	for (i=0;i<=sizex-1;i++)
+		setSubBgTile(x+1+i,y+1,28 + (i%2));
+}
+void drawButtonColored(int x,int y, int sizex)
+{
+	int i;
+	setSubBgTile(x,y,58);
+	setSubBgTile(x,y+2,58,V_FLIP);
+	setSubBgTile(x+sizex,y,58,H_FLIP);
+	setSubBgTile(x+sizex,y+2,58,BOTH_FLIP);
+	for(i=0;i<=13;i++)
+		setSubBgTile(x+1+i,y,62);
+	for(i=0;i<=13;i++)
+		setSubBgTile(x+1+i,y+2,62,V_FLIP);
+	setSubBgTile(x,y+1,59);
+	setSubBgTile(x+sizex,y+1,59,H_FLIP);
+	for (i=0;i<=13;i++)
+		setSubBgTile(x+1+i,y+1,60 + (i%2));
 }

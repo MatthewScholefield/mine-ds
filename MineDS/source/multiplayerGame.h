@@ -1,0 +1,1 @@
+void multiplayerGame(bool host);

@@ -17,7 +17,7 @@ class playerMob : public baseMob
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
     	virtual void updateMob(worldObject* world);	
-	playerMob(){}
-   	playerMob(int x,int y){}
+	playerMob();
+   	playerMob(int x,int y);
 };
 void playerMobInit();

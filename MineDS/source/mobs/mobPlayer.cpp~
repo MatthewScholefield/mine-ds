@@ -17,6 +17,7 @@ playerMob::playerMob()
 	alive=false;
 	onground=false;
 	animation=0;
+	mobtype=1;
 }
 playerMob::playerMob(int a,int b)
 {
@@ -31,6 +32,7 @@ playerMob::playerMob(int a,int b)
 	alive=false;
 	onground=false;
 	animation=0;
+	mobtype=1;
 }
 void playerMob::updateMob(worldObject* world)
 {
@@ -55,11 +57,6 @@ void playerMob::updateMob(worldObject* world)
 		 y+=vy; 
 		}
 		else vy=0;
-		if (keysDown() & KEY_L)
-		{
-			int a;
-			for(a=0;a<=4;a++)
-		}
 		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
