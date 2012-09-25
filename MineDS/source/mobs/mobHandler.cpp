@@ -151,7 +151,7 @@ void mobHandlerUpdate(worldObject* world)
 			{
 				
 				if (mobs[i]->host==true) sendMobUpdater(mobs[i],i);
-				mobs[i]->timeTillWifiUpdate = rand() % 4 + 4;
+				mobs[i]->timeTillWifiUpdate = rand() % 3 + 3;
 			}
 			else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 		}
