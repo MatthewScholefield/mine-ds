@@ -4,15 +4,25 @@
 #include <nds.h>
 #include <stdio.h>
 #include "graphics/graphics.h"
-
+#include "communications.h"
+#include "nifi.h"
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
+bool canPlaceBlocks=true;
+int framecounting=0;
+int failedAttempts=0;
+int last_x,last_y;
 void calculateTopBlock()
 {
 	if (loadedgraphic) unloadGraphic(&topBlock);
 	loadGraphicSub(&topBlock,2,selectedblock);
 	loadedgraphic = true;
+}
+void blocksCanPlace()
+{
+	canPlaceBlocks=true;
+	framecounting=0;
 }
 void setBlock(worldObject* world, int x,int y)
 {
@@ -39,6 +49,15 @@ void setBlock(worldObject* world, int x,int y)
 	{
 	 world->bgblocks[x][y]=AIR;
 	}
+	else return;
+	//Send a WIFI Update now, if wifi is enabled!
+	if (isWifi())
+	{
+		canPlaceBlocks=false;
+		last_x=x;
+		last_y=y;
+		placeBlock(x,y);
+	}
 }
 void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) // keys = keysDown();
 {
@@ -47,8 +66,11 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
 		int a;
-		setBlock(world,x,y);
-		updateBrightnessAround(world,x,y);
+		if (canPlaceBlocks)
+		{
+		 setBlock(world,x,y);
+		 updateBrightnessAround(world,x,y);
+		}
 	}
 	if (keys & KEY_L)
 	{
@@ -62,4 +84,12 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	}
 	if (selectedblock<=0) selectedblock=0;
 	if (selectedblock!=0) showGraphic(&topBlock,0,0);
+	if (canPlaceBlocks==false) framecounting++;
+	if (framecounting>60)
+	{
+		//More than a second, and no block confirm?
+		placeBlock(last_x,last_y);
+		framecounting=0;
+		failedAttempts++;
+	}
 }

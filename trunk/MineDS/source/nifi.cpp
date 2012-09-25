@@ -6,6 +6,7 @@
 #include <time.h>
 #include "graphics/subBgHandler.h"
 #include "communications.h"
+#include "mining.h"
 int server_id;
 int client_id;
 bool host;
@@ -15,6 +16,7 @@ bool wifiInit=false;
 int frame;
 bool clientReInit;
 int clients[8];
+int clientfails[8];
 int noOfClients=0;
 bool wifiEnabled=false;
 unsigned short buffer[100];
@@ -65,6 +67,7 @@ void Handler(int packetID, int readlength)
 						if (clients[i]==0)
 						{
 							clients[i]=clients_id;
+							clientfails[i]=0;
 							i=10;
 						}
 					}
@@ -89,7 +92,73 @@ void Handler(int packetID, int readlength)
 			if ( test_id == server_id && test2_id == client_id) connectSuccess();
 		}
 	}
-
+	else if (!strcmp("[CHKB:",message))
+	{
+		if (host == true)
+		{
+			int test_id;
+			int test2_id;
+			int x,y;
+			sscanf(packet,"%*s %d %d %d %d",&test_id, &test2_id,&x,&y);
+			if ( test_id == server_id)
+			{
+				confirmBlock(test2_id,x,y);
+			}
+		}
+	}
+	else if (!strcmp("[CFMB:",message))
+	{
+		if (host == false)
+		{
+			int test_id;
+			int test2_id;
+			int x,y;
+			sscanf(packet,"%*s %d %d %d %d",&test_id, &test2_id,&x,&y);
+			if ( test_id == server_id && test2_id==client_id)
+			{
+				clientConfirmBlock(x,y);
+			}
+		}
+	}
+	else if (!strcmp("[BLKP:",message))
+	{
+		int test_id;
+		int x,y,block,block2;
+		sscanf(packet,"%*s %d %d %d %d %d",&test_id, &x, &y,&block,&block2);
+		if ( test_id == server_id)
+		{	
+			//This Game
+			//Set The Block
+			recievePlaceBlock(x,y,block,block2);
+		}
+	}
+	else if (!strcmp("[BLKI:",message))
+	{
+		int test_id,test2_id;
+		int x,y,block,block2;
+		sscanf(packet,"%*s %d %d %d %d %d %d",&test_id,&test2_id, &x, &y,&block,&block2);
+		if ( test_id == server_id)
+		{	
+			//This Game
+			//Set The Block
+			matchBlocksHost(test2_id,x,y,block,block2);
+		}
+	}
+	else if (!strcmp("[BLKC:",message))
+	{
+		if (host == false)
+		{
+			int test_id,test2_id;
+			int x,y,block,block2;
+			sscanf(packet,"%*s %d %d %d %d %d %d",&test_id,&test2_id, &x, &y,&block,&block2);
+			if ( test_id == server_id && test2_id == client_id)
+			{	
+				//This Game
+				//Set The Block
+				matchBlocks(x,y,block,block2);
+			}
+		}
+	}
 	else if (!strcmp("[BR:",message))
 	{
 		if (host == true)
@@ -127,6 +196,19 @@ void Handler(int packetID, int readlength)
 		if ( test_id == server_id) recievedMobUpdate(b,c,d,e,a);
 	}
 }
+void nifiConfirmBlocksAllPlayers(int x,int y)
+{
+	int i;
+	for (i=0;i<=8;i++)
+	{
+		if (clients[i]!=0)
+		{
+			//Send confirm to every client
+			sprintf((char *)buffer,"[CFMB: %d %d %d %d", server_id, clients[i], x, y);
+			Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
+		}
+	}
+}
 int getServerID()
 {
 	return server_id;
@@ -151,17 +233,27 @@ void nifiEnable()
 		wifiInit=true;
 		clientReInit = true;
 		int i;
-		for (i=0;i<=8;i++) clients[i]=0;
+		for (i=0;i<=8;i++)
+		{
+		 clients[i]=0;
+		 clientfails[i]=0;
+		}
 	}
 	else 	Wifi_EnableWifi();
 	wifiEnabled=true;
+	blocksCanPlace();
 }
 void nifiDisable()
 {
 	Wifi_DisableWifi();
-	for (int i=0;i<=8;i++) clients[i]=0;
+	for (int i=0;i<=8;i++)
+	{
+	 clients[i]=0;
+	 clientfails[i]=0;
+	}	
 	clientReInit = true;
 	wifiEnabled=false;
+	blocksCanPlace();
 }
 bool isWifi()
 {
@@ -228,6 +320,10 @@ bool clientNifiInit()
 		
 	}
 	return false;
+}
+bool isHost()
+{
+	return host;
 }
 void nifiUpdate()
 {
