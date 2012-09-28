@@ -49,3 +49,9 @@ void setBlock(int x,int y)
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
  
 }
+void sendReset()
+{
+unsigned short buffer[100];
+	sprintf((char *)buffer,"[RST: %d", getServerID());
+	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+}

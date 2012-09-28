@@ -114,6 +114,15 @@ void Handler(int packetID, int readlength)
 		 recievedMessage();
 		}
 	}
+	else if (!strcmp("[RST:",message))
+	{
+		int test_id;
+		sscanf(packet,"%*s %d %d %d",&test_id);
+		if ( test_id == server_id)
+		{
+			resetGame();
+		}
+	}
 
 }
 
