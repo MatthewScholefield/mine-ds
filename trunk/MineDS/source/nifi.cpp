@@ -241,6 +241,7 @@ void nifiEnable()
 	}
 	else 	Wifi_EnableWifi();
 	wifiEnabled=true;
+	
 	blocksCanPlace();
 }
 void nifiDisable()
