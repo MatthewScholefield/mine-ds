@@ -6,15 +6,45 @@
 #include "stage.h"
 #include "positions.h"
 u16* People[24];
-
+bool gotocount;
 int spriteID;
 int aniframe;
 bool moving;
 int disconnectTimes;
 int sendframe;
 int breakframe;
+Stage* something;
+bool incount=false;
 int player_x,player_y,player_frame,player_facing;
-
+void resetGame()
+{
+	int i,j;
+	if (gotocount=false)
+	{
+		gotocount=true;
+		generateNormalStage(something,rand() % 3);
+		for (i=5;i>0;i--)
+		{
+			iprintf("Game Starts in %d Seconds!\n",i); 
+			for(j=0;j<=60;j++) swiWaitForVBlank();
+		}
+		if (isHost())
+		{
+			player_x = rand() % 256;
+			player_y = rand() % 192;
+			rand();
+			rand();	
+		}
+		else
+		{
+			rand();
+			rand();	
+			player_x = rand() % 256;
+			player_y = rand() % 192;
+		}
+		gotocount=false;
+	}
+}
 void recievedMessage()
 {
 	disconnectTimes=0;
@@ -47,7 +77,7 @@ void initMainGame()
 	dmaCopy(PeoplePal, SPRITE_PALETTE, 512);
 }
 touchPosition touch;
-Stage* something;
+
 int nextBlock[]={0, 0, 2, 4, 0, 6, 7, 0}; 
 void breakBlock(int x,int y)
 {
@@ -99,6 +129,7 @@ void mainGame()
 	lcdMainOnBottom();
 	consoleClear();
 	countdown:
+	generateNormalStage(&Arena,rand() % 3);
 	for (i=5;i>0;i--)
 	{
 		iprintf("Game Starts in %d Seconds!\n",i); 
@@ -118,6 +149,7 @@ void mainGame()
 		player_x = rand() % 256;
 		player_y = rand() % 192;
 	}
+	gotocount=false;
 	while (1)
 	{
 		scanKeys();
@@ -133,18 +165,20 @@ void mainGame()
 		}
 		if(Arena.block[(player_x+6)/16][player_y/16]==0 && Arena.block[((player_x+6)/16)+1][player_y/16]==0 && Arena.block[(player_x+6)/16][(player_y/16)+1]==0 && Arena.block[((player_x+6)/16)+1][(player_y/16)+1]==0)
 		{
+			gotocount=true;
 			consoleClear();
 			sendPosition(player_x,player_y,player_facing,player_frame);
 			iprintf("You Lost!\n");
-			generateNormalStage(&Arena,rand() % 3);
-			goto countdown;
+			sendReset();	
+			if (gotocount==true) goto countdown;
 		}
 		if(Arena.block[(getbattleX()+6)/16][getbattleY()/16]==0 && Arena.block[((getbattleX()+6)/16)+1][getbattleY()/16]==0 && Arena.block[(getbattleX()+6)/16][(getbattleY()/16)+1]==0 && Arena.block[((getbattleX()+6)/16)+1][(getbattleY()/16)+1]==0)
 		{
+			gotocount=true;
 			consoleClear();
 			iprintf("You Won!\n");
-			generateNormalStage(&Arena,rand() % 3);
-			goto countdown;
+			sendReset();
+			if (gotocount==true) goto countdown;
 		}
 		breakframe++;
 		if (breakframe>6 && touch.px/16 > player_x/16-2 && touch.px/16 < player_x/16 + 4 && touch.py/16 > player_y/16-2 && touch.py/16 < player_y/16+4)
