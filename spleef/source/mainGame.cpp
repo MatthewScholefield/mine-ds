@@ -179,8 +179,8 @@ void mainGame()
 			player_y+=2;
 			moving = true;
 		}
-		if (player_x < 10) player_x=10;
-		if (player_y < 10) player_y=10;
+		if (player_x < 11) player_x=11;
+		if (player_y < 16) player_y=16;
 		if (player_x > (256-42)) player_x = (256-42);
 		if (player_y > (192-48)) player_y = (192-48);
 		aniframe++;
