@@ -18,8 +18,9 @@ playerMob::playerMob()
 	onground=false;
 	animation=0;
 	mobtype=2;
-
+	health=20;
 }
+
 playerMob::playerMob(int a,int b)
 {
 	gravity=4;
@@ -34,7 +35,12 @@ playerMob::playerMob(int a,int b)
 	onground=false;
 	animation=0;
 	mobtype=2;
+	health=20;
 	timeTillWifiUpdate=rand()%4+4;
+}
+void playerMob::hurt(int amount,int type)
+{
+	health-=amount;
 }
 void playerMob::updateMob(worldObject* world)
 {

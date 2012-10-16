@@ -18,6 +18,7 @@ class baseMob
 	bool alive;
 	int animation;
 	int mobtype;
+	int health; //Health of the mob, 0 is dead ;)
 	int timeTillWifiUpdate;
 	bool host; // Was this mob spawn'd by this nds?
 	bool colisions[5];
@@ -25,6 +26,7 @@ class baseMob
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
+       virtual void hurt(int amount,int type);
 	void killMob();
 	void unKillMob();
 	void setXYPos(int x,int y);
