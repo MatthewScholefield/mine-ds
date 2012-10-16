@@ -34,6 +34,10 @@ MplayerMob::MplayerMob(int a,int b)
 	animation=0;
 	mobtype=2;
 }
+void MplayerMob::hurt(int amount,int type)
+{
+	return; //Do nothing, if a Multiplayer mob is hurt then it should be realised on the server not client...
+}
 void MplayerMob::updateMob(worldObject* world)
 {
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)

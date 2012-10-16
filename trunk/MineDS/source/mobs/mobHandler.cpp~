@@ -130,6 +130,7 @@ void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,w
 	mobs[mobNum]->x = x;
 	mobs[mobNum]->y = y;
 	mobs[mobNum]->animation = animation;
+	alive=true;
 	//:D
 }
 void mobHandlerUpdate(worldObject* world)
