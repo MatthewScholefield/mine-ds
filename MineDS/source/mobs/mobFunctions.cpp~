@@ -3,6 +3,7 @@
 #include "baseMob.h"
 #include "../colision.h"
 #include "../blocks.h"
+#include "mobColisions.h"
 void calculateMiscData(worldObject* world,baseMob* mob)
 {
 	mob -> gravityValue--;
@@ -40,6 +41,11 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 	}
 	bool colide=false;
 	for (a=0;a<=3;a++)
+		for (int b=0;b<=1;b++)
+		{
+			colision(world,mob,0,blockx-1+a,blocky+b,false);
+		}
+	for (a=0;a<=3;a++)
 	{
 		if (spritecol(mob -> x+(a-1), mob -> y, (blockx-1+a)*16,(blocky+1)*16,mob -> sx, mob ->sy,16,16) && !isBlockWalkThrough(world->blocks[blockx-1+a][blocky+1]))
 		{
@@ -61,6 +67,5 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		mob -> y = (blocky-1)*16 +1;
 		mob -> vy = 0;		
 	}
-	if (mob->y < 0) mob->y=0;
-
+	if (mob->x < 0) mob->x=0;
 }

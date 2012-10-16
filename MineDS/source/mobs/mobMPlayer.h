@@ -17,6 +17,7 @@ class MplayerMob : public baseMob
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
     	virtual void updateMob(worldObject* world);	
+       virtual void hurt(int amount,int type);
 	MplayerMob();
    	MplayerMob(int x,int y);
 };
