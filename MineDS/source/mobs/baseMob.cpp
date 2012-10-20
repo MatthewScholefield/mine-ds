@@ -17,6 +17,8 @@ baseMob::baseMob()
 	onground=false;
 	health=10;
 	mobtype=0;
+	animationclearframes=0;
+
 }
 baseMob::baseMob(int a,int b)
 {
@@ -32,6 +34,7 @@ baseMob::baseMob(int a,int b)
 	alive=false;
 	mobtype=0;
 	health=10;
+	animationclearframes=0;
 }
 void baseMob::resetVelocity()
 {
@@ -40,7 +43,10 @@ void baseMob::resetVelocity()
 }
 void baseMob::updateMob(worldObject* world)
 {
-	 showGraphic(&baseMobGraphic[0],x-world->CamX,y-world->CamY);
+	if (animation==0) showGraphic(&baseMobGraphic[0],x-world->CamX,y-world->CamY);
+	if (animation==1) showGraphic(&baseMobGraphic[1],x-world->CamX,y-world->CamY);
+	if (animationclearframes==0) animation=0;
+	else animationclearframes--;
 	if (host==true)
 	{
 		if (health<=0)
@@ -75,10 +81,13 @@ bool canBaseMobSpawnHere(worldObject* world,int x,int y)
 void baseMobInit()
 {
 	loadGraphic(&baseMobGraphic[0],true,0);
+	loadGraphic(&baseMobGraphic[1],true,1);
 }
 void baseMob::hurt(int amount,int type)
 {
 	health-=amount;
+	animation=1;
+	animationclearframes=20;
 }
 void baseMob::killMob()
 {

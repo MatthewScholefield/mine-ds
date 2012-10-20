@@ -47,8 +47,8 @@ int main()
 	//	loadGraphicSub(&graphics[i],true, text[i]);
 	//}
 	worldRender_Init();
-	mobHandlerInit();
 	graphicsInit();
+	mobHandlerInit();
 	while(1)
 	{
 	    	graphicFrame();
