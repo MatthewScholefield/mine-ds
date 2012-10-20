@@ -17,7 +17,9 @@ class baseMob
 	bool onground;
 	bool alive;
 	int animation;
+	int animationclearframes;
 	int mobtype;
+	int timeOnCactus;
 	int health; //Health of the mob, 0 is dead ;)
 	int timeTillWifiUpdate;
 	bool host; // Was this mob spawn'd by this nds?

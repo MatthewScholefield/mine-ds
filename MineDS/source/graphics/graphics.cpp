@@ -75,7 +75,7 @@ void graphicsInit()
 
 void loadGraphicMob(Graphic* g,int frame,int x,int y)
 {
-	u16 * graphics=oamAllocateGfx(&oamMain,SpriteSize_16x32, SpriteColorFormat_256Color);
+	u16* graphics=oamAllocateGfx(&oamMain,SpriteSize_16x32, SpriteColorFormat_256Color);
 	u8* Tiles=(u8*)&mobsTiles;
 	Tiles+=frame*(16*32);
 	dmaCopy(Tiles,graphics,16*32);

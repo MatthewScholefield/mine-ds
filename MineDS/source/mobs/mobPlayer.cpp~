@@ -38,6 +38,10 @@ playerMob::playerMob(int a,int b)
 	health=20;
 	timeTillWifiUpdate=rand()%4+4;
 }
+void playerMob::hurt(int amount,int type)
+{
+	health-=amount;
+}
 void playerMob::updateMob(worldObject* world)
 {
 	if (host)
@@ -83,6 +87,6 @@ bool canPlayerMobSpawnHere(worldObject* world,int x,int y)
 }
 void playerMobInit()
 {
-	loadGraphic(&playerMobGraphic[0],true,0);
+	loadGraphic(&playerMobGraphic[0],true,1);
 }
 

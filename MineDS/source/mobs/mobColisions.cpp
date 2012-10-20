@@ -1,15 +1,14 @@
 #include "../blockID.h"
 #include "baseMob.h"
 #include "hurt.h"
-int timeOnCactus;
 void colisionWithCactus(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 {
-        if (timeOnCactus>30) 
+        if (mob->timeOnCactus>30) 
 	{
 		mob->hurt(1,CACTUS_HURT);
-		timeOnCactus=0;
+		mob->timeOnCactus=0;
 	} 
-	timeOnCactus++;
+	mob->timeOnCactus++;
 }
 void colision(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 {
