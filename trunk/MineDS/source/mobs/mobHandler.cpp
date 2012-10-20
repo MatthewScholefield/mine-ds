@@ -140,10 +140,13 @@ void mobHandlerUpdate(worldObject* world)
 		hasSpawnPlayer=true;
 	}
 	int i;
+
+			consoleClear();
 	for(i=1;i<100;i++)
 	{
 		if (mobs[i]->alive==true)
 		{
+			printf("Mob: %d : %d\n",i,mobs[i]->mobtype);
 			calculateMiscData(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;

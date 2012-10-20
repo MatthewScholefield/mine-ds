@@ -130,7 +130,6 @@ void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,w
 	mobs[mobNum]->x = x;
 	mobs[mobNum]->y = y;
 	mobs[mobNum]->animation = animation;
-	alive=true;
 	//:D
 }
 void mobHandlerUpdate(worldObject* world)
@@ -145,6 +144,8 @@ void mobHandlerUpdate(worldObject* world)
 	{
 		if (mobs[i]->alive==true)
 		{
+			consoleClear();
+			printf("Mob: %d : %d\n",i,mobs[i]->mobtype);
 			calculateMiscData(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;
