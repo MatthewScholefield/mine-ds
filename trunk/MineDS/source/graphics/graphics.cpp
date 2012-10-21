@@ -45,8 +45,8 @@ void graphicFrame()
 {
 	MainSpr=-1;
 	SubSpr=-1;
-	oamClear(&oamMain,0,127);
-	oamClear(&oamSub,0,127);
+	oamClear(&oamMain,0,128);
+	oamClear(&oamSub,0,128);
 }
 /**
 	\breif Init's the DS's Sprite Engine, to be used for MineDS.
@@ -70,6 +70,7 @@ void graphicsInit()
 	//Start copying palettes
 	dmaCopy(mobsPal,VRAM_F_EXT_SPR_PALETTE[0],mobsPalLen);
 	dmaCopy(particlesPal,VRAM_F_EXT_SPR_PALETTE[1],particlesPalLen);
+	dmaCopy(block_smallPal,VRAM_F_EXT_SPR_PALETTE[2],block_smallPalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
@@ -103,6 +104,20 @@ void loadGraphicParticle(Graphic* g, int frame,int x,int y)
 		iprintf("Error loading graphics!\n");
 	}
 }
+void loadGraphicBlock(Graphic* g, int frame,int x,int y)
+{
+	u16 * graphics=oamAllocateGfx(&oamMain,SpriteSize_16x16, SpriteColorFormat_256Color);
+	u8* Tiles=(u8*)&block_smallTiles;
+	Tiles+=frame*(16*16);
+	dmaCopy(Tiles,graphics,8*8);
+	dmaCopy(Tiles+8*8*2,graphics+8*4,8*8);
+	dmaCopy(Tiles+8*8,graphics+8*4*2,8*8);
+	dmaCopy(Tiles+8*8*3,graphics+8*4*3,8*8);
+	g->mob=2;
+	g->sx=x;
+	g->sy=y;
+	g->Gfx=graphics;
+}
 /** 
 	\breif A function used to load graphics for use on the Main screen, The screen with all of the blocks on it.
 	\param g A pointer to a newly allocated Graphic structure. 
@@ -111,10 +126,13 @@ void loadGraphicParticle(Graphic* g, int frame,int x,int y)
 	\param x x Size of Tile
 	\param y y Size of Tile
 */
-void loadGraphic(Graphic* g,bool mob,int frame,int x,int y)
+void loadGraphic(Graphic* g,int mob,int frame,int x,int y)
 {
-	if (mob) loadGraphicMob(g,frame,x,y);
-	else if (!mob) loadGraphicParticle(g,frame,x,y);
+	if (mob == 1) loadGraphicMob(g,frame,x,y);
+	else if (mob == 0) loadGraphicParticle(g,frame,x,y);
+	else if (mob == 2) loadGraphicBlock(g,frame,x,y);
+//	if (mob) loadGraphicMob(g,frame,x,y);
+//	else if (!mob) loadGraphicParticle(g,frame,x,y);
 	g->main=true;
 }
 /** 
@@ -124,7 +142,7 @@ void loadGraphic(Graphic* g,bool mob,int frame,int x,int y)
 	\param mob To choose between loading a mob image (true) or a 8x8 particle (false).
 	\param frame Tile of Graphic to load
 */
-void loadGraphic(Graphic* g,bool mob,int frame)
+void loadGraphic(Graphic* g,int mob,int frame)
 {
 	if (!mob) loadGraphic(g,mob,frame,8,8);
 	if (mob) loadGraphic(g,mob,frame,16,32);
@@ -227,31 +245,38 @@ void loadGraphicSub(Graphic* g,int font,int frame)
 	\param x The x position of where the sprite should be displayed.
 	\param y The y position of where the sprite should be displayed.
 */
-void showGraphic(Graphic* g,int x,int y,bool flip)
+bool showGraphic(Graphic* g,int x,int y,bool flip)
 {
-	if (x<-32 || x>256+32 || y<-32 || y>244) return;
+	int spriteID;
+	if (x<-32 || x>256+32 || y<-32 || y>244) return false;
 	if (g->main)
 	{
-		if (g->mob)
-			oamSet(&oamMain,graphicNextMain(),x,y,0,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
-		else if (g->sx==8 && g->sy==8)
-			oamSet(&oamMain,graphicNextMain(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+		spriteID = graphicNextMain();
+		if (g->mob==1)
+			oamSet(&oamMain,spriteID,x,y,0,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+		else if (g->mob==0)
+			oamSet(&oamMain,spriteID,x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+		else if (g->mob==2)
+			oamSet(&oamMain,spriteID,x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
 	else
 	{
+		spriteID = graphicNextSub();
 		if (g->mob==1)
 		{
-			oamSet(&oamSub,graphicNextSub(),x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamSub,spriteID,x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		}
 		else if (g->mob==2)
 		{
-			oamSet(&oamSub,graphicNextSub(),x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamSub,spriteID,x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		}
 		else if (g->sx==8 && g->sy==8 && g->mob==0)
-			oamSet(&oamSub,graphicNextSub(),x,y,0,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamSub,spriteID,x,y,0,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
+	if (spriteID > 127) return false;
+	return true;
 }
-void showGraphic(Graphic* g,int x,int y)
+bool showGraphic(Graphic* g,int x,int y)
 {
-	showGraphic(g,x,y,false);
+	return showGraphic(g,x,y,false);
 }
