@@ -53,12 +53,12 @@ void mainGame(int Mode)
 			showGraphic(&graphics[i],i*8+128,texty);
 		}
 		//showGraphic(&graphics[9],0,0);
-		mobHandlerUpdate(CurrentWorld);
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
-		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		graphicFrame();
+		mobHandlerUpdate(CurrentWorld);
+		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 	}
 	free(CurrentWorld);
 }

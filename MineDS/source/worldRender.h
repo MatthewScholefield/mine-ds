@@ -16,3 +16,4 @@ extern "C" {
         void brightnessSpread(worldObject* world,int x,int y,int brightness);
 }
 void updateBrightnessAround(worldObject* world,int x,int y);
+void worldRender_LoadSprites();

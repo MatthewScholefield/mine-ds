@@ -49,6 +49,7 @@ int main()
 	worldRender_Init();
 	graphicsInit();
 	mobHandlerInit();
+	worldRender_LoadSprites();
 	while(1)
 	{
 	    	graphicFrame();

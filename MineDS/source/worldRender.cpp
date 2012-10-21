@@ -12,16 +12,18 @@
 #include "worldRender.h"
 #include "blockID.h"
 #include "blocks.h"
+#include "graphics/graphics.h"
 #include <math.h>
 #define sizeOfArray(x) (sizeof(x)/4)
 //int execptions[]={AIR};
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
-
+Graphic torchSprite;
 
 void BlockShader(){
-	setBackdropColor(RGB15(0,0,31));
+	//setBackdropColor(RGB15(69,195,237));
+	setBackdropColor(RGB15(17,24,31));
 	vramSetBankE(VRAM_E_LCD);
 	//Extreme Thanks to dirbaio...
 	for(int i = 1; i < 16; i++)
@@ -120,7 +122,7 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 		{
 			if (world->brightness[i][j]<15)
 			{
-				brightnessSpread(world,i+1,j,world->brightness[i][j]+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3));
+				brightnessSpread(world,i,j,world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
 			}
 			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
 				{
@@ -193,6 +195,10 @@ void Calculate_Brightness(worldObject* world)
 	}
 }
 void renderTile16(int a,int b, int c, int d); //HAX
+void worldRender_LoadSprites()
+{
+	loadGraphic(&torchSprite,2,TORCH);
+}
 void worldRender_Init()
 {
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
@@ -255,14 +261,23 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 		//Check The Block is on screen
 		if(onScreen(16,i,j,1,1))
 			{
-				if (world->blocks[i][j]!=AIR)
+				if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=TORCH)
 				{				
 				 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
 				}
 				else if (world->bgblocks[i][j]!=AIR && alwaysRenderBright(world->bgblocks[i][j])==false) renderTile16(i,j,world->bgblocks[i][j],world->brightness[i][j]+6);
 				else if (world->bgblocks[i][j]!=AIR) renderTile16(i,j,world->bgblocks[i][j],world->brightness[i][j]);
 				else renderTile16(i,j,world->blocks[i][j],0);
-
+				if (world->blocks[i][j]==TORCH)
+				{
+					//Render the Torch as a sprite...
+					if (!showGraphic(&torchSprite,(i*16) - screen_x,(j*16) - screen_y))
+					{
+					//But if we run out of sprite IDs, render as a tile...
+						 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+					}
+				}
+				
 			}
 		}
 	}
