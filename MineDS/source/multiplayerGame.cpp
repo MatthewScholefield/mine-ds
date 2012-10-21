@@ -62,8 +62,8 @@ void multiplayerGame(bool host)
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
-		worldRender_Render(world,world->CamX,world->CamY);
 		graphicFrame();
+		worldRender_Render(world,world->CamX,world->CamY);
 	}
 	free(world);
 	nifiDisable();
