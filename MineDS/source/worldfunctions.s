@@ -8,7 +8,6 @@ brightnessSpread:
 	@@brightnessSpread(worldObject* world,int x,int y, int brightness)
 	.cfi_startproc
 	push	{r0, r1, r2, r3, r4, r5, r6, r7, lr}
-
 	cmp r2, #129 @@ if (y>129) return; (129==WORLD_HEIGHT+1)
 	bgt return
 	cmp r2,#0 @@ if (y<0) return;
@@ -29,11 +28,23 @@ _S1:
 	str r3, [r5, r0] @@ world->brightness[x][y]=brightness
 	add r2, r2, #1
 	mov r5, r3
+	cmp r7,#1
+	beq _A1	
+	push {r7}
+	mov r7,#2
 	bl brightnessAddAmount
 	bl brightnessSpread
+	pop {r7}
+_A1:
 	sub r2, r2, #2	
+	cmp r7,#2
+	beq _A2
+	push {r7}
+	mov r7,#1
 	bl brightnessAddAmount
 	bl brightnessSpread
+	pop {r7}
+_A2:
 	add r2, r2, #1
 	add r1, r1, #1
 	bl brightnessAddAmount
@@ -56,7 +67,7 @@ brightnessAddAmount:
 	@@ r5= baseBrightness
 	@@ r6 is erased
 	@@ r3= newbrightness
-	push {r0, lr}
+	push {r0,r7, lr}
 	mov r7, r1
 	lsl r6, r7, #7
 	add r6, r6, r7
@@ -74,7 +85,7 @@ brightnessAddAmount:
 
 
 _B2:	add r3, r3, r5
-	pop {r0, pc}
+	pop {r0,r7, pc}
 	
 	
 sizes:
