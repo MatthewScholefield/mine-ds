@@ -195,6 +195,13 @@ void Handler(int packetID, int readlength)
 		sscanf(packet,"%*s %d %d %d %d %d %d %d",&test_id, &a,&b,&c,&d,&e);
 		if ( test_id == server_id) recievedMobUpdate(b,c,d,e,a);
 	}
+	else if (!strcmp("[DIE:",message))
+	{
+		int test_id;
+		int a;
+		sscanf(packet,"%*s %d %d",&test_id, &a);
+		if ( test_id == server_id) killMob(a);
+	}
 }
 void nifiConfirmBlocksAllPlayers(int x,int y)
 {

@@ -12,8 +12,11 @@ void colisionWithCactus(worldObject* world,baseMob* mob,int type,int x,int y,boo
 }
 void colision(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 {
-	switch(world->blocks[x][y])
+	if(mob->host == true)
 	{
-		case CACTUS: colisionWithCactus(world,mob,type,x,y,sub); break;
+		switch(world->blocks[x][y])
+		{
+			case CACTUS: colisionWithCactus(world,mob,type,x,y,sub); break;
+		}
 	}
 }

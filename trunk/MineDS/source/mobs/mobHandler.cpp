@@ -11,6 +11,10 @@ baseMob* mobs[100];
 bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
 int spawn_x,spawn_y;
+void mobHandlerKillMob(int mobNum)
+{
+	mobs[mobNum]->killMob();
+}
 void mobsReset()
 {
 	int i;
@@ -77,6 +81,7 @@ void spawnMob(int mobId,worldObject* world)
 				}
 				mobs[mobNum]->host=true;
 			}
+			else printf("Can't find number\n");
 			i=WORLD_HEIGHT+1;
 			j=WORLD_WIDTH+1;
 		}
@@ -119,17 +124,20 @@ void spawnMob(int mobId,worldObject* world,int mobNum)
 }
 void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,worldObject* world)
 {
+	//printf("Recieved mob update! - %d, %d\n", mobNum,mobtype);
 	if (mobs[mobNum]->mobtype!=mobtype)
-	{
+	{	
 		if (mobs[mobNum]->mobtype==1)
 		{
-		spawnMobAt(1,world,mobs[mobNum]->x,mobs[mobNum]->y);
+			spawnMobAt(1,world,mobs[mobNum]->x,mobs[mobNum]->y);
 		}
 		spawnMob(mobtype,world,mobNum);
 	}
+	mobs[mobNum]->unKillMob();
 	mobs[mobNum]->x = x;
 	mobs[mobNum]->y = y;
 	mobs[mobNum]->animation = animation;
+	mobs[mobNum]->host = false;
 	//:D
 }
 void mobHandlerUpdate(worldObject* world)
@@ -140,24 +148,26 @@ void mobHandlerUpdate(worldObject* world)
 		hasSpawnPlayer=true;
 	}
 	int i;
-
-			consoleClear();
 	for(i=1;i<100;i++)
 	{
 		if (mobs[i]->alive==true)
 		{
-			printf("Mob: %d : %d\n",i,mobs[i]->mobtype);
 			calculateMiscData(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;
-			if (mobs[i]->timeTillWifiUpdate==0 && isWifi())
-			{
-				
-				if (mobs[i]->host==true) sendMobUpdater(mobs[i],i);
-				mobs[i]->timeTillWifiUpdate = rand() % 3 + 3;
-			}
-			else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 		}
+		if (mobs[i]->timeTillWifiUpdate==0 && isWifi())
+		{
+			
+			if (mobs[i]->host==true)
+			{
+				sendMobUpdater(mobs[i],i);
+				mobs[i]->timeTillWifiUpdate = rand() % 3 + 3;
+				
+			}
+			
+		}
+		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
 	if (keysDown() & KEY_Y) spawnMob(0,world);
 }
