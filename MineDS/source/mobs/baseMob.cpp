@@ -35,6 +35,7 @@ baseMob::baseMob(int a,int b)
 	mobtype=0;
 	health=10;
 	animationclearframes=0;
+	timeTillWifiUpdate=rand()%4+4;
 }
 void baseMob::resetVelocity()
 {
@@ -45,8 +46,6 @@ void baseMob::updateMob(worldObject* world)
 {
 	if (animation==0) showGraphic(&baseMobGraphic[0],x-world->CamX,y-world->CamY);
 	if (animation==1) showGraphic(&baseMobGraphic[1],x-world->CamX,y-world->CamY);
-	if (animationclearframes==0) animation=0;
-	else animationclearframes--;
 	if (host==true)
 	{
 		if (health<=0)
@@ -55,6 +54,8 @@ void baseMob::updateMob(worldObject* world)
 		}
 		if (colisions[0]==false) y+=vy;
 		else vy=0;
+		if (animationclearframes==0) animation=0;
+		else animationclearframes--;
 		//iprintf("colisions = %d\n",colisions[0]);
 	}
 }
@@ -91,6 +92,7 @@ void baseMob::hurt(int amount,int type)
 }
 void baseMob::killMob()
 {
+	timeTillWifiUpdate=1;
 	alive=false;
 }
 void baseMob::unKillMob()
