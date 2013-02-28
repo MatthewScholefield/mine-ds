@@ -43,7 +43,7 @@ void mainGame(int Mode)
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
 		if (keysDown() & KEY_START) break;
-		if (keysDown() & KEY_A) Calculate_Brightness(CurrentWorld);
+		//if (keysDown() & KEY_A) Calculate_Brightness(CurrentWorld);
 		if (up) texty--;
 		else texty++;
 		if (texty>96) up=true;
