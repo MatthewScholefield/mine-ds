@@ -31,7 +31,11 @@
 #define IRON_ORE 21
 #define GOLD_ORE 22
 #define DIAMOND_ORE 23
+#define REDSTON_ORE 24
 #define TNT 25
 #define SANDSTONE 26
 #define RED_FLOWER 27
 #define YELLOW_FLOWER 28
+#define IRON_BLOCK 29
+#define GOLD_BLOCK 30
+#define DIAMOND_BLOCK 31
