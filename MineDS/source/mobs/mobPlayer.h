@@ -18,6 +18,7 @@ class playerMob : public baseMob
 	virtual void sendWifiUpdate();
     	virtual void updateMob(worldObject* world);
        virtual void hurt(int amount,int type);	
+	virtual bool isMyPlayer();
 	playerMob();
    	playerMob(int x,int y);
 };

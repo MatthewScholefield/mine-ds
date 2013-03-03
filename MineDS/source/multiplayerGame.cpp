@@ -11,6 +11,7 @@
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
 #include "communications.h"
+#include "deathScreen.h"
 void multiplayerGame(bool host)
 {
 	touchPosition touch;
@@ -59,6 +60,7 @@ void multiplayerGame(bool host)
 		miningUpdate(world,world->CamX,world->CamY,touch,keysDown());
 		if (keysDown() & KEY_START) break;
 		mobHandlerUpdate(world);
+		if (deathScreenUpdate()) break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);

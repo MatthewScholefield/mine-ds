@@ -13,6 +13,7 @@ baseMob::baseMob()
 	y=0;
 	vy=0;
 	vx=0;
+	ping=0;
 	alive=false;
 	onground=false;
 	health=10;
@@ -27,6 +28,7 @@ baseMob::baseMob(int a,int b)
 	sx=16;
 	sy=32;
 	x=a;
+	ping=0;
 	y=b;
 	vy=0;
 	vx=0;
@@ -45,9 +47,10 @@ void baseMob::resetVelocity()
 void baseMob::updateMob(worldObject* world)
 {
 	if (animation==0) showGraphic(&baseMobGraphic[0],x-world->CamX,y-world->CamY);
-	if (animation==1) showGraphic(&baseMobGraphic[1],x-world->CamX,y-world->CamY);
+	else if (animation==1) showGraphic(&baseMobGraphic[1],x-world->CamX,y-world->CamY);
 	if (host==true)
 	{
+		ping=0;
 		if (health<=0)
 		{
 			killMob();
@@ -76,7 +79,7 @@ void baseMob::loadFromFile(FILE* pFile)
 bool canBaseMobSpawnHere(worldObject* world,int x,int y)
 {
 	y++;
-	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS) return true;
+	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
 	return false;
 }
 void baseMobInit()
@@ -98,4 +101,8 @@ void baseMob::killMob()
 void baseMob::unKillMob()
 {
 	alive=true;
+}
+bool baseMob::isMyPlayer()
+{
+	return false;
 }

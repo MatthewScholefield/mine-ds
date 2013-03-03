@@ -1,6 +1,7 @@
 #include "../blockID.h"
 #include "baseMob.h"
 #include "hurt.h"
+#include <nds.h>
 void colisionWithCactus(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 {
         if (mob->timeOnCactus>30) 
@@ -17,6 +18,13 @@ void colision(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 		switch(world->blocks[x][y])
 		{
 			case CACTUS: colisionWithCactus(world,mob,type,x,y,sub); break;
+		}
+		if (!(keysHeld() & KEY_DOWN))
+		{
+			switch(world->bgblocks[x][y])
+			{
+				case CACTUS: colisionWithCactus(world,mob,type,x,y,sub); break;
+			}
 		}
 	}
 }

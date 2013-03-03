@@ -1,8 +1,8 @@
 [s]Glass doesn't let light through[/s]
 [s]Glass doesn't show the bg layer[/s]
-Can break both bg layers at once.
+[s]Can break both bg layers at once.[/s]
 [s]Log in foreground should be solid[/s]
-When a player leaves it creates a ghost.
+[s]When a player leaves it creates a ghost.[/s]
 With many mobs world transfers very slow
 	Ideas:
 	Make Wifi Updates for mobs slower during a world download.

@@ -1,8 +1,8 @@
 Add Block Selection Screen with the X button
 Add ability to hit each other
 Create a mob that chases you.
-When somebody dies they need to respawn.
-Players you have health point that can be decreased by falling into void, cactus, or by not responding to ping's (Kill a player when they leave)
+[s]When somebody dies they need to respawn.[/s]
+Players you have health point that can be decreased by falling into void, [s]cactus, or by not responding to ping's (Kill a player when they leave)[/s]
 
 
 --------------------- For next update ---------------------------------

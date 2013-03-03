@@ -7,10 +7,19 @@
 #include "../nifi.h"
 #include "../communications.h"
 #include "mobMPlayer.h"
+#include "../deathScreen.h"
 baseMob* mobs[100];
 bool hasSpawnPlayer;
+int playerId;
 bool spawnPlayerAtPos;
+bool playerDeathRespawn;
 int spawn_x,spawn_y;
+void mobHandlerRespawnPlayer()
+{
+	delete mobs[playerId];
+	mobs[playerId] = new baseMob();
+	playerDeathRespawn = false;
+}
 void mobHandlerKillMob(int mobNum)
 {
 	mobs[mobNum]->killMob();
@@ -45,7 +54,7 @@ int findFreeMobSpawnNum()
 {
 	int i;
 	for (i=1;i<=100;i++)
-		if (mobs[i]->alive==false)
+		if (mobs[i]->alive==false && mobs[i]->isMyPlayer() == false)
 			return i;
 	return -1; 
 }
@@ -122,7 +131,7 @@ void spawnMob(int mobId,worldObject* world,int mobNum)
 			j=WORLD_WIDTH+1;
 		}
 }
-void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,worldObject* world)
+void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,worldObject* world,bool facing)
 {
 	//printf("Recieved mob update! - %d, %d\n", mobNum,mobtype);
 	if (mobs[mobNum]->mobtype!=mobtype)
@@ -138,23 +147,43 @@ void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,w
 	mobs[mobNum]->y = y;
 	mobs[mobNum]->animation = animation;
 	mobs[mobNum]->host = false;
+	mobs[mobNum]->facing = facing;
+	mobs[mobNum]->ping=0;
 	//:D
 }
 void mobHandlerUpdate(worldObject* world)
 {
-	if (!hasSpawnPlayer)
+	if (!hasSpawnPlayer || !playerDeathRespawn)
 	{
 		spawnMob(1,world);
 		hasSpawnPlayer=true;
+		playerDeathRespawn = true;
 	}
 	int i;
 	for(i=1;i<100;i++)
 	{
+		if (mobs[i]->isMyPlayer())
+		{
+			playerId=i;
+			if (mobs[i]->alive==false && playerDeathRespawn == true)
+			{
+				deathScreenSetup();
+			}		
+		}
 		if (mobs[i]->alive==true)
 		{
 			calculateMiscData(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;
+			if (isWifi())
+			{
+				mobs[i]->ping++;
+				if(mobs[i]->ping>80)
+				{
+					mobs[i]->ping = 0;
+					mobs[i]->alive=false;
+				}
+			}
 		}
 		if (mobs[i]->timeTillWifiUpdate==0 && isWifi())
 		{
@@ -170,4 +199,5 @@ void mobHandlerUpdate(worldObject* world)
 		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
 	if (keysDown() & KEY_Y) spawnMob(0,world);
+
 }
