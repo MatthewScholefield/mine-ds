@@ -1,0 +1,15 @@
+Add Block Selection Screen with the X button
+Add ability to hit each other
+Create a mob that chases you.
+When somebody dies they need to respawn.
+Players you have health point that can be decreased by falling into void, cactus, or by not responding to ping's (Kill a player when they leave)
+
+
+--------------------- For next update ---------------------------------
+Make the world download during game play to speed the joining process up
+	1. Set the world to bedrock
+	2. As you recieve block transfers replace the bedrock with proper blocks.
+	OR.
+	Create don't scroll into here blocks/mobs, that stops the camera scrolling into a non loaded chunk of the world.
+Inventory
+Crafting
