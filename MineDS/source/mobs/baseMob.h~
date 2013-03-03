@@ -17,16 +17,20 @@ class baseMob
 	bool onground;
 	bool alive;
 	int animation;
+	int animationclearframes;
 	int mobtype;
+	int timeOnCactus;
 	int health; //Health of the mob, 0 is dead ;)
 	int timeTillWifiUpdate;
+	int ping;
 	bool host; // Was this mob spawn'd by this nds?
 	bool colisions[5];
     //bool potioneffects[5];
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-        void hurt(int amount,int type);
+       virtual void hurt(int amount,int type);
+	virtual bool isMyPlayer();
 	void killMob();
 	void unKillMob();
 	void setXYPos(int x,int y);

@@ -9,6 +9,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
+#include "deathScreen.h"
 int texty;
 bool up;
 char text[]={'M','i','n','e','c','r','a','f','t'};
@@ -58,6 +59,7 @@ void mainGame(int Mode)
 		oamUpdate(&oamSub);
 		graphicFrame();
 		mobHandlerUpdate(CurrentWorld);
+		if (deathScreenUpdate()) break;
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 	}
 	free(CurrentWorld);
