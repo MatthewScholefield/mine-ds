@@ -249,6 +249,7 @@ bool showGraphic(Graphic* g,int x,int y,bool flip)
 {
 	int spriteID;
 	if (x<-32 || x>256+32 || y<-32 || y>244) return false;
+	if (spriteID > 126) return false;
 	if (g->main)
 	{
 		spriteID = graphicNextMain();
