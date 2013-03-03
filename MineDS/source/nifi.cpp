@@ -57,6 +57,7 @@ void Handler(int packetID, int readlength)
 				//Respond, They are talking to us!
 				if (!strcmp("MineDS",gameName) && noOfClients<8)
 				{
+					printf("%d joined the game\n",clients_id);
 					//Correct Game, send Accept
 					sprintf((char *)buffer,"[ACK: %d %d", server_id, clients_id);
 					Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
@@ -89,7 +90,8 @@ void Handler(int packetID, int readlength)
 			int test_id;
 			int test2_id;
 			sscanf(packet,"%*s %d %d",&test_id, &test2_id);
-			if ( test_id == server_id && test2_id == client_id) connectSuccess();
+			if (test_id == server_id && test2_id == client_id) connectSuccess();
+			if (test_id == server_id && test2_id != client_id) printf("%d joined the game\n",test2_id);
 		}
 	}
 	else if (!strcmp("[CHKB:",message))
@@ -191,9 +193,9 @@ void Handler(int packetID, int readlength)
 	else if (!strcmp("[MOB:",message))
 	{
 		int test_id;
-		int a,b,c,d,e;
-		sscanf(packet,"%*s %d %d %d %d %d %d %d",&test_id, &a,&b,&c,&d,&e);
-		if ( test_id == server_id) recievedMobUpdate(b,c,d,e,a);
+		int a,b,c,d,e,f;
+		sscanf(packet,"%*s %d %d %d %d %d %d %d %d",&test_id, &a,&b,&c,&d,&e,&f);
+		if ( test_id == server_id) recievedMobUpdate(b,c,d,e,a,f);
 	}
 	else if (!strcmp("[DIE:",message))
 	{

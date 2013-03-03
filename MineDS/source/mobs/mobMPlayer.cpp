@@ -18,6 +18,7 @@ MplayerMob::MplayerMob()
 	onground=false;
 	animation=0;
 	mobtype=2;
+	ping=0;
 }
 MplayerMob::MplayerMob(int a,int b)
 {
@@ -33,6 +34,7 @@ MplayerMob::MplayerMob(int a,int b)
 	onground=false;
 	animation=0;
 	mobtype=2;
+	ping=0;
 }
 void MplayerMob::hurt(int amount,int type)
 {
@@ -41,7 +43,8 @@ void MplayerMob::hurt(int amount,int type)
 void MplayerMob::updateMob(worldObject* world)
 {
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
-	showGraphic(&MplayerMobGraphic[0],x-world->CamX - (animation ? 10:0),y-world->CamY,animation ? true:false);
+	if (animation==0) showGraphic(&MplayerMobGraphic[0],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
+	else if (animation==1) showGraphic(&MplayerMobGraphic[1],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
 }
 void MplayerMob::sendWifiUpdate()
 {
@@ -62,5 +65,6 @@ bool canMplayerMobSpawnHere(worldObject* world,int x,int y)
 void MplayerMobInit()
 {
 	loadGraphic(&MplayerMobGraphic[0],true,0);
+	loadGraphic(&MplayerMobGraphic[1],true,1);
 }
 

@@ -8,7 +8,7 @@ void connectCode(int code2);
 void setBlock(int x,int y,int block,int bgblock,int amount);
 void sendblock(int a,int x, int y);
 void sendMobUpdater(baseMob* mob,int mobNum);
-void recievedMobUpdate(int x,int y,int animation,int mobtype,int mobNum);
+void recievedMobUpdate(int x,int y,int animation,int mobtype,int mobNum,bool f);
 void placeBlock(int x,int y);
 void matchBlocks(int x,int y,int block,int bgblock);
 void recievePlaceBlock(int x,int y,int block,int block2);

@@ -40,7 +40,7 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		mob -> colisions[2]=true;	
 	}
 	bool colide=false;
-	for (int b=0;b<=1;b++)
+	for (int b=-1;b<=1;b++)
 	{
 		colision(world,mob,0,blockx,blocky+b,false);
 	}

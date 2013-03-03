@@ -9,10 +9,15 @@
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
+bool incutscene = false;
 bool canPlaceBlocks=true;
 int framecounting=0;
 int failedAttempts=0;
 int last_x,last_y;
+void miningSetScene(bool a)
+{
+	incutscene = a;
+}
 void calculateTopBlock()
 {
 	if (loadedgraphic) unloadGraphic(&topBlock);
@@ -35,11 +40,6 @@ void setBlock(worldObject* world, int x,int y)
 	{
 		if (keysHeld() & KEY_DOWN) world->bgblocks[x][y]=selectedblock;
 		else world->blocks[x][y]=selectedblock;
-	}
-	else if (keysHeld() & KEY_DOWN)
-	{
-	 world->bgblocks[x][y]=AIR; 
-	 world->blocks[x][y]=AIR; 
 	}
 	else if (world->blocks[x][y]!=AIR)
 	{
@@ -66,7 +66,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
 		int a;
-		if (canPlaceBlocks)
+		if (canPlaceBlocks && !incutscene)
 		{
 		 setBlock(world,x,y);
 		 updateBrightnessAround(world,x,y);
