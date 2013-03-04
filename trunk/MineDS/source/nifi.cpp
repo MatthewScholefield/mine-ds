@@ -7,6 +7,7 @@
 #include "graphics/subBgHandler.h"
 #include "communications.h"
 #include "mining.h"
+#include "message.h"
 int server_id;
 int client_id;
 bool host;
@@ -20,6 +21,11 @@ int clientfails[8];
 int noOfClients=0;
 bool wifiEnabled=false;
 unsigned short buffer[100];
+int get_int_len (int value){
+  int l=1;
+  while(value>9){ l++; value/=10; }
+  return l;
+}
 void Handler(int packetID, int readlength)
 {
 	static char data[4096];
@@ -42,6 +48,12 @@ void Handler(int packetID, int readlength)
 			}
 		}
 	}
+	else if (!strcmp("[MSG:",message))
+	{
+		int test_id;
+		sscanf(packet,"%*s %d",&test_id);
+		if (test_id == server_id) show_message(&data[39+get_int_len(server_id)]);
+	}
 	else if (!strcmp("[REQ:",message))
 	{
 		//We Recieved a ping message!
@@ -57,7 +69,7 @@ void Handler(int packetID, int readlength)
 				//Respond, They are talking to us!
 				if (!strcmp("MineDS",gameName) && noOfClients<8)
 				{
-					printf("%d joined the game\n",clients_id);
+					//printf("%d joined the game\n",clients_id);
 					//Correct Game, send Accept
 					sprintf((char *)buffer,"[ACK: %d %d", server_id, clients_id);
 					Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
@@ -91,7 +103,7 @@ void Handler(int packetID, int readlength)
 			int test2_id;
 			sscanf(packet,"%*s %d %d",&test_id, &test2_id);
 			if (test_id == server_id && test2_id == client_id) connectSuccess();
-			if (test_id == server_id && test2_id != client_id) printf("%d joined the game\n",test2_id);
+			//if (test_id == server_id && test2_id != client_id) printf("%d joined the game\n",test2_id);
 		}
 	}
 	else if (!strcmp("[CHKB:",message))

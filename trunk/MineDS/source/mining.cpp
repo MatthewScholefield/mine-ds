@@ -72,12 +72,12 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		 updateBrightnessAround(world,x,y);
 		}
 	}
-	if (keys & KEY_L)
+	if (keys & (KEY_L | KEY_X))
 	{
 		selectedblock--;
 		calculateTopBlock();
 	}
-	else if (keys & KEY_R)
+	else if (keys & (KEY_R | KEY_B))
 	{
 		selectedblock++;
 		calculateTopBlock();

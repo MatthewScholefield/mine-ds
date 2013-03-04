@@ -67,4 +67,5 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		mob -> vy = 0;		
 	}
 	if (mob->x < 0) mob->x=0;
+	if (mob->vy > 6) mob->vy = 6;
 }
