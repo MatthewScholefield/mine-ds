@@ -23,9 +23,9 @@ INCLUDES	:=	include
 DATA		:=	data  
 GRAPHICS	:=	gfx  
 AUDIO    	:=  audio
-GAME_TITLE     :=   Minecraft DS
-GAME_SUBTITLE1 :=	By ray & CoolAs
-GAME_SUBTITLE2 :=	pre-How many blocks?!
+GAME_TITLE     :=   MineDS
+GAME_SUBTITLE1 :=	CoolAs ray Wolfgange
+GAME_SUBTITLE2 :=	v0.0.1
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------

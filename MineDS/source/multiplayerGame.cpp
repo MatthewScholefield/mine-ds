@@ -12,6 +12,7 @@
 #include "mobs/mobHandler.h"
 #include "communications.h"
 #include "deathScreen.h"
+#include "message.h"
 void multiplayerGame(bool host)
 {
 	touchPosition touch;
@@ -30,6 +31,8 @@ void multiplayerGame(bool host)
 		Calculate_Brightness(world);
 		while (!hostNifiInit()) swiWaitForVBlank();
 		communicationInit(world);
+		consoleClear();
+		print_message("Done!\n");
 	}
 	else
 	{
@@ -46,18 +49,23 @@ void multiplayerGame(bool host)
 			Calculate_Brightness(world);
 		}
 		else return;
+		consoleClear();
+		unsigned short buffer[100];
+		int client_id = getClientID();	
+		sprintf((char *)buffer,"%d joined the game.\n", client_id);			
+		print_message((char *)buffer);	
 	}
 	lcdMainOnBottom();
 	world->CamX=0;
 	world->CamY=0;
-	iprintf("Done!\n");
 	while (1)
 	{
 		scanKeys();
 		if (keysDown() & KEY_START) break;
 		touchRead(&touch);
 		nifiUpdate();
-		miningUpdate(world,world->CamX,world->CamY,touch,keysDown());
+		miningUpdate(world,world->CamX,world->CamY,touch,keysDown());	
+		update_message();
 		if (keysDown() & KEY_START) break;
 		mobHandlerUpdate(world);
 		if (deathScreenUpdate()) break;

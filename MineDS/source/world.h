@@ -1,15 +1,3 @@
-/* _____________________________________________
-| |
-| World.h |
-| Part of Mine DS , by CoolAs and Ray |
-| Thanks to Dirbaio! |
-|_____________________________________________|
-STUFFED UP LOGO :P
-*/
-
-
-
-//Circular Dependances RUBBISH (google it(why isn't google a verb))
 #ifndef WORLD_H
 #define WORLD_HEIGHT 128
 #define world_heightpx WORLD_HEIGHT*16
@@ -24,10 +12,9 @@ typedef struct{
 	bool sun[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int bgblocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int ChoosedBlock;
-	bool DELmode;
 	int CamY;
 	int CamX;
-	int version; //To keep track of the world version number
+	int loaded_block;
 }worldObject;
 int findFirstBlock(worldObject* world,int x);
 int findFirstBiomeBlock(worldObject* world,int x);
