@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "world.h"
 #include "worldgen.h"
+#include "message.h"
 #include "mining.h"
 #include "blockID.h"
 #include "blocks.h"
@@ -38,11 +39,13 @@ void mainGame(int Mode)
 		loadGraphicSub(&graphics[i],1, text[i]);
 	}
 	//loadGraphicSub(&graphics[9],2,8);
-	iprintf("Done!\n");
+	consoleClear();	
+	print_message("Done!\n");
 	while(1){
 		scanKeys();
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
+		update_message();
 		if (keysDown() & KEY_START) break;
 		//if (keysDown() & KEY_A) Calculate_Brightness(CurrentWorld);
 		if (up) texty--;

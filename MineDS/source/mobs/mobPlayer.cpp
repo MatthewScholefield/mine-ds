@@ -1,9 +1,13 @@
 #include <stdio.h>
+#include <string>
+#include "hurt.h"
+#include "../nifi.h"
 #include "../world.h"
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
 #include "mobPlayer.h"
+#include "../message.h"
 #include "../blockID.h"
 #include <nds.h>
 //ASDF?
@@ -44,11 +48,33 @@ playerMob::playerMob(int a,int b)
 }
 void playerMob::hurt(int amount,int type)
 {
-	vy-=2;
+	if (type!=VOID_HURT)
+		vy-=2;
 	y+=vy;
 	health-=amount;
 	animation=1;
 	animationclearframes=20;
+	if (health<=0)
+	{
+		std::string message;
+
+		if (isWifi() && isHost()==false)
+		{
+			unsigned short buffer[10];
+			int client_id = getClientID();	
+			sprintf((char *)buffer,"%d", client_id);
+			message = (char*)buffer;
+		}		
+		else if (isWifi())
+			message = "The host";
+		else
+			message = "Steve";
+		if (type==CACTUS_HURT) message += " was pricked to death";
+		else if (type==VOID_HURT) message += " fell out of the world";
+		else message = " died";
+		message+="\n";
+		print_message((char*)message.c_str());
+	}
 }
 void playerMob::updateMob(worldObject* world)
 {
@@ -75,6 +101,7 @@ void playerMob::updateMob(worldObject* world)
 		}
 		else vy=0;
 		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
+		if (y>world_heightpx) hurt(3,VOID_HURT);
 		if (health<=0)
 		{
 			alive=false;
