@@ -6,9 +6,11 @@
 #include "graphics/graphics.h"
 #include "communications.h"
 #include "nifi.h"
+#include "titlescreen.h"
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
+extern bool LRC;
 bool incutscene = false;
 bool canPlaceBlocks=true;
 int framecounting=0;
@@ -72,12 +74,12 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		 updateBrightnessAround(world,x,y);
 		}
 	}
-	if (keys & (KEY_L | KEY_X))
+	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
 	{
 		selectedblock--;
 		calculateTopBlock();
 	}
-	else if (keys & (KEY_R | KEY_B))
+	else if ((keys & KEY_R && LRC==true) || (keys & KEY_B && LRC==false))
 	{
 		selectedblock++;
 		calculateTopBlock();
