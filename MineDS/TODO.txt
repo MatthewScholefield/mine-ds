@@ -3,7 +3,7 @@ Add ability to hit each other
 Create a mob that chases you.
 [s]When somebody dies they need to respawn.[/s]
 Players you have health point that can be decreased by falling into void, [s]cactus, or by not responding to ping's (Kill a player when they leave)[/s]
-
+Block updates on place and remove. (Cactus can't be placed in mid air, deleting bottom cactus removes all the cactus')
 
 --------------------- For next update ---------------------------------
 Make the world download during game play to speed the joining process up
@@ -12,10 +12,8 @@ Make the world download during game play to speed the joining process up
 	OR.
 	Create don't scroll into here blocks/mobs, that stops the camera scrolling into a non loaded chunk of the world.
 Inventory
-Crafting
-
---------Other(maybe a "Nature Update")--------
+Crafting  
 Tree leaf decay
 Grass growth
 Sapling growth
-
+Periodic Block updates (growth, furnace particles...)
