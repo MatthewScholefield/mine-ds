@@ -71,7 +71,6 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	{
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
-		int a;
 		char buffer[33];
 		int mobNum = isMobAt(touch.px+a,touch.py+b);
 		if (mobNum!=-1)

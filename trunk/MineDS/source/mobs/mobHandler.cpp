@@ -20,16 +20,14 @@ void mobHandlerHurtMobWifi(int mobNum,int amount, int type)
 {
 	if (mobs[mobNum]->host==true)
 	{
-		if (mobs[mobNum]->alive==true)
-			mobs[mobNum]->hurt(amount,type);
+		mobs[mobNum]->hurt(amount,type);
 	}
 }
 void mobHandlerHurtMob(int mobNum,int amount, int type)
 {
 	if (mobs[mobNum]->host==true)
 	{
-		if (mobs[mobNum]->alive==true)
-			mobs[mobNum]->hurt(amount,type);
+		mobs[mobNum]->hurt(amount,type);
 	}	
 	else if (isWifi())
 	{
@@ -41,7 +39,7 @@ int isMobAt(int x,int y)
 	int i;
 	for (i=0;i<=100;i++)
 	{
-		if (spritecol(mobs[i]->x,mobs[i]->y,x,y,mobs[i]->sx,mobs[i]->sy,2,2))
+		if (spritecol(mobs[i]->x,mobs[i]->y,x,y,mobs[i]->sx,mobs[i]->sy,2,2) && mobs[i]->alive==true)
 		{
 			return i;
 		}

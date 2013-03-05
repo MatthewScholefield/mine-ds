@@ -48,6 +48,8 @@ playerMob::playerMob(int a,int b)
 }
 void playerMob::hurt(int amount,int type)
 {
+	if (animation==1)
+		return;
 	if (type!=VOID_HURT)
 		vy-=2;
 	y+=vy;
