@@ -1,1 +1,2 @@
 int titlescreen();
+void drawBackground();

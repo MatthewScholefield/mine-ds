@@ -4,6 +4,7 @@
 #include "mining.h"
 #include <stdio.h>
 #include <nds.h>
+#include "titlescreen.h"
 bool deathScreenShow=true;
 touchPosition touch;
 int oldKeys;
@@ -14,8 +15,7 @@ void deathScreenSetup()
 		consoleClear();
 		lcdMainOnTop();
 		int i,j;
-		for (i=0;i<=32;i++)
-			for (j=0;j<=32;j++) setSubBgTile(i,j,0);
+		drawBackground();
 		for (i=0;i<=25;i++)
 			for (j=0;j<=6;j++)
 				setSubBgTile(i+2,j,i+(j*32)); //Draw the MineDS Logo!
@@ -47,8 +47,7 @@ bool deathScreenUpdate()
 		{
 			if (touch.px > 64 && touch.px < 176 && touch.py > 80 && touch.py < 96)
 			{
-				for (i=0;i<=32;i++)
-					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
+                                drawBackground();
 				deathScreenShow=true;
 				consoleClear();
 				printf("\n\n\n\n\n\n\n\n");
@@ -60,8 +59,7 @@ bool deathScreenUpdate()
 			else drawButton(8,10,14);
 			if (touch.px > 64 && touch.px < 176 && touch.py > 120 && touch.py < 136)
 			{	
-				for (i=0;i<=32;i++)
-					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
+                                drawBackground();
 				deathScreenShow=true;
 				miningSetScene(false);
 				return true;
