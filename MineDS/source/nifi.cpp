@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "mobs/mobHandler.h"
 #include "graphics/subBgHandler.h"
 #include "communications.h"
 #include "mining.h"
@@ -53,6 +54,13 @@ void Handler(int packetID, int readlength)
 		int test_id;
 		sscanf(packet,"%*s %d",&test_id);
 		if (test_id == server_id) show_message(&data[39+get_int_len(server_id)]);
+	}
+	else if (!strcmp("[HRT:",message))
+	{
+		int test_id;
+		int mobNum,amount,type;
+		sscanf(packet,"%*s %d %d %d %d",&test_id,&mobNum,&amount,&type);
+		if (test_id == server_id) mobHandlerHurtMobWifi(mobNum,amount,type);
 	}
 	else if (!strcmp("[REQ:",message))
 	{
