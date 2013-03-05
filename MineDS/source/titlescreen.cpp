@@ -42,18 +42,19 @@ void multiplayerScreen()
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
+			touchRead(&touch);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
-                                drawButtonColored(8,9,12);
+                                drawButtonColored(9,9,12);
 			else if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
-                                drawButtonColored(8,14,12);
+                                drawButtonColored(9,14,12);
                         else if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                                drawButton(25,19,4);
+                                drawButtonColored(25,19,4);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
-                                drawButtonColored(8,9,14);
+                                drawButtonColored(9,9,12);
 				for (i=0;i<=32;i++)
 					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
 				stopMusic();
@@ -61,7 +62,7 @@ void multiplayerScreen()
 				multiplayerGame(true);
 				chosen=true;
 			}
-			else drawButton(8,9,12);
+			else drawButton(9,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
 				for (i=0;i<=32;i++)
@@ -71,10 +72,9 @@ void multiplayerScreen()
 				multiplayerGame(false);
 				chosen=true;
 			}
-			else drawButton(8,14,12);
+			else drawButton(9,14,12);
                         if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                         {
-                          titlescreen();
                           chosen = true;
                 	}
                 	else drawButton(25,19,4);
@@ -110,23 +110,23 @@ void credits()
         while (!chosen)
         {
             scanKeys();
-	if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-	{
-		if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                        drawButtonColored(8,9,12);
-	}
-        else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-	{
-		if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
-                    settings();
-                    chosen = true;
+			touchRead(&touch);
+			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+		                drawButtonColored(25,19,4);
 		}
-		else drawButton(25,19,4);
-        }
-        	oldKeys=keysHeld();
-		touchRead(&touch);
-		swiWaitForVBlank();
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+		{
+			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			{
+		            chosen = true;
+			}
+			else drawButton(25,19,4);
+		}
+	oldKeys=keysHeld();
+	touchRead(&touch);
+	swiWaitForVBlank();
         }
 }
 void controls()
@@ -141,8 +141,16 @@ void controls()
 		for (j=0;j<=6;j++)
 			setSubBgTile(i+2,j,i+(j*32)); //Draws MineDS Logo!
 	//Draw Buttons
-	drawButton(9,9,12);
-	drawButton(9,14,12);
+	if (LRC)
+	{
+		drawButtonColored(8,9,12);
+		drawButton(8,14,12);
+	}
+	else
+	{
+		drawButton(8,9,12);
+		drawButtonColored(8,14,12);		
+	}
         drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
 	iprintf("\x1b[10;11HWith L R");
@@ -157,33 +165,30 @@ void controls()
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
-			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
-                                drawButtonColored(8,9,12);
-			else if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
-                                drawButtonColored(8,14,12);
-                        else if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                                drawButtonColored(8,9,12);
+			touchRead(&touch);
+			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+                                drawButtonColored(25,19,4);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
                                 LRC = true;
-                                settings();
-				chosen=true;
+				drawButtonColored(8,9,12);
+				drawButton(8,14,12);	
 			}
 			else drawButton(8,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
                                 LRC = false;
-                                settings();
-				chosen=true;
+				drawButton(8,9,12);
+				drawButtonColored(8,14,12);
 			}
 			else drawButton(8,14,12);
                         if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                         {
-                          settings();
-                          chosen = true;
+                          chosen = true;	//Will return to previous function when chosen is true.
+						//No need to call settings...
                 	}
                 	else drawButton(25,19,4);
 		}
@@ -191,6 +196,20 @@ void controls()
 		touchRead(&touch);
 		swiWaitForVBlank();
 	}
+}
+void settings_redraw()
+{
+	int i,j;
+	for (i=0;i<=32;i++)
+		for (j=7;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen execpt for MineDS Logo!
+	//Draw Buttons
+	drawButton(8,9,12);
+	drawButton(8,14,12);
+        drawButton(25,19,4); //Back button
+	consoleClear(); //Removes All text from the screen
+	iprintf("\x1b[10;12HControls");
+	iprintf("\x1b[15;12HCredits");
+        iprintf("\x1b[20;26HBack");
 }
 void settings()
 {
@@ -204,8 +223,8 @@ void settings()
 		for (j=0;j<=6;j++)
 			setSubBgTile(i+2,j,i+(j*32)); //Draw the MineDS Logo!
 	//Draw Buttons
-	drawButton(9,9,12);
-	drawButton(9,14,12);
+	drawButton(8,9,12);
+	drawButton(8,14,12);
         drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
 	iprintf("\x1b[10;12HControls");
@@ -220,30 +239,30 @@ void settings()
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
+			touchRead(&touch);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
                                 drawButtonColored(8,9,12);
 			else if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
                                 drawButtonColored(8,14,12);
                         else if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                                drawButtonColored(8,9,12);
+                                drawButtonColored(25,19,4);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
                                 controls();
-				chosen=true;
+				settings_redraw();
 			}
 			else drawButton(8,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{
                                 credits();
-				chosen=true;
+				settings_redraw();
 			}
 			else drawButton(8,14,12);
                         if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                         {
-                                titlescreen();
                                 chosen = true;
                 	}
                 	else drawButton(25,19,4);
@@ -253,14 +272,29 @@ void settings()
 		swiWaitForVBlank();
 	}
 }
+void titlescreen_redraw()
+{
+	int i,j;
+ 	for (i=0;i<=32;i++)
+		for (j=7;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen execpt for MineDS Logo
+	//Lets start the buttons on line 8!
+	drawButton(8,9,14);
+	drawButton(8,14,14);
+        drawButton(8,19,14);
+	//Clear the screen!
+	consoleClear();
+	//Print the Buttons
+	iprintf("\x1b[10;9HSingle Player");
+	iprintf("\x1b[15;10HMulti Player");
+        iprintf("\x1b[20;12HSettings");
+}
 int titlescreen()
 {
-    
-if (musicIsOn != 1)
-{
-    playMusic(CALM);
-    musicIsOn = 1;
-}
+	if (musicIsOn != 1)
+	{
+	    playMusic(CALM);
+	    musicIsOn = 1;
+	}
 	uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
@@ -323,7 +357,7 @@ if (musicIsOn != 1)
 			{
 
 				settings();
-				chosen=true;
+				titlescreen_redraw();
 			}
 			else drawButton(8,19,14);
 			
