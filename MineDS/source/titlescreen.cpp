@@ -14,17 +14,53 @@ int musicIsOn = 0;
 void settings(); //forward statements
 int titlescreen();
 
+void drawBackground() //Draws dirt background and MineDS Logo
+{
+        
+        int i,j; // They are famous variables :P
+        int k=90;
+        int l=122;
+        for (i=0;i<=24;i=i+2)
+        {
+		for (j=0;j<=31;j++)
+                {
+                    setSubBgTile(j,i,k);//Draws dirt Background
+                    if (k == 90)
+                    {
+                        k++;
+                    }
+                    else if (k!=90)
+                    {
+                        k=90;
+                    }
+                }
+        }
+        for (i=-1;i<=24;i=i+2)
+        {
+		for (j=0;j<=31;j++)
+                {
+                    setSubBgTile(j,i,l);
+                    if (l == 122)
+                    {
+                       l++;
+                    }
+                    else if (l != 122)
+                    {
+                       l=122;
+                    }
+                }
+        }
+        for (i=0;i<=25;i++)
+		for (j=0;j<=6;j++)
+			setSubBgTile(i+2,j,i+(j*32)); //Draw the MineDS Logo!
+}
+
 void multiplayerScreen()
 {
-        int i,j;
 	uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
-	for (i=0;i<=32;i++)
-		for (j=0;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen by placing black tiles repeatedly  (Is there a command for this?)
-	for (i=0;i<=25;i++)
-		for (j=0;j<=6;j++)
-			setSubBgTile(i+2,j,i+(j*32)); //Draw the MineDS Logo!
+        drawBackground();
 	//Draw Buttons
 	drawButton(9,9,12);
 	drawButton(9,14,12);
@@ -55,8 +91,7 @@ void multiplayerScreen()
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
                                 drawButtonColored(9,9,12);
-				for (i=0;i<=32;i++)
-					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
+                                drawBackground();
 				stopMusic();
                                 musicIsOn=false;
 				multiplayerGame(true);
@@ -65,8 +100,7 @@ void multiplayerScreen()
 			else drawButton(9,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
-				for (i=0;i<=32;i++)
-					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
+                                drawBackground();
 				stopMusic();
                                 musicIsOn=false;
 				multiplayerGame(false);
@@ -86,16 +120,10 @@ void multiplayerScreen()
 }
 void credits()
 {
-        
-        int i,j; //Defining them for later
         uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
-	for (i=0;i<=32;i++)
-		for (j=0;j<=32;j++) setSubBgTile(i,j,0); //Clears screen
-        for (i=0;i<=25;i++)
-		for (j=0;j<=6;j++)
-			setSubBgTile(i+2,j,i+(j*32)); //Draws MineDS Logo!
+        drawBackground();
 	drawButton(9,9,12);
 	drawButton(9,14,12);
         drawButton(7,19,16);
@@ -131,25 +159,20 @@ void credits()
 }
 void controls()
 {
-        int i,j; //Defining them for later
         uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
-	for (i=0;i<=32;i++)
-		for (j=0;j<=32;j++) setSubBgTile(i,j,0); //Clears screen
-	for (i=0;i<=25;i++)
-		for (j=0;j<=6;j++)
-			setSubBgTile(i+2,j,i+(j*32)); //Draws MineDS Logo!
+        drawBackground();
 	//Draw Buttons
 	if (LRC)
 	{
-		drawButtonColored(8,9,12);
-		drawButton(8,14,12);
+		drawButtonColored(9,9,11);
+		drawButton(8,14,13);
 	}
 	else
 	{
-		drawButton(8,9,12);
-		drawButtonColored(8,14,12);		
+		drawButton(9,9,11);
+		drawButtonColored(8,14,13);		
 	}
         drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
@@ -174,17 +197,17 @@ void controls()
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
                                 LRC = true;
-				drawButtonColored(8,9,12);
-				drawButton(8,14,12);	
+				drawButtonColored(9,9,11);
+				drawButton(8,14,13);	
 			}
-			else drawButton(8,9,12);
+			else drawButton(9,9,11);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
                                 LRC = false;
-				drawButton(8,9,12);
-				drawButtonColored(8,14,12);
+				drawButton(9,9,11);
+				drawButtonColored(8,14,13);
 			}
-			else drawButton(8,14,12);
+			else drawButton(8,14,13);
                         if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                         {
                           chosen = true;	//Will return to previous function when chosen is true.
@@ -199,12 +222,10 @@ void controls()
 }
 void settings_redraw()
 {
-	int i,j;
-	for (i=0;i<=32;i++)
-		for (j=7;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen execpt for MineDS Logo!
+        drawBackground();
 	//Draw Buttons
-	drawButton(8,9,12);
-	drawButton(8,14,12);
+	drawButton(10,9,10);
+	drawButton(10,14,10);
         drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
 	iprintf("\x1b[10;12HControls");
@@ -213,18 +234,13 @@ void settings_redraw()
 }
 void settings()
 {
-        int i,j; //I might as well define them for later
         uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
-	for (i=0;i<=32;i++)
-		for (j=0;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen
-	for (i=0;i<=25;i++)
-		for (j=0;j<=6;j++)
-			setSubBgTile(i+2,j,i+(j*32)); //Draw the MineDS Logo!
+        drawBackground();
 	//Draw Buttons
-	drawButton(8,9,12);
-	drawButton(8,14,12);
+	drawButton(10,9,10);
+	drawButton(10,14,10);
         drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
 	iprintf("\x1b[10;12HControls");
@@ -241,9 +257,9 @@ void settings()
 		{
 			touchRead(&touch);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
-                                drawButtonColored(8,9,12);
+                                drawButtonColored(10,9,10);
 			else if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
-                                drawButtonColored(8,14,12);
+                                drawButtonColored(10,14,10);
                         else if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                                 drawButtonColored(25,19,4);
 		}
@@ -254,13 +270,13 @@ void settings()
                                 controls();
 				settings_redraw();
 			}
-			else drawButton(8,9,12);
+			else drawButton(10,9,10);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{
                                 credits();
 				settings_redraw();
 			}
-			else drawButton(8,14,12);
+			else drawButton(10,14,10);
                         if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                         {
                                 chosen = true;
@@ -275,8 +291,7 @@ void settings()
 void titlescreen_redraw()
 {
 	int i,j;
- 	for (i=0;i<=32;i++)
-		for (j=7;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen execpt for MineDS Logo
+        drawBackground();
 	//Lets start the buttons on line 8!
 	drawButton(8,9,14);
 	drawButton(8,14,14);
@@ -298,12 +313,7 @@ int titlescreen()
 	uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
-	int i,j; // They are famous variables :P
-        for (i=0;i<=32;i++)
-		for (j=0;j<=32;j++) setSubBgTile(i,j,0); //Clears the screen
-	for (i=0;i<=25;i++)
-		for (j=0;j<=6;j++)
-			setSubBgTile(i+2,j,i+(j*32)); // Show the "MineDS Logo!"
+        drawBackground();
 	//Lets start the buttons on line 8!
 	drawButton(8,9,14);
 	drawButton(8,14,14);
@@ -336,9 +346,8 @@ int titlescreen()
 		{
 			if (touch.px > 64 && touch.px < 184 && touch.py > 72 && touch.py < 96)
 			{
-				//drawButtonColored(8,9,14);
-				for (i=0;i<=32;i++)
-					for (j=7;j<=32;j++) setSubBgTile(i,j,0);
+				drawButtonColored(8,9,14);
+                                drawBackground();
 				consoleClear();
 				stopMusic();
                                 musicIsOn=0;
