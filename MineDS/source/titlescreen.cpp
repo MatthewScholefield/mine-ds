@@ -124,14 +124,16 @@ void credits()
 	touchPosition touch;
 	lcdMainOnTop();
         drawBackground();
-	drawButton(9,9,12);
-	drawButton(9,14,12);
-        drawButton(7,19,16);
+	drawButton(11,8,7);
+	drawButton(9,12,11);
+        drawButton(5,16,21);
+        drawButton(7,20,16);
         drawButton(25,19,4);//Back button
         consoleClear();
-        iprintf("\x1b[10;11HMine DS");
-	iprintf("\x1b[15;11HCoded by");
-        iprintf("\x1b[20;9HCoolAs and Ray");
+        iprintf("\x1b[9;12HMine DS");
+	iprintf("\x1b[13;11HCoded by");
+        iprintf("\x1b[17;6HCoolAs, Ray, Dirbaio,");
+        iprintf("\x1b[21;9Hand Wolfgange");
         iprintf("\x1b[20;26HBack");
 	scanKeys();
         bool chosen=false;
