@@ -89,6 +89,7 @@ void baseMobInit()
 }
 void baseMob::hurt(int amount,int type)
 {
+	
 	health-=amount;
 	animation=1;
 	animationclearframes=20;

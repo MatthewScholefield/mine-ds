@@ -158,6 +158,13 @@ void matchBlocksHost(int client_id,int x,int y,int block,int bgblock)
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 	}
 }
+void wifiHurtMob(int mobNum,int amount,int type)
+{
+	unsigned short buffer[100];
+	int server_id = getServerID();
+	sprintf((char *)buffer,"[HRT: %d %d %d %d",server_id, mobNum, amount, type);
+	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);		
+}
 void sendMobUpdater(baseMob* mob,int mobNum)
 {
 	unsigned short buffer[100];

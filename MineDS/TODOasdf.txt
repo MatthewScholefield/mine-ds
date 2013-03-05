@@ -1,9 +1,9 @@
 [s]Add Block Selection Screen with the X button[/s] Made X and B do the same for now.
-Add ability to hit each other
+[s]Add ability to hit each other[/s]
 Create a mob that chases you.
 [s]Death Messages[/s]
 [s]When somebody dies they need to respawn.[/s]
-Players you have health point that can be decreased by falling into void, [s]cactus, or by not responding to ping's (Kill a player when they leave)[/s]
+[s]Players you have health point that can be decreased by falling into void, cactus, or by not responding to ping's (Kill a player when they leave)[/s]
 Block updates on place and remove. (Cactus can't be placed in mid air, deleting bottom cactus removes all the cactus')
 
 --------------------- For next update ---------------------------------
