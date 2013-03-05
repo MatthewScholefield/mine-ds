@@ -2,9 +2,13 @@
 #include "worldRender.h"
 #include "blockID.h"
 #include <nds.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include "mobs/hurt.h"
+#include "mobs/mobHandler.h"
 #include "graphics/graphics.h"
 #include "communications.h"
+#include "message.h"
 #include "nifi.h"
 #include "titlescreen.h"
 int selectedblock=0;
@@ -68,7 +72,13 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
 		int a;
-		if (canPlaceBlocks && !incutscene)
+		char buffer[33];
+		int mobNum = isMobAt(touch.px+a,touch.py+b);
+		if (mobNum!=-1)
+		{
+			mobHandlerHurtMob(mobNum,1,PLAYER_HURT);	
+		}
+		else if (canPlaceBlocks && !incutscene)
 		{
 		 setBlock(world,x,y);
 		 updateBrightnessAround(world,x,y);
