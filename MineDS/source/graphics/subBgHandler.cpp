@@ -74,12 +74,12 @@ void drawButtonColored(int x,int y, int sizex)
 	setSubBgTile(x,y+2,58,V_FLIP);
 	setSubBgTile(x+sizex,y,58,H_FLIP);
 	setSubBgTile(x+sizex,y+2,58,BOTH_FLIP);
-	for(i=0;i<=13;i++)
+	for(i=0;i<=sizex-1;i++)
 		setSubBgTile(x+1+i,y,62);
-	for(i=0;i<=13;i++)
+	for(i=0;i<=sizex-1;i++)
 		setSubBgTile(x+1+i,y+2,62,V_FLIP);
 	setSubBgTile(x,y+1,59);
 	setSubBgTile(x+sizex,y+1,59,H_FLIP);
-	for (i=0;i<=13;i++)
+	for(i=0;i<=sizex-1;i++)
 		setSubBgTile(x+1+i,y+1,60 + (i%2));
 }
