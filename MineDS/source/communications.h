@@ -16,3 +16,4 @@ void confirmBlock(int client_id,int x,int y);
 void clientConfirmBlock(int x,int y);
 void matchBlocksHost(int client_id,int x,int y,int block,int bgblock);
 void killMob(int mobNum);
+void wifiHurtMob(int mobNum,int amount,int type);

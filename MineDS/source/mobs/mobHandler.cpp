@@ -7,13 +7,47 @@
 #include "../nifi.h"
 #include "../communications.h"
 #include "mobMPlayer.h"
+#include "../colision.h"
 #include "../deathScreen.h"
+#include "../message.h"
 baseMob* mobs[100];
 bool hasSpawnPlayer;
 int playerId;
 bool spawnPlayerAtPos;
 bool playerDeathRespawn;
 int spawn_x,spawn_y;
+void mobHandlerHurtMobWifi(int mobNum,int amount, int type)
+{
+	if (mobs[mobNum]->host==true)
+	{
+		if (mobs[mobNum]->alive==true)
+			mobs[mobNum]->hurt(amount,type);
+	}
+}
+void mobHandlerHurtMob(int mobNum,int amount, int type)
+{
+	if (mobs[mobNum]->host==true)
+	{
+		if (mobs[mobNum]->alive==true)
+			mobs[mobNum]->hurt(amount,type);
+	}	
+	else if (isWifi())
+	{
+		wifiHurtMob(mobNum,amount,type);
+	}
+}
+int isMobAt(int x,int y)
+{
+	int i;
+	for (i=0;i<=100;i++)
+	{
+		if (spritecol(mobs[i]->x,mobs[i]->y,x,y,mobs[i]->sx,mobs[i]->sy,2,2))
+		{
+			return i;
+		}
+	}
+	return -1;
+}
 void mobHandlerRespawnPlayer()
 {
 	delete mobs[playerId];
