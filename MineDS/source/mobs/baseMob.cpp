@@ -23,17 +23,18 @@ baseMob::baseMob()
 }
 baseMob::baseMob(int a,int b)
 {
-	gravity=8;
-	gravityValue=8;
-	sx=16;
+	gravity=4;
+	gravityValue=4;
+	sx=6;
 	sy=32;
 	x=a;
-	ping=0;
 	y=b;
 	vy=0;
 	vx=0;
-	onground=false;
 	alive=false;
+	onground=false;
+	facing=false;
+	ping = 0;
 	mobtype=0;
 	health=10;
 	animationclearframes=0;
