@@ -8,7 +8,7 @@
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
-bool  LRC = true; //LR Controls Boolean
+bool  LRC = false; //LR Controls Boolean
 int musicIsOn = 0;
 
 void settings(); //forward statements
