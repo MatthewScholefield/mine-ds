@@ -29,8 +29,8 @@ playerMob::playerMob()
 
 playerMob::playerMob(int a,int b)
 {
-	gravity=4;
-	gravityValue=4;
+	gravity=3;
+	gravityValue=3;
 	sx=6;
 	sy=32;
 	x=a;
