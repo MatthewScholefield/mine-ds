@@ -8,7 +8,8 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 {
 	if (mob->host)
 	{
-		mob -> gravityValue--;
+		if (mob -> colisions[0]==false) mob -> gravityValue--;
+		else mob->gravityValue = mob->gravity;
 		if (mob -> gravityValue == 0)
 		{
 			mob -> vy+=1;
