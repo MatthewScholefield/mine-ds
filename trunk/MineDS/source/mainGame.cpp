@@ -54,7 +54,7 @@ void mainGame(int Mode)
 		else if (texty<64) up=false;
 		for (i=0;i<=8;i++)
 		{
-			showGraphic(&graphics[i],i*8+128,texty);
+			showGraphic(&graphics[i],i*8+186,texty);
 		}
 		//showGraphic(&graphics[9],0,0);
 		swiWaitForVBlank();
