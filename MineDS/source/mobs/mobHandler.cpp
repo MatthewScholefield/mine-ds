@@ -17,6 +17,32 @@ int playerId;
 bool spawnPlayerAtPos;
 bool playerDeathRespawn;
 int spawn_x,spawn_y;
+baseMob* mobHandlerFindMob(int range,int type,int x,int y)
+{
+	int closest=range * range + 1;
+	int mobNum=-1;
+	int i;
+	for (i=0;i<=100;i++)
+	{
+		if (mobs[i]->mobtype==type)
+		{
+			if (mobs[i]->x > x-range && mobs[i]->x < x+range)
+				if(mobs[i]->y > y-range && mobs[i]->y < y+range)
+				{
+					int tmp = abs(mobs[i]->x - x) + abs(mobs[i]->y - y);
+					if (tmp < closest)
+					{
+						closest = tmp;
+						mobNum = i;
+					}
+				} 
+		}
+	}
+	if (mobNum != -1)
+	{
+		return mobs[mobNum];
+	}
+}
 void mobHandlerHurtMobWifi(int mobNum,int amount, int type)
 {
 	if (mobs[mobNum]->host==true)
@@ -103,6 +129,31 @@ bool canMobSpawnHere(int mobId,worldObject* world, int a, int b)
 		default: break;
 	}
 	return false;
+}
+void spawnMobOn(int mobId,worldObject* world,int j)
+{
+	int i;
+	for (i=0;i<=WORLD_HEIGHT;i++)
+		if (canMobSpawnHere(mobId,world,j,i))
+		{
+			int mobNum=findFreeMobSpawnNum();
+			if (mobNum!=-1)
+			{
+				delete mobs[mobNum]; //Free Memory and Stop Crashes
+				switch(mobId)
+				{
+					case 0: mobs[mobNum]= new baseMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+					case 1: mobs[mobNum]= new playerMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+					case 2: mobs[mobNum]= new MplayerMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+					case 3: mobs[mobNum]= new zombieMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+					default: break;
+				}
+				mobs[mobNum]->host=true;
+			}
+			else printf("Can't find number\n");
+			i=WORLD_HEIGHT+1;
+			j=WORLD_WIDTH+1;
+		}
 }
 void spawnMob(int mobId,worldObject* world)
 {
@@ -191,6 +242,7 @@ void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,w
 }
 void mobHandlerUpdate(worldObject* world)
 {
+	int badMobs = 0;
 	if (!hasSpawnPlayer || !playerDeathRespawn)
 	{
 		spawnMob(1,world);
@@ -210,6 +262,8 @@ void mobHandlerUpdate(worldObject* world)
 		}
 		if (mobs[i]->alive==true)
 		{
+			if (mobs[i]->mobtype==3)
+				badMobs++;
 			calculateMiscData(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;
@@ -236,6 +290,6 @@ void mobHandlerUpdate(worldObject* world)
 		}
 		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
-	if (keysDown() & KEY_Y) spawnMob(3,world);
+	if (keysDown() & KEY_Y && badMobs<=4) spawnMobOn(3,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
 
 }

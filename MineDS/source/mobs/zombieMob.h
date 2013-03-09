@@ -16,6 +16,8 @@ class zombieMob : public baseMob
 	bool host; // Was this mob spawn'd by this nds?*/
     //bool potioneffects[5];
 	int jump;
+	baseMob* target;
+	int notarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
