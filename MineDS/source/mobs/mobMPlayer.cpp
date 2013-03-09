@@ -17,6 +17,8 @@ MplayerMob::MplayerMob()
 	alive=false;
 	onground=false;
 	animation=0;
+	sx=6;
+	sy=32;
 	mobtype=2;
 	ping=0;
 }
