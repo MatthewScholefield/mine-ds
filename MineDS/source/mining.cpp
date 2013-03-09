@@ -11,6 +11,7 @@
 #include "message.h"
 #include "nifi.h"
 #include "titlescreen.h"
+#define NUM_BLOCKS 47
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
@@ -93,7 +94,16 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		selectedblock++;
 		calculateTopBlock();
 	}
-	if (selectedblock<=0) selectedblock=0;
+	if (selectedblock<0)
+	{
+	 selectedblock=NUM_BLOCKS;
+	 calculateTopBlock();
+	}
+	else if (selectedblock>NUM_BLOCKS)
+	{
+	 selectedblock=0;
+	 calculateTopBlock();
+	}
 	if (selectedblock!=0) showGraphic(&topBlock,0,0);
 	if (canPlaceBlocks==false) framecounting++;
 	if (framecounting>60)
