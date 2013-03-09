@@ -57,6 +57,10 @@ void zombieMob::updateMob(worldObject* world)
 		jump++;
 		if (colisions[0]==false) y+=vy;
 		else vy=0;
+		if (target->x > x-4 && target->x < x+4)
+		{
+			jump=0;
+		}
 		if (target->mobtype!=2)
 		{
 			notarget++;
