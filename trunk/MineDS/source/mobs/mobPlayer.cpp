@@ -12,6 +12,7 @@
 #include <nds.h>
 //ASDF?
 Graphic playerMobGraphic[3];
+Graphic hearts[2];
 playerMob::playerMob()
 {
 	x=0;
@@ -25,6 +26,7 @@ playerMob::playerMob()
 	mobtype=2;
 	health=20;
 	ping=0;
+	reheal=0;
 }
 
 playerMob::playerMob(int a,int b)
@@ -45,6 +47,7 @@ playerMob::playerMob(int a,int b)
 	ping=0;
 	animation=0;
 	timeTillWifiUpdate=rand()%4+4;
+	reheal=0;
 }
 void playerMob::hurt(int amount,int type)
 {
@@ -80,10 +83,21 @@ void playerMob::hurt(int amount,int type)
 		print_message((char*)message.c_str());
 	}
 }
+void showHealth(int health)
+{
+	int i;
+	for (i=0;i<health-1;i+=2)
+	{
+		showGraphic(&hearts[0],i*4,56);
+	}
+	if (health%2)
+		showGraphic(&hearts[1],i*4,56);
+}
 void playerMob::updateMob(worldObject* world)
 {
 	if (host)
 	{
+		reheal++;
 		ping=0;
 		world->CamX=x-256/2;
 		world->CamY=y-192/2;
@@ -112,6 +126,13 @@ void playerMob::updateMob(worldObject* world)
 		}
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
+		if (reheal>300)
+		{
+			if (health<20)
+				health++;
+			reheal=0;
+		}
+		showHealth(health);
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
 	{
@@ -143,5 +164,7 @@ void playerMobInit()
 {
 	loadGraphic(&playerMobGraphic[0],true,0);
 	loadGraphic(&playerMobGraphic[1],true,1);
+	loadGraphicSub(&hearts[0],0,0);
+	loadGraphicSub(&hearts[1],0,1);
 }
 
