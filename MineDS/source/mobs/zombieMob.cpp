@@ -93,7 +93,7 @@ void zombieMob::updateMob(worldObject* world)
 		//iprintf("colisions = %d\n",colisions[0]);
 		if (spritecol(x,y,target->x,target->y,sx,sy,target->sx,target->sy))
 		{
-			target->hurt(2,ZOMBIE_HURT);
+			mobHandlerHurtMob(target->mobId,2,ZOMBIE_HURT);
 		}
 	}
 }
