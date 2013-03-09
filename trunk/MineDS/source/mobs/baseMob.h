@@ -23,6 +23,7 @@ class baseMob
 	int health; //Health of the mob, 0 is dead ;)
 	int timeTillWifiUpdate;
 	int ping;
+	int mobId; // Needed for chasing mobs
 	bool host; // Was this mob spawn'd by this nds?
 	bool colisions[5];
     //bool potioneffects[5];

@@ -40,6 +40,7 @@ baseMob* mobHandlerFindMob(int range,int type,int x,int y)
 	}
 	if (mobNum != -1)
 	{
+		mobs[mobNum]->mobId=mobNum;
 		return mobs[mobNum];
 	}
 }
