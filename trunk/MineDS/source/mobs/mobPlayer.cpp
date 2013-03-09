@@ -73,7 +73,8 @@ void playerMob::hurt(int amount,int type)
 			message = "Steve";
 		if (type==CACTUS_HURT) message += " was pricked to death";
 		else if (type==VOID_HURT) message += " fell out of the world";
-		else if (type==PLAYER_HURT) message += " was killed by a player";		
+		else if (type==PLAYER_HURT) message += " was killed by a player";	
+		else if (type==ZOMBIE_HURT) message += " was eaten by a zombie";		
 		else message += " died";
 		message+="\n";
 		print_message((char*)message.c_str());
