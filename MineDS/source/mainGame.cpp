@@ -11,16 +11,13 @@
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
 #include "deathScreen.h"
-int texty;
 bool up;
-char text[]={'M','i','n','e','c','r','a','f','t'};
 Graphic graphics[10];
 void mobHandlerUpdate(worldObject* world);
 void mainGame(int Mode)
 {
 	mobsReset();
 	consoleClear();
-	texty=64;
 	lcdMainOnBottom();
 	iprintf("\x1b[7;0HGenerating world...\n");
 	touchPosition touch;
@@ -34,29 +31,14 @@ void mainGame(int Mode)
 	}	
 	CurrentWorld->CamX=0;
 	CurrentWorld->CamY=0;
-	for (i=0;i<=8;i++)
-	{
-		loadGraphicSub(&graphics[i],1, text[i]);
-	}
 	//loadGraphicSub(&graphics[9],2,8);
 	consoleClear();	
-	print_message("Done!\n");
 	while(1){
 		scanKeys();
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
 		update_message();
 		if (keysDown() & KEY_START) break;
-		//if (keysDown() & KEY_A) Calculate_Brightness(CurrentWorld);
-		if (up) texty--;
-		else texty++;
-		if (texty>96) up=true;
-		else if (texty<64) up=false;
-		for (i=0;i<=8;i++)
-		{
-			showGraphic(&graphics[i],i*8+186,texty);
-		}
-		//showGraphic(&graphics[9],0,0);
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
