@@ -3,10 +3,11 @@
 [s]Can break both bg layers at once.[/s]
 [s]Log in foreground should be solid[/s]
 [s]When a player leaves it creates a ghost.[/s]
-With many mobs world transfers very slow
+[s]With many mobs world transfers very slow
 	Ideas:
 	Make Wifi Updates for mobs slower during a world download.
 		(How do we know if somebody quits during a download?)
 	Kill all non human mobs when a block request is recieved.
-	Don't take notice of mob updates on the client when downloading the world
+	Don't take notice of mob updates on the client when downloading the world[/s]
+	We had other issues with many mobs, you can only spawn five at the moment which fixes the issue. (Anyway five mobs are extremely hard to kill without dying)
 
