@@ -10,6 +10,7 @@
 #include "communications.h"
 #include "message.h"
 #include "nifi.h"
+#include "blockupdate.h"
 #include "titlescreen.h"
 #define NUM_BLOCKS 47
 int selectedblock=0;
@@ -46,63 +47,31 @@ void setBlock(worldObject* world, int x,int y)
 	}
 	if (world->blocks[x][y]==AIR && something)
 	{
-		if ((keysHeld() & KEY_DOWN) || (selectedblock==CACTUS && (world->bgblocks[x][y+1]==SAND || world->bgblocks[x][y+1]==CACTUS)))
+		if ((keysHeld() & KEY_DOWN))
                 {
-                    world->bgblocks[x][y]=selectedblock;
-                    if (selectedblock==SNOW_TOP && (world->bgblocks[x][y+1]==GRASS || world->bgblocks[x][y+1]==DIRT))
-                {
-                        world->bgblocks[x][y+1]=SNOW_GRASS;
+        		world->bgblocks[x][y]=selectedblock;
+			checkBlockPlace(x,y,world,true);		
                 }
-                }
-                else if ((selectedblock==RED_FLOWER || selectedblock==YELLOW_FLOWER || selectedblock==TORCH) && world->bgblocks[x][y+1]!=AIR && world->bgblocks[x][y+1]!=RED_FLOWER && world->bgblocks[x][y+1]!=YELLOW_FLOWER && world->bgblocks[x][y+1]!=TORCH && world->bgblocks[x][y+1]!=SNOW_TOP)
-                    world->blocks[x][y]=selectedblock;
-                else if (selectedblock==SNOW_TOP && (world->blocks[x][y+1]==GRASS || world->blocks[x][y+1]==DIRT))
-                {
-                        world->blocks[x][y]=selectedblock;
-                        world->blocks[x][y+1]=SNOW_GRASS;
-                }
-		else if (selectedblock!=CACTUS && selectedblock!=SNOW_TOP && selectedblock!=RED_FLOWER && selectedblock!=YELLOW_FLOWER && selectedblock!=TORCH)
-                {
-                    world->blocks[x][y]=selectedblock;
-                }
+                else 
+		{
+			world->blocks[x][y]=selectedblock;
+			checkBlockPlace(x,y,world,false);
+		}
 	}
 	else if (world->blocks[x][y]!=AIR)
 	{
-                if (world->blocks[x][y]==SNOW_TOP)
-                {
-                        world->blocks[x][y+1]=GRASS;
-                        if (world->bgblocks[x][y]==SNOW_TOP)
-                            world->bgblocks[x][y]=AIR;
-                }
                 world->blocks[x][y]=AIR;
-                if ((world->blocks[x][y-1]==SNOW_TOP) || (world->bgblocks[x][y-1]==SNOW_TOP))
-                {
-                        world->blocks[x][y-1]=AIR;
-                        world->bgblocks[x][y-1]=AIR;
-                }
+		checkBlockDelete(x,y,world,false);
 	}
 	else if (world->blocks[x][y]==AIR)
 	{
-                if (world->bgblocks[x][y]==SNOW_TOP)
-                    world->bgblocks[x][y+1]=GRASS;
                 world->bgblocks[x][y]=AIR;
-                while ((world->blocks[x][y-c]==CACTUS) || (world->bgblocks[x][y-c]==CACTUS))
-                {
-                        world->blocks[x][y-c]=AIR;
-                        world->bgblocks[x][y-c]=AIR;
-                        c++;
-                }
-                if ((world->blocks[x][y-1]==SNOW_TOP) || (world->bgblocks[x][y-1]==SNOW_TOP))
-                {
-                        world->blocks[x][y-1]=AIR;
-                        world->bgblocks[x][y-1]=AIR;
-                }
+		checkBlockDelete(x,y,world,true);
 	}
 	else return;
 	//Send a WIFI Update now, if wifi is enabled!
 	if (isWifi())
 	{
-		canPlaceBlocks=false;
 		last_x=x;
 		last_y=y;
 		placeBlock(x,y);

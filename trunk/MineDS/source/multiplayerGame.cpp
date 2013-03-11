@@ -32,7 +32,10 @@ void multiplayerGame(bool host)
 		while (!hostNifiInit()) swiWaitForVBlank();
 		communicationInit(world);
 		consoleClear();
-		print_message("Done!\n");
+		unsigned short buffer[100];
+		int server_id = getServerID();	
+		sprintf((char *)buffer,"Server ID: %d\n", server_id);			
+		print_message((char *)buffer);	
 	}
 	else
 	{
@@ -45,7 +48,6 @@ void multiplayerGame(bool host)
 		if (doHandshake())
 		{
 			recieveWorld(world);
-			iprintf("WOOT\n");
 			Calculate_Brightness(world);
 		}
 		else return;
