@@ -4,7 +4,7 @@ Create a mob that chases you.
 [s]Death Messages[/s]
 [s]When somebody dies they need to respawn.[/s]
 [s]Players you have health point that can be decreased by falling into void, cactus, or by not responding to ping's (Kill a player when they leave)[/s]
-Block updates on place and remove. (Cactus can't be placed in mid air, deleting bottom cactus removes all the cactus')
+[s]Block updates on place and remove. (Cactus can't be placed in mid air, deleting bottom cactus removes all the cactus')[/s]
 
 --------------------- For next update ---------------------------------
 Make the world download during game play to speed the joining process up
