@@ -7,10 +7,15 @@ Although this is self explanatory for most people, below lists the steps needed 
 = Details =
 
 1. Make sure you have a working flashcard for your DS (If you don't, buy any one for your system). Link: http://goo.gl/NsTaM
+
 2. Make sure you have a micro SD card and a reader.
 3. Connect your SD card to the computer.
+
 4. Download Mine DS .nds file.
+
 5. Copy the downloaded file to your SD card.
+
 6. Take it out and place in your flashcard.
+
 7. When booted up, select Mine DS.
 Done.
