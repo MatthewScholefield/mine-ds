@@ -10,7 +10,6 @@
 
 bool  LRC = false; //LR Controls Boolean
 int musicIsOn = 0;
-int GM; //Gamemode: 1 is Creative, 2 is Survival
 
 void settings(); //forward statements
 int titlescreen();
@@ -291,76 +290,9 @@ void settings()
 		swiWaitForVBlank();
 	}
 }
-void gameMode()
-{
-        uint oldKeys;
-	touchPosition touch;
-	lcdMainOnTop();
-        drawBackground();
-	//Draw Buttons
-	drawButton(10,9,10);
-	drawButton(10,14,10);
-        drawButton(25,19,4); //Back button
-	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[10;12HCreative");
-	iprintf("\x1b[15;12HSurvival");
-        iprintf("\x1b[20;26HBack");
-	scanKeys();
-	oldKeys=keysHeld();
-	swiWaitForVBlank(); // Get "newKeys"
-	bool chosen=false;
-	while (!chosen)
-	{
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			touchRead(&touch);
-			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
-                                drawButtonColored(10,9,10);
-			else if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
-                                drawButtonColored(10,14,10);
-                        else if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                                drawButtonColored(25,19,4);
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
-			{
-                                GM=1;
-                                drawButtonColored(8,9,14);
-                                drawBackground();
-				consoleClear();
-				stopMusic();
-                                musicIsOn=0;
-				mainGame(0);
-                                chosen=true;
-			}
-			else drawButton(10,9,10);
-			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
-			{
-                                GM=2;
-                                drawButtonColored(8,9,14);
-                                drawBackground();
-				consoleClear();
-				stopMusic();
-                                musicIsOn=0;
-				mainGame(0);
-                                chosen=true;
-			}
-			else drawButton(10,14,10);
-                        if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                        {
-                                chosen = true;
-                	}
-                	else drawButton(25,19,4);
-		}
-		oldKeys=keysHeld();
-		touchRead(&touch);
-		swiWaitForVBlank();
-	}
-}
 void titlescreen_redraw()
 {
+	int i,j;
         drawBackground();
 	//Lets start the buttons on line 8!
 	drawButton(8,9,14);
@@ -416,20 +348,17 @@ int titlescreen()
 		{
 			if (touch.px > 64 && touch.px < 184 && touch.py > 72 && touch.py < 96)
 			{
-				//drawButtonColored(8,9,14);
-                                //drawBackground();
-				//consoleClear();
-				//stopMusic();
-                                //musicIsOn=0;
-				//mainGame(0);
-                                gameMode();
-                                titlescreen_redraw();
+				drawButtonColored(8,9,14);
+                                drawBackground();
+				consoleClear();
+				stopMusic();
+                                musicIsOn=0;
+				mainGame(0);
 				chosen=true;
 			}
 			else drawButton(8,9,14);
 			if (touch.px > 64 && touch.px < 184 && touch.py > 112 && touch.py < 136)
 			{
-
 				multiplayerScreen();
 				chosen=true;
 			}

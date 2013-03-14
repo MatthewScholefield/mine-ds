@@ -25,7 +25,7 @@ GRAPHICS	:=	gfx
 AUDIO    	:=  audio
 GAME_TITLE     :=   MineDS
 GAME_SUBTITLE1 :=	CoolAs ray Wolfgange
-GAME_SUBTITLE2 :=	v0.0.1
+GAME_SUBTITLE2 :=	v0.1.0
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
