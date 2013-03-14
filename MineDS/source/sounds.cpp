@@ -6,11 +6,12 @@
 #include <stdio.h>
 bool maxModInit=false;
 musicStruct music;
-void initSounds(){
+void initSounds()
+{
   	mmInitDefaultMem( (mm_addr)soundbank_bin );
 int i;
-for (i=0;i<MSL_NSAMPS;i++)mmLoadEffect(i); //loads all sfx
-for (i=0;i<MSL_NSONGS;i++)mmLoad(i); //loads all songs
+for (i=0;i<MSL_NSAMPS;i++) mmLoadEffect(i); //loads all sfx
+for (i=0;i<MSL_NSONGS;i++) mmLoad(i); //loads all songs
 	//music.musictype=rand()%MSL_NSONGS;//randomly choose a song
 	//music.volume=0;
 	//music.playing=false;
@@ -18,14 +19,17 @@ for (i=0;i<MSL_NSONGS;i++)mmLoad(i); //loads all songs
 	//music.volumechanging=0; //0 for no changing, 1 for fade in, 2 for fade out..
 	maxModInit=true;
 }
-void playSound(int sound){
-	if (maxModInit==false) initSounds();
+void playSound(int sound)
+{
+	if (maxModInit==false) 
+		initSounds();
 	switch(sound)
 	{
 	}
 }
 
-void playMusic(int music){
+void playMusic(int music)
+{
 	if (maxModInit==false) initSounds();
 	switch(music)
 	{
@@ -33,7 +37,8 @@ void playMusic(int music){
 	}
 }
 
-void stopMusic(){
+void stopMusic()
+{
      mmStop();	
 }
 /*void soundUpdate(){

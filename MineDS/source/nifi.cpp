@@ -22,7 +22,8 @@ int clientfails[8];
 int noOfClients=0;
 bool wifiEnabled=false;
 unsigned short buffer[100];
-int get_int_len (int value){
+int get_int_len (int value)
+{
   int l=1;
   while(value>9){ l++; value/=10; }
   return l;
