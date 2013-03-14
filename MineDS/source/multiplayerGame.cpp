@@ -41,6 +41,13 @@ void multiplayerGame(bool host)
 	{
 		lcdMainOnTop();
 		world = (worldObject *) calloc(1,sizeof(worldObject));
+		int i,j;
+		for (i=0;i<=WORLD_WIDTH;i++)
+			for(j=0;j<=WORLD_HEIGHT;j++)
+			{
+				world->blocks[i][j]=BEDROCK;
+				world->bgblocks[i][j]=BEDROCK;
+			}		
 		iprintf("Looking for servers\n");
 		while (!clientNifiInit()) swiWaitForVBlank(); //Looks for servers, sets up Nifi, and Asks the player to join a server.
 		iprintf("Joining Server!\n");
@@ -64,6 +71,7 @@ void multiplayerGame(bool host)
 	{
 		scanKeys();
 		if (keysDown() & KEY_START) break;
+		recieveWorldUpdate();
 		touchRead(&touch);
 		nifiUpdate();
 		miningUpdate(world,world->CamX,world->CamY,touch,keysDown());	
