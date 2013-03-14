@@ -30,6 +30,7 @@ int get_int_len (int value)
 }
 void Handler(int packetID, int readlength)
 {
+	bool printmessage=false; //Set to true to see every message (execpt for mob Updates) on the top screen.
 	static char data[4096];
 	char message[10];
 	Wifi_RxRawReadPacket(packetID, readlength, (unsigned short *)data);
@@ -217,6 +218,7 @@ void Handler(int packetID, int readlength)
 		int a,b,c,d,e,f;
 		sscanf(packet,"%*s %d %d %d %d %d %d %d %d",&test_id, &a,&b,&c,&d,&e,&f);
 		if ( test_id == server_id) recievedMobUpdate(b,c,d,e,a,f);
+		printmessage=false;
 	}
 	else if (!strcmp("[DIE:",message))
 	{
@@ -225,6 +227,7 @@ void Handler(int packetID, int readlength)
 		sscanf(packet,"%*s %d %d",&test_id, &a);
 		if ( test_id == server_id) killMob(a);
 	}
+	if (printmessage) printf("\x1b[0;0Hmessage %s\n",packet);
 }
 void nifiConfirmBlocksAllPlayers(int x,int y)
 {

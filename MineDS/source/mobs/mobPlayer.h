@@ -14,6 +14,7 @@ class playerMob : public baseMob
 	bool host; // Was this mob spawn'd by this nds?*/
     //bool potioneffects[5];
 	int reheal;
+	int tillBrightness;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
