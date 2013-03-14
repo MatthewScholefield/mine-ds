@@ -1,0 +1,116 @@
+#summary A set of Coding Conventions to standardize the way we code this.
+#labels Phase-Requirements,Phase-Design,Phase-Implementation
+
+= If statements and for loops =
+
+If statements and for loops should always have the '{' and '}' on a new line.
+{{{
+//It should be like this
+if (something == true)
+{
+doSomething(something);
+i++;
+}
+
+
+//Not like
+if (something == true){
+doSomething(something);
+i++;
+}
+
+
+//Or
+if (something==true){doSomething(something); i++;}
+
+}}}
+
+If the if statement has only has one line to execute it should look like this:
+{{{
+if (something == true)
+      doSomething(something);
+}}}
+= Functions =
+
+Functions should follow the same rules as if statements, it should always have the '{' and '}' on a new line
+
+{{{
+//Always like this:
+bool isBlockWalkThrough(int blockId)
+{
+ for (int i=0;i<=NUM_WALKTHROUGH_BLOCKS;i++)
+ {
+  if (walkThrough[i]==blockId)
+  {
+   return true
+  }
+ }
+}
+
+//Not like:
+bool something(void* worldObjects){
+ return worldObjects->mob+1;
+}
+}}}
+
+= Naming =
+
+When naming a variable or function it should *_ALWAYS_* follow the following naming scheme:
+
+nameNameNameName
+or
+jobnameJobnameJobname_NameNameName
+
+Some examples are
+
+{{{
+void worldRender_Render();
+void renderTile16(int a,int b, int c, int d);
+Graphic torchSprite;
+int sunlight;
+}}}
+
+Naming a define should always follow
+NAME_NAME_NAME_NAME
+However if this is defining a short hand for a function then it should follow the normal naming scheme. eg:
+{{{
+#define NUM_BLOCKS 48
+or
+#define sizeOfArray(x) (sizeof(x)/4)
+}}}
+
+= Global variables =
+
+In this project there is _no_ global variables.
+Variables should always be localized to a single .cpp file, if another .cpp file needs to access the variable it should be accessed through a function call.
+
+An example is in nifi.cpp
+{{{
+int server_id;
+int client_id;
+bool host;
+bool isHost()
+{
+	return host;
+}
+int getServerID()
+{
+	return server_id;
+}
+int getClientID()
+{
+	return client_id;
+}
+}}}
+If you need to access those variables from elsewhere all you do is call the corresponding function. eg:
+{{{
+if (isWifi() && isHost()==false)
+{
+	unsigned short buffer[10];
+	int client_id = getClientID();	
+	sprintf((char *)buffer,"%d", client_id);
+	message = (char*)buffer;
+}		
+else if (isWifi())
+	message = "The host";
+}}} 
