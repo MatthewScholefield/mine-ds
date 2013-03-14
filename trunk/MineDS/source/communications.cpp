@@ -10,7 +10,10 @@
 #include "mining.h"
 #include "worldRender.h"
 int code=0;
-
+int recv_x;
+int recv_y;
+int framecounter;
+int recv_code=2;
 //0 = Nothing
 //1 = Recieved Handshake, Connected Successfully.
 //2 = Revieved Handshake, Game Mismatch. //TODO
@@ -50,14 +53,14 @@ void connectCode(int code2)
 }
 void recieveWorld(worldObject* world2)
 {
+	recv_code=0;
 	code = 0;
 	world = world2;
 	unsigned short buffer[100];
 	int server_id = getServerID();	
 	int client_id = getClientID();
 	int i,j;
-	int framecounter;
-	for (i=0;i<=WORLD_WIDTH;i++)
+	for (i=0;i<=16;i++)
 	{
 		iprintf(".");
 		for(j=0;j<=WORLD_HEIGHT;j++)
@@ -79,10 +82,56 @@ void recieveWorld(worldObject* world2)
 			j+=addamount;
 		}
 	}
+	recv_x=17;
+	recv_y=0;
+}
+void recieveWorldUpdate()
+{
+
+	unsigned short buffer[100];
+	int server_id = getServerID();	
+	int client_id = getClientID();
+	if (recv_code==0)
+	{
+		framecounter=0;
+		code = 0;
+		sprintf((char *)buffer,"[BR: %d %d %d %d", server_id, client_id,recv_x,recv_y);
+		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+		recv_code = 1;
+	}
+	if (recv_code==1)
+	{
+		if (code == 0)
+		{
+			framecounter++;
+			if (framecounter>30)
+			{
+				sprintf((char *)buffer,"[BR: %d %d %d %d", server_id, client_id,recv_x,recv_y);
+				Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
+				framecounter=0;
+			}
+		}
+		else
+		{
+			framecounter=0;
+			code = 0;
+			recv_code = 0;
+			recv_y+=addamount+1;
+			if (recv_y>WORLD_HEIGHT)
+			{
+				recv_y=0;
+				recv_x++;
+			}
+			if (recv_x>WORLD_WIDTH)
+			{
+				recv_code = 2;
+			}
+		}
+	}
 }
 void communicationInit(worldObject* world2)
 {
-	world = world2;
+world=world2;
 }
 void setBlock(int x,int y,int block,int bgblock,int amount)
 {
