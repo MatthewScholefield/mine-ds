@@ -4,6 +4,7 @@
 #include "../nifi.h"
 #include "../world.h"
 #include "../blocks.h"
+#include "../worldRender.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
 #include "mobPlayer.h"
@@ -27,6 +28,7 @@ playerMob::playerMob()
 	health=20;
 	ping=0;
 	reheal=0;
+	tillBrightness=0;
 }
 
 playerMob::playerMob(int a,int b)
@@ -48,6 +50,7 @@ playerMob::playerMob(int a,int b)
 	animation=0;
 	timeTillWifiUpdate=rand()%4+4;
 	reheal=0;
+	tillBrightness=0;
 }
 void playerMob::hurt(int amount,int type)
 {
@@ -97,6 +100,12 @@ void playerMob::updateMob(worldObject* world)
 {
 	if (host)
 	{
+		tillBrightness++;
+		if (tillBrightness>60)
+		{
+			tillBrightness=0;
+			updateBrightnessAround(world,x/16,y/16);
+		}
 		reheal++;
 		ping=0;
 		world->CamX=x-256/2;
