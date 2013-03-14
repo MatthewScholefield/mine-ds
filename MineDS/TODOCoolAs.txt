@@ -3,6 +3,6 @@
 ----Performance----
 Lighting engine upgrade (Less LAG and change all sun light values at once)
 Day night Cycle
-  - Support for Auto Spawning Mobs
+  - After the above two you can work on Auto spawning mobs.
 NiFi Speed up
 
