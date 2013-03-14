@@ -3,8 +3,6 @@
 #include "blockID.h"
 #include "nifi.h"
 #include "communications.h"
-#include "mining.h" //For variable BL
-extern int BL;
 void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 {
 	if (!bg)	
@@ -66,7 +64,6 @@ void checkBlockDelete(int x,int y,worldObject* world,bool bg)
                 	        world->blocks[x][y-c]=AIR;
                 	        world->bgblocks[x][y-c]=AIR;
 				if (isWifi())	placeBlock(x,y-c);
-                                BL++;//Adds one to Block Limit
                	        	c++;
                		}
 	checkBlockPlace(x,y-1,world,true);
