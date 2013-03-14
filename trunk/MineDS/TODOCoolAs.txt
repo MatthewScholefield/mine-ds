@@ -1,0 +1,8 @@
+//TODO for CoolAs
+//Feel free to propose things to be added here
+----Performance----
+Lighting engine upgrade (Less LAG and change all sun light values at once)
+Day night Cycle
+  - Support for Auto Spawning Mobs
+NiFi Speed up
+
