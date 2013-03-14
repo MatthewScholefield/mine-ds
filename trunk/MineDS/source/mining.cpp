@@ -24,6 +24,7 @@ bool canPlaceBlocks=true;
 int framecounting=0;
 int failedAttempts=0;
 int last_x,last_y;
+extern void spawnMobOn(int mobId,worldObject* world,int j);
 void miningSetScene(bool a)
 {
 	incutscene = a;
@@ -49,18 +50,22 @@ void setBlock(worldObject* world, int x,int y)
 	}
 	if (world->blocks[x][y]==AIR && something)
 	{
-		if (((keysHeld() & KEY_DOWN) && BL > 0) || ((keysHeld() & KEY_DOWN) && GM == 1))
+		if ((((keysHeld() & KEY_DOWN) && BL > 0) || ((keysHeld() & KEY_DOWN) && GM == 1)) && selectedblock !=ZOMBIE)
                 {
         		world->bgblocks[x][y]=selectedblock;
                         BL--; //Subtracts one to Block Limit Variable
 			checkBlockPlace(x,y,world,true);		
                 }
-                else if (BL > 0 || GM == 1)
+                else if ((BL > 0 || GM == 1)&& selectedblock !=ZOMBIE)
 		{
 			world->blocks[x][y]=selectedblock;
                         BL--; //Subtracts one to Block Limit Variable
 			checkBlockPlace(x,y,world,false);
 		}
+                else if (selectedblock == ZOMBIE) 
+                {
+                    spawnMobOn(3,world,x);
+                }
 	}
 	else if (world->blocks[x][y]!=AIR)
 	{
@@ -86,7 +91,7 @@ void setBlock(worldObject* world, int x,int y)
 void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) // keys = keysDown();
 {
         if (GM==1){
-        NUM_BLOCKS=47;
+        NUM_BLOCKS=48;
         }
         else {
                 NUM_BLOCKS=4;
