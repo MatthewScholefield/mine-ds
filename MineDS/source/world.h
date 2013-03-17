@@ -9,7 +9,7 @@ typedef struct{
 	int data[WORLD_WIDTH+1][WORLD_HEIGHT+1]; 
 	int brightness[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int lightemit[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	bool sun[WORLD_WIDTH+1][WORLD_HEIGHT+1];
+	int sun[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int bgblocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int ChoosedBlock;
 	int CamY;
