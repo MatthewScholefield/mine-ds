@@ -22,6 +22,11 @@ uint16 *bg2ptr;
 Graphic torchSprite;
 Graphic snowtopSprite;
 Graphic glassSprite;
+int sunbrightness;
+void setSun(worldObject* world,int x,int y,int sun)
+{
+	world->sun[x][y]=sun;
+}
 void BlockShader(){
 	//setBackdropColor(RGB15(69,195,237));
 	setBackdropColor(RGB15(17,24,31));
@@ -107,7 +112,7 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
 			world->brightness[i][j]=15;
-			world->sun[i][j]=false;
+			world->sun[i][j]=15;
 			world->lightemit[i][j]=0;
 			if (isBlockALightSource(world->blocks[i][j]))
 			{
@@ -125,25 +130,26 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 			{
 				brightnessSpread(world,i,j,world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
 			}
-			if(!alwaysRenderBright(world->blocks[i][j]) && !startshade)
+			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade && world->blocks[i][j]!=TORCH)
 				{
-					world->lightemit[i][j]=1+sunlight;
-					world->sun[i][j]=true; // This is a block that is lit by the sun...
+				//	world->lightemit[i][j]=1+sunlight;
+				//	world->sun[i][j]=true; // This is a block that is lit by the sun...
 					//world->brightness[i][j]=0; //Will be set later
+					sunSpread(world,i,j,sunlight);				
 					startshade=true;
 				}
+
+			else if (!startshade) world->sun[i][j]=sunlight;
 			if (!startshade && world->blocks[i][j]!=AIR)
 			{
-			 world->lightemit[i][j]=1+sunlight;
-			 world->sun[i][j]=true;
+			 world->sun[i][j]=sunlight;
 			}
-			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR) world->brightness[i][j]=sunlight;
+			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR && i!=0) world->sun[i][j]=sunlight;
 			if (world->lightemit[i][j]!=0)
 				{
 					int light=world->lightemit[i][j]-1;
 					brightnessSpread(world,i,j,light);
-				}			
-			
+				}
 			if(world->brightness[i][j]==16) world->brightness[i][j]=15;
 		}
 	}
@@ -157,7 +163,7 @@ void Calculate_Brightness(worldObject* world)
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
 			world->brightness[i][j]=15;
-			world->sun[i][j]=false;
+			world->sun[i][j]=15;
 			world->lightemit[i][j]=0;
 			if (isBlockALightSource(world->blocks[i][j]))
 			{
@@ -173,19 +179,19 @@ void Calculate_Brightness(worldObject* world)
 		{
 			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
 				{
-					world->lightemit[i][j]=1+sunlight;
-					world->sun[i][j]=true; // This is a block that is lit by the sun...
+				//	world->lightemit[i][j]=1+sunlight;
+				//	world->sun[i][j]=true; // This is a block that is lit by the sun...
 					//world->brightness[i][j]=0; //Will be set later
+					sunSpread(world,i,j,sunlight);				
 					startshade=true;
 				}
 
 			else if (!startshade) world->brightness[i][j]=sunlight;
 			if (!startshade && world->blocks[i][j]!=AIR)
 			{
-			 world->lightemit[i][j]=1+sunlight;
-			 world->sun[i][j]=true;
+			  world->sun[i][j]=0;
 			}
-			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR && i!=0) world->brightness[i][j]=sunlight;
+			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR && i!=0) world->sun[i][j]=sunlight;
 			if (world->lightemit[i][j]!=0)
 				{
 					int light=world->lightemit[i][j]-1;
@@ -221,6 +227,7 @@ void worldRender_Init()
 	for (i=0;i<=16;i++)
 		for (j=0;j<=16;j++)
 			renderTile16(i,j,AIR,0);
+	sunbrightness=0;
 }
 
 bool onScreen(int SizeMultiplier,int x,int y, int tx,int ty)
@@ -255,9 +262,34 @@ void renderTile16(int x,int y,int tile,int palette)
 	setTileXY(x,y+1,tile+1,palette);
 	setTileXY(x+1,y+1,tile+3,palette);
 }
-
+void renderBlockAdd(worldObject* world,int i, int j, int blockId)
+{
+	if (world->sun[i][j]+sunbrightness<world->brightness[i][j])	
+	{
+		int brightness = world->sun[i][j]+sunbrightness+6;
+		if(brightness>15) brightness=15;	
+		if(brightness<0) brightness=0;	
+		renderTile16(i,j,blockId,brightness);
+	}
+	else
+		renderTile16(i,j,blockId,world->brightness[i][j]+6);
+}
+void renderBlock(worldObject* world,int i, int j,int blockId)
+{
+	if (world->sun[i][j]+sunbrightness<world->brightness[i][j])	
+	{
+		int brightness = world->sun[i][j]+sunbrightness;
+		if(brightness>15) brightness=15;	
+		if(brightness<0) brightness=0;	
+		renderTile16(i,j,blockId,brightness);
+	}
+	else
+		renderTile16(i,j,blockId,world->brightness[i][j]);		
+}
 void renderWorld(worldObject* world,int screen_x,int screen_y)
 {
+	if (keysDown() & KEY_R) sunbrightness++;
+	else if (keysDown() & KEY_L) sunbrightness--;
 	int i,j;
 	for(i=screen_x/16-2;i<=screen_x/16+20;i++){
 		for(j=screen_y/16-2;j<=screen_y/16+20;j++){
@@ -265,11 +297,11 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 		if(onScreen(16,i,j,1,1))
 			{
 				if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=TORCH && world->blocks[i][j]!=GLASS && world->blocks[i][j]!=SNOW_TOP)
-				{				
-				 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+				{	
+					renderBlock(world,i,j,world->blocks[i][j]);	
 				}
-				else if (world->bgblocks[i][j]!=AIR && alwaysRenderBright(world->bgblocks[i][j])==false) renderTile16(i,j,world->bgblocks[i][j],world->brightness[i][j]+6);
-				else if (world->bgblocks[i][j]!=AIR) renderTile16(i,j,world->bgblocks[i][j],world->brightness[i][j]);
+				else if (world->bgblocks[i][j]!=AIR && alwaysRenderBright(world->bgblocks[i][j])==false) renderBlockAdd(world,i,j,world->bgblocks[i][j]);
+				else if (world->bgblocks[i][j]!=AIR) renderBlock(world,i,j,world->bgblocks[i][j]);
 				else renderTile16(i,j,world->blocks[i][j],0);
 				if (world->blocks[i][j]==TORCH)
 				{
@@ -277,7 +309,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 					if (!showGraphic(&torchSprite,(i*16) - screen_x,(j*16) - screen_y))
 					{
 					//But if we run out of sprite IDs, render as a tile...
-						 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+						 renderBlock(world,i,j,world->blocks[i][j]);
 					}
 				}
 				else if (world->blocks[i][j]==GLASS)
@@ -286,7 +318,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 					if (!showGraphic(&glassSprite,(i*16) - screen_x,(j*16) - screen_y))
 					{
 					//But if we run out of sprite IDs, render as a tile...
-						 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+						 renderBlock(world,i,j,world->blocks[i][j]);
 					}
 				}
 				else if (world->blocks[i][j]==SNOW_TOP)
@@ -295,7 +327,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 					if (world->bgblocks[i][j]==SNOW_TOP || world->bgblocks[i][j]==AIR || !showGraphic(&snowtopSprite,(i*16) - screen_x,(j*16) - screen_y))
 					{
 					//But if we run out of sprite IDs, render as a tile...
-						 renderTile16(i,j,world->blocks[i][j],world->brightness[i][j]);
+						 renderBlock(world,i,j,world->blocks[i][j]);
 					}
 				}
 				
