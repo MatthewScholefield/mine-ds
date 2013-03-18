@@ -11,6 +11,8 @@
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
 #include "deathScreen.h"
+
+#include "daynight.h"
 bool up;
 Graphic graphics[10];
 void mobHandlerUpdate(worldObject* world);
@@ -31,20 +33,22 @@ void mainGame(int Mode)
 	}	
 	CurrentWorld->CamX=0;
 	CurrentWorld->CamY=0;
+	CurrentWorld->timeInWorld=0;
 	//loadGraphicSub(&graphics[9],2,8);
 	consoleClear();	
 	while(1){
 		scanKeys();
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
+		mobHandlerUpdate(CurrentWorld);
 		update_message();
 		if (keysDown() & KEY_START) break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
-		mobHandlerUpdate(CurrentWorld);
 		if (deathScreenUpdate()) break;
+		timeUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 	}
 	free(CurrentWorld);
