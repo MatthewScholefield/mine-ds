@@ -11,10 +11,9 @@ typedef struct{
 	int lightemit[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int sun[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int bgblocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int ChoosedBlock;
 	int CamY;
 	int CamX;
-	int loaded_block;
+	int timeInWorld;
 }worldObject;
 int findFirstBlock(worldObject* world,int x);
 int findFirstBiomeBlock(worldObject* world,int x);
