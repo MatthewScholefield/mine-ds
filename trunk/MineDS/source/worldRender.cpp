@@ -23,9 +23,10 @@ Graphic torchSprite;
 Graphic snowtopSprite;
 Graphic glassSprite;
 int sunbrightness;
-void setSun(worldObject* world,int x,int y,int sun)
+void setSun(int brightness)
 {
-	world->sun[x][y]=sun;
+	sunbrightness=brightness;
+
 }
 void BlockShader(){
 	//setBackdropColor(RGB15(69,195,237));
@@ -288,8 +289,6 @@ void renderBlock(worldObject* world,int i, int j,int blockId)
 }
 void renderWorld(worldObject* world,int screen_x,int screen_y)
 {
-	if (keysDown() & KEY_R) sunbrightness++;
-	else if (keysDown() & KEY_L) sunbrightness--;
 	int i,j;
 	for(i=screen_x/16-2;i<=screen_x/16+20;i++){
 		for(j=screen_y/16-2;j<=screen_y/16+20;j++){

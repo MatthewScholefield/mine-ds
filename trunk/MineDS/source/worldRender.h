@@ -18,3 +18,4 @@ extern "C" {
 }
 void updateBrightnessAround(worldObject* world,int x,int y);
 void worldRender_LoadSprites();
+void setSun(int brightness);
