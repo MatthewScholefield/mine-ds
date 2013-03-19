@@ -29,6 +29,8 @@ If the if statement has only has one line to execute it should look like this:
 {{{
 if (something == true)
       doSomething(something);
+//Or like this
+if (something==true) doSomething(something);
 }}}
 = Functions =
 
