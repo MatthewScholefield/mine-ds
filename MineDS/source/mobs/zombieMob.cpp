@@ -9,6 +9,7 @@
 #include "../blockID.h"
 #include "../message.h"
 #include "../colision.h"
+#include "../worldRender.h"
 Graphic zombieMobGraphic[3];
 zombieMob::zombieMob()
 {
@@ -76,12 +77,17 @@ void zombieMob::updateMob(worldObject* world)
 			x+= facing ? -1 : 1;
 			jump=0;
 		}
-		else if ((colisions[1] || colisions[2]) && colisions[0])
+		else if ((colisions[1] || colisions[2]) && colisions[0] && !colisions[3] && animation!=1)
 		{
 			vy=-2;
 			y+=vy;
 		}
-		if (mobtype==2) notarget=0;
+		if (target->mobtype==2) notarget=0;
+		if (colisions[3])
+		{
+			vy=0;
+			y+=3;
+		}
 		ping=0;
 		if (health<=0)
 		{
@@ -93,8 +99,10 @@ void zombieMob::updateMob(worldObject* world)
 		//iprintf("colisions = %d\n",colisions[0]);
 		if (spritecol(x,y,target->x,target->y,sx,sy,target->sx,target->sy))
 		{
-			mobHandlerHurtMob(target->mobId,2,ZOMBIE_HURT);
+			mobHandlerHurtMob(target->mobId,1,ZOMBIE_HURT);
 		}
+		target = mobHandlerFindMob(512,2,x,y);
+		if (target->mobtype==2) notarget=0;
 	}
 }
 void zombieMob::sendWifiUpdate()
@@ -109,7 +117,11 @@ void zombieMob::loadFromFile(FILE* pFile)
 bool canZombieMobSpawnHere(worldObject* world,int x,int y)
 {
 	y++;
-	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
+	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) 
+	{
+		if (getBrightness(world,x,y+1)>7)
+			return true;
+	}
 	return false;
 }
 void zombieMobInit()
