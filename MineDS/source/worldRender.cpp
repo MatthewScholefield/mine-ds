@@ -23,6 +23,12 @@ Graphic torchSprite;
 Graphic snowtopSprite;
 Graphic glassSprite;
 int sunbrightness;
+int getBrightness(worldObject* world,int x,int y)
+{
+	if (world->sun[x][y]+sunbrightness<world->brightness[x][y])
+		return world->sun[x][y]+sunbrightness;
+	return world->brightness[x][y];
+}
 void setSun(int brightness)
 {
 	sunbrightness=brightness;
