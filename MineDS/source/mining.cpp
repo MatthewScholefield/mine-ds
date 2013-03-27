@@ -87,7 +87,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		int mobNum = isMobAt(touch.px+a,touch.py+b);
 		if (mobNum!=-1)
 		{
-			mobHandlerHurtMob(mobNum,1,PLAYER_HURT);	
+			mobHandlerHurtMob(mobNum,2,PLAYER_HURT);	
 		}
 		else if (canPlaceBlocks && !incutscene)
 		{

@@ -9,10 +9,6 @@
 #include "../blockID.h"
 #include "../message.h"
 #include "../colision.h"
-bool scared=false; //Whether pig is scared and will run away from the player
-int scaredtimer; //Limits how long the pig is scared
-bool dir; //Direction of pig movement
-int mov; //Loop counter for pig movement 
 Graphic pigMobGraphic[2];
 
 pigMob::pigMob()
@@ -28,14 +24,15 @@ pigMob::pigMob()
 	mobtype=0;
 	animationclearframes=0;
 	notarget=0;
+	smallmob=true;
 }
 pigMob::pigMob(int a,int b)
 {	
 	jump=0;
 	gravity=3;
 	gravityValue=3;
-	sx=6;
-	sy=32;
+	sx=10;
+	sy=16;
 	x=a;
 	y=b;
 	vy=0;
@@ -49,6 +46,7 @@ pigMob::pigMob(int a,int b)
 	animation=0;
 	notarget=0;
 	timeTillWifiUpdate=rand()%4+4;
+	smallmob=true;
 }
 void pigMob::updateMob(worldObject* world)
 {
@@ -58,19 +56,23 @@ void pigMob::updateMob(worldObject* world)
 	else if (mov == 1)
 		dir = false;
 
-	if (animation==0) showGraphic(&pigMobGraphic[0],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? false:true);
-	else if (animation==1) 	showGraphic(&pigMobGraphic[1],x-world->CamX - (facing ? 10:0),y-world->CamY,facing  ? false:true);
+	if (animation==0) showGraphic(&pigMobGraphic[0],x-world->CamX,y-world->CamY,facing ? true:false);
+	else if (animation==1) 	showGraphic(&pigMobGraphic[1],x-world->CamX,y-world->CamY,facing  ? true:false);
 
 	if (host==true)
 	{
 		target = mobHandlerFindMob(128,2,x,y);
 
-		if (target->x < x && target->mobtype==2 && scared) facing = true;
-		else if (target->mobtype==2 && scared) facing = false;
+		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
+		else if (target->mobtype==2 && scared) facing = true;
 		jump++;
 		if (colisions[0]==false) y+=vy;
 		else vy=0;
-
+		if (colisions[3])
+		{
+			vy=0;
+			y+=3;
+		}
 		if (scaredtimer > 125)
 		{
 			scared = false;
@@ -92,17 +94,17 @@ void pigMob::updateMob(worldObject* world)
 					facing = true;
 				else
 					facing = false;
-				if (!colisions[1] && !dir && !colisions[3] && jump>1)
+				if (!colisions[1] && !dir && jump>1)
 				{
-					x += dir ? 1 : -1;
+					x += dir ? -1 : 1;
 					jump=0;
 				}
-				if (!colisions[2] && dir && !colisions[3] && jump>1)
+				if (!colisions[2] && dir && jump>1)
 				{
-					x += dir ? 1 : -1;
+					x += dir ? -1 : 1;
 					jump=0;
 				}
-				else if ((colisions[1] || colisions[2]) && colisions[0])
+				else if ((colisions[1] || colisions[2]) && colisions[0]  && !colisions[3])
 				{
 					vy=-2;
 					y+=vy;
@@ -113,19 +115,19 @@ void pigMob::updateMob(worldObject* world)
 			}
 		}
 
-		else if (!colisions[1] && !facing && !colisions[3] && jump>1)
+		else if (!colisions[1] && !facing && jump)
 		{
-			x+= facing ? 1 : -1;
+			x+= facing ? -1 : 1;
 			scaredtimer++;
 			jump=0;
 		}
-		else if (!colisions[2] && facing && !colisions[3] && jump>1)
+		else if (!colisions[2] && facing && jump)
 		{
-			x+= facing ? 1 : -1;
+			x+= facing ? -1 : 1;
 			scaredtimer++;
 			jump=0;
 		}
-		else if ((colisions[1] || colisions[2]) && colisions[0])
+		else if ((colisions[1] || colisions[2]) && colisions[0] && !colisions[3])
 		{
 			scaredtimer++;
 			vy=-2;
@@ -140,7 +142,7 @@ void pigMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
-		//iprintf("colisions = %d\n",colisions[0]);
+		iprintf("\x1b[0;0Hcolisions = %d,%d,%d,%d\n",colisions[0],colisions[1],colisions[2],colisions[3]);
 	}
 }
 void pigMob::sendWifiUpdate()
@@ -160,8 +162,8 @@ bool canPigMobSpawnHere(worldObject* world,int x,int y)
 }
 void pigMobInit()
 {
-	loadGraphic(&pigMobGraphic[0],true,5);
-	loadGraphic(&pigMobGraphic[1],true,6);
+	loadGraphic(&pigMobGraphic[0],true,10,16,16);
+	loadGraphic(&pigMobGraphic[1],true,11,16,16);
 }
 void pigMob::hurt(int amount,int type)
 {

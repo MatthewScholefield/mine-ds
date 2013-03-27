@@ -13,6 +13,7 @@
 #include "communications.h"
 #include "deathScreen.h"
 #include "message.h"
+#include "daynight.h"
 void multiplayerGame(bool host)
 {
 	touchPosition touch;
@@ -36,6 +37,7 @@ void multiplayerGame(bool host)
 		int server_id = getServerID();	
 		sprintf((char *)buffer,"Server ID: %d\n", server_id);			
 		print_message((char *)buffer);	
+		world->timeInWorld=0;
 	}
 	else
 	{
@@ -78,11 +80,12 @@ void multiplayerGame(bool host)
 		update_message();
 		if (keysDown() & KEY_START) break;
 		mobHandlerUpdate(world);
-		if (deathScreenUpdate()) break;
+		if (deathScreenUpdate()) break;	
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
+		if (host) timeUpdate(world);
 		worldRender_Render(world,world->CamX,world->CamY);
 	}
 	free(world);

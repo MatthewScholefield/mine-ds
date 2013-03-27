@@ -12,6 +12,7 @@ class baseMob
 	int vx;
 	int sx;
 	int sy;
+	bool smallmob=false;
 	int gravityValue;
 	int gravity;
 	bool onground;
