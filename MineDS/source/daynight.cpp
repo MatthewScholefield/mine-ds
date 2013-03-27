@@ -1,5 +1,10 @@
 #include <nds.h>
 #include "world.h"
+#include "nifi.h"
+#include <dswifi9.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "worldRender.h"
 int timeTillChange=0;
 int brightness=0;
@@ -18,6 +23,13 @@ void timeUpdate(worldObject* world)
 		else if (world->timeInWorld>110) 				brightness--;	
 		setBackdropColor(RGB15(r[brightness],g[brightness],b[brightness]));		
 		setSun(brightness);	
+		if (isWifi())
+		{
+			unsigned short buffer[100];
+			int server_id = getServerID();			
+			sprintf((char *)buffer,"[DNC: %d %d %d %d %d", server_id, brightness, r[brightness],g[brightness],b[brightness]);
+			Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+		}
 	}
 }
 

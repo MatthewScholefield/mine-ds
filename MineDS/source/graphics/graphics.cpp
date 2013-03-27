@@ -76,14 +76,28 @@ void graphicsInit()
 
 void loadGraphicMob(Graphic* g,int frame,int x,int y)
 {
-	u16* graphics=oamAllocateGfx(&oamMain,SpriteSize_16x32, SpriteColorFormat_256Color);
-	u8* Tiles=(u8*)&mobsTiles;
-	Tiles+=frame*(16*32);
-	dmaCopy(Tiles,graphics,16*32);
-	g->mob=true;
-	g->sx=16;
-	g->sy=32;
-	g->Gfx=graphics;
+	if (y==32)
+	{
+		u16* graphics=oamAllocateGfx(&oamMain,SpriteSize_16x32, SpriteColorFormat_256Color);
+		u8* Tiles=(u8*)&mobsTiles;
+		Tiles+=frame*(16*32);
+		dmaCopy(Tiles,graphics,16*32);
+		g->mob=true;
+		g->sx=16;
+		g->sy=32;
+		g->Gfx=graphics;
+	}
+	else	//Small mob
+	{
+		u16* graphics=oamAllocateGfx(&oamMain,SpriteSize_16x16, SpriteColorFormat_256Color);
+		u8* Tiles=(u8*)&mobsTiles;
+		Tiles+=frame*(16*16);
+		dmaCopy(Tiles,graphics,16*16);
+		g->mob=true;
+		g->sx=16;
+		g->sy=16;
+		g->Gfx=graphics;
+	}
 }
 
 void loadGraphicParticle(Graphic* g, int frame,int x,int y)
@@ -253,8 +267,10 @@ bool showGraphic(Graphic* g,int x,int y,bool flip)
 	if (g->main)
 	{
 		spriteID = graphicNextMain();
-		if (g->mob==1)
+		if (g->mob==1 && g->sy==32)
 			oamSet(&oamMain,spriteID,x,y,0,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+		else if (g->mob==1)
+			oamSet(&oamMain,spriteID,x,y,0,0,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->mob==0)
 			oamSet(&oamMain,spriteID,x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->mob==2)
