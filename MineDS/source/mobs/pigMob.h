@@ -16,6 +16,10 @@ class pigMob : public baseMob
 	bool host; // Was this mob spawn'd by this nds?*/
     //bool potioneffects[5];
 	int jump;
+	bool scared=false; //Whether pig is scared and will run away from the player
+	int scaredtimer; //Limits how long the pig is scared	
+	bool dir; //Direction of pig movement
+	int mov; //Loop counter for pig movement 
 	baseMob* target;
 	int notarget;
 	virtual void saveToFile(FILE* sFile);

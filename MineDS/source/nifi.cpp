@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "mobs/mobHandler.h"
+#include "worldRender.h"
 #include "graphics/subBgHandler.h"
 #include "communications.h"
 #include "mining.h"
@@ -37,6 +38,7 @@ void Handler(int packetID, int readlength)
 	//data now has the transmitted packet
 	char* packet = &data[32]; //Start of real data
 	sscanf(packet,"%s",message);
+	if (printmessage) printf("\x1b[0;0Hmessage %s                                                   \n",packet);
 	//Message now contains the first string (the command)
 	if (!strcmp("[PING:",message))
 	{
@@ -49,6 +51,18 @@ void Handler(int packetID, int readlength)
 				sscanf(packet,"%*s %d",&server_id); // Server Id contians ARG 1
 				lookForServers=false;
 			}
+		}
+	}
+	else if (!strcmp("[DNC:",message))
+	{
+		int test_id;
+		int sunbrightness;
+		int r,g,b;
+		sscanf(packet,"%*s %d %d %d %d %d",&test_id, &sunbrightness,&r,&g,&b);
+		if (test_id == server_id) 
+		{
+			setSun(sunbrightness);
+			setBackdropColor(RGB15(r,g,b));	
 		}
 	}
 	else if (!strcmp("[MSG:",message))
@@ -227,7 +241,7 @@ void Handler(int packetID, int readlength)
 		sscanf(packet,"%*s %d %d",&test_id, &a);
 		if ( test_id == server_id) killMob(a);
 	}
-	if (printmessage) printf("\x1b[0;0Hmessage %s\n",packet);
+	
 }
 void nifiConfirmBlocksAllPlayers(int x,int y)
 {

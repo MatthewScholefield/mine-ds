@@ -68,7 +68,7 @@ int isMobAt(int x,int y)
 	int i;
 	for (i=0;i<=100;i++)
 	{
-		if (spritecol(mobs[i]->x,mobs[i]->y,x,y,mobs[i]->sx,mobs[i]->sy,2,2) && mobs[i]->alive==true)
+		if (spritecol(mobs[i]->x,mobs[i]->y,x,y,mobs[i]->sx,mobs[i]->sy,4,4) && mobs[i]->alive==true)
 		{
 			return i;
 		}
@@ -205,6 +205,20 @@ void spawnMobAt(int mobId,worldObject* world,int x,int y)
 		mobs[mobNum]->host=true;
 	}
 }
+void spawnMobNoCheck(int mobId,worldObject* world,int mobNum)
+{
+	delete mobs[mobNum];
+	switch(mobId)
+	{
+		case 0: mobs[mobNum]= new baseMob(0,0); mobs[mobNum]->unKillMob(); break;
+		case 1: mobs[mobNum]= new playerMob(0,0); mobs[mobNum]->unKillMob(); break;
+		case 2: mobs[mobNum]= new MplayerMob(0,0); mobs[mobNum]->unKillMob(); break;
+		case 3: mobs[mobNum]= new zombieMob(0,0); mobs[mobNum]->unKillMob(); break;
+		case 4: mobs[mobNum]= new pigMob(0,0); mobs[mobNum]->unKillMob(); break;
+		default: break;
+	}
+	mobs[mobNum]->host=false;
+}
 void spawnMob(int mobId,worldObject* world,int mobNum)
 {
 	int i;
@@ -237,7 +251,7 @@ void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,w
 		{
 			spawnMobAt(1,world,mobs[mobNum]->x,mobs[mobNum]->y);
 		}
-		spawnMob(mobtype,world,mobNum);
+		spawnMobNoCheck(mobtype,world,mobNum);
 	}
 	mobs[mobNum]->unKillMob();
 	mobs[mobNum]->x = x;
@@ -272,7 +286,8 @@ void mobHandlerUpdate(worldObject* world)
 		{
 			if (mobs[i]->mobtype==3)
 				badMobs++;
-			calculateMiscData(world,mobs[i]);
+			if (mobs[i]->smallmob==false) calculateMiscData(world,mobs[i]);
+			else calculateMiscDataSmall(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;
 			if (isWifi())
@@ -298,8 +313,8 @@ void mobHandlerUpdate(worldObject* world)
 		}
 		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
-	if (keysDown() & KEY_Y && badMobs<=4) spawnMobOn(4,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
-	if (badMobs<=2)
+	if (keysDown() & KEY_Y) spawnMobOn(4,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
+	if (badMobs<=2 && canSpawnMob())
 	{	
 		int take = 0;
 		if (rand() % 2)
