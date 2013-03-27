@@ -9,16 +9,20 @@
 #include "mobs/baseMob.h"
 #include "mining.h"
 #include "worldRender.h"
-int code=0;
-int recv_x;
-int recv_y;
-int framecounter;
-int recv_code=2;
 //0 = Nothing
 //1 = Recieved Handshake, Connected Successfully.
 //2 = Revieved Handshake, Game Mismatch. //TODO
 //3 = worldTransmit complete!
 //4 = Recieved block
+int code=0;
+int recv_x;
+int recv_y;
+int framecounter;
+int recv_code=2;
+bool canSpawnMob()
+{
+	return recv_code==2;
+}
 int addamount;
 worldObject* world;
 int doHandshake()
@@ -124,6 +128,7 @@ void recieveWorldUpdate()
 			}
 			if (recv_x>WORLD_WIDTH)
 			{
+				Calculate_Brightness(world);
 				recv_code = 2;
 			}
 		}
