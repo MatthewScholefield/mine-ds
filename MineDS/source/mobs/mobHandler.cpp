@@ -6,6 +6,7 @@
 #include "mobMPlayer.h"
 #include "zombieMob.h"
 #include "pigMob.h"
+#include "cowMob.h"
 #include "mobFunctions.h"
 #include "../nifi.h"
 #include "../communications.h"
@@ -130,6 +131,7 @@ bool canMobSpawnHere(int mobId,worldObject* world, int a, int b)
 		case 2: return canPlayerMobSpawnHere(world,a,b); break;
 		case 3: return canZombieMobSpawnHere(world,a,b); break;
 		case 4: return canPigMobSpawnHere(world,a,b); break;
+		case 5: return canCowMobSpawnHere(world,a,b); break;
 		default: break;
 	}
 	return false;
@@ -151,6 +153,7 @@ void spawnMobOn(int mobId,worldObject* world,int j)
 					case 2: mobs[mobNum]= new MplayerMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					case 3: mobs[mobNum]= new zombieMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					case 4: mobs[mobNum]= new pigMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+					case 5: mobs[mobNum]= new cowMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					default: break;
 				}
 				mobs[mobNum]->host=true;
@@ -179,6 +182,7 @@ void spawnMob(int mobId,worldObject* world)
 					case 2: mobs[mobNum]= new MplayerMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					case 3: mobs[mobNum]= new zombieMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					case 4: mobs[mobNum]= new pigMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+					case 5: mobs[mobNum]= new cowMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 					default: break;
 				}
 				mobs[mobNum]->host=true;
@@ -200,6 +204,7 @@ void spawnMobAt(int mobId,worldObject* world,int x,int y)
 			case 2: mobs[mobNum]= new MplayerMob(x,y); mobs[mobNum]->unKillMob(); break;
 			case 3: mobs[mobNum]= new zombieMob(x,y); mobs[mobNum]->unKillMob(); break;
 			case 4: mobs[mobNum]= new pigMob(x,y); mobs[mobNum]->unKillMob(); break;
+			case 5: mobs[mobNum]= new cowMob(x,y); mobs[mobNum]->unKillMob(); break;
 			default: break;
 		}
 		mobs[mobNum]->host=true;
@@ -215,6 +220,7 @@ void spawnMobNoCheck(int mobId,worldObject* world,int mobNum)
 		case 2: mobs[mobNum]= new MplayerMob(0,0); mobs[mobNum]->unKillMob(); break;
 		case 3: mobs[mobNum]= new zombieMob(0,0); mobs[mobNum]->unKillMob(); break;
 		case 4: mobs[mobNum]= new pigMob(0,0); mobs[mobNum]->unKillMob(); break;
+		case 5: mobs[mobNum]= new cowMob(0,0); mobs[mobNum]->unKillMob(); break;
 		default: break;
 	}
 	mobs[mobNum]->host=false;
@@ -235,6 +241,7 @@ void spawnMob(int mobId,worldObject* world,int mobNum)
 				case 2: mobs[mobNum]= new MplayerMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 				case 3: mobs[mobNum]= new zombieMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 				case 4: mobs[mobNum]= new pigMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
+				case 5: mobs[mobNum]= new cowMob(j*16,i*16); mobs[mobNum]->unKillMob(); break;
 				default: break;
 			}
 			mobs[mobNum]->host=false;
@@ -313,7 +320,7 @@ void mobHandlerUpdate(worldObject* world)
 		}
 		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
-	if (keysDown() & KEY_Y) spawnMobOn(4,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
+	if (keysDown() & KEY_Y) spawnMobOn(5,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
 	if (badMobs<=2 && canSpawnMob())
 	{	
 		int take = 0;
