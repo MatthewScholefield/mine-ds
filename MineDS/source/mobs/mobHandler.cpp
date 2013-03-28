@@ -320,7 +320,7 @@ void mobHandlerUpdate(worldObject* world)
 		}
 		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
-	if (keysDown() & KEY_Y) spawnMobOn(5,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
+	if (keysDown() & KEY_Y) spawnMobOn(4,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
 	if (badMobs<=2 && canSpawnMob())
 	{	
 		int take = 0;

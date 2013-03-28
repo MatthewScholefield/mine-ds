@@ -5,6 +5,7 @@
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
 #include "pigMob.h"
+#include "../sounds.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../message.h"
@@ -62,7 +63,7 @@ void pigMob::updateMob(worldObject* world)
 	if (host==true)
 	{
 		target = mobHandlerFindMob(128,2,x,y);
-
+		
 		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
 		else if (target->mobtype==2 && scared) facing = true;
 		jump++;
@@ -176,6 +177,7 @@ void pigMob::hurt(int amount,int type)
 		health-=amount;
 	if (type == PLAYER_HURT)
 		scared = true;
+	playMusic(PIG_H);
 	animation=1;
 	animationclearframes=20;
 }
