@@ -33,7 +33,8 @@ void playMusic(int music)
 	if (maxModInit==false) initSounds();
 	switch(music)
 	{
-      case CALM : mmStart(MOD_CALM,MM_PLAY_LOOP); break;	
+      case CALM : mmStart(MOD_CALM,MM_PLAY_LOOP); break;
+	  case PIG_H : mmStart(MOD_PIG_H,MM_PLAY_ONCE); break;
 	}
 }
 
