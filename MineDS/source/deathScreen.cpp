@@ -4,6 +4,7 @@
 #include "mining.h"
 #include <stdio.h>
 #include <nds.h>
+#include "sounds.h"
 #include "titlescreen.h"
 bool deathScreenShow=true;
 touchPosition touch;
@@ -24,6 +25,7 @@ void deathScreenSetup()
 		drawButton(8,15,14);
 		iprintf("\x1b[11;12HRespawn");
 		iprintf("\x1b[16;10HTitleScreen");
+		stopMusic();
 		deathScreenShow = false;
 		oldKeys=keysHeld();
 		touchRead(&touch);

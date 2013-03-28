@@ -24,6 +24,7 @@
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
 #include "nifi.h"
+#include "sounds.h"
 int screen_x,screen_y;
 void beginRender(int a,int b); 
 void renderWorld(worldObject* world);
@@ -54,6 +55,7 @@ int main()
 	{
 	    	graphicFrame();
 		oamClear(&oamSub,0,127);
+		stopMusic();
 		titlescreen();
 		//mainGame(0);	
 		swiWaitForVBlank();
