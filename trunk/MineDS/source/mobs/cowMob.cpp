@@ -162,8 +162,8 @@ bool canCowMobSpawnHere(worldObject* world,int x,int y)
 }
 void cowMobInit()
 {
-	loadGraphic(&cowMobGraphic[0],1,5,16,16);
-	loadGraphic(&cowMobGraphic[1],1,6,16,16);
+	loadGraphic(&cowMobGraphic[0],true,12,16,16);
+	loadGraphic(&cowMobGraphic[1],true,13,16,16);
 }
 void cowMob::hurt(int amount,int type)
 {
