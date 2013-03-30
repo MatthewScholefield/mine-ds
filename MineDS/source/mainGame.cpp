@@ -16,19 +16,22 @@
 bool up;
 Graphic graphics[10];
 void mobHandlerUpdate(worldObject* world);
-void mainGame(int Mode)
+worldObject* mainGame(int Mode,worldObject* CurrentWorld)
 {
 	mobsReset();
 	consoleClear();
 	lcdMainOnBottom();
 	iprintf("\x1b[7;0HGenerating world...\n");
 	touchPosition touch;
-	worldObject* CurrentWorld;
 	int i,j;
 	if (Mode==0) // Generate new world!
 	{
-		CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
+		if (CurrentWorld==NULL) CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
 		iprintf("\x1b[8;0HC");
+		if (CurrentWorld==NULL)
+		{
+			return NULL;
+		}
 		generateWorld(CurrentWorld);
 		iprintf("\x1b[8;0HA");
 	}	
@@ -43,14 +46,16 @@ void mainGame(int Mode)
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
 		mobHandlerUpdate(CurrentWorld);
 		update_message();
-		if (keysDown() & KEY_START) break;
+		if (keysDown() & KEY_START)
+			break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
-		if (deathScreenUpdate()) break;
+		if (deathScreenUpdate())
+			break;
 		timeUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 	}
-	free(CurrentWorld);
+	return CurrentWorld;
 }
