@@ -28,8 +28,9 @@ void mainGame(int Mode)
 	if (Mode==0) // Generate new world!
 	{
 		CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
+		iprintf("\x1b[8;0HC");
 		generateWorld(CurrentWorld);
-		Calculate_Brightness(CurrentWorld);
+		iprintf("\x1b[8;0HA");
 	}	
 	CurrentWorld->CamX=0;
 	CurrentWorld->CamY=0;

@@ -90,28 +90,28 @@ void multiplayerScreen()
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
-                                drawButtonColored(9,9,12);
-                                drawBackground();
+                drawButtonColored(9,9,12);
+                drawBackground();
 				stopMusic();
-                                musicIsOn=false;
+                musicIsOn=false;
 				multiplayerGame(true);
 				chosen=true;
 			}
 			else drawButton(9,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
-                                drawBackground();
+                drawBackground();
 				stopMusic();
-                                musicIsOn=false;
+                musicIsOn=false;
 				multiplayerGame(false);
 				chosen=true;
 			}
 			else drawButton(9,14,12);
-                        if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-                        {
-                          chosen = true;
-                	}
-                	else drawButton(25,19,4);
+            if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+            {
+				chosen = true;
+			}
+            else drawButton(25,19,4);
 		}
 		oldKeys=keysHeld();
 		touchRead(&touch);
@@ -307,11 +307,9 @@ void titlescreen_redraw()
 }
 int titlescreen()
 {
-	if (musicIsOn != 1)
-	{
-	    playMusic(CALM);
-	    musicIsOn = 1;
-	}
+	stopMusic();
+	playMusic(CALM);
+	musicIsOn = 1;
 	uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
@@ -352,7 +350,7 @@ int titlescreen()
                                 drawBackground();
 				consoleClear();
 				stopMusic();
-                musicIsOn=0;
+				playMusic(HAL);
 				mainGame(0);
 				chosen=true;
 			}

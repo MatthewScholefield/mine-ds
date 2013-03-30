@@ -25,6 +25,8 @@ void playSound(int sound)
 		initSounds();
 	switch(sound)
 	{
+		case PIG_H: mmEffect(SFX_PIG); break;
+		case PLAYER_H: mmEffect(SFX_PLAYERHIT); break;
 	}
 }
 
@@ -33,7 +35,8 @@ void playMusic(int music)
 	if (maxModInit==false) initSounds();
 	switch(music)
 	{
-		case CALM : mmStart(MOD_CALM,MM_PLAY_LOOP); break;
+		case CALM : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
+		case HAL : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
 	}
 }
 
