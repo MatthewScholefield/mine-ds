@@ -113,7 +113,7 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 	//testfunction();
 	//Set all the light values to 0
 	//Then set light emit to the approate value.
-	for (x>15 ? i=x-14 : i=0;x<WORLD_WIDTH-15 ? i<=x+14 : i<=WORLD_WIDTH;i++)
+	for (x>15 ? i=x-14 : i=0;x<WORLD_WIDTH-16 ? i<=x+15 : i<=WORLD_WIDTH;i++)
 	{
 		startshade=false;
 		for (j=0;j<=WORLD_HEIGHT;j++)
@@ -128,7 +128,7 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 		}
 	}
 	//Now update the brightness'
-	for (x>15 ? i=x-15 : i=0;x<WORLD_WIDTH-15 ? i<=x+15 : i<=WORLD_WIDTH;i++)
+	for (x>15 ? i=x-15 : i=0;x<WORLD_WIDTH-16 ? i<=x+16 : i<=WORLD_WIDTH;i++)
 	{
 		startshade=false;
 		for (j=0;j<=WORLD_HEIGHT;j++)
@@ -184,7 +184,11 @@ void Calculate_Brightness(worldObject* world)
 		bool startshade=false;
 		for (j=0;j<=WORLD_HEIGHT;j++)
 		{
-			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade)
+			if (world->brightness[i][j]<15)
+			{
+				brightnessSpread(world,i,j,world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
+			}
+			if(!isBlockWalkThrough(world->blocks[i][j]) && !startshade && world->blocks[i][j]!=TORCH)
 				{
 				//	world->lightemit[i][j]=1+sunlight;
 				//	world->sun[i][j]=true; // This is a block that is lit by the sun...
@@ -193,10 +197,10 @@ void Calculate_Brightness(worldObject* world)
 					startshade=true;
 				}
 
-			else if (!startshade) world->brightness[i][j]=sunlight;
+			else if (!startshade) world->sun[i][j]=sunlight;
 			if (!startshade && world->blocks[i][j]!=AIR)
 			{
-			  world->sun[i][j]=0;
+			 world->sun[i][j]=sunlight;
 			}
 			else if (!startshade && world->blocks[i-1][j]==AIR && world->blocks[i+1][j]==AIR && i!=0) world->sun[i][j]=sunlight;
 			if (world->lightemit[i][j]!=0)
