@@ -8,7 +8,7 @@
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../message.h"
-#include "../colision.h"
+#include "../collision.h"
 Graphic cowMobGraphic[2];
 
 cowMob::cowMob()
@@ -66,9 +66,9 @@ void cowMob::updateMob(worldObject* world)
 		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
 		else if (target->mobtype==2 && scared) facing = true;
 		jump++;
-		if (colisions[0]==false) y+=vy;
+		if (collisions[0]==false) y+=vy;
 		else vy=0;
-		if (colisions[3])
+		if (collisions[3])
 		{
 			vy=0;
 			y+=3;
@@ -94,17 +94,17 @@ void cowMob::updateMob(worldObject* world)
 					facing = true;
 				else
 					facing = false;
-				if (!colisions[1] && !dir && jump>1)
+				if (!collisions[1] && !dir && jump>1)
 				{
 					x += dir ? -1 : 1;
 					jump=0;
 				}
-				if (!colisions[2] && dir && jump>1)
+				if (!collisions[2] && dir && jump>1)
 				{
 					x += dir ? -1 : 1;
 					jump=0;
 				}
-				else if ((colisions[1] || colisions[2]) && colisions[0]  && !colisions[3])
+				else if ((collisions[1] || collisions[2]) && collisions[0]  && !collisions[3])
 				{
 					vy=-2;
 					y+=vy;
@@ -115,19 +115,19 @@ void cowMob::updateMob(worldObject* world)
 			}
 		}
 
-		else if (!colisions[1] && !facing && jump)
+		else if (!collisions[1] && !facing && jump)
 		{
 			x+= facing ? -1 : 1;
 			scaredtimer++;
 			jump=0;
 		}
-		else if (!colisions[2] && facing && jump)
+		else if (!collisions[2] && facing && jump)
 		{
 			x+= facing ? -1 : 1;
 			scaredtimer++;
 			jump=0;
 		}
-		else if ((colisions[1] || colisions[2]) && colisions[0] && !colisions[3])
+		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 		{
 			scaredtimer++;
 			vy=-2;
@@ -142,7 +142,7 @@ void cowMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
-		iprintf("\x1b[0;0Hcolisions = %d,%d,%d,%d\n",colisions[0],colisions[1],colisions[2],colisions[3]);
+		iprintf("\x1b[0;0Hcollisions = %d,%d,%d,%d\n",collisions[0],collisions[1],collisions[2],collisions[3]);
 	}
 }
 void cowMob::sendWifiUpdate()

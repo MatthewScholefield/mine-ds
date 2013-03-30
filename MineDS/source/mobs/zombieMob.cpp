@@ -8,7 +8,7 @@
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../message.h"
-#include "../colision.h"
+#include "../collision.h"
 #include "../worldRender.h"
 Graphic zombieMobGraphic[3];
 zombieMob::zombieMob()
@@ -56,7 +56,7 @@ void zombieMob::updateMob(worldObject* world)
 		if (target->x < x && target->mobtype==2) facing = true;
 		else if (target->mobtype==2) facing = false;
 		jump++;
-		if (colisions[0]==false) y+=vy;
+		if (collisions[0]==false) y+=vy;
 		else vy=0;
 		if (target->x > x-4 && target->x < x+4)
 		{
@@ -67,23 +67,23 @@ void zombieMob::updateMob(worldObject* world)
 			notarget++;
 			jump=0;
 		}		
-		else if (!colisions[1] && facing==false && !colisions[3] && jump>1)
+		else if (!collisions[1] && facing==false && !collisions[3] && jump>1)
 		{
 			x+= facing ? -1 : 1;
 			jump=0;
 		}
-		else if (!colisions[2] && facing==true && !colisions[3] && jump>1)
+		else if (!collisions[2] && facing==true && !collisions[3] && jump>1)
 		{
 			x+= facing ? -1 : 1;
 			jump=0;
 		}
-		else if ((colisions[1] || colisions[2]) && colisions[0] && !colisions[3] && animation!=1)
+		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation!=1)
 		{
 			vy=-2;
 			y+=vy;
 		}
 		if (target->mobtype==2) notarget=0;
-		if (colisions[3])
+		if (collisions[3])
 		{
 			vy=0;
 			y+=3;
@@ -96,7 +96,7 @@ void zombieMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
-		//iprintf("colisions = %d\n",colisions[0]);
+		//iprintf("collisions = %d\n",collisions[0]);
 		if (spritecol(x,y,target->x,target->y,sx,sy,target->sx,target->sy))
 		{
 			mobHandlerHurtMob(target->mobId,1,ZOMBIE_HURT);

@@ -26,7 +26,7 @@ class baseMob
 	int ping;
 	int mobId; // Needed for chasing mobs
 	bool host; // Was this mob spawn'd by this nds?
-	bool colisions[5];
+	bool collisions[5];
     //bool potioneffects[5];
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
