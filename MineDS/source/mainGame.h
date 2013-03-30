@@ -1,1 +1,2 @@
-void mainGame(int Mode);
+#include "world.h"
+worldObject* mainGame(int Mode,worldObject* world);

@@ -12,9 +12,9 @@ musicStruct music;
 void initSounds()
 {
   	mmInitDefaultMem( (mm_addr)soundbank_bin );
-int i;
-for (i=0;i<MSL_NSAMPS;i++) mmLoadEffect(i); //loads all sfx
-for (i=0;i<MSL_NSONGS;i++) mmLoad(i); //loads all songs
+	int i;
+	for (i=0;i<MSL_NSAMPS;i++) mmLoadEffect(i); //loads all sfx
+	for (i=0;i<MSL_NSONGS;i++) mmLoad(i); //loads all songs
 	//music.musictype=rand()%MSL_NSONGS;//randomly choose a song
 	//music.volume=0;
 	//music.playing=false;
@@ -59,8 +59,8 @@ void playMusic(int music)
 	if (maxModInit==false) initSounds();
 	switch(music)
 	{
-		case CALM : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
-		case HAL : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
+		//case CALM : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
+		//case HAL : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
 	}
 }
 

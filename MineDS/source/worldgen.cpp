@@ -88,11 +88,13 @@ void generateWorld (worldObject* world){
 			world->blocks[i][j]=AIR;
 			world->bgblocks[i][j]=AIR;
 		}
+	swiWaitForVBlank();
 	j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
 	i=0;
 	int oj=j;
 	while (i<WORLD_WIDTH)
 	{
+		swiWaitForVBlank();
 		int sizex;
 		sizex=rand()%16+ 16;
 		if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
@@ -105,6 +107,7 @@ void generateWorld (worldObject* world){
 		else if (biome == 2) desertBiome(world,i,i+sizex);
 		i=i+sizex+1;
 	}
+	swiWaitForVBlank();
 	updateBrightnessAround(world,0,oj);
 	generateBedrock(world);
 	for (i=0;i<=WORLD_WIDTH;i++)

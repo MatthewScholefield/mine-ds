@@ -14,7 +14,7 @@
 #include "deathScreen.h"
 #include "message.h"
 #include "daynight.h"
-void multiplayerGame(bool host)
+worldObject* multiplayerGame(bool host,worldObject* world4)
 {
 	touchPosition touch;
 	nifiEnable();
@@ -22,32 +22,35 @@ void multiplayerGame(bool host)
 	mobsReset();
 	consoleClear();
 	iprintf("\x1b[7;0H");
-	worldObject* world;
 	if (host)
 	{	
 		lcdMainOnBottom();
 		iprintf("Generating World!\n");
-		world = (worldObject *) calloc(1,sizeof(worldObject));
-		generateWorld(world);
+		if (world4==NULL) world4 = (worldObject *) calloc(1,sizeof(worldObject));
+		if (world4==NULL) return NULL;
+		generateWorld(world4);
 		while (!hostNifiInit()) swiWaitForVBlank();
-		communicationInit(world);
+		communicationInit(world4);
 		consoleClear();
 		unsigned short buffer[100];
 		int server_id = getServerID();	
 		sprintf((char *)buffer,"Server ID: %d\n", server_id);			
 		print_message((char *)buffer);	
-		world->timeInWorld=0;
+		world4->timeInWorld=0;
 	}
 	else
 	{
 		lcdMainOnTop();
-		world = (worldObject *) calloc(1,sizeof(worldObject));
+		if (world4==NULL)
+			world4 = (worldObject *) calloc(1,sizeof(worldObject));
+		if (world4==NULL)
+			return NULL;
 		int i,j;
 		for (i=0;i<=WORLD_WIDTH;i++)
 			for(j=0;j<=WORLD_HEIGHT;j++)
 			{
-				world->blocks[i][j]=BEDROCK;
-				world->bgblocks[i][j]=BEDROCK;
+				world4->blocks[i][j]=BEDROCK;
+				world4->bgblocks[i][j]=BEDROCK;
 			}		
 		iprintf("Looking for servers\n");
 		while (!clientNifiInit()) swiWaitForVBlank(); //Looks for servers, sets up Nifi, and Asks the player to join a server.
@@ -55,9 +58,9 @@ void multiplayerGame(bool host)
 		//Next Do a HandShake and check that we are communicating with MineDS (and not another game that we might make in the future)
 		if (doHandshake())
 		{
-			recieveWorld(world);
+			recieveWorld(world4);
 		}
-		else return;
+		else return NULL;
 		consoleClear();
 		unsigned short buffer[100];
 		int client_id = getClientID();	
@@ -65,8 +68,8 @@ void multiplayerGame(bool host)
 		print_message((char *)buffer);	
 	}
 	lcdMainOnBottom();
-	world->CamX=0;
-	world->CamY=0;
+	world4->CamX=0;
+	world4->CamY=0;
 	while (1)
 	{
 		scanKeys();
@@ -74,18 +77,18 @@ void multiplayerGame(bool host)
 		recieveWorldUpdate();
 		touchRead(&touch);
 		nifiUpdate();
-		miningUpdate(world,world->CamX,world->CamY,touch,keysDown());	
+		miningUpdate(world4,world4->CamX,world4->CamY,touch,keysDown());	
 		update_message();
 		if (keysDown() & KEY_START) break;
-		mobHandlerUpdate(world);
+		mobHandlerUpdate(world4);
 		if (deathScreenUpdate()) break;	
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
-		if (host) timeUpdate(world);
-		worldRender_Render(world,world->CamX,world->CamY);
+		if (host) timeUpdate(world4);
+		worldRender_Render(world4,world4->CamX,world4->CamY);
 	}
-	free(world);
 	nifiDisable();
+	return world4;
 }
