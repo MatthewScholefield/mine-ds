@@ -55,7 +55,6 @@ int main()
 	{
 	    	graphicFrame();
 		oamClear(&oamSub,0,127);
-		stopMusic();
 		titlescreen();
 		//mainGame(0);	
 		swiWaitForVBlank();
