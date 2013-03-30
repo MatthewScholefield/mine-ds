@@ -105,6 +105,7 @@ void generateWorld (worldObject* world){
 		if (biome == 0) plainsBiome(world,i,i+sizex);
 		else if (biome == 1) snowBiome(world,i,i+sizex);
 		else if (biome == 2) desertBiome(world,i,i+sizex);
+		updateBrightnessAround(world,i,j);
 		i=i+sizex+1;
 	}
 	swiWaitForVBlank();
