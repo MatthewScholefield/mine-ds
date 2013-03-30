@@ -56,11 +56,11 @@ void baseMob::updateMob(worldObject* world)
 		{
 			killMob();
 		}
-		if (colisions[0]==false) y+=vy;
+		if (collisions[0]==false) y+=vy;
 		else vy=0;
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
-		//iprintf("colisions = %d\n",colisions[0]);
+		//iprintf("collisions = %d\n",collisions[0]);
 	}
 }
 void baseMob::setXYPos(int a,int b)

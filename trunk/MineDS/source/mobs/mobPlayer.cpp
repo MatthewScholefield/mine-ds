@@ -114,20 +114,20 @@ void playerMob::updateMob(worldObject* world)
 		if (world->CamY<0) world->CamY = 0;
 		if( world->CamX>WORLD_WIDTH*16-256) world->CamX = WORLD_WIDTH*16-256;
 		if (world->CamY>(WORLD_HEIGHT+1)*16-192) world->CamY = (WORLD_HEIGHT+1)*16-192;
-		if (keysHeld()&KEY_RIGHT && !colisions[1] && !colisions[3]){ x++; facing=false;}
-		if (keysHeld()&KEY_LEFT && !colisions[2] && !colisions[3])
+		if (keysHeld()&KEY_RIGHT && !collisions[1] && !collisions[3]){ x++; facing=false;}
+		if (keysHeld()&KEY_LEFT && !collisions[2] && !collisions[3])
 { x--; facing=true; }
-		if (colisions[3]==true)
+		if (collisions[3]==true)
 		{
 			vy=0;
 			y+=1;
 		}
-		if (colisions[0]==false)
+		if (collisions[0]==false)
 		{
 		 y+=vy; 
 		}
 		else vy=0;
-		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && colisions[0]==true && !colisions[3]) vy=-2;	y+=vy;	
+		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && collisions[0]==true && !collisions[3]) vy=-2;	y+=vy;	
 		if (y>world_heightpx) hurt(3,VOID_HURT);
 		if (health<=0)
 		{
