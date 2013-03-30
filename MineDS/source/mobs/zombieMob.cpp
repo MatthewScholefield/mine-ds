@@ -10,6 +10,7 @@
 #include "../message.h"
 #include "../collision.h"
 #include "../worldRender.h"
+#include "../sounds.h"
 Graphic zombieMobGraphic[3];
 zombieMob::zombieMob()
 {
@@ -137,6 +138,7 @@ void zombieMob::hurt(int amount,int type)
 	if (type!=VOID_HURT)
 		vy-=2;
 	y+=vy;
+	playSound(ZOMBIE_H);
 	health-=amount;
 	animation=1;
 	animationclearframes=20;

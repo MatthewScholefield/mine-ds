@@ -62,7 +62,7 @@ void pigMob::updateMob(worldObject* world)
 
 	if (host==true)
 	{
-		target = mobHandlerFindMob(128,2,x,y);
+		target = mobHandlerFindMob(256,2,x,y);
 		
 		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
 		else if (target->mobtype==2 && scared) facing = true;
@@ -140,7 +140,7 @@ void pigMob::updateMob(worldObject* world)
 		{
 			killMob();
 		}
-		if (notarget > 1800) killMob();
+		//if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
 	}
@@ -157,7 +157,7 @@ void pigMob::loadFromFile(FILE* pFile)
 bool canPigMobSpawnHere(worldObject* world,int x,int y)
 {
 	y++;
-	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
+	if ((world->blocks[x][y+1]==GRASS || world->blocks[x][y+1]==SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
 	return false;
 }
 void pigMobInit()
