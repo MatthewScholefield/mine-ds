@@ -1,1 +1,2 @@
-void multiplayerGame(bool host);
+#include "world.h"
+worldObject* multiplayerGame(bool host,worldObject * world);

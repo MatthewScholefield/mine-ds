@@ -1,5 +1,6 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
+#include "world.h"
 #include "mainGame.h"
 #include "multiplayerGame.h"
 #include "sounds.h"
@@ -9,10 +10,10 @@
 //By the time we reach the title screen, all setup procedures should have been completed!
 
 bool  LRC = false; //LR Controls Boolean
-int musicIsOn = 0;
 
 void settings(); //forward statements
 int titlescreen();
+worldObject* theWorld;
 
 void drawBackground() //Draws dirt background and MineDS Logo
 {
@@ -92,18 +93,14 @@ void multiplayerScreen()
 			{
                 drawButtonColored(9,9,12);
                 drawBackground();
-				stopMusic();
-                musicIsOn=false;
-				multiplayerGame(true);
+				theWorld = multiplayerGame(true,theWorld);
 				chosen=true;
 			}
 			else drawButton(9,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
                 drawBackground();
-				stopMusic();
-                musicIsOn=false;
-				multiplayerGame(false);
+				theWorld = multiplayerGame(false,theWorld);
 				chosen=true;
 			}
 			else drawButton(9,14,12);
@@ -307,9 +304,6 @@ void titlescreen_redraw()
 }
 int titlescreen()
 {
-	stopMusic();
-	playMusic(CALM);
-	musicIsOn = 1;
 	uint oldKeys;
 	touchPosition touch;
 	lcdMainOnTop();
@@ -349,9 +343,7 @@ int titlescreen()
 				drawButtonColored(8,9,14);
                                 drawBackground();
 				consoleClear();
-				stopMusic();
-				playMusic(HAL);
-				mainGame(0);
+				theWorld = mainGame(0,theWorld);
 				chosen=true;
 			}
 			else drawButton(8,9,14);
