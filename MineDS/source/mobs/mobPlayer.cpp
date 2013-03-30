@@ -10,6 +10,7 @@
 #include "mobPlayer.h"
 #include "../message.h"
 #include "../blockID.h"
+#include "../sounds.h"
 #include <nds.h>
 //ASDF?
 Graphic playerMobGraphic[3];
@@ -58,6 +59,7 @@ void playerMob::hurt(int amount,int type)
 		return;
 	if (type!=VOID_HURT)
 		vy-=2;
+	playSound(PLAYER_H);
 	y+=vy;
 	health-=amount;
 	animation=1;

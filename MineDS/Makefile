@@ -25,7 +25,7 @@ GRAPHICS	:=	gfx
 AUDIO    	:=  audio
 GAME_TITLE     :=   MineDS
 GAME_SUBTITLE1 :=	CoolAs ray Wolfgange
-GAME_SUBTITLE2 :=	v0.1.0
+GAME_SUBTITLE2 :=	v0.1.1
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project (order is important)
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm9 -ldswifi9 -lfat	-lnds9
+LIBS	:= -ldswifi9 -lmm9 -lfat -lnds9
  
  
 #---------------------------------------------------------------------------------

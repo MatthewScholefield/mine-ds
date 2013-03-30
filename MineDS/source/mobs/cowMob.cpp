@@ -142,7 +142,6 @@ void cowMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
-		iprintf("\x1b[0;0Hcollisions = %d,%d,%d,%d\n",collisions[0],collisions[1],collisions[2],collisions[3]);
 	}
 }
 void cowMob::sendWifiUpdate()
