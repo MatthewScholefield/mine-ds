@@ -14,6 +14,7 @@
 #include "../deathScreen.h"
 #include "../message.h"
 baseMob* mobs[100];
+const int peacefulmobs[] = {4,5}; 
 bool hasSpawnPlayer;
 int playerId;
 bool spawnPlayerAtPos;
@@ -273,6 +274,7 @@ void mobHandlerReadWifiUpdate(int x,int y,int animation,int mobtype,int mobNum,w
 void mobHandlerUpdate(worldObject* world)
 {
 	int badMobs = 0;
+	int goodMobs = 0;
 	if (!hasSpawnPlayer || !playerDeathRespawn)
 	{
 		spawnMob(1,world);
@@ -294,6 +296,8 @@ void mobHandlerUpdate(worldObject* world)
 		{
 			if (mobs[i]->mobtype==3)
 				badMobs++;
+			if (mobs[i]->mobtype==4 || mobs[i]->mobtype==5)
+				goodMobs++;
 			if (mobs[i]->smallmob==false) calculateMiscData(world,mobs[i]);
 			else calculateMiscDataSmall(world,mobs[i]);
 			mobs[i]->updateMob(world);
@@ -321,7 +325,12 @@ void mobHandlerUpdate(worldObject* world)
 		}
 		else if (mobs[i]->timeTillWifiUpdate==0) mobs[i]->timeTillWifiUpdate = 255;
 	}
-	if (keysDown() & KEY_Y) spawnMobOn(4,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
+	//if (keysDown() & KEY_Y) spawnMobOn(4,world,mobs[playerId]->x/16 + (rand() % 9 - 4));
+	if (goodMobs<=20 && canSpawnMob() && rand() % 60 == 0)
+	{
+		int mob = rand() % 2;
+		spawnMobOn(peacefulmobs[mob],world,rand() % WORLD_WIDTH);
+	}
 	if (badMobs<=2 && canSpawnMob())
 	{	
 		int take = 0;
