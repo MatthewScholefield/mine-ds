@@ -25,6 +25,7 @@
 #include "mobs/mobHandler.h"
 #include "nifi.h"
 #include "sounds.h"
+#include <maxmod9.h>    // Maxmod definitions for ARM9
 int screen_x,screen_y;
 void beginRender(int a,int b); 
 void renderWorld(worldObject* world);
@@ -38,6 +39,7 @@ int main()
 	subBgInit();
 	setupFont();
 	nifiInit();
+	mmStop();
 	swiWaitForVBlank();
 	//setSubBgTile(1,0,1);
 	//iprintf("Some Random DEBUG int:%d\n",0);

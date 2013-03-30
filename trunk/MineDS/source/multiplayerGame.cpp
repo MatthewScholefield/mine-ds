@@ -29,7 +29,6 @@ void multiplayerGame(bool host)
 		iprintf("Generating World!\n");
 		world = (worldObject *) calloc(1,sizeof(worldObject));
 		generateWorld(world);
-		Calculate_Brightness(world);
 		while (!hostNifiInit()) swiWaitForVBlank();
 		communicationInit(world);
 		consoleClear();
@@ -57,7 +56,6 @@ void multiplayerGame(bool host)
 		if (doHandshake())
 		{
 			recieveWorld(world);
-			Calculate_Brightness(world);
 		}
 		else return;
 		consoleClear();

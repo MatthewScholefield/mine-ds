@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <nds.h>
 #include "biomes.h"
-
+#include "worldRender.h"
 void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2);
 int extremeMountainGen(worldObject* world,int startx,int starty,int endx)
 {
@@ -84,9 +84,13 @@ void generateWorld (worldObject* world){
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for(j=0;j<=WORLD_HEIGHT;j++)
+		{
 			world->blocks[i][j]=AIR;
+			world->bgblocks[i][j]=AIR;
+		}
 	j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
 	i=0;
+	int oj=j;
 	while (i<WORLD_WIDTH)
 	{
 		int sizex;
@@ -101,6 +105,7 @@ void generateWorld (worldObject* world){
 		else if (biome == 2) desertBiome(world,i,i+sizex);
 		i=i+sizex+1;
 	}
+	updateBrightnessAround(world,0,oj);
 	generateBedrock(world);
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for (j=0;j<=WORLD_HEIGHT;j++)
