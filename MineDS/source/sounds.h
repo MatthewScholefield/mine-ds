@@ -3,6 +3,9 @@
 #define HAL 3
 #define PIG_H 4
 #define PLAYER_H 5
+#define COW_H 6
+#define ZOMBIE_H 7
+void playSoundNiFi(int sound);
 void playSound(int sound);
 void playMusic(int music);
 void stopMusic();

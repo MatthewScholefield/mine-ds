@@ -10,6 +10,7 @@
 #include "communications.h"
 #include "mining.h"
 #include "message.h"
+#include "sounds.h"
 int server_id;
 int client_id;
 bool host;
@@ -77,6 +78,13 @@ void Handler(int packetID, int readlength)
 		int mobNum,amount,type;
 		sscanf(packet,"%*s %d %d %d %d",&test_id,&mobNum,&amount,&type);
 		if (test_id == server_id) mobHandlerHurtMobWifi(mobNum,amount,type);
+	}
+		else if (!strcmp("[SND:",message))
+	{
+		int test_id;
+		int sound;
+		sscanf(packet,"%*s %d %d",&test_id,&sound);
+		if (test_id == server_id) playSoundNiFi(sound);
 	}
 	else if (!strcmp("[REQ:",message))
 	{
