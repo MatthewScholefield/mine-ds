@@ -353,7 +353,6 @@ int titlescreen()
 				consoleClear();
 				stopMusic();
                 musicIsOn=0;
-				playMusic(PIANO);
 				mainGame(0);
 				chosen=true;
 			}
