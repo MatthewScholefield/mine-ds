@@ -10,7 +10,7 @@
 #include "mobFunctions.h"
 #include "../nifi.h"
 #include "../communications.h"
-#include "../colision.h"
+#include "../collision.h"
 #include "../deathScreen.h"
 #include "../message.h"
 baseMob* mobs[100];
