@@ -3,7 +3,10 @@
 #include "soundbank.h"  // Soundbank definitions
 #include "soundbank_bin.h"
 #include "sounds.h"
+#include "nifi.h"
 #include <stdio.h>
+#include <dswifi9.h>
+#include <string.h>
 bool maxModInit=false;
 musicStruct music;
 void initSounds()
@@ -21,12 +24,33 @@ for (i=0;i<MSL_NSONGS;i++) mmLoad(i); //loads all songs
 }
 void playSound(int sound)
 {
+	if (isWifi())
+	{
+		unsigned short buffer[100];
+		int server_id = getServerID();			
+		sprintf((char *)buffer,"[SND: %d %d", server_id, sound);
+		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+	}
 	if (maxModInit==false) 
 		initSounds();
 	switch(sound)
 	{
 		case PIG_H: mmEffect(SFX_PIG); break;
 		case PLAYER_H: mmEffect(SFX_PLAYERHIT); break;
+		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT); break;
+		case COW_H: mmEffect(SFX_COWHIT); break;
+	}
+}
+void playSoundNiFi(int sound)
+{
+	if (maxModInit==false) 
+		initSounds();
+	switch(sound)
+	{
+		case PIG_H: mmEffect(SFX_PIG); break;
+		case PLAYER_H: mmEffect(SFX_PLAYERHIT); break;
+		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT); break;
+		case COW_H: mmEffect(SFX_COWHIT); break;
 	}
 }
 
