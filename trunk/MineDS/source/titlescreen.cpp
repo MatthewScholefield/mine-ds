@@ -74,7 +74,7 @@ void multiplayerScreen()
 	consoleClear(); //Remove All text from the screen
 	iprintf("\x1b[10;10HCreate Game");
 	iprintf("\x1b[15;11HJoin Game");
-        iprintf("\x1b[20;26HBack");
+    iprintf("\x1b[20;26HBack");
 	scanKeys();
 	oldKeys=keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -101,7 +101,7 @@ void multiplayerScreen()
 				theWorld = multiplayerGame(true,theWorld);
 				multiplayer = true;
 				stopMusic();
-				playCalm = true;
+				playCalm = false;
 				playMusic(HAL2);
 				playHal2 = true;
 				chosen=true;
@@ -113,7 +113,7 @@ void multiplayerScreen()
 				theWorld = multiplayerGame(false,theWorld);
 				multiplayer = true;
 				stopMusic();
-				playCalm = true;
+				playCalm = false;
 				playMusic(HAL2);
 				playHal2 = true;
 				chosen=true;
