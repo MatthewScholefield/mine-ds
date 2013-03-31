@@ -20,6 +20,7 @@ void mobHandlerUpdate(worldObject* world);
 worldObject* mainGame(int mode,worldObject* CurrentWorld)
 {
 	consoleClear();
+	clear_messages();
 	lcdMainOnBottom();
 	touchPosition touch;
 
@@ -37,7 +38,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		CurrentWorld->CamX=0;
 		CurrentWorld->CamY=0;
 		CurrentWorld->timeInWorld=0;
-		consoleClear();	
+		consoleClear();
 	}
 	while(1){ //Infinitely repeats until break
 		scanKeys();

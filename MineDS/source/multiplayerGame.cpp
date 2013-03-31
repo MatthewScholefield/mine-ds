@@ -21,6 +21,7 @@ worldObject* multiplayerGame(bool host,worldObject* world4)
 	iprintf("ASDF!\n");
 	mobsReset();
 	consoleClear();
+	clear_messages();
 	iprintf("\x1b[7;0H");
 	if (host)
 	{	
