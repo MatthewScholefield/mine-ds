@@ -323,6 +323,7 @@ void titlescreen_redraw()
 }
 int titlescreen()
 {
+	if (theWorld==NULL) theWorld = (worldObject *) calloc(1, sizeof(worldObject));
 	if (playHal2)
 	{
 		stopMusic();
@@ -403,7 +404,7 @@ int titlescreen()
 			if (gameGen && !multiplayer && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 			{
 				drawButtonColored(8,9,14);
-                drawBackground();
+         		        drawBackground();
 				consoleClear();
 				stopMusic();
 				playCalm = false;

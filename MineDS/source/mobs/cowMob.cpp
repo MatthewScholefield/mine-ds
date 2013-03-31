@@ -51,7 +51,6 @@ cowMob::cowMob(int a,int b)
 }
 void cowMob::updateMob(worldObject* world)
 {
-
 	if (rand()%2 == 1 && mov == 1)
 		dir = true;
 	else if (mov == 1)
