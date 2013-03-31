@@ -311,7 +311,7 @@ void nifiDisable()
 	wifiEnabled=false;
 	blocksCanPlace();
 }
-bool isWifi()
+bool isWifi() //Checks if wifi is enabled
 {
 	return wifiEnabled;
 }

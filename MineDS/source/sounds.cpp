@@ -56,11 +56,12 @@ void playSoundNiFi(int sound)
 
 void playMusic(int music)
 {
-	if (maxModInit==false) initSounds();
+	if (maxModInit==false)
+		initSounds();
 	switch(music)
 	{
-		//case CALM : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
-		//case HAL : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
+		case CALM : mmStart(MOD_CALM,MM_PLAY_ONCE); break;
+		case HAL2 : mmStart(MOD_HAL2,MM_PLAY_LOOP); break;
 	}
 }
 
