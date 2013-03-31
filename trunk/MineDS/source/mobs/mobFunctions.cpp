@@ -3,7 +3,7 @@
 #include "baseMob.h"
 #include "../collision.h"
 #include "../blocks.h"
-#include "mobcollisions.h"
+#include "mobCollisions.h"
 void calculateMiscData(worldObject* world,baseMob* mob)
 {
 	if (mob->host)
