@@ -40,3 +40,11 @@ void update_message()
 		amount++;
 	}
 }
+void clear_messages() //basically adds 3 lines of empty messages
+{
+	print_message(" ");
+	print_message(" ");
+	print_message(" ");
+	update_message();
+
+}
