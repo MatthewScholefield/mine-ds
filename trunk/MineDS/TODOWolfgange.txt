@@ -2,7 +2,4 @@
 //Please tell me whether this is doable and is ok for you to do.
 //Add things here you want to do.
 ----Nice Mobs----
-Fix Zombie colisions with block above
-Create a normal mob (Pig/sheep/cow) (Look at what I did to add zombies and do the same for the mob)
-Add more music
-Recreate the auto playing of music
+Create a normal mob (sheep)
