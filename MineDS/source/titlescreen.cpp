@@ -1,3 +1,4 @@
+#include "deathScreen.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "world.h"
@@ -310,7 +311,7 @@ void titlescreen_redraw()
 	drawButton(8,9,14);
 	drawButton(8,14,14);
 	drawButton(8,19,14);
-	if (gameGen && !multiplayer)
+	if (gameGen && !multiplayer && !getDied())
 		drawButton(25,19,4); //Back button
 	//Clear the screen!
 	consoleClear();
@@ -318,7 +319,7 @@ void titlescreen_redraw()
 	iprintf("\x1b[10;9HSingle Player");
 	iprintf("\x1b[15;10HMulti Player");
     iprintf("\x1b[20;12HSettings");
-	if (gameGen && !multiplayer)
+	if (gameGen && !multiplayer && !getDied())
 		iprintf("\x1b[20;26HBack");
 }
 int titlescreen()
@@ -342,7 +343,7 @@ int titlescreen()
 	drawButton(8,9,14);
 	drawButton(8,14,14);
     drawButton(8,19,14);
-	if (gameGen && !multiplayer)
+	if (gameGen && !multiplayer && !getDied())
 		drawButton(25,19,4); //Back button
 	//Clear the screen!
 	consoleClear();
@@ -350,7 +351,7 @@ int titlescreen()
 	iprintf("\x1b[10;9HSingle Player");
 	iprintf("\x1b[15;10HMulti Player");
     iprintf("\x1b[20;12HSettings");
-	if (gameGen && !multiplayer)
+	if (gameGen && !multiplayer && !getDied())
 		iprintf("\x1b[20;26HBack");
 	bool chosen=false;
 	scanKeys();
@@ -369,7 +370,7 @@ int titlescreen()
 				drawButtonColored(8,14,14);
             else if (touch.px > 64 && touch.px < 184 && touch.py > 152 && touch.py < 176)
                 drawButtonColored(8,19,14);
-			else if (gameGen && !multiplayer && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			else if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
                 drawButtonColored(25,19,4);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
@@ -401,7 +402,7 @@ int titlescreen()
 				titlescreen_redraw();
 			}
 			else drawButton(8,19,14);
-			if (gameGen && !multiplayer && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 			{
 				drawButtonColored(8,9,14);
          		        drawBackground();
@@ -413,7 +414,7 @@ int titlescreen()
 				theWorld = mainGame(1,theWorld);
 				chosen=true;
 			}
-			else if (gameGen)
+			else if (gameGen && !multiplayer && !getDied())
 				drawButton(25,19,4); //Back button
 		}
 		oldKeys=keysHeld();

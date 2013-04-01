@@ -9,17 +9,18 @@
 bool deathScreenShow=true;
 touchPosition touch;
 int oldKeys;
+bool died = false; //Used to show whether exitted to titlescreen after dying
+bool getDied()
+{
+	return died;
+}
 void deathScreenSetup()
 {
 	if (deathScreenShow == true)
 	{	
 		consoleClear();
 		lcdMainOnTop();
-		int i,j;
 		drawBackground();
-		for (i=0;i<=25;i++)
-			for (j=0;j<=6;j++)
-				setSubBgTile(i+2,j,i+(j*32)); //Draw the MineDS Logo!
 		printf("\x1b[8;10HYou Died!");
 		drawButton(8,10,14);
 		drawButton(8,15,14);
@@ -40,14 +41,14 @@ bool deathScreenUpdate()
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
-			if (touch.px > 64 && touch.px < 160 && touch.py > 80 && touch.py < 96)
+			if (touch.px > 64 && touch.px < 184 && touch.py > 80 && touch.py < 104)
 				drawButtonColored(8,10,14);
-			else if (touch.px > 64 && touch.px < 160 && touch.py > 120 && touch.py < 136)
+			else if (touch.px > 64 && touch.px < 184 && touch.py > 120 && touch.py < 152)
 				drawButtonColored(8,15,14);	
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (touch.px > 64 && touch.px < 176 && touch.py > 80 && touch.py < 96)
+			if (touch.px > 64 && touch.px < 184 && touch.py > 80 && touch.py < 104)
 			{
                                 drawBackground();
 				deathScreenShow=true;
@@ -56,14 +57,16 @@ bool deathScreenUpdate()
 				mobHandlerRespawnPlayer();
 				lcdMainOnBottom();
 				miningSetScene(false);
+				died = false;
 				return false;
 			}
 			else drawButton(8,10,14);
-			if (touch.px > 64 && touch.px < 176 && touch.py > 120 && touch.py < 136)
+			if (touch.px > 64 && touch.px < 184 && touch.py > 120 && touch.py < 144)
 			{	
                                 drawBackground();
 				deathScreenShow=true;
 				miningSetScene(false);
+				died = true;
 				return true;
 			}
 			else drawButton(8,15,14);

@@ -16,10 +16,14 @@
 baseMob* mobs[100];
 const int peacefulmobs[] = {4,5}; 
 bool hasSpawnPlayer;
-int playerId;
+#define playerId 1
 bool spawnPlayerAtPos;
 bool playerDeathRespawn;
 int spawn_x,spawn_y;
+bool getPlayerDeathRespawn()
+{
+	return playerDeathRespawn;
+}
 baseMob* mobHandlerFindMob(int range,int type,int x,int y)
 {
 	int closest=range * range + 1;
@@ -278,27 +282,27 @@ void mobHandlerUpdate(worldObject* world)
 	if (!hasSpawnPlayer || !playerDeathRespawn)
 	{
 		spawnMob(1,world);
-		hasSpawnPlayer=true;
+		hasSpawnPlayer = true;
 		playerDeathRespawn = true;
 	}
 	int i;
 	for(i=1;i<100;i++)
 	{
-		if (mobs[i]->isMyPlayer())
+		/*if (mobs[i]->isMyPlayer())
 		{
 			playerId=i;
-			if (mobs[i]->alive==false && playerDeathRespawn == true)
+			if (mobs[i]->alive == false && playerDeathRespawn == true)
 			{
 				deathScreenSetup();
 			}		
-		}
-		if (mobs[i]->alive==true)
+		}*/
+		if (mobs[i]->alive == true)
 		{
-			if (mobs[i]->mobtype==3)
+			if (mobs[i]->mobtype == 3)
 				badMobs++;
-			if (mobs[i]->mobtype==4 || mobs[i]->mobtype==5)
+			if (mobs[i]->mobtype == 4 || mobs[i]->mobtype == 5)
 				goodMobs++;
-			if (mobs[i]->smallmob==false) calculateMiscData(world,mobs[i]);
+			if (mobs[i]->smallmob == false) calculateMiscData(world,mobs[i]);
 			else calculateMiscDataSmall(world,mobs[i]);
 			mobs[i]->updateMob(world);
 			mobs[i]->timeTillWifiUpdate--;
@@ -308,7 +312,7 @@ void mobHandlerUpdate(worldObject* world)
 				if(mobs[i]->ping>80)
 				{
 					mobs[i]->ping = 0;
-					mobs[i]->alive=false;
+					mobs[i]->alive = false;
 				}
 			}
 		}
