@@ -1,5 +1,6 @@
 #include "../world.h"
 #include "baseMob.h"
+bool getPlayerDeathRespawn();
 void mobHandlerInit();
 void mobHandlerUpdate(worldObject* world);
 void mobHandlerKillMob(int a);

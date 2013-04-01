@@ -12,6 +12,8 @@
 #include "../blockID.h"
 #include "../sounds.h"
 #include <nds.h>
+#include "mobHandler.h"
+#include "../deathScreen.h"
 //ASDF?
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
@@ -31,7 +33,6 @@ playerMob::playerMob()
 	reheal=0;
 	tillBrightness=0;
 }
-
 playerMob::playerMob(int a,int b)
 {
 	gravity=3;
@@ -134,6 +135,10 @@ void playerMob::updateMob(worldObject* world)
 		if (health<=0)
 		{
 			alive=false;
+			if (getPlayerDeathRespawn())
+			{
+				deathScreenSetup();
+			}
 		}
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
