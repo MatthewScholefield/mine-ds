@@ -34,6 +34,7 @@ void renderWorld(worldObject* world);
 
 int main()
 {
+	defaultExceptionHandler();
 	lcdMainOnBottom();
 	srand(time(NULL));
 	subBgInit();

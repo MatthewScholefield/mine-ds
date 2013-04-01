@@ -2,4 +2,5 @@
 //Please tell me whether this is doable and is ok for you to do.
 //Add things here you want to do.
 ----Nice Mobs----
-Create a normal mob (sheep)
+[s]Create a normal mob (sheep)[/s] You don't need to do that yet.
+Pig and cow is enough for now.
