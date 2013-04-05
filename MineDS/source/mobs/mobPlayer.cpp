@@ -14,6 +14,7 @@
 #include <nds.h>
 #include "mobHandler.h"
 #include "../deathScreen.h"
+#include"../titlescreen.h"
 //ASDF?
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
@@ -56,37 +57,40 @@ playerMob::playerMob(int a,int b)
 }
 void playerMob::hurt(int amount,int type)
 {
-	if (animation==1)
-		return;
-	if (type!=VOID_HURT)
-		vy-=2;
-	playSound(PLAYER_H);
-	y+=vy;
-	health-=amount;
-	animation=1;
-	animationclearframes=20;
-	if (health<=0)
+	if (isSurvival() || type==VOID_HURT)
 	{
-		std::string message;
-
-		if (isWifi() && isHost()==false)
+		if (animation==1)
+			return;
+		if (type!=VOID_HURT)
+			vy-=2;
+		playSound(PLAYER_H);
+		y+=vy;
+		health-=amount;
+		animation=1;
+		animationclearframes=20;
+		if (health<=0)
 		{
-			unsigned short buffer[10];
-			int client_id = getClientID();	
-			sprintf((char *)buffer,"%d", client_id);
-			message = (char*)buffer;
-		}		
-		else if (isWifi())
-			message = "The host";
-		else
-			message = "Steve";
-		if (type==CACTUS_HURT) message += " was pricked to death";
-		else if (type==VOID_HURT) message += " fell out of the world";
-		else if (type==PLAYER_HURT) message += " was killed by a player";	
-		else if (type==ZOMBIE_HURT) message += " was eaten by a zombie";		
-		else message += " died";
-		message+="\n";
-		print_message((char*)message.c_str());
+			std::string message;
+
+			if (isWifi() && isHost()==false)
+			{
+				unsigned short buffer[10];
+				int client_id = getClientID();	
+				sprintf((char *)buffer,"%d", client_id);
+				message = (char*)buffer;
+			}		
+			else if (isWifi())
+				message = "The host";
+			else
+				message = "Steve";
+			if (type==CACTUS_HURT) message += " was pricked to death";
+			else if (type==VOID_HURT) message += " fell out of the world";
+			else if (type==PLAYER_HURT) message += " was killed by a player";	
+			else if (type==ZOMBIE_HURT) message += " was eaten by a zombie";		
+			else message += " died";
+			message+="\n";
+			print_message((char*)message.c_str());
+		}
 	}
 }
 void showHealth(int health)
@@ -119,7 +123,7 @@ void playerMob::updateMob(worldObject* world)
 		if (world->CamY>(WORLD_HEIGHT+1)*16-192) world->CamY = (WORLD_HEIGHT+1)*16-192;
 		if (keysHeld()&KEY_RIGHT && !collisions[1] && !collisions[3]){ x++; facing=false;}
 		if (keysHeld()&KEY_LEFT && !collisions[2] && !collisions[3])
-{ x--; facing=true; }
+		{ x--; facing=true; }
 		if (collisions[3]==true)
 		{
 			vy=0;
@@ -127,7 +131,7 @@ void playerMob::updateMob(worldObject* world)
 		}
 		if (collisions[0]==false)
 		{
-		 y+=vy; 
+			y+=vy; 
 		}
 		else vy=0;
 		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && collisions[0]==true && !collisions[3]) vy=-2;	y+=vy;	
@@ -148,7 +152,8 @@ void playerMob::updateMob(worldObject* world)
 				health++;
 			reheal=0;
 		}
-		showHealth(health);
+		if (isSurvival())
+			showHealth(health);
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
 	{

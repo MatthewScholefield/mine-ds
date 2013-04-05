@@ -1,8 +1,8 @@
 /*
-        -----------------------------------------
-        |             Inventory.cpp             |
-        |           Inventory Funtions          |
-        -----------------------------------------
+-----------------------------------------
+|             Inventory.cpp             |
+|           Inventory Funtions          |
+-----------------------------------------
 */
 #include "mining.h" //for NUM_BLOCKS
 int inventory[NUM_BLOCKS];
