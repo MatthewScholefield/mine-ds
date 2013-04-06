@@ -7,6 +7,7 @@
 #include "sounds.h"
 #include "nifi.h"
 #include "inventory.h"
+#include "graphics\inventoryGraphics.h"
 #include <nds.h>
 #include <stdio.h>
 //Single Player/Multiplayer :D
@@ -361,6 +362,7 @@ void gameMode()
 				playCalm = false;
 				playMusic(HAL2);
 				playHal2 = true;
+				updateInvGraphics();
 				theWorld = mainGame(0,theWorld);
 				gameGen = true;
 				multiplayer = false;
@@ -378,6 +380,7 @@ void gameMode()
 				playCalm = false;
 				playMusic(HAL2);
 				playHal2 = true;
+				updateInvGraphics();
 				theWorld = mainGame(0,theWorld);
 				gameGen = true;
 				multiplayer = false;
