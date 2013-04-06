@@ -12,6 +12,7 @@
 #include "mobs/mobHandler.h"
 #include "deathScreen.h"
 #include "daynight.h"
+#include "graphics\inventoryGraphics.h"
 
 bool up;
 Graphic graphics[10];
@@ -23,6 +24,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 	clear_messages();
 	lcdMainOnBottom();
 	touchPosition touch;
+	//initInvGraphics();
 
 	if (mode==0) // Generate new world and reset the camera and time
 	{
@@ -56,6 +58,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 			break;
 		timeUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
+		drawInv();
 	}
 	return CurrentWorld;
 }
