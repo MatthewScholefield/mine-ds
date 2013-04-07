@@ -13,6 +13,7 @@ class playerMob : public baseMob
 	bool alive;
 	bool host; // Was this mob spawn'd by this nds?*/
     //bool potioneffects[5];
+	bool deathscreen;
 	int reheal;
 	int tillBrightness;
 	virtual void saveToFile(FILE* sFile);
@@ -25,3 +26,4 @@ class playerMob : public baseMob
    	playerMob(int x,int y);
 };
 void playerMobInit();
+bool shouldQuitGame();

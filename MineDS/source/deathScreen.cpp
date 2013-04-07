@@ -33,7 +33,7 @@ void deathScreenSetup()
 		miningSetScene(true);
 	}
 }
-bool deathScreenUpdate()
+int deathScreenUpdate()
 {
 	if (deathScreenShow == false)
 	{	
@@ -54,7 +54,6 @@ bool deathScreenUpdate()
 				deathScreenShow=true;
 				consoleClear();
 				printf("\n\n\n\n\n\n\n\n");
-				mobHandlerRespawnPlayer();
 				lcdMainOnBottom();
 				miningSetScene(false);
 				died = false;
@@ -67,12 +66,12 @@ bool deathScreenUpdate()
 				deathScreenShow=true;
 				miningSetScene(false);
 				died = true;
-				return true;
+				return 1;
 			}
 			else drawButton(8,15,14);
 		}
 		oldKeys=keysHeld();
 		touchRead(&touch);
 	}
-	return false;
+	return 2;
 }

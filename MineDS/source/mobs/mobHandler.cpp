@@ -18,12 +18,8 @@ const int peacefulmobs[] = {4,5};
 bool hasSpawnPlayer;
 #define playerId 1
 bool spawnPlayerAtPos;
-bool playerDeathRespawn;
 int spawn_x,spawn_y;
-bool getPlayerDeathRespawn()
-{
-	return playerDeathRespawn;
-}
+
 baseMob* mobHandlerFindMob(int range,int type,int x,int y)
 {
 	int closest=range * range + 1;
@@ -80,12 +76,6 @@ int isMobAt(int x,int y)
 		}
 	}
 	return -1;
-}
-void mobHandlerRespawnPlayer()
-{
-	delete mobs[playerId];
-	mobs[playerId] = new baseMob();
-	playerDeathRespawn = false;
 }
 void mobHandlerKillMob(int mobNum)
 {
@@ -279,23 +269,15 @@ void mobHandlerUpdate(worldObject* world)
 {
 	int badMobs = 0;
 	int goodMobs = 0;
-	if (!hasSpawnPlayer || !playerDeathRespawn)
+	if (!hasSpawnPlayer)
 	{
 		spawnMob(1,world);
 		hasSpawnPlayer = true;
-		playerDeathRespawn = true;
 	}
 	int i;
 	for(i=1;i<100;i++)
 	{
-		/*if (mobs[i]->isMyPlayer())
-		{
-			playerId=i;
-			if (mobs[i]->alive == false && playerDeathRespawn == true)
-			{
-				deathScreenSetup();
-			}		
-		}*/
+
 		if (mobs[i]->alive == true)
 		{
 			if (mobs[i]->mobtype == 3)
