@@ -1,3 +1,3 @@
 bool getDied();
 void deathScreenSetup();
-bool deathScreenUpdate();
+int deathScreenUpdate();

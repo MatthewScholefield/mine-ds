@@ -10,6 +10,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
+#include "mobs/mobPlayer.h"
 #include "communications.h"
 #include "deathScreen.h"
 #include "message.h"
@@ -80,9 +81,8 @@ worldObject* multiplayerGame(bool host,worldObject* world4)
 		nifiUpdate();
 		miningUpdate(world4,world4->CamX,world4->CamY,touch,keysDown());	
 		update_message();
-		if (keysDown() & KEY_START) break;
 		mobHandlerUpdate(world4);
-		if (deathScreenUpdate()) break;	
+		if (keysDown() & KEY_START || shouldQuitGame()) break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
