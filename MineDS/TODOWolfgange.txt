@@ -1,6 +1,10 @@
-//Proposed TODO for Wolfgange
-//Please tell me whether this is doable and is ok for you to do.
-//Add things here you want to do.
-----Nice Mobs----
-[s]Create a normal mob (sheep)[/s] You don't need to do that yet.
-Pig and cow is enough for now.
+Add ladders
+Fix hurt jump bug.
+Fix the isMyPlayer bug in respawn. (rare, but still happens, it's called in findFreeMobSpawnNum()).
+
+// If you need help with the below, I'm more than happy to help you (do it for you).
+Fix inventory to be a proper inventory with 36 slots, that each can hold anything.
+Make a nice inventory gui, where you can rearrange slots.
+
+
+Fix the NiFi library to not crash and be 100% reliable.  (https://www.youtube.com/watch?v=5dI6mPDCqEo)
