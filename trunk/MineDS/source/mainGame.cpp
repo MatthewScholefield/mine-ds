@@ -10,6 +10,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
+#include "mobs/mobPlayer.h"
 #include "deathScreen.h"
 #include "daynight.h"
 #include "graphics/inventoryGraphics.h"
@@ -48,14 +49,12 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
 		mobHandlerUpdate(CurrentWorld);
 		update_message();
-		if (keysDown() & KEY_START)
+		if (keysDown() & KEY_START || shouldQuitGame())
 			break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
-		if (deathScreenUpdate())
-			break;
 		timeUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
 		drawInv();

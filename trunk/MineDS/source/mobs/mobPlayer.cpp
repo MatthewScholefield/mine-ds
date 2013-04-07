@@ -16,8 +16,14 @@
 #include "../deathScreen.h"
 #include"../titlescreen.h"
 //ASDF?
+#define PLAYER_FULL_HEALTH 20
+bool quitGame = false;
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
+bool shouldQuitGame()
+{
+	return quitGame;
+}
 playerMob::playerMob()
 {
 	x=0;
@@ -29,10 +35,12 @@ playerMob::playerMob()
 	facing=0;
 	animation=0;
 	mobtype=2;
-	health=20;
+	health=PLAYER_FULL_HEALTH;
 	ping=0;
 	reheal=0;
 	tillBrightness=0;
+	deathscreen=false;
+	quitGame=false;
 }
 playerMob::playerMob(int a,int b)
 {
@@ -48,12 +56,14 @@ playerMob::playerMob(int a,int b)
 	onground=false;
 	facing=false;
 	mobtype=2;
-	health=20;
+	health=PLAYER_FULL_HEALTH;
 	ping=0;
 	animation=0;
 	timeTillWifiUpdate=rand()%4+4;
 	reheal=0;
 	tillBrightness=0;
+	deathscreen=false;
+	quitGame=false;
 }
 void playerMob::hurt(int amount,int type)
 {
@@ -107,53 +117,83 @@ void playerMob::updateMob(worldObject* world)
 {
 	if (host)
 	{
-		tillBrightness++;
-		if (tillBrightness>60)
+		if (health>0)
 		{
-			tillBrightness=0;
-			updateBrightnessAround(world,x/16,y/16);
-		}
-		reheal++;
-		ping=0;
-		world->CamX=x-256/2;
-		world->CamY=y-192/2;
-		if( world->CamX <0) world->CamX = 0;
-		if (world->CamY<0) world->CamY = 0;
-		if( world->CamX>WORLD_WIDTH*16-256) world->CamX = WORLD_WIDTH*16-256;
-		if (world->CamY>(WORLD_HEIGHT+1)*16-192) world->CamY = (WORLD_HEIGHT+1)*16-192;
-		if (keysHeld()&KEY_RIGHT && !collisions[1] && !collisions[3]){ x++; facing=false;}
-		if (keysHeld()&KEY_LEFT && !collisions[2] && !collisions[3])
-		{ x--; facing=true; }
-		if (collisions[3]==true)
-		{
-			vy=0;
-			y+=1;
-		}
-		if (collisions[0]==false)
-		{
-			y+=vy; 
-		}
-		else vy=0;
-		if ((keysDown() & KEY_UP || keysDown() & KEY_A) && collisions[0]==true && !collisions[3]) vy=-2;	y+=vy;	
-		if (y>world_heightpx) hurt(3,VOID_HURT);
-		if (health<=0)
-		{
-			alive=false;
-			if (getPlayerDeathRespawn())
+			tillBrightness++;
+			if (tillBrightness>60)
 			{
-				deathScreenSetup();
+				tillBrightness=0;
+				updateBrightnessAround(world,x/16,y/16);
 			}
-		}
-		if (animationclearframes==0) animation=0;
-		else animationclearframes--;
-		if (reheal>300)
-		{
-			if (health<20)
-				health++;
-			reheal=0;
-		}
-		if (isSurvival())
+			reheal++;
+			ping=0;
+			world->CamX=x-256/2;
+			world->CamY=y-192/2;
+			if( world->CamX <0) world->CamX = 0;
+			if (world->CamY<0) world->CamY = 0;
+			if( world->CamX>WORLD_WIDTH*16-256) world->CamX = WORLD_WIDTH*16-256;
+			if (world->CamY>(WORLD_HEIGHT+1)*16-192) world->CamY = (WORLD_HEIGHT+1)*16-192;
+			if (keysHeld()&KEY_RIGHT && !collisions[1] && !collisions[3]){ x++; facing=false;}
+			if (keysHeld()&KEY_LEFT && !collisions[2] && !collisions[3])
+			{ x--; facing=true; }
+			if (collisions[3]==true)
+			{
+				vy=0;
+				y+=1;
+			}
+			if (collisions[0]==false)
+			{
+				y+=vy; 
+			}
+			else vy=0;
+			if ((keysDown() & KEY_UP || keysDown() & KEY_A) && collisions[0]==true && !collisions[3]) vy=-2;	y+=vy;	
+			if (y>world_heightpx) hurt(3,VOID_HURT);
+			if (animationclearframes==0) animation=0;
+			else animationclearframes--;
+			if (reheal>300)
+			{
+				if (health<20)
+					health++;
+				reheal=0;
+			}
 			showHealth(health);
+		}
+		else if (deathscreen==false)
+		{
+			deathScreenSetup();
+			deathscreen=true;
+			health=-50;
+		}
+		else
+		{
+			x=1024;
+			y=1024;
+			int result = deathScreenUpdate();
+			if (result==0)
+			{
+				int i,j;
+				for (i=0;i<=WORLD_WIDTH;i++)
+					for(j=0;j<=WORLD_HEIGHT;j++)
+					{
+						if (canPlayerMobSpawnHere(world,i,j))
+						{
+							x=i*16;
+							y=j*16-16;
+							deathscreen=false;
+							health=PLAYER_FULL_HEALTH;
+							i=WORLD_WIDTH+1;
+							j=WORLD_HEIGHT+1;
+							animation=0;
+						}
+					}
+			}
+			else if (result==1)
+			{
+				quitGame=true;
+				
+			}
+				
+		}
 	}
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
 	{
