@@ -28,4 +28,5 @@ void loadGraphicSub(Graphic* g,int mob,int frame);
 bool showGraphic(Graphic* g,int x,int y);
 bool showGraphic(Graphic* g,int x,int y,bool flip);
 void unloadGraphic(Graphic* g);
+bool showGraphic(Graphic* g,int x,int y,bool flip,int pri);
 #define unloadGraphicSub(x) unloadGraphic(x)
