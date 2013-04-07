@@ -7,7 +7,7 @@
 #include "sounds.h"
 #include "nifi.h"
 #include "inventory.h"
-#include "graphics\inventoryGraphics.h"
+#include "graphics/inventoryGraphics.h"
 #include <nds.h>
 #include <stdio.h>
 //Single Player/Multiplayer :D

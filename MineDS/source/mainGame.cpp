@@ -12,7 +12,7 @@
 #include "mobs/mobHandler.h"
 #include "deathScreen.h"
 #include "daynight.h"
-#include "graphics\inventoryGraphics.h"
+#include "graphics/inventoryGraphics.h"
 
 bool up;
 Graphic graphics[10];
