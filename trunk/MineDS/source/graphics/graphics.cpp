@@ -259,7 +259,7 @@ void loadGraphicSub(Graphic* g,int font,int frame)
 	\param x The x position of where the sprite should be displayed.
 	\param y The y position of where the sprite should be displayed.
 */
-bool showGraphic(Graphic* g,int x,int y,bool flip)
+bool showGraphic(Graphic* g,int x,int y,bool flip,int pri)
 {
 	int spriteID;
 	if (x<-32 || x>256+32 || y<-32 || y>244) return false;
@@ -268,32 +268,37 @@ bool showGraphic(Graphic* g,int x,int y,bool flip)
 	{
 		spriteID = graphicNextMain();
 		if (g->mob==1 && g->sy==32)
-			oamSet(&oamMain,spriteID,x,y,0,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamMain,spriteID,x,y,pri,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->mob==1)
-			oamSet(&oamMain,spriteID,x,y,0,0,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamMain,spriteID,x,y,pri,0,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->mob==0)
-			oamSet(&oamMain,spriteID,x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamMain,spriteID,x,y,pri,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->mob==2)
-			oamSet(&oamMain,spriteID,x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamMain,spriteID,x,y,pri,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
 	else
 	{
 		spriteID = graphicNextSub();
 		if (g->mob==1)
 		{
-			oamSet(&oamSub,spriteID,x,y,0,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamSub,spriteID,x,y,pri,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		}
 		else if (g->mob==2)
 		{
-			oamSet(&oamSub,spriteID,x,y,0,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamSub,spriteID,x,y,pri,2,SpriteSize_16x16,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		}
 		else if (g->sx==8 && g->sy==8 && g->mob==0)
-			oamSet(&oamSub,spriteID,x,y,0,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
+			oamSet(&oamSub,spriteID,x,y,pri,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
 	if (spriteID > 127) return false;
 	return true;
+}
+bool showGraphic(Graphic* g,int x,int y,bool a)
+{
+	return showGraphic(g,x,y,a,0);
 }
 bool showGraphic(Graphic* g,int x,int y)
 {
 	return showGraphic(g,x,y,false);
 }
+
