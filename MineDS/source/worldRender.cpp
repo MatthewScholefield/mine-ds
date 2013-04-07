@@ -225,6 +225,7 @@ void worldRender_Init()
 	REG_DISPCNT = MODE_5_2D | DISPLAY_BG_EXT_PALETTE;
 	bgInit(2, BgType_ExRotation, BgSize_ER_512x512, 0x10, 0);
 	bgShow(2);
+	bgSetPriority(2,1);
 	REG_BG2CNT |= BG_WRAP_ON;
 	bgUpdate();
 	vramSetBankE(VRAM_E_LCD);
@@ -315,7 +316,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 				if (world->blocks[i][j]==TORCH)
 				{
 					//Render the Torch as a sprite...
-					if (!showGraphic(&torchSprite,(i*16) - screen_x,(j*16) - screen_y))
+					if (!showGraphic(&torchSprite,(i*16) - screen_x,(j*16) - screen_y,false,1))
 					{
 					//But if we run out of sprite IDs, render as a tile...
 						 renderBlock(world,i,j,world->blocks[i][j]);
