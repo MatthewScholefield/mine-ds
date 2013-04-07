@@ -12,26 +12,17 @@
 #include "nifi.h"
 #include "blockupdate.h"
 #include "titlescreen.h"
-#include "mining.h"
 #include "inventory.h"
-#include "titleScreen.h"
-
-Graphic topBlock;
-
+#define NUM_BLOCKS 47
+int selectedblock=0;
 bool loadedgraphic=false;
+Graphic topBlock;
+extern bool LRC;
 bool incutscene = false;
 bool canPlaceBlocks=true;
-
-int selectedblock=0;
 int framecounting=0;
 int failedAttempts=0;
 int last_x,last_y;
-
-int getSelectedblock()
-{
-	return selectedblock;
-}
-
 void miningSetScene(bool a)
 {
 	incutscene = a;
@@ -50,7 +41,7 @@ void blocksCanPlace()
 void setBlock(worldObject* world, int x,int y)
 {
 	bool something=true;
-	int c = 1;
+        int c = 1;
 	if ((keysHeld() & KEY_DOWN) || selectedblock==CACTUS)
 	{
 		if (world->bgblocks[x][y]!=AIR) something=false;
@@ -58,36 +49,28 @@ void setBlock(worldObject* world, int x,int y)
 	if (world->blocks[x][y]==AIR && something)
 	{
 		if ((keysHeld() & KEY_DOWN))
+                {
+			if (subInventory(selectedblock,1))
+        			world->bgblocks[x][y]=selectedblock;
+			checkBlockPlace(x,y,world,true);		
+                }
+                else 
 		{
-			if ((!isSurvival() || (isSurvival() && checkInventory(selectedblock) > 0)) && checkBlockPlace(x,y,world,true))
-			{
-				world->bgblocks[x][y]=selectedblock;
-				if (isSurvival())
-					subInventory(selectedblock,1);
-			}
-		}
-		else 
-		{
-			if ((!isSurvival() || (isSurvival() && checkInventory(selectedblock) > 0)) && checkBlockPlace(x,y,world,false))
-			{
+			if (subInventory(selectedblock,1))
 				world->blocks[x][y]=selectedblock;
-				if (isSurvival())
-					subInventory(selectedblock,1);
-			}
+			checkBlockPlace(x,y,world,false);
 		}
 	}
 	else if (world->blocks[x][y]!=AIR)
 	{
-		if (isSurvival())
-			addInventory(world->blocks[x][y],1);
-		world->blocks[x][y]=AIR;
+		addInventory(world->blocks[x][y],1);
+                world->blocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,false);
 	}
 	else if (world->blocks[x][y]==AIR)
 	{
-		if (isSurvival())
-			addInventory(world->bgblocks[x][y],1);
-		world->bgblocks[x][y]=AIR;
+		addInventory(world->bgblocks[x][y],1);
+                world->bgblocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,true);
 	}
 	else return;
@@ -113,29 +96,29 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		}
 		else if (canPlaceBlocks && !incutscene)
 		{
-			setBlock(world,x,y);
-			updateBrightnessAround(world,x,y);
+		 setBlock(world,x,y);
+		 updateBrightnessAround(world,x,y);
 		}
 	}
-	if ((keys & KEY_L && getLRC()==true) || (keys & KEY_X && getLRC()==false))
+	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
 	{
 		selectedblock--;
 		calculateTopBlock();
 	}
-	else if ((keys & KEY_R && getLRC()==true) || (keys & KEY_B && getLRC()==false))
+	else if ((keys & KEY_R && LRC==true) || (keys & KEY_B && LRC==false))
 	{
 		selectedblock++;
 		calculateTopBlock();
 	}
 	if (selectedblock<0)
 	{
-		selectedblock=NUM_BLOCKS;
-		calculateTopBlock();
+	 selectedblock=NUM_BLOCKS;
+	 calculateTopBlock();
 	}
 	else if (selectedblock>NUM_BLOCKS)
 	{
-		selectedblock=0;
-		calculateTopBlock();
+	 selectedblock=0;
+	 calculateTopBlock();
 	}
 	if (selectedblock!=0) showGraphic(&topBlock,0,0);
 	if (canPlaceBlocks==false) framecounting++;
@@ -147,3 +130,4 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		failedAttempts++;
 	}
 }
+
