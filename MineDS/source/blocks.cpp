@@ -6,7 +6,7 @@
 */
 #include "blockID.h"
 #define sizeOfArray(x) (sizeof(x)/4)
-int walkThroughBlocks[]={AIR,YELLOW_FLOWER,RED_FLOWER,SNOW_TOP,TORCH};
+int walkThroughBlocks[]={AIR,YELLOW_FLOWER,RED_FLOWER,SNOW_TOP,TORCH,LADDER};
 int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF,GLASS,SNOW_TOP};
 int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT,GLOWSTONE};
 #define NUM_OF_LIGHT_SOURCES 3

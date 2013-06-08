@@ -55,3 +55,4 @@
 #define LIGHT_BLUE_WOOL 45
 #define FUCHSIA_WOOL 46
 #define ORANGE_WOOL 47
+#define LADDER 48
