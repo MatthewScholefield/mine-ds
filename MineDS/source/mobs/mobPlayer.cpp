@@ -142,24 +142,23 @@ void playerMob::updateMob(worldObject* world)
 				vy=0;
 				y+=1;
 			}
-			if (collisions[0]==false && (world->blocks[x/16][y/16] != LADDER || (keysHeld() & KEY_DOWN)))
-			{
-				y+=vy; 
-			}
-			/*else if ((keysHeld() & KEY_DOWN) && (world->blocks[x/16][y/16] == LADDER || (keysHeld() & KEY_DOWN)) && collisions[0]==false)
-				y++;***/
-		/*else if (!(keysHeld() & KEY_UP) && (world->blocks[x/16][y/16] == LADDER || world->blocks[x/16][(y/16)-1] == LADDER || world->blocks[x/16][(y/16)-2] == LADDER) && collisions[0]==false)
+			if (!(keysHeld() & KEY_UP) && (world->blocks[x/16][y/16] == LADDER || world->blocks[x/16][(y/16)+1] == LADDER || world->blocks[x/16][(y/16)+2] == LADDER) && collisions[0]==false)
 			{
 				slow ++;
-				if (slow == 5)
-					{
-						y ++;
-						slow = 0;
+				if (slow == 2)
+				{
+					vy=1;
+					y ++;
+					slow = 0;
 				}
-			}*/
+			}
+			if (collisions[0]==false && (world->blocks[x/16][y/16] != LADDER && world->blocks[x/16][(y/16)+1] != LADDER && world->blocks[x/16][(y/16)+2] != LADDER))
+			{
+				y+=vy;
+			}
 			else vy=0;
 			if ((keysDown() & KEY_UP || keysDown() & KEY_A) && collisions[0]==true && !collisions[3]) vy=-2;	y+=vy;	
-			if (keysHeld() & KEY_UP && world->blocks[x/16][y/16]==LADDER && !collisions[0] && !collisions[3]) y+=-1;
+			if (keysHeld() & KEY_UP && (world->blocks[x/16][y/16] == LADDER || world->blocks[x/16][(y/16)+1] == LADDER || world->blocks[x/16][(y/16)+2] == LADDER) && !collisions[0] && !collisions[3]) y+=-1;
 			if (y>world_heightpx) hurt(3,VOID_HURT);
 			if (collisions[0] && collisions[3])
 				while (world->blocks[x/16][(y/16)+1] != AIR || world->blocks[x/16][y/16] != AIR)
