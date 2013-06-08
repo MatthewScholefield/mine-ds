@@ -13,7 +13,7 @@
 #include "blockupdate.h"
 #include "titlescreen.h"
 #include "inventory.h"
-#define NUM_BLOCKS 47
+#define NUM_BLOCKS 48
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
