@@ -18,6 +18,7 @@
 //ASDF?
 #define PLAYER_FULL_HEALTH 20
 bool quitGame = false;
+int slow=0;
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
 bool shouldQuitGame()
@@ -136,18 +137,33 @@ void playerMob::updateMob(worldObject* world)
 			if (keysHeld()&KEY_RIGHT && !collisions[1] && !collisions[3]){ x++; facing=false;}
 			if (keysHeld()&KEY_LEFT && !collisions[2] && !collisions[3])
 			{ x--; facing=true; }
-			if (collisions[3]==true)
+			if (collisions[3]==true && world->blocks[x/16][y/16] != LADDER)
 			{
 				vy=0;
 				y+=1;
 			}
-			if (collisions[0]==false)
+			if (collisions[0]==false && (world->blocks[x/16][y/16] != LADDER || (keysHeld() & KEY_DOWN)))
 			{
 				y+=vy; 
 			}
+			/*else if ((keysHeld() & KEY_DOWN) && (world->blocks[x/16][y/16] == LADDER || (keysHeld() & KEY_DOWN)) && collisions[0]==false)
+				y++;***/
+		/*else if (!(keysHeld() & KEY_UP) && (world->blocks[x/16][y/16] == LADDER || world->blocks[x/16][(y/16)-1] == LADDER || world->blocks[x/16][(y/16)-2] == LADDER) && collisions[0]==false)
+			{
+				slow ++;
+				if (slow == 5)
+					{
+						y ++;
+						slow = 0;
+				}
+			}*/
 			else vy=0;
 			if ((keysDown() & KEY_UP || keysDown() & KEY_A) && collisions[0]==true && !collisions[3]) vy=-2;	y+=vy;	
+			if (keysHeld() & KEY_UP && world->blocks[x/16][y/16]==LADDER && !collisions[0] && !collisions[3]) y+=-1;
 			if (y>world_heightpx) hurt(3,VOID_HURT);
+			if (collisions[0] && collisions[3])
+				while (world->blocks[x/16][(y/16)+1] != AIR || world->blocks[x/16][y/16] != AIR)
+					y-=16;
 			if (animationclearframes==0) animation=0;
 			else animationclearframes--;
 			if (reheal>300)
