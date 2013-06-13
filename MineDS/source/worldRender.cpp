@@ -22,6 +22,7 @@ uint16 *bg2ptr;
 Graphic torchSprite;
 Graphic snowtopSprite;
 Graphic glassSprite;
+Graphic ladderSprite;
 int sunbrightness;
 int getBrightness(worldObject* world,int x,int y)
 {
@@ -218,6 +219,7 @@ void worldRender_LoadSprites()
 	loadGraphic(&torchSprite,2,TORCH);
 	loadGraphic(&glassSprite,2,GLASS);
 	loadGraphic(&snowtopSprite,2,SNOW_TOP);
+	loadGraphic(&ladderSprite,2,LADDER);
 }
 void worldRender_Init()
 {
@@ -306,7 +308,7 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 		//Check The Block is on screen
 		if(onScreen(16,i,j,1,1))
 			{
-				if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=TORCH && world->blocks[i][j]!=GLASS && world->blocks[i][j]!=SNOW_TOP)
+				if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=TORCH && world->blocks[i][j]!=GLASS && world->blocks[i][j]!=SNOW_TOP && world->blocks[i][j]!=LADDER)
 				{	
 					renderBlock(world,i,j,world->blocks[i][j]);	
 				}
@@ -338,6 +340,13 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 					{
 					//But if we run out of sprite IDs, render as a tile...
 						 renderBlock(world,i,j,world->blocks[i][j]);
+					}
+				}
+				else if (world->blocks[i][j]==LADDER)
+				{				
+					if (!showGraphic(&ladderSprite,(i*16) - screen_x,(j*16) - screen_y,false,1))
+					{
+						renderBlock(world,i,j,world->blocks[i][j]);
 					}
 				}
 				
