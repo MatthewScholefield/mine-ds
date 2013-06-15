@@ -5,12 +5,14 @@
 #include "graphics.h"
 #include "../mining.h"
 #include "../inventory.h"
+#define INV_SLOTS 40
 
-Graphic INV[20];
+Graphic INV[INV_SLOTS];
 
 bool empty = false; //Whether the inventory is empty
 int total;
-bool loadedInv[20];
+bool loadedInv[INV_SLOTS];
+int invID [INV_SLOTS];
 
 void initInvGraphics() //Draws Grey background
 {
@@ -24,19 +26,18 @@ void updateInvGraphics() //changes inventory graphics array invenotry slots in c
 {
 	int i, j, b = 1;
 	total = 0;
-	for (i = 1; i <= 20; i++)
+	for (i = 1; i <= INV_SLOTS; i++)
 	{
-		while (checkInventory(b) == 0 && b < NUM_BLOCKS)
+		while (checkInventory(b) == 0 && b < NUM_BLOCKS+2)
 			b++;
-		if (b == NUM_BLOCKS)
-			empty = true;
-		else if (b < NUM_BLOCKS)
+		if (b < NUM_BLOCKS)
 			empty = false;
 		if (!empty)
 		{
 			if (loadedInv[i])
 				unloadGraphic(&INV[i]);
 			loadGraphicSub(&INV[i],2,b);
+			//invID[i]=b;            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CAUSES INV NOT TO DISPLAY
 			loadedInv[i] = true;
 			b++;
 			total ++;
@@ -49,17 +50,17 @@ void drawInv() //Draws the items in the inventory
 	if (!empty)
 	{
 		int i,j,a;
-		j = 60;
-		i = 60;
+		j = 23; //start x
+		i = 23; //start y
 		for (a=1;a<=total;a++)
 		{
 			showGraphic(&INV[a],j,i);
 			if (j<200)
-				j += 60;
+				j += 30; //increment x
 			else
 			{
-				j = 70;
-				i += 60;
+				j = 23; //Exact same as start x
+				i += 30; //increment y
 			}
 		}
 	}
