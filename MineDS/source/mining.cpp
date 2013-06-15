@@ -13,6 +13,7 @@
 #include "blockupdate.h"
 #include "titlescreen.h"
 #include "inventory.h"
+//#include "graphics/inventoryGraphics.h"
 #define NUM_BLOCKS 48
 int selectedblock=0;
 bool loadedgraphic=false;
@@ -41,7 +42,7 @@ void blocksCanPlace()
 void setBlock(worldObject* world, int x,int y)
 {
 	bool something=true;
-        int c = 1;
+	int c = 1;
 	if ((keysHeld() & KEY_DOWN) || selectedblock==CACTUS)
 	{
 		if (world->bgblocks[x][y]!=AIR) something=false;
@@ -49,12 +50,12 @@ void setBlock(worldObject* world, int x,int y)
 	if (world->blocks[x][y]==AIR && something)
 	{
 		if ((keysHeld() & KEY_DOWN))
-                {
+		{
 			if (subInventory(selectedblock,1))
-        			world->bgblocks[x][y]=selectedblock;
+				world->bgblocks[x][y]=selectedblock;
 			checkBlockPlace(x,y,world,true);		
-                }
-                else 
+		}
+		else 
 		{
 			if (subInventory(selectedblock,1))
 				world->blocks[x][y]=selectedblock;
@@ -63,14 +64,16 @@ void setBlock(worldObject* world, int x,int y)
 	}
 	else if (world->blocks[x][y]!=AIR)
 	{
-		addInventory(world->blocks[x][y],1);
-                world->blocks[x][y]=AIR;
+		//if (!invFull())
+			addInventory(world->blocks[x][y],1);
+		world->blocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,false);
 	}
 	else if (world->blocks[x][y]==AIR)
 	{
+		//if (!invFull())
 		addInventory(world->bgblocks[x][y],1);
-                world->bgblocks[x][y]=AIR;
+		world->bgblocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,true);
 	}
 	else return;
@@ -96,8 +99,8 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		}
 		else if (canPlaceBlocks && !incutscene)
 		{
-		 setBlock(world,x,y);
-		 updateBrightnessAround(world,x,y);
+			setBlock(world,x,y);
+			updateBrightnessAround(world,x,y);
 		}
 	}
 	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
@@ -112,13 +115,13 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	}
 	if (selectedblock<0)
 	{
-	 selectedblock=NUM_BLOCKS;
-	 calculateTopBlock();
+		selectedblock=NUM_BLOCKS;
+		calculateTopBlock();
 	}
 	else if (selectedblock>NUM_BLOCKS)
 	{
-	 selectedblock=0;
-	 calculateTopBlock();
+		selectedblock=0;
+		calculateTopBlock();
 	}
 	if (selectedblock!=0) showGraphic(&topBlock,0,0);
 	if (canPlaceBlocks==false) framecounting++;
