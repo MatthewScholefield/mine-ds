@@ -25,7 +25,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 	clear_messages();
 	lcdMainOnBottom();
 	touchPosition touch;
-	//initInvGraphics();
+	initInvGraphics();
 
 	if (mode==0) // Generate new world and reset the camera and time
 	{

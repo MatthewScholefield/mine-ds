@@ -20,6 +20,7 @@
 #define PLANKS 10
 #define LEAF 11
 #define REDWOOD_LEAF 12
+#define JUNGLE_LEAF 13
 #define GLASS 14
 #define CACTUS 15
 #define SAND 16
@@ -56,3 +57,4 @@
 #define FUCHSIA_WOOL 46
 #define ORANGE_WOOL 47
 #define LADDER 48
+#define JUNGLE WOOD 49
