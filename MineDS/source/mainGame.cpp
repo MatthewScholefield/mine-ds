@@ -57,7 +57,6 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		graphicFrame();
 		timeUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY);
-		drawInv();
 	}
 	return CurrentWorld;
 }
