@@ -106,11 +106,23 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
 	{
 		selectedblock--;
+		if (selectedblock<0) selectedblock=NUM_BLOCKS;
+		while(checkInventory(selectedblock)==0)
+		{
+			selectedblock--;
+			if (selectedblock<0) selectedblock=NUM_BLOCKS;
+		}	
 		calculateTopBlock();
 	}
 	else if ((keys & KEY_R && LRC==true) || (keys & KEY_B && LRC==false))
 	{
 		selectedblock++;
+		if (selectedblock>NUM_BLOCKS) selectedblock=0;
+		while(checkInventory(selectedblock)==0)
+		{
+			selectedblock++;
+			if (selectedblock>NUM_BLOCKS) selectedblock=0;
+		}
 		calculateTopBlock();
 	}
 	if (selectedblock<0)
@@ -123,7 +135,11 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		selectedblock=0;
 		calculateTopBlock();
 	}
-	if (selectedblock!=0) showGraphic(&topBlock,0,0);
+	//Draw the selected block
+	if (selectedblock!=0)
+	{
+		showGraphic(&topBlock,0,48);
+	}	
 	if (canPlaceBlocks==false) framecounting++;
 	if (framecounting>60)
 	{
