@@ -107,7 +107,8 @@ int checkInventory (int blockID) //returns quantity of blockid in inventory
 	{
 		return 0;
 	}
-	
+	if (blockID==AIR)
+		return 64;
 	return mainPlayerInv.blocks[space].blockAmount;
 }
 void clearInventory () //clears inventory

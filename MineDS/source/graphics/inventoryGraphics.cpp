@@ -46,26 +46,50 @@ void updateInvGraphics() //changes inventory graphics array invenotry slots in c
 
 void drawInv() //Draws the items in the inventory
 {
+	int i,j;
+	for (i=0;i<32;i++)
+	{
+		for (j=8;j<15;j++)
+		{
+			setSubBgTile(i,j,28+(i%2));
+			if (i==0 && j==8)
+				setSubBgTile(i,j,26);
+			else if (i==31 && j==8)
+				setSubBgTile(i,j,26,H_FLIP);
+			else if (i==0 && j==14)
+				setSubBgTile(i,j,26,V_FLIP);
+			else if (i==31 && j==14)
+				setSubBgTile(i,j,26,BOTH_FLIP);
+			else if (i==0)
+				setSubBgTile(i,j,27);
+			else if (i==31)
+				setSubBgTile(i,j,27,H_FLIP);
+			else if (j==8)
+				setSubBgTile(i,j,30);
+			else if (j==14)
+				setSubBgTile(i,j,30,V_FLIP);
+		}
+	}
 	if (!empty)
 	{
-		int i,j,a;
+		int a;
 		j = 8; //start x
-		i = 16; //start y
+		i = 72; //start y
 		for (a=1;a<=NUM_INV_SPACES;a++)
 		{
-			//Show sprite image of block, -2 to show the snow top block
-			showGraphic(&INV[a],j,i-2,false,2);
+			//Show sprite image of block
+			showGraphic(&INV[a],j,i,false,2);
 			//Show tile image of block
 			setSubBgTile(j/8,i/8,154);
 			setSubBgTile(j/8+1,i/8,154,H_FLIP);
 			setSubBgTile(j/8,i/8+1,154,V_FLIP);
 			setSubBgTile(j/8+1,i/8+1,154,BOTH_FLIP);
-			if (j<224)
+			if (j<232)
 				j += 16; //increment x
 			else
 			{
 				j = 8; //Exact same as start x
-				i += 16; //increment y
+				i += 24; //increment y
 			}
 		}
 	}
