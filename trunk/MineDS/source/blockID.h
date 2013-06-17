@@ -57,4 +57,5 @@
 #define FUCHSIA_WOOL 46
 #define ORANGE_WOOL 47
 #define LADDER 48
-#define JUNGLE WOOD 49
+#define JUNGLE_WOOD 49
+#define JUNGLE_GRASS 50

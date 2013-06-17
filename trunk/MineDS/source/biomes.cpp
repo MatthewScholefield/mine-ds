@@ -34,6 +34,41 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		x++;
 	}
 }
+void jungleBiome(worldObject* world, int startx,int endx)
+{
+	int x=startx;
+	int treex=startx + 4 + rand()%5;
+	int flx=startx + 4 + rand()%5;
+	int y;
+	bool previous;
+	bool previous2;
+	
+	while (x<=endx)
+	{
+		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int endy=y+(rand() % 2) + 2;
+		for (int j=y; j<endy;j++) world->blocks[x][j]=DIRT;
+		world->blocks[x][y]=GRASS;
+		
+		if (flx==x)
+		{
+			world->bgblocks[x][y-1]=JUNGLE_LEAF;
+			if (rand()%3 == 1)
+				world->bgblocks[x][y-2] = JUNGLE_LEAF;
+			if (rand()%8 == 1)
+				flx += 1+rand()%3;
+			else flx += 1;
+		}
+		world->blocks[x][y]=JUNGLE_GRASS;
+		if (treex==x)
+		{
+			growJungleTree(world,x,y-1);
+			treex+= 8 + rand()%5;
+		}
+		
+		x++;
+	}
+}
 void snowBiome(worldObject* world,int startx,int endx)
 {
 	int x=startx;
