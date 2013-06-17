@@ -1,12 +1,6 @@
-Add ladders
-Fix hurt jump bug.
 Fix the isMyPlayer bug in respawn. (rare, but still happens, it's called in findFreeMobSpawnNum()).
 Add in jungle wood + leaves
-
-
 // If you need help with the below, I'm more than happy to help you (do it for you).
-Fix inventory to be a proper inventory with 36 slots, that each can hold anything.
-Make a nice inventory gui, where you can rearrange slots.
 Add a jungle biome (Probably should base of the snow biome, change snow into leaves, dark wood tree into big tree, snow grass into normal grass)
 
 Fix the NiFi library to not crash and be 100% reliable.  (https://www.youtube.com/watch?v=5dI6mPDCqEo)
