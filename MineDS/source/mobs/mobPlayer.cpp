@@ -15,6 +15,7 @@
 #include "mobHandler.h"
 #include "../deathScreen.h"
 #include"../titlescreen.h"
+#include "../graphics/inventoryGraphics.h"
 //ASDF?
 #define PLAYER_FULL_HEALTH 20
 bool quitGame = false;
@@ -107,7 +108,7 @@ void playerMob::hurt(int amount,int type)
 void showHealth(int health)
 {
 	int i;
-	for (i=0;i<health-1;i+=2)
+	for (i=44;i<(health+44)-1;i+=2)
 	{
 		showGraphic(&hearts[0],i*4,56);
 	}
@@ -120,6 +121,8 @@ void playerMob::updateMob(worldObject* world)
 	{
 		if (health>0)
 		{
+			//Draw the inventory if the player is not dead, and it is survival mode
+			if (isSurvival()) drawInv();
 			tillBrightness++;
 			if (tillBrightness>60)
 			{
