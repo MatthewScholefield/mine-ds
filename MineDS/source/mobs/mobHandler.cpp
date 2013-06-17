@@ -159,7 +159,7 @@ void spawnMobOn(int mobId,worldObject* world,int j)
 			j=WORLD_WIDTH+1;
 		}
 }
-void spawnMob(int mobId,worldObject* world)
+int spawnMob(int mobId,worldObject* world)
 {
 	int i;
 	int j;
