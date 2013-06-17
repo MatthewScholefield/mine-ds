@@ -101,10 +101,11 @@ void generateWorld (worldObject* world){
 		int generator = rand() % 2;
 		if (generator == 0) j = extremeMountainGen(world,i,j,i+sizex);
 		else if (generator == 1) j = flatGen(world,i,j,i+sizex);
-		int biome = rand() % 3;
+		int biome = rand() % 4;
 		if (biome == 0) plainsBiome(world,i,i+sizex);
 		else if (biome == 1) snowBiome(world,i,i+sizex);
 		else if (biome == 2) desertBiome(world,i,i+sizex);
+		else if (biome == 3) jungleBiome(world,i,i+sizex);
 		updateBrightnessAround(world,i,j);
 		i=i+sizex+1;
 	}
