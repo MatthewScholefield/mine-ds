@@ -44,6 +44,27 @@ void growOakTree(worldObject* world,int x,int y)
 	}
 	leafVirus(world,x,i,2+rand()%2,false,REDWOOD_LEAF);
 }
+void growJungleTree(worldObject* world,int x,int y)
+{
+	int height = 2 + rand() % 6;
+	int blockID=JUNGLE_WOOD;
+	int i;
+	for (i=y;i>=y-height;i--)
+	{
+		world->bgblocks[x][i]=blockID; // Draw the trunk.
+		world->bgblocks[x+1][i]=blockID;
+	}
+	int random = rand()%2;
+	leafVirus(world,x+random,y-height,3,false,JUNGLE_LEAF);
+	y=i;
+	for (i=y;i>=y-height;i--)
+	{
+		world->bgblocks[x][i]=blockID; // Draw the trunk.
+		world->bgblocks[x+1][i]=blockID;
+	}
+	leafVirus(world,x,i,2+rand()%3,false,JUNGLE_LEAF);
+	leafVirus(world,x+1,i,2+rand()%3,false,JUNGLE_LEAF);
+}
 void growCactus(worldObject* world,int x,int y)
 {
 	int height = rand()%3;
