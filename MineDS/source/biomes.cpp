@@ -9,8 +9,9 @@
 void plainsBiome(worldObject* world, int startx,int endx)
 {
 	int x=startx;
-	int treex=startx + 4 + rand()%5;
-	int flx=startx + 4 + rand()%5;
+	int treex=startx + 4 + rand()%5; //Trees
+	int flx=startx + 4 + rand()%5; //Flowers
+	int gx=startx + 3 + rand()%5; //Tall Grass
 	int y;
 	
 	while (x<=endx)
@@ -19,18 +20,27 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy;j++) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
-		
-		if (flx==x)
-		{
-			growFlower(world,x,y-1);
-			flx+= 3 + rand()%5;
-		}
 		if (treex==x)
 		{
 			growNormalTree(world,x,y-1,false);
 			treex+= 8 + rand()%5;
 		}
-		
+		else if (flx==x)
+		{
+			growFlower(world,x,y-1);
+			flx+= 3 + rand()%5;
+		}
+		else if (gx==x)
+		{
+			world->blocks[x][y-1]=TALL_GRASS;
+			gx+= 1 + rand()%7;
+		}
+		if (flx==x && treex==x)
+			flx+= 3 + rand()%5;
+		if (gx==x && treex==x)
+			gx+= 1 + rand()%7;
+		if (gx==x && flx==x)
+			gx+= 1 + rand()%7;
 		x++;
 	}
 }
@@ -48,8 +58,6 @@ void jungleBiome(worldObject* world, int startx,int endx)
 		y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy;j++) world->blocks[x][j]=DIRT;
-		world->blocks[x][y]=GRASS;
-		
 		if (flx==x)
 		{
 			world->bgblocks[x][y-1]=JUNGLE_LEAF;
@@ -103,6 +111,7 @@ void desertBiome(worldObject* world,int startx,int endx)
 	int x=startx;
 	int treex=startx + 3 + rand()%5;
 	int y;
+	int flx=startx + 4 + rand()%5; //Where to Spawn Shrubs
 	
 	while (x<=endx)
 	{
@@ -115,6 +124,14 @@ void desertBiome(worldObject* world,int startx,int endx)
 			growCactus(world,x,y-1);
 			treex+= 6 + rand()%5;
 		}
+		else if (flx==x)
+		{
+			world->blocks[x][y-1]=SHRUB;
+			flx+= 5 + rand()%3;
+		}
+		if (flx==x && treex==x)
+			flx+= 5 + rand()%3;
+
 		x++;
 	}
 }

@@ -17,6 +17,8 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	//First find a spot availabe for the block id
 	int i;
 	int space=-1;
+	if (blockID == GRASS || blockID == JUNGLE_GRASS || blockID == SNOW_GRASS)
+		blockID = DIRT;
 	for (i=0;i<NUM_INV_SPACES;i++)
 	{
 		//Found the correct block with correct id.
