@@ -1,6 +1,6 @@
 #include "world.h"
 #include <nds.h>
-#define NUM_BLOCKS 47
+#define NUM_BLOCKS 52
 int getSelectedblock();
 void miningUpdate(worldObject* world,int sx,int sy,touchPosition touch, int keys);
 void blocksCanPlace();

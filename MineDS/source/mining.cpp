@@ -14,7 +14,7 @@
 #include "titlescreen.h"
 #include "inventory.h"
 //#include "graphics/inventoryGraphics.h"
-#define NUM_BLOCKS 52
+#include "mining.h"
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
