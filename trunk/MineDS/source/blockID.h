@@ -59,3 +59,5 @@
 #define LADDER 48
 #define JUNGLE_WOOD 49
 #define JUNGLE_GRASS 50
+#define TALL_GRASS 51
+#define SHRUB 52

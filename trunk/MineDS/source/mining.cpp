@@ -14,7 +14,7 @@
 #include "titlescreen.h"
 #include "inventory.h"
 //#include "graphics/inventoryGraphics.h"
-#define NUM_BLOCKS 48
+#define NUM_BLOCKS 52
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
@@ -65,7 +65,7 @@ void setBlock(worldObject* world, int x,int y)
 	else if (world->blocks[x][y]!=AIR)
 	{
 		//if (!invFull())
-			addInventory(world->blocks[x][y],1);
+		addInventory(world->blocks[x][y],1);
 		world->blocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,false);
 	}
@@ -107,21 +107,27 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	{
 		selectedblock--;
 		if (selectedblock<0) selectedblock=NUM_BLOCKS;
-		while(checkInventory(selectedblock)==0)
+		if (isSurvival())
 		{
-			selectedblock--;
-			if (selectedblock<0) selectedblock=NUM_BLOCKS;
-		}	
+			while(checkInventory(selectedblock)==0)
+			{
+				selectedblock--;
+				if (selectedblock<0) selectedblock=NUM_BLOCKS;
+			}
+		}
 		calculateTopBlock();
 	}
 	else if ((keys & KEY_R && LRC==true) || (keys & KEY_B && LRC==false))
 	{
 		selectedblock++;
 		if (selectedblock>NUM_BLOCKS) selectedblock=0;
-		while(checkInventory(selectedblock)==0)
+		if (isSurvival())
 		{
-			selectedblock++;
-			if (selectedblock>NUM_BLOCKS) selectedblock=0;
+			while(checkInventory(selectedblock)==0)
+			{
+				selectedblock++;
+				if (selectedblock>NUM_BLOCKS) selectedblock=0;
+			}
 		}
 		calculateTopBlock();
 	}
