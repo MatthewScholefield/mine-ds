@@ -11,19 +11,15 @@ Graphic INV[NUM_INV_SPACES];
 bool empty = false; //Whether the inventory is empty
 int total;
 bool loadedInv[NUM_INV_SPACES];
-int invID [NUM_INV_SPACES];
-
-void initInvGraphics() //Draws Grey background? Why do that here?, It should be done in a drawing funciton.
+int loadedID[NUM_INV_SPACES];
+void initInvGraphics()
 {
-	/*int i, j;
-	for (i=0;i<=24;i++)
-		for (j=0;j<=31;j++)
-			setSubBgTile(j,i,92);*/
 }
 
-void updateInvGraphics() //changes inventory graphics array invenotry slots in case an item is removed or added
+void updateInvGraphics()
 {
-	int i, j, b = 1;
+//Moving this...
+/*	int i, j, b = 1;
 	total = 0;
 	for (i = 1; i <= NUM_INV_SPACES; i++)
 	{
@@ -41,7 +37,7 @@ void updateInvGraphics() //changes inventory graphics array invenotry slots in c
 			b++;
 			total ++;
 		}
-	}
+	}*/
 }
 
 void drawInv() //Draws the items in the inventory
@@ -75,14 +71,28 @@ void drawInv() //Draws the items in the inventory
 		int a;
 		j = 8; //start x
 		i = 72; //start y
-		for (a=1;a<=NUM_INV_SPACES;a++)
+		for (a=0;a<NUM_INV_SPACES;a++)
 		{
+			if (getBlockID(a) != loadedID[a])
+			{
+				//Need to reload graphic
+				if(loadedInv[a]==true)
+					unloadGraphic(&INV[a]);
+				else loadedInv[a]=true;
+				loadGraphicSub(&INV[a],2,getBlockID(a));
+			}
 			//Show sprite image of block
 			showGraphic(&INV[a],j,i,false,2);
 			//Show tile image of block
 			setSubBgTile(j/8,i/8,154);
 			setSubBgTile(j/8+1,i/8,154,H_FLIP);
 			setSubBgTile(j/8,i/8+1,154,V_FLIP);
+			if( getBlockAmount(a)!=0)
+			{
+				if (getBlockAmount(a)>9)
+					printf("\x1b[%d;%dH%d",i/8+1,j/8,(int)(getBlockAmount(a)/10));
+				printf("\x1b[%d;%dH%d",i/8+1,j/8+1,(int)(getBlockAmount(a)%10));
+			}			
 			setSubBgTile(j/8+1,i/8+1,154,BOTH_FLIP);
 			if (j<232)
 				j += 16; //increment x
