@@ -10,8 +10,17 @@
 #include "inventory.h"
 #include "blockID.h"
 #include "message.h"
+
+/*					A reminder:
+
+
+
+		INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
+											*/
+
+
+
 Inventory mainPlayerInv;
-int inventory[NUM_BLOCKS];
 bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
 {
 	//First find a spot availabe for the block id
@@ -19,6 +28,7 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	int space=-1;
 	if (blockID == GRASS || blockID == JUNGLE_GRASS || blockID == SNOW_GRASS)
 		blockID = DIRT;
+	if (blockID==AIR) return false;
 	for (i=0;i<NUM_INV_SPACES;i++)
 	{
 		//Found the correct block with correct id.
@@ -43,7 +53,6 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	//Space now equals the block for the id...
 	mainPlayerInv.blocks[space].blockId=blockID;
 	mainPlayerInv.blocks[space].blockAmount+=amount;
-	inventory [blockID] += amount;
 	updateInvGraphics();
 	return false;
 }
@@ -82,12 +91,6 @@ bool subInventory (int blockID, int amount) //subtracts the specified amount to 
 	{
 		mainPlayerInv.blocks[space].blockId=AIR;
 	}
-	inventory [blockID] -= amount;
-	if (inventory[blockID] < 0)
-	{
-		inventory[blockID]+=amount;
-		return false;
-	}
 	updateInvGraphics();
 	return true;
 }
@@ -113,10 +116,21 @@ int checkInventory (int blockID) //returns quantity of blockid in inventory
 		return 64;
 	return mainPlayerInv.blocks[space].blockAmount;
 }
+int getBlockID(int invSlot)
+{
+	return mainPlayerInv.blocks[invSlot].blockId;
+}
+int getBlockAmount(int invSlot)
+{
+	return mainPlayerInv.blocks[invSlot].blockAmount;
+}
 void clearInventory () //clears inventory
 {
 	int i;
-	for (i = 0; i <= NUM_BLOCKS; i++)
-		inventory [i] = 0;
+	for (i=0;i<NUM_INV_SPACES;i++)
+	{
+		mainPlayerInv.blocks[i].blockAmount=0;
+		mainPlayerInv.blocks[i].blockId=0;
+	}
 	updateInvGraphics();
 }

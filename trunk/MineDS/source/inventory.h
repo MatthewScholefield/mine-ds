@@ -3,6 +3,8 @@ bool subInventory (int blockID, int amount);
 int checkInventory (int blockID);
 void clearInventory ();
 void addInventory(int blockID);
+int getBlockAmount(int invSlot);
+int getBlockID(int invSlot);
 #define NUM_INV_SPACES 30
 typedef struct
 {
