@@ -5,6 +5,7 @@
 #define PLAYER_H 5
 #define COW_H 6
 #define ZOMBIE_H 7
+#define SHEEP_H 8
 void playSoundNiFi(int sound);
 void playSound(int sound);
 void playMusic(int music);
