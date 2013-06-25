@@ -39,6 +39,7 @@ void playSound(int sound)
 		case PLAYER_H: mmEffect(SFX_PLAYERHIT); break;
 		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT); break;
 		case COW_H: mmEffect(SFX_COWHIT); break;
+		case SHEEP_H: mmEffect(SFX_SHEEPHIT); break;
 	}
 }
 void playSoundNiFi(int sound)
