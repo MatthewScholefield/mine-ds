@@ -10,6 +10,7 @@
 #include "../message.h"
 #include "../sounds.h"
 #include "../collision.h"
+#include "../inventory.h"
 Graphic sheepMobGraphic[2];
 
 sheepMob::sheepMob()
@@ -176,6 +177,10 @@ void sheepMob::hurt(int amount,int type)
 	playSound(SHEEP_H);
 	if (type == PLAYER_HURT)
 		scared = true;
+	if (health<=0 && type == PLAYER_HURT)
+	{
+		addInventory(WHITE_WOOL,rand()%4);
+	}
 	animation=1;
 	animationclearframes=20;
 }

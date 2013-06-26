@@ -10,6 +10,7 @@
 #include "../blockID.h"
 #include "../message.h"
 #include "../collision.h"
+#include "../inventory.h"
 Graphic pigMobGraphic[2];
 
 pigMob::pigMob()
@@ -177,6 +178,10 @@ void pigMob::hurt(int amount,int type)
 	playSound(PIG_H);
 	if (type == PLAYER_HURT)
 		scared = true;
+	if (health<=0 && type == PLAYER_HURT)
+	{
+		addInventory(PORKCHOP_RAW,rand()%3);
+	}
 	animation=1;
 	animationclearframes=20;
 }
