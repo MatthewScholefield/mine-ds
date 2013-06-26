@@ -61,3 +61,6 @@
 #define JUNGLE_GRASS 50
 #define TALL_GRASS 51
 #define SHRUB 52
+#define PORKCHOP_RAW 53
+#define BEEF_RAW 54
+#define LEATHER 55
