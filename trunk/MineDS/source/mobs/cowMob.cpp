@@ -10,6 +10,7 @@
 #include "../message.h"
 #include "../sounds.h"
 #include "../collision.h"
+#include "../inventory.h"
 Graphic cowMobGraphic[2];
 
 cowMob::cowMob()
@@ -176,6 +177,11 @@ void cowMob::hurt(int amount,int type)
 	playSound(COW_H);
 	if (type == PLAYER_HURT)
 		scared = true;
+	if (health<=0 && type == PLAYER_HURT)
+	{
+		addInventory(BEEF_RAW,rand()%4);
+		addInventory(LEATHER,rand()%3);
+	}
 	animation=1;
 	animationclearframes=20;
 }

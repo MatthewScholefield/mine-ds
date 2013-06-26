@@ -28,6 +28,8 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	int space=-1;
 	if (blockID == GRASS || blockID == JUNGLE_GRASS || blockID == SNOW_GRASS)
 		blockID = DIRT;
+	if (blockID==SNOW_TOP)
+		return false;
 	if (blockID==AIR) return false;
 	for (i=0;i<NUM_INV_SPACES;i++)
 	{
