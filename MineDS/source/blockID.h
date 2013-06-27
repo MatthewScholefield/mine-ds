@@ -64,3 +64,13 @@
 #define PORKCHOP_RAW 53
 #define BEEF_RAW 54
 #define LEATHER 55
+#define PICKAXE_WOOD 56
+#define PICKAXE_STONE 57
+#define PICKAXE_IRON 58
+#define PICKAXE_GOLD 59
+#define PICKAXE_DIAMOND 60
+#define COAL 61
+#define IRON 62
+#define GOLD 63
+#define DIAMOND 64
+#define STICK 65
