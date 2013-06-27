@@ -17,5 +17,6 @@ typedef struct{
 }worldObject;
 int findFirstBlock(worldObject* world,int x);
 int findFirstBiomeBlock(worldObject* world,int x);
+void drawLineDown(worldObject* world,int x, int y);
 #define WORLD_H
 #endif

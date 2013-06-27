@@ -21,7 +21,15 @@ void drawLineDown(worldObject* world,int x, int y)
 	int i;
 	for (i=y;i<WORLD_HEIGHT;i++)
 	{
-		world->blocks[x][i]=STONE;
+		if (i>WORLD_HEIGHT-20 && rand()%120==1) //20 blocks from bottom
+			world->blocks[x][i]=DIAMOND_ORE;
+		else if (i>WORLD_HEIGHT-30 && rand()%90==1) //30 blocks from bottom
+			world->blocks[x][i]=GOLD_ORE;
+		else if (i>WORLD_HEIGHT-65 && rand()%80==1) //65 blocks from bottom
+			world->blocks[x][i]=IRON_ORE;
+		else if (i>WORLD_HEIGHT-80 && rand()%60==1) //80 blocks from bottom
+			world->blocks[x][i]=COAL_ORE;
+		else world->blocks[x][i]=STONE;
 	}
 }
 void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2)
