@@ -13,6 +13,7 @@
 #include "blockupdate.h"
 #include "titlescreen.h"
 #include "inventory.h"
+#include "blocks.h"
 //#include "graphics/inventoryGraphics.h"
 #include "mining.h"
 int selectedblock=0;
@@ -24,6 +25,10 @@ bool canPlaceBlocks=true;
 int framecounting=0;
 int failedAttempts=0;
 int last_x,last_y;
+int getSelectedblock()
+{
+	return selectedblock;
+}
 void miningSetScene(bool a)
 {
 	incutscene = a;
@@ -47,7 +52,7 @@ void setBlock(worldObject* world, int x,int y)
 	{
 		if (world->bgblocks[x][y]!=AIR) something=false;
 	}
-	if (world->blocks[x][y]==AIR && something)
+	if (world->blocks[x][y]==AIR && something && !item(selectedblock))
 	{
 		if ((keysHeld() & KEY_DOWN))
 		{
@@ -65,14 +70,16 @@ void setBlock(worldObject* world, int x,int y)
 	else if (world->blocks[x][y]!=AIR)
 	{
 		//if (!invFull())
-		addInventory(world->blocks[x][y],1);
+		if (isSurvival())
+			addInventory(world->blocks[x][y],1);
 		world->blocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,false);
 	}
 	else if (world->blocks[x][y]==AIR)
 	{
 		//if (!invFull())
-		addInventory(world->bgblocks[x][y],1);
+		if (isSurvival())
+			addInventory(world->bgblocks[x][y],1);
 		world->bgblocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,true);
 	}
