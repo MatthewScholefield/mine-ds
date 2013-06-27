@@ -54,7 +54,7 @@ int flatGen(worldObject* world,int startx,int starty,int endx){
 			changey=rand() % 5+2;
 			//swiWaitForVBlank();
 		}
-		for (i=y;i<=WORLD_HEIGHT;i++) world->blocks[x][i]=STONE;
+		drawLineDown(world,x,y);
 		changey--;
 	}
 	return y;
