@@ -15,8 +15,8 @@
 
 
 
-		INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
-											*/
+INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
+*/
 
 
 
@@ -30,6 +30,23 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 		blockID = DIRT;
 	if (blockID==SNOW_TOP)
 		return false;
+	if (blockID==COAL_ORE && (getSelectedblock()==PICKAXE_WOOD || getSelectedblock()==PICKAXE_STONE || getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_GOLD || getSelectedblock()==PICKAXE_DIAMOND))
+		blockID=COAL;
+	else if (blockID==COAL_ORE)
+		return false;
+	if (blockID==IRON_ORE && (getSelectedblock()==PICKAXE_STONE || getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
+		blockID=IRON;
+	else if (blockID==IRON_ORE)
+		return false;
+	if (blockID==GOLD_ORE && (getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
+		blockID=GOLD;
+	else if (blockID==GOLD_ORE)
+		return false;
+	if (blockID==DIAMOND_ORE && (getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
+		blockID=DIAMOND;
+	else if (blockID==DIAMOND_ORE)
+		return false;
+
 	if (blockID==AIR) return false;
 	for (i=0;i<NUM_INV_SPACES;i++)
 	{

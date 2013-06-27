@@ -9,6 +9,8 @@
 int walkThroughBlocks[]={AIR,YELLOW_FLOWER,RED_FLOWER,SNOW_TOP,TORCH,LADDER,SHRUB,TALL_GRASS};
 int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF,GLASS,SNOW_TOP,SHRUB,TALL_GRASS};
 int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT,GLOWSTONE};
+int items[]={PORKCHOP_RAW,BEEF_RAW,LEATHER,PICKAXE_WOOD,PICKAXE_STONE,PICKAXE_IRON,PICKAXE_GOLD,PICKAXE_DIAMOND,COAL,IRON,GOLD,DIAMOND,STICK};
+
 #define NUM_OF_LIGHT_SOURCES 3
 //The Number is equal to 15 - minecraftlightemitvalue
 int sourceAmount[]={1,0,0};
@@ -21,6 +23,16 @@ int isBlockWalkThrough(int blockID)
                 if (walkThroughBlocks[i]==blockID) isWalkThrough=true;
         }
         return isWalkThrough;
+}
+int item(int blockID)
+{
+        int i;
+        bool isItem=false;
+        for(i=0;i<=sizeOfArray(items);i++)
+        {
+                if (items[i]==blockID) isItem=true;
+        }
+        return isItem;
 }
 int alwaysRenderBright(int blockID)
 {
