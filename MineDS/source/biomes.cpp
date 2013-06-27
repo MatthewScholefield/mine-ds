@@ -20,6 +20,10 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy;j++) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
+		/*if (rand()%5 == 1) world->blocks[x][y]=IRON_ORE;
+		else if (rand()%4 == 1) world->blocks[x][y]=COAL_ORE;
+		if (rand()%3 == 1) world->blocks[x][y]=GOLD_ORE;
+		else world->blocks[x][y]=DIAMOND_ORE;*/
 		if (treex==x)
 		{
 			growNormalTree(world,x,y-1,false);
