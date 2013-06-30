@@ -70,17 +70,15 @@ void setBlock(worldObject* world, int x,int y)
 	else if (world->blocks[x][y]!=AIR)
 	{
 		//if (!invFull())
-		if (isSurvival())
-			addInventory(world->blocks[x][y],1);
-		world->blocks[x][y]=AIR;
+			if (addInventory(world->blocks[x][y],1))
+				world->blocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,false);
 	}
-	else if (world->blocks[x][y]==AIR)
+	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN)) //I know I messed somthing up here... <<<<<<<<<<<<<<<<<<<
 	{
 		//if (!invFull())
-		if (isSurvival())
-			addInventory(world->bgblocks[x][y],1);
-		world->bgblocks[x][y]=AIR;
+			if (addInventory(world->bgblocks[x][y],1))
+				world->bgblocks[x][y]=AIR;
 		checkBlockDelete(x,y,world,true);
 	}
 	else return;
