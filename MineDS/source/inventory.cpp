@@ -24,28 +24,32 @@ Inventory mainPlayerInv;
 bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
 {
 	//First find a spot availabe for the block id
+	if (isSurvival()==false) //Always return true in creative!
+		return true;
 	int i;
 	int space=-1;
 	if (blockID == GRASS || blockID == JUNGLE_GRASS || blockID == SNOW_GRASS)
 		blockID = DIRT;
+	if (blockID == BEDROCK)
+		return false; //Will not destroy block
 	if (blockID==SNOW_TOP)
-		return false;
+		return true; //Will still destory block (it just wont be added to the inventory)
 	if (blockID==COAL_ORE && (getSelectedblock()==PICKAXE_WOOD || getSelectedblock()==PICKAXE_STONE || getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_GOLD || getSelectedblock()==PICKAXE_DIAMOND))
 		blockID=COAL;
 	else if (blockID==COAL_ORE)
-		return false;
+		return true;
 	if (blockID==IRON_ORE && (getSelectedblock()==PICKAXE_STONE || getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
 		blockID=IRON;
 	else if (blockID==IRON_ORE)
-		return false;
+		return true;
 	if (blockID==GOLD_ORE && (getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
 		blockID=GOLD;
 	else if (blockID==GOLD_ORE)
-		return false;
+		return true;
 	if (blockID==DIAMOND_ORE && (getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
 		blockID=DIAMOND;
 	else if (blockID==DIAMOND_ORE)
-		return false;
+		return true;
 
 	if (blockID==AIR) return false;
 	for (i=0;i<NUM_INV_SPACES;i++)
@@ -67,13 +71,13 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	if (space==-1)
 	{
 		show_message("No space for item");
-		return false;
+		return true; //We still want the block to be broken
 	}
 	//Space now equals the block for the id...
 	mainPlayerInv.blocks[space].blockId=blockID;
 	mainPlayerInv.blocks[space].blockAmount+=amount;
 	updateInvGraphics();
-	return false;
+	return true;
 }
 void addInventory(int blockID)
 {
