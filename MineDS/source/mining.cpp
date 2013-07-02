@@ -16,6 +16,7 @@
 #include "blocks.h"
 //#include "graphics/inventoryGraphics.h"
 #include "mining.h"
+bool skipLightUpdate = false; //Whether to skip light update
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
@@ -27,9 +28,10 @@ int failedAttempts=0;
 int last_x,last_y;
 int miningX = -1; //X,Y Value of block that is currently being mined
 int miningY = -1;
-int mining; //Length till block break
+int mining = 10; //Length till block break
 int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand and block's hardness. Currently not calculated
 int handHardness; //Hardness of item in hand
+bool destroy = false;
 
 int getSelectedblock()
 {
@@ -52,8 +54,25 @@ void blocksCanPlace()
 }
 void setBlock(worldObject* world, int x,int y)
 {
+	bool change = false;
+	skipLightUpdate = false;
+	if (miningX != x)
+	{
+		miningX = x;
+		change = true;
+	}
+	if (miningY != y)
+	{
+		miningY = y;
+		change = true;
+	}
 	bool something=true;
 	int c = 1;
+	if ((world->blocks[x][y] == AIR && !(keysHeld() & KEY_DOWN) && (selectedblock==AIR || item(selectedblock))) || (world->blocks[x][y] == AIR && world->bgblocks == AIR && (keysHeld() & KEY_DOWN) && (selectedblock==AIR || item(selectedblock))))
+	{
+		skipLightUpdate = true;
+		return;
+	}
 	if ((keysHeld() & KEY_DOWN) || selectedblock==CACTUS)
 	{
 		if (world->bgblocks[x][y]!=AIR) something=false;
@@ -77,7 +96,7 @@ void setBlock(worldObject* world, int x,int y)
 	{
 		if (isSurvival())
 		{
-			if (miningX!=x && miningY!=y) //If new spot tapped on screen
+			if (change) //If new spot tapped on screen
 			{
 				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
 					handHardness = getHardness(selectedblock)*-1;
@@ -86,15 +105,17 @@ void setBlock(worldObject* world, int x,int y)
 				mining = getHardness(world->blocks[x][y])*10/handHardness;
 				miningRate = 1;
 			}
-			if (miningX==x && miningY==y && (keysHeld() & KEY_TOUCH)) //Stylus is on same block and Held
+			else if (!change) //Stylus is on same block and Held
 				mining -= miningRate;
 			miningX = x; //Previous x
 			miningY = y; //Previous Y
+			skipLightUpdate = true;
 			if (mining <= 0)
 			{
 				if (addInventory(world->blocks[x][y],1))
 				{
 					world->blocks[x][y]=AIR;
+					skipLightUpdate = false;
 					checkBlockDelete(x,y,world,false);
 				}
 				miningX = -1; //Ensuring mining will be reset on next loop
@@ -112,7 +133,7 @@ void setBlock(worldObject* world, int x,int y)
 	{
 		if (isSurvival())
 		{
-			if (miningX!=x && miningY!=y) //If new spot tapped on screen
+			if (change) //If new spot tapped on screen
 			{
 				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
 					handHardness = getHardness(selectedblock)*-1;
@@ -121,15 +142,17 @@ void setBlock(worldObject* world, int x,int y)
 				mining = getHardness(world->bgblocks[x][y])*10/handHardness;
 				miningRate = 1;
 			}
-			if (miningX==x && miningY==y && (keysHeld() & KEY_TOUCH)) //Stylus is on same block and Held
+			else if (!change) //Stylus is on same block and Held
 				mining -= miningRate;
 			miningX = x; //Previous x
 			miningY = y; //Previous Y
+			skipLightUpdate = true;
 			if (mining <= 0)
 			{
-				if (addInventory(world->blocks[x][y],1))
+				if (addInventory(world->bgblocks[x][y],1))
 				{
 					world->bgblocks[x][y]=AIR;
+					skipLightUpdate = false;
 					checkBlockDelete(x,y,world,false);
 				}
 				miningX = -1; //Ensuring mining will be reset on next loop
@@ -139,8 +162,8 @@ void setBlock(worldObject* world, int x,int y)
 		else
 		{
 			if (addInventory(world->bgblocks[x][y],1))
-				world->bgblocks[x][y]=AIR;
-			checkBlockDelete(x,y,world,true);
+				world->blocks[x][y]=AIR;
+			checkBlockDelete(x,y,world,false);
 		}
 	}
 	else return;
@@ -164,11 +187,24 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		{
 			mobHandlerHurtMob(mobNum,2,PLAYER_HURT);	
 		}
-		else if (canPlaceBlocks && !incutscene)
+		else if ((canPlaceBlocks && !incutscene) || destroy)
 		{
 			setBlock(world,x,y);
-			updateBrightnessAround(world,x,y);
+			if (!skipLightUpdate)
+				updateBrightnessAround(world,x,y);
 		}
+	}
+	else if (keysHeld() & KEY_TOUCH)
+	{
+		int x = (touch.px+a)/16;
+		int y = (touch.py+b)/16;
+		setBlock(world,x,y);
+		if (!skipLightUpdate)
+				updateBrightnessAround(world,x,y);
+		if (skipLightUpdate)
+			print_message("Skip Light Update\n");
+		else
+			print_message("Light Update\n");
 	}
 	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
 	{
