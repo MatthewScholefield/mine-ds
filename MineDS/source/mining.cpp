@@ -52,7 +52,7 @@ void blocksCanPlace()
 	canPlaceBlocks=true;
 	framecounting=0;
 }
-void setBlock(worldObject* world, int x,int y)
+void setBlock(worldObject* world, int x,int y,bool tap)
 {
 	bool change = false;
 	skipLightUpdate = false;
@@ -122,7 +122,7 @@ void setBlock(worldObject* world, int x,int y)
 				miningY = -1;
 			}
 		}
-		else
+		else if (tap)
 		{
 			if (addInventory(world->blocks[x][y],1))
 				world->blocks[x][y]=AIR;
@@ -159,7 +159,7 @@ void setBlock(worldObject* world, int x,int y)
 				miningY = -1;
 			}
 		}
-		else
+		else if (tap)
 		{
 			if (addInventory(world->bgblocks[x][y],1))
 				world->bgblocks[x][y]=AIR;
@@ -189,7 +189,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		}
 		else if ((canPlaceBlocks && !incutscene) || destroy)
 		{
-			setBlock(world,x,y);
+			setBlock(world,x,y,true);
 			if (!skipLightUpdate)
 				updateBrightnessAround(world,x,y);
 		}
@@ -198,7 +198,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	{
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
-		setBlock(world,x,y);
+		setBlock(world,x,y,false);
 		if (!skipLightUpdate)
 				updateBrightnessAround(world,x,y);
 		/*if (skipLightUpdate)
