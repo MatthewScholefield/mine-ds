@@ -26,6 +26,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 	lcdMainOnBottom();
 	touchPosition touch;
 	initInvGraphics();
+	initHardness();
 
 	if (mode==0) // Generate new world and reset the camera and time
 	{
