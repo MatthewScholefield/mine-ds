@@ -162,7 +162,7 @@ void setBlock(worldObject* world, int x,int y)
 		else
 		{
 			if (addInventory(world->bgblocks[x][y],1))
-				world->blocks[x][y]=AIR;
+				world->bgblocks[x][y]=AIR;
 			checkBlockDelete(x,y,world,false);
 		}
 	}
@@ -201,10 +201,10 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		setBlock(world,x,y);
 		if (!skipLightUpdate)
 				updateBrightnessAround(world,x,y);
-		if (skipLightUpdate)
+		/*if (skipLightUpdate)
 			print_message("Skip Light Update\n");
 		else
-			print_message("Light Update\n");
+			print_message("Light Update\n");*/
 	}
 	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
 	{
