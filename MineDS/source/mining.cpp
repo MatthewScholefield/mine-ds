@@ -25,6 +25,12 @@ bool canPlaceBlocks=true;
 int framecounting=0;
 int failedAttempts=0;
 int last_x,last_y;
+int miningX = -1; //X,Y Value of block that is currently being mined
+int miningY = -1;
+int mining; //Length till block break
+int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand and block's hardness. Currently not calculated
+int handHardness; //Hardness of item in hand
+
 int getSelectedblock()
 {
 	return selectedblock;
@@ -54,32 +60,88 @@ void setBlock(worldObject* world, int x,int y)
 	}
 	if (world->blocks[x][y]==AIR && something && !item(selectedblock))
 	{
-		if ((keysHeld() & KEY_DOWN))
+		if ((keysHeld() & KEY_DOWN)) //Place in Background
 		{
 			if (subInventory(selectedblock,1))
 				world->bgblocks[x][y]=selectedblock;
 			checkBlockPlace(x,y,world,true);		
 		}
-		else 
+		else //Place in Foreground
 		{
 			if (subInventory(selectedblock,1))
 				world->blocks[x][y]=selectedblock;
 			checkBlockPlace(x,y,world,false);
 		}
 	}
-	else if (world->blocks[x][y]!=AIR)
+	else if (world->blocks[x][y]!=AIR) //Mine in Foreground
 	{
-		//if (!invFull())
+		if (isSurvival())
+		{
+			if (miningX!=x && miningY!=y) //If new spot tapped on screen
+			{
+				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
+					handHardness = getHardness(selectedblock)*-1;
+				else //If item is a block
+					handHardness = 1;
+				mining = getHardness(world->blocks[x][y])*10/handHardness;
+				miningRate = 1;
+			}
+			if (miningX==x && miningY==y && (keysHeld() & KEY_TOUCH)) //Stylus is on same block and Held
+				mining -= miningRate;
+			miningX = x; //Previous x
+			miningY = y; //Previous Y
+			if (mining <= 0)
+			{
+				if (addInventory(world->blocks[x][y],1))
+				{
+					world->blocks[x][y]=AIR;
+					checkBlockDelete(x,y,world,false);
+				}
+				miningX = -1; //Ensuring mining will be reset on next loop
+				miningY = -1;
+			}
+		}
+		else
+		{
 			if (addInventory(world->blocks[x][y],1))
 				world->blocks[x][y]=AIR;
-		checkBlockDelete(x,y,world,false);
+			checkBlockDelete(x,y,world,false);
+		}
 	}
-	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN)) //I know I messed somthing up here... <<<<<<<<<<<<<<<<<<<
+	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN)) //Mine in Background
 	{
-		//if (!invFull())
+		if (isSurvival())
+		{
+			if (miningX!=x && miningY!=y) //If new spot tapped on screen
+			{
+				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
+					handHardness = getHardness(selectedblock)*-1;
+				else //If item is a block
+					handHardness = 1;
+				mining = getHardness(world->bgblocks[x][y])*10/handHardness;
+				miningRate = 1;
+			}
+			if (miningX==x && miningY==y && (keysHeld() & KEY_TOUCH)) //Stylus is on same block and Held
+				mining -= miningRate;
+			miningX = x; //Previous x
+			miningY = y; //Previous Y
+			if (mining <= 0)
+			{
+				if (addInventory(world->blocks[x][y],1))
+				{
+					world->bgblocks[x][y]=AIR;
+					checkBlockDelete(x,y,world,false);
+				}
+				miningX = -1; //Ensuring mining will be reset on next loop
+				miningY = -1;
+			}
+		}
+		else
+		{
 			if (addInventory(world->bgblocks[x][y],1))
 				world->bgblocks[x][y]=AIR;
-		checkBlockDelete(x,y,world,true);
+			checkBlockDelete(x,y,world,true);
+		}
 	}
 	else return;
 	//Send a WIFI Update now, if wifi is enabled!
