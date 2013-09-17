@@ -11,6 +11,7 @@
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"
+#include "../message.h"
 Graphic sheepMobGraphic[2];
 
 sheepMob::sheepMob()
