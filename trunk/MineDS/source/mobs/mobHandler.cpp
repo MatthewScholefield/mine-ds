@@ -130,6 +130,7 @@ bool canMobSpawnHere(int mobId,worldObject* world, int a, int b)
 		case 3: return canZombieMobSpawnHere(world,a,b); break;
 		case 4: return canPigMobSpawnHere(world,a,b); break;
 		case 5: return canCowMobSpawnHere(world,a,b); break;
+		case 6: return canSheepMobSpawnHere(world,a,b); break;
 		default: break;
 	}
 	return false;

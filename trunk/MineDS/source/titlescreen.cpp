@@ -110,7 +110,7 @@ void multiplayerScreen()
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
-				survival = false;
+				survival = true;
 				drawButtonColored(9,9,12);
 				drawBackground();
 				theWorld = multiplayerGame(true,theWorld);
@@ -124,7 +124,7 @@ void multiplayerScreen()
 			else drawButton(9,9,12);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{
-				survival = false;
+				survival = true;
 				drawBackground();
 				theWorld = multiplayerGame(false,theWorld);
 				multiplayer = true;
