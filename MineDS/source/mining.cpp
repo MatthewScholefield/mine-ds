@@ -23,6 +23,7 @@ Graphic topBlock;
 extern bool LRC;
 bool incutscene = false;
 bool canPlaceBlocks=true;
+bool hasChangedBlock=false;
 int framecounting=0;
 int failedAttempts=0;
 int last_x,last_y;
@@ -77,7 +78,7 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 	{
 		if (world->bgblocks[x][y]!=AIR) something=false;
 	}
-	if (world->blocks[x][y]==AIR && something && !item(selectedblock))
+	if (world->blocks[x][y]==AIR && something && !item(selectedblock) && hasChangedBlock==false)
 	{
 		if ((keysHeld() & KEY_DOWN)) //Place in Background
 		{
@@ -91,8 +92,9 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 				world->blocks[x][y]=selectedblock;
 			checkBlockPlace(x,y,world,false);
 		}
+		hasChangedBlock = true;
 	}
-	else if (world->blocks[x][y]!=AIR) //Mine in Foreground
+	else if (world->blocks[x][y]!=AIR && hasChangedBlock == false) //Mine in Foreground
 	{
 		if (isSurvival())
 		{
@@ -114,6 +116,7 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 			{
 				if (addInventory(world->blocks[x][y],1))
 				{
+					hasChangedBlock = true;
 					world->blocks[x][y]=AIR;
 					skipLightUpdate = false;
 					checkBlockDelete(x,y,world,false);
@@ -129,7 +132,7 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 			checkBlockDelete(x,y,world,false);
 		}
 	}
-	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN)) //Mine in Background
+	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN) && hasChangedBlock == false) //Mine in Background
 	{
 		if (isSurvival())
 		{
@@ -151,6 +154,7 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 			{
 				if (addInventory(world->bgblocks[x][y],1))
 				{
+					hasChangedBlock = true;
 					world->bgblocks[x][y]=AIR;
 					skipLightUpdate = false;
 					checkBlockDelete(x,y,world,false);
@@ -205,6 +209,10 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 			print_message("Skip Light Update\n");
 		else
 			print_message("Light Update\n");*/
+	}
+	else
+	{
+		hasChangedBlock = false;
 	}
 	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
 	{
