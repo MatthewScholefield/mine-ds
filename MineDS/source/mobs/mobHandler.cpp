@@ -323,7 +323,6 @@ void mobHandlerUpdate(worldObject* world)
 	if (keysDown() & KEY_Y)
 	{
 		spawnMobOn(6,world,mobs[playerId]->x/16);
-		print_message("SPAWNED SHEEP!!!\n");
 	}
 	if (goodMobs<=20 && canSpawnMob() && rand() % 30 == 0)
 	{
