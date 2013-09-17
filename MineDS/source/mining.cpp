@@ -128,7 +128,10 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 		else if (tap)
 		{
 			if (addInventory(world->blocks[x][y],1))
+			{
 				world->blocks[x][y]=AIR;
+				hasChangedBlock = true;
+			}
 			checkBlockDelete(x,y,world,false);
 		}
 	}
@@ -166,7 +169,10 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 		else if (tap)
 		{
 			if (addInventory(world->bgblocks[x][y],1))
+			{
 				world->bgblocks[x][y]=AIR;
+				hasChangedBlock = true;
+			}
 			checkBlockDelete(x,y,world,false);
 		}
 	}
