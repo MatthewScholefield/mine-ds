@@ -38,6 +38,7 @@ int getSelectedblock()
 {
 	return selectedblock;
 }
+
 void miningSetScene(bool a)
 {
 	incutscene = a;
@@ -47,6 +48,11 @@ void calculateTopBlock()
 	if (loadedgraphic) unloadGraphic(&topBlock);
 	loadGraphicSub(&topBlock,2,selectedblock);
 	loadedgraphic = true;
+}
+void setSelectedBlock(int blockID)
+{
+	selectedblock = blockID;
+	calculateTopBlock();
 }
 void blocksCanPlace()
 {
@@ -186,7 +192,9 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 	}
 }
 void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) // keys = keysDown();
-{
+{	
+	if (incutscene)
+		return;
 	if (keys & KEY_TOUCH)
 	{
 		int x = (touch.px+a)/16;

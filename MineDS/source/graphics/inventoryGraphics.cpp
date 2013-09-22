@@ -5,7 +5,7 @@
 #include "graphics.h"
 #include "../mining.h"
 #include "../inventory.h"
-
+#include "../message.h"
 Graphic INV[NUM_INV_SPACES];
 
 bool empty = false; //Whether the inventory is empty
@@ -18,26 +18,7 @@ void initInvGraphics()
 
 void updateInvGraphics()
 {
-//Moving this...
-/*	int i, j, b = 1;
-	total = 0;
-	for (i = 1; i <= NUM_INV_SPACES; i++)
-	{
-		while (checkInventory(b) == 0 && b < NUM_BLOCKS+2)
-			b++;
-		if (b < NUM_BLOCKS)
-			empty = false;
-		if (!empty)
-		{
-			if (loadedInv[i])
-				unloadGraphic(&INV[i]);
-			loadGraphicSub(&INV[i],2,b);
-			//invID[i]=b;            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CAUSES INV NOT TO DISPLAY????
-			loadedInv[i] = true;
-			b++;
-			total ++;
-		}
-	}*/
+
 }
 
 void drawInv() //Draws the items in the inventory
@@ -80,6 +61,7 @@ void drawInv() //Draws the items in the inventory
 					unloadGraphic(&INV[a]);
 				else loadedInv[a]=true;
 				loadGraphicSub(&INV[a],2,getBlockID(a));
+				loadedID[a] = getBlockID(a);
 			}
 			//Show sprite image of block
 			showGraphic(&INV[a],j,i,false,2);
@@ -91,8 +73,12 @@ void drawInv() //Draws the items in the inventory
 			{
 				if (getBlockAmount(a)>9)
 					printf("\x1b[%d;%dH%d",i/8+1,j/8,(int)(getBlockAmount(a)/10));
+				else
+					printf("\x1b[%d;%dH%c",i/8+1,j/8,' ');
 				printf("\x1b[%d;%dH%d",i/8+1,j/8+1,(int)(getBlockAmount(a)%10));
-			}			
+			}	
+			else
+				printf("\x1b[%d;%dH%c",i/8+1,j/8+1,' ');
 			setSubBgTile(j/8+1,i/8+1,154,BOTH_FLIP);
 			if (j<232)
 				j += 16; //increment x
