@@ -5,3 +5,4 @@ int getSelectedblock();
 void miningUpdate(worldObject* world,int sx,int sy,touchPosition touch, int keys);
 void blocksCanPlace();
 void miningSetScene(bool a);
+void setSelectedBlock(int a);
