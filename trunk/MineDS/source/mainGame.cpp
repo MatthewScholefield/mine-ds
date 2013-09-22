@@ -14,6 +14,7 @@
 #include "deathScreen.h"
 #include "daynight.h"
 #include "graphics/inventoryGraphics.h"
+#include "inventory.h"
 
 bool up;
 Graphic graphics[10];
@@ -49,6 +50,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		touchRead(&touch);
 		miningUpdate(CurrentWorld,CurrentWorld->CamX,CurrentWorld->CamY,touch,keysDown());
 		mobHandlerUpdate(CurrentWorld);
+		updateInventory(&touch);
 		update_message();
 		if (keysDown() & KEY_START || shouldQuitGame())
 			break;
