@@ -5,12 +5,16 @@
 -----------------------------------------
 */
 #include "mining.h" //for NUM_BLOCKS
+#include "graphics/graphics.h"
 #include "graphics/inventoryGraphics.h"
 #include "titlescreen.h"
 #include "inventory.h"
 #include "blockID.h"
 #include "message.h"
-
+#include "titlescreen.h" // for isSurvival
+#include <nds.h> // for keysDown()
+bool loadedGraphic = false;
+Graphic heldBlock;
 /*					A reminder:
 
 
@@ -19,7 +23,7 @@ INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
 */
 
 
-
+int showingInventory;
 Inventory mainPlayerInv;
 bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
 {
@@ -71,7 +75,7 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	if (space==-1)
 	{
 		show_message("No space for item");
-		return true; //We still want the block to be broken
+		return false; //We still want the block to be broken - Do we ?
 	}
 	//Space now equals the block for the id...
 	mainPlayerInv.blocks[space].blockId=blockID;
@@ -156,4 +160,56 @@ void clearInventory () //clears inventory
 		mainPlayerInv.blocks[i].blockId=0;
 	}
 	updateInvGraphics();
+	showingInventory = 0;
+}
+void changeGraphic(int blockID)
+{
+	if (loadedGraphic == true)
+	{
+		unloadGraphic(&heldBlock);
+		loadedGraphic = false;	
+	}
+	loadGraphicSub(&heldBlock,2,blockID);
+	loadedGraphic = true;
+}
+void updateInventory(touchPosition* touch)
+{
+	if (!isSurvival())
+		return;
+	if (showingInventory == 0)
+	{
+		if (keysDown() & KEY_Y)
+		{
+			lcdMainOnTop();
+			showingInventory = 1;
+			show_message("In inventory\n");
+			miningSetScene(true);
+			drawBackground();
+			consoleClear();
+			changeGraphic(AIR);
+		}
+	}
+	else if (showingInventory == 1)
+	{
+		showGraphic(&heldBlock,0,0,false,0);
+		if (keysDown() & KEY_TOUCH)
+		{
+			if (touch->px > 8 && touch->py > 72 && touch->py < 120 && touch->px < 248) 
+			{
+				int space = -1;
+				space+=16*((touch->py - 72)/24);
+				space+=(touch->px - 8)/16;
+				setSelectedBlock(mainPlayerInv.blocks[space].blockId);
+				changeGraphic(mainPlayerInv.blocks[space].blockId);
+			}
+		}
+		if (keysDown() & KEY_Y)
+		{
+			lcdMainOnBottom();
+			showingInventory = 0;
+			show_message("Left inventory\n");
+			miningSetScene(false);
+			drawBackground();
+		}
+	}
 }
