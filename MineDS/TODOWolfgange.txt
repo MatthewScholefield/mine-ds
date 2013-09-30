@@ -1,2 +1,3 @@
-Fix the isMyPlayer bug in respawn. (rare, but still happens, it's called in findFreeMobSpawnNum()).
-Chickens, Sheep?
+-Add new biomes
+-Make zombies drop rotten flesh
+-Add more craftable items
