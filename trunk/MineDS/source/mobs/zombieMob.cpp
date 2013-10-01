@@ -11,6 +11,7 @@
 #include "../collision.h"
 #include "../worldRender.h"
 #include "../sounds.h"
+#include "../inventory.h"
 Graphic zombieMobGraphic[3];
 zombieMob::zombieMob()
 {
@@ -90,10 +91,6 @@ void zombieMob::updateMob(worldObject* world)
 			y+=3;
 		}
 		ping=0;
-		if (health<=0)
-		{
-			killMob();
-		}
 		if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else animationclearframes--;
@@ -142,6 +139,12 @@ void zombieMob::hurt(int amount,int type)
 	health-=amount;
 	animation=1;
 	animationclearframes=20;
+	if (health<=0)
+	{
+		if (type==PLAYER_HURT)
+			addInventory(FLESH,rand()%2+1);
+		killMob();
+	}
 }
 bool zombieMob::isMyPlayer()
 {
