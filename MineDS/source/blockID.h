@@ -74,3 +74,4 @@
 #define GOLD 63
 #define DIAMOND 64
 #define STICK 65
+#define FLESH 66
