@@ -321,7 +321,7 @@ void mobHandlerUpdate(worldObject* world)
 	}
 	if (goodMobs<=20 && canSpawnMob() && rand() % 30 == 0)
 	{
-		int mob = rand() % 2;
+		int mob = rand() % 3;
 		spawnMobOn(peacefulmobs[mob],world,rand() % WORLD_WIDTH);
 	}
 	if (badMobs<=2 && canSpawnMob())
