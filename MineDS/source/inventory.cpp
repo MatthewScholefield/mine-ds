@@ -4,9 +4,11 @@
 |           Inventory Funtions          |
 -----------------------------------------
 */
+#include <stdio.h>
 #include "mining.h" //for NUM_BLOCKS
 #include "graphics/graphics.h"
 #include "graphics/inventoryGraphics.h"
+#include "graphics/subBgHandler.h"
 #include "titlescreen.h"
 #include "inventory.h"
 #include "blockID.h"
@@ -187,10 +189,15 @@ void updateInventory(touchPosition* touch)
 			drawBackground();
 			consoleClear();
 			changeGraphic(AIR);
+			drawButton(21,18,9);
+			drawButton(0,18,5);
 		}
 	}
 	else if (showingInventory == 1)
 	{
+		
+		iprintf("\x1b[19;22HCrafting");
+		iprintf("\x1b[19;1HBack");
 		showGraphic(&heldBlock,0,0,false,0);
 		if (keysDown() & KEY_TOUCH)
 		{
@@ -221,6 +228,16 @@ void updateInventory(touchPosition* touch)
 					changeGraphic(mainPlayerInv.blocks[space].blockId);				
 				}
 			}
+			else if (touch-> px > 8 && touch->px < 7*8 && touch->py > 19*8)
+			{
+				iprintf("\x1b[19;22H        ");
+				iprintf("\x1b[19;1H        ");
+				selectedspace = -1;
+				lcdMainOnBottom();
+				showingInventory = 0;
+				miningSetScene(false);
+				drawBackground();
+			}
 			else
 			{
 				selectedspace = -1;
@@ -230,6 +247,8 @@ void updateInventory(touchPosition* touch)
 		}
 		if (keysDown() & KEY_Y)
 		{
+			iprintf("\x1b[19;22H        ");
+			iprintf("\x1b[19;1H        ");
 			selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
