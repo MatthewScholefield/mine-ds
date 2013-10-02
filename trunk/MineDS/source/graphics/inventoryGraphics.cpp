@@ -12,6 +12,7 @@ bool empty = false; //Whether the inventory is empty
 int total;
 bool loadedInv[NUM_INV_SPACES];
 int loadedID[NUM_INV_SPACES];
+bool enabled = true;
 void initInvGraphics()
 {
 }
@@ -20,9 +21,18 @@ void updateInvGraphics()
 {
 
 }
-
-void drawInv() //Draws the items in the inventory
+void enableInvGraphics()
 {
+	enabled = true;
+}
+void disableInvGraphics()
+{
+	enabled = false;
+}
+void drawInv() //Draws the items in the inventory (called by the mainPlayer->update if in survival mode)
+{
+	if (enabled ==false)
+		return;
 	int i,j;
 	for (i=0;i<32;i++)
 	{

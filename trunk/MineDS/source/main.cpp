@@ -23,6 +23,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
+#include "crafting.h"
 #include "nifi.h"
 #include "sounds.h"
 #include <maxmod9.h>    // Maxmod definitions for ARM9
@@ -54,6 +55,7 @@ int main()
 	graphicsInit();
 	mobHandlerInit();
 	worldRender_LoadSprites();
+	craftingInit();
 	while(1)
 	{
 	    	graphicFrame();

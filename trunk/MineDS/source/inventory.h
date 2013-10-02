@@ -1,4 +1,6 @@
 #include <nds.h>
+#ifndef H_INV
+#define H_INV
 bool addInventory (int blockID, int amount);
 bool subInventory (int blockID, int amount);
 int checkInventory (int blockID);
@@ -19,3 +21,4 @@ typedef struct
 //	InvBlock armour[4];
 	int hand;
 }Inventory;
+#endif
