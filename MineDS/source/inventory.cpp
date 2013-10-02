@@ -14,6 +14,7 @@
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
 bool loadedGraphic = false;
+int selectedspace = -1;
 Graphic heldBlock;
 /*					A reminder:
 
@@ -182,7 +183,6 @@ void updateInventory(touchPosition* touch)
 		{
 			lcdMainOnTop();
 			showingInventory = 1;
-			show_message("In inventory\n");
 			miningSetScene(true);
 			drawBackground();
 			consoleClear();
@@ -195,19 +195,44 @@ void updateInventory(touchPosition* touch)
 		if (keysDown() & KEY_TOUCH)
 		{
 			if (touch->px > 8 && touch->py > 72 && touch->py < 120 && touch->px < 248) 
-			{
-				int space = -1;
-				space+=16*((touch->py - 72)/24);
+			{	
+				
+				int space = 0;
+				space+=15*((touch->py - 72)/24);
 				space+=(touch->px - 8)/16;
-				setSelectedBlock(mainPlayerInv.blocks[space].blockId);
-				changeGraphic(mainPlayerInv.blocks[space].blockId);
+				if (selectedspace != -1)
+				{
+					//Swap the blocks.
+					int tmpId, tmpAmount = 0;
+					tmpId = mainPlayerInv.blocks[selectedspace].blockId;
+					tmpAmount = mainPlayerInv.blocks[selectedspace].blockAmount;
+					mainPlayerInv.blocks[selectedspace].blockId = mainPlayerInv.blocks[space].blockId;
+					mainPlayerInv.blocks[selectedspace].blockAmount = mainPlayerInv.blocks[space].blockAmount;
+					mainPlayerInv.blocks[space].blockId = tmpId;
+					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
+					selectedspace = -1;
+					setSelectedBlock(AIR);
+					changeGraphic(AIR);
+				}
+				else
+				{
+					selectedspace = space;
+					setSelectedBlock(mainPlayerInv.blocks[space].blockId);
+					changeGraphic(mainPlayerInv.blocks[space].blockId);				
+				}
+			}
+			else
+			{
+				selectedspace = -1;
+				setSelectedBlock(AIR);
+				changeGraphic(AIR);
 			}
 		}
 		if (keysDown() & KEY_Y)
 		{
+			selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
-			show_message("Left inventory\n");
 			miningSetScene(false);
 			drawBackground();
 		}
