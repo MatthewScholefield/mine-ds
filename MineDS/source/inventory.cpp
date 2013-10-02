@@ -200,7 +200,7 @@ void updateInventory(touchPosition* touch)
 				int space = 0;
 				space+=15*((touch->py - 72)/24);
 				space+=(touch->px - 8)/16;
-				if (selectedspace != -1)
+				if (selectedspace != -1 && !(mainPlayerInv.blocks[selectedspace].blockId==AIR))
 				{
 					//Swap the blocks.
 					int tmpId, tmpAmount = 0;
