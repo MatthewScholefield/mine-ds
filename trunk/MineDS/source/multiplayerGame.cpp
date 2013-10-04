@@ -19,15 +19,15 @@ worldObject* multiplayerGame(bool host,worldObject* world4)
 {
 	touchPosition touch;
 	nifiEnable();
-	iprintf("ASDF!\n");
+	printf("ASDF!\n");
 	mobsReset();
 	consoleClear();
 	clear_messages();
-	iprintf("\x1b[7;0H");
+	printf("\x1b[7;0H");
 	if (host)
 	{	
 		lcdMainOnBottom();
-		iprintf("Generating World!\n");
+		printf("Generating World!\n");
 		if (world4==NULL) world4 = (worldObject *) calloc(1,sizeof(worldObject));
 		if (world4==NULL) return NULL;
 		generateWorld(world4);
@@ -54,9 +54,9 @@ worldObject* multiplayerGame(bool host,worldObject* world4)
 				world4->blocks[i][j]=BEDROCK;
 				world4->bgblocks[i][j]=BEDROCK;
 			}		
-		iprintf("Looking for servers\n");
+		printf("Looking for servers\n");
 		while (!clientNifiInit()) swiWaitForVBlank(); //Looks for servers, sets up Nifi, and Asks the player to join a server.
-		iprintf("Joining Server!\n");
+		printf("Joining Server!\n");
 		//Next Do a HandShake and check that we are communicating with MineDS (and not another game that we might make in the future)
 		if (doHandshake())
 		{
