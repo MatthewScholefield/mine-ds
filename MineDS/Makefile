@@ -34,6 +34,7 @@ ARCH	:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 CFLAGS	:=	-g -Wall -O2\
  		-fomit-frame-pointer\
 		-ffast-math \
+		-std=c++11 \
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM9 -save-temps
