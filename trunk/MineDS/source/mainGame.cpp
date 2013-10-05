@@ -31,7 +31,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 
 	if (mode==0) // Generate new world and reset the camera and time
 	{
-		printf("\x1b[8;0HGenerating world...\n");
+		iprintf("\x1b[8;0HGenerating world...\n");
 		if (CurrentWorld==NULL) CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
 		if (CurrentWorld==NULL)
 		{
@@ -39,7 +39,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		}
 		mobsReset();
 		generateWorld(CurrentWorld);
-		printf("\x1b[8;0HA");
+		iprintf("\x1b[8;0HA");
 		CurrentWorld->CamX=0;
 		CurrentWorld->CamY=0;
 		CurrentWorld->timeInWorld=0;
