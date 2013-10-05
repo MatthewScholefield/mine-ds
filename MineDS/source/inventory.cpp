@@ -196,8 +196,8 @@ void updateInventory(touchPosition* touch)
 	else if (showingInventory == 1)
 	{
 		
-		printf("\x1b[19;22HCrafting");
-		printf("\x1b[19;1HBack");
+		iprintf("\x1b[19;22HCrafting");
+		iprintf("\x1b[19;1HBack");
 		showGraphic(&heldBlock,0,0,false,0);
 		if (keysDown() & KEY_TOUCH)
 		{
@@ -230,8 +230,8 @@ void updateInventory(touchPosition* touch)
 			}
 			else if (touch-> px > 8 && touch->px < 7*8 && touch->py > 19*8)
 			{
-				printf("\x1b[19;22H        ");
-				printf("\x1b[19;1H        ");
+				iprintf("\x1b[19;22H        ");
+				iprintf("\x1b[19;1H        ");
 				selectedspace = -1;
 				lcdMainOnBottom();
 				showingInventory = 0;
@@ -247,8 +247,8 @@ void updateInventory(touchPosition* touch)
 		}
 		if (keysDown() & KEY_Y)
 		{
-			printf("\x1b[19;22H        ");
-			printf("\x1b[19;1H        ");
+			iprintf("\x1b[19;22H        ");
+			iprintf("\x1b[19;1H        ");
 			selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
