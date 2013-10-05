@@ -90,7 +90,7 @@
 #define SHOVEL_IRON 79
 #define SHOVEL_GOLD 80
 #define AXE_DIAMOND 81
-#define AXE_WOOD 82
+#define AXE_WOODEN 82
 #define AXE_STONE 83
 #define AXE_IRON 84
 #define AXE_GOLD 85
