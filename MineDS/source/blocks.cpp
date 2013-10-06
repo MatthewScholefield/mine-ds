@@ -1,26 +1,14 @@
 /*
-        -----------------------------------------
-        |               Blocks.cpp              |
-        |        General Block Handling         |
-        -----------------------------------------
+		-----------------------------------------
+		|               Blocks.cpp              |
+		|        General Block Handling         |
+		-----------------------------------------
 */
 #include "blockID.h"
 #include "mining.h"
 #include <stdio.h>
 #include <stdarg.h>
-//#include <iostream>
-//#include <initializer_list>
 #define sizeOfArray(x) (sizeof(x)/4)
-
-//Block Types
-#define SOIL 1 //Any type of Grass and Dirt
-#define WOOD 2
-
-//Tool Types
-#define PICKAXE -1
-#define SHOVEL -2
-#define AXE -3
-#define SWORD -4
 
 int walkThroughBlocks[]={AIR,YELLOW_FLOWER,RED_FLOWER,SNOW_TOP,TORCH,LADDER,SHRUB,TALL_GRASS};
 int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF,GLASS,SNOW_TOP,SHRUB,TALL_GRASS};
@@ -54,7 +42,7 @@ void setArray(int * array, int setValue, int numOfItems, ...)
 -Harder Object = Higher Value
 -Softer Object = Lower value (Min 0)
 
-	 DIRT ~ 1
+	DIRT ~ 1
 	STONE ~ 20
 TREE WOOD ~ 3
 
@@ -78,65 +66,84 @@ int sourceAmount[]={1,0,0};
 
 int isBlockWalkThrough(int blockID)
 {
-        int i;
-        bool isWalkThrough=false;
-        for(i=0;i<=sizeOfArray(walkThroughBlocks);i++)
-        {
-                if (walkThroughBlocks[i]==blockID) isWalkThrough=true;
-        }
-        return isWalkThrough;
+		int i;
+		bool isWalkThrough=false;
+		for(i=0;i<=sizeOfArray(walkThroughBlocks);i++)
+		{
+				if (walkThroughBlocks[i]==blockID) isWalkThrough=true;
+		}
+		return isWalkThrough;
 }
 int item(int blockID)
 {
-        int i;
-        bool isItem=false;
-        for(i=0;i<=sizeOfArray(items);i++)
-        {
-                if (items[i]==blockID) isItem=true;
-        }
-        return isItem;
+		int i;
+		bool isItem=false;
+		for(i=0;i<=sizeOfArray(items);i++)
+		{
+				if (items[i]==blockID) isItem=true;
+		}
+		return isItem;
 }
 int alwaysRenderBright(int blockID)
 {
-        int i;
-        bool isWalkThrough=false;
-        for(i=0;i<=sizeOfArray(renderBright);i++)
-        {
-                if (renderBright[i]==blockID) isWalkThrough=true;
-        }
-        return isWalkThrough;
+		int i;
+		bool isWalkThrough=false;
+		for(i=0;i<=sizeOfArray(renderBright);i++)
+		{
+				if (renderBright[i]==blockID) isWalkThrough=true;
+		}
+		return isWalkThrough;
 }
 int isAGroundBlock(int blockID)
 {
-        return false;
+		return false;
 }
 bool isBlockALightSource(int blockID)
 {
 	int i;
-        bool isLightSource=false;
-        for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
-        {
-                if (lightSourceBlocks[i]==blockID) isLightSource=true;
-        }
-        return isLightSource;
+		bool isLightSource=false;
+		for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
+		{
+				if (lightSourceBlocks[i]==blockID) isLightSource=true;
+		}
+		return isLightSource;
 }
 int getLightAmount(int blockID)
 {
 	int i;
-        bool isLightSource=false;
-        for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
-        {
-                if (lightSourceBlocks[i]==blockID) return sourceAmount[i];
-        }
+		bool isLightSource=false;
+		for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
+		{
+			if (lightSourceBlocks[i]==blockID) return sourceAmount[i];
+		}
 }
-void initHardness()
+void initBlockProperties()
 {
+	//Tools
+	setArray(blockType,PICKAXE,4,PICKAXE_STONE, PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_WOOD); //Pickaxes
+	setArray(blockType,SHOVEL,4,SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, SHOVEL_WOOD); //Shovels
+	setArray(blockType,AXE,4,AXE_STONE, AXE_IRON, AXE_GOLD, AXE_WOOD); //Axes
+	setArray(blockType,SWORD,4,SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD); //Swords
+	//Blocks
+	setArray(blockType,WOOD,3,JUNGLE_WOOD,BIRCH_WOOD,OAK_WOOD);
+	setArray(blockType,SOIL,5,JUNGLE_GRASS,GRASS,DIRT,SAND,GRAVEL);
+	setArray(blockType,STONEBLOCK,3,STONE,SANDSTONE,COBBLESTONE); //Blocks that must be mined with a pickaxe
+
 	int i;
 	for (i=1;i<=NUM_BLOCKS;i++)
-		hardness[i]=1;
+	{
+		switch (blockType[i])
+		{
+		case WOOD: hardness[i]=3; break; //Wood hardness is 3
+		default: hardness[i]=1; break; //Default hardness is 1
+		}
+		if (item(i))
+			hardness[i]=-1;
+	}
 	for (i=1;i<=NUM_BLOCKS;i++)
 		if (item(i))
 			hardness[i]=-2;
+
 	setArray(hardness,-20,3,PICKAXE_GOLD,AXE_GOLD,SHOVEL_GOLD);
 	setArray(hardness,-16,3,PICKAXE_DIAMOND,AXE_DIAMOND,SHOVEL_DIAMOND);
 	setArray(hardness,-10,3,PICKAXE_IRON,AXE_IRON,SHOVEL_IRON);
@@ -145,23 +152,6 @@ void initHardness()
 
 	hardness[STONE]=20;
 	hardness[SANDSTONE]=13;
-	hardness[BIRCH_WOOD]=3;
-	hardness[OAK_WOOD]=3;
-	hardness[JUNGLE_WOOD]=3;
-
-
-}
-void initType()
-{
-	//Tools
-	setArray(blockType,PICKAXE,4,PICKAXE_STONE, PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_WOOD); //Pickaxes
-	setArray(blockType,SHOVEL,4,SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, SHOVEL_WOOD); //Shovels
-	setArray(blockType,AXE,4,AXE_STONE, AXE_IRON, AXE_GOLD, AXE_WOOD); //Axes
-	setArray(blockType,SWORD,4,SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD); //Swords
-
-	//Blocks
-	setArray(blockType,WOOD,2,JUNGLE_WOOD,BIRCH_WOOD);
-	setArray(blockType,SOIL,3,JUNGLE_GRASS,GRASS,DIRT);
 }
 int getType(int blockID)
 {

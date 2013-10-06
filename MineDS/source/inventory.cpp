@@ -1,9 +1,9 @@
 /*
------------------------------------------
-|             Inventory.cpp             |
-|           Inventory Funtions          |
------------------------------------------
-*/
+ * -----------------------------------------
+ * |             Inventory.cpp             |
+ * |           Inventory Funtions          |
+ * -----------------------------------------
+ */
 #include <stdio.h>
 #include "mining.h" //for NUM_BLOCKS
 #include "graphics/graphics.h"
@@ -12,6 +12,7 @@
 #include "titlescreen.h"
 #include "inventory.h"
 #include "blockID.h"
+#include "blocks.cpp"
 #include "message.h"
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
@@ -19,11 +20,8 @@ bool loadedGraphic = false;
 int selectedspace = -1;
 Graphic heldBlock;
 /*					A reminder:
-
-
-
-INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
-*/
+ * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
+ */
 
 
 int showingInventory;
@@ -33,32 +31,35 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	//First find a spot availabe for the block id
 	if (isSurvival()==false) //Always return true in creative!
 		return true;
+	
 	int i;
 	int space=-1;
-	if (blockID == GRASS || blockID == JUNGLE_GRASS || blockID == SNOW_GRASS)
-		blockID = DIRT;
-	if (blockID == BEDROCK)
-		return false; //Will not destroy block
-	if (blockID==SNOW_TOP)
-		return true; //Will still destory block (it just wont be added to the inventory)
-	if (blockID==COAL_ORE && (getSelectedblock()==PICKAXE_WOOD || getSelectedblock()==PICKAXE_STONE || getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_GOLD || getSelectedblock()==PICKAXE_DIAMOND))
-		blockID=COAL;
-	else if (blockID==COAL_ORE)
-		return true;
-	if (blockID==IRON_ORE && (getSelectedblock()==PICKAXE_STONE || getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
-		blockID=IRON;
-	else if (blockID==IRON_ORE)
-		return true;
-	if (blockID==GOLD_ORE && (getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
-		blockID=GOLD;
-	else if (blockID==GOLD_ORE)
-		return true;
-	if (blockID==DIAMOND_ORE && (getSelectedblock()==PICKAXE_IRON || getSelectedblock()==PICKAXE_DIAMOND))
-		blockID=DIAMOND;
-	else if (blockID==DIAMOND_ORE)
-		return true;
-
-	if (blockID==AIR) return false;
+	
+	if (getType(blockID) == STONEBLOCK)
+	{
+		if (getType(getSelectedblock())!=PICKAXE)
+			return true;
+		else
+		{
+			switch (blockID)
+			{
+				case SNOW_TOP: return true; break;
+				case COAL_ORE: blockID = COAL; break; //Any pickaxe can break coal
+				case IRON_ORE:if (getSelectedblock()==PICKAXE_WOOD) return true; break;
+				case GOLD_ORE:if (getSelectedblock()==PICKAXE_WOOD || getSelectedblock()==PICKAXE_STONE)return true; break;
+				case DIAMOND_ORE: if (getSelectedblock()!=PICKAXE_DIAMOND && getSelectedblock()!= PICKAXE_IRON) return true; break;
+			}
+		}
+	}
+	
+	switch (blockID)
+	{
+		case GRASS: case JUNGLE_GRASS: case SNOW_GRASS: blockID = DIRT; break;
+		case BEDROCK: return false; break; //Cannot break bedrock
+		case SNOW_TOP: return true; break; //Can break snow tops, just they won't be added to the inventory
+		case AIR: return false; break;
+	}
+	
 	for (i=0;i<NUM_INV_SPACES;i++)
 	{
 		//Found the correct block with correct id.
@@ -86,10 +87,12 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	updateInvGraphics();
 	return true;
 }
+
 void addInventory(int blockID)
 {
 	addInventory(blockID,1);
 }
+
 bool subInventory (int blockID, int amount) //subtracts the specified amount to a blockvalue
 {
 	if (isSurvival()==false) //Always return true in creative!
@@ -124,6 +127,7 @@ bool subInventory (int blockID, int amount) //subtracts the specified amount to 
 	updateInvGraphics();
 	return true;
 }
+
 int checkInventory (int blockID) //returns quantity of blockid in inventory
 {
 	int i;
@@ -146,14 +150,17 @@ int checkInventory (int blockID) //returns quantity of blockid in inventory
 		return 64;
 	return mainPlayerInv.blocks[space].blockAmount;
 }
+
 int getBlockID(int invSlot)
 {
 	return mainPlayerInv.blocks[invSlot].blockId;
 }
+
 int getBlockAmount(int invSlot)
 {
 	return mainPlayerInv.blocks[invSlot].blockAmount;
 }
+
 void clearInventory () //clears inventory
 {
 	int i;
@@ -165,6 +172,7 @@ void clearInventory () //clears inventory
 	updateInvGraphics();
 	showingInventory = 0;
 }
+
 void changeGraphic(int blockID)
 {
 	if (loadedGraphic == true)
@@ -175,6 +183,7 @@ void changeGraphic(int blockID)
 	loadGraphicSub(&heldBlock,2,blockID);
 	loadedGraphic = true;
 }
+
 void updateInventory(touchPosition* touch)
 {
 	if (!isSurvival())
