@@ -120,38 +120,43 @@ int getLightAmount(int blockID)
 void initBlockProperties()
 {
 	//Tools
-	setArray(blockType,PICKAXE,4,PICKAXE_STONE, PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_WOOD); //Pickaxes
-	setArray(blockType,SHOVEL,4,SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, SHOVEL_WOOD); //Shovels
-	setArray(blockType,AXE,4,AXE_STONE, AXE_IRON, AXE_GOLD, AXE_WOOD); //Axes
-	setArray(blockType,SWORD,4,SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD); //Swords
+	setArray(blockType,PICKAXE,5,PICKAXE_STONE, PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_WOOD,PICKAXE_DIAMOND); //Pickaxes
+	setArray(blockType,SHOVEL,5,SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, SHOVEL_WOOD,SHOVEL_DIAMOND); //Shovels
+	setArray(blockType,AXE,5,AXE_STONE, AXE_IRON, AXE_GOLD, AXE_WOOD,AXE_DIAMOND); //Axes
+	setArray(blockType,SWORD,5,SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD,SWORD_DIAMOND); //Swords
+
 	//Blocks
 	setArray(blockType,WOOD,3,JUNGLE_WOOD,BIRCH_WOOD,OAK_WOOD);
-	setArray(blockType,SOIL,5,JUNGLE_GRASS,GRASS,DIRT,SAND,GRAVEL);
-	setArray(blockType,STONEBLOCK,3,STONE,SANDSTONE,COBBLESTONE); //Blocks that must be mined with a pickaxe
+	setArray(blockType,SOIL,6,JUNGLE_GRASS,GRASS,DIRT,SAND,GRAVEL,SNOW_GRASS);
+	setArray(blockType,STONEBLOCK,7,STONE,SANDSTONE,COBBLESTONE,COAL_ORE,IRON_ORE,GOLD_ORE,DIAMOND_ORE); //Blocks that must be mined with a pickaxe
 
 	int i;
 	for (i=1;i<=NUM_BLOCKS;i++)
 	{
 		switch (blockType[i])
 		{
-		case WOOD: hardness[i]=3; break; //Wood hardness is 3
+		case WOOD: hardness[i]=5; break; //Wood hardness is 5
 		default: hardness[i]=1; break; //Default hardness is 1
 		}
 		if (item(i))
 			hardness[i]=-1;
 	}
-	for (i=1;i<=NUM_BLOCKS;i++)
-		if (item(i))
-			hardness[i]=-2;
 
+	//Tool Hardness
 	setArray(hardness,-20,3,PICKAXE_GOLD,AXE_GOLD,SHOVEL_GOLD);
-	setArray(hardness,-16,3,PICKAXE_DIAMOND,AXE_DIAMOND,SHOVEL_DIAMOND);
-	setArray(hardness,-10,3,PICKAXE_IRON,AXE_IRON,SHOVEL_IRON);
-	setArray(hardness, -6,3,PICKAXE_STONE,AXE_STONE,SHOVEL_STONE);
+	setArray(hardness,-17,3,PICKAXE_DIAMOND,AXE_DIAMOND,SHOVEL_DIAMOND);
+	setArray(hardness,-12,3,PICKAXE_IRON,AXE_IRON,SHOVEL_IRON);
+	setArray(hardness, -8,3,PICKAXE_STONE,AXE_STONE,SHOVEL_STONE);
 	setArray(hardness, -4,3,PICKAXE_WOOD,AXE_WOOD,SHOVEL_WOOD);
 
-	hardness[STONE]=20;
-	hardness[SANDSTONE]=13;
+	//Block Hardness
+	setArray(hardness, 2, 4, JUNGLE_GRASS,GRASS,DIRT,SNOW_GRASS);
+	hardness[STONE]=30;
+	hardness[SANDSTONE]=20;
+	hardness[COAL_ORE]=35;
+	hardness[IRON_ORE]=40;
+	hardness[GOLD_ORE]=40;
+	hardness[DIAMOND_ORE]=45;
 }
 int getType(int blockID)
 {
