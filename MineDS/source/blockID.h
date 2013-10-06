@@ -5,6 +5,18 @@
   |		Thanks to Dirbaio!		|
   |_____________________________________________|
 */
+//Block Types
+#define SOIL 1 //Any type of block that destroys faster with a shovel
+#define WOOD 2
+#define STONEBLOCK 3 //Any type of item that must be mined with a pickaxe
+
+//Tool Types
+#define PICKAXE -1
+#define SHOVEL -2
+#define AXE -3
+#define SWORD -4
+
+//Blocks
 #define AIR 0
 #define STONE 1
 #define DIRT 2
@@ -99,3 +111,4 @@
 #define SWORD_STONE 88
 #define SWORD_IRON 89
 #define SWORD_GOLD 90
+#define GRAVEL 91
