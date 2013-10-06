@@ -112,10 +112,10 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 					handHardness = 1;
 				switch (getType(selectedblock))
 				{
-					case AXE: if (getType(world->blocks[x][y])!=WOOD){handHardness = 1;show_message("WRONG TOOL!!");} break;
+					case AXE: if (getType(world->blocks[x][y])!=WOOD){handHardness = 1;} break;
 					//Using an axe on something other than wood will give the axe a hardness of 1
-					case PICKAXE: if (getType(world->blocks[x][y])!=STONEBLOCK) {handHardness = 1;show_message("WRONG TOOL!!");} break;
-					case SHOVEL: if (getType(world->blocks[x][y])!=SOIL){ handHardness = 1;show_message("WRONG TOOL!!"); } break;
+					case PICKAXE: if (getType(world->blocks[x][y])!=STONEBLOCK) {handHardness = 1;} break;
+					case SHOVEL: if (getType(world->blocks[x][y])!=SOIL){handHardness = 1;} break;
 				}
 				mining = getHardness(world->blocks[x][y])*10/handHardness;
 				miningRate = 1;
