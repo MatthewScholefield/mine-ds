@@ -106,6 +106,20 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 		{
 			if (change) //If new spot tapped on screen
 			{
+				switch (getType(selectedblock))
+				{
+					case AXE: if (getType(world->blocks[x][y])!=WOOD)handHardness = 1;
+					//Using an axe on something other than wood will give the axe a hardness of 1
+					case PICKAXE: if (getType(world->blocks[x][y])!=STONEBLOCK) handHardness = 1;
+					case SHOVEL: if (getType(world->blocks[x][y])!=SOIL) handHardness = 1;
+					default:
+					{
+						if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
+							handHardness = getHardness(selectedblock)*-1;
+						else //If item is a block
+							handHardness = 1;
+					}
+				}
 				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
 					handHardness = getHardness(selectedblock)*-1;
 				else //If item is a block
@@ -218,11 +232,11 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		int y = (touch.py+b)/16;
 		setBlock(world,x,y,false);
 		if (!skipLightUpdate)
-				updateBrightnessAround(world,x,y);
+			updateBrightnessAround(world,x,y);
 		/*if (skipLightUpdate)
-			print_message("Skip Light Update\n");
-		else
-			print_message("Light Update\n");*/
+		 *			print_message("Skip Light Update\n");
+		 *		else
+		 *			print_message("Light Update\n");*/
 	}
 	else
 	{

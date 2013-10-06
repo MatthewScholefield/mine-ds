@@ -1,4 +1,2 @@
 -Add new biomes
--Make zombies drop rotten flesh
--Add more craftable items
 -Tweak the mining times to be more realistics
