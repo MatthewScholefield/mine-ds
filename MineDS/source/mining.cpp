@@ -106,24 +106,17 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 		{
 			if (change) //If new spot tapped on screen
 			{
-				switch (getType(selectedblock))
-				{
-					case AXE: if (getType(world->blocks[x][y])!=WOOD)handHardness = 1;
-					//Using an axe on something other than wood will give the axe a hardness of 1
-					case PICKAXE: if (getType(world->blocks[x][y])!=STONEBLOCK) handHardness = 1;
-					case SHOVEL: if (getType(world->blocks[x][y])!=SOIL) handHardness = 1;
-					default:
-					{
-						if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
-							handHardness = getHardness(selectedblock)*-1;
-						else //If item is a block
-							handHardness = 1;
-					}
-				}
 				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
 					handHardness = getHardness(selectedblock)*-1;
 				else //If item is a block
 					handHardness = 1;
+				switch (getType(selectedblock))
+				{
+					case AXE: if (getType(world->blocks[x][y])!=WOOD){handHardness = 1;show_message("WRONG TOOL!!");} break;
+					//Using an axe on something other than wood will give the axe a hardness of 1
+					case PICKAXE: if (getType(world->blocks[x][y])!=STONEBLOCK) {handHardness = 1;show_message("WRONG TOOL!!");} break;
+					case SHOVEL: if (getType(world->blocks[x][y])!=SOIL){ handHardness = 1;show_message("WRONG TOOL!!"); } break;
+				}
 				mining = getHardness(world->blocks[x][y])*10/handHardness;
 				miningRate = 1;
 			}
@@ -165,6 +158,21 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 					handHardness = getHardness(selectedblock)*-1;
 				else //If item is a block
 					handHardness = 1;
+				switch (getType(selectedblock))
+				{
+					case AXE: if (getType(world->bgblocks[x][y])!=WOOD)handHardness = 1; break;
+					//Using an axe on something other than wood will give the axe a hardness of 1
+					case PICKAXE: if (getType(world->bgblocks[x][y])!=STONEBLOCK) handHardness = 1; break;
+					case SHOVEL: if (getType(world->bgblocks[x][y])!=SOIL) handHardness = 1; break;
+					default:
+					{
+						if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
+							handHardness = getHardness(selectedblock)*-1;
+						else //If item is a block
+							handHardness = 1;
+						break;
+					}
+				}
 				mining = getHardness(world->bgblocks[x][y])*10/handHardness;
 				miningRate = 1;
 			}
