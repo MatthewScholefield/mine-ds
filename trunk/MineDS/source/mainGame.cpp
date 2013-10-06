@@ -6,6 +6,7 @@
 #include "mining.h"
 #include "blockID.h"
 #include "blocks.h"
+#include "inventory.h"
 #include "worldRender.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
@@ -28,6 +29,13 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 	touchPosition touch;
 	initInvGraphics();
 	initBlockProperties();
+
+	addInventory(PICKAXE_STONE,1);
+	addInventory(AXE_STONE,1);
+	addInventory(SHOVEL_STONE,1);
+	addInventory(PICKAXE_DIAMOND,1);
+	addInventory(AXE_DIAMOND,1);
+	addInventory(SHOVEL_DIAMOND,1);
 
 	if (mode==0) // Generate new world and reset the camera and time
 	{
@@ -52,6 +60,8 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		mobHandlerUpdate(CurrentWorld);
 		updateInventory(&touch);
 		update_message();
+		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
+			clear_messages();
 		if (keysDown() & KEY_START || shouldQuitGame())
 			break;
 		swiWaitForVBlank();
