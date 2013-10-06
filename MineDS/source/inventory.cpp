@@ -12,7 +12,7 @@
 #include "titlescreen.h"
 #include "inventory.h"
 #include "blockID.h"
-#include "blocks.cpp"
+#include "blocks.h"
 #include "message.h"
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
@@ -43,7 +43,6 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 		{
 			switch (blockID)
 			{
-				case SNOW_TOP: return true; break;
 				case COAL_ORE: blockID = COAL; break; //Any pickaxe can break coal
 				case IRON_ORE:if (getSelectedblock()==PICKAXE_WOOD) return true; break;
 				case GOLD_ORE:if (getSelectedblock()==PICKAXE_WOOD || getSelectedblock()==PICKAXE_STONE)return true; break;
