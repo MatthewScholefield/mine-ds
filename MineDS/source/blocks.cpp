@@ -11,7 +11,7 @@
 #define sizeOfArray(x) (sizeof(x)/4)
 
 int walkThroughBlocks[]={AIR,YELLOW_FLOWER,RED_FLOWER,SNOW_TOP,TORCH,LADDER,SHRUB,TALL_GRASS};
-int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF,GLASS,SNOW_TOP,SHRUB,TALL_GRASS};
+int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF,GLASS,SHRUB,TALL_GRASS};
 int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT,GLOWSTONE};
 int items[]={PORKCHOP_RAW,BEEF_RAW,LEATHER,PICKAXE_WOOD,PICKAXE_STONE,
 		PICKAXE_IRON,PICKAXE_GOLD,PICKAXE_DIAMOND,COAL,IRON,GOLD,DIAMOND,
@@ -68,7 +68,7 @@ int isBlockWalkThrough(int blockID)
 {
 		int i;
 		bool isWalkThrough=false;
-		for(i=0;i<=sizeOfArray(walkThroughBlocks);i++)
+		for(i=0;(unsigned)i<=sizeOfArray(walkThroughBlocks);i++)
 		{
 				if (walkThroughBlocks[i]==blockID) isWalkThrough=true;
 		}
@@ -78,7 +78,7 @@ int item(int blockID)
 {
 		int i;
 		bool isItem=false;
-		for(i=0;i<=sizeOfArray(items);i++)
+		for(i=0;(unsigned)i<=sizeOfArray(items);i++)
 		{
 				if (items[i]==blockID) isItem=true;
 		}
@@ -88,7 +88,7 @@ int alwaysRenderBright(int blockID)
 {
 		int i;
 		bool isWalkThrough=false;
-		for(i=0;i<=sizeOfArray(renderBright);i++)
+		for(i=0;(unsigned)i<=sizeOfArray(renderBright);i++)
 		{
 				if (renderBright[i]==blockID) isWalkThrough=true;
 		}
@@ -111,11 +111,11 @@ bool isBlockALightSource(int blockID)
 int getLightAmount(int blockID)
 {
 	int i;
-		bool isLightSource=false;
 		for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
 		{
 			if (lightSourceBlocks[i]==blockID) return sourceAmount[i];
 		}
+	return -1;
 }
 void initBlockProperties()
 {

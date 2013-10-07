@@ -5,13 +5,13 @@
 #include "nifi.h"
 std::string messages[4];
 int nextmsg = 0;
-void show_message(char* s)
+void show_message(const char* s)
 {
 	messages[nextmsg] = s;
 	nextmsg ++;
 	if (nextmsg>3) nextmsg = 0;
 }
-void print_message(char* s)
+void print_message(const char* s)
 {
 	messages[nextmsg] = s;
 	nextmsg ++;

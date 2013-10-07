@@ -36,8 +36,7 @@ void deathScreenSetup()
 int deathScreenUpdate()
 {
 	if (deathScreenShow == false)
-	{	
-		int i,j;
+	{
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
