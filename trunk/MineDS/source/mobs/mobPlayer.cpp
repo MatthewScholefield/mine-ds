@@ -7,6 +7,7 @@
 #include "../worldRender.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
+#include "../inventory.h"
 #include "mobPlayer.h"
 #include "../message.h"
 #include "../blockID.h"
@@ -178,6 +179,7 @@ void playerMob::updateMob(worldObject* world)
 		}
 		else if (deathscreen==false)
 		{
+			clearInventory();
 			deathScreenSetup();
 			deathscreen=true;
 			health=-50;
