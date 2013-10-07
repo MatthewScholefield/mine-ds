@@ -54,8 +54,6 @@ void jungleBiome(worldObject* world, int startx,int endx)
 	int treex=startx + 4 + rand()%5;
 	int flx=startx + 4 + rand()%5;
 	int y;
-	bool previous;
-	bool previous2;
 	
 	while (x<=endx)
 	{

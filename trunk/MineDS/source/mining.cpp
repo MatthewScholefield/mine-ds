@@ -74,7 +74,6 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 		change = true;
 	}
 	bool something=true;
-	int c = 1;
 	if ((world->blocks[x][y] == AIR && !(keysHeld() & KEY_DOWN) && (selectedblock==AIR || item(selectedblock))) || (world->blocks[x][y] == AIR && world->bgblocks == AIR && (keysHeld() & KEY_DOWN) && (selectedblock==AIR || item(selectedblock))))
 	{
 		skipLightUpdate = true;
@@ -131,8 +130,8 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 				{
 					hasChangedBlock = true;
 					world->blocks[x][y]=AIR;
-					skipLightUpdate = false;
 					checkBlockDelete(x,y,world,false);
+					skipLightUpdate = false;
 				}
 				miningX = -1; //Ensuring mining will be reset on next loop
 				miningY = -1;
@@ -143,9 +142,9 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 			if (addInventory(world->blocks[x][y],1))
 			{
 				world->blocks[x][y]=AIR;
+				checkBlockDelete(x,y,world,false);
 				hasChangedBlock = true;
 			}
-			checkBlockDelete(x,y,world,false);
 		}
 	}
 	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN) && hasChangedBlock == false) //Mine in Background
@@ -187,8 +186,8 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 				{
 					hasChangedBlock = true;
 					world->bgblocks[x][y]=AIR;
+					checkBlockDelete(x,y,world,true);
 					skipLightUpdate = false;
-					checkBlockDelete(x,y,world,false);
 				}
 				miningX = -1; //Ensuring mining will be reset on next loop
 				miningY = -1;
@@ -199,9 +198,9 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 			if (addInventory(world->bgblocks[x][y],1))
 			{
 				world->bgblocks[x][y]=AIR;
+				checkBlockDelete(x,y,world,true);
 				hasChangedBlock = true;
 			}
-			checkBlockDelete(x,y,world,false);
 		}
 	}
 	else return;
@@ -221,7 +220,6 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	{
 		int x = (touch.px+a)/16;
 		int y = (touch.py+b)/16;
-		char buffer[33];
 		int mobNum = isMobAt(touch.px+a,touch.py+b);
 		if (mobNum!=-1)
 		{
