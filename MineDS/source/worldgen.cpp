@@ -43,7 +43,6 @@ int flatGen(worldObject* world,int startx,int starty,int endx){
 	int y=starty;
 	int x;
 	int changey=0;
-	int i;
 	int times=rand()%3+1;
 	for (x=startx;x<=endx;x++){
 		if (changey==0){

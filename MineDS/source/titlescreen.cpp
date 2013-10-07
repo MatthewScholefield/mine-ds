@@ -148,7 +148,7 @@ void multiplayerScreen()
 }
 void credits()
 {
-	uint oldKeys;
+	uint oldKeys=keysHeld();;
 	touchPosition touch;
 	lcdMainOnTop();
 	drawBackground();

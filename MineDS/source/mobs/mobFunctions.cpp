@@ -17,7 +17,6 @@ void calculateMiscData(worldObject* world,baseMob* mob)
 		}
 		int blockx = (mob->x + mob -> sx/2)/16;
 		int blocky = (mob->y + 6 + mob -> sy/2)/16;
-		bool oldtop= mob -> collisions[0];
 		for (int i=0;i<4;i++)
 		mob -> collisions[i]=false;
 		/*if (spritecol(mob -> x, mob -> y, blockx*16,(blocky+1)*16,mob -> sx, mob ->sy,16,16) && !isBlockWalkThrough(world->blocks[blockx][blocky+1]))
@@ -86,7 +85,6 @@ void calculateMiscDataSmall(worldObject* world,baseMob* mob)
 		}
 		int blockx = (mob->x + mob -> sx/2)/16;
 		int blocky = (mob->y + mob -> sy/2)/16;
-		bool oldtop= mob -> collisions[0];
 		for (int i=0;i<4;i++)
 		mob -> collisions[i]=false;
 		int a;

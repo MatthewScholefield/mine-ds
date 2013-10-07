@@ -68,7 +68,6 @@ void BlockShader(){
 	{
 		VRAM_E_EXT_PALETTE[2][15][j] = 0;
 	}
-	int i;
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 }
 inline void setTileXY(int x, int y, uint16 tile,int palette)
