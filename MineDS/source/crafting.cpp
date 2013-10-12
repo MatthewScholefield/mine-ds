@@ -13,6 +13,29 @@ int nextCraftingRecipe = 0;
 void craftingInit()
 {
 	addCraftingRecipe(PLANKS,4,LOG,1);
+	addCraftingRecipe(STICK,4,PLANKS,2);
+	addCraftingRecipe(PICKAXE_WOOD,1,PLANK,3,STICK,2);
+	addCraftingRecipe(PICKAXE_STONE,1,COBBLESTONE,3,STICK,2);
+	addCraftingRecipe(PICKAXE_IRON,1,INGOT_IRON,3,STICK,2);
+	addCraftingRecipe(PICKAXE_DIAMOND,1,DIAMOND,3,STICK,2);
+	addCraftingRecipe(AXE_WOOD,1,PLANK,3,STICK,2);
+	addCraftingRecipe(AXE_STONE,1,COBBLESTONE,3,STICK,2);
+	addCraftingRecipe(AXE_IRON,1,INGOT_IRON,3,STICK,2);
+	addCraftingRecipe(AXE_DIAMOND,1,DIAMOND,3,STICK,2);
+	addCraftingRecipe(SWORD_WOOD,1,PLANK,2,STICK,1);
+	addCraftingRecipe(SWORD_STONE,1,COBBLESTONE,2,STICK,1);
+	addCraftingRecipe(SWORD_IRON,1,INGOT_IRON,2,STICK,1);
+	addCraftingRecipe(SWORD_DIAMOND,1,DIAMOND,2,STICK,1);
+	addCraftingRecipe(TORCH,4,COAL,1,STICK,1);
+	addCraftingRecipe(CRAFTING_TABLE,1,PLANKS,4);
+
+	//Furnace Recipes
+	addCraftingRecipe(GLASS,1,SAND,1);
+	addCraftingRecipe(BEEF_COOKED,1,BEEF_RAW,1);
+	addCraftingRecipe(CHICKEN_COOKED,1,CHICKEN_RAW,1);
+	addCraftingRecipe(PORKCHOP_COOKED,1,PORKCHOP_RAW,1);
+	addCraftingRecipe(DIAMOND,1,ORE_DIAMOND,1);
+	addCraftingRecipe(IRON,1,ORE_IRON,1);
 }
 
 void addCraftingRecipe(int block,int amount,int aid,int aamount,int bid,int bamount,int cid,int camount,int did,int damount)
