@@ -82,8 +82,8 @@
 #define PICKAXE_GOLD 59
 #define PICKAXE_DIAMOND 60
 #define COAL 61
-#define IRON 62
-#define GOLD 63
+#define INGOT_IRON 62
+#define INGOT_GOLD 63
 #define DIAMOND 64
 #define STICK 65
 #define FLESH 66
