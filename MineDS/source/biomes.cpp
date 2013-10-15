@@ -137,3 +137,30 @@ void desertBiome(worldObject* world,int startx,int endx)
 		x++;
 	}
 }
+void mushroomBiome(worldObject* world,int startx,int endx)
+{
+	int x=startx;
+	int treex=startx + 8 + rand()%10;
+	int flx=startx + 1 + rand()%3;
+	int y;
+	
+	while (x<=endx)
+	{
+		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int endy=y+(rand() % 2) + 2;
+		for (int j=y; j<endy;j++) world->blocks[x][j]=DIRT;
+		world->blocks[x][y]=MYCELIUM;
+		if (flx==x)
+		{
+			world->blocks[x][y-1]=(rand()%2==1 ? MUSHROOM_BROWN : MUSHROOM_RED);
+			flx+= 1 + rand()%4;
+		}
+		if (treex==x)
+		{
+			growGiantMushroom(world,x,y-1);
+			world->blocks[x][y-1]=AIR; //If there is a mushroom there, I haven't added transparency so it whill look weird
+			treex+= 8 + rand()%5;
+		}
+		x++;
+	}
+}
