@@ -112,3 +112,11 @@
 #define SWORD_IRON 89
 #define SWORD_GOLD 90
 #define GRAVEL 91
+#define MUSHROOM_BROWN 92
+#define MUSHROOM_RED 93
+#define MUSHROOM_STEM 94
+#define MUSHROOM_TOP 95
+#define PUMPKIN 96
+#define SEEDS_PUMPKIN 97
+#define SEEDS_WHEAT 98
+#define MYCELIUM 99

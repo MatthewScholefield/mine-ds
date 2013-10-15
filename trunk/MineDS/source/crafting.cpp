@@ -34,8 +34,8 @@ void craftingInit()
 	addCraftingRecipe(BEEF_COOKED,1,BEEF_RAW,1);
 	addCraftingRecipe(CHICKEN_COOKED,1,CHICKEN_RAW,1);
 	addCraftingRecipe(PORKCHOP_COOKED,1,PORKCHOP_RAW,1);
-	addCraftingRecipe(DIAMOND,1,ORE_DIAMOND,1);
-	addCraftingRecipe(IRON,1,ORE_IRON,1);
+	addCraftingRecipe(DIAMOND,1,DIAMOND_ORE,1);
+	addCraftingRecipe(INGOT_IRON,1,IRON_ORE,1);
 }
 
 void addCraftingRecipe(int block,int amount,int aid,int aamount,int bid,int bamount,int cid,int camount,int did,int damount)

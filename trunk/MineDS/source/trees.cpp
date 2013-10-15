@@ -65,6 +65,17 @@ void growJungleTree(worldObject* world,int x,int y)
 	leafVirus(world,x,i,2+rand()%3,false,JUNGLE_LEAF);
 	leafVirus(world,x+1,i,2+rand()%3,false,JUNGLE_LEAF);
 }
+void growGiantMushroom(worldObject* world,int x,int y)
+{
+	int height = 2 + rand() % 2;
+	int i;
+	for (i=y;i>=y-height;i--)
+	{
+		world->bgblocks[x][i]=MUSHROOM_STEM; // Draw the trunk.
+	}
+	//Now for the leaves...
+	leafVirus(world,x,i,2+(rand()%2),false,MUSHROOM_TOP);
+}
 void growCactus(worldObject* world,int x,int y)
 {
 	int height = rand()%3;
@@ -78,12 +89,12 @@ void growFlower(worldObject* world,int x,int y)
 }
 void growPumpkinPatch(worldObject* world,int x,int y)
 {
-	/*int i;
+	int i;
 	for (i=x-5;i<=x;i++)
 		if (!(rand()%5))
 		{
 			int y = findFirstBiomeBlock(world,i);
-			world->blocks[i][y]=PUMPKIN_SIDE_1 + rand() % 2;
+			world->blocks[i][y]=PUMPKIN + rand() % 2;
 			if (i==-1) iprintf("\n\n\n\n\n\n\n\nHi!");
-		}*/
+		}
 }

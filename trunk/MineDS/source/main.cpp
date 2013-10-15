@@ -9,6 +9,7 @@
 #include <nds.h>
 #include <stdio.h>
 #include <time.h>
+#include "blocks.h"
 #include "world.h"
 #include "mobs.h"
 #include "particles.h"
@@ -43,6 +44,7 @@ int main()
 	nifiInit();
 	mmStop();
 	swiWaitForVBlank();
+	initBlockProperties();
 	//setSubBgTile(1,0,1);
 	//iprintf("Some Random DEBUG int:%d\n",0);
 	//iprintf("Some Random DEBUG bool:%s\n",isBlockWalkThrough(FLOWER_RED) ? "True" : "False");
