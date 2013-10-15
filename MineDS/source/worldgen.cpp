@@ -8,6 +8,7 @@
 
 #include "world.h"
 #include "blockID.h"
+#include "blocks.h"
 #include <stdio.h>
 #include <cstdlib>
 #include <nds.h>
@@ -97,14 +98,15 @@ void generateWorld (worldObject* world){
 		int sizex;
 		sizex=rand()%16+ 16;
 		if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
-		int generator = rand() % 2;
-		if (generator == 0) j = extremeMountainGen(world,i,j,i+sizex);
-		else if (generator == 1) j = flatGen(world,i,j,i+sizex);
-		int biome = rand() % 4;
-		if (biome == 0) plainsBiome(world,i,i+sizex);
-		else if (biome == 1) snowBiome(world,i,i+sizex);
-		else if (biome == 2) desertBiome(world,i,i+sizex);
-		else if (biome == 3) jungleBiome(world,i,i+sizex);
+		j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
+		switch (rand() % 5)
+		{
+			case 0:plainsBiome(world,i,i+sizex); break;
+			case 1: snowBiome(world,i,i+sizex); break;
+			case 2: desertBiome(world,i,i+sizex); break;
+			case 3: jungleBiome(world,i,i+sizex); break;
+			case 4: mushroomBiome(world,i,i+sizex); break;
+		}
 		updateBrightnessAround(world,i,j);
 		i=i+sizex+1;
 	}
@@ -114,6 +116,6 @@ void generateWorld (worldObject* world){
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for (j=0;j<=WORLD_HEIGHT;j++)
 			{
-			 if (world->blocks[i][j]!=AIR) world->bgblocks[i][j]=world->blocks[i][j];			
+			 if (world->blocks[i][j]!=AIR && (!isBlockWalkThrough(world->blocks[i][j]) || world->blocks[i][j]==SNOW_TOP)) world->bgblocks[i][j]=world->blocks[i][j];			
 			}
 }

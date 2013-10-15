@@ -53,10 +53,12 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	
 	switch (blockID)
 	{
-		case GRASS: case JUNGLE_GRASS: case SNOW_GRASS: blockID = DIRT; break;
+		case GRASS: case JUNGLE_GRASS: case SNOW_GRASS: case MYCELIUM: blockID = DIRT; break;
+		case TALL_GRASS: blockID = SEEDS_WHEAT; amount = rand()%2+1; break;
 		case BEDROCK: return false; break; //Cannot break bedrock
 		case SNOW_TOP: return true; break; //Can break snow tops, just they won't be added to the inventory
 		case AIR: return false; break;
+		case MUSHROOM_STEM: case MUSHROOM_TOP: return true; break;
 	}
 	
 	for (i=0;i<NUM_INV_SPACES;i++)

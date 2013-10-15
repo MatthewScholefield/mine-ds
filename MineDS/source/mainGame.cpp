@@ -5,7 +5,6 @@
 #include "message.h"
 #include "mining.h"
 #include "blockID.h"
-#include "blocks.h"
 #include "inventory.h"
 #include "worldRender.h"
 #include "graphics/graphics.h"
@@ -28,7 +27,6 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 	lcdMainOnBottom();
 	touchPosition touch;
 	initInvGraphics();
-	initBlockProperties();
 
 	addInventory(PICKAXE_STONE,1);
 	addInventory(AXE_STONE,1);
