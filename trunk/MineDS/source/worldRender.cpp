@@ -33,7 +33,6 @@ int getBrightness(worldObject* world,int x,int y)
 void setSun(int brightness)
 {
 	sunbrightness=brightness;
-
 }
 void BlockShader(){
 	//setBackdropColor(RGB15(69,195,237));
