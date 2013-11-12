@@ -10,6 +10,7 @@
 #include "graphics/inventoryGraphics.h"
 #include "graphics/subBgHandler.h"
 #include "titlescreen.h"
+#include "crafting.h"
 #include "inventory.h"
 #include "blockID.h"
 #include "blocks.h"
@@ -248,6 +249,12 @@ void updateInventory(touchPosition* touch)
 				miningSetScene(false);
 				drawBackground();
 			}
+			else if (touch->px > 21*8 && touch->px<30*8 && touch-> py > 19*8)
+			{
+				craftingMenuInit();
+				showingInventory = 2;
+				//show_message("Entering Crafing Menu\n");
+			}
 			else
 			{
 				selectedspace = -1;
@@ -264,6 +271,22 @@ void updateInventory(touchPosition* touch)
 			showingInventory = 0;
 			miningSetScene(false);
 			drawBackground();
+		}
+	}
+	else if (showingInventory == 2)
+	{
+		if (craftingMenuUpdate())
+		{		
+			lcdMainOnTop();
+			showingInventory = 1;
+			miningSetScene(true);
+			drawBackground();
+			consoleClear();
+			changeGraphic(AIR);
+			drawButton(21,18,9);
+			drawButton(0,18,5);
+			//show_message("Leaving Crafting Menu\n");
+			enableInvGraphics();
 		}
 	}
 }
