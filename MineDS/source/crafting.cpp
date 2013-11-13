@@ -112,17 +112,50 @@ void craftingMenuInit()
 	currentViewingRecipe = 0;
 	updateCraftingGraphics();
 }
+void craftItem()
+{
+	if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount))
+	{
+		if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[1].blockId,craftingRecipes[currentViewingRecipe].neededblocks[1].blockAmount))
+		{
+			if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[2].blockId,craftingRecipes[currentViewingRecipe].neededblocks[2].blockAmount))
+			{
+				if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[3].blockId,craftingRecipes[currentViewingRecipe].neededblocks[3].blockAmount))
+				{
+					//can Craft the item....
+					addInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId,craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
+
+				}
+				else
+				{
+					addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
+					addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[1].blockAmount);
+					addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[2].blockAmount);
+				}
+			}
+			else
+			{
+				addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
+				addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[1].blockAmount);
+			}
+		}
+		else
+		{
+				addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId,craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
+		}
+	}
+}
 int craftingMenuUpdate()
 {
 	touchPosition touch;
 	touchRead(&touch);
-	showGraphic(&resultBlock,180,84);
+	showGraphic(&resultBlock,166,84);
 	showGraphic(&neededblocks[0],60,84);
 	showGraphic(&neededblocks[1],60,84-16);
 	showGraphic(&neededblocks[2],60,84+16);
 	showGraphic(&neededblocks[3],60,84+32);
 	//Created block
-	printf("\x1b[11;25Hx%d",craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
+	printf("\x1b[11;23H%d/%d ",checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId),craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
 	//First needed block (top middle)
 	printf("\x1b[11;10H%d/%d  ",checkInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId),craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);	
 	//Second needed block (top)
@@ -159,5 +192,7 @@ int craftingMenuUpdate()
 			currentViewingRecipe = nextCraftingRecipe - 1;
 		updateCraftingGraphics();
 	}
+	if (touch.px > 25*8 && touch.py > 18*8 && keysDown() & KEY_TOUCH)
+		craftItem();
         return 0;
 }
