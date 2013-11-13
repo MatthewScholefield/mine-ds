@@ -18,6 +18,9 @@ int currentViewingRecipe = 0;
 void craftingInit()
 {
 	addCraftingRecipe(PLANKS,4,LOG,1);
+	addCraftingRecipe(PLANKS,4,JUNGLE_WOOD,1);
+	addCraftingRecipe(PLANKS,4,BIRCH_WOOD,1);
+	addCraftingRecipe(PLANKS,4,OAK_WOOD,1);
 	addCraftingRecipe(STICK,4,PLANKS,2);
 	addCraftingRecipe(PICKAXE_WOOD,1,PLANK,3,STICK,2);
 	addCraftingRecipe(PICKAXE_STONE,1,COBBLESTONE,3,STICK,2);
@@ -33,15 +36,14 @@ void craftingInit()
 	addCraftingRecipe(SWORD_DIAMOND,1,DIAMOND,2,STICK,1);
 	addCraftingRecipe(TORCH,4,COAL,1,STICK,1);
 	addCraftingRecipe(CRAFTING_TABLE,1,PLANKS,4);
-
+	
 	//Furnace Recipes
-	addCraftingRecipe(GLASS,1,SAND,1);
-	addCraftingRecipe(BEEF_COOKED,1,BEEF_RAW,1);
-	addCraftingRecipe(CHICKEN_COOKED,1,CHICKEN_RAW,1);
-	addCraftingRecipe(PORKCHOP_COOKED,1,PORKCHOP_RAW,1);
-	addCraftingRecipe(DIAMOND,1,DIAMOND_ORE,1);
-	addCraftingRecipe(INGOT_IRON,1,IRON_ORE,1);
-	//addCraftingRecipe(INGOT_IRON,1,IRON_ORE,1,DIAMOND_ORE,1,PORKCHOP_RAW,1,CHICKEN_RAW,1); // For testing
+	addFurnaceRecipe(GLASS,1,SAND,1);
+	addFurnaceRecipe(BEEF_COOKED,1,BEEF_RAW,1);
+	addFurnaceRecipe(CHICKEN_COOKED,1,CHICKEN_RAW,1);
+	addFurnaceRecipe(PORKCHOP_COOKED,1,PORKCHOP_RAW,1);
+	addFurnaceRecipe(DIAMOND,1,DIAMOND_ORE,1);
+	addFurnaceRecipe(INGOT_IRON,1,IRON_ORE,1);
 	loadGraphic(&resultBlock,0,0);
 	for (int i = 0; i<=3;i++)
 	{
@@ -77,6 +79,12 @@ void addCraftingRecipe(int block,int amount,int aid,int aamount)
 	//Kill the stack :D
 	addCraftingRecipe(block,amount,aid,aamount,AIR,0);
 }
+
+void addFurnaceRecipe(int block,int amount,int aid,int aamount)
+{
+	addCraftingRecipe(block,amount,aid,aamount,COAL,1);
+}
+
 void updateCraftingGraphics()
 {
 	unloadGraphic(&resultBlock);
