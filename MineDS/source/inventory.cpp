@@ -45,6 +45,7 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 			switch (blockID)
 			{
 				case COAL_ORE: blockID = COAL; break; //Any pickaxe can break coal
+				case STONE: blockID = COBBLESTONE; break;
 				case IRON_ORE:if (getSelectedblock()==PICKAXE_WOOD) return true; break;
 				case GOLD_ORE:if (getSelectedblock()==PICKAXE_WOOD || getSelectedblock()==PICKAXE_STONE)return true; break;
 				case DIAMOND_ORE: if (getSelectedblock()!=PICKAXE_DIAMOND && getSelectedblock()!= PICKAXE_IRON) return true; break;
