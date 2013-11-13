@@ -1,3 +1,13 @@
-Crafting simple blocks.
+Make crafting functional
+Remove set tools on spawn
 ---RELEASE---
-Tools and items...
+
+Adjust the internal crafting system so multiple items can be used to create one item (ex. 1 jungle/birch/regular all can create 4 planks within the same crafting recipe)
+
+---Fix Small Bugs in Crafting Menu---
+-Lock controls while in crafting menu
+-Stop the start key from bringing up the main menu when in the crafting menu (it makes graphical glitches)
+
+---Optimize crafting menu UI---
+-only show/show first the crafting recipes that the player has items for
+-subcategorize items (perhaps with buttons for each categorie)
