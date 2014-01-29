@@ -14,6 +14,7 @@
 #include "titlescreen.h"
 #include "inventory.h"
 #include "blocks.h"
+#include "blockName.h"
 //#include "graphics/inventoryGraphics.h"
 #include "mining.h"
 bool skipLightUpdate = false; //Whether to skip light update
@@ -49,6 +50,14 @@ void calculateTopBlock()
 	loadGraphicSub(&topBlock,2,selectedblock);
 	loadedgraphic = true;
 }
+
+void updateTopName()
+{
+	iprintf("\x1b[7;2H                            ");
+	if (selectedblock!=AIR)
+		iprintf("\x1b[7;2H%s",getName(selectedblock));
+}
+
 void setSelectedBlock(int blockID)
 {
 	selectedblock = blockID;
@@ -261,6 +270,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 			}
 		}
 		calculateTopBlock();
+		updateTopName();
 	}
 	else if ((keys & KEY_R && LRC==true) || (keys & KEY_B && LRC==false))
 	{
@@ -275,6 +285,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 			}
 		}
 		calculateTopBlock();
+		updateTopName();
 	}
 	if (selectedblock<0)
 	{
