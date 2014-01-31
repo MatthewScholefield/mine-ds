@@ -15,13 +15,13 @@
 #include "inventory.h"
 #include "blocks.h"
 #include "blockName.h"
+#include "controls.h"
 //#include "graphics/inventoryGraphics.h"
 #include "mining.h"
 bool skipLightUpdate = false; //Whether to skip light update
 int selectedblock=0;
 bool loadedgraphic=false;
 Graphic topBlock;
-extern bool LRC;
 bool incutscene = false;
 bool canPlaceBlocks=true;
 bool hasChangedBlock=false;
@@ -257,7 +257,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 	{
 		hasChangedBlock = false;
 	}
-	if ((keys & KEY_L && LRC==true) || (keys & KEY_X && LRC==false))
+	if (keys & getKey(ACTION_ITEM_LEFT))
 	{
 		selectedblock--;
 		if (selectedblock<0) selectedblock=NUM_BLOCKS;
@@ -272,7 +272,7 @@ void miningUpdate(worldObject* world,int a,int b,touchPosition touch,int keys) /
 		calculateTopBlock();
 		updateTopName();
 	}
-	else if ((keys & KEY_R && LRC==true) || (keys & KEY_B && LRC==false))
+	else if (keys & getKey(ACTION_ITEM_RIGHT))
 	{
 		selectedblock++;
 		if (selectedblock>NUM_BLOCKS) selectedblock=0;

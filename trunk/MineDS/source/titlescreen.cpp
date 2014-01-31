@@ -10,10 +10,10 @@
 #include "graphics/inventoryGraphics.h"
 #include <nds.h>
 #include <stdio.h>
+#include "controls.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
-bool LRC = false; //LR Controls Boolean
 bool playCalm = false; // Whether CALM music is playing
 bool playHal2 = false; // Whether Hal2 music is playing
 bool gameGen = false; //Whether world has been generated and the back key will allow going back to it
@@ -27,11 +27,6 @@ worldObject* theWorld;
 bool isSurvival()
 {
 	return survival;
-}
-
-bool getLRC()
-{
-	return LRC;
 }
 
 void drawBackground() //Draws dirt background and MineDS Logo
@@ -194,20 +189,12 @@ void controls()
 	lcdMainOnTop();
 	drawBackground();
 	//Draw Buttons
-	if (LRC)
-	{
-		drawButtonColored(9,9,11);
-		drawButton(8,14,13);
-	}
-	else
-	{
-		drawButton(9,9,11);
-		drawButtonColored(8,14,13);		
-	}
+	drawButton(8,14,13);
+	drawButton(9,9,11);
 	drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[10;11HWith L R");
-	iprintf("\x1b[15;10HWithout L R");
+	iprintf("\x1b[10;11HNot Implemented");
+	iprintf("\x1b[15;10HNot Implemented");
 	iprintf("\x1b[20;26HBack");	
 	scanKeys();
 	oldKeys=keysHeld();
@@ -226,14 +213,12 @@ void controls()
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
-				LRC = true;
 				drawButtonColored(9,9,11);
 				drawButton(8,14,13);	
 			}
 			else drawButton(9,9,11);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{	
-				LRC = false;
 				drawButton(9,9,11);
 				drawButtonColored(8,14,13);
 			}
