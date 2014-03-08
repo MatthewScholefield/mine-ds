@@ -182,6 +182,110 @@ void credits()
 		swiWaitForVBlank();
 	}
 }
+
+KEYPAD_BITS askForKey()
+{
+	KEYPAD_BITS key = KEY_START;
+	uint oldKeys;
+	touchPosition touch;
+	lcdMainOnTop();
+	drawBackground();
+	//Draw Buttons
+	drawButton(8,14,13);
+	drawButton(9,9,11);
+	drawButton(25,19,4); //Back button
+	consoleClear(); //Removes All text from the screen
+	iprintf("\x1b[0;0HUp");
+	iprintf("\x1b[1;0HDown");
+	iprintf("\x1b[2;0HLeft");
+	iprintf("\x1b[3;0HRight");
+	iprintf("\x1b[4;0HA");
+	iprintf("\x1b[5;0HB");
+	iprintf("\x1b[6;0HX");
+	iprintf("\x1b[7;0HY");
+	iprintf("\x1b[8;0HL");
+	iprintf("\x1b[9;0HR");
+	iprintf("\x1b[10;0HStart");
+	iprintf("\x1b[20;26HBack");
+	scanKeys();
+	oldKeys=keysHeld();
+	swiWaitForVBlank(); // Get "newKeys"
+	bool chosen=false;
+	while (!chosen)
+	{
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
+		{
+			touchRead(&touch);
+			//if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			//	drawButtonColored(25,19,4);
+			switch (((touch.py-8)/8)+2)
+			{
+				case 1: key = KEY_UP; break;
+				case 2: key = KEY_DOWN; break;
+				case 3: key = KEY_LEFT; break;
+				case 4: key = KEY_RIGHT; break;
+				case 5: key = KEY_A; break;
+				case 6: key = KEY_B; break;
+				case 7: key = KEY_X; break;
+				case 8: key = KEY_Y; break;
+				case 9: key = KEY_L; break;
+				case 10: key = KEY_R; break;
+				case 11: key = KEY_START; break;
+				case 12: key = KEY_SELECT; break;
+			}
+			iprintf("\x1b[1;1HDone 1");
+			chosen = true;
+		}
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+		{
+			/*if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
+			{
+				drawButtonColored(9,9,11);
+				drawButton(8,14,13);	
+			}
+			else drawButton(9,9,11);
+			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
+			{	
+				drawButton(9,9,11);
+				drawButtonColored(8,14,13);
+			}
+			else drawButton(8,14,13);*/
+			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			{
+				chosen = true;	//Will return to previous function when chosen is true.
+				//No need to call settings...
+			}
+			else drawButton(25,19,4);
+		}
+		oldKeys=keysHeld();
+		touchRead(&touch);
+		swiWaitForVBlank();
+	}
+	return key;
+}
+
+int getTappedAction(int y)
+{
+	int column = ((y-8)/8)+2;
+	//Regex
+	//Find: #define ([^ ]*) ([0-9]*)
+	//Replace: case \2: return \1; break;
+	switch (column)
+	{
+		case 1: return ACTION_MOVE_LEFT; break;
+		case 2: return ACTION_MOVE_RIGHT; break;
+		case 3: return ACTION_JUMP; break;
+		case 4: return ACTION_CROUCH; break;
+		case 5: return ACTION_ITEM_LEFT; break;
+		case 6: return ACTION_ITEM_RIGHT; break;
+		case 7: return ACTION_SWITCH_SCREEN; break;
+		case 8: return ACTION_MENU; break;
+		case 9: return ACTION_CLIMB; break;
+		default: return -1;
+	}
+}
+
 void controls()
 {
 	uint oldKeys;
@@ -193,9 +297,16 @@ void controls()
 	drawButton(9,9,11);
 	drawButton(25,19,4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[10;11HNot Implemented");
-	iprintf("\x1b[15;10HNot Implemented");
-	iprintf("\x1b[20;26HBack");	
+	iprintf("\x1b[0;0HMove Left");
+	iprintf("\x1b[1;0HMove Right");
+	iprintf("\x1b[2;0HJump");
+	iprintf("\x1b[3;0HCrouch");
+	iprintf("\x1b[4;0HItem Left");
+	iprintf("\x1b[5;0HItem Right");
+	iprintf("\x1b[6;0HSwitch Screen");
+	iprintf("\x1b[7;0HMenu");
+	iprintf("\x1b[8;0HClimb");
+	iprintf("\x1b[20;26HBack");
 	scanKeys();
 	oldKeys=keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -206,10 +317,12 @@ void controls()
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
 			touchRead(&touch);
-			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-				drawButtonColored(25,19,4);
+			//if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			//	drawButtonColored(25,19,4);
+			setKey(getTappedAction(touch.py),askForKey());
+			chosen = true;
 		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+		/*else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
@@ -229,12 +342,13 @@ void controls()
 				//No need to call settings...
 			}
 			else drawButton(25,19,4);
-		}
+		}*/
 		oldKeys=keysHeld();
 		touchRead(&touch);
 		swiWaitForVBlank();
 	}
 }
+
 void settings_redraw()
 {
 	drawBackground();
