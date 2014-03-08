@@ -15,6 +15,7 @@
 #include "daynight.h"
 #include "graphics/inventoryGraphics.h"
 #include "inventory.h"
+#include "controls.h"
 
 bool up;
 Graphic graphics[10];
@@ -60,7 +61,7 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
-		if (keysDown() & KEY_START || shouldQuitGame())
+		if (keysDown() & getKey(ACTION_MENU) || shouldQuitGame())
 			break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);

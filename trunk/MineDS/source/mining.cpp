@@ -83,18 +83,18 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 		change = true;
 	}
 	bool something=true;
-	if ((world->blocks[x][y] == AIR && !(keysHeld() & KEY_DOWN) && (selectedblock==AIR || item(selectedblock))) || (world->blocks[x][y] == AIR && world->bgblocks == AIR && (keysHeld() & KEY_DOWN) && (selectedblock==AIR || item(selectedblock))))
+	if ((world->blocks[x][y] == AIR && !(keysHeld() & getKey(ACTION_CROUCH)) && (selectedblock==AIR || item(selectedblock))) || (world->blocks[x][y] == AIR && world->bgblocks == AIR && (keysHeld() & getKey(ACTION_CROUCH)) && (selectedblock==AIR || item(selectedblock))))
 	{
 		skipLightUpdate = true;
 		return;
 	}
-	if ((keysHeld() & KEY_DOWN) || selectedblock==CACTUS)
+	if ((keysHeld() & getKey(ACTION_CROUCH)) || selectedblock==CACTUS)
 	{
 		if (world->bgblocks[x][y]!=AIR) something=false;
 	}
 	if (world->blocks[x][y]==AIR && something && !item(selectedblock) && hasChangedBlock==false)
 	{
-		if ((keysHeld() & KEY_DOWN)) //Place in Background
+		if ((keysHeld() & getKey(ACTION_CROUCH))) //Place in Background
 		{
 			if (subInventory(selectedblock,1))
 				world->bgblocks[x][y]=selectedblock;
@@ -156,7 +156,7 @@ void setBlock(worldObject* world, int x,int y,bool tap)
 			}
 		}
 	}
-	else if (world->blocks[x][y]==AIR && (keysHeld() & KEY_DOWN) && hasChangedBlock == false) //Mine in Background
+	else if (world->blocks[x][y]==AIR && (keysHeld() & getKey(ACTION_CROUCH)) && hasChangedBlock == false) //Mine in Background
 	{
 		if (isSurvival())
 		{
