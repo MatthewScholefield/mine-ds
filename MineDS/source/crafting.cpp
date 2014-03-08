@@ -10,6 +10,7 @@
 #include <nds.h> // for keysDown()
 #include <stdio.h>
 #include "crafting.h"
+#include "controls.h"
 recipe craftingRecipes[128];
 int nextCraftingRecipe = 0;
 Graphic resultBlock;
@@ -175,7 +176,7 @@ int craftingMenuUpdate()
 		printf("\x1b[15;10H       ");
 	
 	
-	if (keysDown() & KEY_Y)
+	if (keysDown() & getKey(ACTION_SWITCH_SCREEN))
 	{
 		return 1;
 	}
