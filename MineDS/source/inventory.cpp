@@ -17,6 +17,7 @@
 #include "message.h"
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
+#include "controls.h"
 bool loadedGraphic = false;
 int selectedspace = -1;
 Graphic heldBlock;
@@ -193,7 +194,7 @@ void updateInventory(touchPosition* touch)
 		return;
 	if (showingInventory == 0)
 	{
-		if (keysDown() & KEY_Y)
+		if (keysDown() & getKey(ACTION_SWITCH_SCREEN))
 		{
 			lcdMainOnTop();
 			showingInventory = 1;

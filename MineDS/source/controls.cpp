@@ -32,6 +32,9 @@ KEYPAD_BITS getKey(int action)
 
 void setKey(int action, KEYPAD_BITS key)
 {
+	iprintf("\x1b[1;1HSet action:%d to %s",action,key==KEY_A?"Key A":"Not Key A");
+	for (int i=0; i<100; i++)
+		swiWaitForVBlank();
 	switch(action)
 	{
 		case ACTION_MOVE_LEFT: left = key; break;
