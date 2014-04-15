@@ -27,7 +27,9 @@
 #include "crafting.h"
 #include "nifi.h"
 #include "sounds.h"
+#include "files.h"
 #include <maxmod9.h>    // Maxmod definitions for ARM9
+#include <string>
 int screen_x,screen_y;
 void beginRender(int a,int b); 
 void renderWorld(worldObject* world);
@@ -37,9 +39,10 @@ void renderWorld(worldObject* world);
 int main()
 {
 	defaultExceptionHandler();
-	lcdMainOnBottom();
+	//lcdMainOnBottom();
 	srand(time(NULL));
 	subBgInit();
+        drawBackground();
 	setupFont();
 	nifiInit();
 	mmStop();
@@ -58,12 +61,16 @@ int main()
 	mobHandlerInit();
 	worldRender_LoadSprites();
 	craftingInit();
+        //openFiles();
+        /*std::string in = getLine();
+        std::string test ("hello yes"); //name.charat(index)
+        bool diff = in.compare(test)==0;
+        iprintf(diff?"NO":"YES");*/
 	while(1)
 	{
 	    	graphicFrame();
 		oamClear(&oamSub,0,127);
 		titlescreen();
-		//mainGame(0);	
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);

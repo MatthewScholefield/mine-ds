@@ -1,6 +1,7 @@
 #include "../blockID.h"
 #include "baseMob.h"
 #include "hurt.h"
+#include "../controls.h"
 #include <nds.h>
 void colisionWithCactus(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 {
@@ -19,7 +20,7 @@ void colision(worldObject* world,baseMob* mob,int type,int x,int y,bool sub)
 		{
 			case CACTUS: colisionWithCactus(world,mob,type,x,y,sub); break;
 		}
-		if (!(keysHeld() & KEY_DOWN))
+		if (!(keysHeld() & getKey(ACTION_CROUCH)))
 		{
 			switch(world->bgblocks[x][y])
 			{

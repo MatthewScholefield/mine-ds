@@ -14,6 +14,9 @@
 #include <nds.h>
 #include "biomes.h"
 #include "worldRender.h"
+#include "files.h"
+#include <string>
+#include <tr1/regex>
 void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2);
 int extremeMountainGen(worldObject* world,int startx,int starty,int endx)
 {
@@ -80,7 +83,87 @@ void generateBedrock (worldObject* world){
 		if (!(rand() % 8)) world->blocks[i][WORLD_HEIGHT-4]=BEDROCK;
 	}
 }
-void generateWorld (worldObject* world){
+
+void loadWorld(worldObject* world)
+{
+    openFiles();
+    for (int i=0;i<=WORLD_WIDTH;i++)
+	for(int j=0;j<=WORLD_HEIGHT;j++)
+	{
+		world->blocks[i][j]=AIR;
+		world->bgblocks[i][j]=AIR;
+	}
+    int j=0;
+    while(!endOfFile())
+    {
+        std::string output("Output: \n");
+        std::string in = getLine();
+        bool moreData = true;
+        int i=0;
+        while (moreData)
+        {
+            int pos = in.find(".");
+            std::string blockString = in;
+            if (in.size()>2)
+                blockString.erase(pos,blockString.size()-1);
+            int block = atoi(blockString.c_str());
+            //output+=
+            
+            world->blocks[i][2+j]=block;
+            
+            if (in.size()>2)
+                in.erase(0,pos+1);
+            else
+                moreData=false;
+            
+            i++;
+            /*if (i==11)
+            {
+            iprintf(blockString.c_str());
+            iprintf("\n");
+            iprintf("Size: %d",in.size());
+            //stopNow();
+            }*/
+            //iprintf("Position: %d",pos);
+            //iprintf("Number: %d",block);
+            //stopNow();
+            /*int block = atoi((std::tr1::regex_replace (in,num,"$1")).c_str());
+            world->blocks[i][40+j]=(in.at(i)-'0')+1;
+            in = std::tr1::regex_replace (in,removeNum,"$1");
+            if (in.compare(""))
+                moreData=false;*/
+        }
+        //stopNow();
+        j++;
+    }
+    closeFiles();
+}
+
+void generateSmallWorld (worldObject* world)//Generates one biome
+{
+    int j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
+    int oj = j;
+    int i=0;
+    int sizex;
+    sizex=rand()%16+ 16;
+    if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
+    j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
+    switch (rand() % 5)
+    {
+	case 0:plainsBiome(world,i,i+sizex); break;
+	case 1: snowBiome(world,i,i+sizex); break;
+	case 2: desertBiome(world,i,i+sizex); break;
+	case 3: jungleBiome(world,i,i+sizex); break;
+	case 4: mushroomBiome(world,i,i+sizex); break;
+    }
+    
+    updateBrightnessAround(world,i,j);
+    updateBrightnessAround(world,0,oj);
+
+}
+
+void generateWorld (worldObject* world)
+{
 	int i,j;
 	for (i=0;i<=WORLD_WIDTH;i++)
 		for(j=0;j<=WORLD_HEIGHT;j++)

@@ -15,6 +15,7 @@
 #include "deathScreen.h"
 #include "message.h"
 #include "daynight.h"
+#include "controls.h"
 worldObject* multiplayerGame(bool host,worldObject* world4)
 {
 	touchPosition touch;
@@ -75,14 +76,14 @@ worldObject* multiplayerGame(bool host,worldObject* world4)
 	while (1)
 	{
 		scanKeys();
-		if (keysDown() & KEY_START) break;
+		if (keysDown() & getKey(ACTION_MENU)) break;
 		recieveWorldUpdate();
 		touchRead(&touch);
 		nifiUpdate();
 		miningUpdate(world4,world4->CamX,world4->CamY,touch,keysDown());	
 		update_message();
 		mobHandlerUpdate(world4);
-		if (keysDown() & KEY_START || shouldQuitGame()) break;
+		if (keysDown() & getKey(ACTION_MENU) || shouldQuitGame()) break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
