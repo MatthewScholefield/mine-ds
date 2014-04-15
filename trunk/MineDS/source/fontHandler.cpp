@@ -21,6 +21,6 @@ void setupFont()
 	font.asciiOffset = 0;
 	font.convertSingleColor = false;
 	consoleSetFont(console, &font);
-	iprintf("\x1b[7;0H");
-	iprintf("Font setup complete!\n");
+	//iprintf("\x1b[7;0H");
+	//iprintf("Font setup complete!\n");
 }

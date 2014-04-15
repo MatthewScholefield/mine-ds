@@ -1,3 +1,4 @@
+#include <nds.h>
 #define ACTION_MOVE_LEFT 1
 #define ACTION_MOVE_RIGHT 2
 #define ACTION_JUMP 3
