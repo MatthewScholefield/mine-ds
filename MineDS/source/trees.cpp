@@ -95,6 +95,6 @@ void growPumpkinPatch(worldObject* world,int x,int y)
 		{
 			int y = findFirstBiomeBlock(world,i);
 			world->blocks[i][y]=PUMPKIN + rand() % 2;
-			if (i==-1) iprintf("\n\n\n\n\n\n\n\nHi!");
+			//if (i==-1) iprintf("\n\n\n\n\n\n\n\nHi!");
 		}
 }
