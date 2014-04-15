@@ -11,6 +11,8 @@
 #include <nds.h>
 #include <stdio.h>
 #include "controls.h"
+#include "files.h"
+#include "message.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
@@ -74,7 +76,7 @@ void multiplayerScreen()
 {
 	uint oldKeys;
 	touchPosition touch;
-	lcdMainOnTop();
+	//lcdMainOnTop();
 	drawBackground();
 	//Draw Buttons
 	drawButton(9,9,12);
@@ -145,7 +147,7 @@ void credits()
 {
 	uint oldKeys=keysHeld();;
 	touchPosition touch;
-	lcdMainOnTop();
+	//lcdMainOnTop();
 	drawBackground();
 	drawButton(11,8,7);
 	drawButton(9,12,11);
@@ -188,7 +190,7 @@ KEYPAD_BITS askForKey()
 	KEYPAD_BITS key = KEY_START;
 	uint oldKeys;
 	touchPosition touch;
-	lcdMainOnTop();
+	//lcdMainOnTop();
 	drawBackground();
 	//Draw Buttons
 	drawButton(8,14,13);
@@ -290,7 +292,7 @@ void controls()
 {
 	uint oldKeys;
 	touchPosition touch;
-	lcdMainOnTop();
+	//lcdMainOnTop();
 	drawBackground();
 	//Draw Buttons
 	drawButton(8,14,13);
@@ -365,7 +367,7 @@ void settings()
 {
 	uint oldKeys;
 	touchPosition touch;
-	lcdMainOnTop();
+	//lcdMainOnTop();
 	drawBackground();
 	//Draw Buttons
 	drawButton(10,9,10);
@@ -421,15 +423,17 @@ void gameMode()
 {
 	uint oldKeys;
 	touchPosition touch;
-	lcdMainOnTop();
+	//lcdMainOnTop();
 	drawBackground();
 	//Draw Buttons
-	drawButton(10,9,10);
-	drawButton(10,14,10);
-	drawButton(25,19,4); //Back button
+	drawButton(9,9-1,12);
+	drawButton(9,14-1,12);
+        drawButton(9,19-1,12);
+	drawButton(25,20-1,4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[10;12HCreative");
-	iprintf("\x1b[15;12HSurvival");
+	iprintf("\x1b[9;12HCreative");//x:12 y:9
+	iprintf("\x1b[14;12HSurvival");//x:12 y:14
+        iprintf("\x1b[19;11HLoad World");//x:11 y:19
 	iprintf("\x1b[20;26HBack");
 	scanKeys();
 	oldKeys=keysHeld();
@@ -441,20 +445,22 @@ void gameMode()
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
 			touchRead(&touch);
-			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
-				drawButtonColored(10,9,10);
-			else if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
-				drawButtonColored(10,14,10);
-			else if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-				drawButtonColored(25,19,4);
+			if (touch.px > 72 && touch.px < 176 && touch.py > (9-1)*8 && touch.py < (9+2)*8)
+				drawButtonColored(9,9-1,12);//Creative
+			else if (touch.px > 72 && touch.px < 176 && touch.py > (14-1)*8 && touch.py < (14+2)*8)
+				drawButtonColored(9,14-1,12);//Survival
+                        else if (touch.px > 72 && touch.px < 176 && touch.py > (19-1)*8 && touch.py < (19+2)*8)
+				drawButtonColored(9,19-1,12);//Load World
+			else if (touch.px > 200 && touch.px < 240 && touch.py > (20-1)*8 && touch.py < (20+2)*8)
+				drawButtonColored(25,20-1,4);//Back
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
+			if (touch.px > 72 && touch.px < 176 && touch.py > (9-1)*8 && touch.py < (9+2)*8)//Creative
 			{
 				clearInventory();
 				survival = false;
-				drawButtonColored(8,9,14);
+				drawButtonColored(9,9-1,12);;
 				drawBackground();
 				consoleClear();
 				stopMusic();
@@ -467,12 +473,12 @@ void gameMode()
 				multiplayer = false;
 				chosen=true;
 			}
-			else drawButton(10,9,10);
-			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
+			else drawButton(9,9-1,12);;
+			if (touch.px > 72 && touch.px < 176 && touch.py > (14-1)*8 && touch.py < (14+2)*8)//Survival
 			{
 				clearInventory();
 				survival = true;
-				drawButtonColored(8,9,14);
+				drawButtonColored(9,14-1,12);
 				drawBackground();
 				consoleClear();
 				stopMusic();
@@ -485,12 +491,31 @@ void gameMode()
 				multiplayer = false;
 				chosen=true;
 			}
-			else drawButton(10,14,10);
+			else drawButton(9,14-1,12);
+                        if (touch.px > 72 && touch.px < 176 && touch.py > 144 && touch.py < 168) //Load World
+                        {
+                                clearInventory();
+				survival = true;
+				drawButtonColored(9,19-1,12);
+				drawBackground();
+				consoleClear();
+				stopMusic();
+				playCalm = false;
+				playMusic(HAL2);
+				playHal2 = true;
+				updateInvGraphics();
+				theWorld = mainGame(2,theWorld);
+				gameGen = true;
+				multiplayer = false;
+				chosen=true;
+                        }
+                        else
+                            drawButton(9,19-1,12);
 			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 			{
 				chosen = true;
 			}
-			else drawButton(25,19,4);
+			else drawButton(25,20-1,4);
 		}
 		oldKeys=keysHeld();
 		touchRead(&touch);
@@ -517,7 +542,11 @@ void titlescreen_redraw()
 }
 int titlescreen()
 {
-	if (theWorld==NULL) theWorld = (worldObject *) calloc(1, sizeof(worldObject));
+	if (theWorld==NULL)
+        {
+            theWorld = (worldObject *) calloc(1, sizeof(worldObject));
+            theWorld = mainGame(3,theWorld);
+        }
 	if (playHal2)
 	{
 		stopMusic();

@@ -8,7 +8,7 @@ void clearInventory ();
 void addInventory(int blockID);
 int getBlockAmount(int invSlot);
 int getBlockID(int invSlot);
-void updateInventory(touchPosition* touch);
+void updateInventory(touchPosition* touch,worldObject* world);
 #define NUM_INV_SPACES 30
 typedef struct
 {

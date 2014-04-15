@@ -18,6 +18,8 @@
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
 #include "controls.h"
+#include "world.h"
+#include "files.h"
 bool loadedGraphic = false;
 int selectedspace = -1;
 Graphic heldBlock;
@@ -188,7 +190,7 @@ void changeGraphic(int blockID)
 	loadedGraphic = true;
 }
 
-void updateInventory(touchPosition* touch)
+void updateInventory(touchPosition* touch, worldObject* world)
 {
 	if (!isSurvival())
 		return;
@@ -202,15 +204,17 @@ void updateInventory(touchPosition* touch)
 			drawBackground();
 			consoleClear();
 			changeGraphic(AIR);
-			drawButton(21,18,9);
-			drawButton(0,18,5);
+			drawButton(21,16,9);
+			drawButton(9,16,10);
+                        drawButton(1,16,5);
 		}
 	}
 	else if (showingInventory == 1)
 	{
 		
-		iprintf("\x1b[19;22HCrafting");
-		iprintf("\x1b[19;1HBack");
+		iprintf("\x1b[17;22HCrafting");
+                iprintf("\x1b[17;10HSave Game");
+		iprintf("\x1b[17;2HBack");
 		showGraphic(&heldBlock,0,0,false,0);
 		if (keysDown() & KEY_TOUCH)
 		{
@@ -241,22 +245,29 @@ void updateInventory(touchPosition* touch)
 					changeGraphic(mainPlayerInv.blocks[space].blockId);				
 				}
 			}
-			else if (touch-> px > 8 && touch->px < 7*8 && touch->py > 19*8)
+			else if (touch-> px > (2-1)*8 && touch->px < (2+5)*8 && touch->py > (17-1)*8 && touch->py < (17+2)*8)
 			{
-				iprintf("\x1b[19;22H        ");
-				iprintf("\x1b[19;1H        ");
+				//iprintf("\x1b[17;22H        ");
+				iprintf("\x1b[17;1H      ");
 				selectedspace = -1;
 				lcdMainOnBottom();
 				showingInventory = 0;
 				miningSetScene(false);
 				drawBackground();
+                                drawButton(21,16,9);
+                                drawButton(9,16,10);
 			}
-			else if (touch->px > 21*8 && touch->px<30*8 && touch-> py > 19*8)
+			else if (touch->px > (22-1)*8 && touch->px < (22+9)*8 && touch->py > (17-1)*8 && touch->py < (17+2)*8)
 			{
 				craftingMenuInit();
 				showingInventory = 2;
 				//show_message("Entering Crafing Menu\n");
 			}
+                        else if (touch->px > (10-1)*8 && touch->px < (10+10)*8 && touch->py > (17-1)*8 && touch->py < (17+2)*8)
+			{
+                            saveWorld(world);
+                            show_message("Saved Game\n");
+                        }
 			else
 			{
 				selectedspace = -1;
@@ -264,29 +275,31 @@ void updateInventory(touchPosition* touch)
 				changeGraphic(AIR);
 			}
 		}
-		if (keysDown() & KEY_Y)
+		if (keysDown() & getKey(ACTION_SWITCH_SCREEN))
 		{
-			iprintf("\x1b[19;22H        ");
-			iprintf("\x1b[19;1H        ");
-			selectedspace = -1;
+			iprintf("\x1b[17;1H      ");
+                        selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
 			miningSetScene(false);
 			drawBackground();
+                        drawButton(21,16,9);
+                        drawButton(9,16,10);
 		}
 	}
 	else if (showingInventory == 2)
 	{
 		if (craftingMenuUpdate())
-		{		
-			lcdMainOnTop();
+		{
+			//lcdMainOnTop();
 			showingInventory = 1;
 			miningSetScene(true);
 			drawBackground();
 			consoleClear();
 			changeGraphic(AIR);
-			drawButton(21,18,9);
-			drawButton(0,18,5);
+                        drawButton(21,16,9);
+			drawButton(9,16,10);
+                        drawButton(1,16,5);
 			//show_message("Leaving Crafting Menu\n");
 			enableInvGraphics();
 		}
