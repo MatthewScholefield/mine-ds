@@ -2,6 +2,7 @@
 #include "../world.h"
 #ifndef BASE_MOB_H
 #define BASE_MOB_H
+//
 bool canBaseMobSpawnHere(worldObject* world,int x,int y);
 class baseMob
 {
@@ -12,7 +13,6 @@ class baseMob
 	int vx;
 	int sx;
 	int sy;
-        int speed = 1;
 	bool smallmob=false;
 	int gravityValue;
 	int gravity;
