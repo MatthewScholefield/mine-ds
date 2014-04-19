@@ -1,7 +1,7 @@
----RELEASE---
-Control Mapping Front End
-Start integrating survival into multiple (ex. if not already implemented, make mobs spawn in multilayer)
-Make mining hand animation
-Help with optimizing the crafting menu UI
+
+Optimize Control Mapping Front End
 Save settings to a configuration file
-Add walking and mining sfx
+World properties saving (Ex. Inventory, gamemode)
+---RELEASE---
+Start integrating survival into multiplayer
+Add sfx and animations
