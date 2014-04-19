@@ -19,6 +19,7 @@
 #include "../graphics/inventoryGraphics.h"
 #include "../controls.h"
 //ASDF?
+//
 #define PLAYER_FULL_HEALTH 20
 bool quitGame = false;
 int slow = 0;
@@ -32,7 +33,6 @@ bool shouldQuitGame()
 
 playerMob::playerMob()
 {
-	speed = isSurvival() ? 1 : 3;
 	x = 0;
 	y = 0;
 	vy = 0;
@@ -52,8 +52,7 @@ playerMob::playerMob()
 
 playerMob::playerMob(int a, int b)
 {
-	speed = isSurvival() ? 1 : 3;
-	gravity = isSurvival() ? 3 : 6;
+	gravity = 3;
 	gravityValue = 3;
 	sx = 6;
 	sy = 32;
@@ -149,12 +148,12 @@ void playerMob::updateMob(worldObject* world)
 			if (world->CamY > (WORLD_HEIGHT + 1)*16 - 192) world->CamY = (WORLD_HEIGHT + 1)*16 - 192;
 			if (keysHeld() & getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
 			{
-				x += speed;
+				x++;
 				facing = false;
 			}
 			if (keysHeld() & getKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
 			{
-				x -= speed;
+				x--;
 				facing = true;
 			}
 			if (collisions[3] == true && world->blocks[x / 16][y / 16] != LADDER)
