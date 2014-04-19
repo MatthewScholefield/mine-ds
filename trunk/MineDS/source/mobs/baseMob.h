@@ -12,6 +12,7 @@ class baseMob
 	int vx;
 	int sx;
 	int sy;
+        int speed = 1;
 	bool smallmob=false;
 	int gravityValue;
 	int gravity;

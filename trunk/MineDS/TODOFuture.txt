@@ -1,5 +1,4 @@
 Make furnaces and crafting tables functional
-World saving and loading
-Multiplayer World Saving
+Add another dimention
+Add herobrine
 Texture Packs
-Transfer World Saves Beteen DS's
