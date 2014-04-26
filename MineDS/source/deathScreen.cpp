@@ -6,33 +6,36 @@
 #include <nds.h>
 #include "sounds.h"
 #include "titlescreen.h"
-bool deathScreenShow=true;
+bool deathScreenShow = true;
 touchPosition touch;
 int oldKeys;
 bool died = false; //Used to show whether exitted to titlescreen after dying
+
 bool getDied()
 {
 	return died;
 }
+
 void deathScreenSetup()
 {
 	if (deathScreenShow == true)
-	{	
+	{
 		consoleClear();
 		lcdMainOnTop();
 		drawBackground();
 		printf("\x1b[8;10HYou Died!");
-		drawButton(8,10,14);
-		drawButton(8,15,14);
+		drawButton(8, 10, 14);
+		drawButton(8, 15, 14);
 		iprintf("\x1b[11;12HRespawn");
 		iprintf("\x1b[16;10HTitleScreen");
 		stopMusic();
 		deathScreenShow = false;
-		oldKeys=keysHeld();
+		oldKeys = keysHeld();
 		touchRead(&touch);
 		miningSetScene(true);
 	}
 }
+
 int deathScreenUpdate()
 {
 	if (deathScreenShow == false)
@@ -41,16 +44,16 @@ int deathScreenUpdate()
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
 			if (touch.px > 64 && touch.px < 184 && touch.py > 80 && touch.py < 104)
-				drawButtonColored(8,10,14);
+				drawButtonColored(8, 10, 14);
 			else if (touch.px > 64 && touch.px < 184 && touch.py > 120 && touch.py < 152)
-				drawButtonColored(8,15,14);	
+				drawButtonColored(8, 15, 14);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
 			if (touch.px > 64 && touch.px < 184 && touch.py > 80 && touch.py < 104)
 			{
-                                drawBackground();
-				deathScreenShow=true;
+				drawBackground();
+				deathScreenShow = true;
 				consoleClear();
 				printf("\n\n\n\n\n\n\n\n");
 				lcdMainOnBottom();
@@ -58,18 +61,18 @@ int deathScreenUpdate()
 				died = false;
 				return false;
 			}
-			else drawButton(8,10,14);
+			else drawButton(8, 10, 14);
 			if (touch.px > 64 && touch.px < 184 && touch.py > 120 && touch.py < 144)
-			{	
-                                drawBackground();
-				deathScreenShow=true;
+			{
+				drawBackground();
+				deathScreenShow = true;
 				miningSetScene(false);
 				died = true;
 				return 1;
 			}
-			else drawButton(8,15,14);
+			else drawButton(8, 15, 14);
 		}
-		oldKeys=keysHeld();
+		oldKeys = keysHeld();
 		touchRead(&touch);
 	}
 	return 2;

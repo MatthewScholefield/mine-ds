@@ -3,3 +3,4 @@
 #define VOID_HURT 1
 #define PLAYER_HURT 2
 #define ZOMBIE_HURT 3
+#define HEROBRINE_HURT 4

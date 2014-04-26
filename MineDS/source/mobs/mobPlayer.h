@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include "../world.h"
 #include "baseMob.h"
+
 bool canPlayerMobSpawnHere(worldObject* world,int x,int y);
 
 class playerMob : public baseMob
