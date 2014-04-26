@@ -1,19 +1,14 @@
-#include <stdio.h>
 #include <string>
 #include "hurt.h"
 #include "../nifi.h"
-#include "../world.h"
 #include "../blocks.h"
 #include "../worldRender.h"
 #include "../graphics/graphics.h"
-#include "../debugflag.h"
 #include "../inventory.h"
 #include "mobPlayer.h"
 #include "../message.h"
 #include "../blockID.h"
 #include "../sounds.h"
-#include <nds.h>
-#include "mobHandler.h"
 #include "../deathScreen.h"
 #include"../titlescreen.h"
 #include "../graphics/inventoryGraphics.h"
@@ -106,6 +101,7 @@ void playerMob::hurt(int amount, int type)
 			else if (type == VOID_HURT) message += " fell out of the world";
 			else if (type == PLAYER_HURT) message += " was killed by a player";
 			else if (type == ZOMBIE_HURT) message += " was eaten by a zombie";
+			else if (type == HEROBRINE_HURT) message += " was murdered by a herobrine";
 			else message += " died";
 			message += "\n";
 			print_message((char*) message.c_str());
