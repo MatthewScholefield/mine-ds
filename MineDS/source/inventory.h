@@ -1,4 +1,5 @@
 #include <nds.h>
+#include <stdio.h>
 #ifndef H_INV
 #define H_INV
 bool addInventory (int blockID, int amount);
@@ -8,6 +9,8 @@ void clearInventory ();
 void addInventory(int blockID);
 int getBlockAmount(int invSlot);
 int getBlockID(int invSlot);
+void saveInventory(FILE* data);
+void loadInventory(FILE* data);
 void updateInventory(touchPosition* touch,worldObject* world);
 #define NUM_INV_SPACES 30
 typedef struct
