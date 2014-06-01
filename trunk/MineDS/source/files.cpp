@@ -4,6 +4,7 @@
 //#include <sys/dir.h>
 #include <string>
 #include "world.h"
+#include "inventory.h"
 
 FILE* data;
 
@@ -45,6 +46,26 @@ void openFiles()
     closeFiles();
     stopNow();*/
 }
+void openFiles(const char* mode)
+{
+    if (!init)
+    {
+        fatInitDefault();
+        init = true;
+    }
+    data = fopen ("/mineds/data.txt", mode);
+    if (!data)
+    {
+        iprintf("Error opening /MineDS/data.txt");
+        stopNow();
+        return;
+    }
+    
+    /*while (fgets(buf,1000,data)!=NULL)
+        iprintf("%s",buf);
+    closeFiles();
+    stopNow();*/
+}
 
 std::string getLine()
 {
@@ -67,15 +88,18 @@ void writeString(std::string write)
 
 void saveWorld(worldObject* world)
 {
-    openFiles();
-    for (int j=0; j<WORLD_HEIGHT-4;j++)
-    {
-        for (int i=0; i<WORLD_WIDTH;i++)
-        {
-            writeString(""+world->blocks[i][j]);
-            writeString(".");
-        }
-        writeString("\n");
-    }
+    openFiles("wb");
+    //world is the world object
+    //write the world object
+    fwrite(world,sizeof(*world),1,data);
+    saveInventory(data);
+    closeFiles();
+}
+void loadWorld(worldObject* world)
+{
+    openFiles("rb");
+    //world is the world object
+    fread(world,sizeof(*world),1,data);
+    loadInventory(data);
     closeFiles();
 }
