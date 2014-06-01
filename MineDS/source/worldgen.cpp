@@ -84,60 +84,7 @@ void generateBedrock (worldObject* world){
 	}
 }
 
-void loadWorld(worldObject* world)
-{
-    openFiles();
-    for (int i=0;i<=WORLD_WIDTH;i++)
-	for(int j=0;j<=WORLD_HEIGHT;j++)
-	{
-		world->blocks[i][j]=AIR;
-		world->bgblocks[i][j]=AIR;
-	}
-    int j=0;
-    while(!endOfFile())
-    {
-        std::string output("Output: \n");
-        std::string in = getLine();
-        bool moreData = true;
-        int i=0;
-        while (moreData)
-        {
-            int pos = in.find(".");
-            std::string blockString = in;
-            if (in.size()>2)
-                blockString.erase(pos,blockString.size()-1);
-            int block = atoi(blockString.c_str());
-            //output+=
-            
-            world->blocks[i][2+j]=block;
-            
-            if (in.size()>2)
-                in.erase(0,pos+1);
-            else
-                moreData=false;
-            
-            i++;
-            /*if (i==11)
-            {
-            iprintf(blockString.c_str());
-            iprintf("\n");
-            iprintf("Size: %d",in.size());
-            //stopNow();
-            }*/
-            //iprintf("Position: %d",pos);
-            //iprintf("Number: %d",block);
-            //stopNow();
-            /*int block = atoi((std::tr1::regex_replace (in,num,"$1")).c_str());
-            world->blocks[i][40+j]=(in.at(i)-'0')+1;
-            in = std::tr1::regex_replace (in,removeNum,"$1");
-            if (in.compare(""))
-                moreData=false;*/
-        }
-        //stopNow();
-        j++;
-    }
-    closeFiles();
-}
+
 
 void generateSmallWorld (worldObject* world)//Generates one biome
 {

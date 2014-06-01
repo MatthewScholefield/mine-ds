@@ -17,6 +17,7 @@
 #include "message.h"
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
+#include <stdio.h> // for fileio
 #include "controls.h"
 #include "world.h"
 #include "files.h"
@@ -30,6 +31,14 @@ Graphic heldBlock;
 
 int showingInventory;
 Inventory mainPlayerInv;
+void saveInventory(FILE* data)
+{
+ fwrite(&mainPlayerInv,sizeof(mainPlayerInv),1,data);
+}
+void loadInventory(FILE* data)
+{
+ fread(&mainPlayerInv,sizeof(mainPlayerInv),1,data);
+}
 bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
 {
 	//First find a spot availabe for the block id
