@@ -7,11 +7,11 @@
 #include "sheepMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
-#include "../message.h"
+#include "../general.h"
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"
-#include "../message.h"
+#include "../general.h"
 Graphic sheepMobGraphic[2];
 
 sheepMob::sheepMob()

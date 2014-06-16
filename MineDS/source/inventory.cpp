@@ -14,7 +14,7 @@
 #include "inventory.h"
 #include "blockID.h"
 #include "blocks.h"
-#include "message.h"
+#include "general.h"
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
 #include <stdio.h> // for fileio
@@ -221,9 +221,9 @@ void updateInventory(touchPosition* touch, worldObject* world)
 	else if (showingInventory == 1)
 	{
 		
-		iprintf("\x1b[17;22HCrafting");
-                iprintf("\x1b[17;10HSave Game");
-		iprintf("\x1b[17;2HBack");
+		printXY(22, 17, "Crafting");
+                printXY(10, 17, "Save Game");
+		printXY(2, 17, "Back");
 		showGraphic(&heldBlock,0,0,false,0);
 		if (keysDown() & KEY_TOUCH)
 		{
@@ -256,8 +256,8 @@ void updateInventory(touchPosition* touch, worldObject* world)
 			}
 			else if (touch-> px > (2-1)*8 && touch->px < (2+5)*8 && touch->py > (17-1)*8 && touch->py < (17+2)*8)
 			{
-				//iprintf("\x1b[17;22H        ");
-				iprintf("\x1b[17;1H      ");
+				//printXY(22, 17, "        ");
+				printXY(1, 17, "      ");
 				selectedspace = -1;
 				lcdMainOnBottom();
 				showingInventory = 0;
@@ -286,7 +286,7 @@ void updateInventory(touchPosition* touch, worldObject* world)
 		}
 		if (keysDown() & getKey(ACTION_SWITCH_SCREEN))
 		{
-			iprintf("\x1b[17;1H      ");
+			printXY(1, 17, "      ");
                         selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;

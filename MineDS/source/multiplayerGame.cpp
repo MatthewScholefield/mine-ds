@@ -13,7 +13,7 @@
 #include "mobs/mobPlayer.h"
 #include "communications.h"
 #include "deathScreen.h"
-#include "message.h"
+#include "general.h"
 #include "daynight.h"
 #include "controls.h"
 worldObject* multiplayerGame(bool host,worldObject* world4)
@@ -24,7 +24,7 @@ worldObject* multiplayerGame(bool host,worldObject* world4)
 	mobsReset();
 	consoleClear();
 	clear_messages();
-	iprintf("\x1b[7;0H");
+	printXY(0, 7, "");
 	if (host)
 	{	
 		lcdMainOnBottom();
