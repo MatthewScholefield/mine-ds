@@ -11,7 +11,7 @@
 #include "../nifi.h"
 #include "../communications.h"
 #include "../collision.h"
-#include "../message.h"
+#include "../general.h"
 #define playerId 1
 
 baseMob* mobs[100];

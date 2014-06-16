@@ -5,7 +5,7 @@
 #include "titlescreen.h"
 #include "inventory.h"
 #include "blockID.h"
-#include "message.h"
+#include "general.h"
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
 #include <stdio.h>
@@ -112,7 +112,7 @@ void craftingMenuInit()
 	drawButton(23 - 1, 16, 6);
 	printf("\x1b[17;23HCraft");
 	drawButton(4 - 1, 17 - 1, 5);
-	iprintf("\x1b[17;4HBack");
+	printXY(4, 17, "Back");
 	drawButton(30 - 1, 11 - 1, 2);
 	printf("\x1b[11;30H%c", 16);
 	drawButton(1 - 1, 11 - 1, 2);

@@ -7,6 +7,7 @@
 #include "graphics/inventoryGraphics.h"
 #include <stdio.h>
 #include "controls.h"
+#include "general.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
@@ -77,9 +78,9 @@ void multiplayerScreen()
 	drawButton(9, 14, 12);
 	drawButton(25, 19, 4); //Back button
 	consoleClear(); //Remove All text from the screen
-	iprintf("\x1b[10;10HCreate Game");
-	iprintf("\x1b[15;11HJoin Game");
-	iprintf("\x1b[20;26HBack");
+	printXY(10, 10, "Create Game");
+	printXY(11, 15, "Join Game");
+	printXY(26, 20, "Back");
 	scanKeys();
 	oldKeys = keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -151,11 +152,11 @@ void credits()
 	drawButton(7, 20, 16);
 	drawButton(25, 19, 4); //Back button
 	consoleClear();
-	iprintf("\x1b[9;12HMine DS");
-	iprintf("\x1b[13;11HCoded by");
-	iprintf("\x1b[17;6HCoolAs, Ray, Dirbaio,");
-	iprintf("\x1b[21;9Hand Wolfgange");
-	iprintf("\x1b[20;26HBack");
+	printXY(12, 9, "Mine DS");
+	printXY(11, 13, "Coded by");
+	printXY(6, 17, "CoolAs, Ray, Dirbaio,");
+	printXY(9, 21, "and Wolfgange");
+	printXY(26, 20, "Back");
 	scanKeys();
 	bool chosen = false;
 	while (!chosen)
@@ -193,18 +194,18 @@ KEYPAD_BITS askForKey()
 	drawButton(9, 9, 11);
 	drawButton(25, 19, 4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[0;0HUp");
-	iprintf("\x1b[1;0HDown");
-	iprintf("\x1b[2;0HLeft");
-	iprintf("\x1b[3;0HRight");
-	iprintf("\x1b[4;0HA");
-	iprintf("\x1b[5;0HB");
-	iprintf("\x1b[6;0HX");
-	iprintf("\x1b[7;0HY");
-	iprintf("\x1b[8;0HL");
-	iprintf("\x1b[9;0HR");
-	iprintf("\x1b[10;0HStart");
-	iprintf("\x1b[20;26HBack");
+	printXY(0, 0, "Up");
+	printXY(0, 1, "Down");
+	printXY(0, 2, "Left");
+	printXY(0, 3, "Right");
+	printXY(0, 4, "A");
+	printXY(0, 5, "B");
+	printXY(0, 6, "X");
+	printXY(0, 7, "Y");
+	printXY(0, 8, "L");
+	printXY(0, 9, "R");
+	printXY(0, 10, "Start");
+	printXY(26, 20, "Back");
 	scanKeys();
 	oldKeys = keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -244,7 +245,7 @@ KEYPAD_BITS askForKey()
 				case 12: key = KEY_SELECT;
 					break;
 			}
-			iprintf("\x1b[1;1HDone 1");
+			printXY(1, 1, "Done 1");
 			chosen = true;
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
@@ -316,16 +317,16 @@ void controls()
 	drawButton(9, 9, 11);
 	drawButton(25, 19, 4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[0;0HMove Left");
-	iprintf("\x1b[1;0HMove Right");
-	iprintf("\x1b[2;0HJump");
-	iprintf("\x1b[3;0HCrouch");
-	iprintf("\x1b[4;0HItem Left");
-	iprintf("\x1b[5;0HItem Right");
-	iprintf("\x1b[6;0HSwitch Screen");
-	iprintf("\x1b[7;0HMenu");
-	iprintf("\x1b[8;0HClimb");
-	iprintf("\x1b[20;26HBack");
+	printXY(0, 0, "Move Left");
+	printXY(0, 1, "Move Right");
+	printXY(0, 2, "Jump");
+	printXY(0, 3, "Crouch");
+	printXY(0, 4, "Item Left");
+	printXY(0, 5, "Item Right");
+	printXY(0, 6, "Switch Screen");
+	printXY(0, 7, "Menu");
+	printXY(0, 8, "Climb");
+	printXY(26, 20, "Back");
 	scanKeys();
 	oldKeys = keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -376,9 +377,9 @@ void settings_redraw()
 	drawButton(10, 14, 10);
 	drawButton(25, 19, 4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[10;12HControls");
-	iprintf("\x1b[15;12HCredits");
-	iprintf("\x1b[20;26HBack");
+	printXY(12, 10, "Controls");
+	printXY(12, 15, "Credits");
+	printXY(26, 20, "Back");
 }
 
 void settings()
@@ -392,9 +393,9 @@ void settings()
 	drawButton(10, 14, 10);
 	drawButton(25, 19, 4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[10;12HControls");
-	iprintf("\x1b[15;12HCredits");
-	iprintf("\x1b[20;26HBack");
+	printXY(12, 10, "Controls");
+	printXY(12, 15, "Credits");
+	printXY(26, 20, "Back");
 	scanKeys();
 	oldKeys = keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -450,10 +451,10 @@ void gameMode()
 	drawButton(9, 19 - 1, 12);
 	drawButton(25, 20 - 1, 4); //Back button
 	consoleClear(); //Removes All text from the screen
-	iprintf("\x1b[9;12HCreative"); //x:12 y:9
-	iprintf("\x1b[14;12HSurvival"); //x:12 y:14
-	iprintf("\x1b[19;11HLoad World"); //x:11 y:19
-	iprintf("\x1b[20;26HBack");
+	printXY(12, 9, "Creative"); //x:12 y:9
+	printXY(12, 14, "Survival"); //x:12 y:14
+	printXY(11, 19, "Load World"); //x:11 y:19
+	printXY(26, 20, "Back");
 	scanKeys();
 	oldKeys = keysHeld();
 	swiWaitForVBlank(); // Get "newKeys"
@@ -556,11 +557,11 @@ void titlescreen_redraw()
 	//Clear the screen!
 	consoleClear();
 	//Print the Buttons
-	iprintf("\x1b[10;9HSingle Player");
-	iprintf("\x1b[15;10HMulti Player");
-	iprintf("\x1b[20;12HSettings");
+	printXY(9, 10, "Single Player");
+	printXY(10, 15, "Multi Player");
+	printXY(12, 20, "Settings");
 	if (gameGen && !multiplayer && !getDied())
-		iprintf("\x1b[20;26HBack");
+		printXY(26, 20, "Back");
 }
 
 int titlescreen()
@@ -593,11 +594,11 @@ int titlescreen()
 	//Clear the screen!
 	consoleClear();
 	//Print the Buttons
-	iprintf("\x1b[10;9HSingle Player");
-	iprintf("\x1b[15;10HMulti Player");
-	iprintf("\x1b[20;12HSettings");
+	printXY(9, 10, "Single Player");
+	printXY(10, 15, "Multi Player");
+	printXY(12, 20, "Settings");
 	if (gameGen && !multiplayer && !getDied())
-		iprintf("\x1b[20;26HBack");
+		printXY(26, 20, "Back");
 	bool chosen = false;
 	scanKeys();
 	oldKeys = keysHeld();

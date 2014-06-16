@@ -5,7 +5,7 @@
 #include "graphics.h"
 #include "../mining.h"
 #include "../inventory.h"
-#include "../message.h"
+#include "../general.h"
 Graphic INV[NUM_INV_SPACES];
 
 bool empty = false; //Whether the inventory is empty

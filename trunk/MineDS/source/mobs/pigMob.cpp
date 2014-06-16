@@ -8,7 +8,7 @@
 #include "../sounds.h"
 #include "mobHandler.h"
 #include "../blockID.h"
-#include "../message.h"
+#include "../general.h"
 #include "../collision.h"
 #include "../inventory.h"
 Graphic pigMobGraphic[2];
