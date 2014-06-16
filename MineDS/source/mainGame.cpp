@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "world.h"
 #include "worldgen.h"
-#include "message.h"
+#include "general.h"
 #include "mining.h"
 #include "blockID.h"
 #include "inventory.h"
@@ -40,13 +40,13 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
 
 	if (mode==0) // Generate new world and reset the camera and time
 	{
-		iprintf("\x1b[8;1HGenerating world...\n");
+		printXY(1, 8, "Generating world...\n");
 		if (CurrentWorld==NULL) CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
 		if (CurrentWorld==NULL)
 			return NULL;
 		mobsReset();
 		generateWorld(CurrentWorld);
-		iprintf("\x1b[8;1HA");
+		printXY(1, 8, "A");
 		CurrentWorld->CamX=0;
 		CurrentWorld->CamY=0;
 		CurrentWorld->timeInWorld=0;
@@ -55,13 +55,13 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
         //mode 1: Return to game
         else if (mode==2) //Load World
         {
-            iprintf("\x1b[8;1HLoading world...\n");
+            printXY(1, 8, "Loading world...\n");
             if (CurrentWorld==NULL) CurrentWorld = (worldObject *) calloc(1, sizeof(worldObject));
             if (CurrentWorld==NULL)
 		return NULL;
             mobsReset();
             loadWorld(CurrentWorld);
-            iprintf("\x1b[8;1HA");
+            printXY(1, 8, "A");
             CurrentWorld->CamX=0;
             CurrentWorld->CamY=0;
             CurrentWorld->timeInWorld=0;
@@ -86,8 +86,8 @@ worldObject* mainGame(int mode,worldObject* CurrentWorld)
         {
             drawButton(21,16,9);
             drawButton(9,16,10);
-            iprintf("\x1b[17;22HCrafting");
-            iprintf("\x1b[17;10HSave Game");
+            printXY(22, 17, "Crafting");
+            printXY(10, 17, "Save Game");
         }
 	while(1){ //Infinitely repeats until break
 		scanKeys();

@@ -7,7 +7,7 @@
 #include "zombieMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
-#include "../message.h"
+#include "../general.h"
 #include "../collision.h"
 #include "../worldRender.h"
 #include "../sounds.h"

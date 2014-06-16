@@ -7,7 +7,7 @@
 #include "cowMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
-#include "../message.h"
+#include "../general.h"
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"

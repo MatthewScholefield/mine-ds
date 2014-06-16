@@ -6,7 +6,7 @@
 #include "../graphics/graphics.h"
 #include "../inventory.h"
 #include "mobPlayer.h"
-#include "../message.h"
+#include "../general.h"
 #include "../blockID.h"
 #include "../sounds.h"
 #include "../deathScreen.h"
