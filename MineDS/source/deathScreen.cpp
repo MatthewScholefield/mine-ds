@@ -6,6 +6,7 @@
 #include <nds.h>
 #include "sounds.h"
 #include "titlescreen.h"
+#include "general.h"
 bool deathScreenShow = true;
 touchPosition touch;
 int oldKeys;
@@ -26,8 +27,8 @@ void deathScreenSetup()
 		printf("\x1b[8;10HYou Died!");
 		drawButton(8, 10, 14);
 		drawButton(8, 15, 14);
-		iprintf("\x1b[11;12HRespawn");
-		iprintf("\x1b[16;10HTitleScreen");
+		printXY(12, 11, "Respawn");
+		printXY(10, 16, "TitleScreen");
 		stopMusic();
 		deathScreenShow = false;
 		oldKeys = keysHeld();
