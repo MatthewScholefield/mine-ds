@@ -169,13 +169,11 @@ void setBlock(worldObject* world, int x, int y, bool tap)
 		}
 	}
 	//Send a WIFI Update now, if wifi is enabled!
-	if (isWifi())
+	if (isWifi() && hasChangedBlock == true)
 	{
-		if (hasChangedBlock == true) {
-			last_x = x;
-			last_y = y;
-			placeBlock(x, y);
-		}
+		last_x = x;
+		last_y = y;
+		placeBlock(x, y);
 	}
 }
 
