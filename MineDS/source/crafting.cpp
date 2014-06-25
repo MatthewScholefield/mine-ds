@@ -38,6 +38,7 @@ void craftingInit()
 	addCraftingRecipe(SWORD_DIAMOND, 1, DIAMOND, 2, STICK, 1);
 	addCraftingRecipe(TORCH, 4, COAL, 1, STICK, 1);
 	addCraftingRecipe(CRAFTING_TABLE, 1, PLANKS, 4);
+	addCraftingRecipe(LADDER, 2, STICK, 8);
 
 	//Furnace Recipes
 	addFurnaceRecipe(GLASS, 1, SAND, 1);

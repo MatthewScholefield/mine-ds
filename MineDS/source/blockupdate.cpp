@@ -8,7 +8,7 @@ void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 {
 	if (!bg)	
 	{
-		if (world->blocks[x][y]==TORCH && !isBlockWalkThrough(world->bgblocks[x][y]));
+		if ((world->blocks[x][y]==TORCH || world->blocks[x][y]==LADDER) && !isBlockWalkThrough(world->bgblocks[x][y]));
 		else if (isBlockWalkThrough(world->blocks[x][y]) && (isBlockWalkThrough(world->blocks[x][y+1]))) // If a transparent block is on top of a transparent block, delete it
 		{
 			addInventory(world->blocks[x][y]);
