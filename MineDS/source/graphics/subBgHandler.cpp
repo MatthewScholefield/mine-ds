@@ -92,70 +92,6 @@ void drawButtonColored(int x, int y, int sizex)
 		setSubBgTile(x + 1 + i, y + 1, 60 + (i % 2));
 }
 
-void drawBox(int x, int y, int lx, int ly)
-{ //Todo: Change switch statement back to if/else for readability
-	for (int i = 0; i < lx; i++)
-	{
-
-		for (int j = 0; j < ly; j++)
-		{
-			switch (i)
-			{
-				case 0:
-				{
-					switch (j)
-					{
-						case 0: //Top-Left Corner
-							setSubBgTile(x + i, y + j, 26);
-							break;
-						default:
-							if (j == ly - 1)//Bottom-Left Corner
-								setSubBgTile(x + i, y + j, 26, V_FLIP);
-							else//Left Edge
-								setSubBgTile(x + i, y + j, 27);
-							break;
-					}
-					break;
-				}
-				default:
-				{
-					if (i == lx - 1)
-					{
-						switch (j)
-						{
-							case 0: //Top-Right Corner
-								setSubBgTile(x + i, y + j, 26, H_FLIP);
-								break;
-							default:
-								if (j == ly - 1)//Bottom-Right Corner
-									setSubBgTile(x + i, y + j, 26, BOTH_FLIP);
-								else//Right Edge
-									setSubBgTile(x + i, y + j, 27, H_FLIP);
-								break;
-						}
-					}
-					else
-					{
-						switch (j)
-						{
-							case 0: //Top Edge
-								setSubBgTile(x + i, y + j, 30);
-								break;
-							default:
-								if (j == ly - 1)//Bottom Edge
-									setSubBgTile(x + i, y + j, 30, V_FLIP);
-								else//Center
-									setSubBgTile(x + i, y + j, 28 + i % 2);
-								break;
-						}
-					}
-				}
-			}
-
-		}
-	}
-}
-
 void drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 {
 	for (int i = 0; i < lx; i++)
@@ -165,4 +101,23 @@ void drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 			setSubBgTile(x + i, y + j, 28 + (i + 1) % 2);
 		}
 	}
+}
+
+void drawBox(int x, int y, int lx, int ly)
+{
+	setSubBgTile(x, y, 26); //Top-Left Corner
+	setSubBgTile(x, y + ly - 1, 26, V_FLIP); //Bottom-Left Corner
+	setSubBgTile(x + lx - 1, y + ly - 1, 26, BOTH_FLIP); //Bottom-Right Corner
+	setSubBgTile(x + lx - 1, y + 0, 26, H_FLIP); //Top-Right Corner
+	for (int i = 1; i < ly - 1; i++)
+	{
+		setSubBgTile(x + lx - 1, y + i, 27, H_FLIP); //Right Edge
+		setSubBgTile(x, y + i, 27); //Left Edge
+	}
+	for (int i = 1; i < lx - 1; i++)
+	{
+		setSubBgTile(x + i, y, 30); //Top Edge
+		setSubBgTile(x + i, y + ly - 1, 30, V_FLIP); //Bottom Edge
+	}
+	drawBoxCenter(x + 1, y + 1, lx - 2, ly - 2);
 }

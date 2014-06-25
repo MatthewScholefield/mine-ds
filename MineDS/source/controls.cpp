@@ -51,6 +51,8 @@ KEYPAD_BITS getKey(int action)
 
 void setKey(int action, KEYPAD_BITS key)
 {
+	if (key == KEY_LID) //Should not assign any key to the lid
+		return;
 	switch (action)
 	{
 		case ACTION_MOVE_LEFT: left = key;

@@ -187,7 +187,7 @@ KEYPAD_BITS askForKey()
 
 	const short ITEMS = 11;
 	const short MAX_NAME_LENGTH = 5;
-	const short X = 10, Y = 6;
+	const short X = 11, Y = 8;
 
 	drawBox(X, Y, MAX_NAME_LENGTH + 2, ITEMS + 2);
 	printXY(X + 1, Y + 1, "Up");
@@ -210,7 +210,7 @@ KEYPAD_BITS askForKey()
 	touchRead(&touch);
 	oldKeys = keysHeld();
 	swiWaitForVBlank();
-	KEYPAD_BITS key = KEY_START;
+	KEYPAD_BITS key = KEY_LID;
 	bool chosen = false;
 
 	while (!chosen)
@@ -222,15 +222,15 @@ KEYPAD_BITS askForKey()
 			touchRead(&touch);
 			column = ((touch.py - 8) / 8) + 1 - Y;
 			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-			{
 				for (int i = 0; i < MAX_NAME_LENGTH; i++)
 					setSubBgTile(X + 1 + i, Y + column, 60);
-			}
+			else if (touch.px > 25 * 8 && touch.px < 30 * 8 && touch.py > 19 * 8 && touch.py < 22 * 8)
+				drawButtonColored(25, 19, 4); //Back button
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
 			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-				chosen = true; //Will return to previous function when chosen is true.
+				chosen = true;
 			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 			{
 				switch (column)
@@ -262,8 +262,11 @@ KEYPAD_BITS askForKey()
 				}
 				chosen = true;
 			}
-			else
+			else //Remove any colored buttons, if any
+			{
 				drawBoxCenter(X + 1, Y + 1, MAX_NAME_LENGTH, ITEMS);
+				drawButton(25, 19, 4); //Back button
+			}
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
@@ -311,7 +314,7 @@ bool controls()
 	consoleClear(); //Removes All text from the screen
 	const short ITEMS = 9;
 	const short MAX_NAME_LENGTH = 13;
-	const short X = 8, Y = 6;
+	const short X = 8, Y = 9;
 
 	drawBox(X, Y, MAX_NAME_LENGTH + 2, ITEMS + 2);
 	printXY(X + 1, Y + 1, "Move Left");
@@ -338,10 +341,11 @@ bool controls()
 			touchRead(&touch);
 			column = ((touch.py - 8) / 8) + 1 - Y;
 			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-			{
 				for (int i = 0; i < MAX_NAME_LENGTH; i++)
 					setSubBgTile(X + 1 + i, Y + column, 60);
-			}
+			else if (touch.px > 25 * 8 && touch.px < 30 * 8 && touch.py > 19 * 8 && touch.py < 22 * 8)
+				drawButtonColored(25, 19, 4); //Back button
+
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
@@ -352,8 +356,11 @@ bool controls()
 				setKey(getTappedAction(column), askForKey());
 				return false;
 			}
-			else
+			else //Remove any colored buttons, if any
+			{
 				drawBoxCenter(X + 1, Y + 1, MAX_NAME_LENGTH, ITEMS);
+				drawButton(25, 19, 4); //Back button
+			}
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
