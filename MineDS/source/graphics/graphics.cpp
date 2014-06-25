@@ -45,8 +45,8 @@ void graphicFrame()
 {
 	MainSpr=-1;
 	SubSpr=-1;
-	oamClear(&oamMain,0,128);
-	oamClear(&oamSub,0,128);
+	oamClear(&oamMain,0,0);
+	oamClear(&oamSub,0,0);
 }
 /**
 	\breif Init's the DS's Sprite Engine, to be used for MineDS.
@@ -261,12 +261,11 @@ void loadGraphicSub(Graphic* g,int font,int frame)
 */
 bool showGraphic(Graphic* g,int x,int y,bool flip,int pri)
 {
-	int spriteID;
+	int spriteID = g->main ? graphicNextMain() : graphicNextSub();
 	if (x<-32 || x>256+32 || y<-32 || y>244) return false;
-	if (spriteID > 126) return false;
+	if (spriteID > SPRITE_COUNT-1) return false;
 	if (g->main)
 	{
-		spriteID = graphicNextMain();
 		if (g->mob==1 && g->sy==32)
 			oamSet(&oamMain,spriteID,x,y,pri,0,SpriteSize_16x32,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 		else if (g->mob==1)
@@ -278,7 +277,6 @@ bool showGraphic(Graphic* g,int x,int y,bool flip,int pri)
 	}
 	else
 	{
-		spriteID = graphicNextSub();
 		if (g->mob==1)
 		{
 			oamSet(&oamSub,spriteID,x,y,pri,1,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
@@ -290,7 +288,6 @@ bool showGraphic(Graphic* g,int x,int y,bool flip,int pri)
 		else if (g->sx==8 && g->sy==8 && g->mob==0)
 			oamSet(&oamSub,spriteID,x,y,pri,0,SpriteSize_8x8,SpriteColorFormat_256Color,g->Gfx,-1,false,false,flip,false,false); 
 	}
-	if (spriteID > 127) return false;
 	return true;
 }
 bool showGraphic(Graphic* g,int x,int y,bool a)
