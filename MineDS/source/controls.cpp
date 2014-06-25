@@ -51,8 +51,6 @@ KEYPAD_BITS getKey(int action)
 
 void setKey(int action, KEYPAD_BITS key)
 {
-	for (int i = 0; i < 100; i++)
-		swiWaitForVBlank();
 	switch (action)
 	{
 		case ACTION_MOVE_LEFT: left = key;
