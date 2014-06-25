@@ -8,11 +8,12 @@
 #include "mining.h"
 #include <stdio.h>
 #include <stdarg.h>
-#define sizeOfArray(x) (sizeof(x)/4)
+#define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 
 int walkThroughBlocks[]={AIR,YELLOW_FLOWER,RED_FLOWER,SNOW_TOP,TORCH,LADDER,SHRUB,TALL_GRASS,MUSHROOM_BROWN,MUSHROOM_RED};
 int renderBright[]={AIR,LOG,OAK_WOOD,BIRCH_WOOD,LEAF,YELLOW_FLOWER,RED_FLOWER,CACTUS,TORCH,REDWOOD_LEAF,GLASS,SHRUB,TALL_GRASS,MUSHROOM_RED,MUSHROOM_BROWN};
 int lightSourceBlocks[]={TORCH,PUMPKIN_LIGHT,GLOWSTONE};
+int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)]={1,0,0}; // The Number is equal to 15 - minecraftlightemitvalue
 int items[]={PORKCHOP_RAW,BEEF_RAW,LEATHER,PICKAXE_WOOD,PICKAXE_STONE,
 		PICKAXE_IRON,PICKAXE_GOLD,PICKAXE_DIAMOND,COAL,INGOT_IRON,INGOT_GOLD,DIAMOND,
 		STICK,FLESH,BEEF_COOKED,PORKCHOP_COOKED,CHICKEN_RAW,CHICKEN_COOKED,SHOVEL_DIAMOND,
@@ -63,61 +64,43 @@ otherwise values could overlap
 ----------------
 */
 
-#define NUM_OF_LIGHT_SOURCES 3
-//The Number is equal to 15 - minecraftlightemitvalue
-int sourceAmount[]={1,0,0};
-
-int isBlockWalkThrough(int blockID)
+bool isBlockWalkThrough(int blockID)
 {
-		int i;
-		bool isWalkThrough=false;
-		for(i=0;(unsigned)i<=sizeOfArray(walkThroughBlocks);i++)
-		{
-				if (walkThroughBlocks[i]==blockID) isWalkThrough=true;
-		}
-		return isWalkThrough;
+	int i;
+	for(i=0;(unsigned)i<sizeOfArray(walkThroughBlocks);i++)
+		if (walkThroughBlocks[i]==blockID) return true;
+	return false;
 }
-int item(int blockID)
+bool item(int blockID)
 {
-		int i;
-		bool isItem=false;
-		for(i=0;(unsigned)i<=sizeOfArray(items);i++)
-		{
-				if (items[i]==blockID) isItem=true;
-		}
-		return isItem;
+	int i;
+	for(i=0;(unsigned)i<sizeOfArray(items);i++)
+		if (items[i]==blockID) return true;
+	return false;
 }
-int alwaysRenderBright(int blockID)
+bool alwaysRenderBright(int blockID)
 {
-		int i;
-		bool isWalkThrough=false;
-		for(i=0;(unsigned)i<=sizeOfArray(renderBright);i++)
-		{
-				if (renderBright[i]==blockID) isWalkThrough=true;
-		}
-		return isWalkThrough;
+	int i;
+	for(i=0;(unsigned)i<sizeOfArray(renderBright);i++)
+		if (renderBright[i]==blockID) return true;
+	return false;
 }
-int isAGroundBlock(int blockID)
+bool isAGroundBlock(int blockID)
 {
-		return false;
+	return false;
 }
 bool isBlockALightSource(int blockID)
 {
 	int i;
-		bool isLightSource=false;
-		for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
-		{
-				if (lightSourceBlocks[i]==blockID) isLightSource=true;
-		}
-		return isLightSource;
+	for(i=0;(unsigned)i<sizeOfArray(lightSourceBlocks);i++)
+		if (lightSourceBlocks[i]==blockID) return true;
+	return false;
 }
 int getLightAmount(int blockID)
 {
 	int i;
-		for(i=0;i<NUM_OF_LIGHT_SOURCES;i++)
-		{
-			if (lightSourceBlocks[i]==blockID) return sourceAmount[i];
-		}
+	for(i=0;(unsigned)i<sizeOfArray(lightSourceBlocks);i++)
+		if (lightSourceBlocks[i]==blockID) return lightSourceBlocksAmmount[i];
 	return -1;
 }
 void initBlockProperties()

@@ -45,7 +45,9 @@ void MplayerMob::hurt(int amount,int type)
 void MplayerMob::updateMob(worldObject* world)
 {
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
-	if (animation==0) showGraphic(&MplayerMobGraphic[0],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
+	{
+		if (animation==0) showGraphic(&MplayerMobGraphic[0],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
+	}
 	else if (animation==1) showGraphic(&MplayerMobGraphic[1],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
 }
 void MplayerMob::sendWifiUpdate()

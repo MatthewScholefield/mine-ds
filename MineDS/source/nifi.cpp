@@ -244,7 +244,7 @@ void Handler(int packetID, int readlength)
 	{
 		int test_id;
 		int a, b, c, d, e, f;
-		sscanf(packet, "%*s %d %d %d %d %d %d %d %d", &test_id, &a, &b, &c, &d, &e, &f);
+		sscanf(packet, "%*s %d %d %d %d %d %d %d", &test_id, &a, &b, &c, &d, &e, &f);
 		if (test_id == server_id) recievedMobUpdate(b, c, d, e, a, f);
 		printmessage = false;
 	}

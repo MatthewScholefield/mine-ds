@@ -14,7 +14,7 @@
 #include "blocks.h"
 #include "graphics/graphics.h"
 #include <math.h>
-#define sizeOfArray(x) (sizeof(x)/4)
+#define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 //int execptions[]={AIR};
 int sunlight;
 int xMin, xMax, yMin, yMax;
