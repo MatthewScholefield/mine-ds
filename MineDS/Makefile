@@ -31,9 +31,7 @@ GAME_SUBTITLE2 :=	v0.1.1
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-CFLAGS	:=	-g -Wall -O2\
- 		-fomit-frame-pointer\
-		-ffast-math \
+CFLAGS	:=	-g -Wall -O3\
 		-std=gnu++11 \
 		$(ARCH)
 
@@ -116,7 +114,7 @@ endif
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
  
 #---------------------------------------------------------------------------------
 clean:
