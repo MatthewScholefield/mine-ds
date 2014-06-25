@@ -70,7 +70,7 @@ void blocksCanPlace()
 	framecounting = 0;
 }
 
-void mineBlock(worldObject* world, bool bg, int x, int y, bool tap)
+void mineBlock(worldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	bool stylusMoved = (miningX == x || mining == y) ? false : true;
@@ -103,10 +103,6 @@ void mineBlock(worldObject* world, bool bg, int x, int y, bool tap)
 		miningX = -1;
 		miningY = -1;
 	}
-	else if (!tap) // Can only break blocks in creative by tapping
-	{
-		return;
-	}
 	if (addInventory(blockXY, 1))
 	{
 		blockXY = AIR;
@@ -119,48 +115,67 @@ void setBlock(worldObject* world, int x, int y, bool tap)
 {
 	skipLightUpdate = false;
 	bool isCrouched = (keysHeld() & getKey(ACTION_CROUCH));
-	bool something = true;
-	if ((world->blocks[x][y] == AIR && !isCrouched && (selectedblock == AIR || item(selectedblock))) ||
-		(world->blocks[x][y] == AIR && world->bgblocks == AIR && isCrouched && (selectedblock == AIR || item(selectedblock))))
+	bool isPlaceableBlock = (selectedblock != AIR && !item(selectedblock) && hasChangedBlock == false);
+	bool noLightUpdate = (selectedblock == AIR || item(selectedblock));
+	if (isCrouched) // Background
 	{
-		skipLightUpdate = true;
-		return;
-	}
-	if (isCrouched || selectedblock == CACTUS)
-	{
-		if (world->bgblocks[x][y] != AIR) something = false;
-	}
-	if (world->blocks[x][y] == AIR && something && !item(selectedblock) && hasChangedBlock == false)
-	{
-		if (isCrouched) //Place in Background
+		if (world->blocks[x][y] != AIR) // Foreground not empty don't place or mine
 		{
-			if (subInventory(selectedblock, 1))
-				world->bgblocks[x][y] = selectedblock;
-			checkBlockPlace(x, y, world, true);
+			skipLightUpdate = true;
+			return;
 		}
-		else //Place in Foreground
+		else if (world->bgblocks[x][y] != AIR) // Mine block
 		{
-			if (subInventory(selectedblock, 1))
-				world->blocks[x][y] = selectedblock;
-			checkBlockPlace(x, y, world, false);
+			if (hasChangedBlock == false)
+				mineBlock(world, x, y, isCrouched);
 		}
-		hasChangedBlock = true;
+		else // Place block
+		{
+			if (noLightUpdate)
+			{
+				skipLightUpdate = true;
+				return;
+			}
+			if (isPlaceableBlock)
+			{
+				if (subInventory(selectedblock, 1))
+					world->bgblocks[x][y] = selectedblock;
+				checkBlockPlace(x, y, world, isCrouched);
+				hasChangedBlock = true;
+			}
+		}
 	}
-	else if (world->blocks[x][y] != AIR && hasChangedBlock == false) //Mine in Foreground
+	else // Foreground
 	{
-		mineBlock(world, isCrouched, x, y, tap);
+		if (world->blocks[x][y] != AIR) // Mine block
+		{
+			if (hasChangedBlock == false)
+				mineBlock(world, x, y, isCrouched);
+		}
+		else // Place block
+		{
+			if (noLightUpdate)
+			{
+				skipLightUpdate = true;
+				return;
+			}
+			if (isPlaceableBlock)
+			{
+				if (subInventory(selectedblock, 1))
+					world->blocks[x][y] = selectedblock;
+				checkBlockPlace(x, y, world, isCrouched);
+				hasChangedBlock = true;
+			}
+		}
 	}
-	else if (world->blocks[x][y] == AIR && isCrouched && hasChangedBlock == false) //Mine in Background
-	{
-		mineBlock(world, isCrouched, x, y, tap);
-	}
-	else return;
 	//Send a WIFI Update now, if wifi is enabled!
 	if (isWifi())
 	{
-		last_x = x;
-		last_y = y;
-		placeBlock(x, y);
+		if (hasChangedBlock == true) {
+			last_x = x;
+			last_y = y;
+			placeBlock(x, y);
+		}
 	}
 }
 
