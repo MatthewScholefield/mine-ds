@@ -32,7 +32,6 @@ int miningX = -1; //X,Y Value of block that is currently being mined
 int miningY = -1;
 int mining = 10; //Length till block break
 int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand and block's hardness. Currently not calculated
-int handHardness; //Hardness of item in hand
 bool destroy = false;
 
 int getSelectedblock()
@@ -71,33 +70,69 @@ void blocksCanPlace()
 	framecounting = 0;
 }
 
+void mineBlock(worldObject* world, bool bg, int x, int y, bool tap)
+{
+	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	bool stylusMoved = (miningX == x || mining == y) ? false : true;
+	if (isSurvival())
+	{
+		if (stylusMoved)
+		{
+			miningX = x;
+			miningY = y;
+			int handHardness = (getHardness(selectedblock) < 0) ? getHardness(selectedblock)*-1 : 1; // Hardness of item in hand
+			int blockTypeXY = getType(blockXY);
+			switch (getType(selectedblock)) // Check if we are using the correct tool
+			{
+				case AXE: if (blockTypeXY != WOOD) handHardness = 1; break;
+				case PICKAXE: if (blockTypeXY != STONEBLOCK) handHardness = 1; break;
+				case SHOVEL: if (blockTypeXY != SOIL) handHardness = 1; break;
+			}
+			mining = getHardness(blockXY)*10 / handHardness;
+			miningRate = 1;
+		}
+		else
+		{
+			mining -= miningRate;
+		}
+		if (mining > 0)
+		{
+			skipLightUpdate = true;
+			return;
+		}
+		miningX = -1;
+		miningY = -1;
+	}
+	else if (!tap) // Can only break blocks in creative by tapping
+	{
+		return;
+	}
+	if (addInventory(blockXY, 1))
+	{
+		blockXY = AIR;
+		checkBlockDelete(x, y, world, bg);
+		hasChangedBlock = true;
+	}
+}
+
 void setBlock(worldObject* world, int x, int y, bool tap)
 {
-	bool change = false;
 	skipLightUpdate = false;
-	if (miningX != x)
-	{
-		miningX = x;
-		change = true;
-	}
-	if (miningY != y)
-	{
-		miningY = y;
-		change = true;
-	}
+	bool isCrouched = (keysHeld() & getKey(ACTION_CROUCH));
 	bool something = true;
-	if ((world->blocks[x][y] == AIR && !(keysHeld() & getKey(ACTION_CROUCH)) && (selectedblock == AIR || item(selectedblock))) || (world->blocks[x][y] == AIR && world->bgblocks == AIR && (keysHeld() & getKey(ACTION_CROUCH)) && (selectedblock == AIR || item(selectedblock))))
+	if ((world->blocks[x][y] == AIR && !isCrouched && (selectedblock == AIR || item(selectedblock))) ||
+		(world->blocks[x][y] == AIR && world->bgblocks == AIR && isCrouched && (selectedblock == AIR || item(selectedblock))))
 	{
 		skipLightUpdate = true;
 		return;
 	}
-	if ((keysHeld() & getKey(ACTION_CROUCH)) || selectedblock == CACTUS)
+	if (isCrouched || selectedblock == CACTUS)
 	{
 		if (world->bgblocks[x][y] != AIR) something = false;
 	}
 	if (world->blocks[x][y] == AIR && something && !item(selectedblock) && hasChangedBlock == false)
 	{
-		if ((keysHeld() & getKey(ACTION_CROUCH))) //Place in Background
+		if (isCrouched) //Place in Background
 		{
 			if (subInventory(selectedblock, 1))
 				world->bgblocks[x][y] = selectedblock;
@@ -113,122 +148,11 @@ void setBlock(worldObject* world, int x, int y, bool tap)
 	}
 	else if (world->blocks[x][y] != AIR && hasChangedBlock == false) //Mine in Foreground
 	{
-		if (isSurvival())
-		{
-			if (change) //If new spot tapped on screen
-			{
-				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
-					handHardness = getHardness(selectedblock)*-1;
-				else //If item is a block
-					handHardness = 1;
-				switch (getType(selectedblock))
-				{
-					case AXE: if (getType(world->blocks[x][y]) != WOOD)
-						{
-							handHardness = 1;
-						}
-						break;
-						//Using an axe on something other than wood will give the axe a hardness of 1
-					case PICKAXE: if (getType(world->blocks[x][y]) != STONEBLOCK)
-						{
-							handHardness = 1;
-						}
-						break;
-					case SHOVEL: if (getType(world->blocks[x][y]) != SOIL)
-						{
-							handHardness = 1;
-						}
-						break;
-				}
-				mining = getHardness(world->blocks[x][y])*10 / handHardness;
-				miningRate = 1;
-			}
-			else if (!change) //Stylus is on same block and Held
-				mining -= miningRate;
-			miningX = x; //Previous x
-			miningY = y; //Previous Y
-			skipLightUpdate = true;
-			if (mining <= 0)
-			{
-				if (addInventory(world->blocks[x][y], 1))
-				{
-					hasChangedBlock = true;
-					world->blocks[x][y] = AIR;
-					checkBlockDelete(x, y, world, false);
-					skipLightUpdate = false;
-				}
-				miningX = -1; //Ensuring mining will be reset on next loop
-				miningY = -1;
-			}
-		}
-		else if (tap)
-		{
-			if (addInventory(world->blocks[x][y], 1))
-			{
-				world->blocks[x][y] = AIR;
-				checkBlockDelete(x, y, world, false);
-				hasChangedBlock = true;
-			}
-		}
+		mineBlock(world, isCrouched, x, y, tap);
 	}
-	else if (world->blocks[x][y] == AIR && (keysHeld() & getKey(ACTION_CROUCH)) && hasChangedBlock == false) //Mine in Background
+	else if (world->blocks[x][y] == AIR && isCrouched && hasChangedBlock == false) //Mine in Background
 	{
-		if (isSurvival())
-		{
-			if (change) //If new spot tapped on screen
-			{
-				if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
-					handHardness = getHardness(selectedblock)*-1;
-				else //If item is a block
-					handHardness = 1;
-				switch (getType(selectedblock))
-				{
-					case AXE: if (getType(world->bgblocks[x][y]) != WOOD)handHardness = 1;
-						break;
-						//Using an axe on something other than wood will give the axe a hardness of 1
-					case PICKAXE: if (getType(world->bgblocks[x][y]) != STONEBLOCK) handHardness = 1;
-						break;
-					case SHOVEL: if (getType(world->bgblocks[x][y]) != SOIL) handHardness = 1;
-						break;
-					default:
-					{
-						if (getHardness(selectedblock) < 0) //If object in hand is an item (Not block)
-							handHardness = getHardness(selectedblock)*-1;
-						else //If item is a block
-							handHardness = 1;
-						break;
-					}
-				}
-				mining = getHardness(world->bgblocks[x][y])*10 / handHardness;
-				miningRate = 1;
-			}
-			else if (!change) //Stylus is on same block and Held
-				mining -= miningRate;
-			miningX = x; //Previous x
-			miningY = y; //Previous Y
-			skipLightUpdate = true;
-			if (mining <= 0)
-			{
-				if (addInventory(world->bgblocks[x][y], 1))
-				{
-					hasChangedBlock = true;
-					world->bgblocks[x][y] = AIR;
-					checkBlockDelete(x, y, world, true);
-					skipLightUpdate = false;
-				}
-				miningX = -1; //Ensuring mining will be reset on next loop
-				miningY = -1;
-			}
-		}
-		else if (tap)
-		{
-			if (addInventory(world->bgblocks[x][y], 1))
-			{
-				world->bgblocks[x][y] = AIR;
-				checkBlockDelete(x, y, world, true);
-				hasChangedBlock = true;
-			}
-		}
+		mineBlock(world, isCrouched, x, y, tap);
 	}
 	else return;
 	//Send a WIFI Update now, if wifi is enabled!
