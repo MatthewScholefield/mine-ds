@@ -32,7 +32,6 @@ int miningX = -1; //X,Y Value of block that is currently being mined
 int miningY = -1;
 int mining = 10; //Length till block break
 int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand and block's hardness. Currently not calculated
-bool destroy = false;
 
 int getSelectedblock()
 {
@@ -190,7 +189,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		{
 			mobHandlerHurtMob(mobNum, 2, PLAYER_HURT);
 		}
-		else if ((canPlaceBlocks && !incutscene) || destroy)
+		else if (canPlaceBlocks)
 		{
 			setBlock(world, x, y, true);
 			if (!skipLightUpdate)
