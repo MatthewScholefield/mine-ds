@@ -110,7 +110,7 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 	}
 }
 
-void setBlock(worldObject* world, int x, int y, bool tap)
+void setBlock(worldObject* world, int x, int y)
 {
 	skipLightUpdate = false;
 	bool isCrouched = (keysHeld() & getKey(ACTION_CROUCH));
@@ -191,7 +191,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		}
 		else if (canPlaceBlocks)
 		{
-			setBlock(world, x, y, true);
+			setBlock(world, x, y);
 			if (!skipLightUpdate)
 				updateBrightnessAround(world, x, y);
 		}
@@ -200,7 +200,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	{
 		int x = (touch.px + a) / 16;
 		int y = (touch.py + b) / 16;
-		setBlock(world, x, y, false);
+		setBlock(world, x, y);
 		if (!skipLightUpdate)
 			updateBrightnessAround(world, x, y);
 		/*if (skipLightUpdate)
