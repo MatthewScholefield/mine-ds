@@ -96,7 +96,7 @@ void snowBiome(worldObject* world,int startx,int endx)
 		if (flx==x)
 		{
 			growPumpkinPatch(world,x,y-1);
-			flx+= 10 + rand()%5;
+			flx+= 20 + rand()%5;
 		}
 		if (treex==x)
 		{
