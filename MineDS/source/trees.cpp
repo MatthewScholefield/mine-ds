@@ -90,11 +90,10 @@ void growFlower(worldObject* world,int x,int y)
 void growPumpkinPatch(worldObject* world,int x,int y)
 {
 	int i;
-	for (i=x-5;i<=x;i++)
-		if (!(rand()%5))
-		{
-			int y = findFirstBiomeBlock(world,i);
-			world->blocks[i][y]=PUMPKIN + rand() % 2;
-			//if (i==-1) iprintf("\n\n\n\n\n\n\n\nHi!");
-		}
+	for (i=x-3+rand()%2;i<=x;i++)
+	{
+		y = findFirstBlock(world,i);
+		world->blocks[i][y] = DIRT;
+		world->blocks[i][y-1] = PUMPKIN;
+	}
 }
