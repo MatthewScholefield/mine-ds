@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "nifi.h"
 #include "mobs/mobHandler.h"
 #include "worldRender.h"
 #include "graphics/subBgHandler.h"
