@@ -22,6 +22,7 @@ class baseMob
 	int animationclearframes;
 	int mobtype;
 	int timeOnCactus;
+        bool onCactus;
 	int health; //Health of the mob, 0 is dead ;)
 	int timeTillWifiUpdate;
 	int ping;
