@@ -51,14 +51,16 @@ void nifiClearClients()
 void Handler(int packetID, int readlength)
 {
 	bool printmessage = false; //Set to true to see every message (execpt for mob Updates) on the top screen.
-	static char data[4096];
-	char message[10];
+	char data[4096];
+	char *msgtype, *message;
 	Wifi_RxRawReadPacket(packetID, readlength, (unsigned short *) data);
-	//data now has the transmitted packet
-	char* packet = &data[32]; //Start of real data
-	sscanf(packet, "%s", message);
-	//Message now contains the first string (the command)
-	if (!strcmp("[PING:", message))
+	msgtype = &data[32]; // Start of real data
+	message = strchr(msgtype, ' ');
+	if (message == NULL) return; // Invalid message (no space)
+	*message++ = '\0';
+	// msgtype contains everything before the first space
+	// and message contains everything after it
+	if (!strcmp("[PING:", msgtype))
 	{
 		//We Recieved a ping message!
 		if (host == false)
@@ -66,44 +68,44 @@ void Handler(int packetID, int readlength)
 			if (lookForServers)
 			{
 				foundServer = true;
-				sscanf(packet, "%*s %d", &server_id); // Server Id contians ARG 1
+				sscanf(message, "%d", &server_id); // Server Id contians ARG 1
 				lookForServers = false;
 			}
 		}
 	}
-	else if (!strcmp("[DNC:", message))
+	else if (!strcmp("[DNC:", msgtype))
 	{
 		int test_id;
 		int sunbrightness;
 		int r, g, b;
-		sscanf(packet, "%*s %d %d %d %d %d", &test_id, &sunbrightness, &r, &g, &b);
+		sscanf(message, "%d %d %d %d %d", &test_id, &sunbrightness, &r, &g, &b);
 		if (test_id == server_id)
 		{
 			setSun(sunbrightness);
 			setBackdropColor(RGB15(r, g, b));
 		}
 	}
-	else if (!strcmp("[MSG:", message))
+	else if (!strcmp("[MSG:", msgtype))
 	{
 		int test_id;
-		sscanf(packet, "%*s %d", &test_id);
+		sscanf(message, "%d", &test_id);
 		if (test_id == server_id) show_message(&data[39 + get_int_len(server_id)]);
 	}
-	else if (!strcmp("[HRT:", message))
+	else if (!strcmp("[HRT:", msgtype))
 	{
 		int test_id;
 		int mobNum, amount, type;
-		sscanf(packet, "%*s %d %d %d %d", &test_id, &mobNum, &amount, &type);
+		sscanf(message, "%d %d %d %d", &test_id, &mobNum, &amount, &type);
 		if (test_id == server_id) mobHandlerHurtMobWifi(mobNum, amount, type);
 	}
-	else if (!strcmp("[SND:", message))
+	else if (!strcmp("[SND:", msgtype))
 	{
 		int test_id;
 		int sound;
-		sscanf(packet, "%*s %d %d", &test_id, &sound);
+		sscanf(message, "%d %d", &test_id, &sound);
 		if (test_id == server_id) playSoundNiFi(sound);
 	}
-	else if (!strcmp("[REQ:", message))
+	else if (!strcmp("[REQ:", msgtype))
 	{
 		//We Recieved a ping message!
 		if (host == true)
@@ -111,7 +113,7 @@ void Handler(int packetID, int readlength)
 			char gameName[20];
 			int test_id;
 			int clients_id;
-			sscanf(packet, "%*s %d %d %s", &test_id, &clients_id, gameName);
+			sscanf(message, "%d %d %s", &test_id, &clients_id, gameName);
 			if (test_id == server_id)
 			{
 				//Respond, They are talking to us!
@@ -142,50 +144,50 @@ void Handler(int packetID, int readlength)
 			}
 		}
 	}
-	else if (!strcmp("[ACK:", message))
+	else if (!strcmp("[ACK:", msgtype))
 	{
 		if (host == false)
 		{
 			int test_id;
 			int test2_id;
-			sscanf(packet, "%*s %d %d", &test_id, &test2_id);
+			sscanf(message, "%d %d", &test_id, &test2_id);
 			if (test_id == server_id && test2_id == client_id) connectSuccess();
 			//if (test_id == server_id && test2_id != client_id) printf("%d joined the game\n",test2_id);
 		}
 	}
-	else if (!strcmp("[CHKB:", message))
+	else if (!strcmp("[CHKB:", msgtype))
 	{
 		if (host == true)
 		{
 			int test_id;
 			int test2_id;
 			int x, y;
-			sscanf(packet, "%*s %d %d %d %d", &test_id, &test2_id, &x, &y);
+			sscanf(message, "%d %d %d %d", &test_id, &test2_id, &x, &y);
 			if (test_id == server_id)
 			{
 				confirmBlock(test2_id, x, y);
 			}
 		}
 	}
-	else if (!strcmp("[CFMB:", message))
+	else if (!strcmp("[CFMB:", msgtype))
 	{
 		if (host == false)
 		{
 			int test_id;
 			int test2_id;
 			int x, y;
-			sscanf(packet, "%*s %d %d %d %d", &test_id, &test2_id, &x, &y);
+			sscanf(message, "%d %d %d %d", &test_id, &test2_id, &x, &y);
 			if (test_id == server_id && test2_id == client_id)
 			{
 				clientConfirmBlock(x, y);
 			}
 		}
 	}
-	else if (!strcmp("[BLKP:", message))
+	else if (!strcmp("[BLKP:", msgtype))
 	{
 		int test_id;
 		int x, y, block, block2;
-		sscanf(packet, "%*s %d %d %d %d %d", &test_id, &x, &y, &block, &block2);
+		sscanf(message, "%d %d %d %d %d", &test_id, &x, &y, &block, &block2);
 		if (test_id == server_id)
 		{
 			//This Game
@@ -193,11 +195,11 @@ void Handler(int packetID, int readlength)
 			recievePlaceBlock(x, y, block, block2);
 		}
 	}
-	else if (!strcmp("[BLKI:", message))
+	else if (!strcmp("[BLKI:", msgtype))
 	{
 		int test_id, test2_id;
 		int x, y, block, block2;
-		sscanf(packet, "%*s %d %d %d %d %d %d", &test_id, &test2_id, &x, &y, &block, &block2);
+		sscanf(message, "%d %d %d %d %d %d", &test_id, &test2_id, &x, &y, &block, &block2);
 		if (test_id == server_id)
 		{
 			//This Game
@@ -205,13 +207,13 @@ void Handler(int packetID, int readlength)
 			matchBlocksHost(test2_id, x, y, block, block2);
 		}
 	}
-	else if (!strcmp("[BLKC:", message))
+	else if (!strcmp("[BLKC:", msgtype))
 	{
 		if (host == false)
 		{
 			int test_id, test2_id;
 			int x, y, block, block2;
-			sscanf(packet, "%*s %d %d %d %d %d %d", &test_id, &test2_id, &x, &y, &block, &block2);
+			sscanf(message, "%d %d %d %d %d %d", &test_id, &test2_id, &x, &y, &block, &block2);
 			if (test_id == server_id && test2_id == client_id)
 			{
 				//This Game
@@ -220,7 +222,7 @@ void Handler(int packetID, int readlength)
 			}
 		}
 	}
-	else if (!strcmp("[BR:", message))
+	else if (!strcmp("[BR:", msgtype))
 	{
 		if (host == true)
 		{
@@ -228,7 +230,7 @@ void Handler(int packetID, int readlength)
 			int test2_id;
 			int x, y;
 			client_id = test2_id;
-			sscanf(packet, "%*s %d %d %d %d", &test_id, &test2_id, &x, &y);
+			sscanf(message, "%d %d %d %d", &test_id, &test2_id, &x, &y);
 			if (test_id == server_id)
 			{
 				//Respond, we are that server.
@@ -236,7 +238,7 @@ void Handler(int packetID, int readlength)
 			}
 		}
 	}
-	else if (!strcmp("[B:", message))
+	else if (!strcmp("[B:", msgtype))
 	{
 		if (host == false)
 		{
@@ -245,26 +247,26 @@ void Handler(int packetID, int readlength)
 			int x, y;
 			int block_id, bgblock_id;
 			int amount;
-			sscanf(packet, "%*s %d %d %d %d %d %d %d", &test_id, &test2_id, &x, &y, &block_id, &bgblock_id, &amount);
+			sscanf(message, "%d %d %d %d %d %d %d", &test_id, &test2_id, &x, &y, &block_id, &bgblock_id, &amount);
 			if (test_id == server_id && test2_id == client_id) setBlock(x, y, block_id, bgblock_id, amount);
 		}
 	}
-	else if (!strcmp("[MOB:", message))
+	else if (!strcmp("[MOB:", msgtype))
 	{
 		int test_id;
 		int a, b, c, d, e, f;
-		sscanf(packet, "%*s %d %d %d %d %d %d %d", &test_id, &a, &b, &c, &d, &e, &f);
+		sscanf(message, "%d %d %d %d %d %d %d", &test_id, &a, &b, &c, &d, &e, &f);
 		if (test_id == server_id) recievedMobUpdate(b, c, d, e, a, f);
 		printmessage = false;
 	}
-	else if (!strcmp("[DIE:", message))
+	else if (!strcmp("[DIE:", msgtype))
 	{
 		int test_id;
 		int a;
-		sscanf(packet, "%*s %d %d", &test_id, &a);
+		sscanf(message, "%d %d", &test_id, &a);
 		if (test_id == server_id) killMob(a);
 	}
-	if (printmessage) printf("\x1b[0;0Hmessage %s                                                   \n", packet);
+	if (printmessage) printf("\x1b[0;0Hmsgtype %s message %s                                        \n", msgtype, message);
 }
 
 void nifiConfirmBlocksAllPlayers(int x, int y)
