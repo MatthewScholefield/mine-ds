@@ -1,6 +1,7 @@
 #include "deathScreen.h"
 #include "graphics/subBgHandler.h"
 #include "graphics/graphics.h"
+#include "graphics/Button.h"
 #include "mainGame.h"
 #include "multiplayerGame.h"
 #include "sounds.h"
@@ -36,13 +37,9 @@ void drawBackground() //Draws dirt background and MineDS Logo
 		{
 			setSubBgTile(j, i, k); //Draws dirt Background
 			if (k == 90)
-			{
 				k++;
-			}
 			else if (k != 90)
-			{
 				k = 90;
-			}
 		}
 	}
 	for (i = -1; i <= 24; i = i + 2)
@@ -51,18 +48,68 @@ void drawBackground() //Draws dirt background and MineDS Logo
 		{
 			setSubBgTile(j, i, l);
 			if (l == 122)
-			{
 				l++;
-			}
 			else if (l != 122)
-			{
 				l = 122;
-			}
 		}
 	}
 	for (i = 0; i <= 25; i++)
 		for (j = 0; j <= 6; j++)
 			setSubBgTile(i + 2, j, i + (j * 32)); //Draw the MineDS Logo!
+}
+
+int menu(Button buttons[], int size)
+{
+	touchPosition touch;
+	printXY(26, 20, "Back");
+	drawButton(25, 19, 4); //Back button
+	int selected = -1;
+	bool chosen = false;
+
+	uint oldKeys = keysHeld();
+	while (!chosen)
+	{
+		swiWaitForVBlank();
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
+		{
+			touchRead(&touch);
+			if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+				drawButtonColored(25, 19, 4);
+			else
+			{
+				for (int i = 0; i < size; i++)
+					if (buttons[i].isTouching(touch))
+						buttons[i].setColored(true);
+			}
+		}
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+		{
+			if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			{
+				selected = 0;
+				chosen = true;
+			}
+			else
+				for (int i = 0; i < size; i++)
+				{
+					if (buttons[i].isColored && buttons[i].isTouching(touch))
+					{
+						selected = i + 1;
+						chosen = true;
+					}
+				}
+			if (!chosen) //Redraw buttons
+			{
+				drawButton(25, 19, 4); //Back button
+				for (int i = 0; i < size; i++)
+					buttons[i].setColored(false);
+			}
+		}
+		oldKeys = keysHeld();
+		touchRead(&touch);
+	}
+	return selected;
 }
 
 void multiplayerScreen()
@@ -136,7 +183,7 @@ void multiplayerScreen()
 	}
 }
 
-void credits()
+void creditsScreen()
 {
 	uint oldKeys = keysHeld();
 	touchPosition touch;
@@ -177,7 +224,7 @@ void credits()
 	}
 }
 
-KEYPAD_BITS askForKey()
+KEYPAD_BITS askForKeyScreen()
 {
 	drawBackground();
 	consoleClear(); //Removes All text from the screen
@@ -304,7 +351,7 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 	}
 }
 
-bool controls()
+bool controlsScreen()
 {
 	uint oldKeys;
 	touchPosition touch;
@@ -353,7 +400,7 @@ bool controls()
 				return true;
 			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 			{
-				setKey(getTappedAction(column), askForKey());
+				setKey(getTappedAction(column), askForKeyScreen());
 				return false;
 			}
 			else //Remove any colored buttons, if any
@@ -368,7 +415,7 @@ bool controls()
 	}
 }
 
-bool settings()
+bool settingsScreen()
 {
 	uint oldKeys;
 	touchPosition touch;
@@ -401,13 +448,13 @@ bool settings()
 		{
 			if (touch.px > 72 && touch.px < 176 && touch.py > 72 && touch.py < 96)
 			{
-				while (!controls());
+				while (!controlsScreen());
 				return false;
 			}
 			else drawButton(10, 9, 10);
 			if (touch.px > 72 && touch.px < 176 && touch.py > 112 && touch.py < 136)
 			{
-				credits();
+				creditsScreen();
 				return false;
 			}
 			else drawButton(10, 14, 10);
@@ -421,126 +468,69 @@ bool settings()
 	}
 }
 
-void gameMode()
-{
-	uint oldKeys;
-	touchPosition touch;
-
-	drawBackground();
-	drawButton(9, 9 - 1, 12);
-	drawButton(9, 14 - 1, 12);
-	drawButton(9, 19 - 1, 12);
-	drawButton(25, 20 - 1, 4); //Back button
-	consoleClear(); //Removes All text from the screen
-	printXY(12, 9, "Creative"); //x:12 y:9
-	printXY(12, 14, "Survival"); //x:12 y:14
-	printXY(11, 19, "Load World"); //x:11 y:19
-	printXY(26, 20, "Back");
-	scanKeys();
-	oldKeys = keysHeld();
-	swiWaitForVBlank(); // Get "newKeys"
-	bool chosen = false;
-	while (!chosen)
-	{
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			touchRead(&touch);
-			if (touch.px > 72 && touch.px < 176 && touch.py > (9 - 1)*8 && touch.py < (9 + 2)*8)
-				drawButtonColored(9, 9 - 1, 12); //Creative
-			else if (touch.px > 72 && touch.px < 176 && touch.py > (14 - 1)*8 && touch.py < (14 + 2)*8)
-				drawButtonColored(9, 14 - 1, 12); //Survival
-			else if (touch.px > 72 && touch.px < 176 && touch.py > (19 - 1)*8 && touch.py < (19 + 2)*8)
-				drawButtonColored(9, 19 - 1, 12); //Load World
-			else if (touch.px > 200 && touch.px < 240 && touch.py > (20 - 1)*8 && touch.py < (20 + 2)*8)
-				drawButtonColored(25, 20 - 1, 4); //Back
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (touch.px > 72 && touch.px < 176 && touch.py > (9 - 1)*8 && touch.py < (9 + 2)*8)//Creative
-			{
-				clearInventory(); //TODO: Clear inventory on Death, not here
-				survival = false;
-				drawButtonColored(9, 9 - 1, 12);
-				drawBackground();
-				consoleClear();
-				stopMusic();
-				playCalm = false;
-				playMusic(HAL2);
-				playHal2 = true;
-				updateInvGraphics();
-				theWorld = mainGame(0, theWorld);
-				gameGen = true;
-				multiplayer = false;
-				chosen = true;
-			}
-			else drawButton(9, 9 - 1, 12);
-			;
-			if (touch.px > 72 && touch.px < 176 && touch.py > (14 - 1)*8 && touch.py < (14 + 2)*8)//Survival
-			{
-				clearInventory();
-				survival = true;
-				drawButtonColored(9, 14 - 1, 12);
-				drawBackground();
-				consoleClear();
-				stopMusic();
-				playCalm = false;
-				playMusic(HAL2);
-				playHal2 = true;
-				updateInvGraphics();
-				theWorld = mainGame(0, theWorld);
-				gameGen = true;
-				multiplayer = false;
-				chosen = true;
-			}
-			else drawButton(9, 14 - 1, 12);
-			if (touch.px > 72 && touch.px < 176 && touch.py > 144 && touch.py < 168) //Load World
-			{
-				clearInventory();
-				survival = true;
-				drawButtonColored(9, 19 - 1, 12);
-				drawBackground();
-				consoleClear();
-				stopMusic();
-				playCalm = false;
-				playMusic(HAL2);
-				playHal2 = true;
-				updateInvGraphics();
-				theWorld = mainGame(2, theWorld);
-				gameGen = true;
-				multiplayer = false;
-				chosen = true;
-			}
-			else
-				drawButton(9, 19 - 1, 12);
-			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-			{
-				chosen = true;
-			}
-			else drawButton(25, 20 - 1, 4);
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
-		swiWaitForVBlank();
-	}
-}
-
-void titlescreen_redraw()
+void gameModeScreen()
 {
 	drawBackground();
-	drawButton(8, 9, 14);
-	drawButton(8, 14, 14);
-	drawButton(8, 19, 14);
-
-	if (gameGen && !multiplayer && !getDied())
-		drawButton(25, 19, 4); //Back button
-
 	consoleClear();
-	printXY(9, 10, "Single Player");
-	printXY(10, 15, "Multi Player");
-	printXY(12, 20, "Settings");
-	if (gameGen && !multiplayer && !getDied())
-		printXY(26, 20, "Back");
+	Button creativeButton(9, 8, "Creative", 12);
+	Button survivalButton(9, 13, "Survival", 12);
+	Button loadButton(9, 18, "Load World", 12);
+	Button buttons[] = {creativeButton, survivalButton, loadButton};
+
+	switch (menu(buttons, 3))
+	{
+		case 1://Creative
+		{
+			clearInventory(); //TODO: Clear inventory on Death, not here
+			survival = false;
+			drawButtonColored(9, 9 - 1, 12);
+			drawBackground();
+			consoleClear();
+			stopMusic();
+			playCalm = false;
+			playMusic(HAL2);
+			playHal2 = true;
+			updateInvGraphics();
+			theWorld = mainGame(0, theWorld);
+			gameGen = true;
+			multiplayer = false;
+			break;
+		}
+		case 2://Survival
+		{
+			clearInventory();
+			survival = true;
+			drawButtonColored(9, 14 - 1, 12);
+			drawBackground();
+			consoleClear();
+			stopMusic();
+			playCalm = false;
+			playMusic(HAL2);
+			playHal2 = true;
+			updateInvGraphics();
+			theWorld = mainGame(0, theWorld);
+			gameGen = true;
+			multiplayer = false;
+			break;
+		}
+		case 3: //Load World
+		{
+			clearInventory();
+			survival = true;
+			drawButtonColored(9, 19 - 1, 12);
+			drawBackground();
+			consoleClear();
+			stopMusic();
+			playCalm = false;
+			playMusic(HAL2);
+			playHal2 = true;
+			updateInvGraphics();
+			theWorld = mainGame(2, theWorld);
+			gameGen = true;
+			multiplayer = false;
+			break;
+		}
+	}
 }
 
 int titlescreen()
@@ -560,72 +550,64 @@ int titlescreen()
 		playMusic(CALM);
 		playCalm = true;
 	}
-	bool redraw = true;
+	bool redraw = true, chosen = false;
 	while (redraw)
 	{
 		redraw = false;
-		uint oldKeys;
 		touchPosition touch;
 		lcdMainOnTop();
 		drawBackground();
-
-		drawButton(8, 9, 14);
-		drawButton(8, 14, 14);
-		drawButton(8, 19, 14);
-		if (gameGen && !multiplayer && !getDied())
-			drawButton(25, 19, 4); //Back button
-		//Clear the screen!
 		consoleClear();
-		//Print the Buttons
-		printXY(9, 10, "Single Player");
-		printXY(10, 15, "Multi Player");
-		printXY(12, 20, "Settings");
+		Button singlePlayer = Button(8, 9, "Single Player", 14);
+		Button multiPlayer = Button(8, 14, "Multiplayer", 14);
+		Button settings = Button(8, 19, "Settings", 14);
+
 		if (gameGen && !multiplayer && !getDied())
+		{
 			printXY(26, 20, "Back");
-		bool chosen = false;
-		scanKeys();
-		oldKeys = keysHeld();
-		swiWaitForVBlank();
+			drawButton(25, 19, 4); //Back button
+		}
+
+		uint oldKeys = keysHeld();
 		while (!chosen)
 		{
+			swiWaitForVBlank();
 			scanKeys();
 			if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 			{
 				touchRead(&touch);
-				//Check if over SinglePlayerButton
-				if (touch.px > 64 && touch.px < 184 && touch.py > 72 && touch.py < 96)
-					drawButtonColored(8, 9, 14);
-				else if (touch.px > 64 && touch.px < 184 && touch.py > 112 && touch.py < 136)
-					drawButtonColored(8, 14, 14);
-				else if (touch.px > 64 && touch.px < 184 && touch.py > 152 && touch.py < 176)
-					drawButtonColored(8, 19, 14);
+				if (singlePlayer.isTouching(touch))
+					singlePlayer.setColored(true);
+				else if (multiPlayer.isTouching(touch))
+					multiPlayer.setColored(true);
+				else if (settings.isTouching(touch))
+					settings.setColored(true);
 				else if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 					drawButtonColored(25, 19, 4);
 			}
 			else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 			{
-				if (touch.px > 64 && touch.px < 184 && touch.py > 72 && touch.py < 96)
+				if (singlePlayer.isColored && singlePlayer.isTouching(touch))
 				{
-					gameMode();
+					gameModeScreen();
 					chosen = true;
 				}
-				else drawButton(8, 9, 14);
-				if (touch.px > 64 && touch.px < 184 && touch.py > 112 && touch.py < 136)
+				else singlePlayer.setColored(false);
+				if (multiPlayer.isColored && multiPlayer.isTouching(touch))
 				{
 					multiplayerScreen();
 					chosen = true;
 				}
-				else drawButton(8, 14, 14);
-				if (touch.px > 64 && touch.px < 184 && touch.py > 152 && touch.py < 176)
+				else multiPlayer.setColored(false);
+				if (settings.isColored && settings.isTouching(touch))
 				{
-					while (!settings());
+					while (!settingsScreen());
 					redraw = true;
 					chosen = true;
 				}
-				else drawButton(8, 19, 14);
+				else settings.setColored(false);
 				if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 				{
-					drawButtonColored(8, 9, 14);
 					drawBackground();
 					consoleClear();
 					stopMusic();
@@ -639,9 +621,8 @@ int titlescreen()
 					drawButton(25, 19, 4); //Back button
 			}
 			oldKeys = keysHeld();
-			touchRead(&touch);
-			swiWaitForVBlank();
 		}
 	}
 	return 0;
 }
+
