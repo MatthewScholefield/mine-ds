@@ -16,7 +16,6 @@ int client_id;
 bool host;
 bool lookForServers;
 bool foundServer;
-bool wifiInit = false;
 int frame;
 bool clientReInit;
 int clients[8];
@@ -34,6 +33,17 @@ int get_int_len(int value)
 		value /= 10;
 	}
 	return l;
+}
+
+void nifiClearClients()
+{
+	int i;
+	for (i = 0; i <= 8; i++)
+	{
+		clients[i] = 0;
+		clientfails[i] = 0;
+	}
+	clientReInit = true;
 }
 
 void Handler(int packetID, int readlength)
@@ -281,28 +291,16 @@ int getClientID()
 
 void nifiInit()
 {
-
+	Wifi_InitDefault(false);
+	Wifi_SetPromiscuousMode(1);
+	Wifi_RawSetPacketHandler(Handler);
+	Wifi_SetChannel(10);
+	nifiClearClients();
 }
 
 void nifiEnable()
 {
-	if (!wifiInit)
-	{
-		Wifi_InitDefault(false);
-		Wifi_EnableWifi();
-		Wifi_SetPromiscuousMode(1);
-		Wifi_RawSetPacketHandler(Handler);
-		Wifi_SetChannel(10);
-		wifiInit = true;
-		clientReInit = true;
-		int i;
-		for (i = 0; i <= 8; i++)
-		{
-			clients[i] = 0;
-			clientfails[i] = 0;
-		}
-	}
-	else Wifi_EnableWifi();
+	Wifi_EnableWifi();
 	wifiEnabled = true;
 	blocksCanPlace();
 }
@@ -310,13 +308,8 @@ void nifiEnable()
 void nifiDisable()
 {
 	Wifi_DisableWifi();
-	for (int i = 0; i <= 8; i++)
-	{
-		clients[i] = 0;
-		clientfails[i] = 0;
-	}
-	clientReInit = true;
 	wifiEnabled = false;
+	nifiClearClients();
 	blocksCanPlace();
 }
 
