@@ -1,3 +1,5 @@
+#define MAX_CLIENTS	(8)
+
 void nifiInit();
 void nifiEnable();
 void nifiUpdate();
