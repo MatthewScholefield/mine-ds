@@ -18,8 +18,8 @@ bool lookForServers;
 bool foundServer;
 int frame;
 bool clientReInit;
-int clients[8];
-int clientfails[8];
+int clients[MAX_CLIENTS];
+int clientfails[MAX_CLIENTS];
 int noOfClients = 0;
 bool wifiEnabled = false;
 unsigned short buffer[100];
@@ -38,7 +38,7 @@ int get_int_len(int value)
 void nifiClearClients()
 {
 	int i;
-	for (i = 0; i <= 8; i++)
+	for (i = 0; i <= MAX_CLIENTS; i++)
 	{
 		clients[i] = 0;
 		clientfails[i] = 0;
@@ -114,7 +114,7 @@ void Handler(int packetID, int readlength)
 			if (test_id == server_id)
 			{
 				//Respond, They are talking to us!
-				if (!strcmp("MineDS", gameName) && noOfClients < 8)
+				if (!strcmp("MineDS", gameName) && noOfClients < MAX_CLIENTS)
 				{
 					//printf("%d joined the game\n",clients_id);
 					//Correct Game, send Accept
@@ -122,7 +122,7 @@ void Handler(int packetID, int readlength)
 					Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 					noOfClients++;
 					int i;
-					for (i = 0; i <= 8; i++)
+					for (i = 0; i <= MAX_CLIENTS; i++)
 					{
 						if (clients[i] == 0)
 						{
@@ -268,7 +268,7 @@ void Handler(int packetID, int readlength)
 void nifiConfirmBlocksAllPlayers(int x, int y)
 {
 	int i;
-	for (i = 0; i <= 8; i++)
+	for (i = 0; i <= MAX_CLIENTS; i++)
 	{
 		if (clients[i] != 0)
 		{
