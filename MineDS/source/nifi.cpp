@@ -56,7 +56,6 @@ void Handler(int packetID, int readlength)
 	//data now has the transmitted packet
 	char* packet = &data[32]; //Start of real data
 	sscanf(packet, "%s", message);
-	if (printmessage) printf("\x1b[0;0Hmessage %s                                                   \n", packet);
 	//Message now contains the first string (the command)
 	if (!strcmp("[PING:", message))
 	{
@@ -264,6 +263,7 @@ void Handler(int packetID, int readlength)
 		sscanf(packet, "%*s %d %d", &test_id, &a);
 		if (test_id == server_id) killMob(a);
 	}
+	if (printmessage) printf("\x1b[0;0Hmessage %s                                                   \n", packet);
 }
 
 void nifiConfirmBlocksAllPlayers(int x, int y)
