@@ -10,47 +10,66 @@ int round(double a)
 	return int(a + 0.5);
 }
 
-Button::Button(int xLoc, int yLoc, const char * const label)
+void Button::initDefault(int setPrintX, int setPrintY, int setX, int setY, int setLength, const char * const setLabel, bool setVisible)
 {
-	x = xLoc;
-	y = yLoc;
-	length = strlen(label);
-	drawButton(x, y, length + 1);
-	printXY(x + 1, y + 1, label);
-	setDefault();
-}
-
-Button::Button(int xLoc, int yLoc, const char * const label, int customLength)
-{
-	x = xLoc;
-	y = yLoc;
-	length = customLength - 1;
-	drawButton(x, y, length + 1);
-	printXY(x + round(double(length) / 2.0) - round(double(strlen(label)) / 2.0) + 1, y + 1, label);
-	setDefault();
-}
-
-void Button::setDefault()
-{
+	label = setLabel;
+	printX = setPrintX;
+	printY = setPrintY;
+	x = setX;
+	y = setY;
+	length = setLength;
 	isColored = false;
+	visible = setVisible;
+	if (visible)
+	{
+		drawButton(x, y, length + 1);
+		printXY(printX, printY, label);
+	}
+}
+
+Button::Button(int setX, int setY, const char * const setLabel)
+{
+	initDefault(setX + 1, setY + 1, setX, setY, strlen(setLabel), setLabel, true);
+}
+
+Button::Button(int setX, int setY, const char * const setLabel, bool setVisible)
+{
+	initDefault(setX + 1, setY + 1, setX, setY, strlen(setLabel), setLabel, setVisible);
+}
+
+Button::Button(int setX, int setY, const char * const setLabel, int customLength)
+{
+	initDefault(setX + round(double(customLength) / 2.0) - round(double(strlen(setLabel)) / 2.0) + 1, setY + 1, setX, setY, customLength - 1, setLabel, true);
+}
+
+Button::Button(int setX, int setY, const char * const setLabel, int customLength, bool setVisible)
+{
+	initDefault(setX + round(double(customLength) / 2.0) - round(double(strlen(setLabel)) / 2.0) + 1, setY + 1, setX, setY, customLength - 1, setLabel, setVisible);
 }
 
 void Button::setColored(bool colored)
 {
-	if (colored)
+	if (visible)
 	{
-		drawButtonColored(x, y, length + 1);
+		if (colored)
+			drawButtonColored(x, y, length + 1);
+		else
+			drawButton(x, y, length + 1);
+		isColored = colored;
 	}
-	else
-	{
-		drawButton(x, y, length + 1);
+}
 
+void Button::setVisible(bool setVisible)
+{
+	if (!visible && setVisible)
+	{
+		printXY(printX, printY, label);
+		drawButton(x, y, length + 1);
 	}
-	isColored = colored;
-	//drawButtonColored(x, y, length + 1);
+	visible = setVisible;
 }
 
 bool Button::isTouching(touchPosition touch)
 {
-	return (touch.px > x * 8 && touch.px < (x + length + 2)*8 && touch.py > y * 8 && touch.py < (y + 3)*8);
+	return visible && (touch.px > x * 8 && touch.px < (x + length + 2)*8 && touch.py > y * 8 && touch.py < (y + 3)*8);
 }

@@ -1,10 +1,3 @@
-/* 
- * File:   button.h
- * Author: Matthew
- *
- * Created on June 25, 2014, 6:28 PM
- */
-#include <stdio.h>
 #ifndef BUTTON_H
 #define	BUTTON_H
 
@@ -12,12 +5,17 @@ class Button {
 public:
     int length;
     int x, y;
-    bool isColored;
-    bool isTouching(touchPosition touch);
+    bool isColored, visible;
+    bool isTouching(touchPosition);
+    void setVisible(bool);
     void setColored(bool);
-    void setDefault();
     Button(int , int , const char * const ); //Constructor
-    Button(int , int , const char * const , int); //Constructor
+    Button(int , int , const char * const , bool);
+    Button(int , int , const char * const , int);
+    Button(int , int , const char * const , int, bool);
+    void initDefault(int,int,int,int,int,const char * const, bool);
+    int printX, printY;
+    const char *label;
 };
 
 
