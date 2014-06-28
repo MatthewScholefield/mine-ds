@@ -57,3 +57,8 @@ void printXY(int x, int y, const char *output)
 {
 	iprintf("\x1b[%d;%dH%s", y, x, output);
 }
+
+void printXY(int x, int y, int output)
+{
+	iprintf("\x1b[%d;%dH%d", y, x, output);
+}
