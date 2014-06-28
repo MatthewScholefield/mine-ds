@@ -97,7 +97,6 @@ void Handler(int packetID, int readlength)
 		//We Recieved a ping message!
 		if (host == true)
 		{
-
 			char gameName[20];
 			int test_id;
 			int clients_id;
@@ -128,7 +127,6 @@ void Handler(int packetID, int readlength)
 					//Wrong Game/No Room, send No!!!
 					sprintf((char *) buffer, "[NOPE: %d %d", server_id, clients_id);
 					Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
-
 				}
 			}
 		}
@@ -255,7 +253,6 @@ void Handler(int packetID, int readlength)
 		sscanf(packet, "%*s %d %d", &test_id, &a);
 		if (test_id == server_id) killMob(a);
 	}
-
 }
 
 void nifiConfirmBlocksAllPlayers(int x, int y)
@@ -307,7 +304,6 @@ void nifiEnable()
 	}
 	else Wifi_EnableWifi();
 	wifiEnabled = true;
-
 	blocksCanPlace();
 }
 
@@ -388,7 +384,6 @@ bool clientNifiInit()
 				return false;
 			}
 		}
-
 	}
 	return false;
 }
