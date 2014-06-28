@@ -28,31 +28,16 @@ bool isSurvival()
 void drawBackground() //Draws dirt background and MineDS Logo
 {
 
-	int i, j; // They are famous variables :P
-	int k = 90;
-	int l = 122;
-	for (i = 0; i <= 24; i = i + 2)
-	{
+	int i, j; //They are famous variables :P
+
+	for (i = 0; i <= 24; i++) //Draws dirt Background
 		for (j = 0; j <= 31; j++)
 		{
-			setSubBgTile(j, i, k); //Draws dirt Background
-			if (k == 90)
-				k++;
-			else if (k != 90)
-				k = 90;
+			if (i % 2)
+				setSubBgTile(j, i, 90 + j % 2);
+			else
+				setSubBgTile(j, i, 122 + j % 2);
 		}
-	}
-	for (i = -1; i <= 24; i = i + 2)
-	{
-		for (j = 0; j <= 31; j++)
-		{
-			setSubBgTile(j, i, l);
-			if (l == 122)
-				l++;
-			else if (l != 122)
-				l = 122;
-		}
-	}
 	for (i = 0; i <= 25; i++)
 		for (j = 0; j <= 6; j++)
 			setSubBgTile(i + 2, j, i + (j * 32)); //Draw the MineDS Logo!
@@ -74,7 +59,7 @@ int menu(Button buttons[], int size)
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
 			touchRead(&touch);
-			if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 				drawButtonColored(25, 19, 4);
 			else
 			{
@@ -85,7 +70,7 @@ int menu(Button buttons[], int size)
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
+			if (touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
 			{
 				selected = 0;
 				chosen = true;
@@ -468,8 +453,9 @@ bool settingsScreen()
 	}
 }
 
-void gameModeScreen()
+int gameModeScreen()
 {
+	int returnVal = 2;
 	drawBackground();
 	consoleClear();
 	Button creativeButton(9, 8, "Creative", 12);
@@ -494,6 +480,7 @@ void gameModeScreen()
 			theWorld = mainGame(0, theWorld);
 			gameGen = true;
 			multiplayer = false;
+			returnVal = 1;
 			break;
 		}
 		case 2://Survival
@@ -511,6 +498,7 @@ void gameModeScreen()
 			theWorld = mainGame(0, theWorld);
 			gameGen = true;
 			multiplayer = false;
+			returnVal = 1;
 			break;
 		}
 		case 3: //Load World
@@ -528,13 +516,16 @@ void gameModeScreen()
 			theWorld = mainGame(2, theWorld);
 			gameGen = true;
 			multiplayer = false;
+			returnVal = 1;
 			break;
 		}
 	}
+	return returnVal;
 }
 
-int titlescreen()
+void titlescreen()
 {
+	lcdMainOnTop();
 	if (theWorld == NULL)
 	{
 		theWorld = (worldObject *) calloc(1, sizeof (worldObject));
@@ -550,79 +541,76 @@ int titlescreen()
 		playMusic(CALM);
 		playCalm = true;
 	}
-	bool redraw = true, chosen = false;
-	while (redraw)
+	bool chosen = false;
+	touchPosition touch;
+	drawBackground();
+	consoleClear();
+	Button singlePlayer = Button(8, 9, "Single Player", 14);
+	Button multiPlayer = Button(8, 14, "Multiplayer", 14);
+	Button settings = Button(8, 19, "Settings", 14);
+	Button back = Button(25, 19, "Back", gameGen && !multiplayer && !getDied());
+
+	uint oldKeys = keysHeld();
+	while (!chosen)
 	{
-		redraw = false;
-		touchPosition touch;
-		lcdMainOnTop();
-		drawBackground();
-		consoleClear();
-		Button singlePlayer = Button(8, 9, "Single Player", 14);
-		Button multiPlayer = Button(8, 14, "Multiplayer", 14);
-		Button settings = Button(8, 19, "Settings", 14);
-
-		if (gameGen && !multiplayer && !getDied())
+		swiWaitForVBlank();
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
-			printXY(26, 20, "Back");
-			drawButton(25, 19, 4); //Back button
+			touchRead(&touch);
+			if (singlePlayer.isTouching(touch))
+				singlePlayer.setColored(true);
+			else if (multiPlayer.isTouching(touch))
+				multiPlayer.setColored(true);
+			else if (settings.isTouching(touch))
+				settings.setColored(true);
+			else if (back.isTouching(touch))
+				back.setColored(true);
 		}
-
-		uint oldKeys = keysHeld();
-		while (!chosen)
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			swiWaitForVBlank();
-			scanKeys();
-			if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
+			if (singlePlayer.isColored && singlePlayer.isTouching(touch))
 			{
-				touchRead(&touch);
-				if (singlePlayer.isTouching(touch))
-					singlePlayer.setColored(true);
-				else if (multiPlayer.isTouching(touch))
-					multiPlayer.setColored(true);
-				else if (settings.isTouching(touch))
-					settings.setColored(true);
-				else if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-					drawButtonColored(25, 19, 4);
+				switch (gameModeScreen()) //Switch is used to make it scalable
+				{
+					case 1://Start Game
+						chosen = true;
+						break;
+					case 2://Back to Main Menu
+
+						chosen = true;
+						break;
+				}
 			}
-			else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+			else singlePlayer.setColored(false);
+			if (multiPlayer.isColored && multiPlayer.isTouching(touch))
 			{
-				if (singlePlayer.isColored && singlePlayer.isTouching(touch))
-				{
-					gameModeScreen();
-					chosen = true;
-				}
-				else singlePlayer.setColored(false);
-				if (multiPlayer.isColored && multiPlayer.isTouching(touch))
-				{
-					multiplayerScreen();
-					chosen = true;
-				}
-				else multiPlayer.setColored(false);
-				if (settings.isColored && settings.isTouching(touch))
-				{
-					while (!settingsScreen());
-					redraw = true;
-					chosen = true;
-				}
-				else settings.setColored(false);
-				if (gameGen && !multiplayer && !getDied() && touch.px > 200 && touch.px < 240 && touch.py > 152 && touch.py < 176)
-				{
-					drawBackground();
-					consoleClear();
-					stopMusic();
-					playCalm = false;
-					playMusic(HAL2);
-					playHal2 = true;
-					theWorld = mainGame(1, theWorld);
-					chosen = true;
-				}
-				else if (gameGen && !multiplayer && !getDied())
-					drawButton(25, 19, 4); //Back button
+				multiplayerScreen();
+				chosen = true;
 			}
-			oldKeys = keysHeld();
+			else multiPlayer.setColored(false);
+			if (settings.isColored && settings.isTouching(touch))
+			{
+				while (!settingsScreen());
+				chosen = true;
+			}
+			else settings.setColored(false);
+			if (back.isColored && back.isTouching(touch))
+			{
+				drawBackground();
+				consoleClear();
+				stopMusic();
+				playCalm = false;
+				playMusic(HAL2);
+				playHal2 = true;
+				theWorld = mainGame(1, theWorld);
+				chosen = true;
+			}
+			else
+				back.setColored(false); //Back button
 		}
+		oldKeys = keysHeld();
+		touchRead(&touch);
 	}
-	return 0;
 }
 
