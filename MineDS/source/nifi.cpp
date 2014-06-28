@@ -21,7 +21,7 @@ int frame;
 bool clientReInit;
 int clients[MAX_CLIENTS];
 int clientfails[MAX_CLIENTS];
-int noOfClients = 0;
+int noOfClients;
 bool wifiEnabled = false;
 unsigned short buffer[100];
 
@@ -44,6 +44,7 @@ void nifiClearClients()
 		clients[i] = 0;
 		clientfails[i] = 0;
 	}
+	noOfClients = 0;
 	clientReInit = true;
 }
 
@@ -128,7 +129,7 @@ void Handler(int packetID, int readlength)
 						{
 							clients[i] = clients_id;
 							clientfails[i] = 0;
-							i = 10;
+							break;
 						}
 					}
 				}
