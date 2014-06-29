@@ -24,6 +24,7 @@ void mobHandlerUpdate(worldObject* world);
 
 worldObject* mainGame(int mode, worldObject* CurrentWorld)
 {
+	uint oldKeys;
 	consoleClear();
 	clear_messages();
 	if (mode != 3)// Generating world for preview doesn't require screen change
@@ -83,24 +84,20 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		return CurrentWorld;
 	}
 	if (isSurvival())
-	{
-		drawButton(21, 16, 9);
-		drawButton(9, 16, 10);
-		printXY(22, 17, "Crafting");
-		printXY(10, 17, "Save Game");
-	}
+		drawInvButtons(false);
 	while (1)
 	{ //Infinitely repeats until break
 		scanKeys();
-		touchRead(&touch);
 		miningUpdate(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY, touch, keysDown());
 		mobHandlerUpdate(CurrentWorld);
-		updateInventory(&touch, CurrentWorld);
+		updateInventory(&touch, CurrentWorld, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
 		if (keysDown() & getKey(ACTION_MENU) || shouldQuitGame())
 			break;
+		oldKeys = keysHeld();
+		touchRead(&touch);
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
