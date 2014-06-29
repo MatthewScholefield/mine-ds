@@ -9,6 +9,7 @@ public:
     bool isTouching(touchPosition);
     void setVisible(bool);
     void setColored(bool);
+    void draw();
     Button(int , int , const char * const ); //Constructor
     Button(int , int , const char * const , bool);
     Button(int , int , const char * const , int);

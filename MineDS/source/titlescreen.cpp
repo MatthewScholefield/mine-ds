@@ -98,6 +98,18 @@ int menu(Button buttons[], int size)
 	return menu(buttons, size, true);
 }
 
+void startMultiplayer(bool host)
+{
+	survival = false;
+	multiplayer = true;
+	drawBackground();
+	theWorld = multiplayerGame(host, theWorld);
+	stopMusic();
+	playCalm = false;
+	playMusic(HAL2);
+	playHal2 = true;
+}
+
 void multiplayerScreen()
 {
 	consoleClear();
@@ -108,29 +120,10 @@ void multiplayerScreen()
 	Button buttons[] = {create, join};
 	switch (menu(buttons, 2))
 	{
-		case 1:
-		{
-			survival = false;
-			drawButtonColored(9, 9, 12);
-			drawBackground();
-			theWorld = multiplayerGame(true, theWorld);
-			multiplayer = true;
-			stopMusic();
-			playCalm = false;
-			playMusic(HAL2);
-			playHal2 = true;
-		}
-		case 2:
-		{
-			survival = false;
-			drawBackground();
-			theWorld = multiplayerGame(false, theWorld);
-			multiplayer = true;
-			stopMusic();
-			playCalm = false;
-			playMusic(HAL2);
-			playHal2 = true;
-		}
+		case 1:startMultiplayer(true);
+			break;
+		case 2:startMultiplayer(false);
+			break;
 	}
 }
 
@@ -387,9 +380,25 @@ bool settingsScreen()
 	}
 }
 
+void startSingleplayer(bool setSurvival, bool load)
+{
+	clearInventory(); //TODO: Clear inventory on Death, not here
+	survival = setSurvival;
+	drawBackground();
+	consoleClear();
+	stopMusic();
+	playCalm = false;
+	playMusic(HAL2);
+	playHal2 = true;
+	updateInvGraphics();
+	theWorld = mainGame(load ? 2 : 0, theWorld);
+	gameGen = true;
+	multiplayer = false;
+}
+
 int gameModeScreen()
 {
-	int returnVal = 2;
+	int returnVal = 1;
 	drawBackground();
 	consoleClear();
 	Button creativeButton(9, 8, "Creative", 12);
@@ -399,60 +408,14 @@ int gameModeScreen()
 
 	switch (menu(buttons, 3))
 	{
-		case 1://Creative
-		{
-			clearInventory(); //TODO: Clear inventory on Death, not here
-			survival = false;
-			drawButtonColored(9, 9 - 1, 12);
-			drawBackground();
-			consoleClear();
-			stopMusic();
-			playCalm = false;
-			playMusic(HAL2);
-			playHal2 = true;
-			updateInvGraphics();
-			theWorld = mainGame(0, theWorld);
-			gameGen = true;
-			multiplayer = false;
-			returnVal = 1;
+		case 0: returnVal = 2;
 			break;
-		}
-		case 2://Survival
-		{
-			clearInventory();
-			survival = true;
-			drawButtonColored(9, 14 - 1, 12);
-			drawBackground();
-			consoleClear();
-			stopMusic();
-			playCalm = false;
-			playMusic(HAL2);
-			playHal2 = true;
-			updateInvGraphics();
-			theWorld = mainGame(0, theWorld);
-			gameGen = true;
-			multiplayer = false;
-			returnVal = 1;
+		case 1: startSingleplayer(false, false);
 			break;
-		}
-		case 3: //Load World
-		{
-			clearInventory();
-			survival = true;
-			drawButtonColored(9, 19 - 1, 12);
-			drawBackground();
-			consoleClear();
-			stopMusic();
-			playCalm = false;
-			playMusic(HAL2);
-			playHal2 = true;
-			updateInvGraphics();
-			theWorld = mainGame(2, theWorld);
-			gameGen = true;
-			multiplayer = false;
-			returnVal = 1;
+		case 2: startSingleplayer(true, false);
 			break;
-		}
+		case 3: startSingleplayer(true, true);
+			break;
 	}
 	return returnVal;
 }
@@ -475,76 +438,34 @@ void titlescreen()
 		playMusic(CALM);
 		playCalm = true;
 	}
-	bool chosen = false;
-	touchPosition touch;
+
 	drawBackground();
 	consoleClear();
+
 	Button singlePlayer = Button(8, 9, "Single Player", 14);
 	Button multiPlayer = Button(8, 14, "Multiplayer", 14);
 	Button settings = Button(8, 19, "Settings", 14);
-	Button back = Button(25, 19, "Back", gameGen && !multiplayer && !getDied());
+	Button buttons[] = {singlePlayer, multiPlayer, settings};
 
-	uint oldKeys = keysHeld();
-	while (!chosen)
+	switch (menu(buttons, 3, gameGen && !multiplayer && !getDied()))
 	{
-		swiWaitForVBlank();
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
+		case 0: //back
 		{
-			touchRead(&touch);
-			if (singlePlayer.isTouching(touch))
-				singlePlayer.setColored(true);
-			else if (multiPlayer.isTouching(touch))
-				multiPlayer.setColored(true);
-			else if (settings.isTouching(touch))
-				settings.setColored(true);
-			else if (back.isTouching(touch))
-				back.setColored(true);
+			drawBackground();
+			consoleClear();
+			stopMusic();
+			playCalm = false;
+			playMusic(HAL2);
+			playHal2 = true;
+			theWorld = mainGame(1, theWorld);
+			break;
 		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (singlePlayer.isColored && singlePlayer.isTouching(touch))
-			{
-				switch (gameModeScreen()) //Switch is used to make it scalable
-				{
-					case 1://Start Game
-						chosen = true;
-						break;
-					case 2://Back to Main Menu
-
-						chosen = true;
-						break;
-				}
-			}
-			else singlePlayer.setColored(false);
-			if (multiPlayer.isColored && multiPlayer.isTouching(touch))
-			{
-				multiplayerScreen();
-				chosen = true;
-			}
-			else multiPlayer.setColored(false);
-			if (settings.isColored && settings.isTouching(touch))
-			{
-				while (!settingsScreen());
-				chosen = true;
-			}
-			else settings.setColored(false);
-			if (back.isColored && back.isTouching(touch))
-			{
-				drawBackground();
-				consoleClear();
-				stopMusic();
-				playCalm = false;
-				playMusic(HAL2);
-				playHal2 = true;
-				theWorld = mainGame(1, theWorld);
-				chosen = true;
-			}
-			else
-				back.setColored(false); //Back button
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
+		case 1: gameModeScreen();
+			break;
+		case 2: multiplayerScreen();
+			break;
+		case 3: while (!settingsScreen());
+			break;
 	}
 }
 
