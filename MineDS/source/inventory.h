@@ -11,7 +11,8 @@ int getBlockAmount(int invSlot);
 int getBlockID(int invSlot);
 void saveInventory(FILE* data);
 void loadInventory(FILE* data);
-void updateInventory(touchPosition* touch,worldObject* world);
+void updateInventory(touchPosition* touch,worldObject* world, uint oldKeys);
+void drawInvButtons(bool drawBack);
 #define NUM_INV_SPACES 30
 typedef struct
 {
