@@ -177,7 +177,7 @@ void playerMob::updateMob(worldObject* world)
 			if (keysHeld() & getKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
 			if (y > world_heightpx) hurt(3, VOID_HURT);
 			if (collisions[0] && collisions[3])
-				while (world->blocks[x / 16][(y / 16) + 1] != AIR || world->blocks[x / 16][y / 16] != AIR)
+				while (y > 16 && (world->blocks[x / 16][(y / 16) + 1] != AIR || world->blocks[x / 16][y / 16] != AIR))
 					y -= 16;
 			if (animationclearframes == 0) animation = 0;
 			else animationclearframes--;
