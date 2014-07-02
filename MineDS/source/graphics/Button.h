@@ -6,7 +6,7 @@ public:
     int length;
     int x, y;
     bool isColored, visible;
-    bool isTouching(touchPosition);
+    bool isTouching(int xVal, int yVal);
     void setVisible(bool);
     void setColored(bool);
     void draw();

@@ -28,6 +28,7 @@ Graphic heldBlock;
 Button backButton(1, 16, "Back", false);
 Button saveButton(8, 16, "Save World", false);
 Button craftButton(21, 16, "Crafting", false);
+unsigned char oldX, oldY;
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
  */
@@ -225,7 +226,7 @@ void changeGraphic(int blockID)
 	loadedGraphic = true;
 }
 
-void updateInventory(touchPosition* touch, worldObject* world, uint oldKeys)
+void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 {
 	if (!isSurvival())
 		return;
@@ -249,22 +250,19 @@ void updateInventory(touchPosition* touch, worldObject* world, uint oldKeys)
 		showGraphic(&heldBlock, 0, 0, false, 0);
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
-			touchRead(touch);
-			if (backButton.isTouching(*touch))
-				backButton.setColored(true);
-			else if (saveButton.isTouching(*touch))
-				saveButton.setColored(true);
-			else if (craftButton.isTouching(*touch))
-				craftButton.setColored(true);
+			touchRead(&touch);
+			backButton.setColored(backButton.isTouching(touch.px, touch.py));
+			saveButton.setColored(saveButton.isTouching(touch.px, touch.py));
+			craftButton.setColored(craftButton.isTouching(touch.px, touch.py));
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH) //Release
 		{
-			if (touch->px > 8 && touch->py > 72 && touch->py < 120 && touch->px < 248)
+			if (oldX > 8 && oldY > 72 && oldY < 120 && oldX < 248)
 			{
 
 				int space = 0;
-				space += 15 * ((touch->py - 72) / 24);
-				space += (touch->px - 8) / 16;
+				space += 15 * ((oldY - 72) / 24);
+				space += (oldX - 8) / 16;
 				if (selectedspace != -1 && !(mainPlayerInv.blocks[selectedspace].blockId == AIR))
 				{
 					//Swap the blocks.
@@ -286,7 +284,7 @@ void updateInventory(touchPosition* touch, worldObject* world, uint oldKeys)
 					changeGraphic(mainPlayerInv.blocks[space].blockId);
 				}
 			}
-			else if (backButton.isColored && backButton.isTouching(*touch))//(touch-> px > (2 - 1)*8 && touch->px < (2 + 5)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8)
+			else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
 				selectedspace = -1;
 				lcdMainOnBottom();
@@ -299,7 +297,7 @@ void updateInventory(touchPosition* touch, worldObject* world, uint oldKeys)
 				drawBackground();
 				drawInvButtons(false);
 			}
-			else if (craftButton.isColored && craftButton.isTouching(*touch))//(touch->px > (22 - 1)*8 && touch->px < (22 + 9)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8)
+			else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))//(oldX > (22 - 1)*8 && oldX < (22 + 9)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
 				backButton.setVisible(false);
 				saveButton.setVisible(false);
@@ -308,7 +306,7 @@ void updateInventory(touchPosition* touch, worldObject* world, uint oldKeys)
 				showingInventory = 2;
 				//show_message("Entering Crafing Menu\n");
 			}
-			else if (saveButton.isColored && saveButton.isTouching(*touch))//(touch->px > (10 - 1)*8 && touch->px < (10 + 10)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8)
+			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))//(oldX > (10 - 1)*8 && oldX < (10 + 10)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
 				saveWorld(world);
 				show_message("Saved Game\n");
@@ -336,6 +334,8 @@ void updateInventory(touchPosition* touch, worldObject* world, uint oldKeys)
 			drawBackground();
 			drawInvButtons(false);
 		}
+		oldX = touch.px;
+		oldY = touch.py;
 	}
 	else if (showingInventory == 2)
 	{
