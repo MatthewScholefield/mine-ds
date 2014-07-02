@@ -66,12 +66,14 @@ void Button::setVisible(bool setVisible)
 		printXY(printX, printY, label);
 		drawButton(x, y, length + 1);
 	}
+	else
+		isColored = false;
 	visible = setVisible;
 }
 
-bool Button::isTouching(touchPosition touch)
+bool Button::isTouching(int xVal, int yVal)
 {
-	return visible && (touch.px > x * 8 && touch.px < (x + length + 2)*8 && touch.py > y * 8 && touch.py < (y + 3)*8);
+	return visible && (xVal > x * 8 && xVal < (x + length + 2)*8 && yVal > y * 8 && yVal < (y + 3)*8);
 }
 
 void Button::draw()

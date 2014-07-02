@@ -59,22 +59,22 @@ int menu(Button buttons[], int size, bool showBack)
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
 			touchRead(&touch);
-			if (back.isTouching(touch))
+			if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
 			for (int i = 0; i < size; i++)
-				if (buttons[i].isTouching(touch))
+				if (buttons[i].isTouching(touch.px, touch.py))
 					buttons[i].setColored(true);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (back.isColored && back.isTouching(touch))
+			if (back.isColored && back.isTouching(touch.px, touch.py))
 			{
 				selected = 0;
 				chosen = true;
 			}
 			for (int i = 0; i < size; i++)
 			{
-				if (buttons[i].isColored && buttons[i].isTouching(touch))
+				if (buttons[i].isColored && buttons[i].isTouching(touch.px, touch.py))
 				{
 					selected = i + 1;
 					chosen = true;
@@ -151,12 +151,12 @@ void creditsScreen()
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
 		{
 			touchRead(&touch);
-			if (back.isTouching(touch))
+			if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (back.isColored && back.isTouching(touch))
+			if (back.isColored && back.isTouching(touch.px, touch.py))
 				chosen = true;
 			else back.setColored(false);
 		}
@@ -211,12 +211,12 @@ KEYPAD_BITS askForKeyScreen()
 			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 				for (int i = 0; i < MAX_NAME_LENGTH; i++)
 					setSubBgTile(X + 1 + i, Y + column, 60);
-			else if (back.isTouching(touch))
+			else if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (back.isColored && back.isTouching(touch))
+			if (back.isColored && back.isTouching(touch.px, touch.py))
 				chosen = true;
 			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 			{
@@ -331,13 +331,13 @@ bool controlsScreen()
 			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 				for (int i = 0; i < MAX_NAME_LENGTH; i++)
 					setSubBgTile(X + 1 + i, Y + column, 60);
-			else if (back.isTouching(touch))
+			else if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
 
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			if (back.isColored && back.isTouching(touch))
+			if (back.isColored && back.isTouching(touch.px, touch.py))
 				return true;
 			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 			{

@@ -90,7 +90,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		scanKeys();
 		miningUpdate(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY, touch, keysDown());
 		mobHandlerUpdate(CurrentWorld);
-		updateInventory(&touch, CurrentWorld, oldKeys);
+		updateInventory(touch, CurrentWorld, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
