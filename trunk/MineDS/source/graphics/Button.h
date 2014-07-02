@@ -1,24 +1,44 @@
 #ifndef BUTTON_H
 #define	BUTTON_H
-
+#include "subBgHandler.h"
+#include "../general.h"
 class Button {
 public:
-    int length;
     int x, y;
+    const char *label;
+    int length; //Length of button
+    int printX, printY;
     bool isColored, visible;
+    
     bool isTouching(int xVal, int yVal);
     void setVisible(bool);
     void setColored(bool);
     void draw();
-    Button(int , int , const char * const ); //Constructor
-    Button(int , int , const char * const , bool);
-    Button(int , int , const char * const , int);
-    Button(int , int , const char * const , int, bool);
-    void initDefault(int,int,int,int,int,const char * const, bool);
-    int printX, printY;
-    const char *label;
+    
+    
+    Button (int setX,int setY,const char * const setLabel,int setLength = -1,bool isVisible = true) :
+    x(setX),y(setY),label(setLabel),length (setLength > 0 ? setLength : strlen(setLabel)+2),
+    printX(setLength>0?setX + round(double(setLength) / 2.0 - double(strlen(setLabel)) / 2.0):setX+1),
+    printY(setY+1),visible(isVisible)
+    {
+        if (isVisible)
+	{
+            drawButton(x, y, length);
+            printXY(printX, printY, label);
+	}
+    }
+    
+    Button (int setX,int setY,const char * const setLabel,bool isVisible) :
+    x(setX), y(setY), label(setLabel), length (strlen(setLabel)+2),
+    printX(setX+1), printY(setY+1), visible(isVisible)
+    {
+        if (isVisible)
+	{
+            drawButton(x, y, length);
+            printXY(printX, printY, label);
+	}
+    }
 };
-
-
+#undef round
 #endif	/* BUTTON_H */
 
