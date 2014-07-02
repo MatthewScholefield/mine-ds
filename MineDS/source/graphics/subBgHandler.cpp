@@ -58,6 +58,7 @@ void subBgInit()
 
 void drawButton(int x, int y, int sizex)
 {
+	sizex -= 1;
 	setSubBgTile(x, y + 1, 27);
 	setSubBgTile(x, y, 26);
 	setSubBgTile(x, y + 2, 26, V_FLIP);
@@ -76,6 +77,7 @@ void drawButton(int x, int y, int sizex)
 
 void drawButtonColored(int x, int y, int sizex)
 {
+	sizex -= 1;
 	setSubBgTile(x, y, 58);
 	setSubBgTile(x, y + 2, 58, V_FLIP);
 	setSubBgTile(x + sizex, y, 58, H_FLIP);

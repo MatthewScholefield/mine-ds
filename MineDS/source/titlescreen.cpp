@@ -115,8 +115,8 @@ void multiplayerScreen()
 	consoleClear();
 	drawBackground();
 
-	Button create(9, 9, "Create Game", 12);
-	Button join(9, 14, "Join Game", 12);
+	Button create(9, 10, "Create Game", 13);
+	Button join(9, 15, "Join Game", 13);
 	Button buttons[] = {create, join};
 	switch (menu(buttons, 2))
 	{
@@ -361,8 +361,8 @@ bool settingsScreen()
 	consoleClear();
 	drawBackground();
 
-	Button controls(10, 9, "Controls", 10);
-	Button credits(10, 14, "Credits", 10);
+	Button controls(10, 10, "Controls", 10);
+	Button credits(10, 15, "Credits", 10);
 	Button buttons[] = {controls, credits};
 	switch (menu(buttons, 2))
 	{
@@ -442,9 +442,9 @@ void titlescreen()
 	drawBackground();
 	consoleClear();
 
-	Button singlePlayer = Button(8, 9, "Single Player", 14);
-	Button multiPlayer = Button(8, 14, "Multiplayer", 14);
-	Button settings = Button(8, 19, "Settings", 14);
+	Button singlePlayer = Button(8, 8, "Single Player", 15);
+	Button multiPlayer = Button(8, 13, "Multiplayer", 15);
+	Button settings = Button(8, 18, "Settings", 15);
 	Button buttons[] = {singlePlayer, multiPlayer, settings};
 
 	switch (menu(buttons, 3, gameGen && !multiplayer && !getDied()))
