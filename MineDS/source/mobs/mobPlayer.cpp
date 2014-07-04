@@ -13,6 +13,7 @@
 #include"../titlescreen.h"
 #include "../graphics/inventoryGraphics.h"
 #include "../controls.h"
+#include "../Config.h"
 //ASDF?
 //
 #define PLAYER_FULL_HEALTH 20
@@ -142,12 +143,12 @@ void playerMob::updateMob(worldObject* world)
 			if (world->CamY < 0) world->CamY = 0;
 			if (world->CamX > WORLD_WIDTH * 16 - 256) world->CamX = WORLD_WIDTH * 16 - 256;
 			if (world->CamY > (WORLD_HEIGHT + 1)*16 - 192) world->CamY = (WORLD_HEIGHT + 1)*16 - 192;
-			if (keysHeld() & getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
+			if (keysHeld() & getControlKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
 			{
 				x++;
 				facing = false;
 			}
-			if (keysHeld() & getKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
+			if (keysHeld() & getControlKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
 			{
 				x--;
 				facing = true;
@@ -157,7 +158,7 @@ void playerMob::updateMob(worldObject* world)
 				vy = 0;
 				y += 1;
 			}
-			if (!(keysHeld() & getKey(ACTION_CLIMB)) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && collisions[0] == false)
+			if (!(keysHeld() & getControlKey(ACTION_CLIMB)) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && collisions[0] == false)
 			{
 				slow++;
 				if (slow == 2)
@@ -172,9 +173,9 @@ void playerMob::updateMob(worldObject* world)
 				y += vy;
 			}
 			else vy = 0;
-			if ((keysDown() & getKey(ACTION_CLIMB) || keysDown() & getKey(ACTION_JUMP)) && collisions[0] == true && !collisions[3]) vy = -2;
+			if ((keysDown() & getControlKey(ACTION_CLIMB) || keysDown() & getControlKey(ACTION_JUMP)) && collisions[0] == true && !collisions[3]) vy = -2;
 			y += vy;
-			if (keysHeld() & getKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
+			if (keysHeld() & getControlKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
 			if (y > world_heightpx) hurt(3, VOID_HURT);
 			if (collisions[0] && collisions[3])
 				while (y > 16 && (world->blocks[x / 16][(y / 16) + 1] != AIR || world->blocks[x / 16][y / 16] != AIR))

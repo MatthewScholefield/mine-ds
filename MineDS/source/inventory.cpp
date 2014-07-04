@@ -18,6 +18,7 @@
 #include "titlescreen.h" // for isSurvival
 #include <nds.h> // for keysDown()
 #include <stdio.h> // for fileio
+#include "Config.h"
 #include "controls.h"
 #include "world.h"
 #include "files.h"
@@ -232,7 +233,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 		return;
 	if (showingInventory == 0)
 	{
-		if (keysDown() & getKey(ACTION_SWITCH_SCREEN))
+		if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN))
 		{
 			lcdMainOnTop();
 			showingInventory = 1;
@@ -308,8 +309,9 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			}
 			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))//(oldX > (10 - 1)*8 && oldX < (10 + 10)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
-				saveWorld(world);
-				show_message("Saved Game\n");
+				if (saveWorld(world))
+					show_message("Saved Game\n");
+				saveButton.setColored(false);
 			}
 			else
 			{
@@ -321,7 +323,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 				craftButton.setColored(false);
 			}
 		}
-		if (keysDown() & getKey(ACTION_SWITCH_SCREEN))
+		if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN))
 		{
 			backButton.setVisible(false);
 			saveButton.setVisible(false);
