@@ -16,7 +16,7 @@
 #include "blocks.h"
 #include "blockName.h"
 #include "controls.h"
-//#include "graphics/inventoryGraphics.h"
+#include "Config.h"
 #include "mining.h"
 bool skipLightUpdate = false; //Whether to skip light update
 int selectedblock = 0;
@@ -83,9 +83,12 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 			int blockTypeXY = getType(blockXY);
 			switch (getType(selectedblock)) // Check if we are using the correct tool
 			{
-				case AXE: if (blockTypeXY != WOOD) handHardness = 1; break;
-				case PICKAXE: if (blockTypeXY != STONEBLOCK) handHardness = 1; break;
-				case SHOVEL: if (blockTypeXY != SOIL) handHardness = 1; break;
+				case AXE: if (blockTypeXY != WOOD) handHardness = 1;
+					break;
+				case PICKAXE: if (blockTypeXY != STONEBLOCK) handHardness = 1;
+					break;
+				case SHOVEL: if (blockTypeXY != SOIL) handHardness = 1;
+					break;
 			}
 			mining = getHardness(blockXY)*10 / handHardness;
 			miningRate = 1;
@@ -113,7 +116,7 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 void setBlock(worldObject* world, int x, int y)
 {
 	skipLightUpdate = false;
-	bool isCrouched = (keysHeld() & getKey(ACTION_CROUCH));
+	bool isCrouched = (keysHeld() & getControlKey(ACTION_CROUCH));
 	bool isPlaceableBlock = (selectedblock != AIR && !item(selectedblock) && hasChangedBlock == false);
 	bool noLightUpdate = (selectedblock == AIR || item(selectedblock));
 	if (isCrouched) // Background
@@ -212,7 +215,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	{
 		hasChangedBlock = false;
 	}
-	if (keys & getKey(ACTION_ITEM_LEFT))
+	if (keys & getControlKey(ACTION_ITEM_LEFT))
 	{
 		selectedblock--;
 		if (selectedblock < 0) selectedblock = NUM_BLOCKS;
@@ -227,7 +230,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		calculateTopBlock();
 		updateTopName();
 	}
-	else if (keys & getKey(ACTION_ITEM_RIGHT))
+	else if (keys & getControlKey(ACTION_ITEM_RIGHT))
 	{
 		selectedblock++;
 		if (selectedblock > NUM_BLOCKS) selectedblock = 0;
