@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "crafting.h"
 #include "controls.h"
+#include "Config.h"
 recipe craftingRecipes[128];
 int nextCraftingRecipe = 0;
 Graphic resultBlock;
@@ -185,7 +186,7 @@ int craftingMenuUpdate()
 		printf("\x1b[15;10H       ");
 
 
-	if (keysDown() & getKey(ACTION_SWITCH_SCREEN) || ((touch.px > (4 - 1)*8 && touch.px < (4 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
+	if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN) || ((touch.px > (4 - 1)*8 && touch.px < (4 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
 	{
 		return 1;
 	}

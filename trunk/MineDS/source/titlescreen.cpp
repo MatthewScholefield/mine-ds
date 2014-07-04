@@ -9,7 +9,9 @@
 #include "graphics/inventoryGraphics.h"
 #include <stdio.h>
 #include "controls.h"
+#include "Config.h"
 #include "general.h"
+#include "files.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
@@ -32,12 +34,7 @@ void drawBackground() //Draws dirt background and MineDS Logo
 
 	for (i = 0; i <= 24; i++) //Draws dirt Background
 		for (j = 0; j <= 31; j++)
-		{
-			if (i % 2)
-				setSubBgTile(j, i, 90 + j % 2);
-			else
-				setSubBgTile(j, i, 122 + j % 2);
-		}
+			setSubBgTile(j, i, (i % 2 ? 90 : 122) + j % 2);
 	for (i = 0; i <= 25; i++)
 		for (j = 0; j <= 6; j++)
 			setSubBgTile(i + 2, j, i + (j * 32)); //Draw the MineDS Logo!
@@ -90,6 +87,8 @@ int menu(Button buttons[], int size, bool showBack)
 		oldKeys = keysHeld();
 		touchRead(&touch);
 	}
+	for (int i = 0; i < size; i++)
+		buttons[i].setColored(false);
 	return selected + start;
 }
 
@@ -291,7 +290,7 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 	}
 }
 
-bool controlsScreen()
+bool setControlsScreen()
 {
 	uint oldKeys;
 	touchPosition touch;
@@ -341,7 +340,7 @@ bool controlsScreen()
 				return true;
 			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 			{
-				setKey(getTappedAction(column), askForKeyScreen());
+				setControlKey(getTappedAction(column), askForKeyScreen());
 				return false;
 			}
 			else //Remove any colored buttons, if any
@@ -353,6 +352,94 @@ bool controlsScreen()
 		oldKeys = keysHeld();
 		touchRead(&touch);
 		swiWaitForVBlank();
+	}
+}
+
+const char * getActionChar(int action)
+{
+	const char * returnAction = "Error";
+	switch (action)
+	{
+		case 1: returnAction = "Up";
+			break;
+		case 2: returnAction = "Down";
+			break;
+		case 3: returnAction = "Left";
+			break;
+		case 4: returnAction = "Right";
+			break;
+		case 5: returnAction = "A";
+			break;
+		case 6: returnAction = "B";
+			break;
+		case 7: returnAction = "X";
+			break;
+		case 8: returnAction = "Y";
+			break;
+		case 9: returnAction = "L";
+			break;
+		case 10: returnAction = "R";
+			break;
+		case 11: returnAction = "Start";
+			break;
+	}
+	return returnAction;
+}
+
+void viewControls()
+{
+	drawBackground();
+	consoleClear();
+	const short ITEMS = 9;
+	const short X = 4, Y = 7;
+	const short MAX_LENGTH = 13 + 3 + 5;
+
+	drawBox(X, Y, MAX_LENGTH + 2, ITEMS + 2);
+	printXY(X + 1, Y + 1, "    Move Left---");
+	printXY(X + 1, Y + 2, "   Move Right---");
+	printXY(X + 1, Y + 3, "         Jump---");
+	printXY(X + 1, Y + 4, "       Crouch---");
+	printXY(X + 1, Y + 5, "    Item Left---");
+	printXY(X + 1, Y + 6, "   Item Right---");
+	printXY(X + 1, Y + 7, "Switch Screen---");
+	printXY(X + 1, Y + 8, "         Menu---");
+	printXY(X + 1, Y + 9, "        Climb---");
+
+	printXY(X + 17, Y + 1, getActionChar(1));
+	printXY(X + 17, Y + 2, getActionChar(2));
+	printXY(X + 17, Y + 3, getActionChar(3));
+	printXY(X + 17, Y + 4, getActionChar(4));
+	printXY(X + 17, Y + 5, getActionChar(5));
+	printXY(X + 17, Y + 6, getActionChar(6));
+	printXY(X + 17, Y + 7, getActionChar(7));
+	printXY(X + 17, Y + 8, getActionChar(8));
+	printXY(X + 17, Y + 9, getActionChar(9));
+	Button buttons[0];
+	menu(buttons, 0);
+}
+
+bool controlsScreen()
+{
+	consoleClear();
+	drawBackground();
+
+	Button view(8, 10, "View");
+	Button edit(17, 10, "Edit");
+	Button save(8, 15, "Save");
+	Button load(17, 15, "Load");
+
+	Button buttons[] = {edit, save, load, view};
+	switch (menu(buttons, 4))
+	{
+		case 0: return true;
+		case 1: while (!setControlsScreen());
+			return false;
+		case 2: saveControls();
+			return false;
+		case 3: saveControls();
+			return false;
+		case 4: viewControls();
+		default: return false;
 	}
 }
 

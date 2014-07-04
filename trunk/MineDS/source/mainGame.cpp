@@ -17,6 +17,7 @@
 #include "inventory.h"
 #include "controls.h"
 #include "titlescreen.h"
+#include "Config.h"
 
 bool up;
 Graphic graphics[10];
@@ -24,7 +25,8 @@ void mobHandlerUpdate(worldObject* world);
 
 worldObject* mainGame(int mode, worldObject* CurrentWorld)
 {
-	uint oldKeys;
+	scanKeys();
+	uint oldKeys = keysHeld();
 	consoleClear();
 	clear_messages();
 	if (mode != 3)// Generating world for preview doesn't require screen change
@@ -94,7 +96,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
-		if (keysDown() & getKey(ACTION_MENU) || shouldQuitGame())
+		if (keysDown() & getControlKey(ACTION_MENU) || shouldQuitGame())
 			break;
 		oldKeys = keysHeld();
 		touchRead(&touch);
