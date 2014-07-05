@@ -172,9 +172,9 @@ KEYPAD_BITS askForKeyScreen()
 
 	Button back(25, 19, "Back");
 
-	const short ITEMS = 11;
-	const short MAX_NAME_LENGTH = 5;
-	const short X = 11, Y = 8;
+	const short ITEMS = 12;
+	const short MAX_NAME_LENGTH = 6;
+	const short X = 10, Y = 8;
 
 	drawBox(X, Y, MAX_NAME_LENGTH + 2, ITEMS + 2);
 	printXY(X + 1, Y + 1, "Up");
@@ -188,6 +188,7 @@ KEYPAD_BITS askForKeyScreen()
 	printXY(X + 1, Y + 9, "L");
 	printXY(X + 1, Y + 10, "R");
 	printXY(X + 1, Y + 11, "Start");
+	printXY(X + 1, Y + 12, "Select");
 
 
 	uint oldKeys;
@@ -355,35 +356,37 @@ bool setControlsScreen()
 	}
 }
 
-const char * getActionChar(int action)
+const char * getKeyChar(KEYPAD_BITS key)
 {
-	const char * returnAction = "Error";
-	switch (action)
+	const char * returnKeyChar;
+	switch (key)
 	{
-		case 1: returnAction = "Up";
+		case KEY_UP: returnKeyChar = "Up";
 			break;
-		case 2: returnAction = "Down";
+		case KEY_DOWN: returnKeyChar = "Down";
 			break;
-		case 3: returnAction = "Left";
+		case KEY_LEFT: returnKeyChar = "Left";
 			break;
-		case 4: returnAction = "Right";
+		case KEY_RIGHT: returnKeyChar = "Right";
 			break;
-		case 5: returnAction = "A";
+		case KEY_A: returnKeyChar = "A";
 			break;
-		case 6: returnAction = "B";
+		case KEY_B: returnKeyChar = "B";
 			break;
-		case 7: returnAction = "X";
+		case KEY_X: returnKeyChar = "X";
 			break;
-		case 8: returnAction = "Y";
+		case KEY_Y: returnKeyChar = "Y";
 			break;
-		case 9: returnAction = "L";
+		case KEY_L: returnKeyChar = "L";
 			break;
-		case 10: returnAction = "R";
+		case KEY_R: returnKeyChar = "R";
 			break;
-		case 11: returnAction = "Start";
+		case KEY_START: returnKeyChar = "Start";
 			break;
+		case KEY_SELECT: returnKeyChar = "Select";
+		default: returnKeyChar = "Error";
 	}
-	return returnAction;
+	return returnKeyChar;
 }
 
 void viewControls()
@@ -405,15 +408,15 @@ void viewControls()
 	printXY(X + 1, Y + 8, "         Menu---");
 	printXY(X + 1, Y + 9, "        Climb---");
 
-	printXY(X + 17, Y + 1, getActionChar(1));
-	printXY(X + 17, Y + 2, getActionChar(2));
-	printXY(X + 17, Y + 3, getActionChar(3));
-	printXY(X + 17, Y + 4, getActionChar(4));
-	printXY(X + 17, Y + 5, getActionChar(5));
-	printXY(X + 17, Y + 6, getActionChar(6));
-	printXY(X + 17, Y + 7, getActionChar(7));
-	printXY(X + 17, Y + 8, getActionChar(8));
-	printXY(X + 17, Y + 9, getActionChar(9));
+	printXY(X + 17, Y + 1, getKeyChar(getControlKey(ACTION_MOVE_LEFT)));
+	printXY(X + 17, Y + 2, getKeyChar(getControlKey(ACTION_MOVE_RIGHT)));
+	printXY(X + 17, Y + 3, getKeyChar(getControlKey(ACTION_JUMP)));
+	printXY(X + 17, Y + 4, getKeyChar(getControlKey(ACTION_CROUCH)));
+	printXY(X + 17, Y + 5, getKeyChar(getControlKey(ACTION_ITEM_LEFT)));
+	printXY(X + 17, Y + 6, getKeyChar(getControlKey(ACTION_ITEM_RIGHT)));
+	printXY(X + 17, Y + 7, getKeyChar(getControlKey(ACTION_SWITCH_SCREEN)));
+	printXY(X + 17, Y + 8, getKeyChar(getControlKey(ACTION_MENU)));
+	printXY(X + 17, Y + 9, getKeyChar(getControlKey(ACTION_CLIMB)));
 	Button buttons[0];
 	menu(buttons, 0);
 }
