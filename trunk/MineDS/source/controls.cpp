@@ -1,6 +1,6 @@
 #include <nds.h>
 #include <stdio.h>
-#include "config.h"
+#include "Config.h"
 
 Config controls;
 
