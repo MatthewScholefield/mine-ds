@@ -7,26 +7,28 @@
 #include <stdio.h>
 #include <dswifi9.h>
 #include <string.h>
-//#define SOUNDS //Comment out for no sounds
+#define SOUNDS //Comment out for no sounds
 
-bool maxModInit=false;
+bool maxModInit = false;
 musicStruct music;
 int last_music = -1;
+
 void initSounds()
 {
 #ifdef SOUNDS
-  	mmInitDefaultMem( (mm_addr)soundbank_bin );
+	mmInitDefaultMem((mm_addr) soundbank_bin);
 	int i;
-	for (i=0;i<MSL_NSAMPS;i++) mmLoadEffect(i); //loads all sfx
+	for (i = 0; i < MSL_NSAMPS; i++) mmLoadEffect(i); //loads all sfx
 	//for (i=0;i<MSL_NSONGS;i++) mmLoad(i); //loads all songs
-	music.musictype=rand()%MSL_NSONGS;//randomly choose a song
-	music.volume=0;
-	music.playing=false;
-	music.frames=0;
-	music.volumechanging=0; //0 for no changing, 1 for fade in, 2 for fade out..
-	maxModInit=true;
+	music.musictype = rand() % MSL_NSONGS; //randomly choose a song
+	music.volume = 0;
+	music.playing = false;
+	music.frames = 0;
+	music.volumechanging = 0; //0 for no changing, 1 for fade in, 2 for fade out..
+	maxModInit = true;
 #endif
 }
+
 void playSound(int sound)
 {
 
@@ -34,34 +36,44 @@ void playSound(int sound)
 	if (isWifi())
 	{
 		unsigned short buffer[100];
-		int server_id = getServerID();			
-		sprintf((char *)buffer,"[SND: %d %d", server_id, sound);
-		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
+		int server_id = getServerID();
+		sprintf((char *) buffer, "[SND: %d %d", server_id, sound);
+		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 	}
-	if (maxModInit==false) 
+	if (maxModInit == false)
 		initSounds();
-	switch(sound)
+	switch (sound)
 	{
-		case PIG_H: mmEffect(SFX_PIG); break;
-		case PLAYER_H: mmEffect(SFX_PLAYERHIT); break;
-		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT); break;
-		case COW_H: mmEffect(SFX_COWHIT); break;
-		case SHEEP_H: mmEffect(SFX_SHEEPHIT); break;
+		case PIG_H: mmEffect(SFX_PIG);
+			break;
+		case PLAYER_H: mmEffect(SFX_PLAYERHIT);
+			break;
+		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT);
+			break;
+		case COW_H: mmEffect(SFX_COWHIT);
+			break;
+		case SHEEP_H: mmEffect(SFX_SHEEPHIT);
+			break;
 	}
 #endif
 }
+
 void playSoundNiFi(int sound)
 {
 
 #ifdef SOUNDS
-	if (maxModInit==false) 
+	if (maxModInit == false)
 		initSounds();
-	switch(sound)
+	switch (sound)
 	{
-		case PIG_H: mmEffect(SFX_PIG); break;
-		case PLAYER_H: mmEffect(SFX_PLAYERHIT); break;
-		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT); break;
-		case COW_H: mmEffect(SFX_COWHIT); break;
+		case PIG_H: mmEffect(SFX_PIG);
+			break;
+		case PLAYER_H: mmEffect(SFX_PLAYERHIT);
+			break;
+		case ZOMBIE_H: mmEffect(SFX_ZOMBIEHIT);
+			break;
+		case COW_H: mmEffect(SFX_COWHIT);
+			break;
 	}
 #endif
 }
@@ -69,13 +81,17 @@ void playSoundNiFi(int sound)
 void playMusic(int music)
 {
 #ifdef SOUNDS
-	if (maxModInit==false)
+	if (maxModInit == false)
 		initSounds();
-	last_music = music;	
-	switch(music)
+	last_music = music;
+	switch (music)
 	{
-		case CALM : mmLoad(MOD_CALM); mmStart(MOD_CALM,MM_PLAY_ONCE); break;
-		case HAL2 : mmLoad(MOD_HAL2); mmStart(MOD_HAL2,MM_PLAY_LOOP); break;
+		case CALM: mmLoad(MOD_CALM);
+			mmStart(MOD_CALM, MM_PLAY_ONCE);
+			break;
+		case HAL2: mmLoad(MOD_HAL2);
+			mmStart(MOD_HAL2, MM_PLAY_LOOP);
+			break;
 	}
 #endif
 }
@@ -83,13 +99,15 @@ void playMusic(int music)
 void stopMusic()
 {
 #ifdef SOUNDS
-	mmStop();	
+	mmStop();
 	if (last_music == -1)
 		return;
-	switch(last_music)
+	switch (last_music)
 	{
-		case CALM : mmUnload(MOD_CALM); break;
-		case HAL2 : mmUnload(MOD_HAL2); break;
+		case CALM: mmUnload(MOD_CALM);
+			break;
+		case HAL2: mmUnload(MOD_HAL2);
+			break;
 	}
 	last_music = -1;
 #endif
