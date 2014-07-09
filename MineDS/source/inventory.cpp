@@ -341,7 +341,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 	}
 	else if (showingInventory == 2)
 	{
-		if (craftingMenuUpdate())
+		if (craftingMenuUpdate(&touch, &oldX, &oldY))
 		{
 			//lcdMainOnTop();
 			showingInventory = 1;

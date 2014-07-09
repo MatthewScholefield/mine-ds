@@ -20,6 +20,7 @@ int currentViewingRecipe = 0;
 
 void craftingInit()
 {
+	addCraftingRecipe(STICK, 1, PICKAXE_DIAMOND, 1, AXE_DIAMOND, 2, SWORD_DIAMOND, 3, SHOVEL_DIAMOND, 4);
 	addCraftingRecipe(PLANKS, 4, LOG, 1);
 	addCraftingRecipe(PLANKS, 4, JUNGLE_WOOD, 1);
 	addCraftingRecipe(PLANKS, 4, BIRCH_WOOD, 1);
@@ -156,16 +157,20 @@ void craftItem()
 	}
 }
 
-int craftingMenuUpdate()
+int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY)
 {
-	touchPosition touch;
-	touchRead(&touch);
+	touchRead(touch);
 	showGraphic(&resultBlock, 166, 84);
-	showGraphic(&neededblocks[0], 60, 84);
-	showGraphic(&neededblocks[1], 60, 84 - 16);
-	showGraphic(&neededblocks[2], 60, 84 + 16);
-	showGraphic(&neededblocks[3], 60, 84 + 32);
-	//Created block
+	printf("\x1b[11;23H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
+	for (int i = 0; i < 4; i++)
+	{
+		showGraphic(&neededblocks[i], 60, (i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
+		if (craftingRecipes[currentViewingRecipe].neededblocks[i].blockAmount > 0)
+			printf("\x1b[%d;%dH%d/%d  ", i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(craftingRecipes[currentViewingRecipe].neededblocks[i].blockId), craftingRecipes[currentViewingRecipe].neededblocks[i].blockAmount);
+		else
+			printf("\x1b[%d;%dH       ", i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
+	}
+	/*//Created block
 	printf("\x1b[11;23H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
 	//First needed block (top middle)
 	printf("\x1b[11;10H%d/%d  ", checkInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId), craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
@@ -183,28 +188,28 @@ int craftingMenuUpdate()
 	if (craftingRecipes[currentViewingRecipe].neededblocks[3].blockAmount > 0)
 		printf("\x1b[15;10H%d/%d  ", checkInventory(craftingRecipes[currentViewingRecipe].neededblocks[3].blockId), craftingRecipes[currentViewingRecipe].neededblocks[3].blockAmount);
 	else
-		printf("\x1b[15;10H       ");
+		printf("\x1b[15;10H       ");*/
 
 
-	if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN) || ((touch.px > (4 - 1)*8 && touch.px < (4 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
+	if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN) || ((touch->px > (4 - 1)*8 && touch->px < (4 + 5)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
 	{
 		return 1;
 	}
-	if (touch.px > (30 - 1)*8 && touch.px < (30 + 2)*8 && touch.py > (11 - 1) * 8 && touch.py < (11 + 2) * 8 && keysDown() & KEY_TOUCH)
+	if (touch->px > (30 - 1)*8 && touch->px < (30 + 2)*8 && touch->py > (11 - 1) * 8 && touch->py < (11 + 2) * 8 && keysDown() & KEY_TOUCH)
 	{
 		currentViewingRecipe++;
 		if (currentViewingRecipe >= nextCraftingRecipe)
 			currentViewingRecipe = 0;
 		updateCraftingGraphics();
 	}
-	if (touch.px < 3 * 8 && touch.py > (11 - 1) * 8 && touch.py < (11 + 2) * 8 && keysDown() & KEY_TOUCH)
+	if (touch->px < 3 * 8 && touch->py > (11 - 1) * 8 && touch->py < (11 + 2) * 8 && keysDown() & KEY_TOUCH)
 	{
 		currentViewingRecipe--;
 		if (currentViewingRecipe < 0)
 			currentViewingRecipe = nextCraftingRecipe - 1;
 		updateCraftingGraphics();
 	}
-	if (touch.px > (23 - 1)*8 && touch.px < (23 + 6)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8 && keysDown() & KEY_TOUCH)
+	if (touch->px > (23 - 1)*8 && touch->px < (23 + 6)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8 && keysDown() & KEY_TOUCH)
 		craftItem();
 	return 0;
 }
