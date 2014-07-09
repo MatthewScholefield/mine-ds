@@ -121,11 +121,9 @@ void setBlock(worldObject* world, int x, int y)
 	bool noLightUpdate = (selectedblock == AIR || item(selectedblock));
 	if (isCrouched) // Background
 	{
+		skipLightUpdate = true; //Background does not affect light
 		if (world->blocks[x][y] != AIR) // Foreground not empty don't place or mine
-		{
-			skipLightUpdate = true;
 			return;
-		}
 		else if (world->bgblocks[x][y] != AIR) // Mine block
 		{
 			if (hasChangedBlock == false)
@@ -133,11 +131,6 @@ void setBlock(worldObject* world, int x, int y)
 		}
 		else // Place block
 		{
-			if (noLightUpdate)
-			{
-				skipLightUpdate = true;
-				return;
-			}
 			if (isPlaceableBlock)
 			{
 				if (subInventory(selectedblock, 1))
@@ -153,6 +146,8 @@ void setBlock(worldObject* world, int x, int y)
 		{
 			if (hasChangedBlock == false)
 				mineBlock(world, x, y, isCrouched);
+			else
+				skipLightUpdate = true;
 		}
 		else // Place block
 		{
@@ -206,10 +201,10 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		setBlock(world, x, y);
 		if (!skipLightUpdate)
 			updateBrightnessAround(world, x, y);
-		/*if (skipLightUpdate)
-		 *			print_message("Skip Light Update\n");
-		 *		else
-		 *			print_message("Light Update\n");*/
+		if (skipLightUpdate)
+			print_message("Skip Light Update\n");
+		else
+			print_message("Light Update\n");
 	}
 	else
 	{
