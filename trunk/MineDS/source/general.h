@@ -1,4 +1,5 @@
-#define round(a) int(a + 0.5)
+#define ROUND(a) int(a + 0.5)
+#define CEILING(X) (X-(int)(X) > 0 ? (int)(X+1) : (int)(X))
 void print_message(const char* s);
 void update_message();
 void show_message(const char* s);
