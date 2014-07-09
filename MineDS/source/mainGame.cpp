@@ -90,7 +90,6 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 	while (1)
 	{ //Infinitely repeats until break
 		scanKeys();
-		miningUpdate(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY, touch, keysDown());
 		mobHandlerUpdate(CurrentWorld);
 		updateInventory(touch, CurrentWorld, oldKeys);
 		update_message();
@@ -100,6 +99,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 			break;
 		oldKeys = keysHeld();
 		touchRead(&touch);
+		miningUpdate(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY, touch, keysDown());
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
