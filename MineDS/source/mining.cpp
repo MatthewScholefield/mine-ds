@@ -19,7 +19,7 @@
 #include "Config.h"
 #include "mining.h"
 bool skipLightUpdate = false; //Whether to skip light update
-int selectedblock = 0;
+int selectedBlock = 0;
 bool loadedgraphic = false;
 Graphic topBlock;
 bool incutscene = false;
@@ -35,7 +35,7 @@ int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand 
 
 int getSelectedblock()
 {
-	return selectedblock;
+	return selectedBlock;
 }
 
 void miningSetScene(bool a)
@@ -46,20 +46,20 @@ void miningSetScene(bool a)
 void calculateTopBlock()
 {
 	if (loadedgraphic) unloadGraphic(&topBlock);
-	loadGraphicSub(&topBlock, 2, selectedblock);
+	loadGraphicSub(&topBlock, 2, selectedBlock);
 	loadedgraphic = true;
 }
 
 void updateTopName()
 {
 	printXY(2, 7, "                            ");
-	if (selectedblock != AIR)
-		iprintf("\x1b[7;2H%s", getName(selectedblock));
+	if (selectedBlock != AIR)
+		iprintf("\x1b[7;2H%s", getName(selectedBlock));
 }
 
 void setSelectedBlock(int blockID)
 {
-	selectedblock = blockID;
+	selectedBlock = blockID;
 	calculateTopBlock();
 }
 
@@ -71,17 +71,22 @@ void blocksCanPlace()
 
 void mineBlock(worldObject* world, int x, int y, bool bg)
 {
+	if (getType(selectedBlock) == SWORD)
+	{
+		skipLightUpdate = true;
+		return; //Swords don't mine blocks
+	}
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-	bool stylusMoved = (miningX == x || mining == y) ? false : true;
+	bool stylusMoved = (miningX == x || miningY == y) ? false : true;
 	if (isSurvival())
 	{
 		if (stylusMoved)
 		{
 			miningX = x;
 			miningY = y;
-			int handHardness = (getHardness(selectedblock) < 0) ? getHardness(selectedblock)*-1 : 1; // Hardness of item in hand
+			int handHardness = (getHardness(selectedBlock) < 0) ? getHardness(selectedBlock)*-1 : 1; // Hardness of item in hand
 			int blockTypeXY = getType(blockXY);
-			switch (getType(selectedblock)) // Check if we are using the correct tool
+			switch (getType(selectedBlock)) // Check if we are using the correct tool
 			{
 				case AXE: if (blockTypeXY != WOOD) handHardness = 1;
 					break;
@@ -117,8 +122,7 @@ void setBlock(worldObject* world, int x, int y)
 {
 	skipLightUpdate = false;
 	bool isCrouched = (keysHeld() & getControlKey(ACTION_CROUCH));
-	bool isPlaceableBlock = (selectedblock != AIR && !item(selectedblock) && hasChangedBlock == false);
-	bool noLightUpdate = (selectedblock == AIR || item(selectedblock));
+	bool isPlaceableBlock = (selectedBlock != AIR && !item(selectedBlock) && (!hasChangedBlock || getDrawMode()));
 	if (isCrouched) // Background
 	{
 		skipLightUpdate = true; //Background does not affect light
@@ -133,8 +137,8 @@ void setBlock(worldObject* world, int x, int y)
 		{
 			if (isPlaceableBlock)
 			{
-				if (subInventory(selectedblock, 1))
-					world->bgblocks[x][y] = selectedblock;
+				if (subInventory(selectedBlock, 1))
+					world->bgblocks[x][y] = selectedBlock;
 				checkBlockPlace(x, y, world, isCrouched);
 				hasChangedBlock = true;
 			}
@@ -151,17 +155,17 @@ void setBlock(worldObject* world, int x, int y)
 		}
 		else // Place block
 		{
-			if (noLightUpdate)
+			if (isPlaceableBlock)
+			{
+				if (subInventory(selectedBlock, 1))
+					world->blocks[x][y] = selectedBlock;
+				checkBlockPlace(x, y, world, isCrouched);
+				hasChangedBlock = true;
+			}
+			else
 			{
 				skipLightUpdate = true;
 				return;
-			}
-			if (isPlaceableBlock)
-			{
-				if (subInventory(selectedblock, 1))
-					world->blocks[x][y] = selectedblock;
-				checkBlockPlace(x, y, world, isCrouched);
-				hasChangedBlock = true;
 			}
 		}
 	}
@@ -185,7 +189,23 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		int mobNum = isMobAt(touch.px + a, touch.py + b);
 		if (mobNum != -1)
 		{
-			mobHandlerHurtMob(mobNum, 2, PLAYER_HURT);
+			int damage;
+			switch (selectedBlock)
+			{
+				case SWORD_DIAMOND:damage = 6;
+					break;
+				case SWORD_IRON:damage = 4;
+					break;
+				case SWORD_GOLD:damage = 3;
+					break;
+				case SWORD_STONE:damage = 3;
+					break;
+				case SWORD_WOOD: damage = 2;
+					break;
+				default: damage = 1;
+					break;
+			}
+			mobHandlerHurtMob(mobNum, damage, PLAYER_HURT);
 		}
 		else if (canPlaceBlocks)
 		{
@@ -201,10 +221,6 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		setBlock(world, x, y);
 		if (!skipLightUpdate)
 			updateBrightnessAround(world, x, y);
-		if (skipLightUpdate)
-			print_message("Skip Light Update\n");
-		else
-			print_message("Light Update\n");
 	}
 	else
 	{
@@ -212,14 +228,14 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	}
 	if (keys & getControlKey(ACTION_ITEM_LEFT))
 	{
-		selectedblock--;
-		if (selectedblock < 0) selectedblock = NUM_BLOCKS;
+		selectedBlock--;
+		if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
 		if (isSurvival())
 		{
-			while (checkInventory(selectedblock) == 0)
+			while (checkInventory(selectedBlock) == 0)
 			{
-				selectedblock--;
-				if (selectedblock < 0) selectedblock = NUM_BLOCKS;
+				selectedBlock--;
+				if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
 			}
 		}
 		calculateTopBlock();
@@ -227,31 +243,31 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	}
 	else if (keys & getControlKey(ACTION_ITEM_RIGHT))
 	{
-		selectedblock++;
-		if (selectedblock > NUM_BLOCKS) selectedblock = 0;
+		selectedBlock++;
+		if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;
 		if (isSurvival())
 		{
-			while (checkInventory(selectedblock) == 0)
+			while (checkInventory(selectedBlock) == 0)
 			{
-				selectedblock++;
-				if (selectedblock > NUM_BLOCKS) selectedblock = 0;
+				selectedBlock++;
+				if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;
 			}
 		}
 		calculateTopBlock();
 		updateTopName();
 	}
-	if (selectedblock < 0)
+	if (selectedBlock < 0)
 	{
-		selectedblock = NUM_BLOCKS;
+		selectedBlock = NUM_BLOCKS;
 		calculateTopBlock();
 	}
-	else if (selectedblock > NUM_BLOCKS)
+	else if (selectedBlock > NUM_BLOCKS)
 	{
-		selectedblock = 0;
+		selectedBlock = 0;
 		calculateTopBlock();
 	}
 	//Draw the selected block
-	if (selectedblock != 0)
+	if (selectedBlock != 0)
 	{
 		showGraphic(&topBlock, 0, 48);
 	}

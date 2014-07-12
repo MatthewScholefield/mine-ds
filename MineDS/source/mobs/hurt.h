@@ -4,3 +4,4 @@
 #define PLAYER_HURT 2
 #define ZOMBIE_HURT 3
 #define HEROBRINE_HURT 4
+#define SUN_HURT 5

@@ -12,6 +12,7 @@
 #include "../communications.h"
 #include "../collision.h"
 #include "../general.h"
+#include "../controls.h"
 #define playerId 1
 
 baseMob* mobs[100];
@@ -19,6 +20,18 @@ const int peacefulmobs[] = {4, 5, 6};
 bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
 int spawn_x, spawn_y;
+
+int getDefaultSpawnX()
+{
+	int take = 0;
+	if (rand() % 2)
+	{
+		take = -16 - (rand() % 16);
+	}
+	else take = 16 + (rand() % 16);
+
+	return mobs[playerId]->x / 16 + (rand() % 5) - 2; //? rand() % 2 + 1 : -rand() % 2 - 1; //(rand() % 16)*(rand() % 2 ? -1 : 1);
+}
 
 baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 {
@@ -437,7 +450,7 @@ void mobHandlerUpdate(worldObject* world)
 		int mob = rand() % 3;
 		spawnMobOn(peacefulmobs[mob], world, rand() % WORLD_WIDTH);
 	}
-	if (badMobs <= 2 && canSpawnMob())
+	if (badMobs <= 5 && canSpawnMob())
 	{
 		int take = 0;
 		if (rand() % 2)
@@ -445,11 +458,11 @@ void mobHandlerUpdate(worldObject* world)
 			take = -16 - (rand() % 16);
 		}
 		else take = 16 + (rand() % 16);
-		spawnMobOn(3, world, mobs[playerId]->x / 16 + take);
+		spawnMobOn(rand() % 10 != 1 && getHerobrineOn() ? 7 : 3, world, mobs[playerId]->x / 16 + take);
 	}
 	if (keysDown() & KEY_R)
 	{
-		spawnMobOn(7, world, mobs[playerId]->x / 16);
+		spawnMobOn(7, world, getDefaultSpawnX()); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
 		print_message("Spawned mob\n");
 	}
 }

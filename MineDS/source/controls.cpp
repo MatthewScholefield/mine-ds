@@ -14,6 +14,26 @@ void setControlKey(int action, KEYPAD_BITS key)
 	controls.setKey(action, key);
 }
 
+void setHerobrineOn(bool on)
+{
+	controls.herobrineOn = on;
+}
+
+bool getHerobrineOn()
+{
+	return controls.herobrineOn;
+}
+
+void setDrawMode(bool on)
+{
+	controls.drawMode = on;
+}
+
+bool getDrawMode()
+{
+	return controls.drawMode;
+}
+
 void saveControlData(FILE* data)
 {
 	fwrite(&controls, sizeof (controls), 1, data);

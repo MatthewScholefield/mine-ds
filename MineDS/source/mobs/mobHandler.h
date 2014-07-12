@@ -1,5 +1,6 @@
 #include "../world.h"
 #include "baseMob.h"
+int getDefaultSpawnX();
 void mobHandlerInit();
 void mobHandlerUpdate(worldObject* world);
 void mobHandlerKillMob(int a);
