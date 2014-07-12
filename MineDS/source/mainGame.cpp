@@ -40,6 +40,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 	addInventory(PICKAXE_DIAMOND, 1);
 	addInventory(AXE_DIAMOND, 1);
 	addInventory(SHOVEL_DIAMOND, 1);
+	addInventory(SWORD_DIAMOND, 1);
 
 	if (mode == 0) // Generate new world and reset the camera and time
 	{

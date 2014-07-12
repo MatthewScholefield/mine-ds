@@ -92,6 +92,55 @@ int menu(Button buttons[], int size, bool showBack)
 	return selected + start;
 }
 
+bool enableDisableMenu(bool initial)
+{
+	uint oldKeys;
+	touchPosition touch;
+	drawBackground();
+
+	consoleClear(); //Removes All text from the screen
+	Button enabled(9, 10, "Enabled", 12);
+	Button disabled(9, 15, "Disabled", 12);
+	Button done(25, 19, "Done");
+	enabled.setColored(initial);
+	disabled.setColored(!initial);
+
+	scanKeys();
+	touchRead(&touch);
+	oldKeys = keysHeld();
+	swiWaitForVBlank();
+	bool returnVal = initial;
+	while (1)
+	{
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
+		{
+			touchRead(&touch);
+			if (enabled.isTouching(touch.px, touch.py))
+			{
+				returnVal = true;
+				enabled.setColored(true);
+				disabled.setColored(false);
+			}
+			else if (disabled.isTouching(touch.px, touch.py))
+			{
+				returnVal = false;
+				enabled.setColored(false);
+				disabled.setColored(true);
+			}
+			done.setColored(done.isTouching(touch.px, touch.py));
+		}
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+		{
+			if (done.isColored && done.isTouching(touch.px, touch.py))
+				return returnVal;
+		}
+		oldKeys = keysHeld();
+		touchRead(&touch);
+		swiWaitForVBlank();
+	}
+}
+
 int menu(Button buttons[], int size)
 {
 	return menu(buttons, size, true);
@@ -131,10 +180,10 @@ void creditsScreen()
 	uint oldKeys = keysHeld();
 	touchPosition touch;
 	drawBackground();
-	drawButton(11, 8, 8);
-	drawButton(9, 12, 11);
-	drawButton(5, 16, 21);
-	drawButton(7, 20, 16);
+	drawButton(11, 8, 9);
+	drawButton(9, 12, 12);
+	drawButton(5, 16, 22);
+	drawButton(7, 20, 17);
 	Button back(25, 19, "Back");
 	consoleClear();
 	printXY(12, 9, "Mine DS");
@@ -446,15 +495,41 @@ bool controlsScreen()
 	}
 }
 
+bool gameOptions()
+{
+	consoleClear();
+	drawBackground();
+
+	Button herobrine(9, 10, "Herobrine", 14);
+	Button drawMode(9, 15, "Draw Mode", 14);
+	Button buttons[] = {herobrine, drawMode};
+	switch (menu(buttons, 2))
+	{
+		case 1:
+		{
+			setHerobrineOn(enableDisableMenu(getHerobrineOn()));
+			return false;
+		}
+		case 2:
+		{
+			setDrawMode(enableDisableMenu(getDrawMode()));
+			return false;
+		}
+		default:
+			return true;
+	}
+}
+
 bool settingsScreen()
 {
 	consoleClear();
 	drawBackground();
 
-	Button controls(10, 10, "Controls", 10);
-	Button credits(10, 15, "Credits", 10);
-	Button buttons[] = {controls, credits};
-	switch (menu(buttons, 2))
+	Button controls(8, 8, "Controls", 14);
+	Button options(8, 13, "Game Options", 14);
+	Button credits(8, 18, "Credits", 14);
+	Button buttons[] = {controls, options, credits};
+	switch (menu(buttons, 3))
 	{
 		case 1:
 		{
@@ -462,6 +537,11 @@ bool settingsScreen()
 			return false;
 		}
 		case 2:
+		{
+			while (!gameOptions());
+			return false;
+		}
+		case 3:
 		{
 			creditsScreen();
 			return false;
