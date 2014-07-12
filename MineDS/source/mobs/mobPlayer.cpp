@@ -102,7 +102,7 @@ void playerMob::hurt(int amount, int type)
 			else if (type == VOID_HURT) message += " fell out of the world";
 			else if (type == PLAYER_HURT) message += " was killed by a player";
 			else if (type == ZOMBIE_HURT) message += " was eaten by a zombie";
-			else if (type == HEROBRINE_HURT) message += " was murdered by a herobrine";
+			else if (type == HEROBRINE_HURT) message += " was murdered by a Herobrine";
 			else message += " died";
 			message += "\n";
 			print_message((char*) message.c_str());
@@ -177,9 +177,6 @@ void playerMob::updateMob(worldObject* world)
 			y += vy;
 			if (keysHeld() & getControlKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
 			if (y > world_heightpx) hurt(3, VOID_HURT);
-			if (collisions[0] && collisions[3])
-				while (y > 16 && (world->blocks[x / 16][(y / 16) + 1] != AIR || world->blocks[x / 16][y / 16] != AIR))
-					y -= 16;
 			if (animationclearframes == 0) animation = 0;
 			else animationclearframes--;
 			if (reheal > 300)

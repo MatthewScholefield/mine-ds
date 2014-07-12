@@ -25,6 +25,8 @@ public:
     KEYPAD_BITS switchScreen;
     KEYPAD_BITS menu;
     KEYPAD_BITS climb;
+    bool herobrineOn;
+    bool drawMode;
 
     void setKey(int action, KEYPAD_BITS key);
     KEYPAD_BITS getKey(int action);
@@ -36,7 +38,9 @@ public:
     itemRight(KEY_B),
     switchScreen(KEY_Y),
     menu(KEY_START),
-    climb(KEY_UP)
+    climb(KEY_UP),
+    herobrineOn(false),
+    drawMode(false)
     {
         
     }

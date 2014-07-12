@@ -148,7 +148,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 		if (mainPlayerInv.blocks[i].blockId == blockID)
 		{
 			space = i;
-			i = NUM_INV_SPACES + 1;
+			break;
 			//Skip other inventory spaces...
 		}
 	}
@@ -161,6 +161,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	if (mainPlayerInv.blocks[space].blockAmount < 0)
 	{
 		mainPlayerInv.blocks[space].blockAmount += amount;
+		show_message("Not enough items to remove\n");
 		return false;
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
@@ -305,7 +306,6 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 				craftButton.setVisible(false);
 				craftingMenuInit();
 				showingInventory = 2;
-				//show_message("Entering Crafing Menu\n");
 			}
 			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))//(oldX > (10 - 1)*8 && oldX < (10 + 10)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
@@ -341,9 +341,8 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 	}
 	else if (showingInventory == 2)
 	{
-		if (craftingMenuUpdate(&touch, &oldX, &oldY))
+		if (craftingMenuUpdate(&touch, &oldX, &oldY, &oldKeys))
 		{
-			//lcdMainOnTop();
 			showingInventory = 1;
 			miningSetScene(true);
 			drawBackground();
@@ -352,11 +351,12 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			backButton.setVisible(true);
 			saveButton.setVisible(true);
 			craftButton.setVisible(true);
-			/*drawButton(21, 16, 9);
-			drawButton(9, 16, 10);
-			drawButton(1, 16, 5);*/
-			//show_message("Leaving Crafting Menu\n");
 			enableInvGraphics();
+		}
+		else
+		{
+			oldX = touch.px;
+			oldY = touch.py;
 		}
 	}
 }
