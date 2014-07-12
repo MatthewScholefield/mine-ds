@@ -8,6 +8,7 @@
 #include "../worldRender.h"
 #include "../inventory.h"
 #include "../mining.h"
+#include "../general.h"
 //#include "../sounds.h"
 
 Graphic herobrineMobGraphic[3];
@@ -21,10 +22,11 @@ herobrineMob::herobrineMob()
 	ping = 0;
 	alive = false;
 	onground = false;
-	health = 10;
+	health = 7;
 	mobtype = 0;
 	animationclearframes = 0;
 	notarget = 0;
+	waitingCount = -rand() % 4000;
 }
 
 herobrineMob::herobrineMob(int a, int b)
@@ -42,43 +44,57 @@ herobrineMob::herobrineMob(int a, int b)
 	onground = false;
 	facing = false;
 	mobtype = 3;
-	health = 20;
+	health = 7;
 	ping = 0;
 	animation = 0;
 	notarget = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
+	waitingCount = -rand() % 4000;
 }
 
 void herobrineMob::updateMob(worldObject* world)
 {
+	waitingCount++;
 	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
 	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
 	if (host == true)
 	{
+		if (collisions[0] && collisions[3])
+			while (y > 16 && (world->blocks[x / 16][(y / 16) + 1] != AIR || world->blocks[x / 16][y / 16] != AIR))
+				y -= 16;
 		target = mobHandlerFindMob(128, 2, x, y);
 		if (target->x < x && target->mobtype == 2) facing = true;
 		else if (target->mobtype == 2) facing = false;
 		jump++;
+		int distance = target->x - x;
+		if (distance < 0)
+			distance *= -1;
 		if (collisions[0] == false) y += vy;
 		else vy = 0;
-		if (target->x > x - 4 && target->x < x + 4)
+		/*if (target->x > x - 4 && target->x < x + 4)
 		{
 			jump = 0;
-		}
+		}*/
 		if (target->mobtype != 2)
 		{
 			notarget++;
 			jump = 0;
 		}
-		else if (!collisions[1] && facing == false && !collisions[3] && jump > 1)
+		else if (!collisions[1] && !collisions[3] && jump > 1)
 		{
-			x += facing ? -1 : 1;
-			jump = 0;
-		}
-		else if (!collisions[2] && facing == true && !collisions[3] && jump > 1)
-		{
-			x += facing ? -1 : 1;
-			jump = 0;
+			if (waitingCount > 1000)
+			{
+				waitingCount = 1100;
+				x += ((facing ? -1 : 1) * rand() % (distance < 40 && rand() % 2 ? 2 : 3));
+			}
+			else
+			{
+				if (!(distance < 65 && distance > 55))
+					x += ((facing ? -1 : 1)*(distance > 60 ? 1 : -1) * rand() % 5);
+				else if (rand() % 10 == 1)
+					x += (rand() % 2 ? -1 : 1)*(rand() % 15);
+				jump = 0;
+			}
 		}
 		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
 		{
@@ -95,10 +111,9 @@ void herobrineMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
 		else animationclearframes--;
-		//iprintf("collisions = %d\n",collisions[0]);
-		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
+		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 		{
-			mobHandlerHurtMob(target->mobId, 1, HEROBRINE_HURT);
+			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
 		}
 		target = mobHandlerFindMob(512, 2, x, y);
 		if (target->mobtype == 2) notarget = 0;
@@ -122,8 +137,8 @@ bool canHerobrineMobSpawnHere(worldObject* world, int x, int y)
 	y++;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
 	{
-		if (getBrightness(world, x, y + 1) > 7)
-			return true;
+		/*if (getBrightness(world, x, y + 1) > 7)*/
+		return true;
 	}
 	return false;
 }
@@ -148,9 +163,17 @@ void herobrineMob::hurt(int amount, int type)
 	animationclearframes = 20;
 	if (health <= 0)
 	{
-		if (type == PLAYER_HURT)
-			addInventory(rand() % (NUM_BLOCKS - 2) + 2, rand() % 2 + 1);
-		killMob();
+		if (type == CACTUS_HURT)
+		{
+			addInventory(rand() % (NUM_BLOCKS - 2) + 2, rand() % 4 + 1);
+			killMob();
+		}
+		else
+		{
+			x = getDefaultSpawnX()*16;
+			waitingCount = -rand() % 4000;
+			health = 7;
+		}
 	}
 }
 

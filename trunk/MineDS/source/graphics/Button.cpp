@@ -31,7 +31,7 @@ void Button::setVisible(bool setVisible)
 
 bool Button::isTouching(int xVal, int yVal)
 {
-	return visible && (xVal > x * 8 && xVal < (x + length + 2)*8 && yVal > y * 8 && yVal < (y + 3)*8);
+	return visible && (xVal > x * 8 && xVal < (x + length)*8 && yVal > y * 8 && yVal < (y + 3)*8);
 }
 
 void Button::draw()
