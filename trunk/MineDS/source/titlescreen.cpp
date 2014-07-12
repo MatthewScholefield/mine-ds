@@ -500,8 +500,8 @@ bool gameOptions()
 	consoleClear();
 	drawBackground();
 
-	Button herobrine(9, 10, "Herobrine", 14);
-	Button drawMode(9, 15, "Draw Mode", 14);
+	Button herobrine(8, 10, "Herobrine", 14);
+	Button drawMode(8, 15, "Draw Mode", 14);
 	Button buttons[] = {herobrine, drawMode};
 	switch (menu(buttons, 2))
 	{
@@ -525,9 +525,9 @@ bool settingsScreen()
 	consoleClear();
 	drawBackground();
 
-	Button controls(8, 8, "Controls", 14);
-	Button options(8, 13, "Game Options", 14);
-	Button credits(8, 18, "Credits", 14);
+	Button controls(8, 8, "Controls", 15);
+	Button options(8, 13, "Game Options", 15);
+	Button credits(8, 18, "Credits", 15);
 	Button buttons[] = {controls, options, credits};
 	switch (menu(buttons, 3))
 	{
