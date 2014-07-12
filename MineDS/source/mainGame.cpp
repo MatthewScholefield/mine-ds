@@ -34,14 +34,6 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 	touchPosition touch;
 	initInvGraphics();
 
-	addInventory(PICKAXE_STONE, 1);
-	addInventory(AXE_STONE, 1);
-	addInventory(SHOVEL_STONE, 1);
-	addInventory(PICKAXE_DIAMOND, 1);
-	addInventory(AXE_DIAMOND, 1);
-	addInventory(SHOVEL_DIAMOND, 1);
-	addInventory(SWORD_DIAMOND, 1);
-
 	if (mode == 0) // Generate new world and reset the camera and time
 	{
 		printXY(1, 8, "Generating world...\n");
