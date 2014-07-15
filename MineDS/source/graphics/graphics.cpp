@@ -1,6 +1,5 @@
 #include <nds.h>
 #include <stdio.h>
-#include <mans.h>
 #include "graphics.h"
 #include "mobs.h"
 #include "particles.h"
@@ -182,12 +181,17 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
  */
 void loadGraphic(Graphic* g, int mob, int frame, int x, int y)
 {
-	if (mob == 1) loadGraphicMob(g, frame, x, y);
-	else if (mob == 0) loadGraphicParticle(g, frame, x, y);
-	else if (mob == 2) loadGraphicBlock(g, frame, x, y);
-	else if (mob == 3) loadGraphicAnim(g, (u8*) mobsTiles, 0);
-	//	if (mob) loadGraphicMob(g,frame,x,y);
-	//	else if (!mob) loadGraphicParticle(g,frame,x,y);
+	switch (mob)
+	{
+		case 0: loadGraphicParticle(g, frame, x, y);
+			break;
+		case 1: loadGraphicMob(g, frame, x, y);
+			break;
+		case 2: loadGraphicBlock(g, frame, x, y);
+			break;
+		case 3: loadGraphicAnim(g, (u8*) mobsTiles, 0);
+			break;
+	}
 	g->main = true;
 }
 
@@ -216,13 +220,9 @@ void loadGraphic(Graphic* g, int mob, int frame)
 void unloadGraphic(Graphic* g)
 {
 	if (g->main)
-	{
 		oamFreeGfx(&oamMain, g->Gfx);
-	}
 	else
-	{
 		oamFreeGfx(&oamSub, g->Gfx);
-	}
 }
 
 void loadGraphicSubParticle(Graphic* g, int frame, int x, int y)
@@ -239,9 +239,7 @@ void loadGraphicSubParticle(Graphic* g, int frame, int x, int y)
 		g->Gfx = graphics;
 	}
 	else
-	{
 		iprintf("Error loading graphics!\n");
-	}
 }
 
 void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
@@ -258,9 +256,7 @@ void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
 		g->Gfx = graphics;
 	}
 	else
-	{
 		iprintf("Error loading graphics!\n");
-	}
 }
 
 void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
@@ -320,29 +316,40 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	if (spriteID > SPRITE_COUNT - 1) return false;
 	if (g->main)
 	{
-		if (g->mob == 1 && g->sy == 32)
-			oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-		else if (g->mob == 1)
-			oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-		else if (g->mob == 0)
-			oamSet(&oamMain, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-		else if (g->mob == 2)
-			oamSet(&oamMain, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-		else if (g->mob == 3)
-			oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+		switch (g->mob)
+		{
+			case 0:
+				oamSet(&oamMain, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case 1:
+				if (g->sy == 32)
+					oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				else
+					oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case 2:
+				oamSet(&oamMain, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case 3:
+				oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+
+		}
 	}
 	else
 	{
-		if (g->mob == 1)
+		switch (g->mob)
 		{
-			oamSet(&oamSub, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			case 0:
+				if (g->sx == 8 && g->sy == 8)
+					oamSet(&oamSub, spriteID, x, y, pri, 0, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case 1:oamSet(&oamSub, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case 2:
+				oamSet(&oamSub, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
 		}
-		else if (g->mob == 2)
-		{
-			oamSet(&oamSub, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-		}
-		else if (g->sx == 8 && g->sy == 8 && g->mob == 0)
-			oamSet(&oamSub, spriteID, x, y, pri, 0, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 	}
 	return true;
 }
