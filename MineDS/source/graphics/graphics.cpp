@@ -64,9 +64,11 @@ void graphicsInit()
 {
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
+
 	//Set the bank for our Graphics.
 	oamInit(&oamSub, SpriteMapping_1D_256, true);
 	vramSetBankI(VRAM_I_LCD);
+
 	//Vram I is for Sub Sprite Palette!
 	dmaCopy(subPal, VRAM_I_EXT_SPR_PALETTE[0], subPalLen);
 	dmaCopy(fontPal, VRAM_I_EXT_SPR_PALETTE[1], fontPalLen);
@@ -75,13 +77,12 @@ void graphicsInit()
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain, SpriteMapping_1D_256, true);
 	vramSetBankF(VRAM_F_LCD);
+
 	//Start copying palettes
 	dmaCopy(mobsPal, VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
 	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[1], particlesPalLen);
 	dmaCopy(block_smallPal, VRAM_F_EXT_SPR_PALETTE[2], block_smallPalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
-
-
 }
 
 void loadGraphicMob(Graphic* g, int frame, int x, int y)
@@ -108,33 +109,6 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 		g->sy = 16;
 		g->Gfx = graphics;
 	}
-}
-
-void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame)
-{
-	//gfx += frame * FRAMES_PER_ANIMATION * (16 * 32);
-	sprite->mob = 3;
-	sprite->sx = 16;
-	sprite->sy = 32;
-	sprite->Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
-	sprite->frame_gfx = gfx;
-}
-
-void setAnimFrame(Graphic* g, int mobSlot, int frame)
-{
-	int slot = frame + mobSlot * (FRAMES_PER_ANIMATION);
-
-	u8* offset = g->frame_gfx + slot * 16 * 32;
-
-	dmaCopy(offset, g->Gfx, 16 * 32);
-}
-
-void animateMob(Graphic* g, int mobSlot)
-{
-	g->anim_frame++;
-	if (g->anim_frame >= FRAMES_PER_ANIMATION)
-		g->anim_frame = 0;
-	setAnimFrame(g, mobSlot, g->anim_frame);
 }
 
 void loadGraphicParticle(Graphic* g, int frame, int x, int y)
@@ -171,6 +145,33 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 	g->Gfx = graphics;
 }
 
+void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame)
+{
+	gfx += frame * FRAMES_PER_ANIMATION * (16 * 32);
+	sprite->mob = 3;
+	sprite->sx = 16;
+	sprite->sy = 32;
+	sprite->Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
+	sprite->frame_gfx = gfx;
+}
+
+void setAnimFrame(Graphic* g, int mobSlot, int frame)
+{
+	int slot = frame + mobSlot * (FRAMES_PER_ANIMATION);
+
+	u8* offset = g->frame_gfx + slot * 16 * 32;
+
+	dmaCopy(offset, g->Gfx, 16 * 32);
+}
+
+void animateMob(Graphic* g, int mobSlot)
+{
+	g->anim_frame++;
+	if (g->anim_frame >= FRAMES_PER_ANIMATION)
+		g->anim_frame = 0;
+	setAnimFrame(g, mobSlot, g->anim_frame);
+}
+
 /**
 	\breif A function used to load graphics for use on the Main screen, The screen with all of the blocks on it.
 	\param g A pointer to a newly allocated Graphic structure.
@@ -198,6 +199,7 @@ void loadGraphic(Graphic* g, int mob, int frame, int x, int y)
 void loadGraphicAnim(Graphic* g, int frame)
 {
 	loadGraphicAnim(g, (u8*) mobsTiles, frame);
+	g->main = true;
 }
 
 /**
@@ -210,7 +212,7 @@ void loadGraphicAnim(Graphic* g, int frame)
 void loadGraphic(Graphic* g, int mob, int frame)
 {
 	if (!mob) loadGraphic(g, mob, frame, 8, 8);
-	if (mob) loadGraphic(g, mob, frame, 16, 32);
+	else loadGraphic(g, mob, frame, 16, 32);
 }
 
 /**
@@ -291,19 +293,6 @@ void loadGraphicSub(Graphic* g, int font, int frame, int x, int y)
 }
 
 /**
-	\breif A function used to load graphics for use on the Sub screen, The screen with the Logo on it.
-	This function assmumes that the particle or font graphic is of 8x8 size.
-	(Which is generally ok for the Sub screen)
-	\param g A pointer to a newly allocated Graphic structure.
-	\param font To choose between loading different types of graphic 0 = Particle 1 = font 2 = Block
-	\param frame Tile of Graphic to load
- */
-void loadGraphicSub(Graphic* g, int font, int frame)
-{
-	loadGraphicSub(g, font, frame, 8, 8);
-}
-
-/**
 	\breif A function used to show a Graphic file.
 	\param g A pointer to a loaded Graphic structure.
 	\param x The x position of where the sprite should be displayed.
@@ -353,14 +342,3 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	}
 	return true;
 }
-
-bool showGraphic(Graphic* g, int x, int y, bool a)
-{
-	return showGraphic(g, x, y, a, 0);
-}
-
-bool showGraphic(Graphic* g, int x, int y)
-{
-	return showGraphic(g, x, y, false);
-}
-

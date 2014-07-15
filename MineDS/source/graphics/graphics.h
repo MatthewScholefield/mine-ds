@@ -30,13 +30,10 @@ void loadGraphicMob(Graphic* g,int frame);
 void loadGraphic(Graphic* g,int mob,int frame,int x,int y);
 void loadGraphic(Graphic* g,int mob,int frame);
 void loadGraphicSubMob(Graphic* g,int frame);
-void loadGraphicSub(Graphic* g,int mob,int frame,int x,int y);
-void loadGraphicSub(Graphic* g,int mob,int frame);
-bool showGraphic(Graphic* g,int x,int y);
-bool showGraphic(Graphic* g,int x,int y,bool flip);
+void loadGraphicSub(Graphic* g, int font, int frame, int x = 8, int y = 8);
 void unloadGraphic(Graphic* g);
-bool showGraphic(Graphic* g,int x,int y,bool flip,int pri);
 void animateMob(Graphic* g, int mobSlot);
 void loadGraphicAnim(Graphic* g, int frame);
 void setAnimFrame(Graphic* g, int mobSlot, int frame);
+bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
 #define unloadGraphicSub(x) unloadGraphic(x)
