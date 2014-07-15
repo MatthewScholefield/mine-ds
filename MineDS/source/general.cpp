@@ -5,6 +5,7 @@
 #include "nifi.h"
 std::string messages[4];
 int nextmsg = 0;
+int currentTime = 0;
 
 void show_message(const char* s)
 {
@@ -61,4 +62,16 @@ void printXY(int x, int y, const char *output)
 void printXY(int x, int y, int output)
 {
 	iprintf("\x1b[%d;%dH%d", y, x, output);
+}
+
+void updateTime()
+{
+	currentTime++;
+	if (currentTime > 10000)
+		currentTime = 1;
+}
+
+unsigned int getTime()
+{
+	return currentTime;
 }
