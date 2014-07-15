@@ -74,23 +74,6 @@ void addCraftingRecipe(int block, int amount, int aid, int aamount, int bid, int
 	nextCraftingRecipe++;
 }
 
-void addCraftingRecipe(int block, int amount, int aid, int aamount, int bid, int bamount, int cid, int camount)
-{
-	addCraftingRecipe(block, amount, aid, aamount, bid, bamount, cid, camount, AIR, 0);
-}
-
-void addCraftingRecipe(int block, int amount, int aid, int aamount, int bid, int bamount)
-{
-	//Kill the stack :D
-	addCraftingRecipe(block, amount, aid, aamount, bid, bamount, AIR, 0);
-}
-
-void addCraftingRecipe(int block, int amount, int aid, int aamount)
-{
-	//Kill the stack :D
-	addCraftingRecipe(block, amount, aid, aamount, AIR, 0);
-}
-
 void addFurnaceRecipe(int block, int amount, int aid, int aamount)
 {
 	addCraftingRecipe(block, amount, aid, aamount, COAL, 1);
