@@ -143,16 +143,21 @@ void playerMob::updateMob(worldObject* world)
 			if (world->CamY < 0) world->CamY = 0;
 			if (world->CamX > WORLD_WIDTH * 16 - 256) world->CamX = WORLD_WIDTH * 16 - 256;
 			if (world->CamY > (WORLD_HEIGHT + 1)*16 - 192) world->CamY = (WORLD_HEIGHT + 1)*16 - 192;
+
 			if (keysHeld() & getControlKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
 			{
+				animateMob(&playerMobGraphic[0], 0);
 				x++;
 				facing = false;
 			}
-			if (keysHeld() & getControlKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
+			else if (keysHeld() & getControlKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
 			{
+				animateMob(&playerMobGraphic[0], 0);
 				x--;
 				facing = true;
 			}
+			else
+				setAnimFrame(&playerMobGraphic[0], 0, 0);
 			if (collisions[3] == true && world->blocks[x / 16][y / 16] != LADDER)
 			{
 				vy = 0;
@@ -227,8 +232,8 @@ void playerMob::updateMob(worldObject* world)
 	}
 	if (x - world->CamX>-16 && x - world->CamX < 256 + 16 && y - world->CamY>-32 && y - world->CamY < 256)
 	{
-		if (animation == 0) showGraphic(&playerMobGraphic[0], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
-		else if (animation == 1) showGraphic(&playerMobGraphic[1], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
+		if (animation == 0) showGraphic(&playerMobGraphic[0], x - world->CamX, y - world->CamY, facing ? true : false);
+		else if (animation == 1) showGraphic(&playerMobGraphic[1], x - world->CamX, y - world->CamY, facing ? true : false);
 	}
 }
 
@@ -258,7 +263,8 @@ bool canPlayerMobSpawnHere(worldObject* world, int x, int y)
 
 void playerMobInit()
 {
-	loadGraphic(&playerMobGraphic[0], true, 0);
+	//loadGraphicAnim(&playerMobGraphic[0], 0);
+	loadGraphic(&playerMobGraphic[0], 3, 0, 0, 0);
 	loadGraphic(&playerMobGraphic[1], true, 1);
 	loadGraphicSub(&hearts[0], 0, 0);
 	loadGraphicSub(&hearts[1], 0, 1);
