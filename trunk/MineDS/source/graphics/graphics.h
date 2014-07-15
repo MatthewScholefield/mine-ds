@@ -1,4 +1,5 @@
 #include <nds.h>
+#define FRAMES_PER_ANIMATION 6
 /** 
 	\file graphics.h
 	\breif A file used to define the Graphic structure.
@@ -8,6 +9,12 @@ typedef struct
 {
 	//! \breif Pointer to loaded graphic in VRAM
 	u16* Gfx;
+        //Frame of animation
+        u8*  frame_gfx;
+        //animation state
+        int state;
+        //Animation frame
+        int anim_frame;
 	//! \breif x Size of Graphic in pixels.
 	int sx;
 	//! \breif y Size of Graphic in pixels.
@@ -29,4 +36,7 @@ bool showGraphic(Graphic* g,int x,int y);
 bool showGraphic(Graphic* g,int x,int y,bool flip);
 void unloadGraphic(Graphic* g);
 bool showGraphic(Graphic* g,int x,int y,bool flip,int pri);
+void animateMob(Graphic* g, int mobSlot);
+void loadGraphicAnim(Graphic* g, int frame);
+void setAnimFrame(Graphic* g, int mobSlot, int frame);
 #define unloadGraphicSub(x) unloadGraphic(x)
