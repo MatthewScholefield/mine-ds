@@ -23,14 +23,7 @@ int spawn_x, spawn_y;
 
 int getDefaultSpawnX()
 {
-	int take = 0;
-	if (rand() % 2)
-	{
-		take = -16 - (rand() % 16);
-	}
-	else take = 16 + (rand() % 16);
-
-	return mobs[playerId]->x / 16 + (rand() % 5) - 2; //? rand() % 2 + 1 : -rand() % 2 - 1; //(rand() % 16)*(rand() % 2 ? -1 : 1);
+	return mobs[playerId]->x / 16 + (rand() % 5) - 2;
 }
 
 baseMob* mobHandlerFindMob(int range, int type, int x, int y)
@@ -72,7 +65,7 @@ void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 
 void mobHandlerHurtMob(int mobNum, int amount, int type)
 {
-	if (mobs[mobNum]->host == true)
+	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
 	{
 		mobs[mobNum]->hurt(amount, type);
 	}
@@ -167,6 +160,39 @@ bool canMobSpawnHere(int mobId, worldObject* world, int a, int b)
 	return false;
 }
 
+void newMob(int mobId, int mobNum, int x = 0, int y = 0)
+{
+	delete mobs[mobNum]; //Free Memory and Stop Crashes
+	switch (mobId)
+	{
+		case 0: mobs[mobNum] = new baseMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 1: mobs[mobNum] = new playerMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 2: mobs[mobNum] = new MplayerMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 3: mobs[mobNum] = new zombieMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 4: mobs[mobNum] = new pigMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 5: mobs[mobNum] = new cowMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 6: mobs[mobNum] = new sheepMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 7: mobs[mobNum] = new herobrineMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		default: break;
+	}
+}
+
 void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 {
 	int i;
@@ -176,35 +202,7 @@ void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 			int mobNum = findFreeMobSpawnNum();
 			if (mobNum != -1)
 			{
-				delete mobs[mobNum]; //Free Memory and Stop Crashes
-				switch (mobId)
-				{
-					case 0: mobs[mobNum] = new baseMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 1: mobs[mobNum] = new playerMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 2: mobs[mobNum] = new MplayerMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 3: mobs[mobNum] = new zombieMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 4: mobs[mobNum] = new pigMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 5: mobs[mobNum] = new cowMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 6: mobs[mobNum] = new sheepMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 7: mobs[mobNum] = new herobrineMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					default: break;
-				}
+				newMob(mobId, mobNum, j * 16, i * 16);
 				mobs[mobNum]->host = true;
 			}
 			else printf("Can't find number\n");
@@ -222,37 +220,9 @@ int spawnMob(int mobId, worldObject* world)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
 				int mobNum = findFreeMobSpawnNum();
-				if (mobNum != -1)
+				if (mobNum >= 0)
 				{
-					delete mobs[mobNum]; //Free Memory and Stop Crashes
-					switch (mobId)
-					{
-						case 0: mobs[mobNum] = new baseMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 1: mobs[mobNum] = new playerMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 2: mobs[mobNum] = new MplayerMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 3: mobs[mobNum] = new zombieMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 4: mobs[mobNum] = new pigMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 5: mobs[mobNum] = new cowMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 6: mobs[mobNum] = new sheepMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						case 7: mobs[mobNum] = new herobrineMob(j * 16, i * 16);
-							mobs[mobNum]->unKillMob();
-							break;
-						default: break;
-					}
+					newMob(mobId, mobNum, j * 16, i * 16);
 					mobs[mobNum]->host = true;
 				}
 				else printf("Can't find number\n");
@@ -265,74 +235,20 @@ int spawnMob(int mobId, worldObject* world)
 void spawnMobAt(int mobId, worldObject* world, int x, int y)
 {
 	int mobNum = findFreeMobSpawnNum();
-	if (mobNum != -1)
+	if (mobNum >= 0)
 	{
-		delete mobs[mobNum]; //Free Memory and Stop Crashes
-		switch (mobId)
-		{
-			case 0: mobs[mobNum] = new baseMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 1: mobs[mobNum] = new playerMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 2: mobs[mobNum] = new MplayerMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 3: mobs[mobNum] = new zombieMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 4: mobs[mobNum] = new pigMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 5: mobs[mobNum] = new cowMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 6: mobs[mobNum] = new sheepMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			case 7: mobs[mobNum] = new herobrineMob(x, y);
-				mobs[mobNum]->unKillMob();
-				break;
-			default: break;
-		}
+		newMob(mobId, mobNum, x, y);
 		mobs[mobNum]->host = true;
 	}
 }
 
 void spawnMobNoCheck(int mobId, worldObject* world, int mobNum)
 {
-	delete mobs[mobNum];
-	switch (mobId)
+	if (mobNum >= 0)
 	{
-		case 0: mobs[mobNum] = new baseMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 1: mobs[mobNum] = new playerMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 2: mobs[mobNum] = new MplayerMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 3: mobs[mobNum] = new zombieMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 4: mobs[mobNum] = new pigMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 5: mobs[mobNum] = new cowMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 6: mobs[mobNum] = new sheepMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 7: mobs[mobNum] = new herobrineMob(0, 0);
-			mobs[mobNum]->unKillMob();
-			break;
-
-		default: break;
+		newMob(mobId, mobNum);
+		mobs[mobNum]->host = false;
 	}
-	mobs[mobNum]->host = false;
 }
 
 void spawnMob(int mobId, worldObject* world, int mobNum)
@@ -343,36 +259,11 @@ void spawnMob(int mobId, worldObject* world, int mobNum)
 		for (i = 0; i <= WORLD_HEIGHT; i++)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
-				delete mobs[mobNum]; //Free Memory and Stop Crashes
-				switch (mobId)
+				if (mobNum >= 0)
 				{
-					case 0: mobs[mobNum] = new baseMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 1: mobs[mobNum] = new playerMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 2: mobs[mobNum] = new MplayerMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 3: mobs[mobNum] = new zombieMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 4: mobs[mobNum] = new pigMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 5: mobs[mobNum] = new cowMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 6: mobs[mobNum] = new sheepMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					case 7: mobs[mobNum] = new herobrineMob(j * 16, i * 16);
-						mobs[mobNum]->unKillMob();
-						break;
-					default: break;
+					newMob(mobId, mobNum, j * 16, i * 16);
+					mobs[mobNum]->host = false;
 				}
-				mobs[mobNum]->host = false;
 				i = WORLD_HEIGHT + 1;
 				j = WORLD_WIDTH + 1;
 			}
