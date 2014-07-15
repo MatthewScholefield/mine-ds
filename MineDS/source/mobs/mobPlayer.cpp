@@ -14,9 +14,13 @@
 #include "../graphics/inventoryGraphics.h"
 #include "../controls.h"
 #include "../Config.h"
+#include <time.h>
 //ASDF?
 //
 #define PLAYER_FULL_HEALTH 20
+#define PLAYER_SPRITE_WALK 0
+#define PLAYER_SPRITE_HURT 1
+#define PLAYER_SPRITE_MINE 2
 bool quitGame = false;
 int slow = 0;
 Graphic playerMobGraphic[3];
@@ -232,8 +236,16 @@ void playerMob::updateMob(worldObject* world)
 	}
 	if (x - world->CamX>-16 && x - world->CamX < 256 + 16 && y - world->CamY>-32 && y - world->CamY < 256)
 	{
-		if (animation == 0) showGraphic(&playerMobGraphic[0], x - world->CamX - 5, y - world->CamY, facing ? true : false);
-		else if (animation == 1) showGraphic(&playerMobGraphic[1], x - world->CamX - 5, y - world->CamY, facing ? true : false);
+		if (animation == 0)
+			if (keysHeld() & KEY_TOUCH)
+			{
+				if (getTime() % 3 == 1)
+					animateMob(&playerMobGraphic[PLAYER_SPRITE_MINE], 0);
+				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->CamX - 5, y - world->CamY, facing ? true : false);
+			}
+			else
+				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->CamX - 5, y - world->CamY, facing ? true : false);
+		else if (animation == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->CamX - 5, y - world->CamY, facing ? true : false);
 	}
 }
 
@@ -263,9 +275,9 @@ bool canPlayerMobSpawnHere(worldObject* world, int x, int y)
 
 void playerMobInit()
 {
-	loadGraphicAnim(&playerMobGraphic[0], 0);
-	//loadGraphic(&playerMobGraphic[0], 3, 0, 0, 0);
-	loadGraphic(&playerMobGraphic[1], true, 1);
+	loadGraphicAnim(&playerMobGraphic[PLAYER_SPRITE_WALK], 0); //Walk Animation
+	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], true, 1); //Hurt Graphic
+	loadGraphicAnim(&playerMobGraphic[PLAYER_SPRITE_MINE], 2); //Mine Animation
 	loadGraphicSub(&hearts[0], 0, 0);
 	loadGraphicSub(&hearts[1], 0, 1);
 }
