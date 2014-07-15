@@ -7,3 +7,5 @@ void show_message(const char* s);
 void clear_messages();
 void printXY(int x, int y, const char *output);
 void printXY(int x, int y, int output);
+void updateTime();
+unsigned int getTime();
