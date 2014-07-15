@@ -83,6 +83,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 
 	while (1)
 	{ //Infinitely repeats until break
+		updateTime();
 		scanKeys();
 		mobHandlerUpdate(CurrentWorld);
 		updateInventory(touch, CurrentWorld, oldKeys);
