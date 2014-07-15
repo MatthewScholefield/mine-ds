@@ -167,11 +167,11 @@ bool canMobSpawnHere(int mobId, worldObject* world, int a, int b)
 	return false;
 }
 
-void spawnMobOn(int mobId, worldObject* world, int j)
+void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; i++)
-		if (canMobSpawnHere(mobId, world, j, i))
+		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
 			int mobNum = findFreeMobSpawnNum();
 			if (mobNum != -1)
@@ -464,5 +464,10 @@ void mobHandlerUpdate(worldObject* world)
 	{
 		spawnMobOn(7, world, getDefaultSpawnX()); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
 		print_message("Spawned mob\n");
+	}
+	if (keysDown() & KEY_L)
+	{
+		spawnMobOn(3, world, getDefaultSpawnX(), true); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
+		print_message("Spawned mob Zombie\n");
 	}
 }

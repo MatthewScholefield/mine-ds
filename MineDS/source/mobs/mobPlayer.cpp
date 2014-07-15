@@ -232,8 +232,8 @@ void playerMob::updateMob(worldObject* world)
 	}
 	if (x - world->CamX>-16 && x - world->CamX < 256 + 16 && y - world->CamY>-32 && y - world->CamY < 256)
 	{
-		if (animation == 0) showGraphic(&playerMobGraphic[0], x - world->CamX, y - world->CamY, facing ? true : false);
-		else if (animation == 1) showGraphic(&playerMobGraphic[1], x - world->CamX, y - world->CamY, facing ? true : false);
+		if (animation == 0) showGraphic(&playerMobGraphic[0], x - world->CamX - 5, y - world->CamY, facing ? true : false);
+		else if (animation == 1) showGraphic(&playerMobGraphic[1], x - world->CamX - 5, y - world->CamY, facing ? true : false);
 	}
 }
 
@@ -263,8 +263,8 @@ bool canPlayerMobSpawnHere(worldObject* world, int x, int y)
 
 void playerMobInit()
 {
-	//loadGraphicAnim(&playerMobGraphic[0], 0);
-	loadGraphic(&playerMobGraphic[0], 3, 0, 0, 0);
+	loadGraphicAnim(&playerMobGraphic[0], 0);
+	//loadGraphic(&playerMobGraphic[0], 3, 0, 0, 0);
 	loadGraphic(&playerMobGraphic[1], true, 1);
 	loadGraphicSub(&hearts[0], 0, 0);
 	loadGraphicSub(&hearts[1], 0, 1);
