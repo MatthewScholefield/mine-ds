@@ -34,11 +34,11 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 		{
 			mob -> collisions[3] = true;
 		}
-		if (spritecol(mob -> x + 2, mob -> y, (blockx + 1)*16, (blocky - 1)*16, mob -> sx, mob ->sy, 16, 48) && !(isBlockWalkThrough(world->blocks[blockx + 1][blocky]) && isBlockWalkThrough(world->blocks[blockx + 1][blocky - 1])))
+		if (spritecol(mob -> x, mob -> y, (blockx + 1)*16, (blocky - 1)*16, mob -> sx, mob ->sy, 16, 48) && !(isBlockWalkThrough(world->blocks[blockx + 1][blocky]) && isBlockWalkThrough(world->blocks[blockx + 1][blocky - 1])))
 		{
 			mob -> collisions[1] = true;
 		}
-		if (spritecol(mob -> x - 2, mob -> y, (blockx - 1)*16, (blocky - 1)*16, mob -> sx, mob ->sy, 16, 48) && !(isBlockWalkThrough(world->blocks[blockx - 1][blocky]) && isBlockWalkThrough(world->blocks[blockx - 1][blocky - 1])))
+		if (spritecol(mob -> x, mob -> y, (blockx - 1)*16, (blocky - 1)*16, mob -> sx, mob ->sy, 16, 48) && !(isBlockWalkThrough(world->blocks[blockx - 1][blocky]) && isBlockWalkThrough(world->blocks[blockx - 1][blocky - 1])))
 		{
 			mob -> collisions[2] = true;
 		}
