@@ -118,7 +118,6 @@ void zombieMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
 		else animationclearframes--;
-		//iprintf("collisions = %d\n",collisions[0]);
 		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 		{
 			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
