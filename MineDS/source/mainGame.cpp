@@ -81,8 +81,6 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 	if (isSurvival())
 		drawInvButtons(false);
 
-	//dmaCopy(mansPal, SPRITE_PALETTE, 512);
-
 	while (1)
 	{ //Infinitely repeats until break
 		scanKeys();

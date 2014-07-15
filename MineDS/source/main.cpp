@@ -53,17 +53,9 @@ int main()
 	worldRender_LoadSprites();
 	craftingInit();
 	graphicFrame();
-	//videoSetMode(MODE_0_2D);
-	//videoSetModeSub(MODE_0_2D);
-	vramSetBankB(VRAM_B_MAIN_SPRITE);
-	//vramSetBankD(VRAM_D_SUB_SPRITE);
-	//oamInit(&oamMain, SpriteMapping_1D_128, false);
-	//oamInit(&oamSub, SpriteMapping_1D_128, false);
-
 	oamClear(&oamSub, 0, 127);
+
 	while (1)
-	{
 		titlescreen();
-	}
 	return 1;
 }
