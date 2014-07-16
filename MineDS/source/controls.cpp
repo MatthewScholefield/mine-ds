@@ -9,6 +9,11 @@ KEYPAD_BITS getControlKey(int key)
 	return controls.getKey(key);
 }
 
+Config* getSettings()
+{
+	return &controls;
+}
+
 void setControlKey(int action, KEYPAD_BITS key)
 {
 	controls.setKey(action, key);
@@ -32,14 +37,4 @@ void setDrawMode(bool on)
 bool getDrawMode()
 {
 	return controls.drawMode;
-}
-
-void saveControlData(FILE* data)
-{
-	fwrite(&controls, sizeof (controls), 1, data);
-}
-
-void loadControlData(FILE* data)
-{
-	fread(&controls, sizeof (controls), 1, data);
 }
