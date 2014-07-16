@@ -54,6 +54,7 @@ int main()
 	craftingInit();
 	graphicFrame();
 	oamClear(&oamSub, 0, 127);
+	loadControls(true); //Silently load controls (May fail silently))
 
 	while (1)
 		titlescreen();
