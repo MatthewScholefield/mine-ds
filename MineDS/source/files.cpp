@@ -36,10 +36,10 @@ bool openControlFiles(const char* mode = "rb")
 		fatInitDefault();
 		init = true;
 	}
-	controlData = fopen("/mineds/config.bin", mode);
+	controlData = fopen("/MineConfig.bin", mode);
 	if (!controlData)
 	{
-		printXY(1, 22, "Error opening /mineds/config.bin");
+		printXY(1, 22, "Error opening /MineConfig.bin");
 		for (int i = 0; i < 80; i++)
 			swiWaitForVBlank();
 		return false;
@@ -47,27 +47,22 @@ bool openControlFiles(const char* mode = "rb")
 	return true;
 }
 
-bool openFiles(const char* mode)
+bool openFiles(const char* mode = "rb")
 {
 	if (!init)
 	{
 		fatInitDefault();
 		init = true;
 	}
-	data = fopen("/mineds/data.bin", mode);
+	data = fopen("/MineData.bin", mode);
 	if (!data)
 	{
-		printXY(1, 22, "Error opening /mineds/data.bin");
+		printXY(1, 22, "Error opening /MineData.bin");
 		for (int i = 0; i < 80; i++)
 			swiWaitForVBlank();
 		return false;
 	}
 	return true;
-}
-
-bool openFiles()
-{
-	return openFiles("rb");
 }
 
 std::string getLine()
@@ -91,7 +86,7 @@ void writeString(std::string write)
 
 bool saveWorld(worldObject* world)
 {
-	const bool success = openFiles("wb");
+	const bool success = openFiles("wb+");
 	if (success)
 	{
 		//world is the world object
@@ -105,7 +100,7 @@ bool saveWorld(worldObject* world)
 
 void saveControls()
 {
-	if (openControlFiles("wb"))
+	if (openControlFiles("wb+"))
 	{
 		fseek(controlData, 0, SEEK_SET);
 		Config* settings = getSettings();
