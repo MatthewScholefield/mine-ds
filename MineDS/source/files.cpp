@@ -29,7 +29,7 @@ bool endOfFile()
 	return feof(data);
 }
 
-bool openControlFiles(const char* mode = "rb")
+bool openControlFiles(bool silent, const char* mode = "rb")
 {
 	if (!init)
 	{
@@ -37,13 +37,14 @@ bool openControlFiles(const char* mode = "rb")
 		init = true;
 	}
 	controlData = fopen("/MineConfig.bin", mode);
-	if (!controlData)
+	if (!controlData && !silent)
 	{
 		printXY(1, 22, "Error opening /MineConfig.bin");
 		for (int i = 0; i < 80; i++)
 			swiWaitForVBlank();
-		return false;
 	}
+	else if (!controlData)
+		return false;
 	return true;
 }
 
@@ -98,33 +99,39 @@ bool saveWorld(worldObject* world)
 	return success;
 }
 
-void saveControls()
+void saveControls(bool silent)
 {
-	if (openControlFiles("wb+"))
+	if (openControlFiles(silent, "wb+"))
 	{
 		fseek(controlData, 0, SEEK_SET);
 		Config* settings = getSettings();
 		fwrite(settings, sizeof (*settings), 1, controlData);
 		//saveControlData(controlData);
 		closeFiles(true);
-		printXY(1, 22, "Saved Controls");
-		for (int i = 0; i < 80; i++)
-			swiWaitForVBlank();
+		if (!silent)
+		{
+			printXY(1, 22, "Saved Controls");
+			for (int i = 0; i < 80; i++)
+				swiWaitForVBlank();
+		}
 	}
 }
 
-void loadControls()
+void loadControls(bool silent)
 {
-	if (openControlFiles())
+	if (openControlFiles(silent))
 	{
 		Config* settings = getSettings();
 		fseek(controlData, 0, SEEK_SET);
 		fread(settings, sizeof (*settings), 1, controlData);
 		//loadControlData(controlData);
 		closeFiles(true);
-		printXY(1, 22, "Loaded Controls");
-		for (int i = 0; i < 80; i++)
-			swiWaitForVBlank();
+		if (!silent)
+		{
+			printXY(1, 22, "Loaded Controls");
+			for (int i = 0; i < 80; i++)
+				swiWaitForVBlank();
+		}
 	}
 }
 
