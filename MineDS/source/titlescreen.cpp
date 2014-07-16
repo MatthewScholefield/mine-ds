@@ -488,7 +488,7 @@ bool controlsScreen()
 			return false;
 		case 2: saveControls();
 			return false;
-		case 3: saveControls();
+		case 3: loadControls();
 			return false;
 		case 4: viewControls();
 		default: return false;
