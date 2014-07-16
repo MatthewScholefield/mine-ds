@@ -1,14 +1,15 @@
 #include <fat.h>
 #include <nds.h>
 #include <stdio.h>
-//#include <sys/dir.h>
 #include <string>
 #include "general.h"
+#include "Config.h"
 #include "world.h"
 #include "inventory.h"
 #include "controls.h"
 
 FILE* data;
+FILE* controlData;
 
 bool init = false;
 
@@ -18,14 +19,32 @@ void stopNow()
 		swiWaitForVBlank();
 }
 
-void closeFiles()
+void closeFiles(bool control = false)
 {
-	fclose(data);
+	fclose(control ? controlData : data);
 }
 
 bool endOfFile()
 {
 	return feof(data);
+}
+
+bool openControlFiles(const char* mode = "rb")
+{
+	if (!init)
+	{
+		fatInitDefault();
+		init = true;
+	}
+	controlData = fopen("/mineds/config.bin", mode);
+	if (!controlData)
+	{
+		printXY(1, 22, "Error opening /mineds/config.bin");
+		for (int i = 0; i < 80; i++)
+			swiWaitForVBlank();
+		return false;
+	}
+	return true;
 }
 
 bool openFiles(const char* mode)
@@ -35,10 +54,10 @@ bool openFiles(const char* mode)
 		fatInitDefault();
 		init = true;
 	}
-	data = fopen("/mineds/data.txt", mode);
+	data = fopen("/mineds/data.bin", mode);
 	if (!data)
 	{
-		printXY(1, 22, "Error opening /mineds/data.txt");
+		printXY(1, 22, "Error opening /mineds/data.bin");
 		for (int i = 0; i < 80; i++)
 			swiWaitForVBlank();
 		return false;
@@ -86,19 +105,31 @@ bool saveWorld(worldObject* world)
 
 void saveControls()
 {
-	if (openFiles("wb"))
+	if (openControlFiles("wb"))
 	{
-		saveControlData(data);
-		closeFiles();
+		fseek(controlData, 0, SEEK_SET);
+		Config* settings = getSettings();
+		fwrite(settings, sizeof (*settings), 1, controlData);
+		//saveControlData(controlData);
+		closeFiles(true);
+		printXY(1, 22, "Saved Controls");
+		for (int i = 0; i < 80; i++)
+			swiWaitForVBlank();
 	}
 }
 
 void loadControls()
 {
-	if (openFiles())
+	if (openControlFiles())
 	{
-		loadControlData(data);
-		closeFiles();
+		Config* settings = getSettings();
+		fseek(controlData, 0, SEEK_SET);
+		fread(settings, sizeof (*settings), 1, controlData);
+		//loadControlData(controlData);
+		closeFiles(true);
+		printXY(1, 22, "Loaded Controls");
+		for (int i = 0; i < 80; i++)
+			swiWaitForVBlank();
 	}
 }
 
