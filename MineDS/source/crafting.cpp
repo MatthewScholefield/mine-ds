@@ -153,7 +153,7 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 			iprintf("\x1b[%d;%dH      ", i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
 	}
 
-	if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN) || ((touch->px > (4 - 1)*8 && touch->px < (4 + 5)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
+	if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN) || ((touch->px > (4 - 1)*8 && touch->px < (4 + 5)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
 	{
 
 	}

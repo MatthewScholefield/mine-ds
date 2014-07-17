@@ -234,7 +234,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 		return;
 	if (showingInventory == 0)
 	{
-		if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN))
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
 		{
 			lcdMainOnTop();
 			showingInventory = 1;
@@ -323,7 +323,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 				craftButton.setColored(false);
 			}
 		}
-		if (keysDown() & getControlKey(ACTION_SWITCH_SCREEN))
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
 		{
 			backButton.setVisible(false);
 			saveButton.setVisible(false);
