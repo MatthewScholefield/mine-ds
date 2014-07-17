@@ -10,12 +10,15 @@
 #define ACTION_MENU 8
 #define ACTION_CLIMB 9
 
+#define PROPERTY_HEROBRINE 0
+#define PROPERTY_DRAW 1
+
 
 #ifndef CONFIG_H
 #define	CONFIG_H
 
 class Config {
-public:
+private:
     KEYPAD_BITS left;
     KEYPAD_BITS right;
     KEYPAD_BITS jump;
@@ -25,10 +28,11 @@ public:
     KEYPAD_BITS switchScreen;
     KEYPAD_BITS menu;
     KEYPAD_BITS climb;
-    bool herobrineOn;
-    bool drawMode;
-
+    bool properties[2];
+public:
     void setKey(int action, KEYPAD_BITS key);
+    bool getProperty(int property);
+    void setProperty(int property, bool);
     KEYPAD_BITS getKey(int action);
     Config ():left(KEY_LEFT),
     right(KEY_RIGHT),
@@ -39,11 +43,12 @@ public:
     switchScreen(KEY_Y),
     menu(KEY_START),
     climb(KEY_UP),
-    herobrineOn(false),
-    drawMode(false)
+    properties{false,false}
     {
         
     }
 };
 
 #endif	/* CONFIG_H */
+
+Config *getGlobalSettings();

@@ -43,7 +43,7 @@ bool openControlFiles(bool silent, const char* mode = "rb")
 		for (int i = 0; i < 80; i++)
 			swiWaitForVBlank();
 	}
-	else if (!controlData)
+	if (!controlData)
 		return false;
 	return true;
 }
@@ -99,13 +99,12 @@ bool saveWorld(worldObject* world)
 	return success;
 }
 
-void saveControls(bool silent)
+bool saveControls(bool silent)
 {
 	if (openControlFiles(silent, "wb+"))
 	{
 		fseek(controlData, 0, SEEK_SET);
-		Config* settings = getSettings();
-		fwrite(settings, sizeof (*settings), 1, controlData);
+		fwrite(getGlobalSettings(), sizeof (*getGlobalSettings()), 1, controlData);
 		//saveControlData(controlData);
 		closeFiles(true);
 		if (!silent)
@@ -114,16 +113,17 @@ void saveControls(bool silent)
 			for (int i = 0; i < 80; i++)
 				swiWaitForVBlank();
 		}
+		return true;
 	}
+	return false;
 }
 
-void loadControls(bool silent)
+bool loadControls(bool silent)
 {
 	if (openControlFiles(silent))
 	{
-		Config* settings = getSettings();
 		fseek(controlData, 0, SEEK_SET);
-		fread(settings, sizeof (*settings), 1, controlData);
+		fread(getGlobalSettings(), sizeof (*getGlobalSettings()), 1, controlData);
 		//loadControlData(controlData);
 		closeFiles(true);
 		if (!silent)
@@ -132,7 +132,9 @@ void loadControls(bool silent)
 			for (int i = 0; i < 80; i++)
 				swiWaitForVBlank();
 		}
+		return true;
 	}
+	return false;
 }
 
 void loadWorld(worldObject* world)

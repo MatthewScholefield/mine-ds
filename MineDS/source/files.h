@@ -7,5 +7,5 @@ const char getChar();
 void stopNow();
 bool saveWorld(worldObject* world);
 void loadWorld(worldObject* world);
-void saveControls(bool silent = false);
-void loadControls(bool silent = false);
+bool saveControls(bool silent = false);
+bool loadControls(bool silent = false);

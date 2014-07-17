@@ -1,6 +1,13 @@
 #include <nds.h>
 #include "Config.h"
 
+Config globalSettings;
+
+Config *getGlobalSettings()
+{
+	return &globalSettings;
+}
+
 void Config::setKey(int action, KEYPAD_BITS key)
 {
 	switch (action)
@@ -52,4 +59,14 @@ KEYPAD_BITS Config::getKey(int action)
 			break;
 	}
 	return returnKey;
+}
+
+void Config::setProperty(int property, bool set)
+{
+	properties[property] = set;
+}
+
+bool Config::getProperty(int property)
+{
+	return properties[property];
 }
