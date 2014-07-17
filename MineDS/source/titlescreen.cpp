@@ -390,7 +390,7 @@ bool setControlsScreen()
 				return true;
 			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
 			{
-				setControlKey(getTappedAction(column), askForKeyScreen());
+				getGlobalSettings()->setKey(getTappedAction(column), askForKeyScreen());
 				return false;
 			}
 			else //Remove any colored buttons, if any
@@ -457,15 +457,15 @@ void viewControls()
 	printXY(X + 1, Y + 8, "         Menu---");
 	printXY(X + 1, Y + 9, "        Climb---");
 
-	printXY(X + 17, Y + 1, getKeyChar(getControlKey(ACTION_MOVE_LEFT)));
-	printXY(X + 17, Y + 2, getKeyChar(getControlKey(ACTION_MOVE_RIGHT)));
-	printXY(X + 17, Y + 3, getKeyChar(getControlKey(ACTION_JUMP)));
-	printXY(X + 17, Y + 4, getKeyChar(getControlKey(ACTION_CROUCH)));
-	printXY(X + 17, Y + 5, getKeyChar(getControlKey(ACTION_ITEM_LEFT)));
-	printXY(X + 17, Y + 6, getKeyChar(getControlKey(ACTION_ITEM_RIGHT)));
-	printXY(X + 17, Y + 7, getKeyChar(getControlKey(ACTION_SWITCH_SCREEN)));
-	printXY(X + 17, Y + 8, getKeyChar(getControlKey(ACTION_MENU)));
-	printXY(X + 17, Y + 9, getKeyChar(getControlKey(ACTION_CLIMB)));
+	printXY(X + 17, Y + 1, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_LEFT)));
+	printXY(X + 17, Y + 2, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_RIGHT)));
+	printXY(X + 17, Y + 3, getKeyChar(getGlobalSettings()->getKey(ACTION_JUMP)));
+	printXY(X + 17, Y + 4, getKeyChar(getGlobalSettings()->getKey(ACTION_CROUCH)));
+	printXY(X + 17, Y + 5, getKeyChar(getGlobalSettings()->getKey(ACTION_ITEM_LEFT)));
+	printXY(X + 17, Y + 6, getKeyChar(getGlobalSettings()->getKey(ACTION_ITEM_RIGHT)));
+	printXY(X + 17, Y + 7, getKeyChar(getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN)));
+	printXY(X + 17, Y + 8, getKeyChar(getGlobalSettings()->getKey(ACTION_MENU)));
+	printXY(X + 17, Y + 9, getKeyChar(getGlobalSettings()->getKey(ACTION_CLIMB)));
 	Button buttons[0];
 	menu(buttons, 0);
 }
@@ -507,12 +507,12 @@ bool gameOptions()
 	{
 		case 1:
 		{
-			setHerobrineOn(enableDisableMenu(getHerobrineOn()));
+			getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
 			return false;
 		}
 		case 2:
 		{
-			setDrawMode(enableDisableMenu(getDrawMode()));
+			getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
 			return false;
 		}
 		default:

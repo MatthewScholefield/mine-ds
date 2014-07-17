@@ -13,6 +13,7 @@
 #include "../collision.h"
 #include "../general.h"
 #include "../controls.h"
+#include "../Config.h"
 #define playerId 1
 
 baseMob* mobs[100];
@@ -349,7 +350,7 @@ void mobHandlerUpdate(worldObject* world)
 			take = -16 - (rand() % 16);
 		}
 		else take = 16 + (rand() % 16);
-		spawnMobOn(rand() % 10 != 1 && getHerobrineOn() ? 7 : 3, world, mobs[playerId]->x / 16 + take);
+		spawnMobOn(rand() % 10 != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[playerId]->x / 16 + take);
 	}
 	if (keysDown() & KEY_R)
 	{

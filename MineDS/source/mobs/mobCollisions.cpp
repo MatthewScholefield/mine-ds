@@ -23,7 +23,7 @@ void collision(worldObject* world, baseMob* mob, int type, int x, int y, bool su
 	{
 		if (world->blocks[x][y] == CACTUS)
 			collisionWithCactus(world, mob, type, x, y, sub);
-		else if (!(keysHeld() & getControlKey(ACTION_CROUCH)) && world->bgblocks[x][y] == CACTUS)
+		else if (!(keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)) && world->bgblocks[x][y] == CACTUS)
 			collisionWithCactus(world, mob, type, x, y, sub);
 		else if (mob->timeOnCactus >= 0 && rand() % 5 == 1)
 			mob->timeOnCactus--;
