@@ -78,14 +78,14 @@ worldObject* multiplayerGame(bool host, worldObject* world4)
 	while (1)
 	{
 		scanKeys();
-		if (keysDown() & getControlKey(ACTION_MENU)) break;
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU)) break;
 		recieveWorldUpdate();
 		touchRead(&touch);
 		nifiUpdate();
 		miningUpdate(world4, world4->CamX, world4->CamY, touch, keysDown());
 		update_message();
 		mobHandlerUpdate(world4);
-		if (keysDown() & getControlKey(ACTION_MENU) || shouldQuitGame()) break;
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) || shouldQuitGame()) break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);

@@ -121,8 +121,8 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 void setBlock(worldObject* world, int x, int y)
 {
 	skipLightUpdate = false;
-	bool isCrouched = (keysHeld() & getControlKey(ACTION_CROUCH));
-	bool isPlaceableBlock = (selectedBlock != AIR && !item(selectedBlock) && (!hasChangedBlock || getDrawMode()));
+	bool isCrouched = (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
+	bool isPlaceableBlock = (selectedBlock != AIR && !item(selectedBlock) && (!hasChangedBlock || getGlobalSettings()->getProperty(PROPERTY_DRAW)));
 	if (isCrouched) // Background
 	{
 		skipLightUpdate = true; //Background does not affect light
@@ -226,7 +226,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	{
 		hasChangedBlock = false;
 	}
-	if (keys & getControlKey(ACTION_ITEM_LEFT))
+	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
 		selectedBlock--;
 		if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
@@ -241,7 +241,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		calculateTopBlock();
 		updateTopName();
 	}
-	else if (keys & getControlKey(ACTION_ITEM_RIGHT))
+	else if (keys & getGlobalSettings()->getKey(ACTION_ITEM_RIGHT))
 	{
 		selectedBlock++;
 		if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;

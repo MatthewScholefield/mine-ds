@@ -90,7 +90,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
-		if (keysDown() & getControlKey(ACTION_MENU) || shouldQuitGame())
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) || shouldQuitGame())
 			break;
 		oldKeys = keysHeld();
 		touchRead(&touch);
