@@ -8,7 +8,6 @@
 #include "inventory.h"
 #include "graphics/inventoryGraphics.h"
 #include <stdio.h>
-#include "controls.h"
 #include "Config.h"
 #include "general.h"
 #include "files.h"

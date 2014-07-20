@@ -12,7 +12,6 @@
 #include "../communications.h"
 #include "../collision.h"
 #include "../general.h"
-#include "../controls.h"
 #include "../Config.h"
 #define playerId 1
 

@@ -15,7 +15,6 @@
 #include "deathScreen.h"
 #include "general.h"
 #include "daynight.h"
-#include "controls.h"
 #include "Config.h"
 
 worldObject* multiplayerGame(bool host, worldObject* world4)

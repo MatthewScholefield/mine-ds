@@ -12,7 +12,6 @@
 #include "../deathScreen.h"
 #include"../titlescreen.h"
 #include "../graphics/inventoryGraphics.h"
-#include "../controls.h"
 #include "../Config.h"
 #include <time.h>
 //ASDF?
