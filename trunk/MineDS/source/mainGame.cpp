@@ -15,7 +15,6 @@
 #include "daynight.h"
 #include "graphics/inventoryGraphics.h"
 #include "inventory.h"
-#include "controls.h"
 #include "titlescreen.h"
 #include "Config.h"
 

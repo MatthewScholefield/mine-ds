@@ -1,7 +1,6 @@
 #include "../blockID.h"
 #include "baseMob.h"
 #include "hurt.h"
-#include "../controls.h"
 #include "../Config.h"
 #include <nds.h>
 

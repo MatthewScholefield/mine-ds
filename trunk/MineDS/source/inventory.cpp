@@ -19,7 +19,6 @@
 #include <nds.h> // for keysDown()
 #include <stdio.h> // for fileio
 #include "Config.h"
-#include "controls.h"
 #include "world.h"
 #include "files.h"
 #include "graphics/Button.h"
