@@ -15,7 +15,6 @@
 #include "inventory.h"
 #include "blocks.h"
 #include "blockName.h"
-#include "controls.h"
 #include "Config.h"
 #include "mining.h"
 bool skipLightUpdate = false; //Whether to skip light update
