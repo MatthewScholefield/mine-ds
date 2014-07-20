@@ -6,7 +6,6 @@
 #include "Config.h"
 #include "world.h"
 #include "inventory.h"
-#include "controls.h"
 
 FILE* data;
 FILE* controlData;

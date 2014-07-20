@@ -9,7 +9,6 @@
 #include <nds.h> // for keysDown()
 #include <stdio.h>
 #include "crafting.h"
-#include "controls.h"
 #include "Config.h"
 #include "graphics/Button.h"
 recipe craftingRecipes[128];
