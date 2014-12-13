@@ -150,13 +150,13 @@ void playerMob::updateMob(worldObject* world)
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
 			{
 				animateMob(&playerMobGraphic[0], 0);
-				x++;
+				x += (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
 				facing = false;
 			}
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
 			{
 				animateMob(&playerMobGraphic[0], 0);
-				x--;
+				x -= (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
 				facing = true;
 			}
 			else
@@ -181,7 +181,7 @@ void playerMob::updateMob(worldObject* world)
 				y += vy;
 			}
 			else vy = 0;
-			if ((keysDown() & getGlobalSettings()->getKey(ACTION_CLIMB) || keysDown() & getGlobalSettings()->getKey(ACTION_JUMP)) && collisions[0] == true && !collisions[3]) vy = -2;
+			if ((keysDown() & getGlobalSettings()->getKey(ACTION_CLIMB) || keysDown() & getGlobalSettings()->getKey(ACTION_JUMP)) && (collisions[0] == true || !isSurvival()) && !collisions[3]) vy = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? -2 : -3;
 			y += vy;
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
 			if (y > world_heightpx) hurt(3, VOID_HURT);
