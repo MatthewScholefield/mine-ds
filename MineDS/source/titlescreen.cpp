@@ -499,10 +499,11 @@ bool gameOptions()
 	consoleClear();
 	drawBackground();
 
-	Button herobrine(8, 10, "Herobrine", 14);
-	Button drawMode(8, 15, "Draw Mode", 14);
-	Button buttons[] = {herobrine, drawMode};
-	switch (menu(buttons, 2))
+	Button herobrine(8, 8, "Herobrine", 14);
+	Button drawMode(8, 13, "Draw Mode", 14);
+	Button creativeSpeed(7, 18, "Creative Speed", 16);
+	Button buttons[] = {herobrine, drawMode, creativeSpeed};
+	switch (menu(buttons, 3))
 	{
 		case 1:
 		{
@@ -512,6 +513,11 @@ bool gameOptions()
 		case 2:
 		{
 			getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
+			return false;
+		}
+		case 3:
+		{
+			getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
 			return false;
 		}
 		default:
