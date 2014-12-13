@@ -12,6 +12,7 @@
 
 #define PROPERTY_HEROBRINE 0
 #define PROPERTY_DRAW 1
+#define PROPERTY_SPEED 2
 
 
 #ifndef CONFIG_H
@@ -28,7 +29,7 @@ private:
     KEYPAD_BITS switchScreen;
     KEYPAD_BITS menu;
     KEYPAD_BITS climb;
-    bool properties[2];
+    bool properties[3];
 public:
     void setKey(int action, KEYPAD_BITS key);
     bool getProperty(int property);
@@ -43,7 +44,7 @@ public:
     switchScreen(KEY_Y),
     menu(KEY_START),
     climb(KEY_UP),
-    properties{false,false}
+    properties{false,false,false}
     {
         
     }
