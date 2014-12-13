@@ -46,6 +46,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		CurrentWorld->CamX = 0;
 		CurrentWorld->CamY = 0;
 		CurrentWorld->timeInWorld = 0;
+		CurrentWorld->returnToGame = true;
 		consoleClear();
 	}
 		//mode 1: Return to game
@@ -55,14 +56,21 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
 		if (CurrentWorld == NULL)
 			return NULL;
+		if (!loadWorld(CurrentWorld))
+		{
+			printXY(1, 10, "Failed to Load World");
+			for (int i = 0; i < 100; i++)
+				swiWaitForVBlank();
+			CurrentWorld->returnToGame = false;
+			return CurrentWorld;
+		}
 		mobsReset();
-		loadWorld(CurrentWorld);
 		printXY(1, 8, "A");
 		CurrentWorld->CamX = 0;
 		CurrentWorld->CamY = 0;
 		CurrentWorld->timeInWorld = 0;
+		CurrentWorld->returnToGame = true;
 		consoleClear();
-
 	}
 	else if (mode == 3)//Generate world preview and return
 	{
@@ -74,6 +82,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		CurrentWorld->CamX = 0;
 		CurrentWorld->CamY = 0;
 		CurrentWorld->timeInWorld = 0;
+		CurrentWorld->returnToGame = false;
 		mobHandlerUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY);
 		return CurrentWorld;
