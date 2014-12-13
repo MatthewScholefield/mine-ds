@@ -310,6 +310,8 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			{
 				if (saveWorld(world))
 					show_message("Saved Game\n");
+				else
+					show_message("Failed to Save Game\n");
 				saveButton.setColored(false);
 			}
 			else

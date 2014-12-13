@@ -17,6 +17,7 @@
 #include "inventory.h"
 #include "titlescreen.h"
 #include "Config.h"
+#include "files.h"
 
 bool up;
 Graphic graphics[10];
