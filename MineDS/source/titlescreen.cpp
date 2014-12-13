@@ -485,9 +485,9 @@ bool controlsScreen()
 		case 0: return true;
 		case 1: while (!setControlsScreen());
 			return false;
-		case 2: saveControls();
+		case 2: saveControls(getGlobalSettings());
 			return false;
-		case 3: loadControls();
+		case 3: loadControls(getGlobalSettings());
 			return false;
 		case 4: viewControls();
 		default: return false;
