@@ -16,7 +16,6 @@
 
 bool playCalm = false; // Whether CALM music is playing
 bool playHal2 = false; // Whether Hal2 music is playing
-bool gameGen = false; //Whether world has been generated and the back key will allow going back to it
 bool multiplayer = false; //Whether generated world is multiplayer
 bool survival; // Whether Game Mode is Survival
 worldObject* theWorld;
@@ -485,9 +484,19 @@ bool controlsScreen()
 		case 0: return true;
 		case 1: while (!setControlsScreen());
 			return false;
-		case 2: saveControls(getGlobalSettings());
+		case 2: if (saveControls(getGlobalSettings()))
+				printXY(1, 22, "Saved Controls");
+			else
+				printXY(1, 22, "Failed to Save Controls");
+			for (int i = 0; i < 80; i++)
+				swiWaitForVBlank();
 			return false;
-		case 3: loadControls(getGlobalSettings());
+		case 3: if (loadControls(getGlobalSettings()))
+				printXY(1, 22, "Loaded Controls");
+			else
+				printXY(1, 22, "Failed to Load Controls");
+			for (int i = 0; i < 80; i++)
+				swiWaitForVBlank();
 			return false;
 		case 4: viewControls();
 		default: return false;
@@ -567,7 +576,6 @@ void startSingleplayer(bool setSurvival, bool load)
 	playHal2 = true;
 	updateInvGraphics();
 	theWorld = mainGame(load ? 2 : 0, theWorld);
-	gameGen = true;
 	multiplayer = false;
 }
 
@@ -622,7 +630,7 @@ void titlescreen()
 	Button settings = Button(8, 18, "Settings", 15);
 	Button buttons[] = {singlePlayer, multiPlayer, settings};
 
-	switch (menu(buttons, 3, gameGen && !multiplayer && !getDied()))
+	switch (menu(buttons, 3, theWorld->returnToGame && !multiplayer && !getDied()))
 	{
 		case 0: //back
 		{
