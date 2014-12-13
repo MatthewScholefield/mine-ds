@@ -10,7 +10,7 @@
 
 void initFile(void)
 {
-	fatDefaultInit();
+	fatInitDefault();
 }
 
 bool saveWorld(worldObject *world)
