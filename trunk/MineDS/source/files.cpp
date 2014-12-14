@@ -17,7 +17,7 @@ bool saveWorld(worldObject *world)
 {
 	FILE *fp;
 
-	if ((fp = fopen(WORLD_PATH, "w")) != NULL)
+	if ((fp = fopen(WORLD_PATH, "wb")) != NULL)
 	{
 		fwrite(world, sizeof (*world), 1, fp);
 		saveInventory(fp);
@@ -31,7 +31,7 @@ bool saveControls(Config *controls)
 {
 	FILE *fp;
 
-	if ((fp = fopen(CONTROLS_PATH, "w")) != NULL)
+	if ((fp = fopen(CONTROLS_PATH, "wb")) != NULL)
 	{
 		fwrite(controls, sizeof (*controls), 1, fp);
 		fclose(fp);
@@ -44,7 +44,7 @@ bool loadWorld(worldObject *world)
 {
 	FILE *fp;
 
-	if ((fp = fopen(WORLD_PATH, "r")) != NULL)
+	if ((fp = fopen(WORLD_PATH, "rb")) != NULL)
 	{
 		fread(world, sizeof (*world), 1, fp);
 		loadInventory(fp);
@@ -58,7 +58,7 @@ bool loadControls(Config *controls)
 {
 	FILE *fp;
 
-	if ((fp = fopen(CONTROLS_PATH, "r")) != NULL)
+	if ((fp = fopen(CONTROLS_PATH, "rb")) != NULL)
 	{
 		fread(controls, sizeof (*controls), 1, fp);
 		fclose(fp);
