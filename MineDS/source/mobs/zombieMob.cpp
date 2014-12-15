@@ -59,7 +59,7 @@ void zombieMob::hurt(int amount, int type)
 	if (type != VOID_HURT)
 		vy -= 2;
 	y += vy;
-	playSound(ZOMBIE_H);
+	playSound(SOUND_ZOMBIE_HURT);
 	health -= amount;
 	animation = 1;
 	animationclearframes = 20;
