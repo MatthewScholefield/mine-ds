@@ -152,7 +152,7 @@ void startMultiplayer(bool host)
 	theWorld = multiplayerGame(host, theWorld);
 	stopMusic();
 	playCalm = false;
-	playMusic(HAL2);
+	playMusic(MUSIC_HAL2);
 	playHal2 = true;
 }
 
@@ -572,7 +572,7 @@ void startSingleplayer(bool setSurvival, bool load)
 	consoleClear();
 	stopMusic();
 	playCalm = false;
-	playMusic(HAL2);
+	playMusic(MUSIC_HAL2);
 	playHal2 = true;
 	updateInvGraphics();
 	theWorld = mainGame(load ? 2 : 0, theWorld);
@@ -618,7 +618,7 @@ void titlescreen()
 	}
 	if (!playCalm)
 	{
-		playMusic(CALM);
+		playMusic(MUSIC_CALM);
 		playCalm = true;
 	}
 
@@ -638,7 +638,7 @@ void titlescreen()
 			consoleClear();
 			stopMusic();
 			playCalm = false;
-			playMusic(HAL2);
+			playMusic(MUSIC_HAL2);
 			playHal2 = true;
 			theWorld = mainGame(1, theWorld);
 			break;
