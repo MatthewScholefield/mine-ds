@@ -1,21 +1,28 @@
-#define TITLE 1
-#define CALM 2
-#define HAL2 3
-#define PIG_H 4
-#define PLAYER_H 5
-#define COW_H 6
-#define ZOMBIE_H 7
-#define SHEEP_H 8
-void playSoundNiFi(int sound);
-void playSound(int sound);
-void playMusic(int music);
-void stopMusic();
-void initSounds();
-void soundUpdate();
-typedef struct{
-int musictype;
-int volumechanging;
-int volume;
-bool playing;
-int frames;
-}musicStruct;
+#ifndef _SOUND_H_
+#define _SOUND_H_
+
+#include "soundbank.h"  // Soundbank definitions
+
+enum sound_t {
+	SOUND_COW_HURT		= SFX_COW_HURT,
+	SOUND_PIG_HURT		= SFX_PIG_HURT,
+	SOUND_PLAYER_HURT	= SFX_PLAYER_HURT,
+	SOUND_SHEEP_HURT	= SFX_SHEEP_HURT,
+	SOUND_ZOMBIE_HURT	= SFX_ZOMBIE_HURT
+};
+
+enum music_t {
+	MUSIC_NONE	= -1,
+	MUSIC_CALM	= MOD_CALM,
+	MUSIC_HAL2	= MOD_HAL2
+};
+
+void initSound(void);
+void setSoundVolume(unsigned int vol);
+void setMusicVolume(unsigned int vol);
+void playSound(sound_t sound);
+void playSoundNifi(sound_t sound);
+void playMusic(music_t music);
+void stopMusic(void);
+
+#endif /* !_SOUND_H_ */

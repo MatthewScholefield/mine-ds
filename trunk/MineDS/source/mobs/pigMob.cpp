@@ -175,7 +175,7 @@ void pigMob::hurt(int amount,int type)
 		vy-=2;
 	y+=vy;
 	health-=amount;
-	playSound(PIG_H);
+	playSound(SOUND_PIG_HURT);
 	if (type == PLAYER_HURT)
 		scared = true;
 	if (health<=0 && type == PLAYER_HURT)

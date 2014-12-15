@@ -81,7 +81,7 @@ void playerMob::hurt(int amount, int type)
 			return;
 		if (type != VOID_HURT)
 			vy -= 2;
-		playSound(PLAYER_H);
+		playSound(SOUND_PLAYER_HURT);
 		y += vy;
 		health -= amount;
 		animation = 1;
