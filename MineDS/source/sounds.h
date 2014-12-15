@@ -18,8 +18,6 @@ enum music_t {
 };
 
 void initSound(void);
-void setSoundVolume(unsigned int vol);
-void setMusicVolume(unsigned int vol);
 void playSound(sound_t sound);
 void playSoundNifi(sound_t sound);
 void playMusic(music_t music);
