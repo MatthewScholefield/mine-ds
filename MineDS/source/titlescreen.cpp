@@ -14,8 +14,6 @@
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
-bool playCalm = false; // Whether CALM music is playing
-bool playHal2 = false; // Whether Hal2 music is playing
 bool multiplayer = false; //Whether generated world is multiplayer
 bool survival; // Whether Game Mode is Survival
 worldObject* theWorld;
@@ -149,11 +147,8 @@ void startMultiplayer(bool host)
 	survival = false;
 	multiplayer = true;
 	drawBackground();
-	theWorld = multiplayerGame(host, theWorld);
-	stopMusic();
-	playCalm = false;
 	playMusic(MUSIC_HAL2);
-	playHal2 = true;
+	theWorld = multiplayerGame(host, theWorld);
 }
 
 void multiplayerScreen()
@@ -570,11 +565,7 @@ void startSingleplayer(bool setSurvival, bool load)
 	survival = setSurvival;
 	drawBackground();
 	consoleClear();
-	stopMusic();
-	playCalm = false;
 	playMusic(MUSIC_HAL2);
-	playHal2 = true;
-	updateInvGraphics();
 	theWorld = mainGame(load ? 2 : 0, theWorld);
 	multiplayer = false;
 }
@@ -611,17 +602,7 @@ void titlescreen()
 		theWorld = (worldObject *) calloc(1, sizeof (worldObject));
 		theWorld = mainGame(3, theWorld);
 	}
-	if (playHal2)
-	{
-		stopMusic();
-		playHal2 = false;
-	}
-	if (!playCalm)
-	{
-		playMusic(MUSIC_CALM);
-		playCalm = true;
-	}
-
+	playMusic(MUSIC_CALM);
 	drawBackground();
 	consoleClear();
 
@@ -636,10 +617,7 @@ void titlescreen()
 		{
 			drawBackground();
 			consoleClear();
-			stopMusic();
-			playCalm = false;
 			playMusic(MUSIC_HAL2);
-			playHal2 = true;
 			theWorld = mainGame(1, theWorld);
 			break;
 		}
