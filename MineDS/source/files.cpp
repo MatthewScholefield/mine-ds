@@ -17,7 +17,7 @@ bool saveWorld(worldObject *world)
 {
 	FILE *fp;
 
-	if ((fp = fopen(WORLD_PATH, "wb")) != NULL)
+	if ((fp = fopen(WORLD_PATH, "wb+")) != NULL)
 	{
 		fwrite(world, sizeof (*world), 1, fp);
 		saveInventory(fp);
@@ -31,7 +31,7 @@ bool saveControls(Config *controls)
 {
 	FILE *fp;
 
-	if ((fp = fopen(CONTROLS_PATH, "wb")) != NULL)
+	if ((fp = fopen(CONTROLS_PATH, "wb+")) != NULL)
 	{
 		fwrite(controls, sizeof (*controls), 1, fp);
 		fclose(fp);
