@@ -44,7 +44,6 @@ int main()
 	drawBackground();
 	setupFont();
 	nifiInit();
-	mmStop();
 	swiWaitForVBlank();
 	initBlockProperties();
 	worldRender_Init();
@@ -55,6 +54,7 @@ int main()
 	graphicFrame();
 	oamClear(&oamSub, 0, 127);
 	initFile();
+	initSound();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
 
 	while (1)

@@ -175,7 +175,7 @@ void sheepMob::hurt(int amount,int type)
 		vy-=2;
 	y+=vy;
 	health-=amount;
-	playSound(SHEEP_H);
+	playSound(SOUND_SHEEP_HURT);
 	if (type == PLAYER_HURT)
 		scared = true;
 	if (health<=0 && type == PLAYER_HURT)
