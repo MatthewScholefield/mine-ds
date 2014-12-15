@@ -11,10 +11,10 @@
 #include "Config.h"
 #include "general.h"
 #include "files.h"
+#include "nifi.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 
-bool multiplayer = false; //Whether generated world is multiplayer
 bool survival; // Whether Game Mode is Survival
 worldObject* theWorld;
 
@@ -145,7 +145,6 @@ int menu(Button buttons[], int size)
 void startMultiplayer(bool host)
 {
 	survival = false;
-	multiplayer = true;
 	drawBackground();
 	playMusic(MUSIC_HAL2);
 	theWorld = multiplayerGame(host, theWorld);
@@ -567,7 +566,6 @@ void startSingleplayer(bool setSurvival, bool load)
 	consoleClear();
 	playMusic(MUSIC_HAL2);
 	theWorld = mainGame(load ? 2 : 0, theWorld);
-	multiplayer = false;
 }
 
 int gameModeScreen()
@@ -611,7 +609,7 @@ void titlescreen()
 	Button settings = Button(8, 18, "Settings", 15);
 	Button buttons[] = {singlePlayer, multiPlayer, settings};
 
-	switch (menu(buttons, 3, theWorld->returnToGame && !multiplayer && !getDied()))
+	switch (menu(buttons, 3, theWorld->returnToGame && !isWifi() && !getDied()))
 	{
 		case 0: //back
 		{
