@@ -56,6 +56,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
 		if (CurrentWorld == NULL)
 			return NULL;
+		mobsReset(true);
 		if (!loadWorld(CurrentWorld))
 		{
 			printXY(1, 10, "Failed to Load World");
@@ -64,11 +65,9 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 			CurrentWorld->returnToGame = false;
 			return CurrentWorld;
 		}
-		mobsReset();
-		printXY(1, 8, "A");
-		CurrentWorld->CamX = 0;
+		/*CurrentWorld->CamX = 0;
 		CurrentWorld->CamY = 0;
-		CurrentWorld->timeInWorld = 0;
+		CurrentWorld->timeInWorld = 0;*/
 		CurrentWorld->returnToGame = true;
 		consoleClear();
 	}
