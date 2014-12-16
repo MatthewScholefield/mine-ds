@@ -1,5 +1,0 @@
-
-Save settings to a configuration file
----RELEASE---
-Start integrating survival into multiplayer
-Add sfx and animations
