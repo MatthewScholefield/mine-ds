@@ -1,6 +1,9 @@
 #include "../world.h"
 #include "baseMob.h"
+#include <fat.h>
 int getDefaultSpawnX();
+void savePlayer(FILE *data);
+void loadPlayer(FILE *data);
 void mobHandlerInit();
 void mobHandlerUpdate(worldObject* world);
 void mobHandlerKillMob(int a);

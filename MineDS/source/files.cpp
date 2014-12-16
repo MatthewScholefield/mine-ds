@@ -7,6 +7,7 @@
 #include "world.h"
 #include "inventory.h"
 #include "files.h"
+#include "mobs/mobHandler.h"
 
 void initFile(void)
 {
@@ -21,6 +22,7 @@ bool saveWorld(worldObject *world)
 	{
 		fwrite(world, sizeof (*world), 1, fp);
 		saveInventory(fp);
+		savePlayer(fp);
 		fclose(fp);
 		return true;
 	}
@@ -48,6 +50,7 @@ bool loadWorld(worldObject *world)
 	{
 		fread(world, sizeof (*world), 1, fp);
 		loadInventory(fp);
+		loadPlayer(fp);
 		fclose(fp);
 		return true;
 	}

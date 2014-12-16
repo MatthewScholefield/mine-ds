@@ -1,4 +1,5 @@
 #include <nds.h>
+#include <fat.h>
 #include "baseMob.h" //Bad guys are nameMob
 #include "mobPlayer.h" //Good guys are mobName
 #include "mobMPlayer.h"
@@ -24,6 +25,16 @@ int spawn_x, spawn_y;
 int getDefaultSpawnX()
 {
 	return mobs[playerId]->x / 16 + (rand() % 5) - 2;
+}
+
+void savePlayer(FILE *data)
+{
+	fwrite(&mobs[playerId], sizeof (mobs[playerId]), 1, data);
+}
+
+void loadPlayer(FILE *data)
+{
+	fread(&mobs[playerId], sizeof (mobs[playerId]), 1, data);
 }
 
 baseMob* mobHandlerFindMob(int range, int type, int x, int y)
