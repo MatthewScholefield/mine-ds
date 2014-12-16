@@ -104,7 +104,7 @@ void mobHandlerKillMob(int mobNum)
 	mobs[mobNum]->killMob();
 }
 
-void mobsReset()
+void mobsReset(bool playerSpawned)
 {
 	int i;
 	for (i = 0; i <= 100; i++)
@@ -113,8 +113,8 @@ void mobsReset()
 		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
 	}
-	hasSpawnPlayer = false;
-	spawnPlayerAtPos = false;
+	hasSpawnPlayer = playerSpawned;
+	spawnPlayerAtPos = playerSpawned;
 }
 
 void mobHandlerInit()
@@ -364,6 +364,11 @@ void mobHandlerUpdate(worldObject* world)
 	}
 	if (keysDown() & KEY_R)
 	{
+		mobs[playerId]->x += 2;
+	}
+	/*
+	if (keysDown() & KEY_R)
+	{
 		spawnMobOn(7, world, getDefaultSpawnX()); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
 		print_message("Spawned mob\n");
 	}
@@ -371,5 +376,5 @@ void mobHandlerUpdate(worldObject* world)
 	{
 		spawnMobOn(3, world, getDefaultSpawnX(), true); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
 		print_message("Spawned mob Zombie\n");
-	}
+	}*/
 }
