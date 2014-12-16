@@ -13,6 +13,7 @@ typedef struct{
 	int CamY;
 	int CamX;
 	int timeInWorld;
+        int worldBrightness;
         bool returnToGame; //Whether world has been generated and the back key will allow going back to it
 }worldObject;
 int findFirstBlock(worldObject* world,int x);

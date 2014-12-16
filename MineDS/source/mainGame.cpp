@@ -46,6 +46,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		CurrentWorld->CamX = 0;
 		CurrentWorld->CamY = 0;
 		CurrentWorld->timeInWorld = 0;
+		CurrentWorld->worldBrightness = 0;
 		CurrentWorld->returnToGame = true;
 		consoleClear();
 	}
@@ -65,9 +66,6 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 			CurrentWorld->returnToGame = false;
 			return CurrentWorld;
 		}
-		/*CurrentWorld->CamX = 0;
-		CurrentWorld->CamY = 0;
-		CurrentWorld->timeInWorld = 0;*/
 		CurrentWorld->returnToGame = true;
 		consoleClear();
 	}
@@ -81,6 +79,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		CurrentWorld->CamX = 0;
 		CurrentWorld->CamY = 0;
 		CurrentWorld->timeInWorld = 0;
+		CurrentWorld->worldBrightness = 0;
 		CurrentWorld->returnToGame = false;
 		mobHandlerUpdate(CurrentWorld);
 		worldRender_Render(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY);
