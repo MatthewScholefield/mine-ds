@@ -14,7 +14,7 @@ int b[15] = {31, 31, 30, 29, 28, 27, 26, 26, 24, 23, 22};
 void timeUpdate(worldObject* world)
 {
 	timeTillChange++;
-	if (timeTillChange >= 3)
+	if (timeTillChange >= 300)
 	{
 		world->timeInWorld++;
 		timeTillChange = 0;
