@@ -2,6 +2,7 @@
 #include <stdio.h>
 #ifndef H_INV
 #define H_INV
+int getInventoryState();
 bool addInventory (int blockID, int amount);
 bool subInventory (int blockID, int amount);
 int checkInventory (int blockID);
