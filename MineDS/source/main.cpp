@@ -56,8 +56,5 @@ int main()
 	initFile();
 	initSound();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
-
-	while (1)
-		titlescreen();
-	return 1;
+	titlescreen();
 }

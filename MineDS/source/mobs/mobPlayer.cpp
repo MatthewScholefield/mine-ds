@@ -10,7 +10,7 @@
 #include "../blockID.h"
 #include "../sounds.h"
 #include "../deathScreen.h"
-#include"../titlescreen.h"
+#include "../mainGame.h"
 #include "../graphics/inventoryGraphics.h"
 #include "../Config.h"
 #include <time.h>
@@ -184,7 +184,7 @@ void playerMob::updateMob(worldObject* world)
 			if ((keysDown() & getGlobalSettings()->getKey(ACTION_CLIMB) || keysDown() & getGlobalSettings()->getKey(ACTION_JUMP)) && (collisions[0] == true || !isSurvival()) && !collisions[3]) vy = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? -2 : -3;
 			y += vy;
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
-			if (y > world_heightpx) hurt(3, VOID_HURT);
+			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (animationclearframes == 0) animation = 0;
 			else animationclearframes--;
 			if (reheal > 300)
