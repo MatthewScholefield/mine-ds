@@ -54,6 +54,11 @@ void loadInventory(FILE* data)
 	fread(&mainPlayerInv, sizeof (mainPlayerInv), 1, data);
 }
 
+int getInventoryState()
+{
+	return showingInventory;
+}
+
 bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
 {
 	//First find a spot availabe for the block id

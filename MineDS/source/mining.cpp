@@ -37,7 +37,7 @@ int getSelectedblock()
 	return selectedBlock;
 }
 
-void miningSetScene(bool a)
+void miningSetScene(bool a) //false enables block destroy, true disable it
 {
 	incutscene = a;
 }
