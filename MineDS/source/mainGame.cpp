@@ -56,9 +56,11 @@ static int inGameMenu()
 				printXY(1, 22, "Saving game");
 				if (!saveWorld(&world))
 					printXY(1, 22, "Failed to save game");
+				sleep(1);
 				break;
 			case 2: // quit game
 				printXY(1, 22, "Quiting game");
+				sleep(1);
 				return -1;
 			case 3: // settings
 				settingsScreen();

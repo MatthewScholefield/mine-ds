@@ -7,6 +7,18 @@ std::string messages[4];
 int nextmsg = 0;
 int currentTime = 0;
 
+void sleep(unsigned int seconds)
+{
+	if (seconds == 0)
+		return;
+
+	seconds *= 60; // 1 second = 60 swiWaitForVBlank
+	do
+	{
+		swiWaitForVBlank();
+	} while (--seconds != 0);
+}
+
 void show_message(const char* s)
 {
 	messages[nextmsg] = s;
