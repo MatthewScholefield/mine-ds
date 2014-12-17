@@ -34,56 +34,62 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 	touchPosition touch;
 	initInvGraphics();
 
-	if (mode == 0) // Generate new world and reset the camera and time
+	switch (mode)
 	{
-		printXY(1, 8, "Generating world...\n");
-		if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
-		if (CurrentWorld == NULL)
-			return NULL;
-		mobsReset();
-		generateWorld(CurrentWorld);
-		printXY(1, 8, "A");
-		CurrentWorld->CamX = 0;
-		CurrentWorld->CamY = 0;
-		CurrentWorld->timeInWorld = 0;
-		CurrentWorld->worldBrightness = 0;
-		CurrentWorld->returnToGame = true;
-		consoleClear();
-	}
-		//mode 1: Return to game
-	else if (mode == 2) //Load World
-	{
-		printXY(1, 8, "Loading world...\n");
-		if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
-		if (CurrentWorld == NULL)
-			return NULL;
-		mobsReset(true);
-		if (!loadWorld(CurrentWorld))
+		case 0:// Generate new world and reset the camera and time
 		{
-			printXY(1, 10, "Failed to Load World");
-			for (int i = 0; i < 100; i++)
-				swiWaitForVBlank();
+			printXY(1, 8, "Generating world...\n");
+			if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
+			if (CurrentWorld == NULL)
+				return NULL;
+			mobsReset();
+			generateWorld(CurrentWorld);
+			CurrentWorld->CamX = 0;
+			CurrentWorld->CamY = 0;
+			CurrentWorld->timeInWorld = 0;
+			CurrentWorld->worldBrightness = 0;
+			CurrentWorld->returnToGame = true;
+			consoleClear();
+		}
+			break;
+		case 1://Return to game
+			break;
+		case 2: //Load World
+		{
+			printXY(1, 8, "Loading world...\n");
+			if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
+			if (CurrentWorld == NULL)
+				return NULL;
+			mobsReset(true);
+			if (!loadWorld(CurrentWorld))
+			{
+				printXY(1, 10, "Failed to Load World");
+				for (int i = 0; i < 100; i++)
+					swiWaitForVBlank();
+				CurrentWorld->returnToGame = false;
+				return CurrentWorld;
+			}
+			CurrentWorld->returnToGame = true;
+			consoleClear();
+		}
+			break;
+		case 3://Generate world preview and return
+		{
+			if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
+			if (CurrentWorld == NULL)
+				return NULL;
+			mobsReset();
+			generateSmallWorld(CurrentWorld);
+			CurrentWorld->CamX = 0;
+			CurrentWorld->CamY = 0;
+			CurrentWorld->timeInWorld = 0;
+			CurrentWorld->worldBrightness = 0;
 			CurrentWorld->returnToGame = false;
+			mobHandlerUpdate(CurrentWorld);
+			worldRender_Render(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY);
 			return CurrentWorld;
 		}
-		CurrentWorld->returnToGame = true;
-		consoleClear();
-	}
-	else if (mode == 3)//Generate world preview and return
-	{
-		if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
-		if (CurrentWorld == NULL)
-			return NULL;
-		mobsReset();
-		generateSmallWorld(CurrentWorld);
-		CurrentWorld->CamX = 0;
-		CurrentWorld->CamY = 0;
-		CurrentWorld->timeInWorld = 0;
-		CurrentWorld->worldBrightness = 0;
-		CurrentWorld->returnToGame = false;
-		mobHandlerUpdate(CurrentWorld);
-		worldRender_Render(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY);
-		return CurrentWorld;
+			break;
 	}
 	if (isSurvival())
 		drawInvButtons(false);
@@ -97,7 +103,7 @@ worldObject* mainGame(int mode, worldObject* CurrentWorld)
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
-		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) || shouldQuitGame())
+		if ((keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0) || shouldQuitGame())
 			break;
 		oldKeys = keysHeld();
 		touchRead(&touch);
