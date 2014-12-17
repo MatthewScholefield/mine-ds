@@ -452,11 +452,13 @@ void controlsScreen()
 				printXY(1, 22, "Saving controls");
 				if (!saveControls(getGlobalSettings()))
 					printXY(1, 22, "Failed to save controls");
+				sleep(1);
 				break;
 			case 3: // load controls
 				printXY(1, 22, "Loading controls");
 				if (!loadControls(getGlobalSettings()))
 					printXY(1, 22, "Failed to load controls");
+				sleep(1);
 				break;
 			case 4: // view controls
 				viewControls();
@@ -558,6 +560,7 @@ void gameModeScreen()
 				printXY(1, 22, "Failed to load game");
 				return;
 			}
+			sleep(1);
 			break;
 		default: // back button
 			return;
