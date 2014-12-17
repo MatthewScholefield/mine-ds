@@ -18,102 +18,212 @@
 #include "titlescreen.h"
 #include "Config.h"
 #include "files.h"
+#include "mainGame.h"
+#include "sounds.h"
+#include "nifi.h"
+#include "communications.h"
 
-bool up;
-Graphic graphics[10];
-void mobHandlerUpdate(worldObject* world);
+worldObject world;
 
-worldObject* mainGame(int mode, worldObject* CurrentWorld)
+static void redrawGameUI(void)
 {
-	scanKeys();
-	uint oldKeys = keysHeld();
-	consoleClear();
-	clear_messages();
-	if (mode != 3)// Generating world for preview doesn't require screen change
-		lcdMainOnBottom();
-	touchPosition touch;
-	initInvGraphics();
-
-	switch (mode)
-	{
-		case 0:// Generate new world and reset the camera and time
-		{
-			printXY(1, 8, "Generating world...\n");
-			if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
-			if (CurrentWorld == NULL)
-				return NULL;
-			mobsReset();
-			generateWorld(CurrentWorld);
-			CurrentWorld->CamX = 0;
-			CurrentWorld->CamY = 0;
-			CurrentWorld->timeInWorld = 0;
-			CurrentWorld->worldBrightness = 0;
-			CurrentWorld->returnToGame = true;
-			consoleClear();
-		}
-			break;
-		case 1://Return to game
-			break;
-		case 2: //Load World
-		{
-			printXY(1, 8, "Loading world...\n");
-			if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
-			if (CurrentWorld == NULL)
-				return NULL;
-			mobsReset(true);
-			if (!loadWorld(CurrentWorld))
-			{
-				printXY(1, 10, "Failed to Load World");
-				for (int i = 0; i < 100; i++)
-					swiWaitForVBlank();
-				CurrentWorld->returnToGame = false;
-				return CurrentWorld;
-			}
-			CurrentWorld->returnToGame = true;
-			consoleClear();
-		}
-			break;
-		case 3://Generate world preview and return
-		{
-			if (CurrentWorld == NULL) CurrentWorld = (worldObject *) calloc(1, sizeof (worldObject));
-			if (CurrentWorld == NULL)
-				return NULL;
-			mobsReset();
-			generateSmallWorld(CurrentWorld);
-			CurrentWorld->CamX = 0;
-			CurrentWorld->CamY = 0;
-			CurrentWorld->timeInWorld = 0;
-			CurrentWorld->worldBrightness = 0;
-			CurrentWorld->returnToGame = false;
-			mobHandlerUpdate(CurrentWorld);
-			worldRender_Render(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY);
-			return CurrentWorld;
-		}
-			break;
-	}
+	lcdMainOnBottom();
+	drawBackground();
 	if (isSurvival())
 		drawInvButtons(false);
+}
 
-	while (1)
-	{ //Infinitely repeats until break
+static int inGameMenu()
+{
+	bool backbutton = false;
+
+	while (!backbutton)
+	{
+		lcdMainOnTop();
+		previewScreen(false);
+		playMusic(MUSIC_CALM);
+		drawBackground();
+		consoleClear();
+
+		Button save = Button(10, 8, "Save Game", 11);
+		Button quit = Button(10, 13, "Quit Game", 11);
+		Button settings = Button(10, 18, "Settings", 11);
+		Button buttons[] = { save, quit, settings };
+
+		switch (menu(buttons, 3))
+		{
+			case 1: // save game
+				printXY(1, 22, "Saving game");
+				if (!saveWorld(&world))
+					printXY(1, 22, "Failed to save game");
+				break;
+			case 2: // quit game
+				printXY(1, 22, "Quiting game");
+				return -1;
+			case 3: // settings
+				settingsScreen();
+				break;
+			default: // back button
+				backbutton = true;
+				break;
+		}
+	}
+	redrawGameUI();
+	return 0;
+}
+
+bool isCreative(void)
+{
+	return (world.gamemode == GAMEMODE_CREATIVE);
+}
+
+bool isSurvival(void)
+{
+	return (world.gamemode == GAMEMODE_SURVIVAL);
+}
+
+void newGame(gamemode_t mode)
+{
+	mobsReset();
+	generateWorld(&world);
+	world.CamX = 0;
+	world.CamY = 0;
+	world.timeInWorld = 0;
+	world.gamemode = mode;
+}
+
+bool loadGame(void)
+{
+	mobsReset(true);
+	if (loadWorld(&world))
+		return true;
+	return false;
+}
+
+void previewScreen(int generate)
+{
+	if (generate)
+	{
+		mobsReset();
+		generateSmallWorld(&world);
+		world.CamX = 0;
+		world.CamY = 0;
+		world.timeInWorld = 0;
+	}
+	mobHandlerUpdate(&world);
+	worldRender_Render(&world, world.CamX, world.CamY);
+}
+
+void startGame(void)
+{
+	int oldKeys = keysHeld();
+	touchPosition touch;
+
+	consoleClear();
+	clear_messages();
+
+	redrawGameUI();
+	clearInventory();
+	playMusic(MUSIC_HAL2);
+
+	while (!shouldQuitGame())
+	{
 		updateTime();
 		scanKeys();
-		mobHandlerUpdate(CurrentWorld);
-		updateInventory(touch, CurrentWorld, oldKeys);
+		mobHandlerUpdate(&world);
+		updateInventory(touch, &world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
-		if ((keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0) || shouldQuitGame())
-			break;
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0) {
+			if (inGameMenu() != 0)
+				break;
+		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		miningUpdate(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY, touch, keysDown());
+		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
-		timeUpdate(CurrentWorld);
-		worldRender_Render(CurrentWorld, CurrentWorld->CamX, CurrentWorld->CamY);
+		timeUpdate(&world);
+		worldRender_Render(&world, world.CamX, world.CamY);
 	}
-	return CurrentWorld;
+}
+
+// TODO: clean this function up
+void startMultiplayerGame(bool host)
+{
+	touchPosition touch;
+
+	nifiEnable();
+	mobsReset();
+	consoleClear();
+	clear_messages();
+
+	if (host)
+	{
+		lcdMainOnBottom();
+		iprintf("Generating World!\n");
+		generateWorld(&world);
+		while (!hostNifiInit()) swiWaitForVBlank();
+		communicationInit(&world);
+		consoleClear();
+		unsigned short buffer[100];
+		int server_id = getServerID();
+		sprintf((char *) buffer, "Server ID: %d\n", server_id);
+		print_message((char *) buffer);
+		world.timeInWorld = 0;
+	}
+	else
+	{
+		int i, j;
+
+		lcdMainOnTop();
+		for (i = 0; i <= WORLD_WIDTH; i++) {
+			for (j = 0; j <= WORLD_HEIGHT; j++) {
+				world.blocks[i][j] = BEDROCK;
+				world.bgblocks[i][j] = BEDROCK;
+			}
+		}
+		iprintf("Looking for servers\n");
+		while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
+			swiWaitForVBlank();
+		iprintf("Joining Server!\n");
+		// Next Do a HandShake and check that we are communicating with MineDS (and not another game that we might make in the future)
+		if (!doHandshake())
+			return;
+		recieveWorld(&world);
+		consoleClear();
+		unsigned short buffer[100];
+		int client_id = getClientID();
+		sprintf((char *) buffer, "%d joined the game.\n", client_id);
+		print_message((char *) buffer);
+	}
+	lcdMainOnBottom();
+	world.CamX = 0;
+	world.CamY = 0;
+
+	while (!shouldQuitGame())
+	{
+		scanKeys();
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
+			break;
+		recieveWorldUpdate();
+		touchRead(&touch);
+		nifiUpdate();
+		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
+		update_message();
+		mobHandlerUpdate(&world);
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
+			break;
+		swiWaitForVBlank();
+		oamUpdate(&oamMain);
+		oamUpdate(&oamSub);
+		graphicFrame();
+		if (host)
+			timeUpdate(&world);
+		worldRender_Render(&world, world.CamX, world.CamY);
+	}
+	nifiDisable();
 }

@@ -1,8 +1,16 @@
-#ifndef WORLD_H
-#define WORLD_HEIGHT 128
-#define world_heightpx WORLD_HEIGHT*16
-#define world_widthpx WORLD_WIDTH*16
-#define WORLD_WIDTH 512
+#ifndef _WORLD_H_
+#define _WORLD_H_
+
+#define WORLD_HEIGHT	(128)
+#define WORLD_WIDTH	(512)
+#define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
+#define WORLD_WIDTHPX	(WORLD_WIDTH * 16)
+
+enum gamemode_t {
+	GAMEMODE_CREATIVE,
+	GAMEMODE_SURVIVAL
+};
+
 typedef struct{
 	int blocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int data[WORLD_WIDTH+1][WORLD_HEIGHT+1]; 
@@ -13,11 +21,12 @@ typedef struct{
 	int CamY;
 	int CamX;
 	int timeInWorld;
-        int worldBrightness;
-        bool returnToGame; //Whether world has been generated and the back key will allow going back to it
+	int worldBrightness;
+	gamemode_t gamemode;
 }worldObject;
+
 int findFirstBlock(worldObject* world,int x);
 int findFirstBiomeBlock(worldObject* world,int x);
 void drawLineDown(worldObject* world,int x, int y);
-#define WORLD_H
-#endif
+
+#endif /* !_WORLD_H_ */

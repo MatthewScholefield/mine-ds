@@ -3,7 +3,6 @@
 #include "graphics/graphics.h"
 #include "graphics/Button.h"
 #include "mainGame.h"
-#include "multiplayerGame.h"
 #include "sounds.h"
 #include "inventory.h"
 #include "graphics/inventoryGraphics.h"
@@ -14,14 +13,6 @@
 #include "nifi.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
-
-bool survival; // Whether Game Mode is Survival
-worldObject* theWorld;
-
-bool isSurvival()
-{
-	return survival;
-}
 
 void drawBackground() //Draws dirt background and MineDS Logo
 {
@@ -140,31 +131,6 @@ bool enableDisableMenu(bool initial)
 int menu(Button buttons[], int size)
 {
 	return menu(buttons, size, true);
-}
-
-void startMultiplayer(bool host)
-{
-	survival = false;
-	drawBackground();
-	playMusic(MUSIC_HAL2);
-	theWorld = multiplayerGame(host, theWorld);
-}
-
-void multiplayerScreen()
-{
-	consoleClear();
-	drawBackground();
-
-	Button create(9, 10, "Create Game", 13);
-	Button join(9, 15, "Join Game", 13);
-	Button buttons[] = {create, join};
-	switch (menu(buttons, 2))
-	{
-		case 1:startMultiplayer(true);
-			break;
-		case 2:startMultiplayer(false);
-			break;
-	}
 }
 
 void creditsScreen()
@@ -462,117 +428,115 @@ void viewControls()
 	menu(buttons, 0);
 }
 
-bool controlsScreen()
+void controlsScreen()
 {
-	consoleClear();
-	drawBackground();
+	bool backbutton = false;
 
-	Button view(8, 10, "View");
-	Button edit(17, 10, "Edit");
-	Button save(8, 15, "Save");
-	Button load(17, 15, "Load");
-
-	Button buttons[] = {edit, save, load, view};
-	switch (menu(buttons, 4))
+	while (!backbutton)
 	{
-		case 0: return true;
-		case 1: while (!setControlsScreen());
-			return false;
-		case 2: if (saveControls(getGlobalSettings()))
-				printXY(1, 22, "Saved Controls");
-			else
-				printXY(1, 22, "Failed to Save Controls");
-			for (int i = 0; i < 80; i++)
-				swiWaitForVBlank();
-			return false;
-		case 3: if (loadControls(getGlobalSettings()))
-				printXY(1, 22, "Loaded Controls");
-			else
-				printXY(1, 22, "Failed to Load Controls");
-			for (int i = 0; i < 80; i++)
-				swiWaitForVBlank();
-			return false;
-		case 4: viewControls();
-		default: return false;
+		consoleClear();
+		drawBackground();
+
+		Button edit(17, 10, "Edit");
+		Button save(8, 15, "Save");
+		Button load(17, 15, "Load");
+		Button view(8, 10, "View");
+		Button buttons[] = {edit, save, load, view};
+
+		switch (menu(buttons, 4))
+		{
+			case 1: // change controls
+				setControlsScreen();
+				break;
+			case 2: // save controls
+				printXY(1, 22, "Saving controls");
+				if (!saveControls(getGlobalSettings()))
+					printXY(1, 22, "Failed to save controls");
+				break;
+			case 3: // load controls
+				printXY(1, 22, "Loading controls");
+				if (!loadControls(getGlobalSettings()))
+					printXY(1, 22, "Failed to load controls");
+				break;
+			case 4: // view controls
+				viewControls();
+				break;
+			default: // back button
+				backbutton = true;
+				break;
+		}
 	}
 }
 
-bool gameOptions()
+void gameOptions()
 {
-	consoleClear();
-	drawBackground();
+	bool backbutton = false;
 
-	Button herobrine(8, 8, "Herobrine", 14);
-	Button drawMode(8, 13, "Draw Mode", 14);
-	Button creativeSpeed(7, 18, "Creative Speed", 16);
-	Button buttons[] = {herobrine, drawMode, creativeSpeed};
-	switch (menu(buttons, 3))
+	while (!backbutton)
 	{
-		case 1:
+		consoleClear();
+		drawBackground();
+
+		Button herobrine(8, 8, "Herobrine", 14);
+		Button drawMode(8, 13, "Draw Mode", 14);
+		Button creativeSpeed(7, 18, "Creative Speed", 16);
+		Button buttons[] = {herobrine, drawMode, creativeSpeed};
+
+		switch (menu(buttons, 3))
 		{
-			getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
-			return false;
+			case 1: // herobrine
+				getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
+				break;
+			case 2: // draw mode
+				getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
+				break;
+			case 3: // creative speed
+				getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
+				break;
+			default: // back button
+				backbutton = true;
+				break;
 		}
-		case 2:
-		{
-			getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
-			return false;
-		}
-		case 3:
-		{
-			getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
-			return false;
-		}
-		default:
-			return true;
 	}
 }
 
-bool settingsScreen()
+void settingsScreen()
 {
-	consoleClear();
-	drawBackground();
+	bool backbutton = false;
 
-	Button controls(8, 8, "Controls", 15);
-	Button options(8, 13, "Game Options", 15);
-	Button credits(8, 18, "Credits", 15);
-	Button buttons[] = {controls, options, credits};
-	switch (menu(buttons, 3))
+	while (!backbutton)
 	{
-		case 1:
+		consoleClear();
+		drawBackground();
+
+		Button controls(8, 8, "Controls", 15);
+		Button options(8, 13, "Game Options", 15);
+		Button credits(8, 18, "Credits", 15);
+		Button buttons[] = {controls, options, credits};
+
+		switch (menu(buttons, 3))
 		{
-			while (!controlsScreen());
-			return false;
+			case 1: // controls
+				controlsScreen();
+				break;
+			case 2: // game options
+				gameOptions();
+				break;
+			case 3: // credits screen
+				creditsScreen();
+				break;
+			default: // back button
+				backbutton = true;
+				break;
 		}
-		case 2:
-		{
-			while (!gameOptions());
-			return false;
-		}
-		case 3:
-		{
-			creditsScreen();
-			return false;
-		}
-		default: return true;
 	}
 }
 
-void startSingleplayer(bool setSurvival, bool load)
+void gameModeScreen()
 {
-	clearInventory(); //TODO: Clear inventory on Death, not here
-	survival = setSurvival;
 	drawBackground();
 	consoleClear();
-	playMusic(MUSIC_HAL2);
-	theWorld = mainGame(load ? 2 : 0, theWorld);
-}
 
-int gameModeScreen()
-{
-	int returnVal = 1;
-	drawBackground();
-	consoleClear();
 	Button creativeButton(9, 8, "Creative", 12);
 	Button survivalButton(9, 13, "Survival", 12);
 	Button loadButton(9, 18, "Load World", 12);
@@ -580,51 +544,89 @@ int gameModeScreen()
 
 	switch (menu(buttons, 3))
 	{
-		case 0: returnVal = 2;
+		case 1: // creative mode
+			printXY(1, 22, "Generating creative game");
+			newGame(GAMEMODE_CREATIVE);
 			break;
-		case 1: startSingleplayer(false, false);
+		case 2: // survival mode
+			printXY(1, 22, "Generating survival game");
+			newGame(GAMEMODE_SURVIVAL);
 			break;
-		case 2: startSingleplayer(true, false);
+		case 3: // load game
+			printXY(1, 22, "Loading game");
+			if (!loadGame()) {
+				printXY(1, 22, "Failed to load game");
+				return;
+			}
 			break;
-		case 3: startSingleplayer(true, true);
-			break;
+		default: // back button
+			return;
 	}
-	return returnVal;
+	startGame();
+}
+
+void multiplayerScreen()
+{
+	bool host;
+
+	consoleClear();
+	drawBackground();
+
+	Button create(9, 8, "Create Game", 13);
+	Button load(9, 13, "Load Game", 13);
+	Button join(9, 18, "Join Game", 13);
+	Button buttons[] = {create, load, join};
+
+	switch (menu(buttons, 3))
+	{
+		case 1: // create game
+			host = true;
+			break;
+		case 2: // TODO: load game
+			host = true;
+			break;
+		case 3: // join game
+			host = false;
+			break;
+		default: // back button
+			return;
+	}
+	drawBackground();
+	playMusic(MUSIC_HAL2);
+	startMultiplayerGame(host);
 }
 
 void titlescreen()
 {
-	lcdMainOnTop();
-	if (theWorld == NULL)
-	{
-		theWorld = (worldObject *) calloc(1, sizeof (worldObject));
-		theWorld = mainGame(3, theWorld);
-	}
-	playMusic(MUSIC_CALM);
-	drawBackground();
-	consoleClear();
+	bool poweroff = false;
 
-	Button singlePlayer = Button(8, 8, "Single Player", 15);
-	Button multiPlayer = Button(8, 13, "Multiplayer", 15);
-	Button settings = Button(8, 18, "Settings", 15);
-	Button buttons[] = {singlePlayer, multiPlayer, settings};
-
-	switch (menu(buttons, 3, theWorld->returnToGame && !isWifi() && !getDied()))
+	while (!poweroff)
 	{
-		case 0: //back
+		lcdMainOnTop();
+		previewScreen(true);
+		playMusic(MUSIC_CALM);
+		drawBackground();
+		consoleClear();
+
+		Button singlePlayer(8, 8, "Single Player", 15);
+		Button multiPlayer(8, 13, "Multiplayer", 15);
+		Button settings(8, 18, "Settings", 15);
+		Button buttons[] = {singlePlayer, multiPlayer, settings};
+
+		switch (menu(buttons, 3))
 		{
-			drawBackground();
-			consoleClear();
-			playMusic(MUSIC_HAL2);
-			theWorld = mainGame(1, theWorld);
-			break;
+			case 1: // single player
+				gameModeScreen();
+				break;
+			case 2: // multiplayer
+				multiplayerScreen();
+				break;
+			case 3: // settings
+				settingsScreen();
+				break;
+			default: // TODO: change back button to poweroff button
+				poweroff = true;
+				break;
 		}
-		case 1: gameModeScreen();
-			break;
-		case 2: multiplayerScreen();
-			break;
-		case 3: while (!settingsScreen());
-			break;
 	}
 }
-
