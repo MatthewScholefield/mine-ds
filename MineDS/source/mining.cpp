@@ -11,7 +11,7 @@
 #include "general.h"
 #include "nifi.h"
 #include "blockupdate.h"
-#include "titlescreen.h"
+#include "mainGame.h"
 #include "inventory.h"
 #include "blocks.h"
 #include "blockName.h"

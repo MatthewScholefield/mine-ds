@@ -15,7 +15,7 @@
 #include "blockID.h"
 #include "blocks.h"
 #include "general.h"
-#include "titlescreen.h" // for isSurvival
+#include "mainGame.h" // for isSurvival
 #include <nds.h> // for keysDown()
 #include <stdio.h> // for fileio
 #include "Config.h"

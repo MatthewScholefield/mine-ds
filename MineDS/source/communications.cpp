@@ -24,7 +24,9 @@ bool canSpawnMob()
 	return recv_code==2;
 }
 int addamount;
-worldObject* world;
+
+worldObject* worldptr;
+
 int doHandshake()
 {
 	unsigned short buffer[100];
@@ -47,19 +49,22 @@ int doHandshake()
 	}
 	return 0;
 }
+
 void connectSuccess()
 {
 	code = 1;
 }
+
 void connectCode(int code2)
 {
 	code = code2;
 }
+
 void recieveWorld(worldObject* world2)
 {
 	recv_code=0;
 	code = 0;
-	world = world2;
+	worldptr = world2;
 	unsigned short buffer[100];
 	int server_id = getServerID();	
 	int client_id = getClientID();
@@ -89,9 +94,9 @@ void recieveWorld(worldObject* world2)
 	recv_x=17;
 	recv_y=0;
 }
+
 void recieveWorldUpdate()
 {
-
 	unsigned short buffer[100];
 	int server_id = getServerID();	
 	int client_id = getClientID();
@@ -128,69 +133,75 @@ void recieveWorldUpdate()
 			}
 			if (recv_x>WORLD_WIDTH)
 			{
-				Calculate_Brightness(world);
+				Calculate_Brightness(worldptr);
 				recv_code = 2;
 			}
 		}
 	}
 }
+
 void communicationInit(worldObject* world2)
 {
-world=world2;
+worldptr = world2;
 }
+
 void setBlock(int x,int y,int block,int bgblock,int amount)
 {
 	int i;
 	for (i=y;i<=y+amount;i++)
 	{
-		world->blocks[x][i]=block;
-		world->bgblocks[x][i]=bgblock;
+		worldptr->blocks[x][i]=block;
+		worldptr->bgblocks[x][i]=bgblock;
 	}
 	code = 4;
 	addamount=amount;
 }
+
 void sendblock(int client_id,int x, int y)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();	
 	int i;
-	int a = world->blocks[x][y];
-	int b = world->bgblocks[x][y];
+	int a = worldptr->blocks[x][y];
+	int b = worldptr->bgblocks[x][y];
 	int num=0;
 	for (i=y;i<=WORLD_HEIGHT;i++)
 	{
-		if (world->blocks[x][i]==a && world->bgblocks[x][i]==b)
+		if (worldptr->blocks[x][i]==a && worldptr->bgblocks[x][i]==b)
 		{
 			 num++;
 		} 
 		else i = WORLD_HEIGHT+1;
 	}
-	sprintf((char *)buffer,"[B: %d %d %d %d %d %d %d", server_id, client_id, x, y, world->blocks[x][y],world->bgblocks[x][y],num-1);
+	sprintf((char *)buffer,"[B: %d %d %d %d %d %d %d", server_id, client_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y],num-1);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 }
+
 void confirmBlock(int client_id,int x,int y)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();
-	sprintf((char *)buffer,"[BLKC: %d %d %d %d %d %d", server_id, client_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+	sprintf((char *)buffer,"[BLKC: %d %d %d %d %d %d", server_id, client_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 }
+
 void clientConfirmBlock(int x,int y)
 {
 	int client_id = getClientID();
 	unsigned short buffer[100];
 	int server_id = getServerID();
-	sprintf((char *)buffer,"[BLKI: %d %d %d %d %d %d", server_id, client_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+	sprintf((char *)buffer,"[BLKI: %d %d %d %d %d %d", server_id, client_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 }
+
 void matchBlocks(int x,int y,int block,int bgblock)
 {
 	unsigned short buffer[100];
 	int client_id = getClientID();
 	int server_id = getServerID();	
-	if (world->blocks[x][y]!=block || world->bgblocks[x][y]!=bgblock)
+	if (worldptr->blocks[x][y]!=block || worldptr->bgblocks[x][y]!=bgblock)
 	{
-		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);			
 		sprintf((char *)buffer,"[CHKB: %d %d %d %d", server_id, client_id, x, y);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
@@ -200,18 +211,20 @@ void matchBlocks(int x,int y,int block,int bgblock)
 		blocksCanPlace();
 	}
 }
+
 void matchBlocksHost(int client_id,int x,int y,int block,int bgblock)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();	
-	if (world->blocks[x][y]!=block || world->bgblocks[x][y]!=bgblock)
+	if (worldptr->blocks[x][y]!=block || worldptr->bgblocks[x][y]!=bgblock)
 	{
-		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);			
 		sprintf((char *)buffer,"[CFMB: %d %d %d %d", server_id, client_id, x, y);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 	}
 }
+
 void wifiHurtMob(int mobNum,int amount,int type)
 {
 	unsigned short buffer[100];
@@ -219,6 +232,7 @@ void wifiHurtMob(int mobNum,int amount,int type)
 	sprintf((char *)buffer,"[HRT: %d %d %d %d",server_id, mobNum, amount, type);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);		
 }
+
 void sendMobUpdater(baseMob* mob,int mobNum)
 {
 	unsigned short buffer[100];
@@ -227,20 +241,24 @@ void sendMobUpdater(baseMob* mob,int mobNum)
 	else sprintf((char *)buffer,"[DIE: %d %d", server_id, mobNum);
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 }
+
 void recievedMobUpdate(int x,int y,int animation,int mobtype,int mobNum,bool facing)
 {
-	mobHandlerReadWifiUpdate(x,y,animation,mobtype,mobNum,world,facing);
+	mobHandlerReadWifiUpdate(x,y,animation,mobtype,mobNum,worldptr,facing);
 }
+
 void killMob(int mobNum)
 {
 	mobHandlerKillMob(mobNum);
 }
+
 void recievePlaceBlock(int x,int y,int block,int block2)
 {
-	world->blocks[x][y]=block;
-	world->bgblocks[x][y]=block2;
-	updateBrightnessAround(world,x,y);
+	worldptr->blocks[x][y]=block;
+	worldptr->bgblocks[x][y]=block2;
+	updateBrightnessAround(worldptr,x,y);
 }
+
 void placeBlock(int x,int y)
 {
 	if (isHost()==false)
@@ -249,7 +267,7 @@ void placeBlock(int x,int y)
 		unsigned short buffer[100];
 		int server_id = getServerID();	
 		int client_id = getClientID();
-		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);			
 		sprintf((char *)buffer,"[CHKB: %d %d %d %d", server_id, client_id, x, y);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
@@ -259,7 +277,7 @@ void placeBlock(int x,int y)
 		//Client -> Server Block Placing
 		unsigned short buffer[100];
 		int server_id = getServerID();	
-		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, world->blocks[x][y],world->bgblocks[x][y]);
+		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
 		nifiConfirmBlocksAllPlayers(x,y);
 		blocksCanPlace();
