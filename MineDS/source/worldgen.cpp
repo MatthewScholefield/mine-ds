@@ -18,6 +18,21 @@
 #include <string>
 #include <tr1/regex>
 void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2);
+
+static void zeroBlocks(worldObject* world)
+{
+	unsigned int i, j;
+
+	for (i = 0; i < WORLD_WIDTH; i++)
+	{
+		for (j = 0; j < WORLD_HEIGHT; j++)
+		{
+			world->blocks[i][j] = AIR;
+			world->bgblocks[i][j] = AIR;
+		}
+	}
+}
+
 int extremeMountainGen(worldObject* world,int startx,int starty,int endx)
 {
 	int y=starty;
@@ -92,6 +107,8 @@ void generateSmallWorld (worldObject* world)//Generates one biome
     int oj = j;
     int i=0;
     int sizex;
+
+    zeroBlocks(world);
     sizex=rand()%16+ 16;
     if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
     j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
@@ -112,12 +129,8 @@ void generateSmallWorld (worldObject* world)//Generates one biome
 void generateWorld (worldObject* world)
 {
 	int i,j;
-	for (i=0;i<=WORLD_WIDTH;i++)
-		for(j=0;j<=WORLD_HEIGHT;j++)
-		{
-			world->blocks[i][j]=AIR;
-			world->bgblocks[i][j]=AIR;
-		}
+
+	zeroBlocks(world);
 	swiWaitForVBlank();
 	j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
 	i=0;
