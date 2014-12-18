@@ -113,6 +113,7 @@ void previewScreen(int generate)
 		world.CamY = 0;
 		world.timeInWorld = 0;
 	}
+	swiWaitForVBlank();
 	mobHandlerUpdate(&world);
 	worldRender_Render(&world, world.CamX, world.CamY);
 }
