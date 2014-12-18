@@ -4,6 +4,7 @@
 #include "soundbank.h"  // Soundbank definitions
 
 enum sound_t {
+	SOUND_NONE		= -1,
 	SOUND_COW_HURT		= SFX_COW_HURT,
 	SOUND_PIG_HURT		= SFX_PIG_HURT,
 	SOUND_PLAYER_HURT	= SFX_PLAYER_HURT,
