@@ -28,6 +28,7 @@ worldObject world;
 static void redrawGameUI(void)
 {
 	lcdMainOnBottom();
+	consoleClear();
 	drawBackground();
 	if (isSurvival())
 		drawInvButtons(false);
