@@ -5,21 +5,44 @@
 #include "nifi.h"
 #include <stdio.h>
 #include <dswifi9.h>
-#include <string.h>
 
-music_t last_music = MUSIC_NONE;
+#define LENGTH(X)	(sizeof(X) / sizeof(X[0]))
+
+int sounds_pos = 0;
+sound_t loaded_sounds[8] = { SOUND_NONE }; // circular buffer (must be power of two)
+music_t loaded_music = MUSIC_NONE;
 
 void initSound(void)
 {
+	mmInitDefaultMem((mm_addr) soundbank_bin);
+}
+
+static void loadSound(sound_t sound)
+{
 	unsigned int i;
 
-	mmInitDefaultMem((mm_addr) soundbank_bin);
-	for (i = 0; i < MSL_NSAMPS; i++)
-		mmLoadEffect(i); // loads all sfx
+	if (sound == SOUND_NONE)
+		return;
+
+	for (i = 0; i < LENGTH(loaded_sounds); i++)
+	{
+		if (loaded_sounds[i] == sound) {
+			return;
+		}
+	}
+
+	if (loaded_sounds[sounds_pos] != SOUND_NONE)
+		mmUnloadEffect(loaded_sounds[sounds_pos]);
+	loaded_sounds[sounds_pos] = sound;
+	sounds_pos = (sounds_pos + 1) & (LENGTH(loaded_sounds) - 1);
+	mmLoadEffect(sound);
 }
 
 void playSound(sound_t sound)
 {
+	if (sound == SOUND_NONE)
+		return;
+
 	if (isWifi())
 	{
 		// TODO: Move this to nifi.cpp
@@ -28,11 +51,14 @@ void playSound(sound_t sound)
 		sprintf((char *) buffer, "[SND: %d %d", server_id, sound);
 		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 	}
+
+	loadSound(sound);
 	mmEffect(sound);
 }
 
 void playSoundNifi(sound_t sound)
 {
+	loadSound(sound);
 	mmEffect(sound);
 }
 
@@ -41,20 +67,20 @@ void playMusic(music_t music)
 	if (music == MUSIC_NONE)
 		return;
 
-	if (music != last_music) {
+	if (music != loaded_music) {
 		stopMusic();
 		mmLoad(music);
-		last_music = music;
+		loaded_music = music;
 	}
 	mmStart(music, MM_PLAY_LOOP);
 }
 
 void stopMusic(void)
 {
-	if (last_music == MUSIC_NONE)
+	if (loaded_music == MUSIC_NONE)
 		return;
 
 	mmStop();
-	mmUnload(last_music);
-	last_music = MUSIC_NONE;
+	mmUnload(loaded_music);
+	loaded_music = MUSIC_NONE;
 }
