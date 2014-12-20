@@ -3,7 +3,7 @@
 #include "nifi.h"
 #include <dswifi9.h>
 #include <stdio.h>
-#include <string.h>
+#include "general.h"
 
 #include "worldRender.h"
 int timeTillChange = 0;
@@ -14,7 +14,7 @@ int b[15] = {31, 31, 30, 29, 28, 27, 26, 26, 24, 23, 22};
 void timeUpdate(worldObject* world)
 {
 	timeTillChange++;
-	if (timeTillChange >= 300)
+	if (timeTillChange >= SEC_TO_FPS(5))
 	{
 		world->timeInWorld++;
 		timeTillChange = 0;
