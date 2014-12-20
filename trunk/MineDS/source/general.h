@@ -14,4 +14,4 @@ void printXY(int x, int y, int output);
 void updateTime();
 unsigned int getTime();
 
-#endif /* _GENERAL_H_ */
+#endif /* !_GENERAL_H_ */
