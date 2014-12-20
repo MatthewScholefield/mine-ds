@@ -3,20 +3,18 @@
 #include <nds.h>
 #include <dswifi9.h>
 #include "nifi.h"
+#include "general.h"
+
 std::string messages[4];
 int nextmsg = 0;
 int currentTime = 0;
 
 void sleep(unsigned int seconds)
 {
-	if (seconds == 0)
-		return;
+	unsigned int i;
 
-	seconds *= 60; // 1 second = 60 swiWaitForVBlank
-	do
-	{
-		swiWaitForVBlank();
-	} while (--seconds != 0);
+	for (i = 0; i < SEC_TO_FPS(seconds); i++)
+		swiWaitForVBlank(); // sleeps for one frame
 }
 
 void show_message(const char* s)
