@@ -11,23 +11,21 @@ int currentTime = 0;
 
 void sleep(unsigned int seconds)
 {
-	unsigned int i;
-
-	for (i = 0; i < SEC_TO_FPS(seconds); i++)
+	for (unsigned int i = 0; i < SEC_TO_FPS(seconds); i++)
 		swiWaitForVBlank(); // sleeps for one frame
 }
 
 void show_message(const char* s)
 {
 	messages[nextmsg] = s;
-	nextmsg++;
+	++nextmsg;
 	if (nextmsg > 3) nextmsg = 0;
 }
 
 void print_message(const char* s)
 {
 	messages[nextmsg] = s;
-	nextmsg++;
+	++nextmsg;
 	if (nextmsg > 3) nextmsg = 0;
 	if (isWifi())
 	{
@@ -40,18 +38,16 @@ void print_message(const char* s)
 
 void update_message()
 {
-	printf("\x1b[20;0H\x1b[2K");
-	for (int i = 0; i < 3; i++) printf("\n\x1b[2K");
-	printf("\x1b[20;0H");
-	int start = nextmsg - 1;
+	iprintf("\x1b[20;0H\x1b[2K"); //Clears lines
+	for (int i = 0; i < 3; i++) iprintf("\n\x1b[2K");
+	iprintf("\x1b[20;0H"); //Sets Cursor
+	int start = (nextmsg - 1) % 3;
 	if (start == -1) start = 3;
-	int amount = 0;
-	while (amount != 3)
+	for (int amount = 0; amount <= 3; amount++)
 	{
-		printf(" %s", messages[start].c_str());
-		start--;
+		iprintf(" %s", messages[start].c_str());
+		--start;
 		if (start == -1) start = 3;
-		amount++;
 	}
 }
 
@@ -61,22 +57,11 @@ void clear_messages() //Adds 3 lines of empty messages
 	print_message(" ");
 	print_message(" ");
 	update_message();
-
-}
-
-void printXY(int x, int y, const char *output)
-{
-	iprintf("\x1b[%d;%dH%s", y, x, output);
-}
-
-void printXY(int x, int y, int output)
-{
-	iprintf("\x1b[%d;%dH%d", y, x, output);
 }
 
 void updateTime()
 {
-	currentTime++;
+	++currentTime;
 	if (currentTime > 10000)
 		currentTime = 1;
 }

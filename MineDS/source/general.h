@@ -1,3 +1,4 @@
+#include <stdio.h>
 #ifndef _GENERAL_H_
 #define _GENERAL_H_
 
@@ -9,9 +10,19 @@ void print_message(const char* s);
 void update_message();
 void show_message(const char* s);
 void clear_messages();
-void printXY(int x, int y, const char *output);
-void printXY(int x, int y, int output);
+inline void printXY(int x, int y, const char *output);
+inline void printXY(int x, int y, int output);
 void updateTime();
 unsigned int getTime();
 
+
+inline void printXY(int x, int y, const char *output)
+{
+	iprintf("\x1b[%d;%dH%s", y, x, output);
+}
+
+inline void printXY(int x, int y, int output)
+{
+	iprintf("\x1b[%d;%dH%d", y, x, output);
+}
 #endif /* !_GENERAL_H_ */
