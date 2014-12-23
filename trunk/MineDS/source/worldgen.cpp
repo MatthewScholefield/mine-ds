@@ -155,8 +155,8 @@ void generateWorld (worldObject* world)
 		}
 		updateBrightnessAround(world,0,oj);
 		generateBedrock(world);
-		for (i=0;i<=WORLD_WIDTH;i++)
+		for (i=0;i<=WORLD_WIDTH;i++) //Copy FG blocks to BG
 			for (j=0;j<=WORLD_HEIGHT;j++)
-				 if (world->blocks[i][j]!=AIR && (!isBlockWalkThrough(world->blocks[i][j]) || world->blocks[i][j]==SNOW_TOP)) world->bgblocks[i][j]=world->blocks[i][j];
+				 if (world->blocks[i][j]!=AIR && !isBlockWalkThrough(world->blocks[i][j])) world->bgblocks[i][j]=world->blocks[i][j];
 		}
 }
