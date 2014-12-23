@@ -93,7 +93,6 @@ void growPumpkinPatch(worldObject* world,int x,int y)
 	for (i=x-3+rand()%2;i<=x;i++)
 	{
 		y = findFirstBlock(world,i);
-		world->blocks[i][y] = DIRT;
-		world->blocks[i][y-1] = PUMPKIN;
+		world->bgblocks[i][y-1] = PUMPKIN;
 	}
 }
