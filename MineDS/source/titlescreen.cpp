@@ -614,9 +614,10 @@ void titlescreen()
 		Button singlePlayer(8, 8, "Single Player", 15);
 		Button multiPlayer(8, 13, "Multiplayer", 15);
 		Button settings(8, 18, "Settings", 15);
-		Button buttons[] = {singlePlayer, multiPlayer, settings};
+		Button power(24, 20, "Power");
+		Button buttons[] = {singlePlayer, multiPlayer, settings, power};
 
-		switch (menu(buttons, 3))
+		switch (menu(buttons, 4, false))
 		{
 			case 1: // single player
 				gameModeScreen();
@@ -627,7 +628,7 @@ void titlescreen()
 			case 3: // settings
 				settingsScreen();
 				break;
-			default: // TODO: change back button to poweroff button
+			case 4: //Power
 				poweroff = true;
 				break;
 		}
