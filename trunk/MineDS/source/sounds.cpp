@@ -71,8 +71,8 @@ void playMusic(music_t music)
 		stopMusic();
 		mmLoad(music);
 		loaded_music = music;
+		mmStart(music, MM_PLAY_LOOP); //Prevents music restarting
 	}
-	mmStart(music, MM_PLAY_LOOP);
 }
 
 void stopMusic(void)
