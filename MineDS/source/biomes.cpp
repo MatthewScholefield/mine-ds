@@ -20,10 +20,6 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy;j++) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
-		/*if (rand()%5 == 1) world->blocks[x][y]=IRON_ORE;
-		else if (rand()%4 == 1) world->blocks[x][y]=COAL_ORE;
-		if (rand()%3 == 1) world->blocks[x][y]=GOLD_ORE;
-		else world->blocks[x][y]=DIAMOND_ORE;*/
 		if (treex==x)
 		{
 			growNormalTree(world,x,y-1,false);
@@ -36,7 +32,7 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		}
 		else if (gx==x)
 		{
-			world->blocks[x][y-1]=TALL_GRASS;
+			world->bgblocks[x][y-1]=TALL_GRASS;
 			gx+= 1 + rand()%7;
 		}
 		if (flx==x && treex==x)
@@ -128,7 +124,7 @@ void desertBiome(worldObject* world,int startx,int endx)
 		}
 		else if (flx==x)
 		{
-			world->blocks[x][y-1]=SHRUB;
+			world->bgblocks[x][y-1]=SHRUB;
 			flx+= 5 + rand()%3;
 		}
 		if (flx==x && treex==x)
@@ -152,7 +148,7 @@ void mushroomBiome(worldObject* world,int startx,int endx)
 		world->blocks[x][y]=MYCELIUM;
 		if (flx==x)
 		{
-			world->blocks[x][y-1]=(rand()%2==1 ? MUSHROOM_BROWN : MUSHROOM_RED);
+			world->bgblocks[x][y-1]=(rand()%2==1 ? MUSHROOM_BROWN : MUSHROOM_RED);
 			flx+= 1 + rand()%4;
 		}
 		if (treex==x)

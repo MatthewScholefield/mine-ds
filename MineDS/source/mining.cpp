@@ -125,7 +125,7 @@ void setBlock(worldObject* world, int x, int y)
 	if (isCrouched) // Background
 	{
 		skipLightUpdate = true; //Background does not affect light
-		if (world->blocks[x][y] != AIR) // Foreground not empty don't place or mine
+		if (world->blocks[x][y] != AIR && !isBlockWalkThrough(world->blocks[x][y])) // Foreground not empty don't place or mine
 			return;
 		else if (world->bgblocks[x][y] != AIR) // Mine block
 		{
