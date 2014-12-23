@@ -1,3 +1,4 @@
+#include <time.h>
 #include "deathScreen.h"
 #include "graphics/subBgHandler.h"
 #include "graphics/graphics.h"
@@ -39,6 +40,7 @@ int menu(Button buttons[], int size, bool showBack)
 	while (!chosen)
 	{
 		swiWaitForVBlank();
+		updateTime(); //Used to ensure random world seed changes
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
@@ -602,7 +604,8 @@ void multiplayerScreen()
 void titlescreen()
 {
 	bool poweroff = false;
-	previewScreen(true);
+	setSeed(time(NULL));
+	newGame(GAMEMODE_PREVIEW, false);
 	
 	while (!poweroff)
 	{

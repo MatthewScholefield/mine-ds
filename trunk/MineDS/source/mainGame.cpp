@@ -22,6 +22,7 @@
 #include "sounds.h"
 #include "nifi.h"
 #include "communications.h"
+#include <time.h>
 
 worldObject world;
 
@@ -83,14 +84,22 @@ bool isSurvival(void)
 	return (world.gamemode == GAMEMODE_SURVIVAL);
 }
 
-void newGame(gamemode_t mode)
+void newGame(gamemode_t mode, bool setSeed)
 {
 	mobsReset();
-	generateWorld(&world);
+	if (world.gamemode != GAMEMODE_PREVIEW && setSeed)
+		world.seed = getTime();
+	srand(world.seed);
+	world.gamemode = mode;
 	world.CamX = 0;
 	world.CamY = 0;
 	world.timeInWorld = 0;
-	world.gamemode = mode;
+	generateWorld(&world);
+	if (mode == GAMEMODE_PREVIEW)
+	{
+		mobHandlerUpdate(&world);
+		worldRender_Render(&world, world.CamX, world.CamY);
+	}
 }
 
 bool loadGame(void)
@@ -99,21 +108,6 @@ bool loadGame(void)
 	if (loadWorld(&world))
 		return true;
 	return false;
-}
-
-void previewScreen(int generate)
-{
-	if (generate)
-	{
-		mobsReset();
-		generateSmallWorld(&world);
-		world.CamX = 0;
-		world.CamY = 0;
-		world.timeInWorld = 0;
-	}
-	//swiWaitForVBlank();
-	mobHandlerUpdate(&world);
-	worldRender_Render(&world, world.CamX, world.CamY);
 }
 
 void startGame(void)
@@ -228,4 +222,9 @@ void startMultiplayerGame(bool host)
 		worldRender_Render(&world, world.CamX, world.CamY);
 	}
 	nifiDisable();
+}
+
+void setSeed(int seed)
+{
+	world.seed = seed;
 }
