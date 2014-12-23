@@ -1,3 +1,4 @@
+#include <time.h>
 #ifndef _WORLD_H_
 #define _WORLD_H_
 
@@ -8,7 +9,8 @@
 
 enum gamemode_t {
 	GAMEMODE_CREATIVE,
-	GAMEMODE_SURVIVAL
+	GAMEMODE_SURVIVAL,
+        GAMEMODE_PREVIEW
 };
 
 typedef struct{
@@ -23,6 +25,7 @@ typedef struct{
 	int timeInWorld;
 	int worldBrightness;
 	gamemode_t gamemode;
+        int seed; //The random number seed used to generate the world
 }worldObject;
 
 int findFirstBlock(worldObject* world,int x);

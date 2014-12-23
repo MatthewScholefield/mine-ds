@@ -127,33 +127,36 @@ void generateSmallWorld (worldObject* world)//Generates one biome
 
 void generateWorld (worldObject* world)
 {
-	int i,j;
-	zeroBlocks(world);
-	j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
-	i=0;
-	int oj=j;
-	while (i<WORLD_WIDTH)
+	if (world->gamemode == GAMEMODE_PREVIEW)
+		generateSmallWorld(world);
+	else
 	{
-		int sizex;
-		sizex=rand()%16+ 16;
-		if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
-		j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
-		switch (rand() % 5)
+		int i,j;
+		zeroBlocks(world);
+		j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
+		i=0;
+		int oj=j;
+		while (i<WORLD_WIDTH)
 		{
-			case 0:plainsBiome(world,i,i+sizex); break;
-			case 1: snowBiome(world,i,i+sizex); break;
-			case 2: desertBiome(world,i,i+sizex); break;
-			case 3: jungleBiome(world,i,i+sizex); break;
-			case 4: mushroomBiome(world,i,i+sizex); break;
-		}
-		updateBrightnessAround(world,i,j);
-		i=i+sizex+1;
-	}
-	updateBrightnessAround(world,0,oj);
-	generateBedrock(world);
-	for (i=0;i<=WORLD_WIDTH;i++)
-		for (j=0;j<=WORLD_HEIGHT;j++)
+			int sizex;
+			sizex=rand()%16+ 16;
+			if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
+			j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
+			switch (rand() % 5)
 			{
-			 if (world->blocks[i][j]!=AIR && (!isBlockWalkThrough(world->blocks[i][j]) || world->blocks[i][j]==SNOW_TOP)) world->bgblocks[i][j]=world->blocks[i][j];			
+				case 0:plainsBiome(world,i,i+sizex); break;
+				case 1: snowBiome(world,i,i+sizex); break;
+				case 2: desertBiome(world,i,i+sizex); break;
+				case 3: jungleBiome(world,i,i+sizex); break;
+				case 4: mushroomBiome(world,i,i+sizex); break;
 			}
+			updateBrightnessAround(world,i,j);
+			i=i+sizex+1;
+		}
+		updateBrightnessAround(world,0,oj);
+		generateBedrock(world);
+		for (i=0;i<=WORLD_WIDTH;i++)
+			for (j=0;j<=WORLD_HEIGHT;j++)
+				 if (world->blocks[i][j]!=AIR && (!isBlockWalkThrough(world->blocks[i][j]) || world->blocks[i][j]==SNOW_TOP)) world->bgblocks[i][j]=world->blocks[i][j];
+		}
 }
