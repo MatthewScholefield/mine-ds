@@ -8,7 +8,6 @@
 
 #include <nds.h>
 #include <stdio.h>
-#include <time.h>
 #include "blocks.h"
 #include "world.h"
 #include "mobs.h"
@@ -39,7 +38,6 @@ void renderWorld(worldObject* world);
 int main()
 {
 	defaultExceptionHandler();
-	srand(time(NULL));
 	subBgInit();
 	drawBackground();
 	setupFont();
