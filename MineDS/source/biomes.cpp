@@ -45,7 +45,7 @@ void plainsBiome(worldObject* world, int startx,int endx)
 			gx+= 1 + rand()%7;
 		if (gx==x && flx==x)
 			gx+= 1 + rand()%7;
-		x++;
+		++x;
 	}
 }
 void jungleBiome(worldObject* world, int startx,int endx)
@@ -75,8 +75,8 @@ void jungleBiome(worldObject* world, int startx,int endx)
 			growJungleTree(world,x,y-1);
 			treex+= 8 + rand()%5;
 		}
-		
-		x++;
+
+		++x;
 	}
 }
 void snowBiome(worldObject* world,int startx,int endx)
@@ -105,7 +105,7 @@ void snowBiome(worldObject* world,int startx,int endx)
 			//Why no -1 on the y? Well If we did that then we would be starting on top the the snow_top block, and that looks weird!
 			treex+= 8 + rand()%5;
 		}
-		x++;
+		++x;
 	}
 }
 void desertBiome(worldObject* world,int startx,int endx)
@@ -134,7 +134,7 @@ void desertBiome(worldObject* world,int startx,int endx)
 		if (flx==x && treex==x)
 			flx+= 5 + rand()%3;
 
-		x++;
+		++x;
 	}
 }
 void mushroomBiome(worldObject* world,int startx,int endx)
@@ -161,6 +161,6 @@ void mushroomBiome(worldObject* world,int startx,int endx)
 			world->blocks[x][y-1]=AIR; //If there is a mushroom there, I haven't added transparency so it whill look weird
 			treex+= 8 + rand()%5;
 		}
-		x++;
+		++x;
 	}
 }

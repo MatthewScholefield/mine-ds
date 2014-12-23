@@ -54,7 +54,7 @@ herobrineMob::herobrineMob(int a, int b)
 
 void herobrineMob::updateMob(worldObject* world)
 {
-	waitingCount++;
+	++waitingCount;
 	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
 	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
 	if (host == true)
@@ -65,7 +65,7 @@ void herobrineMob::updateMob(worldObject* world)
 		target = mobHandlerFindMob(128, 2, x, y);
 		if (target->x < x && target->mobtype == 2) facing = true;
 		else if (target->mobtype == 2) facing = false;
-		jump++;
+		++jump;
 		int distance = target->x - x;
 		if (distance < 0)
 			distance *= -1;
@@ -77,7 +77,7 @@ void herobrineMob::updateMob(worldObject* world)
 		}*/
 		if (target->mobtype != 2)
 		{
-			notarget++;
+			++notarget;
 			jump = 0;
 		}
 		else if (!collisions[1] && !collisions[3] && jump > 1)
@@ -110,7 +110,7 @@ void herobrineMob::updateMob(worldObject* world)
 		ping = 0;
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
-		else animationclearframes--;
+		else --animationclearframes;
 		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 		{
 			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
@@ -134,7 +134,7 @@ void herobrineMob::loadFromFile(FILE* pFile)
 
 bool canHerobrineMobSpawnHere(worldObject* world, int x, int y)
 {
-	y++;
+	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
 	{
 		/*if (getBrightness(world, x, y + 1) > 7)*/

@@ -67,7 +67,7 @@ void sheepMob::updateMob(worldObject* world)
 
 		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
 		else if (target->mobtype==2 && scared) facing = true;
-		jump++;
+		++jump;
 		if (collisions[0]==false) y+=vy;
 		else vy=0;
 		if (collisions[3])
@@ -84,7 +84,7 @@ void sheepMob::updateMob(worldObject* world)
 		if (target->mobtype!=2)
 		{
 			scared = false;
-			notarget++;
+			++notarget;
 			jump=0;
 		}
 
@@ -113,25 +113,25 @@ void sheepMob::updateMob(worldObject* world)
 				}
 				if (mov > 59)
 					mov = 0;
-				mov++;
+				++mov;
 			}
 		}
 
 		else if (!collisions[1] && !facing && jump)
 		{
 			x+= facing ? -1 : 1;
-			scaredtimer++;
+			++scaredtimer;
 			jump=0;
 		}
 		else if (!collisions[2] && facing && jump)
 		{
 			x+= facing ? -1 : 1;
-			scaredtimer++;
+			++scaredtimer;
 			jump=0;
 		}
 		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 		{
-			scaredtimer++;
+			++scaredtimer;
 			vy=-2;
 			y+=vy;
 		}
@@ -143,7 +143,7 @@ void sheepMob::updateMob(worldObject* world)
 		}
 		//if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
-		else animationclearframes--;
+		else --animationclearframes;
 	}
 }
 void sheepMob::sendWifiUpdate()
@@ -157,7 +157,7 @@ void sheepMob::loadFromFile(FILE* pFile)
 }
 bool canSheepMobSpawnHere(worldObject* world,int x,int y)
 {
-	y++;
+	++y;
 	if ((world->blocks[x][y+1]==GRASS || world->blocks[x][y+1]==SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
 	return false;
 }
