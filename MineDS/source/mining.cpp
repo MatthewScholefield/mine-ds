@@ -227,13 +227,13 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	}
 	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
-		selectedBlock--;
+		--selectedBlock;
 		if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
 		if (isSurvival())
 		{
 			while (checkInventory(selectedBlock) == 0)
 			{
-				selectedBlock--;
+				--selectedBlock;
 				if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
 			}
 		}
@@ -242,13 +242,13 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	}
 	else if (keys & getGlobalSettings()->getKey(ACTION_ITEM_RIGHT))
 	{
-		selectedBlock++;
+		++selectedBlock;
 		if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;
 		if (isSurvival())
 		{
 			while (checkInventory(selectedBlock) == 0)
 			{
-				selectedBlock++;
+				++selectedBlock;
 				if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;
 			}
 		}
@@ -270,13 +270,13 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	{
 		showGraphic(&topBlock, 0, 48);
 	}
-	if (canPlaceBlocks == false) framecounting++;
+	if (canPlaceBlocks == false) ++framecounting;
 	if (framecounting > 60)
 	{
 		//More than a second, and no block confirm?
 		placeBlock(last_x, last_y);
 		framecounting = 0;
-		failedAttempts++;
+		++failedAttempts;
 	}
 }
 

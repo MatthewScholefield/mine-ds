@@ -73,7 +73,7 @@ void checkBlockDelete(int x,int y,worldObject* world,bool bg)
 			world->blocks[x][y-c]=AIR;
 			world->bgblocks[x][y-c]=AIR;
 			if (isWifi())	placeBlock(x,y-c);
-			c++;
+			++c;
 		}
 	}
 	/*if (world->blocks[x][y-1]==SNOW_TOP && !bg)

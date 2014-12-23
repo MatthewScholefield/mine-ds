@@ -39,7 +39,7 @@ int doHandshake()
 	//Wait for 5 seconds for a ACK message!
 	while (timer > 0 && code == 0)
 	{
-		timer--;
+		--timer;
 		swiWaitForVBlank();
 	}	
 	if (code == 1)
@@ -80,7 +80,7 @@ void recieveWorld(worldObject* world2)
 			Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);	
 			while (code == 0)
 			{
-				framecounter++;
+				++framecounter;
 				if (framecounter>30)
 				{
 					Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
@@ -112,7 +112,7 @@ void recieveWorldUpdate()
 	{
 		if (code == 0)
 		{
-			framecounter++;
+			++framecounter;
 			if (framecounter>30)
 			{
 				sprintf((char *)buffer,"[BR: %d %d %d %d", server_id, client_id,recv_x,recv_y);
@@ -129,7 +129,7 @@ void recieveWorldUpdate()
 			if (recv_y>WORLD_HEIGHT)
 			{
 				recv_y=0;
-				recv_x++;
+				++recv_x;
 			}
 			if (recv_x>WORLD_WIDTH)
 			{
@@ -169,7 +169,7 @@ void sendblock(int client_id,int x, int y)
 	{
 		if (worldptr->blocks[x][i]==a && worldptr->bgblocks[x][i]==b)
 		{
-			 num++;
+			++num;
 		} 
 		else i = WORLD_HEIGHT+1;
 	}
