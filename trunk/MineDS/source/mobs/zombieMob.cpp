@@ -81,7 +81,7 @@ void zombieMob::updateMob(worldObject* world)
 		target = mobHandlerFindMob(128, 2, x, y);
 		if (target->x < x && target->mobtype == 2) facing = true;
 		else if (target->mobtype == 2) facing = false;
-		jump++;
+		++jump;
 		if (collisions[0] == false) y += vy;
 		else vy = 0;
 		if (target->x > x - 4 && target->x < x + 4)
@@ -90,7 +90,7 @@ void zombieMob::updateMob(worldObject* world)
 		}
 		if (target->mobtype != 2)
 		{
-			notarget++;
+			++notarget;
 			jump = 0;
 		}
 		else if (!collisions[1] && facing == false && !collisions[3] && jump > 1)
@@ -117,7 +117,7 @@ void zombieMob::updateMob(worldObject* world)
 		ping = 0;
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
-		else animationclearframes--;
+		else --animationclearframes;
 		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 		{
 			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
@@ -141,7 +141,7 @@ void zombieMob::loadFromFile(FILE* pFile)
 
 bool canZombieMobSpawnHere(worldObject* world, int x, int y)
 {
-	y++;
+	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
 	{
 		if (getBrightness(world, x, y + 1) > 7)

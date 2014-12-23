@@ -317,16 +317,16 @@ void mobHandlerUpdate(worldObject* world)
 		if (mobs[i]->alive == true)
 		{
 			if (mobs[i]->mobtype == 3 || mobs[i]->mobtype == 7)
-				badMobs++;
+				++badMobs;
 			if (mobs[i]->mobtype == 4 || mobs[i]->mobtype == 5 || mobs[i]->mobtype == 6)
-				goodMobs++;
+				++goodMobs;
 			if (mobs[i]->smallmob == false) calculateMiscData(world, mobs[i]);
 			else calculateMiscDataSmall(world, mobs[i]);
 			mobs[i]->updateMob(world);
-			mobs[i]->timeTillWifiUpdate--;
+			--mobs[i]->timeTillWifiUpdate;
 			if (isWifi())
 			{
-				mobs[i]->ping++;
+				++mobs[i]->ping;
 				if (mobs[i]->ping > 80)
 				{
 					mobs[i]->ping = 0;

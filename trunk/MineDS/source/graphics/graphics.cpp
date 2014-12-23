@@ -166,7 +166,7 @@ void setAnimFrame(Graphic* g, int mobSlot, int frame)
 
 void animateMob(Graphic* g, int mobSlot)
 {
-	g->anim_frame++;
+	++g->anim_frame;
 	if (g->anim_frame >= FRAMES_PER_ANIMATION)
 		g->anim_frame = 0;
 	setAnimFrame(g, mobSlot, g->anim_frame);
