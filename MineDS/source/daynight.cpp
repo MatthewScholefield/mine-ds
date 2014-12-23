@@ -13,14 +13,14 @@ int b[15] = {31, 31, 30, 29, 28, 27, 26, 26, 24, 23, 22};
 
 void timeUpdate(worldObject* world)
 {
-	timeTillChange++;
+	++timeTillChange;
 	if (timeTillChange >= SEC_TO_FPS(5))
 	{
-		world->timeInWorld++;
+		++world->timeInWorld;
 		timeTillChange = 0;
 		if (world->timeInWorld > 120) world->timeInWorld = 0;
-		if (world->timeInWorld >= 80 && world->timeInWorld < 90) world->worldBrightness++;
-		else if (world->timeInWorld > 110) world->worldBrightness--;
+		if (world->timeInWorld >= 80 && world->timeInWorld < 90) ++world->worldBrightness;
+		else if (world->timeInWorld > 110) --world->worldBrightness;
 		setBackdropColor(RGB15(r[world->worldBrightness], g[world->worldBrightness], b[world->worldBrightness]));
 		setSun(world->worldBrightness);
 		if (isWifi())

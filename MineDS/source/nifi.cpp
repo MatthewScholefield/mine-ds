@@ -30,7 +30,7 @@ int get_int_len(int value)
 	int l = 1;
 	while (value > 9)
 	{
-		l++;
+		++l;
 		value /= 10;
 	}
 	return l;
@@ -123,7 +123,7 @@ void Handler(int packetID, int readlength)
 					//Correct Game, send Accept
 					sprintf((char *) buffer, "[ACK: %d %d", server_id, clients_id);
 					Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
-					noOfClients++;
+					++noOfClients;
 					int i;
 					for (i = 0; i < MAX_CLIENTS; i++)
 					{
@@ -392,7 +392,7 @@ bool isHost()
 
 void nifiUpdate()
 {
-	frame++;
+	++frame;
 	if (host)
 	{
 		if (frame >= 600 + (rand() % 300))

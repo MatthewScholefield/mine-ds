@@ -65,15 +65,15 @@ int flatGen(worldObject* world,int startx,int starty,int endx){
 	int times=rand()%3+1;
 	for (x=startx;x<=endx;x++){
 		if (changey==0){
-			y+=rand() % 3-1;	
-			times++;	
+			y+=rand() % 3-1;
+			++times;
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=rand() % 5+2;
 			//swiWaitForVBlank();
 		}
 		drawLineDown(world,x,y);
-		changey--;
+		--changey;
 	}
 	return y;
 }

@@ -70,7 +70,7 @@ void addCraftingRecipe(int block, int amount, int aid, int aamount, int bid, int
 	craftingRecipes[nextCraftingRecipe].neededblocks[2].blockAmount = camount;
 	craftingRecipes[nextCraftingRecipe].neededblocks[3].blockId = did;
 	craftingRecipes[nextCraftingRecipe].neededblocks[3].blockAmount = damount;
-	nextCraftingRecipe++;
+	++nextCraftingRecipe;
 }
 
 void addFurnaceRecipe(int block, int amount, int aid, int aamount)
@@ -168,14 +168,14 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 	{
 		if (rightButton.isTouching(*oldX, *oldY) && rightButton.isColored)
 		{
-			currentViewingRecipe++;
+			++currentViewingRecipe;
 			if (currentViewingRecipe >= nextCraftingRecipe)
 				currentViewingRecipe = 0;
 			updateCraftingGraphics();
 		}
 		else if (leftButton.isTouching(*oldX, *oldY) && leftButton.isColored)
 		{
-			currentViewingRecipe--;
+			--currentViewingRecipe;
 			if (currentViewingRecipe < 0)
 				currentViewingRecipe = nextCraftingRecipe - 1;
 			updateCraftingGraphics();

@@ -62,7 +62,7 @@ void MplayerMob::loadFromFile(FILE* pFile)
 }
 bool canMplayerMobSpawnHere(worldObject* world,int x,int y)
 {
-	y++;
+	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS) return true;
 	return false;
 }

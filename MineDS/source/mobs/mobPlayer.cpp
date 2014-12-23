@@ -132,13 +132,13 @@ void playerMob::updateMob(worldObject* world)
 		{
 			//Draw the inventory if the player is not dead, and it is survival mode
 			if (isSurvival()) drawInv();
-			tillBrightness++;
+			++tillBrightness;
 			if (tillBrightness > 60)
 			{
 				tillBrightness = 0;
 				updateBrightnessAround(world, x / 16, y / 16);
 			}
-			reheal++;
+			++reheal;
 			ping = 0;
 			world->CamX = x - 256 / 2;
 			world->CamY = y - 192 / 2;
@@ -168,11 +168,11 @@ void playerMob::updateMob(worldObject* world)
 			}
 			if (!(keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && collisions[0] == false)
 			{
-				slow++;
+				++slow;
 				if (slow == 2)
 				{
 					vy = 1;
-					y++;
+					++y;
 					slow = 0;
 				}
 			}
@@ -186,11 +186,11 @@ void playerMob::updateMob(worldObject* world)
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (animationclearframes == 0) animation = 0;
-			else animationclearframes--;
+			else --animationclearframes;
 			if (reheal > 300)
 			{
 				if (health < 20)
-					health++;
+					++health;
 				reheal = 0;
 			}
 			showHealth(health);
@@ -267,7 +267,7 @@ bool playerMob::isMyPlayer()
 
 bool canPlayerMobSpawnHere(worldObject* world, int x, int y)
 {
-	y++;
+	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
 	return false;
 }

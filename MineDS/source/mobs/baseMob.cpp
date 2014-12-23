@@ -67,7 +67,7 @@ void baseMob::updateMob(worldObject* world)
 		if (collisions[0] == false) y += vy;
 		else vy = 0;
 		if (animationclearframes == 0) animation = 0;
-		else animationclearframes--;
+		else --animationclearframes;
 	}
 }
 
@@ -91,7 +91,7 @@ void baseMob::loadFromFile(FILE* pFile)
 
 bool canBaseMobSpawnHere(worldObject* world, int x, int y)
 {
-	y++;
+	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
 	return false;
 }
