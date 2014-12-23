@@ -70,7 +70,6 @@ int flatGen(worldObject* world,int startx,int starty,int endx){
 			if (y<5) y-=rand() %2-2;
 			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
 			changey=rand() % 5+2;
-			//swiWaitForVBlank();
 		}
 		drawLineDown(world,x,y);
 		--changey;
@@ -129,15 +128,12 @@ void generateSmallWorld (worldObject* world)//Generates one biome
 void generateWorld (worldObject* world)
 {
 	int i,j;
-
 	zeroBlocks(world);
-	swiWaitForVBlank();
 	j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
 	i=0;
 	int oj=j;
 	while (i<WORLD_WIDTH)
 	{
-		swiWaitForVBlank();
 		int sizex;
 		sizex=rand()%16+ 16;
 		if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
@@ -153,7 +149,6 @@ void generateWorld (worldObject* world)
 		updateBrightnessAround(world,i,j);
 		i=i+sizex+1;
 	}
-	swiWaitForVBlank();
 	updateBrightnessAround(world,0,oj);
 	generateBedrock(world);
 	for (i=0;i<=WORLD_WIDTH;i++)
