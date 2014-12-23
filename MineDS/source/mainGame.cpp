@@ -41,8 +41,6 @@ static int inGameMenu()
 	while (!backbutton)
 	{
 		lcdMainOnTop();
-		previewScreen(false);
-		playMusic(MUSIC_CALM);
 		drawBackground();
 		consoleClear();
 
@@ -113,7 +111,7 @@ void previewScreen(int generate)
 		world.CamY = 0;
 		world.timeInWorld = 0;
 	}
-	swiWaitForVBlank();
+	//swiWaitForVBlank();
 	mobHandlerUpdate(&world);
 	worldRender_Render(&world, world.CamX, world.CamY);
 }
@@ -146,7 +144,7 @@ void startGame(void)
 		oldKeys = keysHeld();
 		touchRead(&touch);
 		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
-		swiWaitForVBlank();
+		swiWaitForVBlank(); //Should be the only time called in the loop
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();

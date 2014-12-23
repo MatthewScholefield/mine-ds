@@ -602,19 +602,19 @@ void multiplayerScreen()
 void titlescreen()
 {
 	bool poweroff = false;
-
+	previewScreen(true);
+	
 	while (!poweroff)
 	{
 		lcdMainOnTop();
-		previewScreen(true);
-		playMusic(MUSIC_CALM);
 		drawBackground();
 		consoleClear();
+		playMusic(MUSIC_CALM);
 
 		Button singlePlayer(8, 8, "Single Player", 15);
 		Button multiPlayer(8, 13, "Multiplayer", 15);
 		Button settings(8, 18, "Settings", 15);
-		Button power(24, 20, "Power");
+		Button power(29, 21, "\xFE"); // \xFE = Dot
 		Button buttons[] = {singlePlayer, multiPlayer, settings, power};
 
 		switch (menu(buttons, 4, false))
