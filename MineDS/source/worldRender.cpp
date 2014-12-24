@@ -264,9 +264,9 @@ void beginRender(int screen_x,int screen_y)
 
 void renderTile16(int x,int y,int tile,int palette)
 {
-	x=x*2; //Convert tiles of 16 to tiles of 8
-	y=y*2;
-	tile=tile*4;
+	x*=2; //Convert tiles of 16 to tiles of 8
+	y*=2;
+	tile*=4;
 	if (palette > 15) palette=14;
 	//Draw the 4 (8x8) tiles
 	setTileXY(x,y,tile,palette);
