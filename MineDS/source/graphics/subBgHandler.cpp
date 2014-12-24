@@ -67,11 +67,11 @@ void drawButton(int x, int y, int sizex)
 	setSubBgTile(x + sizex, y + 2, 26, BOTH_FLIP);
 
 	int i;
-	for (i = 0; i < sizex - 1; i++)
+	for (i = 0; i < sizex - 1; ++i)
 		setSubBgTile(x + 1 + i, y, 30);
-	for (i = 0; i < sizex - 1; i++)
+	for (i = 0; i < sizex - 1; ++i)
 		setSubBgTile(x + 1 + i, y + 2, 30, V_FLIP);
-	for (i = 0; i < sizex - 1; i++)
+	for (i = 0; i < sizex - 1; ++i)
 		setSubBgTile(x + 1 + i, y + 1, 28 + (i % 2));
 }
 
@@ -86,19 +86,19 @@ void drawButtonColored(int x, int y, int sizex)
 	setSubBgTile(x + sizex, y + 1, 59, H_FLIP);
 
 	int i;
-	for (i = 0; i < sizex - 1; i++)
+	for (i = 0; i < sizex - 1; ++i)
 		setSubBgTile(x + 1 + i, y, 62);
-	for (i = 0; i < sizex - 1; i++)
+	for (i = 0; i < sizex - 1; ++i)
 		setSubBgTile(x + 1 + i, y + 2, 62, V_FLIP);
-	for (i = 0; i < sizex - 1; i++)
+	for (i = 0; i < sizex - 1; ++i)
 		setSubBgTile(x + 1 + i, y + 1, 60 + (i % 2));
 }
 
 void drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 {
-	for (int i = 0; i < lx; i++)
+	for (int i = 0; i < lx; ++i)
 	{
-		for (int j = 0; j < ly; j++)
+		for (int j = 0; j < ly; ++j)
 			setSubBgTile(x + i, y + j, 28 + (i + 1) % 2);
 	}
 }
@@ -109,12 +109,12 @@ void drawBox(int x, int y, int lx, int ly)
 	setSubBgTile(x, y + ly - 1, 26, V_FLIP); //Bottom-Left Corner
 	setSubBgTile(x + lx - 1, y + ly - 1, 26, BOTH_FLIP); //Bottom-Right Corner
 	setSubBgTile(x + lx - 1, y + 0, 26, H_FLIP); //Top-Right Corner
-	for (int i = 1; i < ly - 1; i++)
+	for (int i = 1; i < ly - 1; ++i)
 	{
 		setSubBgTile(x + lx - 1, y + i, 27, H_FLIP); //Right Edge
 		setSubBgTile(x, y + i, 27); //Left Edge
 	}
-	for (int i = 1; i < lx - 1; i++)
+	for (int i = 1; i < lx - 1; ++i)
 	{
 		setSubBgTile(x + i, y, 30); //Top Edge
 		setSubBgTile(x + i, y + ly - 1, 30, V_FLIP); //Bottom Edge

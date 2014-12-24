@@ -39,7 +39,7 @@ void print_message(const char* s)
 void update_message()
 {
 	iprintf("\x1b[20;0H\x1b[2K"); //Clears lines
-	for (int i = 0; i < 3; i++) iprintf("\n\x1b[2K");
+	for (int i = 0; i < 3; ++i) iprintf("\n\x1b[2K");
 	iprintf("\x1b[20;0H"); //Sets Cursor
 	int start = (nextmsg - 1) % 3;
 	if (start == -1) start = 3;

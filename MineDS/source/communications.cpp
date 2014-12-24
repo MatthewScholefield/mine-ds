@@ -69,10 +69,10 @@ void recieveWorld(worldObject* world2)
 	int server_id = getServerID();
 	int client_id = getClientID();
 	int i,j;
-	for (i=0; i<=16; i++)
+	for (i=0; i<=16; ++i)
 	{
 		iprintf(".");
-		for(j=0; j<=WORLD_HEIGHT; j++)
+		for(j=0; j<=WORLD_HEIGHT; ++j)
 		{
 			framecounter=0;
 			code = 0;
@@ -148,7 +148,7 @@ void communicationInit(worldObject* world2)
 void setBlock(int x,int y,int block,int bgblock,int amount)
 {
 	int i;
-	for (i=y; i<=y+amount; i++)
+	for (i=y; i<=y+amount; ++i)
 	{
 		worldptr->blocks[x][i]=block;
 		worldptr->bgblocks[x][i]=bgblock;
@@ -165,7 +165,7 @@ void sendblock(int client_id,int x, int y)
 	int a = worldptr->blocks[x][y];
 	int b = worldptr->bgblocks[x][y];
 	int num=0;
-	for (i=y; i<=WORLD_HEIGHT; i++)
+	for (i=y; i<=WORLD_HEIGHT; ++i)
 	{
 		if (worldptr->blocks[x][i]==a && worldptr->bgblocks[x][i]==b)
 			++num;

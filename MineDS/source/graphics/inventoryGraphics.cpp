@@ -34,9 +34,9 @@ void drawInv() //Draws the items in the inventory (called by the mainPlayer->upd
 	if (enabled ==false)
 		return;
 	int i,j;
-	for (i=0; i<32; i++)
+	for (i = 0; i < 32; ++i)
 	{
-		for (j=8; j<15; j++)
+		for (j=8; j<15; ++j)
 		{
 			setSubBgTile(i,j,28+(i%2));
 			if (i==0 && j==8)
@@ -62,7 +62,7 @@ void drawInv() //Draws the items in the inventory (called by the mainPlayer->upd
 		int a;
 		j = 8; //start x
 		i = 72; //start y
-		for (a=0; a<NUM_INV_SPACES; a++)
+		for (a=0; a<NUM_INV_SPACES; ++a)
 		{
 			if (getBlockID(a) != loadedID[a])
 			{

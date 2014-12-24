@@ -52,7 +52,7 @@ void craftingInit()
 	addFurnaceRecipe(DIAMOND, 1, DIAMOND_ORE, 1);
 	addFurnaceRecipe(INGOT_IRON, 1, IRON_ORE, 1);
 	loadGraphic(&resultBlock, 0, 0);
-	for (int i = 0; i <= 3; i++)
+	for (int i = 0; i <= 3; ++i)
 		loadGraphicSub(&neededblocks[i], 2, 0);
 }
 
@@ -80,7 +80,7 @@ void updateCraftingGraphics()
 {
 	unloadGraphic(&resultBlock);
 	loadGraphicSub(&resultBlock, 2, craftingRecipes[currentViewingRecipe].createdblock.blockId);
-	for (int i = 0; i <= 3; i++)
+	for (int i = 0; i <= 3; ++i)
 	{
 
 		unloadGraphic(&neededblocks[i]);
@@ -139,7 +139,7 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 	scanKeys();
 	showGraphic(&resultBlock, 166, 84);
 	iprintf("\x1b[11;23H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		showGraphic(&neededblocks[i], 60, (i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
 		if (craftingRecipes[currentViewingRecipe].neededblocks[i].blockAmount > 0)

@@ -31,7 +31,7 @@ void setArray(int * array, int setValue, int numOfItems, ...)
 	//va_list is fine to use and it shouldn't add any overhead as it is used in (i)printf to create infinite arguments.
 	va_list slots;
 	va_start(slots, numOfItems);
-	for (int a = 0; a < numOfItems; a++)
+	for (int a = 0; a < numOfItems; ++a)
 		array[va_arg(slots, int)] = setValue;
 	va_end(slots);
 }
@@ -82,7 +82,7 @@ bool isSpriteBlock(int block)
 bool isBlockWalkThrough(int blockID)
 {
 	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(walkThroughBlocks); i++)
+	for (i = 0; (unsigned) i < sizeOfArray(walkThroughBlocks); ++i)
 		if (walkThroughBlocks[i] == blockID) return true;
 	return false;
 }
@@ -90,7 +90,7 @@ bool isBlockWalkThrough(int blockID)
 bool item(int blockID)
 {
 	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(items); i++)
+	for (i = 0; (unsigned) i < sizeOfArray(items); ++i)
 		if (items[i] == blockID) return true;
 	return false;
 }
@@ -98,7 +98,7 @@ bool item(int blockID)
 bool alwaysRenderBright(int blockID)
 {
 	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(renderBright); i++)
+	for (i = 0; (unsigned) i < sizeOfArray(renderBright); ++i)
 		if (renderBright[i] == blockID) return true;
 	return false;
 }
@@ -111,7 +111,7 @@ bool isAGroundBlock(int blockID)
 bool isBlockALightSource(int blockID)
 {
 	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); i++)
+	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); ++i)
 		if (lightSourceBlocks[i] == blockID) return true;
 	return false;
 }
@@ -119,7 +119,7 @@ bool isBlockALightSource(int blockID)
 int getLightAmount(int blockID)
 {
 	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); i++)
+	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); ++i)
 		if (lightSourceBlocks[i] == blockID) return lightSourceBlocksAmmount[i];
 	return -1;
 }
@@ -138,7 +138,7 @@ void initBlockProperties()
 	setArray(blockType, STONEBLOCK, 7, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE); //Blocks that must be mined with a pickaxe
 
 	int i;
-	for (i = 1; i < NUM_BLOCKS; i++)
+	for (i = 1; i < NUM_BLOCKS; ++i)
 	{
 		switch (blockType[i])
 		{

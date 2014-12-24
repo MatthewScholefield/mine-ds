@@ -20,11 +20,11 @@ void drawBackground() //Draws dirt background and MineDS Logo
 
 	int i, j; //They are famous variables :P
 
-	for (i = 0; i <= 24; i++) //Draws dirt Background
-		for (j = 0; j <= 31; j++)
+	for (i = 0; i <= 24; ++i) //Draws dirt Background
+		for (j = 0; j <= 31; ++j)
 			setSubBgTile(j, i, (i % 2 ? 90 : 122) + j % 2);
-	for (i = 0; i <= 25; i++)
-		for (j = 0; j <= 6; j++)
+	for (i = 0; i <= 25; ++i)
+		for (j = 0; j <= 6; ++j)
 			setSubBgTile(i + 2, j, i + (j * 32)); //Draw the MineDS Logo!
 }
 
@@ -47,7 +47,7 @@ int menu(Button buttons[], int size, bool showBack)
 			touchRead(&touch);
 			if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < size; ++i)
 				if (buttons[i].isTouching(touch.px, touch.py))
 					buttons[i].setColored(true);
 		}
@@ -58,7 +58,7 @@ int menu(Button buttons[], int size, bool showBack)
 				selected = 0;
 				chosen = true;
 			}
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < size; ++i)
 			{
 				if (buttons[i].isColored && buttons[i].isTouching(touch.px, touch.py))
 				{
@@ -69,14 +69,14 @@ int menu(Button buttons[], int size, bool showBack)
 			if (!chosen) //Redraw buttons
 			{
 				back.setColored(false);
-				for (int i = 0; i < size; i++)
+				for (int i = 0; i < size; ++i)
 					buttons[i].setColored(false);
 			}
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
 	}
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size; ++i)
 		buttons[i].setColored(false);
 	return selected + start;
 }
@@ -218,7 +218,7 @@ KEYPAD_BITS askForKeyScreen()
 			touchRead(&touch);
 			column = ((touch.py - 8) / 8) + 1 - Y;
 			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-				for (int i = 0; i < MAX_NAME_LENGTH; i++)
+				for (int i = 0; i < MAX_NAME_LENGTH; ++i)
 					setSubBgTile(X + 1 + i, Y + column, 60);
 			else if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
@@ -360,7 +360,7 @@ bool setControlsScreen()
 			touchRead(&touch);
 			column = ((touch.py - 8) / 8) + 1 - Y;
 			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-				for (int i = 0; i < MAX_NAME_LENGTH; i++)
+				for (int i = 0; i < MAX_NAME_LENGTH; ++i)
 					setSubBgTile(X + 1 + i, Y + column, 60);
 			else if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);

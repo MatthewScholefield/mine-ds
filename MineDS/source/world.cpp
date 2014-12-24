@@ -5,21 +5,21 @@
 int findFirstBlock(worldObject* world,int x)
 {
 	int i;
-	for (i=0; i<=WORLD_HEIGHT; i++)
+	for (i=0; i<=WORLD_HEIGHT; ++i)
 		if (!isBlockWalkThrough(world->blocks[x][i])) return i;
 	return -1;
 }
 int findFirstBiomeBlock(worldObject* world,int x)
 {
 	int i;
-	for (i=0; i<=WORLD_HEIGHT; i++)
+	for (i=0; i<=WORLD_HEIGHT; ++i)
 		if (!isAGroundBlock(world->blocks[x][i])) return i;
 	return -1;
 }
 void drawLineDown(worldObject* world,int x, int y)
 {
 	int i;
-	for (i=y; i<WORLD_HEIGHT; i++)
+	for (i=y; i<WORLD_HEIGHT; ++i)
 	{
 		if (i>WORLD_HEIGHT-20 && rand()%120==1) //20 blocks from bottom
 			world->blocks[x][i]=DIAMOND_ORE;

@@ -80,7 +80,7 @@ void growCactus(worldObject* world,int x,int y)
 {
 	int height = rand()%3;
 	int j;
-	for (j=y-height; j<=y; j++) world->bgblocks[x][j]=CACTUS;
+	for (j=y-height; j<=y; ++j) world->bgblocks[x][j]=CACTUS;
 }
 void growFlower(worldObject* world,int x,int y)
 {
@@ -90,7 +90,7 @@ void growFlower(worldObject* world,int x,int y)
 void growPumpkinPatch(worldObject* world,int x,int y)
 {
 	int i;
-	for (i=x-3+rand()%2; i<=x; i++)
+	for (i=x-3+rand()%2; i<=x; ++i)
 	{
 		y = findFirstBlock(world,i);
 		world->bgblocks[i][y-1] = PUMPKIN;
