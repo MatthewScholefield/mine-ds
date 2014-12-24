@@ -138,7 +138,7 @@ void initBlockProperties()
 	setArray(blockType, STONEBLOCK, 7, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE); //Blocks that must be mined with a pickaxe
 
 	int i;
-	for (i = 1; i <= NUM_BLOCKS; i++)
+	for (i = 1; i < NUM_BLOCKS; i++)
 	{
 		switch (blockType[i])
 		{
