@@ -139,11 +139,11 @@ void startGame(void)
 		touchRead(&touch);
 		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
 		swiWaitForVBlank(); //Should be the only time called in the loop
+		worldRender_Render(&world, world.CamX, world.CamY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
 		timeUpdate(&world);
-		worldRender_Render(&world, world.CamX, world.CamY);
 	}
 }
 
