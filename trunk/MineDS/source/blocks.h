@@ -1,4 +1,4 @@
-#define NUM_SPRITE_BLOCKS 4
+#define NUM_SPRITE_BLOCKS 10
 
 bool isBlockWalkThrough(int a);
 bool isAGroundBlock(int a);
