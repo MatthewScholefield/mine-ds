@@ -6,7 +6,7 @@
 #include "inventory.h"
 void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 {
-	if (!bg)	
+	if (!bg)
 	{
 		if ((world->blocks[x][y]==TORCH || world->blocks[x][y]==LADDER) && !isBlockWalkThrough(world->bgblocks[x][y]));
 		else if (isBlockWalkThrough(world->blocks[x][y]) && (isBlockWalkThrough(world->blocks[x][y+1]))) // If a transparent block is on top of a transparent block, delete it
@@ -32,9 +32,9 @@ void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 				if (isWifi())	placeBlock(x,y+1);
 			}
 		}
-		
+
 	}
-	else if (bg)	
+	else if (bg)
 	{
 		if (isBlockWalkThrough(world->bgblocks[x][y]) && (isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->bgblocks[x][y+1])))
 		{
@@ -58,11 +58,11 @@ void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 				world->bgblocks[x][y+1]=SNOW_GRASS;
 				if (isWifi())	placeBlock(x,y+1);
 			}
-		}	
+		}
 	}
 }
 void checkBlockDelete(int x,int y,worldObject* world,bool bg)
-{	
+{
 	int c =1;
 	if (!(world->blocks[x][y]==SAND || world->bgblocks[x][y]==SAND))
 	{

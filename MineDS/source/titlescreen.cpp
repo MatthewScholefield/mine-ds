@@ -231,30 +231,42 @@ KEYPAD_BITS askForKeyScreen()
 			{
 				switch (column)
 				{
-					case 1: key = KEY_UP;
-						break;
-					case 2: key = KEY_DOWN;
-						break;
-					case 3: key = KEY_LEFT;
-						break;
-					case 4: key = KEY_RIGHT;
-						break;
-					case 5: key = KEY_A;
-						break;
-					case 6: key = KEY_B;
-						break;
-					case 7: key = KEY_X;
-						break;
-					case 8: key = KEY_Y;
-						break;
-					case 9: key = KEY_L;
-						break;
-					case 10: key = KEY_R;
-						break;
-					case 11: key = KEY_START;
-						break;
-					case 12: key = KEY_SELECT;
-						break;
+				case 1:
+					key = KEY_UP;
+					break;
+				case 2:
+					key = KEY_DOWN;
+					break;
+				case 3:
+					key = KEY_LEFT;
+					break;
+				case 4:
+					key = KEY_RIGHT;
+					break;
+				case 5:
+					key = KEY_A;
+					break;
+				case 6:
+					key = KEY_B;
+					break;
+				case 7:
+					key = KEY_X;
+					break;
+				case 8:
+					key = KEY_Y;
+					break;
+				case 9:
+					key = KEY_L;
+					break;
+				case 10:
+					key = KEY_R;
+					break;
+				case 11:
+					key = KEY_START;
+					break;
+				case 12:
+					key = KEY_SELECT;
+					break;
 				}
 				chosen = true;
 			}
@@ -278,25 +290,35 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 	//Replace: case \2: return \1; break;
 	switch (column)
 	{
-		case 1: return ACTION_MOVE_LEFT;
-			break;
-		case 2: return ACTION_MOVE_RIGHT;
-			break;
-		case 3: return ACTION_JUMP;
-			break;
-		case 4: return ACTION_CROUCH;
-			break;
-		case 5: return ACTION_ITEM_LEFT;
-			break;
-		case 6: return ACTION_ITEM_RIGHT;
-			break;
-		case 7: return ACTION_SWITCH_SCREEN;
-			break;
-		case 8: return ACTION_MENU;
-			break;
-		case 9: return ACTION_CLIMB;
-			break;
-		default: return -1;
+	case 1:
+		return ACTION_MOVE_LEFT;
+		break;
+	case 2:
+		return ACTION_MOVE_RIGHT;
+		break;
+	case 3:
+		return ACTION_JUMP;
+		break;
+	case 4:
+		return ACTION_CROUCH;
+		break;
+	case 5:
+		return ACTION_ITEM_LEFT;
+		break;
+	case 6:
+		return ACTION_ITEM_RIGHT;
+		break;
+	case 7:
+		return ACTION_SWITCH_SCREEN;
+		break;
+	case 8:
+		return ACTION_MENU;
+		break;
+	case 9:
+		return ACTION_CLIMB;
+		break;
+	default:
+		return -1;
 	}
 }
 
@@ -370,30 +392,43 @@ const char * getKeyChar(KEYPAD_BITS key)
 	const char * returnKeyChar;
 	switch (key)
 	{
-		case KEY_UP: returnKeyChar = "Up";
-			break;
-		case KEY_DOWN: returnKeyChar = "Down";
-			break;
-		case KEY_LEFT: returnKeyChar = "Left";
-			break;
-		case KEY_RIGHT: returnKeyChar = "Right";
-			break;
-		case KEY_A: returnKeyChar = "A";
-			break;
-		case KEY_B: returnKeyChar = "B";
-			break;
-		case KEY_X: returnKeyChar = "X";
-			break;
-		case KEY_Y: returnKeyChar = "Y";
-			break;
-		case KEY_L: returnKeyChar = "L";
-			break;
-		case KEY_R: returnKeyChar = "R";
-			break;
-		case KEY_START: returnKeyChar = "Start";
-			break;
-		case KEY_SELECT: returnKeyChar = "Select";
-		default: returnKeyChar = "Error";
+	case KEY_UP:
+		returnKeyChar = "Up";
+		break;
+	case KEY_DOWN:
+		returnKeyChar = "Down";
+		break;
+	case KEY_LEFT:
+		returnKeyChar = "Left";
+		break;
+	case KEY_RIGHT:
+		returnKeyChar = "Right";
+		break;
+	case KEY_A:
+		returnKeyChar = "A";
+		break;
+	case KEY_B:
+		returnKeyChar = "B";
+		break;
+	case KEY_X:
+		returnKeyChar = "X";
+		break;
+	case KEY_Y:
+		returnKeyChar = "Y";
+		break;
+	case KEY_L:
+		returnKeyChar = "L";
+		break;
+	case KEY_R:
+		returnKeyChar = "R";
+		break;
+	case KEY_START:
+		returnKeyChar = "Start";
+		break;
+	case KEY_SELECT:
+		returnKeyChar = "Select";
+	default:
+		returnKeyChar = "Error";
 	}
 	return returnKeyChar;
 }
@@ -447,27 +482,27 @@ void controlsScreen()
 
 		switch (menu(buttons, 4))
 		{
-			case 1: // change controls
-				setControlsScreen();
-				break;
-			case 2: // save controls
-				printXY(1, 22, "Saving controls");
-				if (!saveControls(getGlobalSettings()))
-					printXY(1, 22, "Failed to save controls");
-				sleep(1);
-				break;
-			case 3: // load controls
-				printXY(1, 22, "Loading controls");
-				if (!loadControls(getGlobalSettings()))
-					printXY(1, 22, "Failed to load controls");
-				sleep(1);
-				break;
-			case 4: // view controls
-				viewControls();
-				break;
-			default: // back button
-				backbutton = true;
-				break;
+		case 1: // change controls
+			setControlsScreen();
+			break;
+		case 2: // save controls
+			printXY(1, 22, "Saving controls");
+			if (!saveControls(getGlobalSettings()))
+				printXY(1, 22, "Failed to save controls");
+			sleep(1);
+			break;
+		case 3: // load controls
+			printXY(1, 22, "Loading controls");
+			if (!loadControls(getGlobalSettings()))
+				printXY(1, 22, "Failed to load controls");
+			sleep(1);
+			break;
+		case 4: // view controls
+			viewControls();
+			break;
+		default: // back button
+			backbutton = true;
+			break;
 		}
 	}
 }
@@ -488,18 +523,18 @@ void gameOptions()
 
 		switch (menu(buttons, 3))
 		{
-			case 1: // herobrine
-				getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
-				break;
-			case 2: // draw mode
-				getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
-				break;
-			case 3: // creative speed
-				getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
-				break;
-			default: // back button
-				backbutton = true;
-				break;
+		case 1: // herobrine
+			getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
+			break;
+		case 2: // draw mode
+			getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
+			break;
+		case 3: // creative speed
+			getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
+			break;
+		default: // back button
+			backbutton = true;
+			break;
 		}
 	}
 }
@@ -520,18 +555,18 @@ void settingsScreen()
 
 		switch (menu(buttons, 3))
 		{
-			case 1: // controls
-				controlsScreen();
-				break;
-			case 2: // game options
-				gameOptions();
-				break;
-			case 3: // credits screen
-				creditsScreen();
-				break;
-			default: // back button
-				backbutton = true;
-				break;
+		case 1: // controls
+			controlsScreen();
+			break;
+		case 2: // game options
+			gameOptions();
+			break;
+		case 3: // credits screen
+			creditsScreen();
+			break;
+		default: // back button
+			backbutton = true;
+			break;
 		}
 	}
 }
@@ -548,24 +583,25 @@ void gameModeScreen()
 
 	switch (menu(buttons, 3))
 	{
-		case 1: // creative mode
-			printXY(1, 22, "Generating creative game");
-			newGame(GAMEMODE_CREATIVE);
-			break;
-		case 2: // survival mode
-			printXY(1, 22, "Generating survival game");
-			newGame(GAMEMODE_SURVIVAL);
-			break;
-		case 3: // load game
-			printXY(1, 22, "Loading game");
-			if (!loadGame()) {
-				printXY(1, 22, "Failed to load game");
-				return;
-			}
-			sleep(1);
-			break;
-		default: // back button
+	case 1: // creative mode
+		printXY(1, 22, "Generating creative game");
+		newGame(GAMEMODE_CREATIVE);
+		break;
+	case 2: // survival mode
+		printXY(1, 22, "Generating survival game");
+		newGame(GAMEMODE_SURVIVAL);
+		break;
+	case 3: // load game
+		printXY(1, 22, "Loading game");
+		if (!loadGame())
+		{
+			printXY(1, 22, "Failed to load game");
 			return;
+		}
+		sleep(1);
+		break;
+	default: // back button
+		return;
 	}
 	startGame();
 }
@@ -584,17 +620,17 @@ void multiplayerScreen()
 
 	switch (menu(buttons, 3))
 	{
-		case 1: // create game
-			host = true;
-			break;
-		case 2: // TODO: load game
-			host = true;
-			break;
-		case 3: // join game
-			host = false;
-			break;
-		default: // back button
-			return;
+	case 1: // create game
+		host = true;
+		break;
+	case 2: // TODO: load game
+		host = true;
+		break;
+	case 3: // join game
+		host = false;
+		break;
+	default: // back button
+		return;
 	}
 	drawBackground();
 	playMusic(MUSIC_HAL2);
@@ -606,7 +642,7 @@ void titlescreen()
 	bool poweroff = false;
 	setSeed(time(NULL));
 	newGame(GAMEMODE_PREVIEW, false);
-	
+
 	while (!poweroff)
 	{
 		lcdMainOnTop();
@@ -622,18 +658,18 @@ void titlescreen()
 
 		switch (menu(buttons, 4, false))
 		{
-			case 1: // single player
-				gameModeScreen();
-				break;
-			case 2: // multiplayer
-				multiplayerScreen();
-				break;
-			case 3: // settings
-				settingsScreen();
-				break;
-			case 4: //Power
-				poweroff = true;
-				break;
+		case 1: // single player
+			gameModeScreen();
+			break;
+		case 2: // multiplayer
+			multiplayerScreen();
+			break;
+		case 3: // settings
+			settingsScreen();
+			break;
+		case 4: //Power
+			poweroff = true;
+			break;
 		}
 	}
 }

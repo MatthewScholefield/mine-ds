@@ -19,11 +19,11 @@ typedef struct
 {
 	int blockId=0;
 	int blockAmount =0;
-}InvBlock;
+} InvBlock;
 typedef struct
 {
 	InvBlock blocks[32];
 //	InvBlock armour[4];
 	int hand;
-}Inventory;
+} Inventory;
 #endif

@@ -52,7 +52,7 @@ void MplayerMob::updateMob(worldObject* world)
 }
 void MplayerMob::sendWifiUpdate()
 {
-	
+
 }
 void MplayerMob::saveToFile(FILE* pFile)
 {

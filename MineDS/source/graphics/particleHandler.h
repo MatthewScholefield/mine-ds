@@ -7,4 +7,4 @@ typedef struct
 	int sx;
 	int sy;
 	bool flip;
-}particle;
+} particle;

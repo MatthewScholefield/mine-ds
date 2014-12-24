@@ -61,9 +61,7 @@ void baseMob::updateMob(worldObject* world)
 	{
 		ping = 0;
 		if (health <= 0)
-		{
 			killMob();
-		}
 		if (collisions[0] == false) y += vy;
 		else vy = 0;
 		if (animationclearframes == 0) animation = 0;

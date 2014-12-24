@@ -85,9 +85,7 @@ void zombieMob::updateMob(worldObject* world)
 		if (collisions[0] == false) y += vy;
 		else vy = 0;
 		if (target->x > x - 4 && target->x < x + 4)
-		{
 			jump = 0;
-		}
 		if (target->mobtype != 2)
 		{
 			++notarget;
@@ -119,9 +117,7 @@ void zombieMob::updateMob(worldObject* world)
 		if (animationclearframes == 0) animation = 0;
 		else --animationclearframes;
 		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
-		{
 			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
-		}
 		target = mobHandlerFindMob(512, 2, x, y);
 		if (target->mobtype == 2) notarget = 0;
 	}

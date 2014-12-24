@@ -3,7 +3,8 @@
 
 #include "soundbank.h"  // Soundbank definitions
 
-enum sound_t {
+enum sound_t
+{
 	SOUND_NONE		= -1,
 	SOUND_COW_HURT		= SFX_COW_HURT,
 	SOUND_PIG_HURT		= SFX_PIG_HURT,
@@ -12,7 +13,8 @@ enum sound_t {
 	SOUND_ZOMBIE_HURT	= SFX_ZOMBIE_HURT
 };
 
-enum music_t {
+enum music_t
+{
 	MUSIC_NONE	= -1,
 	MUSIC_CALM	= MOD_CALM,
 	MUSIC_HAL2	= MOD_HAL2
