@@ -19,10 +19,7 @@
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
-Graphic torchSprite;
-Graphic snowtopSprite;
-Graphic glassSprite;
-Graphic ladderSprite;
+Graphic blockGraphics[NUM_SPRITE_BLOCKS];
 int sunbrightness;
 int getBrightness(worldObject* world,int x,int y)
 {
@@ -214,10 +211,8 @@ void Calculate_Brightness(worldObject* world)
 void renderTile16(int a,int b, int c, int d); //HAX
 void worldRender_LoadSprites()
 {
-	loadGraphic(&torchSprite,2,TORCH);
-	loadGraphic(&glassSprite,2,GLASS);
-	loadGraphic(&snowtopSprite,2,SNOW_TOP);
-	loadGraphic(&ladderSprite,2,LADDER);
+	for (int i=0;i<NUM_SPRITE_BLOCKS;++i)
+		loadGraphic(&blockGraphics[i],2,getSpriteBlock(i));
 }
 void worldRender_Init()
 {
@@ -306,48 +301,23 @@ void renderWorld(worldObject* world,int screen_x,int screen_y)
 		//Check The Block is on screen
 		if(onScreen(16,i,j,1,1))
 			{
-				if (world->blocks[i][j]!=AIR && world->blocks[i][j]!=TORCH && world->blocks[i][j]!=GLASS && world->blocks[i][j]!=SNOW_TOP && world->blocks[i][j]!=LADDER)
-				{	
-					renderBlock(world,i,j,world->blocks[i][j]);	
-				}
+				if (world->blocks[i][j]!=AIR && !isSpriteBlock(world->blocks[i][j]))
+					renderBlock(world,i,j,world->blocks[i][j]);
 				else if (world->bgblocks[i][j]!=AIR && alwaysRenderBright(world->bgblocks[i][j])==false) renderBlockAdd(world,i,j,world->bgblocks[i][j]);
 				else if (world->bgblocks[i][j]!=AIR) renderBlock(world,i,j,world->bgblocks[i][j]);
-				else renderTile16(i,j,world->blocks[i][j],0);
-				if (world->blocks[i][j]==TORCH)
+				else renderTile16(i,j,world->blocks[i][j],0);//But if we run out of sprite IDs, render as a tile...
+				if (isSpriteBlock(world->blocks[i][j]))
 				{
-					//Render the Torch as a sprite...
-					if (!showGraphic(&torchSprite,(i*16) - screen_x,(j*16) - screen_y,false,1))
-					{
-					//But if we run out of sprite IDs, render as a tile...
-						 renderBlock(world,i,j,world->blocks[i][j]);
-					}
-				}
-				else if (world->blocks[i][j]==GLASS)
-				{
-					//Render the Glass as a sprite...
-					if (!showGraphic(&glassSprite,(i*16) - screen_x,(j*16) - screen_y))
-					{
-					//But if we run out of sprite IDs, render as a tile...
-						 renderBlock(world,i,j,world->blocks[i][j]);
-					}
-				}
-				else if (world->blocks[i][j]==SNOW_TOP)
-				{
-					//Render the Snow top as a sprite...
-					if (world->bgblocks[i][j]==SNOW_TOP || world->bgblocks[i][j]==AIR || !showGraphic(&snowtopSprite,(i*16) - screen_x,(j*16) - screen_y))
-					{
-					//But if we run out of sprite IDs, render as a tile...
-						 renderBlock(world,i,j,world->blocks[i][j]);
-					}
-				}
-				else if (world->blocks[i][j]==LADDER)
-				{				
-					if (!showGraphic(&ladderSprite,(i*16) - screen_x,(j*16) - screen_y,false,1))
-					{
+					int index;
+						for (index=0;index<NUM_SPRITE_BLOCKS;++index)
+							if (getSpriteBlock(index)==world->blocks[i][j])
+								break;
+					if (world->blocks[i][j]==SNOW_TOP && (world->bgblocks[i][j]==SNOW_TOP || world->bgblocks[i][j]==AIR || !showGraphic(&blockGraphics[index],(i*16) - screen_x,(j*16) - screen_y)))
+							 renderBlock(world,i,j,world->blocks[i][j]); //Render the block as a sprite...
+					else if (world->blocks[i][j]!=SNOW_TOP && !showGraphic(&blockGraphics[index],(i*16) - screen_x,(j*16) - screen_y,false,1))
 						renderBlock(world,i,j,world->blocks[i][j]);
-					}
+					//But if we run out of sprite IDs, render as a tile...
 				}
-				
 			}
 		}
 	}
