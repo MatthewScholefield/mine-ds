@@ -24,7 +24,7 @@ static void loadSound(sound_t sound)
 	if (sound == SOUND_NONE)
 		return;
 
-	for (i = 0; i < LENGTH(loaded_sounds); i++)
+	for (i = 0; i < LENGTH(loaded_sounds); ++i)
 	{
 		if (loaded_sounds[i] == sound)
 			return;
