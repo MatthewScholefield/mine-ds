@@ -42,7 +42,7 @@ baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 	int closest = range * range + 1;
 	int mobNum = -1;
 	int i;
-	for (i = 0; i <= 100; i++)
+	for (i = 0; i < 100; i++)
 	{
 		if (mobs[i]->mobtype == type)
 		{
@@ -99,9 +99,9 @@ void mobHandlerKillMob(int mobNum)
 void mobsReset(bool playerSpawned)
 {
 	int i;
-	for (i = 0; i <= 100; i++)
+	for (i = 0; i < 100; i++)
 	{
-		//delete mobs[i];
+		delete mobs[i];
 		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
 	}
@@ -120,7 +120,7 @@ void mobHandlerInit()
 	cowMobInit();
 	sheepMobInit();
 	int i;
-	for (i = 0; i <= 100; i++)
+	for (i = 0; i < 100; i++)
 	{
 		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
