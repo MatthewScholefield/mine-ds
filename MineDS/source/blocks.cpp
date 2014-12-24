@@ -23,7 +23,7 @@ int items[]={PORKCHOP_RAW,BEEF_RAW,LEATHER,PICKAXE_WOOD,PICKAXE_STONE,
 		SEEDS_PUMPKIN,SEEDS_WHEAT};
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
-int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH,GLASS,SNOW_TOP,LADDER};
+int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH,GLASS,SNOW_TOP,LADDER,MUSHROOM_BROWN,MUSHROOM_RED,SHRUB,TALL_GRASS,FLOWER_RED,FLOWER_YELLOW};
 
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
