@@ -6,6 +6,7 @@
 */
 #include "blockID.h"
 #include "mining.h"
+#include "blocks.h"
 #include <stdio.h>
 #include <stdarg.h>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
@@ -22,6 +23,7 @@ int items[]={PORKCHOP_RAW,BEEF_RAW,LEATHER,PICKAXE_WOOD,PICKAXE_STONE,
 		SEEDS_PUMPKIN,SEEDS_WHEAT};
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
+int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH,GLASS,SNOW_TOP,LADDER};
 
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
@@ -63,6 +65,19 @@ otherwise values could overlap
 -Positive Value-
 ----------------
 */
+
+int getSpriteBlock (int index)
+{
+	return spriteBlocks[index];
+}
+
+bool isSpriteBlock(int block)
+{
+	for (int i=0; i<NUM_SPRITE_BLOCKS;++i)
+		if (block==spriteBlocks[i])
+			return true;
+	return false;
+}
 
 bool isBlockWalkThrough(int blockID)
 {
