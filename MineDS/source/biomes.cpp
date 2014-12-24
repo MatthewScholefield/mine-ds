@@ -18,7 +18,7 @@ void plainsBiome(worldObject* world, int startx,int endx)
 	{
 		y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
-		for (int j=y; j<endy; j++) world->blocks[x][j]=DIRT;
+		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
 		if (treex==x)
 		{
@@ -55,7 +55,7 @@ void jungleBiome(worldObject* world, int startx,int endx)
 	{
 		y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
-		for (int j=y; j<endy; j++) world->blocks[x][j]=DIRT;
+		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		if (flx==x)
 		{
 			world->bgblocks[x][y-1]=JUNGLE_LEAF;
@@ -86,7 +86,7 @@ void snowBiome(worldObject* world,int startx,int endx)
 	{
 		y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
-		for (int j=y; j<endy; j++) world->blocks[x][j]=DIRT;
+		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=SNOW_TOP;
 		world->blocks[x][y+1]=SNOW_GRASS;
 		if (flx==x)
@@ -115,8 +115,8 @@ void desertBiome(worldObject* world,int startx,int endx)
 	{
 		y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 3;
-		for (int j=y; j<endy; j++) world->blocks[x][j]=SAND;
-		for (int j=endy-(1+(rand()%3)); j<endy; j++) world->blocks[x][j]=SANDSTONE;
+		for (int j=y; j<endy; ++j) world->blocks[x][j]=SAND;
+		for (int j=endy-(1+(rand()%3)); j<endy; ++j) world->blocks[x][j]=SANDSTONE;
 		if (treex==x)
 		{
 			growCactus(world,x,y-1);
@@ -144,7 +144,7 @@ void mushroomBiome(worldObject* world,int startx,int endx)
 	{
 		y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
-		for (int j=y; j<endy; j++) world->blocks[x][j]=DIRT;
+		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=MYCELIUM;
 		if (flx==x)
 		{

@@ -206,8 +206,8 @@ void playerMob::updateMob(worldObject* world)
 			if (result == 0)
 			{
 				int i, j;
-				for (i = 0; i <= WORLD_WIDTH; i++)
-					for (j = 0; j <= WORLD_HEIGHT; j++)
+				for (i = 0; i <= WORLD_WIDTH; ++i)
+					for (j = 0; j <= WORLD_HEIGHT; ++j)
 					{
 						if (canPlayerMobSpawnHere(world, i, j))
 						{
