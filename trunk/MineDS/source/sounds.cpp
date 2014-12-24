@@ -26,9 +26,8 @@ static void loadSound(sound_t sound)
 
 	for (i = 0; i < LENGTH(loaded_sounds); i++)
 	{
-		if (loaded_sounds[i] == sound) {
+		if (loaded_sounds[i] == sound)
 			return;
-		}
 	}
 
 	if (loaded_sounds[sounds_pos] != SOUND_NONE)
@@ -67,7 +66,8 @@ void playMusic(music_t music)
 	if (music == MUSIC_NONE)
 		return;
 
-	if (music != loaded_music) {
+	if (music != loaded_music)
+	{
 		stopMusic();
 		mmLoad(music);
 		loaded_music = music;

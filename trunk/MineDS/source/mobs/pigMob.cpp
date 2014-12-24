@@ -29,7 +29,7 @@ pigMob::pigMob()
 	smallmob=true;
 }
 pigMob::pigMob(int a,int b)
-{	
+{
 	jump=0;
 	gravity=3;
 	gravityValue=3;
@@ -64,7 +64,7 @@ void pigMob::updateMob(worldObject* world)
 	if (host==true)
 	{
 		target = mobHandlerFindMob(256,2,x,y);
-		
+
 		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
 		else if (target->mobtype==2 && scared) facing = true;
 		++jump;
@@ -138,9 +138,7 @@ void pigMob::updateMob(worldObject* world)
 		if (mobtype==2) notarget=0;
 		ping=0;
 		if (health<=0)
-		{
 			killMob();
-		}
 		//if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else --animationclearframes;
@@ -168,7 +166,7 @@ void pigMobInit()
 }
 void pigMob::hurt(int amount,int type)
 {
-	
+
 	if (animation==1)
 		return;
 	if (type!=VOID_HURT)
@@ -179,9 +177,7 @@ void pigMob::hurt(int amount,int type)
 	if (type == PLAYER_HURT)
 		scared = true;
 	if (health<=0 && type == PLAYER_HURT)
-	{
 		addInventory(PORKCHOP_RAW,rand()%3);
-	}
 	animation=1;
 	animationclearframes=20;
 }

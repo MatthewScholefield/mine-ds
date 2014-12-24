@@ -112,9 +112,7 @@ void herobrineMob::updateMob(worldObject* world)
 		if (animationclearframes == 0) animation = 0;
 		else --animationclearframes;
 		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
-		{
 			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
-		}
 		target = mobHandlerFindMob(512, 2, x, y);
 		if (target->mobtype == 2) notarget = 0;
 	}

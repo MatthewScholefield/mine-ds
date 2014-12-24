@@ -164,9 +164,7 @@ void Handler(int packetID, int readlength)
 			int x, y;
 			sscanf(message, "%d %d %d %d", &test_id, &test2_id, &x, &y);
 			if (test_id == server_id)
-			{
 				confirmBlock(test2_id, x, y);
-			}
 		}
 	}
 	else if (!strcmp("[CFMB:", msgtype))
@@ -178,9 +176,7 @@ void Handler(int packetID, int readlength)
 			int x, y;
 			sscanf(message, "%d %d %d %d", &test_id, &test2_id, &x, &y);
 			if (test_id == server_id && test2_id == client_id)
-			{
 				clientConfirmBlock(x, y);
-			}
 		}
 	}
 	else if (!strcmp("[BLKP:", msgtype))

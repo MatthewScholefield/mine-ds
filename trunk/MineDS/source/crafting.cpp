@@ -53,9 +53,7 @@ void craftingInit()
 	addFurnaceRecipe(INGOT_IRON, 1, IRON_ORE, 1);
 	loadGraphic(&resultBlock, 0, 0);
 	for (int i = 0; i <= 3; i++)
-	{
 		loadGraphicSub(&neededblocks[i], 2, 0);
-	}
 }
 
 void addCraftingRecipe(int block, int amount, int aid, int aamount, int bid, int bamount, int cid, int camount, int did, int damount)
@@ -132,9 +130,7 @@ void craftItem()
 			}
 		}
 		else
-		{
 			addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId, craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
-		}
 	}
 }
 

@@ -1,1 +1,1 @@
- const char *getName(int blockID);
+const char *getName(int blockID);
