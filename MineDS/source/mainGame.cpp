@@ -52,22 +52,22 @@ static int inGameMenu()
 
 		switch (menu(buttons, 3))
 		{
-			case 1: // save game
-				printXY(1, 22, "Saving game");
-				if (!saveWorld(&world))
-				{
-					printXY(1, 22, "Failed to save game");
-					sleep(1);
-				}
-				break;
-			case 2: // quit game
-				return -1;
-			case 3: // settings
-				settingsScreen();
-				break;
-			default: // back button
-				backbutton = true;
-				break;
+		case 1: // save game
+			printXY(1, 22, "Saving game");
+			if (!saveWorld(&world))
+			{
+				printXY(1, 22, "Failed to save game");
+				sleep(1);
+			}
+			break;
+		case 2: // quit game
+			return -1;
+		case 3: // settings
+			settingsScreen();
+			break;
+		default: // back button
+			backbutton = true;
+			break;
 		}
 	}
 	redrawGameUI();
@@ -131,7 +131,8 @@ void startGame(void)
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
-		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0) {
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)
+		{
 			if (inGameMenu() != 0)
 				break;
 		}
@@ -176,8 +177,10 @@ void startMultiplayerGame(bool host)
 		int i, j;
 
 		lcdMainOnTop();
-		for (i = 0; i <= WORLD_WIDTH; i++) {
-			for (j = 0; j <= WORLD_HEIGHT; j++) {
+		for (i = 0; i <= WORLD_WIDTH; i++)
+		{
+			for (j = 0; j <= WORLD_HEIGHT; j++)
+			{
 				world.blocks[i][j] = BEDROCK;
 				world.bgblocks[i][j] = BEDROCK;
 			}

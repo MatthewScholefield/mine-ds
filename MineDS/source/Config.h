@@ -18,36 +18,37 @@
 #ifndef CONFIG_H
 #define	CONFIG_H
 
-class Config {
+class Config
+{
 private:
-    KEYPAD_BITS left;
-    KEYPAD_BITS right;
-    KEYPAD_BITS jump;
-    KEYPAD_BITS crouch;
-    KEYPAD_BITS itemLeft;
-    KEYPAD_BITS itemRight;
-    KEYPAD_BITS switchScreen;
-    KEYPAD_BITS menu;
-    KEYPAD_BITS climb;
-    bool properties[3];
+	KEYPAD_BITS left;
+	KEYPAD_BITS right;
+	KEYPAD_BITS jump;
+	KEYPAD_BITS crouch;
+	KEYPAD_BITS itemLeft;
+	KEYPAD_BITS itemRight;
+	KEYPAD_BITS switchScreen;
+	KEYPAD_BITS menu;
+	KEYPAD_BITS climb;
+	bool properties[3];
 public:
-    void setKey(int action, KEYPAD_BITS key);
-    bool getProperty(int property);
-    void setProperty(int property, bool);
-    KEYPAD_BITS getKey(int action);
-    Config ():left(KEY_LEFT),
-    right(KEY_RIGHT),
-    jump(KEY_A),
-    crouch(KEY_DOWN),
-    itemLeft(KEY_X),
-    itemRight(KEY_B),
-    switchScreen(KEY_Y),
-    menu(KEY_START),
-    climb(KEY_UP),
-    properties{false,false,false}
-    {
-        
-    }
+	void setKey(int action, KEYPAD_BITS key);
+	bool getProperty(int property);
+	void setProperty(int property, bool);
+	KEYPAD_BITS getKey(int action);
+	Config ():left(KEY_LEFT),
+		right(KEY_RIGHT),
+		jump(KEY_A),
+		crouch(KEY_DOWN),
+		itemLeft(KEY_X),
+		itemRight(KEY_B),
+		switchScreen(KEY_Y),
+		menu(KEY_START),
+		climb(KEY_UP),
+		properties{false,false,false}
+	{
+
+	}
 };
 
 #endif	/* CONFIG_H */

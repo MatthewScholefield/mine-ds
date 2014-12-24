@@ -7,15 +7,17 @@
 #define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
 #define WORLD_WIDTHPX	(WORLD_WIDTH * 16)
 
-enum gamemode_t {
+enum gamemode_t
+{
 	GAMEMODE_CREATIVE,
 	GAMEMODE_SURVIVAL,
-        GAMEMODE_PREVIEW
+	GAMEMODE_PREVIEW
 };
 
-typedef struct{
+typedef struct
+{
 	int blocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int data[WORLD_WIDTH+1][WORLD_HEIGHT+1]; 
+	int data[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int brightness[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int lightemit[WORLD_WIDTH+1][WORLD_HEIGHT+1];
 	int sun[WORLD_WIDTH+1][WORLD_HEIGHT+1];
@@ -25,8 +27,8 @@ typedef struct{
 	int timeInWorld;
 	int worldBrightness;
 	gamemode_t gamemode;
-        int seed; //The random number seed used to generate the world
-}worldObject;
+	int seed; //The random number seed used to generate the world
+} worldObject;
 
 int findFirstBlock(worldObject* world,int x);
 int findFirstBiomeBlock(worldObject* world,int x);

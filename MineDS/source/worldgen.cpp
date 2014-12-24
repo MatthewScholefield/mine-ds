@@ -58,17 +58,20 @@ int extremeMountainGen(worldObject* world,int startx,int starty,int endx)
 	drawLineThing(world,x,y,endx,endy);
 	return endy;
 }
-int flatGen(worldObject* world,int startx,int starty,int endx){
+int flatGen(worldObject* world,int startx,int starty,int endx)
+{
 	int y=starty;
 	int x;
 	int changey=0;
 	int times=rand()%3+1;
-	for (x=startx;x<=endx;x++){
-		if (changey==0){
+	for (x=startx; x<=endx; x++)
+	{
+		if (changey==0)
+		{
 			y+=rand() % 3-1;
 			++times;
 			if (y<5) y-=rand() %2-2;
-			if (y>WORLD_HEIGHT/3) y-=rand()%2;	
+			if (y>WORLD_HEIGHT/3) y-=rand()%2;
 			changey=rand() % 5+2;
 		}
 		drawLineDown(world,x,y);
@@ -77,18 +80,17 @@ int flatGen(worldObject* world,int startx,int starty,int endx){
 	return y;
 }
 
-	
+
 void plotHeight(worldObject* world,int x, int y)
 {
 	int i;
-	for (i=y;i<WORLD_HEIGHT;i++)
-	{
+	for (i=y; i<WORLD_HEIGHT; i++)
 		world->blocks[x][i]=STONE;
-	}
 }
-void generateBedrock (worldObject* world){
+void generateBedrock (worldObject* world)
+{
 	int i;
-	for(i=0;i<=WORLD_WIDTH;i++)
+	for(i=0; i<=WORLD_WIDTH; i++)
 	{
 		world->blocks[i][WORLD_HEIGHT]=BEDROCK;
 		if (!(rand() % 2)) world->blocks[i][WORLD_HEIGHT-1]=BEDROCK;
@@ -102,26 +104,36 @@ void generateBedrock (worldObject* world){
 
 void generateSmallWorld (worldObject* world)//Generates one biome
 {
-    int j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
-    int oj = j;
-    int i=0;
-    int sizex;
+	int j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
+	int oj = j;
+	int i=0;
+	int sizex;
 
-    zeroBlocks(world);
-    sizex=rand()%16+ 16;
-    if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
-    j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
-    switch (rand() % 5)
-    {
-	case 0:plainsBiome(world,i,i+sizex); break;
-	case 1: snowBiome(world,i,i+sizex); break;
-	case 2: desertBiome(world,i,i+sizex); break;
-	case 3: jungleBiome(world,i,i+sizex); break;
-	case 4: mushroomBiome(world,i,i+sizex); break;
-    }
-    
-    updateBrightnessAround(world,i,j);
-    updateBrightnessAround(world,0,oj);
+	zeroBlocks(world);
+	sizex=rand()%16+ 16;
+	if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
+	j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
+	switch (rand() % 5)
+	{
+	case 0:
+		plainsBiome(world,i,i+sizex);
+		break;
+	case 1:
+		snowBiome(world,i,i+sizex);
+		break;
+	case 2:
+		desertBiome(world,i,i+sizex);
+		break;
+	case 3:
+		jungleBiome(world,i,i+sizex);
+		break;
+	case 4:
+		mushroomBiome(world,i,i+sizex);
+		break;
+	}
+
+	updateBrightnessAround(world,i,j);
+	updateBrightnessAround(world,0,oj);
 
 }
 
@@ -144,19 +156,29 @@ void generateWorld (worldObject* world)
 			j = (rand() % 2==1 ? extremeMountainGen(world,i,j,i+sizex) : flatGen(world,i,j,i+sizex));
 			switch (rand() % 5)
 			{
-				case 0:plainsBiome(world,i,i+sizex); break;
-				case 1: snowBiome(world,i,i+sizex); break;
-				case 2: desertBiome(world,i,i+sizex); break;
-				case 3: jungleBiome(world,i,i+sizex); break;
-				case 4: mushroomBiome(world,i,i+sizex); break;
+			case 0:
+				plainsBiome(world,i,i+sizex);
+				break;
+			case 1:
+				snowBiome(world,i,i+sizex);
+				break;
+			case 2:
+				desertBiome(world,i,i+sizex);
+				break;
+			case 3:
+				jungleBiome(world,i,i+sizex);
+				break;
+			case 4:
+				mushroomBiome(world,i,i+sizex);
+				break;
 			}
 			updateBrightnessAround(world,i,j);
 			i=i+sizex+1;
 		}
 		updateBrightnessAround(world,0,oj);
 		generateBedrock(world);
-		for (i=0;i<=WORLD_WIDTH;i++) //Copy FG blocks to BG
-			for (j=0;j<=WORLD_HEIGHT;j++)
-				 if (world->blocks[i][j]!=AIR && !isBlockWalkThrough(world->blocks[i][j])) world->bgblocks[i][j]=world->blocks[i][j];
-		}
+		for (i=0; i<=WORLD_WIDTH; i++) //Copy FG blocks to BG
+			for (j=0; j<=WORLD_HEIGHT; j++)
+				if (world->blocks[i][j]!=AIR && !isBlockWalkThrough(world->blocks[i][j])) world->bgblocks[i][j]=world->blocks[i][j];
+	}
 }

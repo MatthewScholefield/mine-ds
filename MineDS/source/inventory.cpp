@@ -76,35 +76,50 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 		{
 			switch (blockID)
 			{
-				case COAL_ORE: blockID = COAL;
-					break; //Any pickaxe can break coal
-				case STONE: blockID = COBBLESTONE;
-					break;
-				case IRON_ORE:if (getSelectedblock() == PICKAXE_WOOD) return true;
-					break;
-				case GOLD_ORE:if (getSelectedblock() == PICKAXE_WOOD || getSelectedblock() == PICKAXE_STONE)return true;
-					break;
-				case DIAMOND_ORE: if (getSelectedblock() != PICKAXE_DIAMOND && getSelectedblock() != PICKAXE_IRON) return true;
-					break;
+			case COAL_ORE:
+				blockID = COAL;
+				break; //Any pickaxe can break coal
+			case STONE:
+				blockID = COBBLESTONE;
+				break;
+			case IRON_ORE:
+				if (getSelectedblock() == PICKAXE_WOOD) return true;
+				break;
+			case GOLD_ORE:
+				if (getSelectedblock() == PICKAXE_WOOD || getSelectedblock() == PICKAXE_STONE)return true;
+				break;
+			case DIAMOND_ORE:
+				if (getSelectedblock() != PICKAXE_DIAMOND && getSelectedblock() != PICKAXE_IRON) return true;
+				break;
 			}
 		}
 	}
 
 	switch (blockID)
 	{
-		case GRASS: case JUNGLE_GRASS: case SNOW_GRASS: case MYCELIUM: blockID = DIRT;
-			break;
-		case TALL_GRASS: blockID = SEEDS_WHEAT;
-			amount = rand() % 2 + 1;
-			break;
-		case BEDROCK: return false;
-			break; //Cannot break bedrock
-		case SNOW_TOP: return true;
-			break; //Can break snow tops, just they won't be added to the inventory
-		case AIR: return false;
-			break;
-		case MUSHROOM_STEM: case MUSHROOM_TOP: return true;
-			break;
+	case GRASS:
+	case JUNGLE_GRASS:
+	case SNOW_GRASS:
+	case MYCELIUM:
+		blockID = DIRT;
+		break;
+	case TALL_GRASS:
+		blockID = SEEDS_WHEAT;
+		amount = rand() % 2 + 1;
+		break;
+	case BEDROCK:
+		return false;
+		break; //Cannot break bedrock
+	case SNOW_TOP:
+		return true;
+		break; //Can break snow tops, just they won't be added to the inventory
+	case AIR:
+		return false;
+		break;
+	case MUSHROOM_STEM:
+	case MUSHROOM_TOP:
+		return true;
+		break;
 	}
 
 	for (i = 0; i < NUM_INV_SPACES; i++)
@@ -116,7 +131,7 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 			i = NUM_INV_SPACES + 1;
 			//Skip other inventory spaces...
 		}
-			//Found a sutiable air space.
+		//Found a sutiable air space.
 		else if (mainPlayerInv.blocks[i].blockId == AIR)
 		{
 			//Set the space as last resort, try to find correct inventory space.
@@ -169,9 +184,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 		return false;
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
-	{
 		mainPlayerInv.blocks[space].blockId = AIR;
-	}
 	updateInvGraphics();
 	return true;
 }
@@ -191,9 +204,7 @@ int checkInventory(int blockID) //returns quantity of blockid in inventory
 		}
 	}
 	if (space == -1)
-	{
 		return 0;
-	}
 	if (blockID == AIR)
 		return 64;
 	return mainPlayerInv.blocks[space].blockAmount;

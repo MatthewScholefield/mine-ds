@@ -30,7 +30,7 @@ sheepMob::sheepMob()
 	smallmob=true;
 }
 sheepMob::sheepMob(int a,int b)
-{	
+{
 	jump=0;
 	gravity=3;
 	gravityValue=3;
@@ -138,9 +138,7 @@ void sheepMob::updateMob(worldObject* world)
 		if (mobtype==2) notarget=0;
 		ping=0;
 		if (health<=0)
-		{
 			killMob();
-		}
 		//if (notarget > 1800) killMob();
 		if (animationclearframes==0) animation=0;
 		else --animationclearframes;
@@ -168,7 +166,7 @@ void sheepMobInit()
 }
 void sheepMob::hurt(int amount,int type)
 {
-	
+
 	if (animation==1)
 		return;
 	if (type!=VOID_HURT)
@@ -179,9 +177,7 @@ void sheepMob::hurt(int amount,int type)
 	if (type == PLAYER_HURT)
 		scared = true;
 	if (health<=0 && type == PLAYER_HURT)
-	{
 		addInventory(WHITE_WOOL,rand()%4);
-	}
 	animation=1;
 	animationclearframes=20;
 }
