@@ -39,7 +39,7 @@ int get_int_len(int value)
 void nifiClearClients()
 {
 	int i;
-	for (i = 0; i < MAX_CLIENTS; i++)
+	for (i = 0; i < MAX_CLIENTS; ++i)
 	{
 		clients[i] = 0;
 		clientfails[i] = 0;
@@ -125,7 +125,7 @@ void Handler(int packetID, int readlength)
 					Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 					++noOfClients;
 					int i;
-					for (i = 0; i < MAX_CLIENTS; i++)
+					for (i = 0; i < MAX_CLIENTS; ++i)
 					{
 						if (clients[i] == 0)
 						{
@@ -268,7 +268,7 @@ void Handler(int packetID, int readlength)
 void nifiConfirmBlocksAllPlayers(int x, int y)
 {
 	int i;
-	for (i = 0; i < MAX_CLIENTS; i++)
+	for (i = 0; i < MAX_CLIENTS; ++i)
 	{
 		if (clients[i] != 0)
 		{
@@ -356,8 +356,8 @@ bool clientNifiInit()
 				printXY(17, 16, "  ");
 				int i, j;
 				printXY(0, 10, "\x1b[2K\n\x1b[2K");
-				for (i = 0; i <= 30; i++)
-					for (j = 14; j <= 18; j++)
+				for (i = 0; i <= 30; ++i)
+					for (j = 14; j <= 18; ++j)
 						setSubBgTile(i, j, 0);
 				something = false;
 				return true;
@@ -368,8 +368,8 @@ bool clientNifiInit()
 				printXY(17, 16, "  ");
 				int i, j;
 				printXY(0, 10, "\x1b[2K\n\x1b[2K");
-				for (i = 0; i <= 30; i++)
-					for (j = 14; j <= 18; j++)
+				for (i = 0; i <= 30; ++i)
+					for (j = 14; j <= 18; ++j)
 						setSubBgTile(i, j, 0);
 				something = false;
 				foundServer = false;

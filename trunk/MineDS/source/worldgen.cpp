@@ -23,9 +23,9 @@ static void zeroBlocks(worldObject* world)
 {
 	unsigned int i, j;
 
-	for (i = 0; i < WORLD_WIDTH; i++)
+	for (i = 0; i < WORLD_WIDTH; ++i)
 	{
-		for (j = 0; j < WORLD_HEIGHT; j++)
+		for (j = 0; j < WORLD_HEIGHT; ++j)
 		{
 			world->blocks[i][j] = AIR;
 			world->bgblocks[i][j] = AIR;
@@ -64,7 +64,7 @@ int flatGen(worldObject* world,int startx,int starty,int endx)
 	int x;
 	int changey=0;
 	int times=rand()%3+1;
-	for (x=startx; x<=endx; x++)
+	for (x=startx; x<=endx; ++x)
 	{
 		if (changey==0)
 		{
@@ -84,13 +84,13 @@ int flatGen(worldObject* world,int startx,int starty,int endx)
 void plotHeight(worldObject* world,int x, int y)
 {
 	int i;
-	for (i=y; i<WORLD_HEIGHT; i++)
+	for (i=y; i<WORLD_HEIGHT; ++i)
 		world->blocks[x][i]=STONE;
 }
 void generateBedrock (worldObject* world)
 {
 	int i;
-	for(i=0; i<=WORLD_WIDTH; i++)
+	for(i=0; i<=WORLD_WIDTH; ++i)
 	{
 		world->blocks[i][WORLD_HEIGHT]=BEDROCK;
 		if (!(rand() % 2)) world->blocks[i][WORLD_HEIGHT-1]=BEDROCK;
@@ -177,8 +177,8 @@ void generateWorld (worldObject* world)
 		}
 		updateBrightnessAround(world,0,oj);
 		generateBedrock(world);
-		for (i=0; i<=WORLD_WIDTH; i++) //Copy FG blocks to BG
-			for (j=0; j<=WORLD_HEIGHT; j++)
+		for (i=0; i<=WORLD_WIDTH; ++i) //Copy FG blocks to BG
+			for (j=0; j<=WORLD_HEIGHT; ++j)
 				if (world->blocks[i][j]!=AIR && !isBlockWalkThrough(world->blocks[i][j])) world->bgblocks[i][j]=world->blocks[i][j];
 	}
 }

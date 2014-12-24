@@ -122,7 +122,7 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 		break;
 	}
 
-	for (i = 0; i < NUM_INV_SPACES; i++)
+	for (i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		//Found the correct block with correct id.
 		if (mainPlayerInv.blocks[i].blockId == blockID)
@@ -161,7 +161,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 		return true;
 	int i;
 	int space = -1;
-	for (i = 0; i < NUM_INV_SPACES; i++)
+	for (i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		//Found the correct block with correct id.
 		if (mainPlayerInv.blocks[i].blockId == blockID)
@@ -193,7 +193,7 @@ int checkInventory(int blockID) //returns quantity of blockid in inventory
 {
 	int i;
 	int space = -1;
-	for (i = 0; i < NUM_INV_SPACES; i++)
+	for (i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		//Found the correct block with correct id.
 		if (mainPlayerInv.blocks[i].blockId == blockID)
@@ -223,7 +223,7 @@ int getBlockAmount(int invSlot)
 void clearInventory() //clears inventory
 {
 	int i;
-	for (i = 0; i < NUM_INV_SPACES; i++)
+	for (i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		mainPlayerInv.blocks[i].blockAmount = 0;
 		mainPlayerInv.blocks[i].blockId = 0;

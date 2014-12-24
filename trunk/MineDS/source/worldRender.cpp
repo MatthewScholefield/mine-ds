@@ -37,9 +37,9 @@ void BlockShader()
 	setBackdropColor(RGB15(17,24,31));
 	vramSetBankE(VRAM_E_LCD);
 	//Extreme Thanks to dirbaio...
-	for(int i = 1; i < 16; i++)
+	for(int i = 1; i < 16; ++i)
 	{
-		for(int j = 0; j < 256; j++)
+		for(int j = 0; j < 256; ++j)
 		{
 			uint16 col = VRAM_E_EXT_PALETTE[2][0][j];
 			uint16 r = (col >> 0) & 0x1F;
@@ -61,7 +61,7 @@ void BlockShader()
 
 		}
 	}
-	for(int j = 0; j < 256; j++)
+	for(int j = 0; j < 256; ++j)
 		VRAM_E_EXT_PALETTE[2][15][j] = 0;
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 }
@@ -108,10 +108,10 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 	//testfunction();
 	//Set all the light values to 0
 	//Then set light emit to the approate value.
-	for (x>15 ? i=x-14 : i=0; x<WORLD_WIDTH-16 ? i<=x+15 : i<=WORLD_WIDTH; i++)
+	for (x>15 ? i=x-14 : i=0; x<WORLD_WIDTH-16 ? i<=x+15 : i<=WORLD_WIDTH; ++i)
 	{
 		startshade=false;
-		for (j=0; j<=WORLD_HEIGHT; j++)
+		for (j=0; j<=WORLD_HEIGHT; ++j)
 		{
 			world->brightness[i][j]=15;
 			world->sun[i][j]=15;
@@ -121,10 +121,10 @@ void updateBrightnessAround(worldObject* world,int x,int y)
 		}
 	}
 	//Now update the brightness'
-	for (x>15 ? i=x-15 : i=0; x<WORLD_WIDTH-16 ? i<=x+16 : i<=WORLD_WIDTH; i++)
+	for (x>15 ? i=x-15 : i=0; x<WORLD_WIDTH-16 ? i<=x+16 : i<=WORLD_WIDTH; ++i)
 	{
 		startshade=false;
-		for (j=0; j<=WORLD_HEIGHT; j++)
+		for (j=0; j<=WORLD_HEIGHT; ++j)
 		{
 			if (world->brightness[i][j]<15)
 				brightnessSpread(world,i,j,world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
@@ -154,9 +154,9 @@ void Calculate_Brightness(worldObject* world)
 {
 	int i,j;
 	//Kill Every block so it has no brightness...
-	for(i=0; i<=WORLD_WIDTH; i++)
+	for(i=0; i<=WORLD_WIDTH; ++i)
 	{
-		for (j=0; j<=WORLD_HEIGHT; j++)
+		for (j=0; j<=WORLD_HEIGHT; ++j)
 		{
 			world->brightness[i][j]=15;
 			world->sun[i][j]=15;
@@ -165,11 +165,11 @@ void Calculate_Brightness(worldObject* world)
 				world->lightemit[i][j]=1+getLightAmount(world->blocks[i][j]);
 		}
 	}
-	for(i=0; i<=WORLD_WIDTH; i++)
+	for(i=0; i<=WORLD_WIDTH; ++i)
 	{
 
 		bool startshade=false;
-		for (j=0; j<=WORLD_HEIGHT; j++)
+		for (j=0; j<=WORLD_HEIGHT; ++j)
 		{
 			if (world->brightness[i][j]<15)
 				brightnessSpread(world,i,j,world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
@@ -218,8 +218,8 @@ void worldRender_Init()
 	BlockShader();
 	sunlight=0;
 	int i,j;
-	for (i=0; i<=16; i++)
-		for (j=0; j<=16; j++)
+	for (i=0; i<=16; ++i)
+		for (j=0; j<=16; ++j)
 			renderTile16(i,j,AIR,0);
 	sunbrightness=0;
 }
@@ -283,9 +283,9 @@ void renderBlock(worldObject* world,int i, int j,int blockId)
 void renderWorld(worldObject* world,int screen_x,int screen_y)
 {
 	int i,j;
-	for(i=screen_x/16-2; i<=screen_x/16+20; i++)
+	for(i=screen_x/16-2; i<=screen_x/16+20; ++i)
 	{
-		for(j=screen_y/16-2; j<=screen_y/16+20; j++)
+		for(j=screen_y/16-2; j<=screen_y/16+20; ++j)
 		{
 			//Check The Block is on screen
 			if(onScreen(16,i,j,1,1))

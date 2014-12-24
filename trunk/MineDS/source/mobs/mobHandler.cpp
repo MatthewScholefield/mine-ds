@@ -42,7 +42,7 @@ baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 	int closest = range * range + 1;
 	int mobNum = -1;
 	int i;
-	for (i = 0; i < 100; i++)
+	for (i = 0; i < 100; ++i)
 	{
 		if (mobs[i]->mobtype == type)
 		{
@@ -83,7 +83,7 @@ void mobHandlerHurtMob(int mobNum, int amount, int type)
 int isMobAt(int x, int y)
 {
 	int i;
-	for (i = 0; i <= 100; i++)
+	for (i = 0; i <= 100; ++i)
 	{
 		if (spritecol(mobs[i]->x, mobs[i]->y, x, y, mobs[i]->sx, mobs[i]->sy, 4, 4) && mobs[i]->alive == true)
 			return i;
@@ -99,7 +99,7 @@ void mobHandlerKillMob(int mobNum)
 void mobsReset(bool playerSpawned)
 {
 	int i;
-	for (i = 0; i < 100; i++)
+	for (i = 0; i < 100; ++i)
 	{
 		delete mobs[i];
 		mobs[i] = new baseMob();
@@ -120,7 +120,7 @@ void mobHandlerInit()
 	cowMobInit();
 	sheepMobInit();
 	int i;
-	for (i = 0; i < 100; i++)
+	for (i = 0; i < 100; ++i)
 	{
 		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
@@ -132,7 +132,7 @@ void mobHandlerInit()
 int findFreeMobSpawnNum()
 {
 	int i;
-	for (i = 1; i <= 100; i++)
+	for (i = 1; i <= 100; ++i)
 		if (mobs[i]->alive == false && mobs[i]->isMyPlayer() == false)
 			return i;
 	return -1;
@@ -217,7 +217,7 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 {
 	int i;
-	for (i = 0; i <= WORLD_HEIGHT; i++)
+	for (i = 0; i <= WORLD_HEIGHT; ++i)
 		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
 			int mobNum = findFreeMobSpawnNum();
@@ -236,8 +236,8 @@ int spawnMob(int mobId, worldObject* world)
 {
 	int i;
 	int j;
-	for (j = 0; j <= WORLD_WIDTH; j++)
-		for (i = 0; i <= WORLD_HEIGHT; i++)
+	for (j = 0; j <= WORLD_WIDTH; ++j)
+		for (i = 0; i <= WORLD_HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
 				int mobNum = findFreeMobSpawnNum();
@@ -276,8 +276,8 @@ void spawnMob(int mobId, worldObject* world, int mobNum)
 {
 	int i;
 	int j;
-	for (j = 0; j <= WORLD_WIDTH; j++)
-		for (i = 0; i <= WORLD_HEIGHT; i++)
+	for (j = 0; j <= WORLD_WIDTH; ++j)
+		for (i = 0; i <= WORLD_HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
 				if (mobNum >= 0)
@@ -319,7 +319,7 @@ void mobHandlerUpdate(worldObject* world)
 		hasSpawnPlayer = true;
 	}
 	int i;
-	for (i = 1; i < 100; i++)
+	for (i = 1; i < 100; ++i)
 	{
 
 		if (mobs[i]->alive == true)

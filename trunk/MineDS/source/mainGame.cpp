@@ -177,9 +177,9 @@ void startMultiplayerGame(bool host)
 		int i, j;
 
 		lcdMainOnTop();
-		for (i = 0; i <= WORLD_WIDTH; i++)
+		for (i = 0; i <= WORLD_WIDTH; ++i)
 		{
-			for (j = 0; j <= WORLD_HEIGHT; j++)
+			for (j = 0; j <= WORLD_HEIGHT; ++j)
 			{
 				world.blocks[i][j] = BEDROCK;
 				world.bgblocks[i][j] = BEDROCK;
