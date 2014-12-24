@@ -20,7 +20,7 @@ void growNormalTree(worldObject* world,int x,int y,bool birch)
 	int blockID=birch==true ? BIRCH_WOOD:LOG;
 	int height = 2 + rand() % 2;
 	int i;
-	for (i=y;i>=y-height;i--)
+	for (i=y; i>=y-height; i--)
 	{
 		world->bgblocks[x][i]=blockID; // Draw the trunk.
 	}
@@ -32,13 +32,13 @@ void growOakTree(worldObject* world,int x,int y)
 	int height = 2 + rand() % 2;
 	int blockID=OAK_WOOD;
 	int i;
-	for (i=y;i>=y-height;i--)
+	for (i=y; i>=y-height; i--)
 	{
 		world->bgblocks[x][i]=blockID; // Draw the trunk.
 	}
 	leafVirus(world,x,y-height,2,false,REDWOOD_LEAF);
 	y=i;
-	for (i=y;i>=y-height;i--)
+	for (i=y; i>=y-height; i--)
 	{
 		world->bgblocks[x][i]=blockID; // Draw the trunk.
 	}
@@ -49,7 +49,7 @@ void growJungleTree(worldObject* world,int x,int y)
 	int height = 2 + rand() % 6;
 	int blockID=JUNGLE_WOOD;
 	int i;
-	for (i=y;i>=y-height;i--)
+	for (i=y; i>=y-height; i--)
 	{
 		world->bgblocks[x][i]=blockID; // Draw the trunk.
 		world->bgblocks[x+1][i]=blockID;
@@ -57,7 +57,7 @@ void growJungleTree(worldObject* world,int x,int y)
 	int random = rand()%2;
 	leafVirus(world,x+random,y-height,3,false,JUNGLE_LEAF);
 	y=i;
-	for (i=y;i>=y-height;i--)
+	for (i=y; i>=y-height; i--)
 	{
 		world->bgblocks[x][i]=blockID; // Draw the trunk.
 		world->bgblocks[x+1][i]=blockID;
@@ -69,7 +69,7 @@ void growGiantMushroom(worldObject* world,int x,int y)
 {
 	int height = 2 + rand() % 2;
 	int i;
-	for (i=y;i>=y-height;i--)
+	for (i=y; i>=y-height; i--)
 	{
 		world->bgblocks[x][i]=MUSHROOM_STEM; // Draw the trunk.
 	}
@@ -80,7 +80,7 @@ void growCactus(worldObject* world,int x,int y)
 {
 	int height = rand()%3;
 	int j;
-	for (j=y-height;j<=y;j++) world->bgblocks[x][j]=CACTUS;
+	for (j=y-height; j<=y; j++) world->bgblocks[x][j]=CACTUS;
 }
 void growFlower(worldObject* world,int x,int y)
 {
@@ -90,7 +90,7 @@ void growFlower(worldObject* world,int x,int y)
 void growPumpkinPatch(worldObject* world,int x,int y)
 {
 	int i;
-	for (i=x-3+rand()%2;i<=x;i++)
+	for (i=x-3+rand()%2; i<=x; i++)
 	{
 		y = findFirstBlock(world,i);
 		world->bgblocks[i][y-1] = PUMPKIN;

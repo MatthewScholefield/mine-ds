@@ -125,9 +125,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 		g->Gfx = graphics;
 	}
 	else
-	{
 		iprintf("Error loading graphics!\n");
-	}
 }
 
 void loadGraphicBlock(Graphic* g, int frame, int x, int y)
@@ -184,14 +182,18 @@ void loadGraphic(Graphic* g, int mob, int frame, int x, int y)
 {
 	switch (mob)
 	{
-		case 0: loadGraphicParticle(g, frame, x, y);
-			break;
-		case 1: loadGraphicMob(g, frame, x, y);
-			break;
-		case 2: loadGraphicBlock(g, frame, x, y);
-			break;
-		case 3: loadGraphicAnim(g, (u8*) mobsTiles, 0);
-			break;
+	case 0:
+		loadGraphicParticle(g, frame, x, y);
+		break;
+	case 1:
+		loadGraphicMob(g, frame, x, y);
+		break;
+	case 2:
+		loadGraphicBlock(g, frame, x, y);
+		break;
+	case 3:
+		loadGraphicAnim(g, (u8*) mobsTiles, 0);
+		break;
 	}
 	g->main = true;
 }
@@ -307,21 +309,21 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	{
 		switch (g->mob)
 		{
-			case 0:
-				oamSet(&oamMain, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 1:
-				if (g->sy == 32)
-					oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				else
-					oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 2:
-				oamSet(&oamMain, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 3:
+		case 0:
+			oamSet(&oamMain, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
+		case 1:
+			if (g->sy == 32)
 				oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
+			else
+				oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
+		case 2:
+			oamSet(&oamMain, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
+		case 3:
+			oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
 
 		}
 	}
@@ -329,15 +331,16 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	{
 		switch (g->mob)
 		{
-			case 0:
-				if (g->sx == 8 && g->sy == 8)
-					oamSet(&oamSub, spriteID, x, y, pri, 0, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 1:oamSet(&oamSub, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 2:
-				oamSet(&oamSub, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
+		case 0:
+			if (g->sx == 8 && g->sy == 8)
+				oamSet(&oamSub, spriteID, x, y, pri, 0, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
+		case 1:
+			oamSet(&oamSub, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
+		case 2:
+			oamSet(&oamSub, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			break;
 		}
 	}
 	return true;

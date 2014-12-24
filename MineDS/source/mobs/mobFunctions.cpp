@@ -31,22 +31,14 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 		int a;
 
 		if (!isBlockWalkThrough(world->blocks[blockx][blocky - 1]))
-		{
 			mob -> collisions[3] = true;
-		}
 		if (spritecol(mob -> x, mob -> y, (blockx + 1)*16, (blocky - 1)*16, mob -> sx, mob ->sy, 16, 48) && !(isBlockWalkThrough(world->blocks[blockx + 1][blocky]) && isBlockWalkThrough(world->blocks[blockx + 1][blocky - 1])))
-		{
 			mob -> collisions[1] = true;
-		}
 		if (spritecol(mob -> x, mob -> y, (blockx - 1)*16, (blocky - 1)*16, mob -> sx, mob ->sy, 16, 48) && !(isBlockWalkThrough(world->blocks[blockx - 1][blocky]) && isBlockWalkThrough(world->blocks[blockx - 1][blocky - 1])))
-		{
 			mob -> collisions[2] = true;
-		}
 		bool colide = false;
 		for (int b = -1; b <= 1; b++)
-		{
 			collision(world, mob, 0, blockx, blocky + b, false);
-		}
 		for (a = 0; a <= 3; a++)
 		{
 			if (spritecol(mob -> x + (a - 1), mob -> y, (blockx - 1 + a)*16, (blocky + 1)*16, mob -> sx, mob ->sy, 16, 16) && !isBlockWalkThrough(world->blocks[blockx - 1 + a][blocky + 1]))
@@ -91,22 +83,14 @@ void calculateMiscDataSmall(worldObject* world, baseMob* mob)
 			mob -> collisions[i] = false;
 		int a;
 		if (!isBlockWalkThrough(world->blocks[blockx][blocky - 1]))
-		{
 			mob -> collisions[3] = true;
-		}
 		if (spritecol(mob -> x + 2, mob -> y, (blockx + 1)*16, (blocky - 1)*16 + 8, mob -> sx, mob ->sy, 16, 24) && !(isBlockWalkThrough(world->blocks[blockx + 1][blocky])))
-		{
 			mob -> collisions[1] = true;
-		}
 		if (spritecol(mob -> x - 2, mob -> y, (blockx - 1)*16, (blocky - 1)*16 + 8, mob -> sx, mob ->sy, 16, 24) && !(isBlockWalkThrough(world->blocks[blockx - 1][blocky])))
-		{
 			mob -> collisions[2] = true;
-		}
 		bool colide = false;
 		for (int b = -1; b <= 1; b++)
-		{
 			collision(world, mob, 0, blockx, blocky + b, false);
-		}
 		for (a = 0; a <= 3; a++)
 		{
 			if (spritecol(mob -> x + (a - 1), mob -> y, (blockx - 1 + a)*16, (blocky + 1)*16, mob -> sx, mob ->sy, 16, 16) && !isBlockWalkThrough(world->blocks[blockx - 1 + a][blocky + 1]))

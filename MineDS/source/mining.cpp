@@ -87,20 +87,21 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 			int blockTypeXY = getType(blockXY);
 			switch (getType(selectedBlock)) // Check if we are using the correct tool
 			{
-				case AXE: if (blockTypeXY != WOOD) handHardness = 1;
-					break;
-				case PICKAXE: if (blockTypeXY != STONEBLOCK) handHardness = 1;
-					break;
-				case SHOVEL: if (blockTypeXY != SOIL) handHardness = 1;
-					break;
+			case AXE:
+				if (blockTypeXY != WOOD) handHardness = 1;
+				break;
+			case PICKAXE:
+				if (blockTypeXY != STONEBLOCK) handHardness = 1;
+				break;
+			case SHOVEL:
+				if (blockTypeXY != SOIL) handHardness = 1;
+				break;
 			}
 			mining = getHardness(blockXY)*10 / handHardness;
 			miningRate = 1;
 		}
 		else
-		{
 			mining -= miningRate;
-		}
 		if (mining > 0)
 		{
 			skipLightUpdate = true;
@@ -191,18 +192,24 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 			int damage;
 			switch (selectedBlock)
 			{
-				case SWORD_DIAMOND:damage = 6;
-					break;
-				case SWORD_IRON:damage = 4;
-					break;
-				case SWORD_GOLD:damage = 3;
-					break;
-				case SWORD_STONE:damage = 3;
-					break;
-				case SWORD_WOOD: damage = 2;
-					break;
-				default: damage = 1;
-					break;
+			case SWORD_DIAMOND:
+				damage = 6;
+				break;
+			case SWORD_IRON:
+				damage = 4;
+				break;
+			case SWORD_GOLD:
+				damage = 3;
+				break;
+			case SWORD_STONE:
+				damage = 3;
+				break;
+			case SWORD_WOOD:
+				damage = 2;
+				break;
+			default:
+				damage = 1;
+				break;
 			}
 			mobHandlerHurtMob(mobNum, damage, PLAYER_HURT);
 		}
@@ -222,9 +229,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 			updateBrightnessAround(world, x, y);
 	}
 	else
-	{
 		hasChangedBlock = false;
-	}
 	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
 		--selectedBlock;
@@ -267,9 +272,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	}
 	//Draw the selected block
 	if (selectedBlock != 0)
-	{
 		showGraphic(&topBlock, 0, 48);
-	}
 	if (canPlaceBlocks == false) ++framecounting;
 	if (framecounting > 60)
 	{

@@ -69,21 +69,15 @@ baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 {
 	if (mobs[mobNum]->host == true)
-	{
 		mobs[mobNum]->hurt(amount, type);
-	}
 }
 
 void mobHandlerHurtMob(int mobNum, int amount, int type)
 {
 	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
-	{
 		mobs[mobNum]->hurt(amount, type);
-	}
 	else if (isWifi())
-	{
 		wifiHurtMob(mobNum, amount, type);
-	}
 }
 
 int isMobAt(int x, int y)
@@ -92,9 +86,7 @@ int isMobAt(int x, int y)
 	for (i = 0; i <= 100; i++)
 	{
 		if (spritecol(mobs[i]->x, mobs[i]->y, x, y, mobs[i]->sx, mobs[i]->sy, 4, 4) && mobs[i]->alive == true)
-		{
 			return i;
-		}
 	}
 	return -1;
 }
@@ -150,23 +142,32 @@ bool canMobSpawnHere(int mobId, worldObject* world, int a, int b)
 {
 	switch (mobId)
 	{
-		case 0: return canBaseMobSpawnHere(world, a, b);
-			break;
-		case 1: return canPlayerMobSpawnHere(world, a, b);
-			break;
-		case 2: return canPlayerMobSpawnHere(world, a, b);
-			break;
-		case 3: return canZombieMobSpawnHere(world, a, b);
-			break;
-		case 4: return canPigMobSpawnHere(world, a, b);
-			break;
-		case 5: return canCowMobSpawnHere(world, a, b);
-			break;
-		case 6: return canSheepMobSpawnHere(world, a, b);
-			break;
-		case 7: return canHerobrineMobSpawnHere(world, a, b);
-			break;
-		default: break;
+	case 0:
+		return canBaseMobSpawnHere(world, a, b);
+		break;
+	case 1:
+		return canPlayerMobSpawnHere(world, a, b);
+		break;
+	case 2:
+		return canPlayerMobSpawnHere(world, a, b);
+		break;
+	case 3:
+		return canZombieMobSpawnHere(world, a, b);
+		break;
+	case 4:
+		return canPigMobSpawnHere(world, a, b);
+		break;
+	case 5:
+		return canCowMobSpawnHere(world, a, b);
+		break;
+	case 6:
+		return canSheepMobSpawnHere(world, a, b);
+		break;
+	case 7:
+		return canHerobrineMobSpawnHere(world, a, b);
+		break;
+	default:
+		break;
 	}
 	return false;
 }
@@ -176,31 +177,40 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 	delete mobs[mobNum]; //Free Memory and Stop Crashes
 	switch (mobId)
 	{
-		case 0: mobs[mobNum] = new baseMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 1: mobs[mobNum] = new playerMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 2: mobs[mobNum] = new MplayerMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 3: mobs[mobNum] = new zombieMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 4: mobs[mobNum] = new pigMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 5: mobs[mobNum] = new cowMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 6: mobs[mobNum] = new sheepMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 7: mobs[mobNum] = new herobrineMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		default: break;
+	case 0:
+		mobs[mobNum] = new baseMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 1:
+		mobs[mobNum] = new playerMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 2:
+		mobs[mobNum] = new MplayerMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 3:
+		mobs[mobNum] = new zombieMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 4:
+		mobs[mobNum] = new pigMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 5:
+		mobs[mobNum] = new cowMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 6:
+		mobs[mobNum] = new sheepMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	case 7:
+		mobs[mobNum] = new herobrineMob(x, y);
+		mobs[mobNum]->unKillMob();
+		break;
+	default:
+		break;
 	}
 }
 
@@ -286,9 +296,7 @@ void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobN
 	if (mobs[mobNum]->mobtype != mobtype)
 	{
 		if (mobs[mobNum]->mobtype == 1)
-		{
 			spawnMobAt(1, world, mobs[mobNum]->x, mobs[mobNum]->y);
-		}
 		spawnMobNoCheck(mobtype, world, mobNum);
 	}
 	mobs[mobNum]->unKillMob();
@@ -356,16 +364,12 @@ void mobHandlerUpdate(worldObject* world)
 	{
 		int take = 0;
 		if (rand() % 2)
-		{
 			take = -16 - (rand() % 16);
-		}
 		else take = 16 + (rand() % 16);
 		spawnMobOn(rand() % 10 != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[playerId]->x / 16 + take);
 	}
 	if (keysDown() & KEY_R)
-	{
 		mobs[playerId]->x += 2;
-	}
 	/*
 	if (keysDown() & KEY_R)
 	{

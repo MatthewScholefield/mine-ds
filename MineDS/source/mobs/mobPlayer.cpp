@@ -117,9 +117,7 @@ void showHealth(int health)
 {
 	int i;
 	for (i = 44; i < (health + 44) - 1; i += 2)
-	{
 		showGraphic(&hearts[0], i * 4, 56);
-	}
 	if (health % 2)
 		showGraphic(&hearts[1], i * 4, 56);
 }
@@ -177,9 +175,7 @@ void playerMob::updateMob(worldObject* world)
 				}
 			}
 			if (collisions[0] == false && (world->blocks[x / 16][y / 16] != LADDER && world->blocks[x / 16][(y / 16) + 1] != LADDER && world->blocks[x / 16][(y / 16) + 2] != LADDER))
-			{
 				y += vy;
-			}
 			else vy = 0;
 			if ((keysDown() & getGlobalSettings()->getKey(ACTION_CLIMB) || keysDown() & getGlobalSettings()->getKey(ACTION_JUMP)) && (collisions[0] == true || !isSurvival()) && !collisions[3]) vy = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? -2 : -3;
 			y += vy;
@@ -226,10 +222,8 @@ void playerMob::updateMob(worldObject* world)
 					}
 			}
 			else if (result == 1)
-			{
 				quitGame = true;
 
-			}
 
 		}
 	}

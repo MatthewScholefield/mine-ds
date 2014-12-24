@@ -139,9 +139,7 @@ void cowMob::updateMob(worldObject* world)
 		if (mobtype == 2) notarget = 0;
 		ping = 0;
 		if (health <= 0)
-		{
 			killMob();
-		}
 		//if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
 		else --animationclearframes;

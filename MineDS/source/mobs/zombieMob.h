@@ -7,25 +7,25 @@ bool canZombieMobSpawnHere(worldObject* world,int x,int y);
 
 class zombieMob : public baseMob
 {
-    public:
+public:
 	/*int x;
 	int y;
 	int vy;
 	int vx;
 	bool alive;
 	bool host; // Was this mob spawn'd by this nds?*/
-    //bool potioneffects[5];
+	//bool potioneffects[5];
 	int jump;
 	baseMob* target;
 	int notarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-    	virtual void updateMob(worldObject* world);
-       virtual void hurt(int amount,int type);	
+	virtual void updateMob(worldObject* world);
+	virtual void hurt(int amount,int type);
 	virtual bool isMyPlayer();
 	zombieMob();
-   	zombieMob(int x,int y);
+	zombieMob(int x,int y);
 };
 void zombieMobInit();
 #endif

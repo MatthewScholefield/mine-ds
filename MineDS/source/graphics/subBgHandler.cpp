@@ -99,9 +99,7 @@ void drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 	for (int i = 0; i < lx; i++)
 	{
 		for (int j = 0; j < ly; j++)
-		{
 			setSubBgTile(x + i, y + j, 28 + (i + 1) % 2);
-		}
 	}
 }
 
