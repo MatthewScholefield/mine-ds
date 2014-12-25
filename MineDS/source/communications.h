@@ -1,3 +1,4 @@
+#pragma once
 #include "world.h"
 #include "mobs/baseMob.h"
 int doHandshake();

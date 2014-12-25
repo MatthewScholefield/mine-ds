@@ -1,5 +1,4 @@
-#ifndef _FILES_H_
-#define _FILES_H_
+#pragma once
 
 #include "world.h"
 #include "Config.h"
@@ -12,5 +11,3 @@ bool saveWorld(worldObject *world);
 bool saveControls(Config *controls);
 bool loadWorld(worldObject *world);
 bool loadControls(Config *controls);
-
-#endif /* !_FILES_H_ */

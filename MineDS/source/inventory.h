@@ -1,7 +1,6 @@
+#pragma once
 #include <nds.h>
 #include <stdio.h>
-#ifndef H_INV
-#define H_INV
 int getInventoryState();
 bool addInventory (int blockID, int amount);
 bool subInventory (int blockID, int amount);
@@ -26,4 +25,3 @@ typedef struct
 //	InvBlock armour[4];
 	int hand;
 } Inventory;
-#endif

@@ -1,6 +1,5 @@
+#pragma once
 #include <time.h>
-#ifndef _WORLD_H_
-#define _WORLD_H_
 
 #define WORLD_HEIGHT	(128)
 #define WORLD_WIDTH	(512)
@@ -33,5 +32,3 @@ typedef struct
 int findFirstBlock(worldObject* world,int x);
 int findFirstBiomeBlock(worldObject* world,int x);
 void drawLineDown(worldObject* world,int x, int y);
-
-#endif /* !_WORLD_H_ */
