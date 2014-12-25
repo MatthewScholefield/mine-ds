@@ -1,3 +1,4 @@
+#pragma once
 void subBgInit();
 void setSubBgTile(int x,int y,int tile);
 void setSubBgTile(int x,int y,int tile,int flip);

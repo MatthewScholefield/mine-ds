@@ -1,3 +1,4 @@
+#pragma once
 #define MAX_CLIENTS	(8)
 
 void nifiInit();
