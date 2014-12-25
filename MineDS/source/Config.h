@@ -1,3 +1,4 @@
+#pragma once
 #include <nds.h>
 
 #define ACTION_MOVE_LEFT 1
@@ -13,10 +14,6 @@
 #define PROPERTY_HEROBRINE 0
 #define PROPERTY_DRAW 1
 #define PROPERTY_SPEED 2
-
-
-#ifndef CONFIG_H
-#define	CONFIG_H
 
 class Config
 {
@@ -50,7 +47,5 @@ public:
 
 	}
 };
-
-#endif	/* CONFIG_H */
 
 Config *getGlobalSettings();

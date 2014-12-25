@@ -1,3 +1,4 @@
+#pragma once
 #include "world.h"
 #include <nds.h>
 #define NUM_BLOCKS 99

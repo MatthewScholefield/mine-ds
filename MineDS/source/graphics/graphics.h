@@ -1,3 +1,4 @@
+#pragma once
 #include <nds.h>
 #define FRAMES_PER_ANIMATION 6
 /**

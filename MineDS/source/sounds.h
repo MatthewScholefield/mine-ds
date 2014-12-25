@@ -1,5 +1,4 @@
-#ifndef _SOUND_H_
-#define _SOUND_H_
+#pragma once
 
 #include "soundbank.h"  // Soundbank definitions
 
@@ -25,5 +24,3 @@ void playSound(sound_t sound);
 void playSoundNifi(sound_t sound);
 void playMusic(music_t music);
 void stopMusic(void);
-
-#endif /* !_SOUND_H_ */

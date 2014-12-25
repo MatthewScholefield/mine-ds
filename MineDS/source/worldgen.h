@@ -1,3 +1,4 @@
+#pragma once
 /* _____________________________________________
   | 						|
   |		    worldgen.h			|
@@ -5,7 +6,6 @@
   |		Thanks to Dirbaio!		|
   |_____________________________________________|
 */
-
 
 #include "world.h"
 void generateWorld(worldObject* world);
