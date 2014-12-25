@@ -1,6 +1,5 @@
+#pragma once
 #include <stdio.h>
-#ifndef _GENERAL_H_
-#define _GENERAL_H_
 
 #define FPS		(60)
 #define SEC_TO_FPS(S)	((S) * FPS)
@@ -25,4 +24,3 @@ inline void printXY(int x, int y, int output)
 {
 	iprintf("\x1b[%d;%dH%d", y, x, output);
 }
-#endif /* !_GENERAL_H_ */
