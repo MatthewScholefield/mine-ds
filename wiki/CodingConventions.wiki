@@ -55,6 +55,24 @@ bool something(void* worldObjects){
 }
 }}}
 
+= Include Guards =
+Since we are not aimed at code portability, the traditional include guards should *not* be used in this project. Instead use #pragma once, which serves the same function with some advantages. [http://en.wikipedia.org/wiki/Pragma_once Read more here.]
+
+{{{
+//Always like this:
+
+#pragma once
+//The rest of the header file
+
+//Not like:
+
+#infndef PARTICLEHANDLER_H
+#define PARTICLEHANDLER_H
+//The rest of the header file
+#endif /* PARTICLEHANDLER_H */
+
+}}}
+
 = Naming =
 
 When naming a variable or function it should *_ALWAYS_* follow the following naming scheme:
