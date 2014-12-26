@@ -1,3 +1,4 @@
-#include "baseMob.h"
-void calculateMiscData(worldObject* world,baseMob* mob);
-void calculateMiscDataSmall(worldObject* world,baseMob* mob);
+#pragma once
+#include "BaseMob.h"
+void calculateMiscData(WorldObject* world,BaseMob* mob);
+void calculateMiscDataSmall(WorldObject* world,BaseMob* mob);

@@ -33,7 +33,7 @@
 
 int screen_x, screen_y;
 void beginRender(int a, int b);
-void renderWorld(worldObject* world);
+void renderWorld(WorldObject* world);
 
 int main()
 {
