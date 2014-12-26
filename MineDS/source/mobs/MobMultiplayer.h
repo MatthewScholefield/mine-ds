@@ -1,9 +1,10 @@
+#pragma once
 #include <stdio.h>
 #include "../world.h"
-#include "baseMob.h"
-bool canMplayerMobSpawnHere(worldObject* world,int x,int y);
+#include "BaseMob.h"
+bool canMultiplayerMobSpawnHere(WorldObject* world,int x,int y);
 
-class MplayerMob : public baseMob
+class MultiplayerMob : public BaseMob
 {
 public:
 	/*int x;
@@ -16,9 +17,9 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(worldObject* world);
+	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount,int type);
-	MplayerMob();
-	MplayerMob(int x,int y);
+	MultiplayerMob();
+	MultiplayerMob(int x,int y);
 };
-void MplayerMobInit();
+void multiplayerMobInit();

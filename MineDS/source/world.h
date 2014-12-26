@@ -6,7 +6,7 @@
 #define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
 #define WORLD_WIDTHPX	(WORLD_WIDTH * 16)
 
-enum gamemode_t
+enum GameMode
 {
 	GAMEMODE_CREATIVE,
 	GAMEMODE_SURVIVAL,
@@ -25,10 +25,10 @@ typedef struct
 	int CamX;
 	int timeInWorld;
 	int worldBrightness;
-	gamemode_t gamemode;
+	GameMode gamemode;
 	int seed; //The random number seed used to generate the world
-} worldObject;
+} WorldObject;
 
-int findFirstBlock(worldObject* world,int x);
-int findFirstBiomeBlock(worldObject* world,int x);
-void drawLineDown(worldObject* world,int x, int y);
+int findFirstBlock(WorldObject* world,int x);
+int findFirstBiomeBlock(WorldObject* world,int x);
+void drawLineDown(WorldObject* world,int x, int y);

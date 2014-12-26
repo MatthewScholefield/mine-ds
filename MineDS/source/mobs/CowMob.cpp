@@ -4,7 +4,7 @@
 #include "hurt.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "cowMob.h"
+#include "CowMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../general.h"
@@ -13,7 +13,7 @@
 #include "../inventory.h"
 Graphic cowMobGraphic[2];
 
-cowMob::cowMob()
+CowMob::CowMob()
 {
 	x = 0;
 	y = 0;
@@ -29,7 +29,7 @@ cowMob::cowMob()
 	smallmob = true;
 }
 
-cowMob::cowMob(int a, int b)
+CowMob::CowMob(int a, int b)
 {
 	jump = 0;
 	gravity = 3;
@@ -52,7 +52,7 @@ cowMob::cowMob(int a, int b)
 	smallmob = true;
 }
 
-void cowMob::updateMob(worldObject* world)
+void CowMob::updateMob(WorldObject* world)
 {
 	if (rand() % 2 == 1 && mov == 1)
 		dir = true;
@@ -146,19 +146,19 @@ void cowMob::updateMob(worldObject* world)
 	}
 }
 
-void cowMob::sendWifiUpdate()
+void CowMob::sendWifiUpdate()
 {
 }
 
-void cowMob::saveToFile(FILE* pFile)
+void CowMob::saveToFile(FILE* pFile)
 {
 }
 
-void cowMob::loadFromFile(FILE* pFile)
+void CowMob::loadFromFile(FILE* pFile)
 {
 }
 
-bool canCowMobSpawnHere(worldObject* world, int x, int y)
+bool canCowMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if ((world->blocks[x][y + 1] == GRASS || world->blocks[x][y + 1] == SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
@@ -171,7 +171,7 @@ void cowMobInit()
 	loadGraphic(&cowMobGraphic[1], true, 13, 16, 16);
 }
 
-void cowMob::hurt(int amount, int type)
+void CowMob::hurt(int amount, int type)
 {
 
 	if (animation == 1)
@@ -192,7 +192,7 @@ void cowMob::hurt(int amount, int type)
 	animationclearframes = 20;
 }
 
-bool cowMob::isMyPlayer()
+bool CowMob::isMyPlayer()
 {
 	return false;
 }
