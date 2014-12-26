@@ -4,7 +4,7 @@
 #include "hurt.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "pigMob.h"
+#include "PigMob.h"
 #include "../sounds.h"
 #include "mobHandler.h"
 #include "../blockID.h"
@@ -13,7 +13,7 @@
 #include "../inventory.h"
 Graphic pigMobGraphic[2];
 
-pigMob::pigMob()
+PigMob::PigMob()
 {
 	x=0;
 	y=0;
@@ -28,7 +28,7 @@ pigMob::pigMob()
 	notarget=0;
 	smallmob=true;
 }
-pigMob::pigMob(int a,int b)
+PigMob::PigMob(int a,int b)
 {
 	jump=0;
 	gravity=3;
@@ -50,7 +50,7 @@ pigMob::pigMob(int a,int b)
 	timeTillWifiUpdate=rand()%4+4;
 	smallmob=true;
 }
-void pigMob::updateMob(worldObject* world)
+void PigMob::updateMob(WorldObject* world)
 {
 
 	if (rand()%2 == 1 && mov == 1)
@@ -144,16 +144,16 @@ void pigMob::updateMob(worldObject* world)
 		else --animationclearframes;
 	}
 }
-void pigMob::sendWifiUpdate()
+void PigMob::sendWifiUpdate()
 {
 }
-void pigMob::saveToFile(FILE* pFile)
+void PigMob::saveToFile(FILE* pFile)
 {
 }
-void pigMob::loadFromFile(FILE* pFile)
+void PigMob::loadFromFile(FILE* pFile)
 {
 }
-bool canPigMobSpawnHere(worldObject* world,int x,int y)
+bool canPigMobSpawnHere(WorldObject* world,int x,int y)
 {
 	++y;
 	if ((world->blocks[x][y+1]==GRASS || world->blocks[x][y+1]==SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
@@ -164,7 +164,7 @@ void pigMobInit()
 	loadGraphic(&pigMobGraphic[0],true,10,16,16);
 	loadGraphic(&pigMobGraphic[1],true,11,16,16);
 }
-void pigMob::hurt(int amount,int type)
+void PigMob::hurt(int amount,int type)
 {
 
 	if (animation==1)
@@ -181,7 +181,7 @@ void pigMob::hurt(int amount,int type)
 	animation=1;
 	animationclearframes=20;
 }
-bool pigMob::isMyPlayer()
+bool PigMob::isMyPlayer()
 {
 	return false;
 }

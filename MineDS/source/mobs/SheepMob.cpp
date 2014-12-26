@@ -4,7 +4,7 @@
 #include "hurt.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "sheepMob.h"
+#include "SheepMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../general.h"
@@ -14,7 +14,7 @@
 #include "../general.h"
 Graphic sheepMobGraphic[2];
 
-sheepMob::sheepMob()
+SheepMob::SheepMob()
 {
 	x=0;
 	y=0;
@@ -29,7 +29,7 @@ sheepMob::sheepMob()
 	notarget=0;
 	smallmob=true;
 }
-sheepMob::sheepMob(int a,int b)
+SheepMob::SheepMob(int a,int b)
 {
 	jump=0;
 	gravity=3;
@@ -51,7 +51,7 @@ sheepMob::sheepMob(int a,int b)
 	timeTillWifiUpdate=rand()%4+4;
 	smallmob=true;
 }
-void sheepMob::updateMob(worldObject* world)
+void SheepMob::updateMob(WorldObject* world)
 {
 	if (rand()%2 == 1 && mov == 1)
 		dir = true;
@@ -144,16 +144,16 @@ void sheepMob::updateMob(worldObject* world)
 		else --animationclearframes;
 	}
 }
-void sheepMob::sendWifiUpdate()
+void SheepMob::sendWifiUpdate()
 {
 }
-void sheepMob::saveToFile(FILE* pFile)
+void SheepMob::saveToFile(FILE* pFile)
 {
 }
-void sheepMob::loadFromFile(FILE* pFile)
+void SheepMob::loadFromFile(FILE* pFile)
 {
 }
-bool canSheepMobSpawnHere(worldObject* world,int x,int y)
+bool canSheepMobSpawnHere(WorldObject* world,int x,int y)
 {
 	++y;
 	if ((world->blocks[x][y+1]==GRASS || world->blocks[x][y+1]==SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
@@ -164,7 +164,7 @@ void sheepMobInit()
 	loadGraphic(&sheepMobGraphic[0],true,14,16,16);
 	loadGraphic(&sheepMobGraphic[1],true,15,16,16);
 }
-void sheepMob::hurt(int amount,int type)
+void SheepMob::hurt(int amount,int type)
 {
 
 	if (animation==1)
@@ -181,7 +181,7 @@ void sheepMob::hurt(int amount,int type)
 	animation=1;
 	animationclearframes=20;
 }
-bool sheepMob::isMyPlayer()
+bool SheepMob::isMyPlayer()
 {
 	return false;
 }
