@@ -4,7 +4,7 @@
 #include "nifi.h"
 #include "communications.h"
 #include "inventory.h"
-void checkBlockPlace(int x,int y,worldObject* world,bool bg)
+void checkBlockPlace(int x,int y,WorldObject* world,bool bg)
 {
 	if (!bg)
 	{
@@ -61,7 +61,7 @@ void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 		}
 	}
 }
-void checkBlockDelete(int x,int y,worldObject* world,bool bg)
+void checkBlockDelete(int x,int y,WorldObject* world,bool bg)
 {
 	int c =1;
 	if (!(world->blocks[x][y]==SAND || world->bgblocks[x][y]==SAND))

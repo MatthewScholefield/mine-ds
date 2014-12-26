@@ -8,8 +8,8 @@
 */
 
 #include "world.h"
-void generateWorld(worldObject* world);
-void generateSmallWorld(worldObject* world);
-void randGenerate(worldObject* world);
-void fixgrass(worldObject* world);
+void generateWorld(WorldObject* world);
+void generateSmallWorld(WorldObject* world);
+void randGenerate(WorldObject* world);
+void fixgrass(WorldObject* world);
 

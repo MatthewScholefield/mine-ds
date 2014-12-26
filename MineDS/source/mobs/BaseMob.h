@@ -1,10 +1,9 @@
+#pragma once
 #include <stdio.h>
 #include "../world.h"
-#ifndef BASE_MOB_H
-#define BASE_MOB_H
 //
-bool canBaseMobSpawnHere(worldObject* world,int x,int y);
-class baseMob
+bool canBaseMobSpawnHere(WorldObject* world,int x,int y);
+class BaseMob
 {
 public:
 	int x;
@@ -40,9 +39,8 @@ public:
 	void unKillMob();
 	void setXYPos(int x,int y);
 	void resetVelocity();
-	virtual void updateMob(worldObject* world);
-	baseMob();
-	baseMob(int x,int y);
+	virtual void updateMob(WorldObject* world);
+	BaseMob();
+	BaseMob(int x,int y);
 };
 void baseMobInit();
-#endif

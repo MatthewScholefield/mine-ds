@@ -5,7 +5,7 @@
 #include "blockID.h"
 
 
-void leafVirus(worldObject* world,int x, int y,int amount,bool down,int blockID)
+void leafVirus(WorldObject* world,int x, int y,int amount,bool down,int blockID)
 {
 	if (amount<=0) return;
 	world->bgblocks[x][y]=blockID;
@@ -15,7 +15,7 @@ void leafVirus(worldObject* world,int x, int y,int amount,bool down,int blockID)
 	if (down) leafVirus(world,x,y+1,amount-1,down,blockID);
 
 }
-void growNormalTree(worldObject* world,int x,int y,bool birch)
+void growNormalTree(WorldObject* world,int x,int y,bool birch)
 {
 	int blockID=birch==true ? BIRCH_WOOD:LOG;
 	int height = 2 + rand() % 2;
@@ -27,7 +27,7 @@ void growNormalTree(worldObject* world,int x,int y,bool birch)
 	//Now for the leaves...
 	leafVirus(world,x,i,2+(rand()%2),false,LEAF);
 }
-void growOakTree(worldObject* world,int x,int y)
+void growOakTree(WorldObject* world,int x,int y)
 {
 	int height = 2 + rand() % 2;
 	int blockID=OAK_WOOD;
@@ -44,7 +44,7 @@ void growOakTree(worldObject* world,int x,int y)
 	}
 	leafVirus(world,x,i,2+rand()%2,false,REDWOOD_LEAF);
 }
-void growJungleTree(worldObject* world,int x,int y)
+void growJungleTree(WorldObject* world,int x,int y)
 {
 	int height = 2 + rand() % 6;
 	int blockID=JUNGLE_WOOD;
@@ -65,7 +65,7 @@ void growJungleTree(worldObject* world,int x,int y)
 	leafVirus(world,x,i,2+rand()%3,false,JUNGLE_LEAF);
 	leafVirus(world,x+1,i,2+rand()%3,false,JUNGLE_LEAF);
 }
-void growGiantMushroom(worldObject* world,int x,int y)
+void growGiantMushroom(WorldObject* world,int x,int y)
 {
 	int height = 2 + rand() % 2;
 	int i;
@@ -76,18 +76,18 @@ void growGiantMushroom(worldObject* world,int x,int y)
 	//Now for the leaves...
 	leafVirus(world,x,i,2+(rand()%2),false,MUSHROOM_TOP);
 }
-void growCactus(worldObject* world,int x,int y)
+void growCactus(WorldObject* world,int x,int y)
 {
 	int height = rand()%3;
 	int j;
 	for (j=y-height; j<=y; ++j) world->bgblocks[x][j]=CACTUS;
 }
-void growFlower(worldObject* world,int x,int y)
+void growFlower(WorldObject* world,int x,int y)
 {
 	if (rand() % 2) world->bgblocks[x][y]=RED_FLOWER;
 	else world->bgblocks[x][y]=YELLOW_FLOWER;
 }
-void growPumpkinPatch(worldObject* world,int x,int y)
+void growPumpkinPatch(WorldObject* world,int x,int y)
 {
 	int i;
 	for (i=x-3+rand()%2; i<=x; ++i)

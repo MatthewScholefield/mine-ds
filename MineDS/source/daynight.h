@@ -1,3 +1,3 @@
 #pragma once
 #include "world.h"
-void timeUpdate(worldObject* world);
+void timeUpdate(WorldObject* world);
