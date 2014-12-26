@@ -99,6 +99,22 @@ or
 #define sizeOfArray(x) (sizeof(x)/4)
 }}}
 
+Naming of an enum, class, or struct should follow the same rule as a variable of function, but with a capital first letter:
+{{{
+typedef struct
+{
+int x;
+int y;
+} WorldObject;
+
+enum BlahThingObjectEnumeratedValue
+{
+ITEM,
+THING,
+OBJECT
+};
+}}}
+
 = Global variables =
 
 In this project there is _no_ global variables.
