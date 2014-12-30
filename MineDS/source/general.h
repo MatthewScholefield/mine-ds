@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #define FPS		(60)
-#define secToFPS(S)	((S) * FPS)
+#define SEC_TO_FPS(S)	((S) * FPS)
 
 void sleep(unsigned int seconds);
 void print_message(const char* s);

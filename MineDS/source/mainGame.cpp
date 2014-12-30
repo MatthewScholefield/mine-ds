@@ -10,7 +10,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
-#include "mobs/MobPlayer.h"
+#include "mobs/mobPlayer.h"
 #include "deathScreen.h"
 #include "daynight.h"
 #include "graphics/inventoryGraphics.h"
@@ -24,7 +24,7 @@
 #include "communications.h"
 #include <time.h>
 
-WorldObject world;
+worldObject world;
 
 static void redrawGameUI(void)
 {
@@ -84,7 +84,7 @@ bool isSurvival(void)
 	return (world.gamemode == GAMEMODE_SURVIVAL);
 }
 
-void newGame(GameMode mode, bool setSeed)
+void newGame(gamemode_t mode, bool setSeed)
 {
 	mobsReset();
 	if (world.gamemode != GAMEMODE_PREVIEW && setSeed)

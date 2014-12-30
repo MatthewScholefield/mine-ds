@@ -243,7 +243,7 @@ void changeGraphic(int blockID)
 	loadedGraphic = true;
 }
 
-void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
+void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 {
 	if (!isSurvival())
 		return;

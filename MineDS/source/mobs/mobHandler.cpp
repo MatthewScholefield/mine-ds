@@ -1,13 +1,13 @@
 #include <nds.h>
 #include <fat.h>
-#include "BaseMob.h" //Bad guys are nameMob
-#include "MobPlayer.h" //Good guys are mobName
-#include "MobMultiplayer.h"
-#include "ZombieMob.h"
-#include "HerobrineMob.h"
-#include "PigMob.h"
-#include "CowMob.h"
-#include "SheepMob.h"
+#include "baseMob.h" //Bad guys are nameMob
+#include "mobPlayer.h" //Good guys are mobName
+#include "mobMPlayer.h"
+#include "zombieMob.h"
+#include "herobrineMob.h"
+#include "pigMob.h"
+#include "cowMob.h"
+#include "sheepMob.h"
 #include "mobFunctions.h"
 #include "../nifi.h"
 #include "../communications.h"
@@ -16,7 +16,7 @@
 #include "../Config.h"
 #define playerId 1
 
-BaseMob* mobs[100];
+baseMob* mobs[100];
 const int peacefulmobs[] = {4, 5, 6};
 bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
@@ -37,7 +37,7 @@ void loadPlayer(FILE *data)
 	fread(&mobs[playerId], sizeof (mobs[playerId]), 1, data);
 }
 
-BaseMob* mobHandlerFindMob(int range, int type, int x, int y)
+baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 {
 	int closest = range * range + 1;
 	int mobNum = -1;
@@ -102,7 +102,7 @@ void mobsReset(bool playerSpawned)
 	for (i = 0; i < 100; ++i)
 	{
 		delete mobs[i];
-		mobs[i] = new BaseMob();
+		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
 	}
 	hasSpawnPlayer = playerSpawned;
@@ -113,7 +113,7 @@ void mobHandlerInit()
 {
 	baseMobInit();
 	playerMobInit();
-	multiplayerMobInit();
+	MplayerMobInit();
 	zombieMobInit();
 	herobrineMobInit();
 	pigMobInit();
@@ -122,7 +122,7 @@ void mobHandlerInit()
 	int i;
 	for (i = 0; i < 100; ++i)
 	{
-		mobs[i] = new BaseMob();
+		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
 	}
 	hasSpawnPlayer = false;
@@ -138,7 +138,7 @@ int findFreeMobSpawnNum()
 	return -1;
 }
 
-bool canMobSpawnHere(int mobId, WorldObject* world, int a, int b)
+bool canMobSpawnHere(int mobId, worldObject* world, int a, int b)
 {
 	switch (mobId)
 	{
@@ -178,35 +178,35 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 	switch (mobId)
 	{
 	case 0:
-			mobs[mobNum] = new BaseMob(x, y);
+		mobs[mobNum] = new baseMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 1:
-		mobs[mobNum] = new PlayerMob(x, y);
+		mobs[mobNum] = new playerMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 2:
-		mobs[mobNum] = new MultiplayerMob(x, y);
+		mobs[mobNum] = new MplayerMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 3:
-		mobs[mobNum] = new ZombieMob(x, y);
+		mobs[mobNum] = new zombieMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 4:
-		mobs[mobNum] = new PigMob(x, y);
+		mobs[mobNum] = new pigMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 5:
-			mobs[mobNum] = new CowMob(x, y);
+		mobs[mobNum] = new cowMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 6:
-		mobs[mobNum] = new SheepMob(x, y);
+		mobs[mobNum] = new sheepMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	case 7:
-		mobs[mobNum] = new HerobrineMob(x, y);
+		mobs[mobNum] = new herobrineMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
 	default:
@@ -214,7 +214,7 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 	}
 }
 
-void spawnMobOn(int mobId, WorldObject* world, int j, bool skipCheck = false)
+void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
@@ -232,7 +232,7 @@ void spawnMobOn(int mobId, WorldObject* world, int j, bool skipCheck = false)
 		}
 }
 
-int spawnMob(int mobId, WorldObject* world)
+int spawnMob(int mobId, worldObject* world)
 {
 	int i;
 	int j;
@@ -253,7 +253,7 @@ int spawnMob(int mobId, WorldObject* world)
 	return -1;
 }
 
-void spawnMobAt(int mobId, WorldObject* world, int x, int y)
+void spawnMobAt(int mobId, worldObject* world, int x, int y)
 {
 	int mobNum = findFreeMobSpawnNum();
 	if (mobNum >= 0)
@@ -263,7 +263,7 @@ void spawnMobAt(int mobId, WorldObject* world, int x, int y)
 	}
 }
 
-void spawnMobNoCheck(int mobId, WorldObject* world, int mobNum)
+void spawnMobNoCheck(int mobId, worldObject* world, int mobNum)
 {
 	if (mobNum >= 0)
 	{
@@ -272,7 +272,7 @@ void spawnMobNoCheck(int mobId, WorldObject* world, int mobNum)
 	}
 }
 
-void spawnMob(int mobId, WorldObject* world, int mobNum)
+void spawnMob(int mobId, worldObject* world, int mobNum)
 {
 	int i;
 	int j;
@@ -290,7 +290,7 @@ void spawnMob(int mobId, WorldObject* world, int mobNum)
 			}
 }
 
-void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, WorldObject* world, bool facing)
+void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, worldObject* world, bool facing)
 {
 	//printf("Recieved mob update! - %d, %d\n", mobNum,mobtype);
 	if (mobs[mobNum]->mobtype != mobtype)
@@ -309,7 +309,7 @@ void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobN
 	//:D
 }
 
-void mobHandlerUpdate(WorldObject* world)
+void mobHandlerUpdate(worldObject* world)
 {
 	int badMobs = 0;
 	int goodMobs = 0;

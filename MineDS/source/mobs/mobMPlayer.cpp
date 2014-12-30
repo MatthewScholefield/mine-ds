@@ -3,12 +3,12 @@
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "MobMultiplayer.h"
+#include "mobMPlayer.h"
 #include "../blockID.h"
 #include <nds.h>
 //ASDF?
-Graphic multiplayerMobGraphic[3];
-MultiplayerMob::MultiplayerMob()
+Graphic MplayerMobGraphic[3];
+MplayerMob::MplayerMob()
 {
 	x=0;
 	y=0;
@@ -22,7 +22,7 @@ MultiplayerMob::MultiplayerMob()
 	mobtype=2;
 	ping=0;
 }
-MultiplayerMob::MultiplayerMob(int a,int b)
+MplayerMob::MplayerMob(int a,int b)
 {
 	gravity=3;
 	gravityValue=3;
@@ -38,37 +38,37 @@ MultiplayerMob::MultiplayerMob(int a,int b)
 	mobtype=2;
 	ping=0;
 }
-void MultiplayerMob::hurt(int amount,int type)
+void MplayerMob::hurt(int amount,int type)
 {
 	return; //Do nothing, if a Multiplayer mob is hurt then it should be realised on the server not client...
 }
-void MultiplayerMob::updateMob(WorldObject* world)
+void MplayerMob::updateMob(worldObject* world)
 {
 	if (x-world->CamX>-16 && x-world->CamX<256+16 && y-world->CamY>-32 && y-world->CamY<256)
 	{
-		if (animation==0) showGraphic(&multiplayerMobGraphic[0],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
+		if (animation==0) showGraphic(&MplayerMobGraphic[0],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
 	}
-	else if (animation==1) showGraphic(&multiplayerMobGraphic[1],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
+	else if (animation==1) showGraphic(&MplayerMobGraphic[1],x-world->CamX - (facing ? 10:0),y-world->CamY,facing ? true:false);
 }
-void MultiplayerMob::sendWifiUpdate()
+void MplayerMob::sendWifiUpdate()
 {
 
 }
-void MultiplayerMob::saveToFile(FILE* pFile)
+void MplayerMob::saveToFile(FILE* pFile)
 {
 }
-void MultiplayerMob::loadFromFile(FILE* pFile)
+void MplayerMob::loadFromFile(FILE* pFile)
 {
 }
-bool canMultiplayerMobSpawnHere(WorldObject* world,int x,int y)
+bool canMplayerMobSpawnHere(worldObject* world,int x,int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y+1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS) return true;
 	return false;
 }
-void multiplayerMobInit()
+void MplayerMobInit()
 {
-	loadGraphic(&multiplayerMobGraphic[0],true,0);
-	loadGraphic(&multiplayerMobGraphic[1],true,1);
+	loadGraphic(&MplayerMobGraphic[0],true,0);
+	loadGraphic(&MplayerMobGraphic[1],true,1);
 }
 
