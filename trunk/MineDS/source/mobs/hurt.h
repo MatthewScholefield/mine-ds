@@ -1,4 +1,3 @@
-#pragma once
 //Add all hurting elements into this file...
 #define CACTUS_HURT 0
 #define VOID_HURT 1

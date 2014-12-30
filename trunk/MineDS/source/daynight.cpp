@@ -11,10 +11,10 @@ int r[15] = {16, 16, 15, 14, 13, 12, 11, 8, 8, 7, 6};
 int g[15] = {24, 22, 22, 18, 16, 13, 12, 8, 7, 5, 4};
 int b[15] = {31, 31, 30, 29, 28, 27, 26, 26, 24, 23, 22};
 
-void timeUpdate(WorldObject* world)
+void timeUpdate(worldObject* world)
 {
 	++timeTillChange;
-	if (timeTillChange >= secToFPS(5))
+	if (timeTillChange >= SEC_TO_FPS(5))
 	{
 		++world->timeInWorld;
 		timeTillChange = 0;

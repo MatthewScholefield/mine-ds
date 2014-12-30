@@ -1,10 +1,10 @@
 #include "../blockID.h"
-#include "BaseMob.h"
+#include "baseMob.h"
 #include "hurt.h"
 #include "../Config.h"
 #include <nds.h>
 
-void collisionWithCactus(WorldObject* world, BaseMob* mob, int type, int x, int y, bool sub)
+void collisionWithCactus(worldObject* world, baseMob* mob, int type, int x, int y, bool sub)
 {
 	if (mob->timeOnCactus > 40 || mob->timeOnCactus == -1)
 	{
@@ -16,7 +16,7 @@ void collisionWithCactus(WorldObject* world, BaseMob* mob, int type, int x, int 
 
 }
 
-void collision(WorldObject* world, BaseMob* mob, int type, int x, int y, bool sub)
+void collision(worldObject* world, baseMob* mob, int type, int x, int y, bool sub)
 {
 	if (mob->host == true)
 	{

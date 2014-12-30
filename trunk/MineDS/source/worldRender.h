@@ -11,13 +11,13 @@
 #include "block_small.h"
 
 void worldRender_Init();
-void worldRender_Render(WorldObject* world, int screen_x, int screen_y);
-void Calculate_Brightness(WorldObject* world);
+void worldRender_Render(worldObject* world, int screen_x, int screen_y);
+void Calculate_Brightness(worldObject* world);
 extern "C" {
-	void brightnessSpread(WorldObject* world,int x,int y,int brightness);
-	void sunSpread(WorldObject* world,int x,int y,int brightness);
+	void brightnessSpread(worldObject* world,int x,int y,int brightness);
+	void sunSpread(worldObject* world,int x,int y,int brightness);
 }
-void updateBrightnessAround(WorldObject* world,int x,int y);
+void updateBrightnessAround(worldObject* world,int x,int y);
 void worldRender_LoadSprites();
 void setSun(int brightness);
-int getBrightness(WorldObject* world,int x,int y);
+int getBrightness(worldObject* world,int x,int y);

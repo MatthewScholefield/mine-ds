@@ -6,7 +6,7 @@
 #include "trees.h"
 #include "blocks.h"
 #include "world.h"
-void plainsBiome(WorldObject* world, int startx,int endx)
+void plainsBiome(worldObject* world, int startx,int endx)
 {
 	int x=startx;
 	int treex=startx + 4 + rand()%5; //Trees
@@ -44,7 +44,7 @@ void plainsBiome(WorldObject* world, int startx,int endx)
 		++x;
 	}
 }
-void jungleBiome(WorldObject* world, int startx,int endx)
+void jungleBiome(worldObject* world, int startx,int endx)
 {
 	int x=startx;
 	int treex=startx + 4 + rand()%5;
@@ -75,7 +75,7 @@ void jungleBiome(WorldObject* world, int startx,int endx)
 		++x;
 	}
 }
-void snowBiome(WorldObject* world,int startx,int endx)
+void snowBiome(worldObject* world,int startx,int endx)
 {
 	int x=startx;
 	int treex=startx + 8 + rand()%10;
@@ -104,7 +104,7 @@ void snowBiome(WorldObject* world,int startx,int endx)
 		++x;
 	}
 }
-void desertBiome(WorldObject* world,int startx,int endx)
+void desertBiome(worldObject* world,int startx,int endx)
 {
 	int x=startx;
 	int treex=startx + 3 + rand()%5;
@@ -133,7 +133,7 @@ void desertBiome(WorldObject* world,int startx,int endx)
 		++x;
 	}
 }
-void mushroomBiome(WorldObject* world,int startx,int endx)
+void mushroomBiome(worldObject* world,int startx,int endx)
 {
 	int x=startx;
 	int treex=startx + 8 + rand()%10;

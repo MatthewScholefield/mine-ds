@@ -14,7 +14,7 @@ void initFile(void)
 	fatInitDefault();
 }
 
-bool saveWorld(WorldObject *world)
+bool saveWorld(worldObject *world)
 {
 	FILE *fp;
 
@@ -42,7 +42,7 @@ bool saveControls(Config *controls)
 	return false;
 }
 
-bool loadWorld(WorldObject *world)
+bool loadWorld(worldObject *world)
 {
 	FILE *fp;
 

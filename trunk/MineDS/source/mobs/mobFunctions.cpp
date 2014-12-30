@@ -1,11 +1,11 @@
 #include <nds.h>
 #include <stdio.h>
-#include "BaseMob.h"
+#include "baseMob.h"
 #include "../collision.h"
 #include "../blocks.h"
 #include "mobCollisions.h"
 
-void calculateMiscData(WorldObject* world, BaseMob* mob)
+void calculateMiscData(worldObject* world, baseMob* mob)
 {
 	if (mob->host)
 	{
@@ -66,7 +66,7 @@ void calculateMiscData(WorldObject* world, BaseMob* mob)
 	}
 }
 
-void calculateMiscDataSmall(WorldObject* world, BaseMob* mob)
+void calculateMiscDataSmall(worldObject* world, baseMob* mob)
 {
 	if (mob->host)
 	{

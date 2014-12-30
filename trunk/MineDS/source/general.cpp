@@ -11,7 +11,7 @@ int currentTime = 0;
 
 void sleep(unsigned int seconds)
 {
-	for (unsigned int i = 0; i < secToFPS(seconds); ++i)
+	for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i)
 		swiWaitForVBlank(); // sleeps for one frame
 }
 
