@@ -7,7 +7,7 @@
 #define CONTROLS_PATH	"/MineConfig.bin"
 
 void initFile(void);
-bool saveWorld(WorldObject *world);
+bool saveWorld(worldObject *world);
 bool saveControls(Config *controls);
-bool loadWorld(WorldObject *world);
+bool loadWorld(worldObject *world);
 bool loadControls(Config *controls);

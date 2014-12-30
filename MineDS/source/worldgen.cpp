@@ -17,9 +17,9 @@
 #include "files.h"
 #include <string>
 #include <tr1/regex>
-void drawLineThing(WorldObject* world,int x1,int y1,int x2,int y2);
+void drawLineThing(worldObject* world,int x1,int y1,int x2,int y2);
 
-static void zeroBlocks(WorldObject* world)
+static void zeroBlocks(worldObject* world)
 {
 	unsigned int i, j;
 
@@ -33,7 +33,7 @@ static void zeroBlocks(WorldObject* world)
 	}
 }
 
-int extremeMountainGen(WorldObject* world,int startx,int starty,int endx)
+int extremeMountainGen(worldObject* world,int startx,int starty,int endx)
 {
 	int y=starty;
 	int x=startx;
@@ -58,7 +58,7 @@ int extremeMountainGen(WorldObject* world,int startx,int starty,int endx)
 	drawLineThing(world,x,y,endx,endy);
 	return endy;
 }
-int flatGen(WorldObject* world,int startx,int starty,int endx)
+int flatGen(worldObject* world,int startx,int starty,int endx)
 {
 	int y=starty;
 	int x;
@@ -81,13 +81,13 @@ int flatGen(WorldObject* world,int startx,int starty,int endx)
 }
 
 
-void plotHeight(WorldObject* world,int x, int y)
+void plotHeight(worldObject* world,int x, int y)
 {
 	int i;
 	for (i=y; i<WORLD_HEIGHT; ++i)
 		world->blocks[x][i]=STONE;
 }
-void generateBedrock (WorldObject* world)
+void generateBedrock (worldObject* world)
 {
 	int i;
 	for(i=0; i<=WORLD_WIDTH; ++i)
@@ -102,7 +102,7 @@ void generateBedrock (WorldObject* world)
 
 
 
-void generateSmallWorld (WorldObject* world)//Generates one biome
+void generateSmallWorld (worldObject* world)//Generates one biome
 {
 	int j=rand() % (WORLD_HEIGHT/4) + WORLD_HEIGHT/4;
 	int oj = j;
@@ -137,7 +137,7 @@ void generateSmallWorld (WorldObject* world)//Generates one biome
 
 }
 
-void generateWorld (WorldObject* world)
+void generateWorld (worldObject* world)
 {
 	if (world->gamemode == GAMEMODE_PREVIEW)
 		generateSmallWorld(world);
