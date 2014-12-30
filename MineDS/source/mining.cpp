@@ -68,7 +68,7 @@ void blocksCanPlace()
 	framecounting = 0;
 }
 
-void mineBlock(WorldObject* world, int x, int y, bool bg)
+void mineBlock(worldObject* world, int x, int y, bool bg)
 {
 	if (getType(selectedBlock) == SWORD)
 	{
@@ -118,7 +118,7 @@ void mineBlock(WorldObject* world, int x, int y, bool bg)
 	}
 }
 
-void setBlock(WorldObject* world, int x, int y)
+void setBlock(worldObject* world, int x, int y)
 {
 	skipLightUpdate = false;
 	bool isCrouched = (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
@@ -178,7 +178,7 @@ void setBlock(WorldObject* world, int x, int y)
 	}
 }
 
-void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int keys) // keys = keysDown();
+void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int keys) // keys = keysDown();
 {
 	if (incutscene)
 		return;

@@ -6,7 +6,7 @@
 #include "nifi.h"
 #include "world.h"
 #include "mobs/mobHandler.h"
-#include "mobs/BaseMob.h"
+#include "mobs/baseMob.h"
 #include "mining.h"
 #include "worldRender.h"
 //0 = Nothing
@@ -25,7 +25,7 @@ bool canSpawnMob()
 }
 int addamount;
 
-WorldObject* worldptr;
+worldObject* worldptr;
 
 int doHandshake()
 {
@@ -60,7 +60,7 @@ void connectCode(int code2)
 	code = code2;
 }
 
-void recieveWorld(WorldObject* world2)
+void recieveWorld(worldObject* world2)
 {
 	recv_code=0;
 	code = 0;
@@ -140,7 +140,7 @@ void recieveWorldUpdate()
 	}
 }
 
-void communicationInit(WorldObject* world2)
+void communicationInit(worldObject* world2)
 {
 	worldptr = world2;
 }
@@ -229,7 +229,7 @@ void wifiHurtMob(int mobNum,int amount,int type)
 	Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
 }
 
-void sendMobUpdater(BaseMob* mob,int mobNum)
+void sendMobUpdater(baseMob* mob,int mobNum)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();
