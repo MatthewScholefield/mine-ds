@@ -1,7 +1,7 @@
 #include "../blocks.h"
 #include "hurt.h"
 #include "../graphics/graphics.h"
-#include "HerobrineMob.h"
+#include "herobrineMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../collision.h"
@@ -13,7 +13,7 @@
 
 Graphic herobrineMobGraphic[3];
 
-HerobrineMob::HerobrineMob()
+herobrineMob::herobrineMob()
 {
 	x = 0;
 	y = 0;
@@ -29,7 +29,7 @@ HerobrineMob::HerobrineMob()
 	waitingCount = -rand() % 4000;
 }
 
-HerobrineMob::HerobrineMob(int a, int b)
+herobrineMob::herobrineMob(int a, int b)
 {
 	jump = 0;
 	gravity = 3;
@@ -52,7 +52,7 @@ HerobrineMob::HerobrineMob(int a, int b)
 	waitingCount = -rand() % 4000;
 }
 
-void HerobrineMob::updateMob(WorldObject* world)
+void herobrineMob::updateMob(worldObject* world)
 {
 	++waitingCount;
 	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
@@ -118,19 +118,19 @@ void HerobrineMob::updateMob(WorldObject* world)
 	}
 }
 
-void HerobrineMob::sendWifiUpdate()
+void herobrineMob::sendWifiUpdate()
 {
 }
 
-void HerobrineMob::saveToFile(FILE* pFile)
+void herobrineMob::saveToFile(FILE* pFile)
 {
 }
 
-void HerobrineMob::loadFromFile(FILE* pFile)
+void herobrineMob::loadFromFile(FILE* pFile)
 {
 }
 
-bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
+bool canHerobrineMobSpawnHere(worldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
@@ -147,7 +147,7 @@ void herobrineMobInit()
 	loadGraphic(&herobrineMobGraphic[1], true, 9);
 }
 
-void HerobrineMob::hurt(int amount, int type)
+void herobrineMob::hurt(int amount, int type)
 {
 
 	if (animation == 1)
@@ -175,7 +175,7 @@ void HerobrineMob::hurt(int amount, int type)
 	}
 }
 
-bool HerobrineMob::isMyPlayer()
+bool herobrineMob::isMyPlayer()
 {
 	return false;
 }

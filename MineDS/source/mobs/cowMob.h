@@ -1,10 +1,11 @@
-#pragma once
 #include <stdio.h>
 #include "../world.h"
-#include "BaseMob.h"
-bool canCowMobSpawnHere(WorldObject* world,int x,int y);
+#include "baseMob.h"
+#ifndef COW_MOB_H
+#define COW_MOB_H
+bool canCowMobSpawnHere(worldObject* world,int x,int y);
 
-class CowMob : public BaseMob
+class cowMob : public baseMob
 {
 public:
 	/*int x;
@@ -19,15 +20,16 @@ public:
 	int scaredtimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
-	BaseMob* target;
+	baseMob* target;
 	int notarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
+	virtual void updateMob(worldObject* world);
 	virtual void hurt(int amount,int type);
 	virtual bool isMyPlayer();
-	CowMob();
-	CowMob(int x,int y);
+	cowMob();
+	cowMob(int x,int y);
 };
 void cowMobInit();
+#endif

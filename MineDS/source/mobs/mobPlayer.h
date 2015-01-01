@@ -1,9 +1,8 @@
-#pragma once
-#include "BaseMob.h"
+#include "baseMob.h"
 
-bool canPlayerMobSpawnHere(WorldObject* world,int x,int y);
+bool canPlayerMobSpawnHere(worldObject* world,int x,int y);
 
-class PlayerMob : public BaseMob
+class playerMob : public baseMob
 {
 public:
 	/*int x;
@@ -19,11 +18,11 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
+	virtual void updateMob(worldObject* world);
 	virtual void hurt(int amount,int type);
 	virtual bool isMyPlayer();
-	PlayerMob();
-	PlayerMob(int x,int y);
+	playerMob();
+	playerMob(int x,int y);
 };
 void playerMobInit();
 bool shouldQuitGame();
