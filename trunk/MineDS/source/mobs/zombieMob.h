@@ -1,10 +1,11 @@
-#pragma once
 #include <stdio.h>
 #include "../world.h"
-#include "BaseMob.h"
-bool canZombieMobSpawnHere(WorldObject* world,int x,int y);
+#include "baseMob.h"
+#ifndef ZOMBIE_MOB_H
+#define ZOMBIE_MOB_H
+bool canZombieMobSpawnHere(worldObject* world,int x,int y);
 
-class ZombieMob : public BaseMob
+class zombieMob : public baseMob
 {
 public:
 	/*int x;
@@ -15,15 +16,16 @@ public:
 	bool host; // Was this mob spawn'd by this nds?*/
 	//bool potioneffects[5];
 	int jump;
-	BaseMob* target;
+	baseMob* target;
 	int notarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
+	virtual void updateMob(worldObject* world);
 	virtual void hurt(int amount,int type);
 	virtual bool isMyPlayer();
-	ZombieMob();
-	ZombieMob(int x,int y);
+	zombieMob();
+	zombieMob(int x,int y);
 };
 void zombieMobInit();
+#endif
