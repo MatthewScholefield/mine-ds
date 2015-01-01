@@ -3,12 +3,12 @@
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "BaseMob.h"
+#include "baseMob.h"
 #include "../blockID.h"
 //ASDF?
 Graphic baseMobGraphic[3];
 
-BaseMob::BaseMob()
+baseMob::baseMob()
 {
 	timeOnCactus = 30;
 	onCactus = false;
@@ -25,7 +25,7 @@ BaseMob::BaseMob()
 
 }
 
-BaseMob::BaseMob(int a, int b)
+baseMob::baseMob(int a, int b)
 {
 	onCactus = false;
 	timeOnCactus = 30;
@@ -47,13 +47,13 @@ BaseMob::BaseMob(int a, int b)
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
 
-void BaseMob::resetVelocity()
+void baseMob::resetVelocity()
 {
 	vy = 0;
 	vx = 0;
 }
 
-void BaseMob::updateMob(WorldObject* world)
+void baseMob::updateMob(worldObject* world)
 {
 	if (animation == 0) showGraphic(&baseMobGraphic[0], x - world->CamX, y - world->CamY);
 	else if (animation == 1) showGraphic(&baseMobGraphic[1], x - world->CamX, y - world->CamY);
@@ -69,25 +69,25 @@ void BaseMob::updateMob(WorldObject* world)
 	}
 }
 
-void BaseMob::setXYPos(int a, int b)
+void baseMob::setXYPos(int a, int b)
 {
 	x = a;
 	y = b;
 }
 
-void BaseMob::sendWifiUpdate()
+void baseMob::sendWifiUpdate()
 {
 }
 
-void BaseMob::saveToFile(FILE* pFile)
+void baseMob::saveToFile(FILE* pFile)
 {
 }
 
-void BaseMob::loadFromFile(FILE* pFile)
+void baseMob::loadFromFile(FILE* pFile)
 {
 }
 
-bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
+bool canBaseMobSpawnHere(worldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
@@ -100,7 +100,7 @@ void baseMobInit()
 	loadGraphic(&baseMobGraphic[1], true, 1);
 }
 
-void BaseMob::hurt(int amount, int type)
+void baseMob::hurt(int amount, int type)
 {
 
 	health -= amount;
@@ -108,18 +108,18 @@ void BaseMob::hurt(int amount, int type)
 	animationclearframes = 20;
 }
 
-void BaseMob::killMob()
+void baseMob::killMob()
 {
 	timeTillWifiUpdate = 1;
 	alive = false;
 }
 
-void BaseMob::unKillMob()
+void baseMob::unKillMob()
 {
 	alive = true;
 }
 
-bool BaseMob::isMyPlayer()
+bool baseMob::isMyPlayer()
 {
 	return false;
 }

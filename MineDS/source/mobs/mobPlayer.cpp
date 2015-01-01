@@ -5,7 +5,7 @@
 #include "../worldRender.h"
 #include "../graphics/graphics.h"
 #include "../inventory.h"
-#include "MobPlayer.h"
+#include "mobPlayer.h"
 #include "../general.h"
 #include "../blockID.h"
 #include "../sounds.h"
@@ -30,7 +30,7 @@ bool shouldQuitGame()
 	return quitGame;
 }
 
-PlayerMob::PlayerMob()
+playerMob::playerMob()
 {
 	x = 0;
 	y = 0;
@@ -49,7 +49,7 @@ PlayerMob::PlayerMob()
 	quitGame = false;
 }
 
-PlayerMob::PlayerMob(int a, int b)
+playerMob::playerMob(int a, int b)
 {
 	gravity = 3;
 	gravityValue = 3;
@@ -73,7 +73,7 @@ PlayerMob::PlayerMob(int a, int b)
 	quitGame = false;
 }
 
-void PlayerMob::hurt(int amount, int type)
+void playerMob::hurt(int amount, int type)
 {
 	if (isSurvival() || type == VOID_HURT)
 	{
@@ -122,7 +122,7 @@ void showHealth(int health)
 		showGraphic(&hearts[1], i * 4, 56);
 }
 
-void PlayerMob::updateMob(WorldObject* world)
+void playerMob::updateMob(worldObject* world)
 {
 	if (host)
 	{
@@ -242,24 +242,24 @@ void PlayerMob::updateMob(WorldObject* world)
 	}
 }
 
-void PlayerMob::sendWifiUpdate()
+void playerMob::sendWifiUpdate()
 {
 }
 
-void PlayerMob::saveToFile(FILE* pFile)
+void playerMob::saveToFile(FILE* pFile)
 {
 }
 
-void PlayerMob::loadFromFile(FILE* pFile)
+void playerMob::loadFromFile(FILE* pFile)
 {
 }
 
-bool PlayerMob::isMyPlayer()
+bool playerMob::isMyPlayer()
 {
 	return true;
 }
 
-bool canPlayerMobSpawnHere(WorldObject* world, int x, int y)
+bool canPlayerMobSpawnHere(worldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
