@@ -376,4 +376,5 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			oldY = touch.py;
 		}
 	}
+	drawInv();
 }
