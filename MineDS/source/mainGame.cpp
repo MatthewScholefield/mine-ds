@@ -84,29 +84,35 @@ bool isSurvival(void)
 	return (world.gamemode == GAMEMODE_SURVIVAL);
 }
 
-void newGame(gamemode_t mode, bool setSeed)
+void newGame(gamemode_t mode, int seed)
 {
-	mobsReset();
-	if (world.gamemode != GAMEMODE_PREVIEW && setSeed)
-		world.seed = getTime();
+	// Zero for a random seed
+	if (seed == 0)
+		world.seed = time(NULL);
 	srand(world.seed);
+	mobsReset();
 	world.gamemode = mode;
 	world.CamX = 0;
 	world.CamY = 0;
 	world.timeInWorld = 0;
 	generateWorld(&world);
-	if (mode == GAMEMODE_PREVIEW)
-	{
-		mobHandlerUpdate(&world);
-		worldRender_Render(&world, world.CamX, world.CamY);
-	}
+}
+
+void previewGame(void)
+{
+	newGame(GAMEMODE_PREVIEW, 0);
+	mobHandlerUpdate(&world);
+	worldRender_Render(&world, world.CamX, world.CamY);
 }
 
 bool loadGame(void)
 {
 	mobsReset(true);
 	if (loadWorld(&world))
+	{
+		srand(world.seed);
 		return true;
+	}
 	return false;
 }
 

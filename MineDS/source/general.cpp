@@ -59,6 +59,9 @@ void clear_messages() //Adds 3 lines of empty messages
 	update_message();
 }
 
+// TODO: Make updateTime() and getTime() less misleading,
+//       since they don't actually get the time ( gettimeofday() )
+
 void updateTime()
 {
 	++currentTime;
