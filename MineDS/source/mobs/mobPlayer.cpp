@@ -14,12 +14,12 @@
 #include "../graphics/inventoryGraphics.h"
 #include "../Config.h"
 #include <time.h>
-//ASDF?
-//
+
 #define PLAYER_FULL_HEALTH 20
 #define PLAYER_SPRITE_WALK 0
 #define PLAYER_SPRITE_HURT 1
 #define PLAYER_SPRITE_MINE 2
+
 bool quitGame = false;
 int slow = 0;
 Graphic playerMobGraphic[3];
@@ -128,10 +128,9 @@ void playerMob::updateMob(worldObject* world)
 	{
 		if (health > 0)
 		{
-			//Draw the inventory if the player is not dead, and it is survival mode
-			if (isSurvival()) drawInv();
-			++tillBrightness;
-			if (tillBrightness > 60)
+			// Every second, update the brightness of visible blocks
+			// TODO: This should be in worldRender_Render
+			if (++tillBrightness > SEC_TO_FPS(1))
 			{
 				tillBrightness = 0;
 				updateBrightnessAround(world, x / 16, y / 16);
@@ -144,7 +143,6 @@ void playerMob::updateMob(worldObject* world)
 			if (world->CamY < 0) world->CamY = 0;
 			if (world->CamX > WORLD_WIDTH * 16 - 256) world->CamX = WORLD_WIDTH * 16 - 256;
 			if (world->CamY > (WORLD_HEIGHT + 1)*16 - 192) world->CamY = (WORLD_HEIGHT + 1)*16 - 192;
-
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
 			{
 				animateMob(&playerMobGraphic[0], 0);
@@ -223,8 +221,6 @@ void playerMob::updateMob(worldObject* world)
 			}
 			else if (result == 1)
 				quitGame = true;
-
-
 		}
 	}
 	if (x - world->CamX>-16 && x - world->CamX < 256 + 16 && y - world->CamY>-32 && y - world->CamY < 256)
