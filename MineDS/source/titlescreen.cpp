@@ -610,8 +610,6 @@ void gameModeScreen()
 
 void multiplayerScreen()
 {
-	bool host;
-
 	consoleClear();
 	drawBackground();
 
@@ -623,20 +621,17 @@ void multiplayerScreen()
 	switch (menu(buttons, 3))
 	{
 	case 1: // create game
-		host = true;
+		startMultiplayerGame(true);
 		break;
 	case 2: // TODO: load game
-		host = true;
+		startMultiplayerGame(true);
 		break;
 	case 3: // join game
-		host = false;
+		joinGame();
 		break;
 	default: // back button
 		return;
 	}
-	drawBackground();
-	playMusic(MUSIC_HAL2);
-	startMultiplayerGame(host);
 }
 
 void titlescreen()
