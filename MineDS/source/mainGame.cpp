@@ -116,6 +116,25 @@ bool loadGame(void)
 	return false;
 }
 
+void joinGame(void)
+{
+	fillWorld(&world, BEDROCK);
+	iprintf("Looking for servers\n");
+	// TODO: Rename clientNifiInit() to something that makes more sense
+	while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
+		swiWaitForVBlank();
+	iprintf("Joining Server!\n");
+	if (!doHandshake())
+		return;
+	recieveWorld(&world);
+	// TODO: Move this to nifi.cpp
+	unsigned short buffer[100];
+	int client_id = getClientID();
+	sprintf((char *) buffer, "%d joined the game.\n", client_id);
+	print_message((char *) buffer);
+	startMultiplayerGame(false);
+}
+
 void startGame(void)
 {
 	int oldKeys = keysHeld();
@@ -160,9 +179,12 @@ void startMultiplayerGame(bool host)
 	touchPosition touch;
 
 	nifiEnable();
-	mobsReset();
 	consoleClear();
 	clear_messages();
+
+	drawBackground();
+	playMusic(MUSIC_HAL2);
+	mobsReset();
 
 	if (host)
 	{
@@ -178,34 +200,8 @@ void startMultiplayerGame(bool host)
 		print_message((char *) buffer);
 		world.timeInWorld = 0;
 	}
-	else
-	{
-		int i, j;
-
-		lcdMainOnTop();
-		for (i = 0; i <= WORLD_WIDTH; ++i)
-		{
-			for (j = 0; j <= WORLD_HEIGHT; ++j)
-			{
-				world.blocks[i][j] = BEDROCK;
-				world.bgblocks[i][j] = BEDROCK;
-			}
-		}
-		iprintf("Looking for servers\n");
-		while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
-			swiWaitForVBlank();
-		iprintf("Joining Server!\n");
-		// Next Do a HandShake and check that we are communicating with MineDS (and not another game that we might make in the future)
-		if (!doHandshake())
-			return;
-		recieveWorld(&world);
-		consoleClear();
-		unsigned short buffer[100];
-		int client_id = getClientID();
-		sprintf((char *) buffer, "%d joined the game.\n", client_id);
-		print_message((char *) buffer);
-	}
 	lcdMainOnBottom();
+	world.timeInWorld = 0;
 	world.CamX = 0;
 	world.CamY = 0;
 
