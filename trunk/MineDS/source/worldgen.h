@@ -8,6 +8,7 @@
 */
 
 #include "world.h"
+void fillWorld(worldObject* world, int blockType);
 void generateWorld(worldObject* world);
 void generateSmallWorld(worldObject* world);
 void randGenerate(worldObject* world);
