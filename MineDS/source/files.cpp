@@ -22,7 +22,7 @@ bool saveWorld(worldObject *world)
 	{
 		fwrite(world, sizeof (*world), 1, fp);
 		saveInventory(fp);
-		savePlayer(fp);
+		saveMobs(fp);
 		fclose(fp);
 		return true;
 	}
@@ -50,7 +50,7 @@ bool loadWorld(worldObject *world)
 	{
 		fread(world, sizeof (*world), 1, fp);
 		loadInventory(fp);
-		loadPlayer(fp);
+		loadMobs(fp);
 		fclose(fp);
 		return true;
 	}

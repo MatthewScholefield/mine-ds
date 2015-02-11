@@ -85,6 +85,7 @@ void baseMob::saveToFile(FILE* pFile)
 
 void baseMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 
 bool canBaseMobSpawnHere(worldObject* world, int x, int y)

@@ -59,6 +59,7 @@ void MplayerMob::saveToFile(FILE* pFile)
 }
 void MplayerMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 bool canMplayerMobSpawnHere(worldObject* world,int x,int y)
 {
