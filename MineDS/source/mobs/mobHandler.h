@@ -2,8 +2,8 @@
 #include "baseMob.h"
 #include <fat.h>
 int getDefaultSpawnX();
-void savePlayer(FILE *data);
-void loadPlayer(FILE *data);
+void saveMobs(FILE* f);
+void loadMobs(FILE* f);
 void mobHandlerInit();
 void mobHandlerUpdate(worldObject* world);
 void mobHandlerKillMob(int a);

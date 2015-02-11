@@ -156,6 +156,7 @@ void cowMob::saveToFile(FILE* pFile)
 
 void cowMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 
 bool canCowMobSpawnHere(worldObject* world, int x, int y)
