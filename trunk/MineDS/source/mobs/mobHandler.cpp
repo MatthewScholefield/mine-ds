@@ -27,15 +27,6 @@ int getDefaultSpawnX()
 	return mobs[playerId]->x / 16 + (rand() % 5) - 2;
 }
 
-void savePlayer(FILE *data)
-{
-	fwrite(&mobs[playerId], sizeof (mobs[playerId]), 1, data);
-}
-
-void loadPlayer(FILE *data)
-{
-	fread(&mobs[playerId], sizeof (mobs[playerId]), 1, data);
-}
 
 baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 {
@@ -213,6 +204,22 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 		break;
 	}
 }
+void saveMobs(FILE* f)
+{
+  int i;
+  for (i = 0; i < 100; ++i)
+  {
+    if (mobs[i]->alive)
+    {
+      int mobType;
+      mobType = mobs[i]->mobtype;
+      if (mobType == 2 && mobs[i]->isMyPlayer()) mobType = 1;
+      fprintf(f,"%d ",mobType);
+      mobs[i]->saveToFile(f);
+    }
+  }
+  fprintf(f," -1");
+}
 
 void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 {
@@ -253,7 +260,7 @@ int spawnMob(int mobId, worldObject* world)
 	return -1;
 }
 
-void spawnMobAt(int mobId, worldObject* world, int x, int y)
+int spawnMobAt(int mobId, worldObject* world, int x, int y)
 {
 	int mobNum = findFreeMobSpawnNum();
 	if (mobNum >= 0)
@@ -261,8 +268,32 @@ void spawnMobAt(int mobId, worldObject* world, int x, int y)
 		newMob(mobId, mobNum, x, y);
 		mobs[mobNum]->host = true;
 	}
+  return mobNum;
 }
-
+void loadMobs(FILE* f)
+{
+  mobsReset(false);
+  int shouldContinue = true;
+  while (shouldContinue)
+  {
+    int mobType;
+    fscanf(f,"%d ",&mobType);
+    if (mobType != -1)
+    {
+      int mobId;
+      mobId = spawnMobAt(mobType, NULL ,0,0);
+      if (mobType == 1)
+      {
+        hasSpawnPlayer = true;
+      }
+      mobs[mobId]->loadFromFile(f);
+    }
+    else
+    {
+      shouldContinue = false;
+    }
+  }
+}
 void spawnMobNoCheck(int mobId, worldObject* world, int mobNum)
 {
 	if (mobNum >= 0)
@@ -339,6 +370,7 @@ void mobHandlerUpdate(worldObject* world)
 				{
 					mobs[i]->ping = 0;
 					mobs[i]->alive = false;
+          delete mobs[i];
 				}
 			}
 		}
@@ -366,10 +398,10 @@ void mobHandlerUpdate(worldObject* world)
 		if (rand() % 2)
 			take = -16 - (rand() % 16);
 		else take = 16 + (rand() % 16);
-		spawnMobOn(rand() % 10 != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[playerId]->x / 16 + take);
+		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[playerId]->x / 16 + take);
 	}
-	if (keysDown() & KEY_R)
-		mobs[playerId]->x += 2;
+	//if (keysDown() & KEY_R)
+	//	mobs[playerId]->x += 2;
 	/*
 	if (keysDown() & KEY_R)
 	{

@@ -128,6 +128,7 @@ void herobrineMob::saveToFile(FILE* pFile)
 
 void herobrineMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 
 bool canHerobrineMobSpawnHere(worldObject* world, int x, int y)
