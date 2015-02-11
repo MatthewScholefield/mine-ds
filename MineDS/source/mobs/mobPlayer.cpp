@@ -244,10 +244,12 @@ void playerMob::sendWifiUpdate()
 
 void playerMob::saveToFile(FILE* pFile)
 {
+  fprintf(pFile,"%d %d %d ",x,y,health);
 }
 
 void playerMob::loadFromFile(FILE* pFile)
 {
+  fscanf(pFile,"%d %d %d ",&x,&y,&health);
 }
 
 bool playerMob::isMyPlayer()

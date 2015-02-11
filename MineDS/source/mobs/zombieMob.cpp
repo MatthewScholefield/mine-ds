@@ -133,6 +133,7 @@ void zombieMob::saveToFile(FILE* pFile)
 
 void zombieMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 
 bool canZombieMobSpawnHere(worldObject* world, int x, int y)

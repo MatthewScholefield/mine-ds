@@ -152,6 +152,7 @@ void pigMob::saveToFile(FILE* pFile)
 }
 void pigMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 bool canPigMobSpawnHere(worldObject* world,int x,int y)
 {

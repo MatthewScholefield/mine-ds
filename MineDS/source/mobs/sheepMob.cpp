@@ -152,6 +152,7 @@ void sheepMob::saveToFile(FILE* pFile)
 }
 void sheepMob::loadFromFile(FILE* pFile)
 {
+  killMob();
 }
 bool canSheepMobSpawnHere(worldObject* world,int x,int y)
 {
