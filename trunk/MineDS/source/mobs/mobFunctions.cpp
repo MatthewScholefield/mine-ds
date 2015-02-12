@@ -57,7 +57,6 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 		}
     if (!isBlockWalkThrough(world->blocks[blockx][blocky]))
     {
-      show_message("TEST\n");
 			mob -> y -=16;
 			mob -> vy = 0;
     }
