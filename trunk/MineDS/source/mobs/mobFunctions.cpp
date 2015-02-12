@@ -4,12 +4,13 @@
 #include "../collision.h"
 #include "../blocks.h"
 #include "mobCollisions.h"
+#include "../general.h"
 
 void calculateMiscData(worldObject* world, baseMob* mob)
 {
 	if (mob->host)
 	{
-		if (mob -> collisions[0] == false) --mob -> gravityValue;
+		if (mob -> collisions[0] == false) --mob->gravityValue;
 		else mob->gravityValue = mob->gravity;
 		if (mob -> gravityValue == 0)
 		{
@@ -54,11 +55,17 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 			mob -> y = (blocky - 1)*16 + 1;
 			mob -> vy = 0;
 		}
+    if (!isBlockWalkThrough(world->blocks[blockx][blocky]))
+    {
+      show_message("TEST\n");
+			mob -> y -=16;
+			mob -> vy = 0;
+    }
 		if (spritecol(mob -> x, mob -> y, blockx, blocky, mob -> sx, mob -> sy, 16, 16))
 		{
 			//Mob is inside the block
 			mob -> collisions[4] = true;
-			mob -> y = (blocky - 1)*16 + 1;
+			mob -> y = (blocky -1 )*16 + 1;
 			mob -> vy = 0;
 		}
 		if (mob->x < 1) mob->x = 1;
