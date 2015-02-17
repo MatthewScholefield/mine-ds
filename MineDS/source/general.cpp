@@ -5,7 +5,7 @@
 #include "nifi.h"
 #include "general.h"
 
-std::string messages[4];
+std::string messages[3];
 int nextmsg = 0;
 int currentTime = 0;
 
@@ -15,18 +15,18 @@ void sleep(unsigned int seconds)
 		swiWaitForVBlank(); // sleeps for one frame
 }
 
-void show_message(const char* s)
+void printLocalMessage(const char* s)
 {
 	messages[nextmsg] = s;
 	++nextmsg;
-	if (nextmsg > 3) nextmsg = 0;
+	if (nextmsg >= 3) nextmsg = 0;
 }
 
-void print_message(const char* s)
+void printGlobalMessage(const char* s)
 {
 	messages[nextmsg] = s;
 	++nextmsg;
-	if (nextmsg > 3) nextmsg = 0;
+	if (nextmsg >= 3) nextmsg = 0;
 	if (isWifi())
 	{
 		unsigned short buffer[100];
@@ -38,24 +38,23 @@ void print_message(const char* s)
 
 void update_message()
 {
-	iprintf("\x1b[20;0H\x1b[2K"); //Clears lines
-	for (int i = 0; i < 3; ++i) iprintf("\n\x1b[2K");
-	iprintf("\x1b[20;0H"); //Sets Cursor
+	for (int i = 0; i < 3; ++i)
+		iprintf("\x1b[%d;0H\x1b[2K", 20 + i);
 	int start = (nextmsg - 1) % 3;
-	if (start == -1) start = 3;
-	for (int amount = 0; amount <= 3; amount++)
+	if (start == -1) start = 2;
+	for (int amount = 0; amount < 3; ++amount)
 	{
-		iprintf(" %s", messages[start].c_str());
+		iprintf("\x1b[%d;0H %s", 20 + amount, messages[start].c_str());
 		--start;
-		if (start == -1) start = 3;
+		if (start == -1) start = 2;
 	}
 }
 
 void clear_messages() //Adds 3 lines of empty messages
 {
-	print_message(" ");
-	print_message(" ");
-	print_message(" ");
+	printGlobalMessage(" ");
+	printGlobalMessage(" ");
+	printGlobalMessage(" ");
 	update_message();
 }
 

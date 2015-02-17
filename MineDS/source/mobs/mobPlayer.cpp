@@ -99,7 +99,7 @@ void playerMob::hurt(int amount, int type)
 			else if (type == HEROBRINE_HURT) message += " was murdered by a Herobrine";
 			else message += " died";
 			message += "\n";
-			print_message((char*) message.c_str());
+			printGlobalMessage((char*) message.c_str());
 		}
 	}
 }
