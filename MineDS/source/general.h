@@ -5,9 +5,9 @@
 #define SEC_TO_FPS(S)	((S) * FPS)
 
 void sleep(unsigned int seconds);
-void print_message(const char* s);
+void printGlobalMessage(const char* s);
 void update_message();
-void show_message(const char* s);
+void printLocalMessage(const char* s);
 void clear_messages();
 inline void printXY(int x, int y, const char *output);
 inline void printXY(int x, int y, int output);

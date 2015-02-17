@@ -89,7 +89,7 @@ void Handler(int packetID, int readlength)
 	{
 		int test_id;
 		sscanf(message, "%d", &test_id);
-		if (test_id == server_id) show_message(&data[39 + get_int_len(server_id)]);
+		if (test_id == server_id) printLocalMessage(&data[39 + get_int_len(server_id)]);
 	}
 	else if (!strcmp("[HRT:", msgtype))
 	{

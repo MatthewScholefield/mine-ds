@@ -139,7 +139,7 @@ void joinGame(void)
 	unsigned short buffer[100];
 	int client_id = getClientID();
 	sprintf((char *) buffer, "%d joined the game.\n", client_id);
-	print_message((char *) buffer);
+	printGlobalMessage((char *) buffer);
 	startMultiplayerGame(false);
 }
 
@@ -205,7 +205,7 @@ void startMultiplayerGame(bool host)
 		unsigned short buffer[100];
 		int server_id = getServerID();
 		sprintf((char *) buffer, "Server ID: %d\n", server_id);
-		print_message((char *) buffer);
+		printGlobalMessage((char *) buffer);
 		world.timeInWorld = 0;
 	}
 	lcdMainOnBottom();
