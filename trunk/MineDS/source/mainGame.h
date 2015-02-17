@@ -11,3 +11,4 @@ void startGame(void);
 void startMultiplayerGame(bool host);
 void returnToGame(void);
 void setSeed(int seed);
+void quitGame();
