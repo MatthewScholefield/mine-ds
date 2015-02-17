@@ -140,7 +140,7 @@ bool addInventory(int blockID, int amount) //adds the specified amount to a bloc
 	}
 	if (space == -1)
 	{
-		show_message("No space for item");
+		printLocalMessage("No space for item");
 		return false; //We still want the block to be broken - Do we ?
 	}
 	//Space now equals the block for the id...
@@ -173,14 +173,14 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	}
 	if (space == -1)
 	{
-		show_message("No item to remove\n");
+		printLocalMessage("No item to remove\n");
 		return false;
 	}
 	mainPlayerInv.blocks[space].blockAmount -= amount;
 	if (mainPlayerInv.blocks[space].blockAmount < 0)
 	{
 		mainPlayerInv.blocks[space].blockAmount += amount;
-		show_message("Not enough items to remove\n");
+		printLocalMessage("Not enough items to remove\n");
 		return false;
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
@@ -325,9 +325,9 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))//(oldX > (10 - 1)*8 && oldX < (10 + 10)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
 				if (saveWorld(world))
-					show_message("Saved Game\n");
+					printLocalMessage("Saved Game\n");
 				else
-					show_message("Failed to Save Game\n");
+					printLocalMessage("Failed to Save Game\n");
 				saveButton.setColored(false);
 			}
 			else

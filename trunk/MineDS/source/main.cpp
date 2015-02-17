@@ -27,6 +27,7 @@
 #include "nifi.h"
 #include "sounds.h"
 #include "files.h"
+#include "general.h"
 #include <maxmod9.h>    // Maxmod definitions for ARM9
 #include <string>
 
@@ -54,5 +55,6 @@ int main()
 	initFile();
 	initSound();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
+	clear_messages();
 	titlescreen();
 }
