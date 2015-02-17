@@ -25,4 +25,3 @@ public:
 	playerMob(int x,int y);
 };
 void playerMobInit();
-bool shouldQuitGame();

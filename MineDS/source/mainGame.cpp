@@ -24,6 +24,7 @@
 #include "communications.h"
 #include <time.h>
 
+bool shouldQuitGame = false;
 worldObject world;
 
 static void redrawGameUI(void)
@@ -84,6 +85,11 @@ bool isSurvival(void)
 	return (world.gamemode == GAMEMODE_SURVIVAL);
 }
 
+void quitGame()
+{
+	shouldQuitGame = true;
+}
+
 void newGame(gamemode_t mode, int seed)
 {
 	// Zero for a random seed
@@ -91,6 +97,7 @@ void newGame(gamemode_t mode, int seed)
 		world.seed = time(NULL);
 	srand(world.seed);
 	mobsReset();
+	shouldQuitGame = false;
 	world.gamemode = mode;
 	world.CamX = 0;
 	world.CamY = 0;
@@ -108,6 +115,7 @@ void previewGame(void)
 bool loadGame(void)
 {
 	mobsReset(true);
+	shouldQuitGame = false;
 	if (loadWorld(&world))
 	{
 		srand(world.seed);
@@ -147,7 +155,7 @@ void startGame(void)
 	clearInventory();
 	playMusic(MUSIC_HAL2);
 
-	while (!shouldQuitGame())
+	while (!shouldQuitGame)
 	{
 		updateTime();
 		scanKeys();
@@ -205,7 +213,7 @@ void startMultiplayerGame(bool host)
 	world.CamX = 0;
 	world.CamY = 0;
 
-	while (!shouldQuitGame())
+	while (!shouldQuitGame)
 	{
 		scanKeys();
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
