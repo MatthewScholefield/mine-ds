@@ -19,16 +19,9 @@
 #define PLAYER_SPRITE_WALK 0
 #define PLAYER_SPRITE_HURT 1
 #define PLAYER_SPRITE_MINE 2
-
-bool quitGame = false;
 int slow = 0;
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
-
-bool shouldQuitGame()
-{
-	return quitGame;
-}
 
 playerMob::playerMob()
 {
@@ -46,7 +39,6 @@ playerMob::playerMob()
 	reheal = 0;
 	tillBrightness = 0;
 	deathscreen = false;
-	quitGame = false;
 }
 
 playerMob::playerMob(int a, int b)
@@ -70,7 +62,6 @@ playerMob::playerMob(int a, int b)
 	reheal = 0;
 	tillBrightness = 0;
 	deathscreen = false;
-	quitGame = false;
 }
 
 void playerMob::hurt(int amount, int type)
@@ -220,7 +211,7 @@ void playerMob::updateMob(worldObject* world)
 					}
 			}
 			else if (result == 1)
-				quitGame = true;
+				quitGame();
 		}
 	}
 	if (x - world->CamX>-16 && x - world->CamX < 256 + 16 && y - world->CamY>-32 && y - world->CamY < 256)
