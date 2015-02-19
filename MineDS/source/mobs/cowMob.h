@@ -8,13 +8,6 @@ bool canCowMobSpawnHere(worldObject* world,int x,int y);
 class cowMob : public baseMob
 {
 public:
-	/*int x;
-	int y;
-	int vy;
-	int vx;
-	bool alive;
-	bool host; // Was this mob spawn'd by this nds?*/
-	//bool potioneffects[5];
 	int jump;
 	bool scared=false; //Whether cow is scared and will run away from the player
 	int scaredtimer; //Limits how long the cow is scared
