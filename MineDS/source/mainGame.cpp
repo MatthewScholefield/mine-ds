@@ -22,6 +22,7 @@
 #include "sounds.h"
 #include "nifi.h"
 #include "communications.h"
+#include "blockupdate.h"
 #include <time.h>
 
 bool shouldQuitGame = false;
@@ -172,6 +173,7 @@ void startGame(void)
 		oldKeys = keysHeld();
 		touchRead(&touch);
 		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
+    proceduralBlockUpdate(&world);  
 		swiWaitForVBlank(); //Should be the only time called in the loop
 		worldRender_Render(&world, world.CamX, world.CamY);
 		oamUpdate(&oamMain);
