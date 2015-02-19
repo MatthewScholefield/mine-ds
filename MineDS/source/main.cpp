@@ -28,6 +28,7 @@
 #include "sounds.h"
 #include "files.h"
 #include "general.h"
+#include "blockupdate.h"
 #include <maxmod9.h>    // Maxmod definitions for ARM9
 #include <string>
 
@@ -50,6 +51,7 @@ int main()
 	mobHandlerInit();
 	worldRender_LoadSprites();
 	craftingInit();
+  proceduralBlockUpdateInit();
 	graphicFrame();
 	oamClear(&oamSub, 0, 127);
 	initFile();

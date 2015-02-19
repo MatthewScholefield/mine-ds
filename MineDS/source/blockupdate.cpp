@@ -1,9 +1,70 @@
+#include "blockupdate.h"
 #include "world.h"
 #include "blocks.h"
 #include "blockID.h"
 #include "nifi.h"
 #include "communications.h"
 #include "inventory.h"
+#include "general.h"
+//Include blockUpdaters
+#include "blockupdaters/furnace.h"
+#include "blockupdaters/air.h"
+
+blockUpdater* blockUpdaters[10];
+int numBlockUpdaters;
+
+
+
+blockUpdater::blockUpdater()
+{
+}
+void blockUpdater::update(worldObject* world,int x,int y,bool bg)
+{
+}
+int blockUpdater::chanceUpdate(worldObject* world,int x,int y,bool bg)
+{
+  return 65535;
+}
+
+void proceduralBlockUpdateInit()
+{
+  numBlockUpdaters = 0;
+  blockUpdaters[numBlockUpdaters++] = new furnaceUpdater;
+  blockUpdaters[numBlockUpdaters++] = new airUpdater;
+}
+void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
+{
+  for (int i=0;i<numBlockUpdaters;++i)
+  {
+    if (world->bgblocks[x][y]==blockUpdaters[i]->blockID){
+      blockUpdaters[i]->update(world,x,y,true);
+      if (!(rand()%blockUpdaters[i]->chance))
+      {
+        blockUpdaters[i]->chanceUpdate(world,x,y,true);
+      }
+    }
+    if (world->blocks[x][y]==blockUpdaters[i]->blockID){
+      blockUpdaters[i]->update(world,x,y,false);
+      if (!(rand()%blockUpdaters[i]->chance))
+      {
+        blockUpdaters[i]->chanceUpdate(world,x,y,false);
+      }
+    }
+  }
+}
+void proceduralBlockUpdate(worldObject* world)
+{
+  int sx = world->CamX/16;
+  int sy = world->CamY/16;
+  for (int x = sx; x < (sx+16); ++x)
+  {
+    for (int y = sy; y < (sy+12); ++y)
+    {
+      proceduralBlockUpdateCheck(world,x,y);
+    }
+  }
+}
+
 void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 {
 	if (!bg)
@@ -76,16 +137,6 @@ void checkBlockDelete(int x,int y,worldObject* world,bool bg)
 			++c;
 		}
 	}
-	/*if (world->blocks[x][y-1]==SNOW_TOP && !bg)
-	{
-		world->blocks[x][y-1]=AIR;
-		if (isWifi())	placeBlock(x,y-1);
-	}
-	if (world->bgblocks[x][y-1]==SNOW_TOP && bg)
-	{
-		world->bgblocks[x][y-1]=AIR;
-		if (isWifi())	placeBlock(x,y-1);
-	}*/
 	checkBlockPlace(x,y-1,world,true);
 	checkBlockPlace(x,y-1,world,false);
 	if (isWifi())	placeBlock(x,y-1);
