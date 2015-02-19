@@ -1,6 +1,9 @@
 #pragma once
 #include <time.h>
 
+//Do not change WORLD_HEIGHT or WORLD_WIDTH unless you are prepared to update assembly code
+//Assembly functions in worldfunctions.s depend on these values being as they are
+//Also do not change order of arrays in worldObject struct, just append things to the bottom
 #define WORLD_HEIGHT	(128)
 #define WORLD_WIDTH	(512)
 #define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
