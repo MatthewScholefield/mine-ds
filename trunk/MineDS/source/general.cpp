@@ -5,9 +5,9 @@
 #include "nifi.h"
 #include "general.h"
 
-std::string messages[3];
-int nextmsg = 0;
+std::string messages[MESSAGE_COUNT];
 int currentTime = 0;
+int triggerTime = 1;
 
 void sleep(unsigned int seconds)
 {
@@ -15,46 +15,51 @@ void sleep(unsigned int seconds)
 		swiWaitForVBlank(); // sleeps for one frame
 }
 
-void printLocalMessage(const char* s)
+int getOldestMessageIndex()
 {
-	messages[nextmsg] = s;
-	++nextmsg;
-	if (nextmsg >= 3) nextmsg = 0;
+	for (int i = MESSAGE_COUNT - 1; i >= 0; --i)
+		if (messages[i].empty())
+			return i == MESSAGE_COUNT - 1 ? i : i + 1;
+	return 0;
 }
 
-void printGlobalMessage(const char* s)
+void printLocalMessage(const char* message)
 {
-	messages[nextmsg] = s;
-	++nextmsg;
-	if (nextmsg >= 3) nextmsg = 0;
+	for (int i = 0; i < MESSAGE_COUNT - 1; ++i)
+		messages[i] = messages[i + 1];
+	messages[MESSAGE_COUNT - 1] = message;
+	if (getOldestMessageIndex() == MESSAGE_COUNT - 1)
+	{ //the first message should reset the trigger time
+		triggerTime = getTime() % MESSAGE_CLEAR_DELAY - 1; //Prevent message instantly dissapearing
+		if (triggerTime < 0)
+			triggerTime = MESSAGE_CLEAR_DELAY - 1;
+	}
+}
+
+void printGlobalMessage(const char* message)
+{
+	printLocalMessage(message);
 	if (isWifi())
 	{
 		unsigned short buffer[100];
 		int server_id = getServerID();
-		sprintf((char *) buffer, "[MSG: %d %s", server_id, s);
+		sprintf((char *) buffer, "[MSG: %d %s", server_id, message);
 		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 	}
 }
 
 void update_message()
 {
-	for (int i = 0; i < 3; ++i)
-		iprintf("\x1b[%d;0H\x1b[2K", 20 + i);
-	int start = (nextmsg - 1) % 3;
-	if (start == -1) start = 2;
-	for (int amount = 0; amount < 3; ++amount)
-	{
-		iprintf("\x1b[%d;0H %s", 20 + amount, messages[start].c_str());
-		--start;
-		if (start == -1) start = 2;
-	}
+	if (getTime() % MESSAGE_CLEAR_DELAY == unsigned(triggerTime))
+		messages[getOldestMessageIndex()] = "";
+	for (int amount = 0; amount < MESSAGE_COUNT; ++amount)
+		iprintf("\x1b[%d;0H\x1b[2K %s", 20 + amount, messages[amount].c_str());
 }
 
-void clear_messages() //Adds 3 lines of empty messages
+void clear_messages()
 {
-	printGlobalMessage(" ");
-	printGlobalMessage(" ");
-	printGlobalMessage(" ");
+	for (int i = 0; i < MESSAGE_COUNT; ++i)
+		messages[i] = "";
 	update_message();
 }
 
@@ -64,7 +69,7 @@ void clear_messages() //Adds 3 lines of empty messages
 void updateTime()
 {
 	++currentTime;
-	if (currentTime > 10000)
+	if (currentTime > 100000)
 		currentTime = 1;
 }
 
