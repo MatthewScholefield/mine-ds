@@ -10,9 +10,9 @@
 myceliumUpdater::myceliumUpdater()
 {
   blockID = MYCELIUM;
-  chance = NO_CHANCE;
+	chance = 1000;
 }
-void myceliumUpdater::update(worldObject* world,int x, int y, bool bg)
+void myceliumUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 {
   if (bg == false)
   {

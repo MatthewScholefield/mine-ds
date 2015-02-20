@@ -6,7 +6,7 @@
 class grassUpdater : public blockUpdater
 {
   public:
-    grassUpdater();
-    virtual void update(worldObject* world, int x, int y, bool bg);
+	grassUpdater();
+	virtual void chanceUpdate(worldObject* world, int x, int y, bool bg);
 };
 
