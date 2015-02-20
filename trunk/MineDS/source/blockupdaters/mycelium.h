@@ -7,6 +7,6 @@ class myceliumUpdater : public blockUpdater
 {
   public:
     myceliumUpdater();
-    virtual void update(worldObject* world, int x, int y, bool bg);
+	virtual void chanceUpdate(worldObject* world, int x, int y, bool bg);
 };
 
