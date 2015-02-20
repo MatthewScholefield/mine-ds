@@ -10,9 +10,9 @@
 junglegrassUpdater::junglegrassUpdater()
 {
   blockID = JUNGLE_GRASS;
-  chance = NO_CHANCE;
+	chance = 1000;
 }
-void junglegrassUpdater::update(worldObject* world,int x, int y, bool bg)
+void junglegrassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 {
   if (bg == false)
   {
