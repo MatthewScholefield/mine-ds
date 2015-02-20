@@ -10,7 +10,7 @@
 airUpdater::airUpdater()
 {
   blockID = AIR;
-  chance = 65535;
+  chance = NO_CHANCE;
 }
 
 void airUpdater::update(worldObject* world, int x, int y, bool bg){
