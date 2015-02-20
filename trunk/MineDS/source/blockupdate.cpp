@@ -9,6 +9,9 @@
 //Include blockUpdaters
 #include "blockupdaters/furnace.h"
 #include "blockupdaters/air.h"
+#include "blockupdaters/grass.h"
+#include "blockupdaters/junglegrass.h"
+#include "blockupdaters/mycelium.h"
 
 blockUpdater* blockUpdaters[10];
 int numBlockUpdaters;
@@ -21,9 +24,9 @@ blockUpdater::blockUpdater()
 void blockUpdater::update(worldObject* world,int x,int y,bool bg)
 {
 }
-int blockUpdater::chanceUpdate(worldObject* world,int x,int y,bool bg)
+void blockUpdater::chanceUpdate(worldObject* world,int x,int y,bool bg)
 {
-  return 65535;
+  
 }
 
 void proceduralBlockUpdateInit()
@@ -31,6 +34,9 @@ void proceduralBlockUpdateInit()
   numBlockUpdaters = 0;
   blockUpdaters[numBlockUpdaters++] = new furnaceUpdater;
   blockUpdaters[numBlockUpdaters++] = new airUpdater;
+  blockUpdaters[numBlockUpdaters++] = new grassUpdater;
+  blockUpdaters[numBlockUpdaters++] = new junglegrassUpdater;
+  blockUpdaters[numBlockUpdaters++] = new myceliumUpdater;
 }
 void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
 {

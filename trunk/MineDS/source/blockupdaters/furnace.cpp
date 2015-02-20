@@ -9,7 +9,7 @@
 furnaceUpdater::furnaceUpdater()
 {
   loadGraphic(&fireParticle,0,0);
-  chance = 65535;
+  chance = NO_CHANCE;
   blockID = FURNACE_LIT;
 }
 void furnaceUpdater::update(worldObject* world,int x,int y,bool bg)
@@ -38,7 +38,4 @@ void furnaceUpdater::update(worldObject* world,int x,int y,bool bg)
 
   }
 }
-int furnaceUpdater::chanceUpdate(worldObject* world,int x,int y,bool bg)
-{
-  return 65535;
-}
+
