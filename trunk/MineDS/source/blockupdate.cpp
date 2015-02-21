@@ -10,6 +10,7 @@
 #include "blockupdaters/furnace.h"
 #include "blockupdaters/air.h"
 #include "blockupdaters/grass.h"
+#include "blockupdaters/dirt.h"
 #include "blockupdaters/junglegrass.h"
 #include "blockupdaters/mycelium.h"
 
@@ -36,7 +37,8 @@ void proceduralBlockUpdateInit()
   blockUpdaters[numBlockUpdaters++] = new airUpdater;
   blockUpdaters[numBlockUpdaters++] = new grassUpdater;
   blockUpdaters[numBlockUpdaters++] = new junglegrassUpdater;
-  blockUpdaters[numBlockUpdaters++] = new myceliumUpdater;
+	blockUpdaters[numBlockUpdaters++] = new myceliumUpdater;
+	blockUpdaters[numBlockUpdaters++] = new dirtUpdater;
 }
 void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
 {
