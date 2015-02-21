@@ -108,13 +108,27 @@ bool isAGroundBlock(int blockID)
 	return false;
 }
 
+bool isGrassBlock(int blockID)
+{
+	switch (blockID)
+	{
+		case GRASS:
+		case MYCELIUM:
+		case JUNGLE_GRASS:
+			return true;
+		default:
+			return false;
+	}
+}
+
+
 bool isBlockALightSource(int blockID)
 {
 	int i;
 	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); ++i)
 		if (lightSourceBlocks[i] == blockID) return true;
 	return false;
-}
+	}
 
 int getLightAmount(int blockID)
 {
