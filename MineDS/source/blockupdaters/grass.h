@@ -9,4 +9,3 @@ class grassUpdater : public blockUpdater
 	grassUpdater();
 	virtual void chanceUpdate(worldObject* world, int x, int y, bool bg);
 };
-
