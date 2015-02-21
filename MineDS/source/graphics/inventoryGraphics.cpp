@@ -6,6 +6,7 @@
 #include "../mining.h"
 #include "../inventory.h"
 #include "../general.h"
+#include "../mainGame.h"
 Graphic INV[NUM_INV_SPACES];
 
 bool empty = false; //Whether the inventory is empty
@@ -78,17 +79,20 @@ void drawInv() //Draws the items in the inventory (called by the mainPlayer->upd
 			//Show tile image of block
 			setSubBgTile(j/8,i/8,154);
 			setSubBgTile(j/8+1,i/8,154,H_FLIP);
-			setSubBgTile(j/8,i/8+1,154,V_FLIP);
-			if( getBlockAmount(a)!=0)
+			setSubBgTile(j / 8, i / 8 + 1, 154, V_FLIP);
+			if (isSurvival())
 			{
-				if (getBlockAmount(a)>9)
-					printf("\x1b[%d;%dH%d",i/8+1,j/8,(int)(getBlockAmount(a)/10));
+				if (getBlockAmount(a) != 0)
+				{
+					if (getBlockAmount(a) > 9)
+						printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8, (int) (getBlockAmount(a) / 10));
+					else
+						printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8, ' ');
+					printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8 + 1, (int) (getBlockAmount(a) % 10));
+				}
 				else
-					printf("\x1b[%d;%dH%c",i/8+1,j/8,' ');
-				printf("\x1b[%d;%dH%d",i/8+1,j/8+1,(int)(getBlockAmount(a)%10));
+					printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8 + 1, ' ');
 			}
-			else
-				printf("\x1b[%d;%dH%c",i/8+1,j/8+1,' ');
 			setSubBgTile(j/8+1,i/8+1,154,BOTH_FLIP);
 			if (j<232)
 				j += 16; //increment x
