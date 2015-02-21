@@ -10,7 +10,7 @@
 grassUpdater::grassUpdater()
 {
 	blockID = GRASS;
-	chance = SOIL_CHACE_UPDATE;
+	chance = SOIL_CHANCE_UPDATE;
 }
 
 void grassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
