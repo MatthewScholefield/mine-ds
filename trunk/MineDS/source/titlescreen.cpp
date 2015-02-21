@@ -14,6 +14,7 @@
 #include "nifi.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
+bool firstWorld = true;
 
 void drawBackground() //Draws dirt background and MineDS Logo
 {
@@ -606,6 +607,7 @@ void gameModeScreen()
 		return;
 	}
 	startGame();
+	firstWorld = false;
 }
 
 void multiplayerScreen()

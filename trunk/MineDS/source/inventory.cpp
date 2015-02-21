@@ -9,6 +9,7 @@
 #include "graphics/graphics.h"
 #include "graphics/inventoryGraphics.h"
 #include "graphics/subBgHandler.h"
+#include "graphics/Button.h"
 #include "titlescreen.h"
 #include "crafting.h"
 #include "inventory.h"
@@ -22,12 +23,14 @@
 #include "world.h"
 #include "files.h"
 #include "graphics/Button.h"
+#include "blockPages.h"
 bool loadedGraphic = false;
 int selectedspace = -1;
 Graphic heldBlock;
 Button backButton(1, 16, "Back", false);
 Button saveButton(8, 16, "Save World", false);
 Button craftButton(21, 16, "Crafting", false);
+Button pageButton(21, 16, "Pages", 9, false);
 unsigned char oldX, oldY;
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
@@ -37,11 +40,14 @@ unsigned char oldX, oldY;
 int showingInventory;
 Inventory mainPlayerInv;
 
-void drawInvButtons(bool drawBack)
+void drawInvButtons(bool drawBack, bool survival)
 {
 	if (drawBack) backButton.draw();
 	saveButton.draw();
-	craftButton.draw();
+	if (survival)
+		craftButton.draw();
+	else
+		pageButton.draw();
 }
 
 void saveInventory(FILE* data)
@@ -61,65 +67,65 @@ int getInventoryState()
 
 bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
 {
-	//First find a spot availabe for the block id
-	if (isSurvival() == false) //Always return true in creative!
-		return true;
-
+	//First find a spot availabe for the block i
 	int i;
 	int space = -1;
 
-	if (getType(blockID) == STONEBLOCK)
+	if (isSurvival()) //Always return true in creative!
 	{
-		if (getType(getSelectedblock()) != PICKAXE)
-			return true;
-		else
+		if (getType(blockID) == STONEBLOCK)
 		{
-			switch (blockID)
+			if (getType(getBlockID(getSelectedSlot())) != PICKAXE)
+				return true;
+			else
 			{
-			case COAL_ORE:
-				blockID = COAL;
-				break; //Any pickaxe can break coal
-			case STONE:
-				blockID = COBBLESTONE;
-				break;
-			case IRON_ORE:
-				if (getSelectedblock() == PICKAXE_WOOD) return true;
-				break;
-			case GOLD_ORE:
-				if (getSelectedblock() == PICKAXE_WOOD || getSelectedblock() == PICKAXE_STONE)return true;
-				break;
-			case DIAMOND_ORE:
-				if (getSelectedblock() != PICKAXE_DIAMOND && getSelectedblock() != PICKAXE_IRON) return true;
-				break;
+				switch (blockID)
+				{
+					case COAL_ORE:
+						blockID = COAL;
+						break; //Any pickaxe can break coal
+					case STONE:
+						blockID = COBBLESTONE;
+						break;
+					case IRON_ORE:
+						if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return true;
+						break;
+					case GOLD_ORE:
+						if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return true;
+						break;
+					case DIAMOND_ORE:
+						if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return true;
+						break;
+				}
 			}
 		}
-	}
 
-	switch (blockID)
-	{
-	case GRASS:
-	case JUNGLE_GRASS:
-	case SNOW_GRASS:
-	case MYCELIUM:
-		blockID = DIRT;
-		break;
-	case TALL_GRASS:
-		blockID = SEEDS_WHEAT;
-		amount = rand() % 2 + 1;
-		break;
-	case BEDROCK:
-		return false;
-		break; //Cannot break bedrock
-	case SNOW_TOP:
-		return true;
-		break; //Can break snow tops, just they won't be added to the inventory
-	case AIR:
-		return false;
-		break;
-	case MUSHROOM_STEM:
-	case MUSHROOM_TOP:
-		return true;
-		break;
+		switch (blockID)
+		{
+			case GRASS:
+			case JUNGLE_GRASS:
+			case SNOW_GRASS:
+			case MYCELIUM:
+				blockID = DIRT;
+				break;
+			case TALL_GRASS:
+				blockID = SEEDS_WHEAT;
+				amount = rand() % 2 + 1;
+				break;
+			case BEDROCK:
+				return false;
+				break; //Cannot break bedrock
+			case SNOW_TOP:
+				return true;
+				break; //Can break snow tops, just they won't be added to the inventory
+			case AIR:
+				return false;
+				break;
+			case MUSHROOM_STEM:
+			case MUSHROOM_TOP:
+				return true;
+				break;
+		}
 	}
 
 	for (i = 0; i < NUM_INV_SPACES; ++i)
@@ -189,25 +195,34 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	return true;
 }
 
-int checkInventory(int blockID) //returns quantity of blockid in inventory
+int getInventorySlot(int blockID) //returns slot of blockid in inventory
 {
-	int i;
 	int space = -1;
-	for (i = 0; i < NUM_INV_SPACES; ++i)
+	for (int i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		//Found the correct block with correct id.
 		if (mainPlayerInv.blocks[i].blockId == blockID)
 		{
 			space = i;
-			i = NUM_INV_SPACES + 1;
-			//Skip other inventory spaces...
+			break;
 		}
 	}
-	if (space == -1)
-		return 0;
+	return space;
+}
+
+int checkInventory(int blockID) //returns quantity of blockid in inventory
+{
 	if (blockID == AIR)
 		return 64;
+	int space = getInventorySlot(blockID);
+	if (space == -1)
+		return 0;
 	return mainPlayerInv.blocks[space].blockAmount;
+}
+
+int checkInventorySlot(int slot)
+{
+	return mainPlayerInv.blocks[slot].blockAmount;
 }
 
 int getBlockID(int invSlot)
@@ -245,8 +260,6 @@ void changeGraphic(int blockID)
 
 void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 {
-	if (!isSurvival())
-		return;
 	if (showingInventory == 0)
 	{
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
@@ -259,7 +272,10 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			changeGraphic(AIR);
 			backButton.setVisible(true);
 			saveButton.setVisible(true);
-			craftButton.setVisible(true);
+			craftButton.setVisible(isSurvival());
+			pageButton.setVisible(!isSurvival());
+			if (!isSurvival())
+				printXY(1, 15, getPageName(getBlockPage()));
 		}
 	}
 	else if (showingInventory == 1)
@@ -271,6 +287,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			backButton.setColored(backButton.isTouching(touch.px, touch.py));
 			saveButton.setColored(saveButton.isTouching(touch.px, touch.py));
 			craftButton.setColored(craftButton.isTouching(touch.px, touch.py));
+			pageButton.setColored(pageButton.isTouching(touch.px, touch.py));
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH) //Release
 		{
@@ -291,13 +308,13 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					selectedspace = -1;
-					setSelectedBlock(AIR);
+					setSelectedSpace(getInventorySlot(AIR));
 					changeGraphic(AIR);
 				}
 				else
 				{
 					selectedspace = space;
-					setSelectedBlock(mainPlayerInv.blocks[space].blockId);
+					setSelectedSpace(space);
 					changeGraphic(mainPlayerInv.blocks[space].blockId);
 				}
 			}
@@ -310,34 +327,48 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 				backButton.setVisible(false);
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
+				pageButton.setVisible(false);
 				consoleClear();
 				drawBackground();
-				drawInvButtons(false);
+				drawInvButtons(false, isSurvival());
+				if (!isSurvival())
+					printXY(1, 15, getPageName(getBlockPage()));
 			}
-			else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))//(oldX > (22 - 1)*8 && oldX < (22 + 9)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
-			{
+			else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))
+			{ //Crafting Menu
 				backButton.setVisible(false);
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
+				pageButton.setVisible(false);
 				craftingMenuInit();
 				showingInventory = 2;
 			}
-			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))//(oldX > (10 - 1)*8 && oldX < (10 + 10)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
-			{
+			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))
+			{ //Save Game
 				if (saveWorld(world))
 					printLocalMessage("Saved Game\n");
 				else
 					printLocalMessage("Failed to Save Game\n");
 				saveButton.setColored(false);
 			}
+			else if (pageButton.isColored && pageButton.isTouching(oldX, oldY))
+			{ //Page Menu
+				backButton.setVisible(false);
+				saveButton.setVisible(false);
+				craftButton.setVisible(false);
+				pageButton.setVisible(false);
+				pageMenuInit();
+				showingInventory = 2;
+			}
 			else
 			{
 				selectedspace = -1;
-				setSelectedBlock(AIR);
+				setSelectedSpace(getInventorySlot(AIR));
 				changeGraphic(AIR);
 				backButton.setColored(false);
 				saveButton.setColored(false);
 				craftButton.setColored(false);
+				pageButton.setVisible(false);
 			}
 		}
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
@@ -345,21 +376,24 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			backButton.setVisible(false);
 			saveButton.setVisible(false);
 			craftButton.setVisible(false);
+			pageButton.setVisible(false);
 			selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
 			miningSetScene(false);
 			consoleClear();
 			drawBackground();
-			drawInvButtons(false);
+			drawInvButtons(false, isSurvival());
+			if (!isSurvival())
+				printXY(1, 15, getPageName(getBlockPage()));
 		}
 		oldX = touch.px;
 		oldY = touch.py;
 	}
 	else if (showingInventory == 2)
 	{
-		if (craftingMenuUpdate(&touch, &oldX, &oldY, &oldKeys))
-		{
+		if ((isSurvival() && craftingMenuUpdate(&touch, &oldX, &oldY, &oldKeys)) || (!isSurvival() && pageMenuUpdate(&touch, &oldX, &oldY, &oldKeys)))
+		{ //Leaving crafting/page menu
 			showingInventory = 1;
 			miningSetScene(true);
 			drawBackground();
@@ -367,8 +401,11 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			changeGraphic(AIR);
 			backButton.setVisible(true);
 			saveButton.setVisible(true);
-			craftButton.setVisible(true);
+			craftButton.setVisible(isSurvival());
+			pageButton.setVisible(!isSurvival());
 			enableInvGraphics();
+			if (!isSurvival())
+				printXY(1, 15, getPageName(getBlockPage()));
 		}
 		else
 		{
