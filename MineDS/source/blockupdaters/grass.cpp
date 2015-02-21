@@ -10,21 +10,21 @@
 grassUpdater::grassUpdater()
 {
 	blockID = GRASS;
-	chance = 1000;
+	chance = SOIL_CHACE_UPDATE;
 }
 
 void grassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 {
-	if (bg == false)
+	if (!bg)
 	{
-		if (isBlockWalkThrough(world->blocks[x][y - 1] == false))
+		if (!isBlockWalkThrough(world->blocks[x][y - 1]))
 		{
 			world->blocks[x][y] = DIRT;
 		}
 	}
 	else
 	{
-		if (isBlockWalkThrough(world->blocks[x][y - 1] == false) || isBlockWalkThrough(world->bgblocks[x][y - 1] == false))
+		if (!isBlockWalkThrough(world->blocks[x][y - 1]) || !isBlockWalkThrough(world->bgblocks[x][y - 1]))
 		{
 			world->bgblocks[x][y] = DIRT;
 		}

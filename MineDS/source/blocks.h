@@ -12,3 +12,4 @@ int getHardness(int blockID);
 int getType(int blockID);
 int getSpriteBlock (int index);
 bool isSpriteBlock(int block);
+bool isGrassBlock(int blockID);
