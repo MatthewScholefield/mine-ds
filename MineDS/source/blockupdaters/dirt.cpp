@@ -26,7 +26,7 @@ const int scanCheck[][6] = {
 dirtUpdater::dirtUpdater()
 {
 	blockID = DIRT;
-	chance = SOIL_CHACE_UPDATE;
+	chance = SOIL_CHANCE_UPDATE;
 }
 
 //This function recursively checks for the ID of a grass block that can spread to the xy coord

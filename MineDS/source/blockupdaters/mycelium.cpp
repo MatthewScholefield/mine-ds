@@ -10,7 +10,7 @@
 myceliumUpdater::myceliumUpdater()
 {
 	blockID = MYCELIUM;
-	chance = SOIL_CHACE_UPDATE;
+	chance = SOIL_CHANCE_UPDATE;
 }
 
 void myceliumUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)

@@ -1,7 +1,7 @@
 #pragma once
 #include "world.h"
 #define NO_CHANCE 99999
-#define SOIL_CHACE_UPDATE 1000
+#define SOIL_CHANCE_UPDATE 1000
 class blockUpdater
 {
   public:
