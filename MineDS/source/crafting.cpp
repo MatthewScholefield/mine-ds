@@ -16,8 +16,8 @@ int nextCraftingRecipe = 0;
 Graphic resultBlock;
 Graphic neededblocks[4];
 int currentViewingRecipe = 0;
-Button leftButton(0, 10, "\x011", false);
-Button rightButton(29, 10, "\x010", false);
+Button leftButtonCraftScreen(0, 10, "\x011", false);
+Button rightButtonCraftScreen(29, 10, "\x010", false);
 Button backButtonCraftScreen(3, 16, "Back", false);
 Button craftButtonCraftScreen(22, 16, "Craft", false);
 
@@ -97,8 +97,8 @@ void craftingMenuInit()
 	miningSetScene(true);
 	backButtonCraftScreen.setVisible(true);
 	craftButtonCraftScreen.setVisible(true);
-	rightButton.setVisible(true);
-	leftButton.setVisible(true);
+	rightButtonCraftScreen.setVisible(true);
+	leftButtonCraftScreen.setVisible(true);
 	currentViewingRecipe = 0;
 	updateCraftingGraphics();
 }
@@ -147,29 +147,24 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 		else
 			iprintf("\x1b[%d;%dH      ", i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
 	}
-
-	if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN) || ((touch->px > (4 - 1)*8 && touch->px < (4 + 5)*8 && touch->py > (17 - 1)*8 && touch->py < (17 + 2)*8) && keysDown() & KEY_TOUCH))
-	{
-
-	}
 	if (keysHeld() & KEY_TOUCH && !(*oldKeys & KEY_TOUCH))
 	{
 		touchRead(touch);
-		leftButton.setColored(leftButton.isTouching(touch->px, touch->py));
-		rightButton.setColored(rightButton.isTouching(touch->px, touch->py));
+		leftButtonCraftScreen.setColored(leftButtonCraftScreen.isTouching(touch->px, touch->py));
+		rightButtonCraftScreen.setColored(rightButtonCraftScreen.isTouching(touch->px, touch->py));
 		backButtonCraftScreen.setColored(backButtonCraftScreen.isTouching(touch->px, touch->py));
 		craftButtonCraftScreen.setColored(craftButtonCraftScreen.isTouching(touch->px, touch->py));
 	}
 	else if (!(keysHeld() & KEY_TOUCH) && *oldKeys & KEY_TOUCH)
 	{
-		if (rightButton.isTouching(*oldX, *oldY) && rightButton.isColored)
+		if (rightButtonCraftScreen.isTouching(*oldX, *oldY) && rightButtonCraftScreen.isColored)
 		{
 			++currentViewingRecipe;
 			if (currentViewingRecipe >= nextCraftingRecipe)
 				currentViewingRecipe = 0;
 			updateCraftingGraphics();
 		}
-		else if (leftButton.isTouching(*oldX, *oldY) && leftButton.isColored)
+		else if (leftButtonCraftScreen.isTouching(*oldX, *oldY) && leftButtonCraftScreen.isColored)
 		{
 			--currentViewingRecipe;
 			if (currentViewingRecipe < 0)
@@ -180,14 +175,14 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 		{
 			backButtonCraftScreen.setVisible(false);
 			craftButtonCraftScreen.setVisible(false);
-			leftButton.setVisible(false);
-			rightButton.setVisible(false);
+			leftButtonCraftScreen.setVisible(false);
+			rightButtonCraftScreen.setVisible(false);
 			return 1;
 		}
 		else if (craftButtonCraftScreen.isTouching(*oldX, *oldY) && craftButtonCraftScreen.isColored)
 			craftItem();
-		leftButton.setColored(false);
-		rightButton.setColored(false);
+		leftButtonCraftScreen.setColored(false);
+		rightButtonCraftScreen.setColored(false);
 		craftButtonCraftScreen.setColored(false);
 		backButtonCraftScreen.setColored(false);
 	}

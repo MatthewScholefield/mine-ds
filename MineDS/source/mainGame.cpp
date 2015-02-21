@@ -23,6 +23,7 @@
 #include "nifi.h"
 #include "communications.h"
 #include "blockupdate.h"
+#include "blockPages.h"
 #include <time.h>
 
 bool shouldQuitGame = false;
@@ -33,8 +34,9 @@ static void redrawGameUI(void)
 	lcdMainOnBottom();
 	consoleClear();
 	drawBackground();
-	if (isSurvival())
-		drawInvButtons(false);
+	drawInvButtons(false, isSurvival());
+	if (!isSurvival())
+		printXY(1, 15, getPageName(getBlockPage()));
 }
 
 static int inGameMenu()
@@ -155,6 +157,8 @@ void startGame(void)
 	redrawGameUI();
 	clearInventory();
 	playMusic(MUSIC_HAL2);
+	if (!isSurvival())
+		setBlockPage(PAGE_WOOL);
 
 	while (!shouldQuitGame)
 	{
