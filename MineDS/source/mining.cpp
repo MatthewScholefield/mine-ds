@@ -17,8 +17,9 @@
 #include "blockName.h"
 #include "Config.h"
 #include "mining.h"
+
 bool skipLightUpdate = false; //Whether to skip light update
-int selectedBlock = 0;
+int invSlot = 0;
 bool loadedgraphic = false;
 Graphic topBlock;
 bool incutscene = false;
@@ -32,9 +33,9 @@ int miningY = -1;
 int mining = 10; //Length till block break
 int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand and block's hardness. Currently not calculated
 
-int getSelectedblock()
+int getSelectedSlot()
 {
-	return selectedBlock;
+	return invSlot;
 }
 
 void miningSetScene(bool a) //false enables block destroy, true disable it
@@ -45,20 +46,20 @@ void miningSetScene(bool a) //false enables block destroy, true disable it
 void calculateTopBlock()
 {
 	if (loadedgraphic) unloadGraphic(&topBlock);
-	loadGraphicSub(&topBlock, 2, selectedBlock);
+	loadGraphicSub(&topBlock, 2, getBlockID(invSlot));
 	loadedgraphic = true;
 }
 
 void updateTopName()
 {
 	printXY(2, 7, "                            ");
-	if (selectedBlock != AIR)
-		iprintf("\x1b[7;2H%s", getName(selectedBlock));
+	if (getBlockID(invSlot) != AIR)
+		iprintf("\x1b[7;2H%s", getName(getBlockID(invSlot)));
 }
 
-void setSelectedBlock(int blockID)
+void setSelectedSpace(int space)
 {
-	selectedBlock = blockID;
+	invSlot = space;
 	calculateTopBlock();
 }
 
@@ -70,6 +71,7 @@ void blocksCanPlace()
 
 void mineBlock(worldObject* world, int x, int y, bool bg)
 {
+	int selectedBlock = getBlockID(invSlot);
 	if (getType(selectedBlock) == SWORD)
 	{
 		skipLightUpdate = true;
@@ -120,6 +122,7 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 
 void setBlock(worldObject* world, int x, int y)
 {
+	int selectedBlock = getBlockID(invSlot);
 	skipLightUpdate = false;
 	bool isCrouched = (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
 	bool isPlaceableBlock = (selectedBlock != AIR && !item(selectedBlock) && (!hasChangedBlock || getGlobalSettings()->getProperty(PROPERTY_DRAW)));
@@ -190,7 +193,7 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		if (mobNum != -1)
 		{
 			int damage;
-			switch (selectedBlock)
+			switch (getBlockID(getSelectedSlot()))
 			{
 			case SWORD_DIAMOND:
 				damage = 6;
@@ -232,46 +235,40 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		hasChangedBlock = false;
 	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
-		--selectedBlock;
-		if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
-		if (isSurvival())
+		--invSlot;
+		if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
+		while (checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR)
 		{
-			while (checkInventory(selectedBlock) == 0)
-			{
-				--selectedBlock;
-				if (selectedBlock < 0) selectedBlock = NUM_BLOCKS;
-			}
+			--invSlot;
+			if (invSlot < 0) invSlot = NUM_INV_SPACES;
 		}
 		calculateTopBlock();
 		updateTopName();
 	}
 	else if (keys & getGlobalSettings()->getKey(ACTION_ITEM_RIGHT))
 	{
-		++selectedBlock;
-		if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;
-		if (isSurvival())
+		++invSlot;
+		if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
+		while (checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR)
 		{
-			while (checkInventory(selectedBlock) == 0)
-			{
-				++selectedBlock;
-				if (selectedBlock > NUM_BLOCKS) selectedBlock = 0;
-			}
+			++invSlot;
+			if (invSlot >= NUM_INV_SPACES) invSlot = 0;
 		}
 		calculateTopBlock();
 		updateTopName();
 	}
-	if (selectedBlock < 0)
+	if (invSlot < 0)
 	{
-		selectedBlock = NUM_BLOCKS;
+		invSlot = NUM_INV_SPACES - 1;
 		calculateTopBlock();
 	}
-	else if (selectedBlock > NUM_BLOCKS)
+	else if (invSlot >= NUM_INV_SPACES)
 	{
-		selectedBlock = 0;
+		invSlot = 0;
 		calculateTopBlock();
 	}
 	//Draw the selected block
-	if (selectedBlock != 0)
+	if (getBlockID(invSlot) != 0)
 		showGraphic(&topBlock, 0, 48);
 	if (canPlaceBlocks == false) ++framecounting;
 	if (framecounting > 60)
