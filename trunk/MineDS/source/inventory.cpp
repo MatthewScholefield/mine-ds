@@ -24,6 +24,7 @@
 #include "files.h"
 #include "graphics/Button.h"
 #include "blockPages.h"
+#include "blockName.h"
 bool loadedGraphic = false;
 int selectedspace = -1;
 Graphic heldBlock;
@@ -52,12 +53,8 @@ void drawInvButtons(bool drawBack, bool survival)
 
 void saveInventory(FILE* data)
 {
-	fwrite(&mainPlayerInv, sizeof (mainPlayerInv), 1, data);
-}
-
-void loadInventory(FILE* data)
-{
-	fread(&mainPlayerInv, sizeof (mainPlayerInv), 1, data);
+	for (int i = 0; i < NUM_INV_SPACES; ++i)
+		fprintf(data, "%d %d ",mainPlayerInv.blocks[i].blockId, mainPlayerInv.blocks[i].blockAmount);
 }
 
 int getInventoryState()
@@ -65,13 +62,13 @@ int getInventoryState()
 	return showingInventory;
 }
 
-bool addInventory(int blockID, int amount) //adds the specified amount to a blockvalue
+bool addInventory(int blockID, int amount, bool direct) //adds the specified amount to a blockvalue
 {
 	//First find a spot availabe for the block i
 	int i;
 	int space = -1;
 
-	if (isSurvival()) //Always return true in creative!
+	if (isSurvival() || !direct)
 	{
 		if (getType(blockID) == STONEBLOCK)
 		{
@@ -414,4 +411,15 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 		}
 	}
 	drawInv();
+}
+
+void loadInventory(FILE* data)
+{
+	clearInventory();
+	for (int i = 0; i < NUM_INV_SPACES; ++i)
+	{
+		int id, quantity;
+		fscanf(data, "%d %d ",&id, &quantity);
+		addInventory(id, quantity, true);
+	}
 }
