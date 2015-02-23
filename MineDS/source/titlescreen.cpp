@@ -597,11 +597,11 @@ void gameModeScreen()
 	case 3: // load game
 		printXY(1, 22, "Loading game");
 		if (!loadGame())
-		{
-			printXY(1, 22, "Failed to load game");
+			{
+				printXY(1, 22, "Failed to load game");
+				sleep(1);
 			return;
 		}
-		sleep(1);
 		break;
 	default: // back button
 		return;

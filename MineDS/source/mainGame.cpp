@@ -100,6 +100,7 @@ void newGame(gamemode_t mode, int seed)
 		world.seed = time(NULL);
 	srand(world.seed);
 	mobsReset();
+	clearInventory();
 	shouldQuitGame = false;
 	world.gamemode = mode;
 	world.CamX = 0;
@@ -155,7 +156,6 @@ void startGame(void)
 	clear_messages();
 
 	redrawGameUI();
-	clearInventory();
 	playMusic(MUSIC_HAL2);
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
