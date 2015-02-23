@@ -235,21 +235,23 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 		hasChangedBlock = false;
 	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
+		int origSlot = invSlot;
 		--invSlot;
 		if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
-		while (checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR)
+		while ((checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR) && invSlot != origSlot)
 		{
 			--invSlot;
-			if (invSlot < 0) invSlot = NUM_INV_SPACES;
+			if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
 		}
 		calculateTopBlock();
 		updateTopName();
 	}
 	else if (keys & getGlobalSettings()->getKey(ACTION_ITEM_RIGHT))
 	{
+		int origSlot = invSlot;
 		++invSlot;
 		if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
-		while (checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR)
+		while ((checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR) && invSlot != origSlot)
 		{
 			++invSlot;
 			if (invSlot >= NUM_INV_SPACES) invSlot = 0;

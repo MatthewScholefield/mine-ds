@@ -16,14 +16,22 @@ void initFile(void)
 
 bool saveWorld(worldObject *world)
 {
-	FILE *fp;
+	FILE *worldFile;
+	FILE *inventoryFile;
+	FILE *mobsFile;
 
-	if ((fp = fopen(WORLD_PATH, "wb+")) != NULL)
+	if ((worldFile = fopen(WORLD_PATH, "wb+")) != NULL &&
+			(inventoryFile = fopen(INVENTORY_PATH, "w+")) != NULL &&
+			(mobsFile = fopen(MOBS_PATH, "w+")) != NULL)
 	{
-		fwrite(world, sizeof (*world), 1, fp);
-		saveInventory(fp);
-		saveMobs(fp);
-		fclose(fp);
+		fwrite(world, sizeof (*world), 1, worldFile);
+		fclose(worldFile);
+
+		saveMobs(mobsFile);
+		fclose(mobsFile);
+
+		saveInventory(inventoryFile);
+		fclose(inventoryFile);
 		return true;
 	}
 	return false;
@@ -44,14 +52,22 @@ bool saveControls(Config *controls)
 
 bool loadWorld(worldObject *world)
 {
-	FILE *fp;
+	FILE *worldFile;
+	FILE *inventoryFile;
+	FILE *mobsFile;
 
-	if ((fp = fopen(WORLD_PATH, "rb")) != NULL)
+	if ((worldFile = fopen(WORLD_PATH, "rb")) != NULL &&
+			(inventoryFile = fopen(INVENTORY_PATH, "r")) != NULL
+		&& (mobsFile = fopen(MOBS_PATH, "r")) != NULL)
 	{
-		fread(world, sizeof (*world), 1, fp);
-		loadInventory(fp);
-		loadMobs(fp);
-		fclose(fp);
+		fread(world, sizeof (*world), 1, worldFile);
+		fclose(worldFile);
+
+		loadInventory(inventoryFile);
+		fclose(inventoryFile);
+
+		loadMobs(mobsFile);
+		fclose(mobsFile);
 		return true;
 	}
 	return false;
