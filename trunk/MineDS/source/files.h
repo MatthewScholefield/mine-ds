@@ -3,7 +3,7 @@
 #include "world.h"
 #include "Config.h"
 
-#define WORLD_PATH	"/MineData.bin"
+#define WORLD_PATH	"/MineData.txt"
 #define INVENTORY_PATH	"/MineInvData.txt"
 #define MOBS_PATH "/MineMobsData.txt"
 #define CONTROLS_PATH	"/MineConfig.bin"

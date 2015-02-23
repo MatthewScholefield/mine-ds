@@ -20,11 +20,20 @@ bool saveWorld(worldObject *world)
 	FILE *inventoryFile;
 	FILE *mobsFile;
 
-	if ((worldFile = fopen(WORLD_PATH, "wb+")) != NULL &&
+	if ((worldFile = fopen(WORLD_PATH, "w+")) != NULL &&
 			(inventoryFile = fopen(INVENTORY_PATH, "w+")) != NULL &&
 			(mobsFile = fopen(MOBS_PATH, "w+")) != NULL)
 	{
-		fwrite(world, sizeof (*world), 1, worldFile);
+		//fwrite(world, sizeof (*world), 1, worldFile);
+		fprintf(worldFile, "%d ", world->gamemode);
+		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		{
+			for (int j = 0; j <= WORLD_HEIGHT; ++j)
+				fprintf(worldFile, "%d %d %d ", world->blocks[i][j], world->bgblocks[i][j], world->data[i][j]);
+			if (i % 50 == 0)
+				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
+		}
+		iprintf("\x1b[19;1H              ");
 		fclose(worldFile);
 
 		saveMobs(mobsFile);
@@ -56,11 +65,22 @@ bool loadWorld(worldObject *world)
 	FILE *inventoryFile;
 	FILE *mobsFile;
 
-	if ((worldFile = fopen(WORLD_PATH, "rb")) != NULL &&
+	if ((worldFile = fopen(WORLD_PATH, "r")) != NULL &&
 			(inventoryFile = fopen(INVENTORY_PATH, "r")) != NULL
 		&& (mobsFile = fopen(MOBS_PATH, "r")) != NULL)
 	{
-		fread(world, sizeof (*world), 1, worldFile);
+		int loadGameMode;
+		fscanf(worldFile, "%d ", &loadGameMode);
+		world->gamemode = gamemode_t(loadGameMode);
+		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		{
+			for (int j = 0; j <= WORLD_HEIGHT; ++j)
+				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
+			if (i % 50 == 0)
+				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
+
+		}
+		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 
 		loadInventory(inventoryFile);
