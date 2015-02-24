@@ -257,6 +257,7 @@ void changeGraphic(int blockID)
 
 void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 {
+
 	if (showingInventory == 0)
 	{
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
@@ -265,14 +266,11 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			showingInventory = 1;
 			miningSetScene(true);
 			drawBackground();
-			consoleClear();
 			changeGraphic(AIR);
 			backButton.setVisible(true);
 			saveButton.setVisible(true);
 			craftButton.setVisible(isSurvival());
 			pageButton.setVisible(!isSurvival());
-			if (!isSurvival())
-				printXY(1, 15, getPageName(getBlockPage()));
 		}
 	}
 	else if (showingInventory == 1)
@@ -328,6 +326,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 				consoleClear();
 				drawBackground();
 				drawInvButtons(false, isSurvival());
+				updateInvGraphics();
 				if (!isSurvival())
 					printXY(1, 15, getPageName(getBlockPage()));
 			}
@@ -380,6 +379,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			miningSetScene(false);
 			consoleClear();
 			drawBackground();
+			updateInvGraphics();
 			drawInvButtons(false, isSurvival());
 			if (!isSurvival())
 				printXY(1, 15, getPageName(getBlockPage()));
