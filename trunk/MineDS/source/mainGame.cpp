@@ -161,9 +161,6 @@ void startGame(void)
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 
-	for (int i = NUM_BLOCKS - 1; i > NUM_BLOCKS - 31; --i)
-		addInventory(i);
-
 	while (!shouldQuitGame)
 	{
 		updateTime();
