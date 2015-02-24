@@ -20,27 +20,23 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
-		if (treex==x)
+		if (1) //gx==x
 		{
-			growNormalTree(world,x,y-1,false);
-			treex+= 8 + rand()%5;
+			world->bgblocks[x][y - 1] = TALL_GRASS;
+			gx += 1;
+			if (rand() % 2 == 0) gx += rand() % 3;
 		}
-		else if (flx==x)
+		if (flx==x)
 		{
-			growFlower(world,x,y-1);
+			if (treex != x)
+				growFlower(world, x, y - 1);
 			flx+= 3 + rand()%5;
 		}
-		else if (gx==x)
+		if (treex == x)
 		{
-			world->bgblocks[x][y-1]=TALL_GRASS;
-			gx+= 1 + rand()%7;
+			growNormalTree(world, x, y - 1, false);
+			treex += 8 + rand() % 5;
 		}
-		if (flx==x && treex==x)
-			flx+= 3 + rand()%5;
-		if (gx==x && treex==x)
-			gx+= 1 + rand()%7;
-		if (gx==x && flx==x)
-			gx+= 1 + rand()%7;
 		++x;
 	}
 }
