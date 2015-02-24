@@ -37,6 +37,7 @@ static void redrawGameUI(void)
 	drawInvButtons(false, isSurvival());
 	if (!isSurvival())
 		printXY(1, 15, getPageName(getBlockPage()));
+	updateInvGraphics();
 }
 
 static int inGameMenu()
@@ -160,6 +161,9 @@ void startGame(void)
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 
+	for (int i = NUM_BLOCKS - 1; i > NUM_BLOCKS - 31; --i)
+		addInventory(i);
+
 	while (!shouldQuitGame)
 	{
 		updateTime();
@@ -177,7 +181,7 @@ void startGame(void)
 		oldKeys = keysHeld();
 		touchRead(&touch);
 		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
-    proceduralBlockUpdate(&world);  
+		proceduralBlockUpdate(&world);
 		swiWaitForVBlank(); //Should be the only time called in the loop
 		worldRender_Render(&world, world.CamX, world.CamY);
 		oamUpdate(&oamMain);
