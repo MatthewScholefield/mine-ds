@@ -13,15 +13,11 @@ bool empty = false; //Whether the inventory is empty
 int total;
 bool loadedInv[NUM_INV_SPACES];
 int loadedID[NUM_INV_SPACES];
-bool enabled = true;
+bool enabled = true, oldEnabled = true;
 void initInvGraphics()
 {
 }
 
-void updateInvGraphics()
-{
-
-}
 void enableInvGraphics()
 {
 	enabled = true;
@@ -30,10 +26,49 @@ void disableInvGraphics()
 {
 	enabled = false;
 }
+
+void updateInvGraphics()
+{
+	oldEnabled = enabled;
+	if (!isSurvival())
+		return;
+	int a, i, j;
+	j = 8; //start x
+	i = 72; //start y
+	for (a = 0; a < NUM_INV_SPACES; ++a)
+	{
+		if (getBlockAmount(a) != 0)
+		{
+			if (getBlockAmount(a) > 9)
+				printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8, (int) (getBlockAmount(a) / 10));
+			else
+				printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8, ' ');
+			printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8 + 1, (int) (getBlockAmount(a) % 10));
+		}
+		else
+			printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8 + 1, ' ');
+		if (j < 232)
+			j += 16; //increment x
+		else
+		{
+			j = 8; //Exact same as start x
+			i += 24; //increment y
+		}
+	}
+}
+
 void drawInv() //Draws the items in the inventory (called by the mainPlayer->update if in survival mode)
 {
-	if (enabled ==false)
+	if (!enabled)
+	{
+		oldEnabled = false;
 		return;
+	}
+	if (!oldEnabled)
+	{
+		updateInvGraphics();
+		oldEnabled = true;
+	}
 	int i,j;
 	for (i = 0; i < 32; ++i)
 	{
@@ -80,19 +115,6 @@ void drawInv() //Draws the items in the inventory (called by the mainPlayer->upd
 			setSubBgTile(j/8,i/8,154);
 			setSubBgTile(j/8+1,i/8,154,H_FLIP);
 			setSubBgTile(j / 8, i / 8 + 1, 154, V_FLIP);
-			if (isSurvival())
-			{
-				if (getBlockAmount(a) != 0)
-				{
-					if (getBlockAmount(a) > 9)
-						printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8, (int) (getBlockAmount(a) / 10));
-					else
-						printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8, ' ');
-					printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8 + 1, (int) (getBlockAmount(a) % 10));
-				}
-				else
-					printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8 + 1, ' ');
-			}
 			setSubBgTile(j/8+1,i/8+1,154,BOTH_FLIP);
 			if (j<232)
 				j += 16; //increment x
