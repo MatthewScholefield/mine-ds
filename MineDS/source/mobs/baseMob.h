@@ -9,7 +9,7 @@ class baseMob
 public:
 	int x;
 	int y;
-	int vy;
+	float vy;
 	int vx;
 	int sx;
 	int sy;

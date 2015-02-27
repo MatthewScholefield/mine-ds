@@ -68,13 +68,6 @@ void sheepMob::updateMob(worldObject* world)
 		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
 		else if (target->mobtype==2 && scared) facing = true;
 		++jump;
-		if (collisions[0]==false) y+=vy;
-		else vy=0;
-		if (collisions[3])
-		{
-			vy=0;
-			y+=3;
-		}
 		if (scaredtimer > 125)
 		{
 			scared = false;
@@ -107,10 +100,7 @@ void sheepMob::updateMob(worldObject* world)
 					jump=0;
 				}
 				else if ((collisions[1] || collisions[2]) && collisions[0]  && !collisions[3])
-				{
-					vy=-2;
-					y+=vy;
-				}
+					vy = JUMP_VELOCITY;
 				if (mov > 59)
 					mov = 0;
 				++mov;
@@ -132,8 +122,7 @@ void sheepMob::updateMob(worldObject* world)
 		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 		{
 			++scaredtimer;
-			vy=-2;
-			y+=vy;
+			vy = JUMP_VELOCITY;
 		}
 		if (mobtype==2) notarget=0;
 		ping=0;
@@ -171,8 +160,7 @@ void sheepMob::hurt(int amount,int type)
 	if (animation==1)
 		return;
 	if (type!=VOID_HURT)
-		vy-=2;
-	y+=vy;
+		vy = JUMP_VELOCITY;
 	health-=amount;
 	playSound(SOUND_SHEEP_HURT);
 	if (type == PLAYER_HURT)

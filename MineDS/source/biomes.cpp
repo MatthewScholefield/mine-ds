@@ -20,7 +20,7 @@ void plainsBiome(worldObject* world, int startx,int endx)
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
-		if (1) //gx==x
+		if (gx == x)
 		{
 			world->bgblocks[x][y - 1] = TALL_GRASS;
 			gx += 1;
