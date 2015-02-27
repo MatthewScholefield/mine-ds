@@ -106,6 +106,8 @@ void newGame(gamemode_t mode, int seed)
 	world.gamemode = mode;
 	world.CamX = 0;
 	world.CamY = 0;
+	world.CamCalcX = 0.0;
+	world.CamCalcY = 0.0;
 	world.timeInWorld = 0;
 	generateWorld(&world);
 }
@@ -114,7 +116,7 @@ void previewGame(void)
 {
 	newGame(GAMEMODE_PREVIEW, 0);
 	mobHandlerUpdate(&world);
-	worldRender_Render(&world, world.CamX, world.CamY);
+	worldRender_Render(&world, world.CamX, int(10 * world.CamCalcY));
 }
 
 bool loadGame(void)
