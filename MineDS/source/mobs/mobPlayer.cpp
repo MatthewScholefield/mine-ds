@@ -129,10 +129,15 @@ void playerMob::updateMob(worldObject* world)
 			}
 			++reheal;
 			ping = 0;
-			world->CamX = x - 256 / 2;
-			world->CamY = y - 192 / 2;
-			if (world->CamX < 0) world->CamX = 0;
-			if (world->CamY < 0) world->CamY = 0;
+
+			world->CamCalcX += (double(x) - 256 / 2 - world->CamCalcX)*0.1;
+			world->CamCalcY += (double(y) - 192 / 2 - world->CamCalcY)*0.1;
+
+			if (world->CamCalcX < 0.0) world->CamCalcX = 0.0;
+			world->CamX =int(world->CamCalcX);
+			if (world->CamCalcY < 0.0) world->CamCalcY = 0.0;
+			world->CamY = int(world->CamCalcY);
+			
 			if (world->CamX > WORLD_WIDTH * 16 - 256) world->CamX = WORLD_WIDTH * 16 - 256;
 			if (world->CamY > (WORLD_HEIGHT + 1)*16 - 192) world->CamY = (WORLD_HEIGHT + 1)*16 - 192;
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
