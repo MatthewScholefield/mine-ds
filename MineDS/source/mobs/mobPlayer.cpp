@@ -155,7 +155,7 @@ void playerMob::updateMob(worldObject* world)
 			else
 				setAnimFrame(&playerMobGraphic[0], 0, 0);
 
-			if (collisions[0] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+			if ((collisions[0] || !isSurvival()) && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
