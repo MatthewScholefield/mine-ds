@@ -647,6 +647,7 @@ void titlescreen()
 		drawBackground();
 		consoleClear();
 		playMusic(MUSIC_CALM);
+		clearInventory();
 
 		Button singlePlayer(8, 8, "Single Player", 15);
 		Button multiPlayer(8, 13, "Multiplayer", 15);

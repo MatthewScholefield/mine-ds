@@ -29,6 +29,8 @@ typedef struct
 	int worldBrightness;
 	gamemode_t gamemode;
 	int seed; //The random number seed used to generate the world
+	double CamCalcX;
+	double CamCalcY;
 } worldObject;
 
 int findFirstBlock(worldObject* world,int x);
