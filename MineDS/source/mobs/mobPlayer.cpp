@@ -1,5 +1,6 @@
 #include <string>
 #include "hurt.h"
+#include "mobHandler.h"
 #include "../nifi.h"
 #include "../blocks.h"
 #include "../worldRender.h"
@@ -71,9 +72,8 @@ void playerMob::hurt(int amount, int type)
 		if (animation == 1)
 			return;
 		if (type != VOID_HURT)
-			vy -= 2;
+			vy = JUMP_VELOCITY;
 		playSound(SOUND_PLAYER_HURT);
-		y += vy;
 		health -= amount;
 		animation = 1;
 		animationclearframes = 20;
@@ -154,27 +154,10 @@ void playerMob::updateMob(worldObject* world)
 			}
 			else
 				setAnimFrame(&playerMobGraphic[0], 0, 0);
-			if (collisions[3] == true && world->blocks[x / 16][y / 16] != LADDER)
-			{
-				vy = 0;
-				y += 1;
-			}
-			if (!(keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && collisions[0] == false)
-			{
-				++slow;
-				if (slow == 2)
-				{
-					vy = 1;
-					++y;
-					slow = 0;
-				}
-			}
-			if (collisions[0] == false && (world->blocks[x / 16][y / 16] != LADDER && world->blocks[x / 16][(y / 16) + 1] != LADDER && world->blocks[x / 16][(y / 16) + 2] != LADDER))
-				y += vy;
-			else vy = 0;
-			if ((keysDown() & getGlobalSettings()->getKey(ACTION_CLIMB) || keysDown() & getGlobalSettings()->getKey(ACTION_JUMP)) && (collisions[0] == true || !isSurvival()) && !collisions[3]) vy = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? -2 : -3;
-			y += vy;
-			if (keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB) && (world->blocks[x / 16][y / 16] == LADDER || world->blocks[x / 16][(y / 16) + 1] == LADDER || world->blocks[x / 16][(y / 16) + 2] == LADDER) && !collisions[0] && !collisions[3]) y += -1;
+
+			if (collisions[0] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+				vy = JUMP_VELOCITY;
+
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (animationclearframes == 0) animation = 0;
 			else --animationclearframes;
@@ -241,12 +224,12 @@ void playerMob::sendWifiUpdate()
 
 void playerMob::saveToFile(FILE* pFile)
 {
-  fprintf(pFile,"%d %d %d ",x,y,health);
+	fprintf(pFile, "%d %d %d ", x, y, health);
 }
 
 void playerMob::loadFromFile(FILE* pFile)
 {
-  fscanf(pFile,"%d %d %d ",&x,&y,&health);
+	fscanf(pFile, "%d %d %d ", &x, &y, &health);
 }
 
 bool playerMob::isMyPlayer()
