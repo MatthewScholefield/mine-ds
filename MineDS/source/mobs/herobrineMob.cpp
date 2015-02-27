@@ -69,12 +69,6 @@ void herobrineMob::updateMob(worldObject* world)
 		int distance = target->x - x;
 		if (distance < 0)
 			distance *= -1;
-		if (collisions[0] == false) y += vy;
-		else vy = 0;
-		/*if (target->x > x - 4 && target->x < x + 4)
-		{
-			jump = 0;
-		}*/
 		if (target->mobtype != 2)
 		{
 			++notarget;
@@ -97,16 +91,8 @@ void herobrineMob::updateMob(worldObject* world)
 			}
 		}
 		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
-		{
-			vy = -2;
-			y += vy;
-		}
+			vy = JUMP_VELOCITY;
 		if (target->mobtype == 2) notarget = 0;
-		if (collisions[3])
-		{
-			vy = 0;
-			y += 3;
-		}
 		ping = 0;
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
@@ -154,8 +140,7 @@ void herobrineMob::hurt(int amount, int type)
 	if (animation == 1)
 		return;
 	if (type != VOID_HURT)
-		vy -= 2;
-	y += vy;
+		vy = JUMP_VELOCITY;
 	//playSound(HEROBRINE_H);
 	health -= amount;
 	animation = 1;
