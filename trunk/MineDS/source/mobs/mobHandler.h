@@ -1,6 +1,9 @@
 #include "../world.h"
 #include "baseMob.h"
 #include <fat.h>
+
+#define JUMP_VELOCITY 2.5
+
 int getDefaultSpawnX();
 void saveMobs(FILE* f);
 void loadMobs(FILE* f);
