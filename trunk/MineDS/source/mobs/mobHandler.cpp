@@ -400,17 +400,4 @@ void mobHandlerUpdate(worldObject* world)
 		else take = 16 + (rand() % 16);
 		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[playerId]->x / 16 + take);
 	}
-	//if (keysDown() & KEY_R)
-	//	mobs[playerId]->x += 2;
-	/*
-	if (keysDown() & KEY_R)
-	{
-		spawnMobOn(7, world, getDefaultSpawnX()); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
-		print_message("Spawned mob\n");
-	}
-	if (keysDown() & KEY_L)
-	{
-		spawnMobOn(3, world, getDefaultSpawnX(), true); //mobs[playerId]->x / 16 + 16 + (rand() % 16)*(rand() % 2 ? -1 : 1));
-		print_message("Spawned mob Zombie\n");
-	}*/
 }
