@@ -31,7 +31,7 @@ void setArray(int * array, int setValue, int numOfItems, ...)
 	//va_list is fine to use and it shouldn't add any overhead as it is used in (i)printf to create infinite arguments.
 	va_list slots;
 	va_start(slots, numOfItems);
-	for (int a = 0; a < numOfItems; ++a)
+	for (int a = 0; a <= numOfItems; ++a)
 		array[va_arg(slots, int)] = setValue;
 	va_end(slots);
 }
@@ -147,7 +147,7 @@ void initBlockProperties()
 	setArray(blockType, SWORD, 5, SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD, SWORD_DIAMOND); //Swords
 
 	//Blocks
-	setArray(blockType, WOOD, 3, JUNGLE_WOOD, BIRCH_WOOD, OAK_WOOD); //Axe Blocks
+	setArray(blockType, WOOD, 3, LOG, JUNGLE_WOOD, BIRCH_WOOD, OAK_WOOD); //Axe Blocks
 	setArray(blockType, SOIL, 7, JUNGLE_GRASS, GRASS, DIRT, SAND, GRAVEL, SNOW_GRASS, MYCELIUM); //Shovel Blocks
 	setArray(blockType, STONEBLOCK, 7, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE); //Blocks that must be mined with a pickaxe
 

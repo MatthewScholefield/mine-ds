@@ -2,6 +2,8 @@
 #include "world.h"
 #define NO_CHANCE 99999
 #define SOIL_CHANCE_UPDATE 1000
+#define LEAF_CHANCE_UPDATE 800
+#define LEAF_SQUARE_RADIUS 4
 class blockUpdater
 {
   public:
