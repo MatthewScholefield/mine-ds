@@ -30,7 +30,7 @@ void disableInvGraphics()
 void updateInvGraphics()
 {
 	oldEnabled = enabled;
-	if (!isSurvival())
+	if (!isSurvival() || !enabled)
 		return;
 	int a, i, j;
 	j = 8; //start x
