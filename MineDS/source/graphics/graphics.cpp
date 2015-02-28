@@ -125,7 +125,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 		g->Gfx = graphics;
 	}
 	else
-		iprintf("Error loading graphics!\n");
+		iprintf("Error loading graphics 1!\n");
 }
 
 void loadGraphicBlock(Graphic* g, int frame, int x, int y)
@@ -243,7 +243,7 @@ void loadGraphicSubParticle(Graphic* g, int frame, int x, int y)
 		g->Gfx = graphics;
 	}
 	else
-		iprintf("Error loading graphics!\n");
+		iprintf("Error loading graphics 2!\n");
 }
 
 void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
@@ -260,7 +260,7 @@ void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
 		g->Gfx = graphics;
 	}
 	else
-		iprintf("Error loading graphics!\n");
+		iprintf("Error loading graphics 3!\n");
 }
 
 void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
