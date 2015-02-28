@@ -13,6 +13,9 @@
 #include "blockupdaters/dirt.h"
 #include "blockupdaters/junglegrass.h"
 #include "blockupdaters/mycelium.h"
+#include "blockupdaters/leaf.h"
+#include "blockupdaters/redwoodLeaf.h"
+#include "blockupdaters/jungleLeaf.h"
 
 blockUpdater* blockUpdaters[10];
 int numBlockUpdaters;
@@ -32,13 +35,16 @@ void blockUpdater::chanceUpdate(worldObject* world,int x,int y,bool bg)
 
 void proceduralBlockUpdateInit()
 {
-  numBlockUpdaters = 0;
-  blockUpdaters[numBlockUpdaters++] = new furnaceUpdater;
-  blockUpdaters[numBlockUpdaters++] = new airUpdater;
-  blockUpdaters[numBlockUpdaters++] = new grassUpdater;
-  blockUpdaters[numBlockUpdaters++] = new junglegrassUpdater;
+	numBlockUpdaters = 0;
+	blockUpdaters[numBlockUpdaters++] = new furnaceUpdater;
+	blockUpdaters[numBlockUpdaters++] = new airUpdater;
+	blockUpdaters[numBlockUpdaters++] = new grassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new junglegrassUpdater;
 	blockUpdaters[numBlockUpdaters++] = new myceliumUpdater;
 	blockUpdaters[numBlockUpdaters++] = new dirtUpdater;
+	blockUpdaters[numBlockUpdaters++] = new leafUpdater;
+	blockUpdaters[numBlockUpdaters++] = new redwoodLeafUpdater;
+	blockUpdaters[numBlockUpdaters++] = new jungleLeafUpdater;
 }
 void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
 {
