@@ -81,8 +81,6 @@ void zombieMob::updateMob(worldObject* world)
 		if (target->x < x && target->mobtype == 2) facing = true;
 		else if (target->mobtype == 2) facing = false;
 		++jump;
-		if (collisions[0] == false) y += vy;
-		else vy = 0;
 		if (target->x > x - 4 && target->x < x + 4)
 			jump = 0;
 		if (target->mobtype != 2)
