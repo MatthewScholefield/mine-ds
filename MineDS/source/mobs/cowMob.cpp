@@ -166,7 +166,7 @@ void cowMob::hurt(int amount, int type)
 
 	if (animation == 1)
 		return;
-	if (type != VOID_HURT)
+	if (type != VOID_HURT && collisions[0])
 		vy = JUMP_VELOCITY;
 	health -= amount;
 	playSound(SOUND_COW_HURT);
