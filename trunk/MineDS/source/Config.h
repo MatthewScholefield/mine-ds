@@ -14,6 +14,7 @@
 #define PROPERTY_HEROBRINE 0
 #define PROPERTY_DRAW 1
 #define PROPERTY_SPEED 2
+#define PROPERTY_SMOOTH 3
 
 class Config
 {
@@ -27,7 +28,7 @@ private:
 	KEYPAD_BITS switchScreen;
 	KEYPAD_BITS menu;
 	KEYPAD_BITS climb;
-	bool properties[3];
+	bool properties[4];
 public:
 	void setKey(int action, KEYPAD_BITS key);
 	bool getProperty(int property);
@@ -42,7 +43,9 @@ public:
 		switchScreen(KEY_Y),
 		menu(KEY_START),
 		climb(KEY_UP),
-		properties{false,false,false}
+	properties {
+		false, false, true, true
+	}
 	{
 
 	}
