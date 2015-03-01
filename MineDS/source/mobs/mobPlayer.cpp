@@ -130,8 +130,16 @@ void playerMob::updateMob(worldObject* world)
 			++reheal;
 			ping = 0;
 
-			world->CamCalcX += (double(x) - 256 / 2 - world->CamCalcX)*0.1;
-			world->CamCalcY += (double(y) - 192 / 2 - world->CamCalcY)*0.1;
+			if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
+			{
+				world->CamCalcX += (double(x) - 256 / 2 - world->CamCalcX)*0.1;
+				world->CamCalcY += (double(y) - 192 / 2 - world->CamCalcY)*0.1;
+			}
+			else
+			{
+				world->CamCalcX = x - 256 / 2;
+				world->CamCalcY = y - 192 / 2;
+			}
 
 			if (world->CamCalcX < 0.0) world->CamCalcX = 0.0;
 			world->CamX =int(world->CamCalcX);
