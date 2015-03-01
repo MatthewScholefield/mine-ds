@@ -517,12 +517,13 @@ void gameOptions()
 		consoleClear();
 		drawBackground();
 
-		Button herobrine(8, 8, "Herobrine", 14);
-		Button drawMode(8, 13, "Draw Mode", 14);
-		Button creativeSpeed(7, 18, "Creative Speed", 16);
-		Button buttons[] = {herobrine, drawMode, creativeSpeed};
+		Button herobrine(8, 7, "Herobrine", 14);
+		Button drawMode(8, 11, "Draw Mode", 14);
+		Button creativeSpeed(7, 15, "Creative Speed", 16);
+		Button smoothCamera(7, 19, "Smooth Camera", 16);
+		Button buttons[] = {herobrine, drawMode, creativeSpeed, smoothCamera};
 
-		switch (menu(buttons, 3))
+		switch (menu(buttons, 4))
 		{
 		case 1: // herobrine
 			getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
@@ -532,6 +533,9 @@ void gameOptions()
 			break;
 		case 3: // creative speed
 			getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
+			break;
+		case 4: // Smooth Camera
+			getGlobalSettings()->setProperty(PROPERTY_SMOOTH, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SMOOTH)));
 			break;
 		default: // back button
 			backbutton = true;

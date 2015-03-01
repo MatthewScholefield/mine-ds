@@ -116,7 +116,10 @@ void previewGame(void)
 {
 	newGame(GAMEMODE_PREVIEW, 0);
 	mobHandlerUpdate(&world);
-	worldRender_Render(&world, world.CamX, int(10 * world.CamCalcY));
+	if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
+		worldRender_Render(&world, world.CamX, int(10 * world.CamCalcY));
+	else
+		worldRender_Render(&world, world.CamX, int(world.CamCalcY));
 }
 
 bool loadGame(void)
