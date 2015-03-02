@@ -16,6 +16,8 @@ Graphic zombieMobGraphic[3];
 
 zombieMob::zombieMob()
 {
+	target = NULL;
+	jump = 0;
 	x = 0;
 	y = 0;
 	vy = 0;
@@ -31,6 +33,7 @@ zombieMob::zombieMob()
 
 zombieMob::zombieMob(int a, int b)
 {
+	target = NULL;
 	jump = 0;
 	gravity = 3;
 	gravityValue = 3;

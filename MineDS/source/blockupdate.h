@@ -9,7 +9,7 @@ class blockUpdater
   public:
     int blockID = 15;
     blockUpdater();
-    int chance;
+    int chance = NO_CHANCE;
     virtual void chanceUpdate(worldObject* world,int x,int y,bool bg);
     virtual void update(worldObject* world,int x,int y,bool bg);
 };

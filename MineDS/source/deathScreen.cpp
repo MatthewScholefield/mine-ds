@@ -12,10 +12,10 @@ touchPosition touch;
 int oldKeys;
 bool died = false; //Used to show whether exitted to titlescreen after dying
 
-bool getDied()
+/*bool getDied()
 {
 	return died;
-}
+}*/
 
 void deathScreenSetup()
 {
