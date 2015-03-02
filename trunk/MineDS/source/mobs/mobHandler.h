@@ -7,6 +7,7 @@
 int getDefaultSpawnX();
 void saveMobs(FILE* f);
 void loadMobs(FILE* f);
+int spawnMobAt(int mobId, worldObject* world, int x, int y);
 void mobHandlerInit();
 void mobHandlerUpdate(worldObject* world);
 void mobHandlerKillMob(int a);
