@@ -79,10 +79,10 @@ static int inGameMenu()
 	return 0;
 }
 
-bool isCreative(void)
+/*bool isCreative(void)
 {
 	return (world.gamemode == GAMEMODE_CREATIVE);
-}
+}*/
 
 bool isSurvival(void)
 {
@@ -249,7 +249,7 @@ void startMultiplayerGame(bool host)
 	nifiDisable();
 }
 
-void setSeed(int seed)
+/*void setSeed(int seed)
 {
 	world.seed = seed;
-}
+}*/

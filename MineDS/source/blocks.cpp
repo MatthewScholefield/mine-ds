@@ -103,10 +103,10 @@ bool alwaysRenderBright(int blockID)
 	return false;
 }
 
-bool isAGroundBlock(int blockID)
+/*bool isAGroundBlock(int blockID)
 {
 	return false;
-}
+}*/
 
 bool isGrassBlock(int blockID)
 {

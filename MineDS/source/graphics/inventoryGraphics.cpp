@@ -14,9 +14,9 @@ int total;
 bool loadedInv[NUM_INV_SPACES];
 int loadedID[NUM_INV_SPACES];
 bool enabled = true, oldEnabled = true;
-void initInvGraphics()
+/*void initInvGraphics()
 {
-}
+}*/
 
 void enableInvGraphics()
 {

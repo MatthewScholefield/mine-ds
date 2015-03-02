@@ -141,11 +141,11 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 	iprintf("\x1b[11;23H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
 	for (int i = 0; i < 4; ++i)
 	{
-		showGraphic(&neededblocks[i], 60, (i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
+		showGraphic(&neededblocks[i], 60, ((i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
 		if (craftingRecipes[currentViewingRecipe].neededblocks[i].blockAmount > 0)
-			iprintf("\x1b[%d;%dH%d/%d  ", i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(craftingRecipes[currentViewingRecipe].neededblocks[i].blockId), craftingRecipes[currentViewingRecipe].neededblocks[i].blockAmount);
+			iprintf("\x1b[%d;%dH%d/%d  ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(craftingRecipes[currentViewingRecipe].neededblocks[i].blockId), craftingRecipes[currentViewingRecipe].neededblocks[i].blockAmount);
 		else
-			iprintf("\x1b[%d;%dH      ", i % 2 ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
+			iprintf("\x1b[%d;%dH      ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
 	}
 	if (keysHeld() & KEY_TOUCH && !(*oldKeys & KEY_TOUCH))
 	{

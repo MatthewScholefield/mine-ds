@@ -15,6 +15,8 @@ Graphic herobrineMobGraphic[3];
 
 herobrineMob::herobrineMob()
 {
+	target = NULL;
+	jump = 0;
 	x = 0;
 	y = 0;
 	vy = 0;
@@ -31,6 +33,7 @@ herobrineMob::herobrineMob()
 
 herobrineMob::herobrineMob(int a, int b)
 {
+	target = NULL;
 	jump = 0;
 	gravity = 3;
 	gravityValue = 3;
@@ -86,7 +89,7 @@ void herobrineMob::updateMob(worldObject* world)
 				if (!(distance < 65 && distance > 55))
 					x += ((facing ? -1 : 1)*(distance > 60 ? 1 : -1) * rand() % 5);
 				else if (rand() % 10 == 1)
-					x += (rand() % 2 ? -1 : 1)*(rand() % 15);
+					x += ((rand() % 2) ? -1 : 1)*(rand() % 15);
 				jump = 0;
 			}
 		}

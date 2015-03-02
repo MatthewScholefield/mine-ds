@@ -12,11 +12,10 @@ void plainsBiome(worldObject* world, int startx,int endx)
 	int treex=startx + 4 + rand()%5; //Trees
 	int flx=startx + 4 + rand()%5; //Flowers
 	int gx=startx + 3 + rand()%5; //Tall Grass
-	int y;
 
 	while (x<=endx)
 	{
-		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=GRASS;
@@ -45,11 +44,10 @@ void jungleBiome(worldObject* world, int startx,int endx)
 	int x=startx;
 	int treex=startx + 4 + rand()%5;
 	int flx=startx + 4 + rand()%5;
-	int y;
 
 	while (x<=endx)
 	{
-		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		if (flx==x)
@@ -76,11 +74,10 @@ void snowBiome(worldObject* world,int startx,int endx)
 	int x=startx;
 	int treex=startx + 8 + rand()%10;
 	int flx=startx + 4 + rand()%5;
-	int y;
 
 	while (x<=endx)
 	{
-		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=SNOW_TOP;
@@ -104,12 +101,11 @@ void desertBiome(worldObject* world,int startx,int endx)
 {
 	int x=startx;
 	int treex=startx + 3 + rand()%5;
-	int y;
 	int flx=startx + 4 + rand()%5; //Where to Spawn Shrubs
 
 	while (x<=endx)
 	{
-		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 3;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=SAND;
 		for (int j=endy-(1+(rand()%3)); j<endy; ++j) world->blocks[x][j]=SANDSTONE;
@@ -134,11 +130,10 @@ void mushroomBiome(worldObject* world,int startx,int endx)
 	int x=startx;
 	int treex=startx + 8 + rand()%10;
 	int flx=startx + 1 + rand()%3;
-	int y;
 
 	while (x<=endx)
 	{
-		y=findFirstBlock(world,x); // Get the first block that is not AIR...
+		int y=findFirstBlock(world,x); // Get the first block that is not AIR...
 		int endy=y+(rand() % 2) + 2;
 		for (int j=y; j<endy; ++j) world->blocks[x][j]=DIRT;
 		world->blocks[x][y]=MYCELIUM;

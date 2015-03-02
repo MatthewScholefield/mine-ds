@@ -55,10 +55,10 @@ void connectSuccess()
 	code = 1;
 }
 
-void connectCode(int code2)
+/*void connectCode(int code2)
 {
 	code = code2;
-}
+}*/
 
 void recieveWorld(worldObject* world2)
 {
@@ -194,11 +194,11 @@ void clientConfirmBlock(int x,int y)
 
 void matchBlocks(int x,int y,int block,int bgblock)
 {
-	unsigned short buffer[100];
 	int client_id = getClientID();
 	int server_id = getServerID();
 	if (worldptr->blocks[x][y]!=block || worldptr->bgblocks[x][y]!=bgblock)
 	{
+		unsigned short buffer[100];
 		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
 		sprintf((char *)buffer,"[CHKB: %d %d %d %d", server_id, client_id, x, y);
@@ -210,10 +210,10 @@ void matchBlocks(int x,int y,int block,int bgblock)
 
 void matchBlocksHost(int client_id,int x,int y,int block,int bgblock)
 {
-	unsigned short buffer[100];
 	int server_id = getServerID();
 	if (worldptr->blocks[x][y]!=block || worldptr->bgblocks[x][y]!=bgblock)
 	{
+		unsigned short buffer[100];
 		sprintf((char *)buffer,"[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y],worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *)buffer) + 1, 0x0014, buffer);
 		sprintf((char *)buffer,"[CFMB: %d %d %d %d", server_id, client_id, x, y);

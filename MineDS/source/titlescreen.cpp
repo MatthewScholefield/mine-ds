@@ -23,7 +23,7 @@ void drawBackground() //Draws dirt background and MineDS Logo
 
 	for (i = 0; i <= 24; ++i) //Draws dirt Background
 		for (j = 0; j <= 31; ++j)
-			setSubBgTile(j, i, (i % 2 ? 90 : 122) + j % 2);
+			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
 	for (i = 0; i <= 25; ++i)
 		for (j = 0; j <= 6; ++j)
 			setSubBgTile(i + 2, j, i + (j * 32)); //Draw the MineDS Logo!
@@ -428,6 +428,7 @@ const char * getKeyChar(KEYPAD_BITS key)
 		break;
 	case KEY_SELECT:
 		returnKeyChar = "Select";
+		break;
 	default:
 		returnKeyChar = "Error";
 	}

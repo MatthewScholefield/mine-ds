@@ -138,9 +138,9 @@ void checkBlockPlace(int x,int y,worldObject* world,bool bg)
 }
 void checkBlockDelete(int x,int y,worldObject* world,bool bg)
 {
-	int c =1;
 	if (!(world->blocks[x][y]==SAND || world->bgblocks[x][y]==SAND))
 	{
+		int c =1;
 		while ((world->blocks[x][y-c]==CACTUS) || (world->bgblocks[x][y-c]==CACTUS))
 		{
 			addInventory(world->bgblocks[x][y-c]);

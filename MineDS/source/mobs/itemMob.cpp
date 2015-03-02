@@ -18,6 +18,8 @@ itemMob::itemMob(int a,int b)
   y = b;
   health = 1;
   mobtype = 8;
+  blockID = AIR;
+  amount = 1;
 }
 bool itemMob::isMyPlayer()
 {
