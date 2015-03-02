@@ -10,6 +10,17 @@ Graphic baseMobGraphic[3];
 
 baseMob::baseMob()
 {
+	host = true;
+	facing = false;
+	for (int i=0; i<5; ++i)
+		collisions[i] = false;
+	mobId = 0;
+	timeTillWifiUpdate = rand() % 4 + 4;
+	animation = 0;
+	gravity = 3;
+	gravityValue = 3;
+	sx = 6;
+	sy = 32;
 	timeOnCactus = 30;
 	onCactus = false;
 	x = 0;
@@ -27,6 +38,11 @@ baseMob::baseMob()
 
 baseMob::baseMob(int a, int b)
 {
+	host = true;
+	for (int i=0; i<5; ++i)
+		collisions[i] = false;
+	mobId = 0;
+	animation = 0;
 	onCactus = false;
 	timeOnCactus = 30;
 	gravity = 3;
@@ -47,11 +63,11 @@ baseMob::baseMob(int a, int b)
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
 
-void baseMob::resetVelocity()
+/*void baseMob::resetVelocity()
 {
 	vy = 0;
 	vx = 0;
-}
+}*/
 
 void baseMob::updateMob(worldObject* world)
 {
@@ -67,11 +83,11 @@ void baseMob::updateMob(worldObject* world)
 	}
 }
 
-void baseMob::setXYPos(int a, int b)
+/*void baseMob::setXYPos(int a, int b)
 {
 	x = a;
 	y = b;
-}
+}*/
 
 void baseMob::sendWifiUpdate()
 {

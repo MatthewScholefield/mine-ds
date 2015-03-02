@@ -81,12 +81,12 @@ int flatGen(worldObject* world,int startx,int starty,int endx)
 }
 
 
-void plotHeight(worldObject* world,int x, int y)
+/*void plotHeight(worldObject* world,int x, int y)
 {
 	int i;
 	for (i=y; i<WORLD_HEIGHT; ++i)
 		world->blocks[x][i]=STONE;
-}
+}*/
 void generateBedrock (worldObject* world)
 {
 	int i;

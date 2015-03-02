@@ -15,6 +15,11 @@ Graphic cowMobGraphic[2];
 
 cowMob::cowMob()
 {
+	target = NULL;
+	mov = 0;
+	dir = true;
+	scaredtimer = 0;
+	jump = 0;
 	x = 0;
 	y = 0;
 	vy = 0;
@@ -31,6 +36,10 @@ cowMob::cowMob()
 
 cowMob::cowMob(int a, int b)
 {
+	target = NULL;
+	mov = 0;
+	dir = true;
+	scaredtimer = 0;
 	jump = 0;
 	gravity = 3;
 	gravityValue = 3;

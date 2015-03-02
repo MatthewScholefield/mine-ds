@@ -16,6 +16,11 @@ Graphic sheepMobGraphic[2];
 
 sheepMob::sheepMob()
 {
+	target = NULL;
+	mov = 0;
+	dir = true;
+	scaredtimer = 0;
+	jump = 0;
 	x=0;
 	y=0;
 	vy=0;
@@ -31,6 +36,10 @@ sheepMob::sheepMob()
 }
 sheepMob::sheepMob(int a,int b)
 {
+	target = NULL;
+	mov = 0;
+	dir = true;
+	scaredtimer = 0;
 	jump=0;
 	gravity=3;
 	gravityValue=3;

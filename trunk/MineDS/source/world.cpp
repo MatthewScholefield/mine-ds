@@ -9,13 +9,13 @@ int findFirstBlock(worldObject* world,int x)
 		if (!isBlockWalkThrough(world->blocks[x][i])) return i;
 	return -1;
 }
-int findFirstBiomeBlock(worldObject* world,int x)
+/*int findFirstBiomeBlock(worldObject* world,int x)
 {
 	int i;
 	for (i=0; i<=WORLD_HEIGHT; ++i)
 		if (!isAGroundBlock(world->blocks[x][i])) return i;
 	return -1;
-}
+}*/
 void drawLineDown(worldObject* world,int x, int y)
 {
 	int i;
