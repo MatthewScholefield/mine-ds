@@ -19,10 +19,12 @@ bool saveWorld(worldObject *world)
 	FILE *worldFile;
 	FILE *inventoryFile;
 	FILE *mobsFile;
+	
+	bool openedWorld = (worldFile = fopen(WORLD_PATH, "w+")) != NULL;
+	bool openedInventory = (inventoryFile = fopen(INVENTORY_PATH, "w+")) != NULL;
+	bool openedMobs = (mobsFile = fopen(MOBS_PATH, "w+")) != NULL;
 
-	if ((worldFile = fopen(WORLD_PATH, "w+")) != NULL &&
-			(inventoryFile = fopen(INVENTORY_PATH, "w+")) != NULL &&
-			(mobsFile = fopen(MOBS_PATH, "w+")) != NULL)
+	if (openedWorld && openedInventory && openedMobs)
 	{
 		//fwrite(world, sizeof (*world), 1, worldFile);
 		fprintf(worldFile, "%d ", world->gamemode);
@@ -43,6 +45,12 @@ bool saveWorld(worldObject *world)
 		fclose(inventoryFile);
 		return true;
 	}
+	if (openedWorld)
+		fclose(worldFile);
+	if (openedInventory)
+		fclose(inventoryFile);
+	if (openedMobs)
+		fclose(mobsFile);
 	return false;
 }
 
@@ -64,10 +72,12 @@ bool loadWorld(worldObject *world)
 	FILE *worldFile;
 	FILE *inventoryFile;
 	FILE *mobsFile;
-
-	if ((worldFile = fopen(WORLD_PATH, "r")) != NULL &&
-			(inventoryFile = fopen(INVENTORY_PATH, "r")) != NULL
-		&& (mobsFile = fopen(MOBS_PATH, "r")) != NULL)
+	
+	bool openedWorld = (worldFile = fopen(WORLD_PATH, "r")) != NULL;
+	bool openedInventory = (inventoryFile = fopen(INVENTORY_PATH, "r")) != NULL;
+	bool openedMobs = (mobsFile = fopen(MOBS_PATH, "r")) != NULL;
+	
+	if (openedWorld && openedInventory && openedMobs)
 	{
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
@@ -90,6 +100,12 @@ bool loadWorld(worldObject *world)
 		fclose(mobsFile);
 		return true;
 	}
+	if (openedWorld)
+		fclose(worldFile);
+	if (openedInventory)
+		fclose(inventoryFile);
+	if (openedMobs)
+		fclose(mobsFile);
 	return false;
 }
 
