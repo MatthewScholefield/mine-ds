@@ -8,6 +8,7 @@
 #include "pigMob.h"
 #include "cowMob.h"
 #include "sheepMob.h"
+#include "itemMob.h"
 #include "mobFunctions.h"
 #include "../nifi.h"
 #include "../communications.h"
@@ -200,6 +201,9 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 		mobs[mobNum] = new herobrineMob(x, y);
 		mobs[mobNum]->unKillMob();
 		break;
+  case 8:
+    mobs[mobNum] = new itemMob(x,y);
+    mobs[mobNum]->unKillMob();
 	default:
 		break;
 	}
