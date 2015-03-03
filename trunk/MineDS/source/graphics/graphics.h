@@ -28,6 +28,8 @@ typedef struct
 void graphicsInit();
 void graphicFrame();
 void loadGraphicMob(Graphic* g,int frame);
+void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y);
+void loadGraphicParticle(Graphic* g, int frame, int x, int y);
 void loadGraphic(Graphic* g,int mob,int frame,int x,int y);
 void loadGraphic(Graphic* g,int mob,int frame);
 void loadGraphicSubMob(Graphic* g,int frame);

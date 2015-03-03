@@ -62,67 +62,64 @@ int getInventoryState()
 	return showingInventory;
 }
 
-bool addInventory(int blockID, int amount, bool direct) //adds the specified amount to a blockvalue
+bool canAddInventory(int blockID) //checks a blockvalue
 {
+	if (!isSurvival())
+		return true;
 	//First find a spot availabe for the block i
 	int i;
 	int space = -1;
-
-	if (isSurvival() || !direct)
+	if (getType(blockID) == STONEBLOCK)
 	{
-		if (getType(blockID) == STONEBLOCK)
+		if (getType(getBlockID(getSelectedSlot())) != PICKAXE)
+			return true;
+		else
 		{
-			if (getType(getBlockID(getSelectedSlot())) != PICKAXE)
-				return true;
-			else
+			switch (blockID)
 			{
-				switch (blockID)
-				{
-					case COAL_ORE:
-						blockID = COAL;
-						break; //Any pickaxe can break coal
-					case STONE:
-						blockID = COBBLESTONE;
-						break;
-					case IRON_ORE:
-						if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return true;
-						break;
-					case GOLD_ORE:
-						if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return true;
-						break;
-					case DIAMOND_ORE:
-						if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return true;
-						break;
-				}
+				case COAL_ORE:
+					blockID = COAL;
+					break; //Any pickaxe can break coal
+				case STONE:
+					blockID = COBBLESTONE;
+					break;
+				case IRON_ORE:
+					if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return true;
+					break;
+				case GOLD_ORE:
+					if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return true;
+					break;
+				case DIAMOND_ORE:
+					if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return true;
+					break;
 			}
 		}
+	}
 
-		switch (blockID)
-		{
-			case GRASS:
-			case JUNGLE_GRASS:
-			case SNOW_GRASS:
-			case MYCELIUM:
-				blockID = DIRT;
-				break;
-			case TALL_GRASS:
-				blockID = SEEDS_WHEAT;
-				amount = rand() % 2 + 1;
-				break;
-			case BEDROCK:
-				return false;
-				break; //Cannot break bedrock
-			case SNOW_TOP:
-				return true;
-				break; //Can break snow tops, just they won't be added to the inventory
-			case AIR:
-				return false;
-				break;
-			case MUSHROOM_STEM:
-			case MUSHROOM_TOP:
-				return true;
-				break;
-		}
+	switch (blockID)
+	{
+		case GRASS:
+		case JUNGLE_GRASS:
+		case SNOW_GRASS:
+		case MYCELIUM:
+			blockID = DIRT;
+			break;
+		case TALL_GRASS:
+			blockID = SEEDS_WHEAT;
+			break;
+		case BEDROCK:
+			return false;
+			break; //Cannot break bedrock
+		case SNOW_TOP:
+			return true;
+			break; //Can break snow tops, just they won't be added to the inventory
+		case AIR:
+			return false;
+			break;
+		case MUSHROOM_STEM:
+		case MUSHROOM_TOP:
+			return true;
+			break;
 	}
 
 	for (i = 0; i < NUM_INV_SPACES; ++i)
@@ -146,11 +143,76 @@ bool addInventory(int blockID, int amount, bool direct) //adds the specified amo
 		printLocalMessage("No space for item");
 		return false; //We still want the block to be broken - Do we ?
 	}
-	//Space now equals the block for the id...
+	return true;
+}
+
+int genericBlock(int blockID)
+{
+	switch (blockID)
+	{
+		case GRASS:
+		case JUNGLE_GRASS:
+		case SNOW_GRASS:
+		case MYCELIUM:
+			return DIRT;
+			break;
+		case TALL_GRASS:
+			return SEEDS_WHEAT;
+			break;
+		case BEDROCK:
+			return false;
+			break; //Cannot break bedrock
+		case SNOW_TOP:
+			return AIR;
+			break; //Can break snow tops, just they won't be added to the inventory
+		case MUSHROOM_STEM:
+		case MUSHROOM_TOP:
+			return AIR;
+			break;
+		case COAL_ORE:
+				return COAL;
+				break; //Any pickaxe can break coal
+		case STONE:
+			return COBBLESTONE;
+			break;
+		case IRON_ORE:
+			return INGOT_IRON;
+			break;
+		case GOLD_ORE:
+			return INGOT_GOLD;
+			break;
+		case DIAMOND_ORE:
+			return DIAMOND;
+			break;
+	}
+	return blockID;
+}
+
+void addInventory(int blockID, int amount, bool direct) //adds the specified amount to a blockvalue
+{
+	int i;
+	int space = -1;
+	for (i = 0; i < NUM_INV_SPACES; ++i)
+	{
+		//Found the correct block with correct id.
+		if (mainPlayerInv.blocks[i].blockId == blockID)
+		{
+			space = i;
+			i = NUM_INV_SPACES + 1;
+			//Skip other inventory spaces...
+		}
+		//Found a sutiable air space.
+		else if (mainPlayerInv.blocks[i].blockId == AIR)
+		{
+			//Set the space as last resort, try to find correct inventory space.
+			space = i;
+		}
+	}
+	if (space == -1)
+		printLocalMessage("No space for item");
 	mainPlayerInv.blocks[space].blockId = blockID;
 	mainPlayerInv.blocks[space].blockAmount += amount;
 	updateInvGraphics();
-	return true;
 }
 
 void addInventory(int blockID)
