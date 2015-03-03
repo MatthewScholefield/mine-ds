@@ -112,8 +112,15 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 		miningX = -1;
 		miningY = -1;
 	}
-	if (addInventory(blockXY, 1))
+	if (canAddInventory(blockXY))
 	{
+		if (isSurvival())
+		{
+			int mobNum = spawnMobAt(8,world,x*16+rand()%8,y*16);
+			mobHandlerHurtMob(mobNum, genericBlock(blockXY),1);
+		}
+		else
+			addInventory(blockXY);
 		blockXY = AIR;
 		checkBlockDelete(x, y, world, bg);
 		hasChangedBlock = true;

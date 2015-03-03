@@ -3,6 +3,7 @@
 
 #define FPS		(60)
 #define SEC_TO_FPS(S)	((S) * FPS)
+#define PI 3.14159265
 
 void sleep(unsigned int seconds);
 void printGlobalMessage(const char* s);

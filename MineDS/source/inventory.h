@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include "world.h"
 int getInventoryState();
-bool addInventory(int blockID, int amount, bool direct = false);
+bool canAddInventory(int blockID);
+int genericBlock(int blockID);
+void addInventory(int blockID, int amount, bool direct = false);
 bool subInventory (int blockID, int amount);
 int checkInventory(int blockID);
 int checkInventorySlot(int slot);

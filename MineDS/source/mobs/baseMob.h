@@ -27,6 +27,7 @@ public:
 	int timeTillWifiUpdate;
 	int ping;
 	int mobId; // Needed for chasing mobs
+	bool noPhysics = false;
 	bool host; // Was this mob spawn'd by this nds?
 	bool collisions[5];
 	//bool potioneffects[5];
