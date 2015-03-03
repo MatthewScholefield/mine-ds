@@ -10,6 +10,7 @@
 
 void leafChanceUpdateGeneric(worldObject* world, int x, int y, bool bg)
 {
+	int blockID = world->bgblocks[x][y];
 	bool nearWood = false;
 	for (int i = x - LEAF_SQUARE_RADIUS; i < x + LEAF_SQUARE_RADIUS; ++i)
 	{
@@ -26,11 +27,11 @@ void leafChanceUpdateGeneric(worldObject* world, int x, int y, bool bg)
 		world->bgblocks[x][y] = AIR;
 	else if (!nearWood)
 		world->blocks[x][y] = AIR;
-  if (!nearWood && (rand() % 4)==0)
+  if (!nearWood && (rand() % 1)==0)
   {
     //Spawn an item mob, and send blockId and amount.
-    int mobNum = spawnMobAt(8,world,x*16,y*16);
-    mobHandlerHurtMob(mobNum,SAPLING_OAK,1);
+    int mobNum = spawnMobAt(8,world,x*16+rand()%8,y*16);
+    mobHandlerHurtMob(mobNum,blockID,1);
   }
 }
 

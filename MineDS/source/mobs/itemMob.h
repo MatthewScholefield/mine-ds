@@ -1,17 +1,14 @@
 #include "baseMob.h"
+#include "../graphics/graphics.h"
 
 class itemMob : public baseMob
 {
 public:
-	/*int x;
-	int y;
-	int vy;
-	int vx;
-	bool alive;
-	bool host; // Was this mob spawn'd by this nds?*/
-	//bool potioneffects[5];
+Graphic itemGraphic;
   int blockID;
   int amount;
+  int floatY;
+  bool loadedBlockGfx;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();

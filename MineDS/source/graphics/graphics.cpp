@@ -113,6 +113,11 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 
 void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 {
+	/*iprintf("frame:%d x:%d y:%d",frame,x,y);
+	while(1)
+	{
+		swiWaitForVBlank();
+	}*/
 	if (x == 8 && y == 8)
 	{
 		u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
@@ -141,6 +146,35 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 	g->sx = x;
 	g->sy = y;
 	g->Gfx = graphics;
+}
+
+void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y)
+{
+	/*if (x == 8 && y == 8)
+	{
+		u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
+		u8* Tiles = (u8*) & block_smallTiles;
+		Tiles += frame * (8 * 8);
+		dmaCopy(Tiles, graphics, 8 * 8);
+		g->mob = false;
+		g->sx = x;
+		g->sy = y;
+		g->Gfx = graphics;
+	}
+	else
+		iprintf("Error loading graphics 1!\n");*/
+		u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
+	u8* Tiles = (u8*) & block_smallTiles;
+	Tiles += frame * (16 * 16);
+	dmaCopy(Tiles, graphics, 8 * 8);
+	/*dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
+	dmaCopy(Tiles + 8 * 8, graphics + 8 * 4 * 2, 8 * 8);
+	dmaCopy(Tiles + 8 * 8 * 3, graphics + 8 * 4 * 3, 8 * 8);*/
+	g->mob = 2;
+	g->sx = x;
+	g->sy = y;
+	g->Gfx = graphics;
+	g->main = true;
 }
 
 void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame)
