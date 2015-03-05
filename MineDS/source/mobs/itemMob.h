@@ -15,5 +15,6 @@ Graphic itemGraphic;
 	virtual void updateMob(worldObject* world);
 	virtual void hurt(int amount,int type);
 	virtual bool isMyPlayer();
+	virtual void killMob();
   itemMob(int x, int y);
 };

@@ -7,10 +7,10 @@ bool canBaseMobSpawnHere(worldObject* world,int x,int y);
 class baseMob
 {
 public:
-	int x;
+	float x;
 	int y;
 	float vy;
-	int vx;
+	float vx;
 	int sx;
 	int sy;
 	bool smallmob=false;
@@ -27,7 +27,6 @@ public:
 	int timeTillWifiUpdate;
 	int ping;
 	int mobId; // Needed for chasing mobs
-	bool noPhysics = false;
 	bool host; // Was this mob spawn'd by this nds?
 	bool collisions[5];
 	//bool potioneffects[5];

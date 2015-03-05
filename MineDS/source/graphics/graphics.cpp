@@ -113,11 +113,6 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 
 void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 {
-	/*iprintf("frame:%d x:%d y:%d",frame,x,y);
-	while(1)
-	{
-		swiWaitForVBlank();
-	}*/
 	if (x == 8 && y == 8)
 	{
 		u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
