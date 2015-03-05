@@ -10,6 +10,7 @@
 #include "sheepMob.h"
 #include "itemMob.h"
 #include "mobFunctions.h"
+#include "hurt.h"
 #include "../nifi.h"
 #include "../communications.h"
 #include "../collision.h"
@@ -66,6 +67,8 @@ void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 
 void mobHandlerHurtMob(int mobNum, int amount, int type)
 {
+	if (mobs[mobNum]->mobtype == 8 && type !=PROPERTY_HURT) //itemMob
+		return;
 	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
 		mobs[mobNum]->hurt(amount, type);
 	else if (isWifi())

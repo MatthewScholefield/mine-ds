@@ -1,6 +1,8 @@
 #pragma once
 #define NUM_SPRITE_BLOCKS 10
 
+bool canBreak(int blockID);
+bool canDropItem(int blockID);
 bool isBlockWalkThrough(int a);
 bool isAGroundBlock(int a);
 int getLightAmount(int a);
