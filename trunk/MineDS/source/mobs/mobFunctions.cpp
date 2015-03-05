@@ -23,8 +23,7 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 	{
 		for (int b = -1; b <= 1; ++b)
 			collision(world, mob, 0, (mob->x + mob -> sx / 2) / 16, (mob->y + 6 + mob -> sy / 2) / 16 + b, false);
-		if (!mob->noPhysics)
-			mob->y -= int(mob->vy); //Main statement Positive velocity=up
+		mob->y -= int(mob->vy); //Main statement Positive velocity=up
 		int blockx = (mob->x + mob -> sx / 2) / 16;
 		int blocky = (mob->y + 6 + mob -> sy / 2) / 16;
 		for (int i = 0; i < 4; ++i)
@@ -52,7 +51,7 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 			mob -> collisions[0] = true;
 			mob -> y = (blocky - 1)*16 + 1; //Teleports player to top of block
 		}
-		if (!isBlockWalkThrough(world->blocks[blockx][blocky]) && !mob->noPhysics)
+		if (!isBlockWalkThrough(world->blocks[blockx][blocky]))
 		{
 			//mob -> y -= 16;
 			mob -> vy = 0.0;
@@ -64,8 +63,7 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 			mob -> y = (blocky -1 )*16 + 1;
 		}
 		if (mob->x < 1) mob->x = 1;
-		if (!mob->noPhysics)
-			calculatePhysics(mob);
+		calculatePhysics(mob);
 	}
 }
 

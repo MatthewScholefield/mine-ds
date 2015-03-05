@@ -8,43 +8,21 @@
 #include "itemMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
+#include "../blocks.h"
 #include "../general.h"
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"
 
-#include <nds.h>
-#include <stdio.h>
-#include "../blocks.h"
-#include "../world.h"
-#include "../fontHandler.h"
-#include "../worldgen.h"
-#include "../mining.h"
-#include "../blocks.h"
-#include "../worldRender.h"
-#include "../titlescreen.h"
-#include "../mainGame.h"
-#include "../graphics/graphics.h"
-#include "../graphics/subBgHandler.h"
-#include "../crafting.h"
-#include "../nifi.h"
-#include "../sounds.h"
-#include "../files.h"
-#include "../general.h"
-#include "../blockupdate.h"
-#include <maxmod9.h>    // Maxmod definitions for ARM9
-#include <string>
-
 itemMob::itemMob(int a,int b)
 {
-	noPhysics = false;
-	sx = 4;
-	sy = 4;
+	sx = 8;
+	sy = 8;
   x = a;
   y = b;
   health = 1;
   mobtype = 8;
-  blockID = GLOWSTONE;
+  blockID = -1;
   amount = 1;
   floatY = 0;
   loadedBlockGfx = false;
@@ -56,13 +34,26 @@ bool itemMob::isMyPlayer()
 
 void itemMob::updateMob(worldObject* world)
 {
+	
 	if (!alive)
 		return;
 	if (!loadedBlockGfx)
 	{
+		vx = double((rand()%10)+20)/100.0;
+		vx *= (rand()%2) ? -1:1;
 		loadGraphicMiniBlock(&itemGraphic, blockID,8,8);
 		loadedBlockGfx = true;
 	}
+	if ((vx>0 && isBlockWalkThrough(world->blocks[int ((x+sx)/16)][y/16])) || (vx<0 && isBlockWalkThrough(world->blocks[int(x/16)][y/16])))
+	{
+		bool positive = vx>0;
+		x += vx;
+		vx -= positive?0.005:-0.005;
+		if ((positive && vx<0) || (!positive && vx>0))
+			vx = 0;
+	}
+	else if (vx!=0)
+		vx = 0;
 	++floatY;
 	if (floatY>100)
 		floatY=0;
@@ -88,12 +79,22 @@ void itemMob::saveToFile(FILE* pFile)
 {
 }
 
+void itemMob::killMob()
+{
+	timeTillWifiUpdate = 1;
+	alive = false;
+	if (loadedBlockGfx)
+		unloadGraphic(&itemGraphic);
+}
+
 void itemMob::loadFromFile(FILE* pFile)
 {
   killMob();
 }
 void itemMob::hurt(int hamount, int type)
 {
-   blockID = hamount;
-   amount = type;
+	if (blockID==-1)
+		blockID = hamount;
+	else
+		amount = hamount;
 }
