@@ -7,6 +7,8 @@
 #include "blockID.h"
 #include "mining.h"
 #include "blocks.h"
+#include "mainGame.h"
+#include "inventory.h"
 #include <stdio.h>
 #include <stdarg.h>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
@@ -182,6 +184,67 @@ void initBlockProperties()
 	hardness[IRON_ORE] = 40;
 	hardness[GOLD_ORE] = 40;
 	hardness[DIAMOND_ORE] = 45;
+}
+
+bool canBreak(int blockID) //checks a blockvalue
+{
+	if (!isSurvival())
+		return true;
+	switch (blockID)
+	{
+		case BEDROCK:
+		case AIR:
+			return false;
+	}
+	return spaceForItem(blockID)!=-1;
+}
+
+bool canDropItem(int blockID) //checks is the item should be dropped when mined
+{
+	if (!isSurvival())
+		return true;
+	if (getType(blockID) == STONEBLOCK)
+	{
+		if (getType(getBlockID(getSelectedSlot())) != PICKAXE)
+			return false;
+		else
+		{
+			switch (blockID)
+			{
+				case COAL_ORE:
+					blockID = COAL;
+					break; //Any pickaxe can break coal
+				case STONE:
+					blockID = COBBLESTONE;
+					break;
+				case IRON_ORE:
+					if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return false;
+					break;
+				case GOLD_ORE:
+					if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return false;
+					break;
+				case DIAMOND_ORE:
+					if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return false;
+					break;
+			}
+		}
+	}
+
+	switch (blockID)
+	{
+		case SNOW_TOP:
+			return false;
+			break; //Can break snow tops, just they won't be added to the inventory
+		case AIR:
+			return false;
+			break;
+		case MUSHROOM_STEM:
+		case MUSHROOM_TOP:
+			return false;
+			break;
+	}
+	
+	return true;
 }
 
 int getType(int blockID)
