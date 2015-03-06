@@ -3,6 +3,7 @@
 
 bool canBreak(int blockID);
 bool canDropItem(int blockID);
+int genericBlock(int blockID);
 bool isBlockWalkThrough(int a);
 bool isAGroundBlock(int a);
 int getLightAmount(int a);

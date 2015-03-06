@@ -110,3 +110,8 @@ void calculateMiscDataSmall(worldObject* world, baseMob* mob)
 		calculatePhysics(mob);
 	}
 }
+
+bool onScreen(int x, int y, int camX, int camY)
+{
+	return x > camX && x < camX + 256 && y > camY && y < camY + 192;
+}

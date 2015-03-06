@@ -13,6 +13,7 @@
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"
+#include "mobFunctions.h"
 
 itemMob::itemMob(int a,int b)
 {
@@ -39,7 +40,9 @@ void itemMob::updateMob(worldObject* world)
 		return;
 	if (!loadedBlockGfx)
 	{
-		vx = double((rand()%10)+20)/100.0;
+		//Set initial velocity
+		vx = double((rand() % 10) + 20) / 100.0;
+		//Set direction
 		vx *= (rand()%2) ? -1:1;
 		loadGraphicMiniBlock(&itemGraphic, blockID,8,8);
 		loadedBlockGfx = true;
@@ -68,7 +71,9 @@ void itemMob::updateMob(worldObject* world)
     addInventory(blockID, amount);
     alive = false;
     killMob();
-  }
+	}
+	if (!onScreen(x, y, world->CamX, world->CamY) && rand() % 1000 == 1)
+		killMob();
 }
 
 void itemMob::sendWifiUpdate()

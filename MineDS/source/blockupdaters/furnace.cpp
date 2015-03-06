@@ -33,9 +33,8 @@ void furnaceUpdater::update(worldObject* world,int x,int y,bool bg)
     databyte = databyte & 0xF00;
     databyte = databyte | t;
     //Store in data
-    world->data[x][y] = databyte;
-    showGraphic(&fireParticle, x*16 - world->CamX + (world->data[x][y]&0xF00)/256, y*16 - world->CamY - (world->data[x][y]&0xFF)/32 + 6);
+	world->data[x][y] = databyte;
+	showGraphic(&fireParticle, x*16 - world->CamX + (world->data[x][y]&0xF00)/256, y*16 - world->CamY - (world->data[x][y]&0xFF)/32 + 6);
 
-  }
+	}
 }
-
