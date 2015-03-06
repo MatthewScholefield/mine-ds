@@ -247,6 +247,48 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 	return true;
 }
 
+int genericBlock(int blockID)
+{
+	switch (blockID)
+	{
+		case GRASS:
+		case JUNGLE_GRASS:
+		case SNOW_GRASS:
+		case MYCELIUM:
+			return DIRT;
+			break;
+		case TALL_GRASS:
+			return SEEDS_WHEAT;
+			break;
+		case BEDROCK:
+			return false;
+			break; //Cannot break bedrock
+		case SNOW_TOP:
+			return AIR;
+			break; //Can break snow tops, just they won't be added to the inventory
+		case MUSHROOM_STEM:
+		case MUSHROOM_TOP:
+			return AIR;
+			break;
+		case COAL_ORE:
+			return COAL;
+			break; //Any pickaxe can break coal
+		case STONE:
+			return COBBLESTONE;
+			break;
+		case IRON_ORE:
+			return INGOT_IRON;
+			break;
+		case GOLD_ORE:
+			return INGOT_GOLD;
+			break;
+		case DIAMOND_ORE:
+			return DIAMOND;
+			break;
+	}
+	return blockID;
+}
+
 int getType(int blockID)
 {
 	return blockType[blockID];
