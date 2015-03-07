@@ -20,14 +20,14 @@
 
 bool skipLightUpdate = false; //Whether to skip light update
 int invSlot = 0;
-bool loadedgraphic = false;
+bool loadedTopGraphic = false;
 Graphic topBlock;
-bool incutscene = false;
+bool disableTouchMine = false;
 bool canPlaceBlocks = true;
 bool hasChangedBlock = false;
-int framecounting = 0;
+int frameCounting = 0;
 int failedAttempts = 0;
-int last_x, last_y;
+int lastX, lastY;
 int miningX = -1; //X,Y Value of block that is currently being mined
 int miningY = -1;
 int mining = 10; //Length till block break
@@ -38,16 +38,16 @@ int getSelectedSlot()
 	return invSlot;
 }
 
-void miningSetScene(bool a) //false enables block destroy, true disable it
+void setMiningDisabled(bool set)//false enables block destroy, true disable it
 {
-	incutscene = a;
+	disableTouchMine = set;
 }
 
 void calculateTopBlock()
 {
-	if (loadedgraphic) unloadGraphic(&topBlock);
+	if (loadedTopGraphic) unloadGraphic(&topBlock);
 	loadGraphicSub(&topBlock, 2, getBlockID(invSlot));
-	loadedgraphic = true;
+	loadedTopGraphic = true;
 }
 
 void updateTopName()
@@ -66,7 +66,7 @@ void setSelectedSpace(int space)
 void blocksCanPlace()
 {
 	canPlaceBlocks = true;
-	framecounting = 0;
+	frameCounting = 0;
 }
 
 void mineBlock(worldObject* world, int x, int y, bool bg)
@@ -89,15 +89,15 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 			int blockTypeXY = getType(blockXY);
 			switch (getType(selectedBlock)) // Check if we are using the correct tool
 			{
-			case AXE:
-				if (blockTypeXY != WOOD) handHardness = 1;
-				break;
-			case PICKAXE:
-				if (blockTypeXY != STONEBLOCK) handHardness = 1;
-				break;
-			case SHOVEL:
-				if (blockTypeXY != SOIL) handHardness = 1;
-				break;
+				case AXE:
+					if (blockTypeXY != WOOD) handHardness = 1;
+					break;
+				case PICKAXE:
+					if (blockTypeXY != STONEBLOCK) handHardness = 1;
+					break;
+				case SHOVEL:
+					if (blockTypeXY != SOIL) handHardness = 1;
+					break;
 			}
 			mining = getHardness(blockXY)*10 / handHardness;
 			miningRate = 1;
@@ -114,12 +114,12 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 	}
 	if (canBreak(blockXY))
 	{
-		
+
 		if (isSurvival() && canDropItem(blockXY))
 		{
-			int mobNum = spawnMobAt(8,world,x*16+rand()%8,y*16);
-			mobHandlerHurtMob(mobNum, genericBlock(blockXY),PROPERTY_HURT);
-			mobHandlerHurtMob(mobNum, 1,PROPERTY_HURT);
+			int mobNum = spawnMobAt(8, world, x * 16 + rand() % 8, y * 16);
+			mobHandlerHurtMob(mobNum, genericBlock(blockXY), PROPERTY_HURT);
+			mobHandlerHurtMob(mobNum, 1, PROPERTY_HURT);
 		}
 		else if (!isSurvival())
 			addInventory(blockXY);
@@ -184,15 +184,15 @@ void setBlock(worldObject* world, int x, int y)
 	//Send a WIFI Update now, if wifi is enabled!
 	if (isWifi() && hasChangedBlock == true)
 	{
-		last_x = x;
-		last_y = y;
+		lastX = x;
+		lastY = y;
 		placeBlock(x, y);
 	}
 }
 
 void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int keys) // keys = keysDown();
 {
-	if (incutscene)
+	if (disableTouchMine)
 		return;
 	if (keys & KEY_TOUCH)
 	{
@@ -204,24 +204,24 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 			int damage;
 			switch (getBlockID(getSelectedSlot()))
 			{
-			case SWORD_DIAMOND:
-				damage = 6;
-				break;
-			case SWORD_IRON:
-				damage = 4;
-				break;
-			case SWORD_GOLD:
-				damage = 3;
-				break;
-			case SWORD_STONE:
-				damage = 3;
-				break;
-			case SWORD_WOOD:
-				damage = 2;
-				break;
-			default:
-				damage = 1;
-				break;
+				case SWORD_DIAMOND:
+					damage = 6;
+					break;
+				case SWORD_IRON:
+					damage = 4;
+					break;
+				case SWORD_GOLD:
+					damage = 3;
+					break;
+				case SWORD_STONE:
+					damage = 3;
+					break;
+				case SWORD_WOOD:
+					damage = 2;
+					break;
+				default:
+					damage = 1;
+					break;
 			}
 			mobHandlerHurtMob(mobNum, damage, PLAYER_HURT);
 		}
@@ -281,12 +281,12 @@ void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int key
 	//Draw the selected block
 	if (getBlockID(invSlot) != 0)
 		showGraphic(&topBlock, 0, 48);
-	if (canPlaceBlocks == false) ++framecounting;
-	if (framecounting > 60)
+	if (canPlaceBlocks == false) ++frameCounting;
+	if (frameCounting > 60)
 	{
 		//More than a second, and no block confirm?
-		placeBlock(last_x, last_y);
-		framecounting = 0;
+		placeBlock(lastX, lastY);
+		frameCounting = 0;
 		++failedAttempts;
 	}
 }

@@ -5,7 +5,7 @@
   |     Part of Mine DS , by CoolAs and Ray	|
   |		Thanks to Dirbaio!		|
   |_____________________________________________|
-*/
+ */
 
 #include "world.h"
 #include "block_small.h"
@@ -14,10 +14,10 @@ void worldRender_Init();
 void worldRender_Render(worldObject* world, int screen_x, int screen_y);
 void Calculate_Brightness(worldObject* world);
 extern "C" {
-	void brightnessSpread(worldObject* world,int x,int y,int brightness);
-	void sunSpread(worldObject* world,int x,int y,int brightness);
+	void brightnessSpread(worldObject* world, int x, int y, int brightness);
+	void sunSpread(worldObject* world, int x, int y, int brightness);
 }
-void updateBrightnessAround(worldObject* world,int x,int y);
+void updateBrightnessAround(worldObject* world, int x, int y);
 void worldRender_LoadSprites();
 void setSun(int brightness);
-int getBrightness(worldObject* world,int x,int y);
+int getBrightness(worldObject* world, int x, int y);

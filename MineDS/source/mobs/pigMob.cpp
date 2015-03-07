@@ -20,62 +20,64 @@ pigMob::pigMob()
 	dir = true;
 	scaredtimer = 0;
 	jump = 0;
-	x=0;
-	y=0;
-	vy=0;
-	vx=0;
-	ping=0;
-	alive=false;
-	onground=false;
-	health=10;
-	mobtype=0;
-	animationclearframes=0;
-	notarget=0;
-	smallmob=true;
+	x = 0;
+	y = 0;
+	vy = 0;
+	vx = 0;
+	ping = 0;
+	alive = false;
+	onground = false;
+	health = 10;
+	mobtype = 0;
+	animationclearframes = 0;
+	notarget = 0;
+	smallmob = true;
 }
-pigMob::pigMob(int a,int b)
+
+pigMob::pigMob(int a, int b)
 {
 	target = NULL;
 	mov = 0;
 	dir = true;
 	scaredtimer = 0;
-	jump=0;
-	gravity=3;
-	gravityValue=3;
-	sx=10;
-	sy=16;
-	x=a;
-	y=b;
-	vy=0;
-	vx=0;
-	alive=false;
-	onground=false;
-	facing=false;
-	mobtype=4;
-	health=10;
-	ping=0;
-	animation=0;
-	notarget=0;
-	timeTillWifiUpdate=rand()%4+4;
-	smallmob=true;
+	jump = 0;
+	gravity = 3;
+	gravityValue = 3;
+	sx = 10;
+	sy = 16;
+	x = a;
+	y = b;
+	vy = 0;
+	vx = 0;
+	alive = false;
+	onground = false;
+	facing = false;
+	mobtype = 4;
+	health = 10;
+	ping = 0;
+	animation = 0;
+	notarget = 0;
+	timeTillWifiUpdate = rand() % 4 + 4;
+	smallmob = true;
 }
+
 void pigMob::updateMob(worldObject* world)
 {
 
-	if (rand()%2 == 1 && mov == 1)
+	if (rand() % 2 == 1 && mov == 1)
 		dir = true;
 	else if (mov == 1)
 		dir = false;
 
-	if (animation==0) showGraphic(&pigMobGraphic[0],x-world->CamX,y-world->CamY,facing ? true:false);
-	else if (animation==1) 	showGraphic(&pigMobGraphic[1],x-world->CamX,y-world->CamY,facing  ? true:false);
+	if (animation == 0) showGraphic(&pigMobGraphic[0], x - world->camX, y - world->camY, facing ? true : false);
+	else if (animation == 1) showGraphic(&pigMobGraphic[1], x - world->camX, y - world->camY, facing ? true : false);
 
-	if (host==true)
+	if (host == true)
 	{
-		target = mobHandlerFindMob(256,2,x,y);
+		target = mobHandlerFindMob(256, 2, x, y);
 
-		if (target->x < x && target->mobtype==2 && scared) facing = false; //Face away from the player when scared
-		else if (target->mobtype==2 && scared) facing = true;
+		if (target->x < x && target->mobtype == 2 && scared) facing = false; //Face away from the player when scared
+		else if (target->mobtype == 2 && scared) facing = true;
 		++jump;
 		if (scaredtimer > 125)
 		{
@@ -83,32 +85,32 @@ void pigMob::updateMob(worldObject* world)
 			scaredtimer = 0;
 		}
 
-		if (target->mobtype!=2)
+		if (target->mobtype != 2)
 		{
 			scared = false;
 			++notarget;
-			jump=0;
+			jump = 0;
 		}
 
 		else if (!scared)
 		{
-			if (rand()%50 == 17 || mov < 60) //2% chance that the pig will move from 60 pixels. The 26 can be any number between 0 and 99.
+			if (rand() % 50 == 17 || mov < 60) //2% chance that the pig will move from 60 pixels. The 26 can be any number between 0 and 99.
 			{
 				if (dir)
 					facing = true;
 				else
 					facing = false;
-				if (!collisions[1] && !dir && jump>1)
+				if (!collisions[1] && !dir && jump > 1)
 				{
 					x += dir ? -1 : 1;
-					jump=0;
+					jump = 0;
 				}
-				if (!collisions[2] && dir && jump>1)
+				if (!collisions[2] && dir && jump > 1)
 				{
 					x += dir ? -1 : 1;
-					jump=0;
+					jump = 0;
 				}
-				else if ((collisions[1] || collisions[2]) && collisions[0]  && !collisions[3])
+				else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 					vy = JUMP_VELOCITY;
 				if (mov > 59)
 					mov = 0;
@@ -118,67 +120,74 @@ void pigMob::updateMob(worldObject* world)
 
 		else if (!collisions[1] && !facing && jump)
 		{
-			x+= facing ? -1 : 1;
+			x += facing ? -1 : 1;
 			++scaredtimer;
-			jump=0;
+			jump = 0;
 		}
 		else if (!collisions[2] && facing && jump)
 		{
-			x+= facing ? -1 : 1;
+			x += facing ? -1 : 1;
 			++scaredtimer;
-			jump=0;
+			jump = 0;
 		}
 		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 		{
 			++scaredtimer;
 			vy = JUMP_VELOCITY;
 		}
-		if (mobtype==2) notarget=0;
-		ping=0;
-		if (health<=0)
+		if (mobtype == 2) notarget = 0;
+		ping = 0;
+		if (health <= 0)
 			killMob();
 		//if (notarget > 1800) killMob();
-		if (animationclearframes==0) animation=0;
+		if (animationclearframes == 0) animation = 0;
 		else --animationclearframes;
 	}
 }
+
 void pigMob::sendWifiUpdate()
 {
 }
+
 void pigMob::saveToFile(FILE* pFile)
 {
 }
+
 void pigMob::loadFromFile(FILE* pFile)
 {
-  killMob();
+	killMob();
 }
-bool canPigMobSpawnHere(worldObject* world,int x,int y)
+
+bool canPigMobSpawnHere(worldObject* world, int x, int y)
 {
 	++y;
-	if ((world->blocks[x][y+1]==GRASS || world->blocks[x][y+1]==SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y]!=CACTUS && world->blocks[x][y+1]!=CACTUS) return true;
+	if ((world->blocks[x][y + 1] == GRASS || world->blocks[x][y + 1] == SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
 	return false;
 }
+
 void pigMobInit()
 {
-	loadGraphic(&pigMobGraphic[0],true,10,16,16);
-	loadGraphic(&pigMobGraphic[1],true,11,16,16);
+	loadGraphic(&pigMobGraphic[0], true, 10, 16, 16);
+	loadGraphic(&pigMobGraphic[1], true, 11, 16, 16);
 }
-void pigMob::hurt(int amount,int type)
+
+void pigMob::hurt(int amount, int type)
 {
 
-	if (animation==1)
+	if (animation == 1)
 		return;
 	if (type != VOID_HURT && collisions[0])
 		vy = JUMP_VELOCITY;
-	health-=amount;
+	health -= amount;
 	playSound(SOUND_PIG_HURT);
 	if (type == PLAYER_HURT)
 		scared = true;
-	if (health<=0 && type == PLAYER_HURT)
-		addInventory(PORKCHOP_RAW,rand()%3);
-	animation=1;
-	animationclearframes=20;
+	if (health <= 0 && type == PLAYER_HURT)
+		addInventory(PORKCHOP_RAW, rand() % 3);
+	animation = 1;
+	animationclearframes = 20;
 }
+
 bool pigMob::isMyPlayer()
 {
 	return false;

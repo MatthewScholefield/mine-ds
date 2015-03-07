@@ -1,20 +1,19 @@
 #include "baseMob.h"
 #include "../graphics/graphics.h"
 
-class itemMob : public baseMob
-{
+class itemMob : public baseMob {
 public:
-Graphic itemGraphic;
-  int blockID;
-  int amount;
-  int floatY;
-  bool loadedBlockGfx;
+	Graphic itemGraphic;
+	int blockID;
+	int amount;
+	int floatY;
+	bool loadedBlockGfx;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(worldObject* world);
-	virtual void hurt(int amount,int type);
+	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	virtual void killMob();
-  itemMob(int x, int y);
+	itemMob(int x, int y);
 };

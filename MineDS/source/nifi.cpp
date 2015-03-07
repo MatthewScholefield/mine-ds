@@ -103,7 +103,7 @@ void Handler(int packetID, int readlength)
 		int test_id;
 		int sound;
 		sscanf(message, "%d %d", &test_id, &sound);
-		if (test_id == server_id) playSoundNifi((sound_t)sound);
+		if (test_id == server_id) playSoundNifi((sound_t) sound);
 	}
 	else if (!strcmp("[REQ:", msgtype))
 	{

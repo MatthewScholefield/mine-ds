@@ -4,14 +4,14 @@
 /**
 	\file graphics.h
 	\breif A file used to define the Graphic structure.
-*/
+ */
 //! \breif Graphic Structure
-typedef struct
-{
+
+typedef struct {
 	//! \breif Pointer to loaded graphic in VRAM
 	u16* Gfx;
 	//Frame of animation
-	u8*  frame_gfx;
+	u8* frame_gfx;
 	//animation state
 	int state;
 	//Animation frame
@@ -27,12 +27,12 @@ typedef struct
 } Graphic;
 void graphicsInit();
 void graphicFrame();
-void loadGraphicMob(Graphic* g,int frame);
+void loadGraphicMob(Graphic* g, int frame);
 void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y);
 void loadGraphicParticle(Graphic* g, int frame, int x, int y);
-void loadGraphic(Graphic* g,int mob,int frame,int x,int y);
-void loadGraphic(Graphic* g,int mob,int frame);
-void loadGraphicSubMob(Graphic* g,int frame);
+void loadGraphic(Graphic* g, int mob, int frame, int x, int y);
+void loadGraphic(Graphic* g, int mob, int frame);
+void loadGraphicSubMob(Graphic* g, int frame);
 void loadGraphicSub(Graphic* g, int font, int frame, int x = 8, int y = 8);
 void unloadGraphic(Graphic* g);
 void animateMob(Graphic* g, int mobSlot);

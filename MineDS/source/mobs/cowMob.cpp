@@ -68,8 +68,8 @@ void cowMob::updateMob(worldObject* world)
 	else if (mov == 1)
 		dir = false;
 
-	if (animation == 0) showGraphic(&cowMobGraphic[0], x - world->CamX, y - world->CamY, facing ? true : false);
-	else if (animation == 1) showGraphic(&cowMobGraphic[1], x - world->CamX, y - world->CamY, facing ? true : false);
+	if (animation == 0) showGraphic(&cowMobGraphic[0], x - world->camX, y - world->camY, facing ? true : false);
+	else if (animation == 1) showGraphic(&cowMobGraphic[1], x - world->camX, y - world->camY, facing ? true : false);
 
 	if (host == true)
 	{
@@ -154,7 +154,7 @@ void cowMob::saveToFile(FILE* pFile)
 
 void cowMob::loadFromFile(FILE* pFile)
 {
-  killMob();
+	killMob();
 }
 
 bool canCowMobSpawnHere(worldObject* world, int x, int y)

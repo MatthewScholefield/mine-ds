@@ -58,8 +58,8 @@ herobrineMob::herobrineMob(int a, int b)
 void herobrineMob::updateMob(worldObject* world)
 {
 	++waitingCount;
-	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
-	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
+	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
+	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
 	if (host == true)
 	{
 		if (collisions[0] && collisions[3])
@@ -117,7 +117,7 @@ void herobrineMob::saveToFile(FILE* pFile)
 
 void herobrineMob::loadFromFile(FILE* pFile)
 {
-  killMob();
+	killMob();
 }
 
 bool canHerobrineMobSpawnHere(worldObject* world, int x, int y)

@@ -60,7 +60,7 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 		{
 			//Mob is inside the block
 			mob -> collisions[4] = true;
-			mob -> y = (blocky -1 )*16 + 1;
+			mob -> y = (blocky - 1)*16 + 1;
 		}
 		if (mob->x < 1) mob->x = 1;
 		calculatePhysics(mob);

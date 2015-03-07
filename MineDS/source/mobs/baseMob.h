@@ -3,9 +3,9 @@
 #ifndef BASE_MOB_H
 #define BASE_MOB_H
 //
-bool canBaseMobSpawnHere(worldObject* world,int x,int y);
-class baseMob
-{
+bool canBaseMobSpawnHere(worldObject* world, int x, int y);
+
+class baseMob {
 public:
 	float x;
 	int y;
@@ -13,7 +13,7 @@ public:
 	float vx;
 	int sx;
 	int sy;
-	bool smallmob=false;
+	bool smallmob = false;
 	int gravityValue;
 	int gravity;
 	bool onground;
@@ -33,16 +33,16 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void hurt(int amount,int type);
+	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	bool facing;
 	void killMob();
 	void unKillMob();
-	void setXYPos(int x,int y);
+	void setXYPos(int x, int y);
 	void resetVelocity();
 	virtual void updateMob(worldObject* world);
 	baseMob();
-	baseMob(int x,int y);
+	baseMob(int x, int y);
 };
 void baseMobInit();
 #endif
