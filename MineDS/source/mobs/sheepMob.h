@@ -3,10 +3,9 @@
 #include "baseMob.h"
 #ifndef SHEEP_MOB_H
 #define SHEEP_MOB_H
-bool canSheepMobSpawnHere(worldObject* world,int x,int y);
+bool canSheepMobSpawnHere(worldObject* world, int x, int y);
 
-class sheepMob : public baseMob
-{
+class sheepMob : public baseMob {
 public:
 	/*int x;
 	int y;
@@ -16,7 +15,7 @@ public:
 	bool host; // Was this mob spawn'd by this nds?*/
 	//bool potioneffects[5];
 	int jump;
-	bool scared=false; //Whether sheep is scared and will run away from the player
+	bool scared = false; //Whether sheep is scared and will run away from the player
 	int scaredtimer; //Limits how long the sheep is scared
 	bool dir; //Direction of sheep movement
 	int mov; //Loop counter for sheep movement
@@ -26,10 +25,10 @@ public:
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(worldObject* world);
-	virtual void hurt(int amount,int type);
+	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	sheepMob();
-	sheepMob(int x,int y);
+	sheepMob(int x, int y);
 };
 void sheepMobInit();
 #endif

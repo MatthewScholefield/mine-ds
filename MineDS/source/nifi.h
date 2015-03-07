@@ -11,4 +11,4 @@ int getServerID();
 int getClientID();
 bool isWifi();
 bool isHost();
-void nifiConfirmBlocksAllPlayers(int x,int y);
+void nifiConfirmBlocksAllPlayers(int x, int y);

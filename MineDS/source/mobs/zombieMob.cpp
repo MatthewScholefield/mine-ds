@@ -76,8 +76,8 @@ void zombieMob::hurt(int amount, int type)
 void zombieMob::updateMob(worldObject* world)
 {
 	if (world->timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
-	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
-	else if (animation == 1) showGraphic(&zombieMobGraphic[1], x - world->CamX - (facing ? 10 : 0), y - world->CamY, facing ? true : false);
+	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
+	else if (animation == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
 	if (host == true)
 	{
 		target = mobHandlerFindMob(128, 2, x, y);
@@ -125,7 +125,7 @@ void zombieMob::saveToFile(FILE* pFile)
 
 void zombieMob::loadFromFile(FILE* pFile)
 {
-  killMob();
+	killMob();
 }
 
 bool canZombieMobSpawnHere(worldObject* world, int x, int y)

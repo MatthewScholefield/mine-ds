@@ -5,7 +5,7 @@
   |     Part of Mine DS , by CoolAs and Ray	|
   |		Thanks to Dirbaio!		|
   |_____________________________________________|
-*/
+ */
 
 #include "world.h"
 void fillWorld(worldObject* world, int blockType);

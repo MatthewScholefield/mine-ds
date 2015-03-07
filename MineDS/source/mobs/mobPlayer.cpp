@@ -121,7 +121,7 @@ void playerMob::updateMob(worldObject* world)
 		{
 			// Every second, update the brightness of visible blocks
 			// TODO: This should be in worldRender_Render
-      // I would argue not, the player causes the light update, and updating the light levels is not a rendering job ~CoolAs
+			// I would argue not, the player causes the light update, and updating the light levels is not a rendering job ~CoolAs
 			if (++tillBrightness > SEC_TO_FPS(1))
 			{
 				tillBrightness = 0;
@@ -132,22 +132,22 @@ void playerMob::updateMob(worldObject* world)
 
 			if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
 			{
-				world->CamCalcX += (double(x) - 256 / 2 - world->CamCalcX)*0.1;
-				world->CamCalcY += (double(y) - 192 / 2 - world->CamCalcY)*0.1;
+				world->camCalcX += (double(x) - 256 / 2 - world->camCalcX)*0.1;
+				world->camCalcY += (double(y) - 192 / 2 - world->camCalcY)*0.1;
 			}
 			else
 			{
-				world->CamCalcX = x - 256 / 2;
-				world->CamCalcY = y - 192 / 2;
+				world->camCalcX = x - 256 / 2;
+				world->camCalcY = y - 192 / 2;
 			}
 
-			if (world->CamCalcX < 0.0) world->CamCalcX = 0.0;
-			world->CamX =int(world->CamCalcX);
-			if (world->CamCalcY < 0.0) world->CamCalcY = 0.0;
-			world->CamY = int(world->CamCalcY);
-			
-			if (world->CamX > WORLD_WIDTH * 16 - 256) world->CamX = WORLD_WIDTH * 16 - 256;
-			if (world->CamY > (WORLD_HEIGHT + 1)*16 - 192) world->CamY = (WORLD_HEIGHT + 1)*16 - 192;
+			if (world->camCalcX < 0.0) world->camCalcX = 0.0;
+			world->camX = int(world->camCalcX);
+			if (world->camCalcY < 0.0) world->camCalcY = 0.0;
+			world->camY = int(world->camCalcY);
+
+			if (world->camX > WORLD_WIDTH * 16 - 256) world->camX = WORLD_WIDTH * 16 - 256;
+			if (world->camY > (WORLD_HEIGHT + 1)*16 - 192) world->camY = (WORLD_HEIGHT + 1)*16 - 192;
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
 			{
 				animateMob(&playerMobGraphic[0], 0);
@@ -211,18 +211,18 @@ void playerMob::updateMob(worldObject* world)
 				quitGame();
 		}
 	}
-	if (x - world->CamX>-16 && x - world->CamX < 256 + 16 && y - world->CamY>-32 && y - world->CamY < 256)
+	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
 	{
 		if (animation == 0)
 			if (keysHeld() & KEY_TOUCH)
 			{
 				if (getTime() % 3 == 1)
 					animateMob(&playerMobGraphic[PLAYER_SPRITE_MINE], 0);
-				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->CamX - 5, y - world->CamY, facing ? true : false);
+				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->camX - 5, y - world->camY, facing ? true : false);
 			}
 			else
-				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->CamX - 5, y - world->CamY, facing ? true : false);
-		else if (animation == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->CamX - 5, y - world->CamY, facing ? true : false);
+				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->camX - 5, y - world->camY, facing ? true : false);
+		else if (animation == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->camX - 5, y - world->camY, facing ? true : false);
 	}
 }
 

@@ -3,10 +3,9 @@
 #include "baseMob.h"
 #ifndef PIG_MOB_H
 #define PIG_MOB_H
-bool canPigMobSpawnHere(worldObject* world,int x,int y);
+bool canPigMobSpawnHere(worldObject* world, int x, int y);
 
-class pigMob : public baseMob
-{
+class pigMob : public baseMob {
 public:
 	/*int x;
 	int y;
@@ -16,7 +15,7 @@ public:
 	bool host; // Was this mob spawn'd by this nds?*/
 	//bool potioneffects[5];
 	int jump;
-	bool scared=false; //Whether pig is scared and will run away from the player
+	bool scared = false; //Whether pig is scared and will run away from the player
 	int scaredtimer; //Limits how long the pig is scared
 	bool dir; //Direction of pig movement
 	int mov; //Loop counter for pig movement
@@ -26,10 +25,10 @@ public:
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(worldObject* world);
-	virtual void hurt(int amount,int type);
+	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	pigMob();
-	pigMob(int x,int y);
+	pigMob(int x, int y);
 };
 void pigMobInit();
 #endif

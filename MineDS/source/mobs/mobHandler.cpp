@@ -29,7 +29,6 @@ int getDefaultSpawnX()
 	return mobs[playerId]->x / 16 + (rand() % 5) - 2;
 }
 
-
 baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 {
 	int closest = range * range + 1;
@@ -67,7 +66,7 @@ void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 
 void mobHandlerHurtMob(int mobNum, int amount, int type)
 {
-	if (mobs[mobNum]->mobtype == 8 && type !=PROPERTY_HURT) //itemMob
+	if (mobs[mobNum]->mobtype == 8 && type != PROPERTY_HURT) //itemMob
 		return;
 	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
 		mobs[mobNum]->hurt(amount, type);
@@ -137,32 +136,32 @@ bool canMobSpawnHere(int mobId, worldObject* world, int a, int b)
 {
 	switch (mobId)
 	{
-	case 0:
-		return canBaseMobSpawnHere(world, a, b);
-		break;
-	case 1:
-		return canPlayerMobSpawnHere(world, a, b);
-		break;
-	case 2:
-		return canPlayerMobSpawnHere(world, a, b);
-		break;
-	case 3:
-		return canZombieMobSpawnHere(world, a, b);
-		break;
-	case 4:
-		return canPigMobSpawnHere(world, a, b);
-		break;
-	case 5:
-		return canCowMobSpawnHere(world, a, b);
-		break;
-	case 6:
-		return canSheepMobSpawnHere(world, a, b);
-		break;
-	case 7:
-		return canHerobrineMobSpawnHere(world, a, b);
-		break;
-	default:
-		break;
+		case 0:
+			return canBaseMobSpawnHere(world, a, b);
+			break;
+		case 1:
+			return canPlayerMobSpawnHere(world, a, b);
+			break;
+		case 2:
+			return canPlayerMobSpawnHere(world, a, b);
+			break;
+		case 3:
+			return canZombieMobSpawnHere(world, a, b);
+			break;
+		case 4:
+			return canPigMobSpawnHere(world, a, b);
+			break;
+		case 5:
+			return canCowMobSpawnHere(world, a, b);
+			break;
+		case 6:
+			return canSheepMobSpawnHere(world, a, b);
+			break;
+		case 7:
+			return canHerobrineMobSpawnHere(world, a, b);
+			break;
+		default:
+			break;
 	}
 	return false;
 }
@@ -172,60 +171,61 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 	delete mobs[mobNum]; //Free Memory and Stop Crashes
 	switch (mobId)
 	{
-	case 0:
-		mobs[mobNum] = new baseMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 1:
-		mobs[mobNum] = new playerMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 2:
-		mobs[mobNum] = new MplayerMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 3:
-		mobs[mobNum] = new zombieMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 4:
-		mobs[mobNum] = new pigMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 5:
-		mobs[mobNum] = new cowMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 6:
-		mobs[mobNum] = new sheepMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-	case 7:
-		mobs[mobNum] = new herobrineMob(x, y);
-		mobs[mobNum]->unKillMob();
-		break;
-  case 8:
-    mobs[mobNum] = new itemMob(x,y);
-    mobs[mobNum]->unKillMob();
-	default:
-		break;
+		case 0:
+			mobs[mobNum] = new baseMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 1:
+			mobs[mobNum] = new playerMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 2:
+			mobs[mobNum] = new MplayerMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 3:
+			mobs[mobNum] = new zombieMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 4:
+			mobs[mobNum] = new pigMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 5:
+			mobs[mobNum] = new cowMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 6:
+			mobs[mobNum] = new sheepMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 7:
+			mobs[mobNum] = new herobrineMob(x, y);
+			mobs[mobNum]->unKillMob();
+			break;
+		case 8:
+			mobs[mobNum] = new itemMob(x, y);
+			mobs[mobNum]->unKillMob();
+		default:
+			break;
 	}
 }
+
 void saveMobs(FILE* f)
 {
-  int i;
-  for (i = 0; i < 100; ++i)
-  {
-    if (mobs[i]->alive)
-    {
-      int mobType;
-      mobType = mobs[i]->mobtype;
-      if (mobType == 2 && mobs[i]->isMyPlayer()) mobType = 1;
-      fprintf(f,"%d ",mobType);
-      mobs[i]->saveToFile(f);
-    }
-  }
-  fprintf(f," -1");
+	int i;
+	for (i = 0; i < 100; ++i)
+	{
+		if (mobs[i]->alive)
+		{
+			int mobType;
+			mobType = mobs[i]->mobtype;
+			if (mobType == 2 && mobs[i]->isMyPlayer()) mobType = 1;
+			fprintf(f, "%d ", mobType);
+			mobs[i]->saveToFile(f);
+		}
+	}
+	fprintf(f, " -1");
 }
 
 void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
@@ -275,32 +275,34 @@ int spawnMobAt(int mobId, worldObject* world, int x, int y)
 		newMob(mobId, mobNum, x, y);
 		mobs[mobNum]->host = true;
 	}
-  return mobNum;
+	return mobNum;
 }
+
 void loadMobs(FILE* f)
 {
-  mobsReset(false);
-  int shouldContinue = true;
-  while (shouldContinue)
-  {
-    int mobType;
-    fscanf(f,"%d ",&mobType);
-    if (mobType != -1)
-    {
-      int mobId;
-      mobId = spawnMobAt(mobType, NULL ,0,0);
-      if (mobType == 1)
-      {
-        hasSpawnPlayer = true;
-      }
-      mobs[mobId]->loadFromFile(f);
-    }
-    else
-    {
-      shouldContinue = false;
-    }
-  }
+	mobsReset(false);
+	int shouldContinue = true;
+	while (shouldContinue)
+	{
+		int mobType;
+		fscanf(f, "%d ", &mobType);
+		if (mobType != -1)
+		{
+			int mobId;
+			mobId = spawnMobAt(mobType, NULL, 0, 0);
+			if (mobType == 1)
+			{
+				hasSpawnPlayer = true;
+			}
+			mobs[mobId]->loadFromFile(f);
+		}
+		else
+		{
+			shouldContinue = false;
+		}
+	}
 }
+
 void spawnMobNoCheck(int mobId, worldObject* world, int mobNum)
 {
 	if (mobNum >= 0)
@@ -377,7 +379,7 @@ void mobHandlerUpdate(worldObject* world)
 				{
 					mobs[i]->ping = 0;
 					mobs[i]->alive = false;
-          delete mobs[i];
+					delete mobs[i];
 				}
 			}
 		}

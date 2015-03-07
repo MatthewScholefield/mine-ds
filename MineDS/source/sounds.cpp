@@ -9,7 +9,7 @@
 #define LENGTH(X)	(sizeof(X) / sizeof(X[0]))
 
 int sounds_pos = 0;
-sound_t loaded_sounds[8] = { SOUND_NONE }; // circular buffer (must be power of two)
+sound_t loaded_sounds[8] = {SOUND_NONE}; // circular buffer (must be power of two)
 music_t loaded_music = MUSIC_NONE;
 
 void initSound(void)

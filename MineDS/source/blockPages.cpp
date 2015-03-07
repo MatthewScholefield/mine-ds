@@ -49,7 +49,7 @@ void pageMenuInit()
 	lcdMainOnTop();
 	consoleClear();
 	drawBackground();
-	miningSetScene(true);
+	setMiningDisabled(true);
 	rightButtonPageScreen.setVisible(true);
 	leftButtonPageScreen.setVisible(true);
 	backButtonPageScreen.setVisible(true);

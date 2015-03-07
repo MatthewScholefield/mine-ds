@@ -1,7 +1,7 @@
 #pragma once
 #include "graphics.h"
-typedef struct
-{
+
+typedef struct {
 	int graphicsID;
 	int x;
 	int y;

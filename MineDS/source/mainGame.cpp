@@ -53,26 +53,26 @@ static int inGameMenu()
 		Button save = Button(10, 8, "Save Game", 11);
 		Button quit = Button(10, 13, "Quit Game", 11);
 		Button settings = Button(10, 18, "Settings", 11);
-		Button buttons[] = { save, quit, settings };
+		Button buttons[] = {save, quit, settings};
 
 		switch (menu(buttons, 3))
 		{
-		case 1: // save game
-			printXY(1, 22, "Saving game");
-			if (!saveWorld(&world))
-			{
-				printXY(1, 22, "Failed to save game");
-				sleep(1);
-			}
-			break;
-		case 2: // quit game
-			return -1;
-		case 3: // settings
-			settingsScreen();
-			break;
-		default: // back button
-			backbutton = true;
-			break;
+			case 1: // save game
+				printXY(1, 22, "Saving game");
+				if (!saveWorld(&world))
+				{
+					printXY(1, 22, "Failed to save game");
+					sleep(1);
+				}
+				break;
+			case 2: // quit game
+				return -1;
+			case 3: // settings
+				settingsScreen();
+				break;
+			default: // back button
+				backbutton = true;
+				break;
 		}
 	}
 	redrawGameUI();
@@ -104,10 +104,10 @@ void newGame(gamemode_t mode, int seed)
 	clearInventory();
 	shouldQuitGame = false;
 	world.gamemode = mode;
-	world.CamX = 0;
-	world.CamY = 0;
-	world.CamCalcX = 0.0;
-	world.CamCalcY = 0.0;
+	world.camX = 0;
+	world.camY = 0;
+	world.camCalcX = 0.0;
+	world.camCalcY = 0.0;
 	world.timeInWorld = 0;
 	generateWorld(&world);
 }
@@ -117,9 +117,9 @@ void previewGame(void)
 	newGame(GAMEMODE_PREVIEW, 0);
 	mobHandlerUpdate(&world);
 	if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
-		worldRender_Render(&world, world.CamX, int(10 * world.CamCalcY));
+		worldRender_Render(&world, world.camX, int(10 * world.camCalcY));
 	else
-		worldRender_Render(&world, world.CamX, int(world.CamCalcY));
+		worldRender_Render(&world, world.camX, int(world.camCalcY));
 }
 
 bool loadGame(void)
@@ -182,10 +182,10 @@ void startGame(void)
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
+		miningUpdate(&world, world.camX, world.camY, touch, keysDown());
 		proceduralBlockUpdate(&world);
 		swiWaitForVBlank(); //Should be the only time called in the loop
-		worldRender_Render(&world, world.CamX, world.CamY);
+		worldRender_Render(&world, world.camX, world.camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
@@ -194,6 +194,7 @@ void startGame(void)
 }
 
 // TODO: clean this function up
+
 void startMultiplayerGame(bool host)
 {
 	touchPosition touch;
@@ -222,8 +223,8 @@ void startMultiplayerGame(bool host)
 	}
 	lcdMainOnBottom();
 	world.timeInWorld = 0;
-	world.CamX = 0;
-	world.CamY = 0;
+	world.camX = 0;
+	world.camY = 0;
 
 	while (!shouldQuitGame)
 	{
@@ -233,7 +234,7 @@ void startMultiplayerGame(bool host)
 		recieveWorldUpdate();
 		touchRead(&touch);
 		nifiUpdate();
-		miningUpdate(&world, world.CamX, world.CamY, touch, keysDown());
+		miningUpdate(&world, world.camX, world.camY, touch, keysDown());
 		update_message();
 		mobHandlerUpdate(&world);
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
@@ -244,7 +245,7 @@ void startMultiplayerGame(bool host)
 		graphicFrame();
 		if (host)
 			timeUpdate(&world);
-		worldRender_Render(&world, world.CamX, world.CamY);
+		worldRender_Render(&world, world.camX, world.camY);
 	}
 	nifiDisable();
 }
