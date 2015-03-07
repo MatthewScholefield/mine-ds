@@ -12,7 +12,7 @@ baseMob::baseMob()
 {
 	host = true;
 	facing = false;
-	for (int i=0; i<5; ++i)
+	for (int i = 0; i < 5; ++i)
 		collisions[i] = false;
 	mobId = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
@@ -39,7 +39,7 @@ baseMob::baseMob()
 baseMob::baseMob(int a, int b)
 {
 	host = true;
-	for (int i=0; i<5; ++i)
+	for (int i = 0; i < 5; ++i)
 		collisions[i] = false;
 	mobId = 0;
 	animation = 0;
@@ -71,8 +71,8 @@ baseMob::baseMob(int a, int b)
 
 void baseMob::updateMob(worldObject* world)
 {
-	if (animation == 0) showGraphic(&baseMobGraphic[0], x - world->CamX, y - world->CamY);
-	else if (animation == 1) showGraphic(&baseMobGraphic[1], x - world->CamX, y - world->CamY);
+	if (animation == 0) showGraphic(&baseMobGraphic[0], x - world->camX, y - world->camY);
+	else if (animation == 1) showGraphic(&baseMobGraphic[1], x - world->camX, y - world->camY);
 	if (host == true)
 	{
 		ping = 0;
@@ -99,7 +99,7 @@ void baseMob::saveToFile(FILE* pFile)
 
 void baseMob::loadFromFile(FILE* pFile)
 {
-  killMob();
+	killMob();
 }
 
 bool canBaseMobSpawnHere(worldObject* world, int x, int y)

@@ -33,7 +33,7 @@ void deathScreenSetup()
 		deathScreenShow = false;
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		miningSetScene(true);
+		setMiningDisabled(true);
 	}
 }
 
@@ -58,7 +58,7 @@ int deathScreenUpdate()
 				consoleClear();
 				printf("\n\n\n\n\n\n\n\n");
 				lcdMainOnBottom();
-				miningSetScene(false);
+				setMiningDisabled(false);
 				died = false;
 				return false;
 			}
@@ -67,7 +67,7 @@ int deathScreenUpdate()
 			{
 				drawBackground();
 				deathScreenShow = true;
-				miningSetScene(false);
+				setMiningDisabled(false);
 				died = true;
 				return 1;
 			}

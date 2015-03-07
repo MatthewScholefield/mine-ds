@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include "../world.h"
 #include "baseMob.h"
-bool canMplayerMobSpawnHere(worldObject* world,int x,int y);
+bool canMplayerMobSpawnHere(worldObject* world, int x, int y);
 
-class MplayerMob : public baseMob
-{
+class MplayerMob : public baseMob {
 public:
 	/*int x;
 	int y;
@@ -17,8 +16,8 @@ public:
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(worldObject* world);
-	virtual void hurt(int amount,int type);
+	virtual void hurt(int amount, int type);
 	MplayerMob();
-	MplayerMob(int x,int y);
+	MplayerMob(int x, int y);
 };
 void MplayerMobInit();

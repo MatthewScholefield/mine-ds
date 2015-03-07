@@ -51,7 +51,7 @@ int main()
 	mobHandlerInit();
 	worldRender_LoadSprites();
 	craftingInit();
-  proceduralBlockUpdateInit();
+	proceduralBlockUpdateInit();
 	graphicFrame();
 	oamClear(&oamSub, 0, 127);
 	initFile();

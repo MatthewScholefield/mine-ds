@@ -94,7 +94,7 @@ void craftingMenuInit()
 	lcdMainOnTop();
 	consoleClear();
 	drawBackground();
-	miningSetScene(true);
+	setMiningDisabled(true);
 	backButtonCraftScreen.setVisible(true);
 	craftButtonCraftScreen.setVisible(true);
 	rightButtonCraftScreen.setVisible(true);

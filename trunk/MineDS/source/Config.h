@@ -16,8 +16,7 @@
 #define PROPERTY_SPEED 2
 #define PROPERTY_SMOOTH 3
 
-class Config
-{
+class Config {
 private:
 	KEYPAD_BITS left;
 	KEYPAD_BITS right;
@@ -34,15 +33,16 @@ public:
 	bool getProperty(int property);
 	void setProperty(int property, bool);
 	KEYPAD_BITS getKey(int action);
-	Config ():left(KEY_LEFT),
-		right(KEY_RIGHT),
-		jump(KEY_A),
-		crouch(KEY_DOWN),
-		itemLeft(KEY_X),
-		itemRight(KEY_B),
-		switchScreen(KEY_Y),
-		menu(KEY_START),
-		climb(KEY_UP),
+
+	Config() : left(KEY_LEFT),
+	right(KEY_RIGHT),
+	jump(KEY_A),
+	crouch(KEY_DOWN),
+	itemLeft(KEY_X),
+	itemRight(KEY_B),
+	switchScreen(KEY_Y),
+	menu(KEY_START),
+	climb(KEY_UP),
 	properties {
 		false, false, true, true
 	}

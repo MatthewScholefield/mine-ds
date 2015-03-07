@@ -3,10 +3,9 @@
 #include "baseMob.h"
 #ifndef ZOMBIE_MOB_H
 #define ZOMBIE_MOB_H
-bool canZombieMobSpawnHere(worldObject* world,int x,int y);
+bool canZombieMobSpawnHere(worldObject* world, int x, int y);
 
-class zombieMob : public baseMob
-{
+class zombieMob : public baseMob {
 public:
 	/*int x;
 	int y;
@@ -22,10 +21,10 @@ public:
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(worldObject* world);
-	virtual void hurt(int amount,int type);
+	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	zombieMob();
-	zombieMob(int x,int y);
+	zombieMob(int x, int y);
 };
 void zombieMobInit();
 #endif

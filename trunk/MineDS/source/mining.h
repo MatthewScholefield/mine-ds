@@ -3,7 +3,7 @@
 #include <nds.h>
 #define NUM_BLOCKS 102
 int getSelectedSlot();
-void miningUpdate(worldObject* world,int sx,int sy,touchPosition touch, int keys);
+void miningUpdate(worldObject* world, int sx, int sy, touchPosition touch, int keys);
 void blocksCanPlace();
-void miningSetScene(bool a);
+void setMiningDisabled(bool a);
 void setSelectedSpace(int a);

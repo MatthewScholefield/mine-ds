@@ -18,12 +18,11 @@ int renderBright[] = {AIR, LOG, OAK_WOOD, BIRCH_WOOD, LEAF, YELLOW_FLOWER, RED_F
 int lightSourceBlocks[] = {TORCH, PUMPKIN_LIGHT, GLOWSTONE, FURNACE_LIT};
 int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
 int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
-			   PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_DIAMOND, COAL, INGOT_IRON, INGOT_GOLD, DIAMOND,
-			   STICK, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED, SHOVEL_DIAMOND,
-			   SHOVEL_WOOD, SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, AXE_DIAMOND, AXE_WOOD, AXE_STONE,
-			   AXE_IRON, AXE_GOLD, SWORD_DIAMOND, SWORD_WOOD, SWORD_STONE, SWORD_IRON, SWORD_GOLD,
-			   SEEDS_PUMPKIN, SEEDS_WHEAT
-			  };
+	PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_DIAMOND, COAL, INGOT_IRON, INGOT_GOLD, DIAMOND,
+	STICK, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED, SHOVEL_DIAMOND,
+	SHOVEL_WOOD, SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, AXE_DIAMOND, AXE_WOOD, AXE_STONE,
+	AXE_IRON, AXE_GOLD, SWORD_DIAMOND, SWORD_WOOD, SWORD_STONE, SWORD_IRON, SWORD_GOLD,
+	SEEDS_PUMPKIN, SEEDS_WHEAT};
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
 int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW};
@@ -123,14 +122,13 @@ bool isGrassBlock(int blockID)
 	}
 }
 
-
 bool isBlockALightSource(int blockID)
 {
 	int i;
 	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); ++i)
 		if (lightSourceBlocks[i] == blockID) return true;
 	return false;
-	}
+}
 
 int getLightAmount(int blockID)
 {
@@ -158,12 +156,12 @@ void initBlockProperties()
 	{
 		switch (blockType[i])
 		{
-		case WOOD:
-			hardness[i] = 5;
-			break; //Wood hardness is 5
-		default:
-			hardness[i] = 1;
-			break; //Default hardness is 1
+			case WOOD:
+				hardness[i] = 5;
+				break; //Wood hardness is 5
+			default:
+				hardness[i] = 1;
+				break; //Default hardness is 1
 		}
 		if (item(i))
 			hardness[i] = -1;
@@ -196,7 +194,7 @@ bool canBreak(int blockID) //checks a blockvalue
 		case AIR:
 			return false;
 	}
-	return spaceForItem(blockID)!=-1;
+	return spaceForItem(blockID) != -1;
 }
 
 bool canDropItem(int blockID) //checks is the item should be dropped when mined
@@ -243,7 +241,7 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 			return false;
 			break;
 	}
-	
+
 	return true;
 }
 
