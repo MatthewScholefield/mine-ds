@@ -15,24 +15,23 @@ enum gamemode_t {
 	GAMEMODE_PREVIEW = 3
 };
 
-typedef struct
-{
-	int blocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int data[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int brightness[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int lightemit[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int sun[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int bgblocks[WORLD_WIDTH+1][WORLD_HEIGHT+1];
-	int CamY;
-	int CamX;
+typedef struct {
+	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int data[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int brightness[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int lightemit[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int sun[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int bgblocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int camY;
+	int camX;
 	int timeInWorld;
 	int worldBrightness;
 	gamemode_t gamemode;
 	int seed; //The random number seed used to generate the world
-	double CamCalcX;
-	double CamCalcY;
+	double camCalcX;
+	double camCalcY;
 } worldObject;
 
-int findFirstBlock(worldObject* world,int x);
-int findFirstBiomeBlock(worldObject* world,int x);
-void drawLineDown(worldObject* world,int x, int y);
+int findFirstBlock(worldObject* world, int x);
+int findFirstBiomeBlock(worldObject* world, int x);
+void drawLineDown(worldObject* world, int x, int y);

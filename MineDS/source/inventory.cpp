@@ -18,14 +18,13 @@
 #include "general.h"
 #include "mainGame.h" // for isSurvival
 #include <nds.h> // for keysDown()
-#include <stdio.h> // for fileio
 #include "Config.h"
 #include "world.h"
 #include "files.h"
 #include "graphics/Button.h"
 #include "blockPages.h"
 #include "blockName.h"
-bool loadedGraphic = false;
+bool loadedInvGraphic = false;
 int selectedspace = -1;
 Graphic heldBlock;
 Button backButton(1, 16, "Back", false);
@@ -54,7 +53,7 @@ void drawInvButtons(bool drawBack, bool survival)
 void saveInventory(FILE* data)
 {
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
-		fprintf(data, "%d %d ",mainPlayerInv.blocks[i].blockId, mainPlayerInv.blocks[i].blockAmount);
+		fprintf(data, "%d %d ", mainPlayerInv.blocks[i].blockId, mainPlayerInv.blocks[i].blockAmount);
 }
 
 int getInventoryState()
@@ -74,7 +73,7 @@ int spaceForItem(int blockID)
 			break;
 			//Skip other inventory spaces...
 		}
-		//Found a sutiable air space.
+			//Found a sutiable air space.
 		else if (mainPlayerInv.blocks[i].blockId == AIR)
 		{
 			//Set the space as last resort, try to find correct inventory space.
@@ -191,13 +190,13 @@ void clearInventory() //clears inventory
 
 void changeGraphic(int blockID)
 {
-	if (loadedGraphic == true)
+	if (loadedInvGraphic == true)
 	{
 		unloadGraphic(&heldBlock);
-		loadedGraphic = false;
+		loadedInvGraphic = false;
 	}
 	loadGraphicSub(&heldBlock, 2, blockID);
-	loadedGraphic = true;
+	loadedInvGraphic = true;
 }
 
 void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
@@ -209,7 +208,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 		{
 			lcdMainOnTop();
 			showingInventory = 1;
-			miningSetScene(true);
+			setMiningDisabled(true);
 			drawBackground();
 			changeGraphic(AIR);
 			backButton.setVisible(true);
@@ -263,7 +262,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 				selectedspace = -1;
 				lcdMainOnBottom();
 				showingInventory = 0;
-				miningSetScene(false);
+				setMiningDisabled(false);
 				backButton.setVisible(false);
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
@@ -321,7 +320,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 			selectedspace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
-			miningSetScene(false);
+			setMiningDisabled(false);
 			consoleClear();
 			drawBackground();
 			updateInvGraphics();
@@ -337,7 +336,7 @@ void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
 		if ((isSurvival() && craftingMenuUpdate(&touch, &oldX, &oldY, &oldKeys)) || (!isSurvival() && pageMenuUpdate(&touch, &oldX, &oldY, &oldKeys)))
 		{ //Leaving crafting/page menu
 			showingInventory = 1;
-			miningSetScene(true);
+			setMiningDisabled(true);
 			drawBackground();
 			consoleClear();
 			changeGraphic(AIR);
@@ -364,7 +363,7 @@ void loadInventory(FILE* data)
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		int id, quantity;
-		fscanf(data, "%d %d ",&id, &quantity);
+		fscanf(data, "%d %d ", &id, &quantity);
 		addInventory(id, quantity, true);
 	}
 }

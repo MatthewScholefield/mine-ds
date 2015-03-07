@@ -13,6 +13,6 @@ bool alwaysRenderBright(int a);
 void initBlockProperties();
 int getHardness(int blockID);
 int getType(int blockID);
-int getSpriteBlock (int index);
+int getSpriteBlock(int index);
 bool isSpriteBlock(int block);
 bool isGrassBlock(int blockID);
