@@ -17,14 +17,10 @@ void initFile(void)
 bool saveWorld(worldObject *world)
 {
 	FILE *worldFile;
-	FILE *inventoryFile;
-	FILE *mobsFile;
 
 	bool openedWorld = (worldFile = fopen(WORLD_PATH, "w+")) != NULL;
-	bool openedInventory = (inventoryFile = fopen(INVENTORY_PATH, "w+")) != NULL;
-	bool openedMobs = (mobsFile = fopen(MOBS_PATH, "w+")) != NULL;
 
-	if (openedWorld && openedInventory && openedMobs)
+	if (openedWorld)
 	{
 		//fwrite(world, sizeof (*world), 1, worldFile);
 		fprintf(worldFile, "%d ", world->gamemode);
@@ -33,24 +29,19 @@ bool saveWorld(worldObject *world)
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
 				fprintf(worldFile, "%d %d %d ", world->blocks[i][j], world->bgblocks[i][j], world->data[i][j]);
 			if (i % 50 == 0)
-				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
+				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH + 100))));
 		}
-		iprintf("\x1b[19;1H              ");
+		for (int i = 0; i <= WORLD_WIDTH; ++i)
+			fprintf(worldFile, "%d ", world->biome[i]);
+
+		saveInventory(worldFile);
+		saveMobs(worldFile);
 		fclose(worldFile);
-
-		saveMobs(mobsFile);
-		fclose(mobsFile);
-
-		saveInventory(inventoryFile);
-		fclose(inventoryFile);
+		iprintf("\x1b[19;1H              ");
 		return true;
 	}
 	if (openedWorld)
 		fclose(worldFile);
-	if (openedInventory)
-		fclose(inventoryFile);
-	if (openedMobs)
-		fclose(mobsFile);
 	return false;
 }
 
@@ -70,14 +61,10 @@ bool saveControls(Config *controls)
 bool loadWorld(worldObject *world)
 {
 	FILE *worldFile;
-	FILE *inventoryFile;
-	FILE *mobsFile;
 
 	bool openedWorld = (worldFile = fopen(WORLD_PATH, "r")) != NULL;
-	bool openedInventory = (inventoryFile = fopen(INVENTORY_PATH, "r")) != NULL;
-	bool openedMobs = (mobsFile = fopen(MOBS_PATH, "r")) != NULL;
 
-	if (openedWorld && openedInventory && openedMobs)
+	if (openedWorld)
 	{
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
@@ -87,25 +74,22 @@ bool loadWorld(worldObject *world)
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
 				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
 			if (i % 64 == 0)
-				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
-
+				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH + 100))));
 		}
+		int loadBiome;
+		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		{
+			fscanf(worldFile, "%d ", &loadBiome);
+			world->biome[i] = Biome(loadBiome);
+		}
+		loadInventory(worldFile);
+		loadMobs(worldFile);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
-
-		loadInventory(inventoryFile);
-		fclose(inventoryFile);
-
-		loadMobs(mobsFile);
-		fclose(mobsFile);
 		return true;
 	}
 	if (openedWorld)
 		fclose(worldFile);
-	if (openedInventory)
-		fclose(inventoryFile);
-	if (openedMobs)
-		fclose(mobsFile);
 	return false;
 }
 

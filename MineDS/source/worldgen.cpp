@@ -111,21 +111,21 @@ void generateSmallWorld(worldObject* world)//Generates one biome
 	sizex = rand() % 16 + 16;
 	if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
 	j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
-	switch (rand() % 5)
+	switch (rand() % 5 + 1)
 	{
-		case 0:
+		case BIOME_PLAINS:
 			plainsBiome(world, i, i + sizex);
 			break;
-		case 1:
+		case BIOME_SNOW:
 			snowBiome(world, i, i + sizex);
 			break;
-		case 2:
+		case BIOME_DESERT:
 			desertBiome(world, i, i + sizex);
 			break;
-		case 3:
+		case BIOME_JUNGLE:
 			jungleBiome(world, i, i + sizex);
 			break;
-		case 4:
+		case BIOME_MUSHROOM:
 			mushroomBiome(world, i, i + sizex);
 			break;
 	}
@@ -152,21 +152,21 @@ void generateWorld(worldObject* world)
 			sizex = rand() % 16 + 16;
 			if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
 			j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
-			switch (rand() % 5)
+			switch (rand() % 5 + 1)
 			{
-				case 0:
+				case BIOME_PLAINS:
 					plainsBiome(world, i, i + sizex);
 					break;
-				case 1:
+				case BIOME_SNOW:
 					snowBiome(world, i, i + sizex);
 					break;
-				case 2:
+				case BIOME_DESERT:
 					desertBiome(world, i, i + sizex);
 					break;
-				case 3:
+				case BIOME_JUNGLE:
 					jungleBiome(world, i, i + sizex);
 					break;
-				case 4:
+				case BIOME_MUSHROOM:
 					mushroomBiome(world, i, i + sizex);
 					break;
 			}
