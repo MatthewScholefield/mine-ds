@@ -15,18 +15,15 @@ grassUpdater::grassUpdater()
 
 void grassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 {
-	if (!bg)
+	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];
+	if (!isBlockWalkThrough(blockAboveXY))
+		blockXY = DIRT;
+	else if (rand() % 10 == 0 && !bg && world->biome[x] == BIOME_SNOW)
 	{
-		if (!isBlockWalkThrough(world->blocks[x][y - 1]))
-		{
-			world->blocks[x][y] = DIRT;
-		}
+		blockXY = SNOW_GRASS;
+		blockAboveXY = SNOW_TOP;
 	}
-	else
-	{
-		if (!isBlockWalkThrough(world->blocks[x][y - 1]) || !isBlockWalkThrough(world->bgblocks[x][y - 1]))
-		{
-			world->bgblocks[x][y] = DIRT;
-		}
-	}
+	else if (rand() % 10 == 0 && bg && world->biome[x] == BIOME_SNOW && world->blocks[x][y - 1] == SNOW_TOP)
+		blockXY = SNOW_GRASS;
 }

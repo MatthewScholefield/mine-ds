@@ -115,16 +115,13 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 	if (canBreak(blockXY))
 	{
 
-		if (isSurvival() && canDropItem(blockXY))
+		if (canDropItem(blockXY))
 		{
-			int mobNum = spawnMobAt(8, world, x * 16 + rand() % 8, y * 16);
-			mobHandlerHurtMob(mobNum, genericBlock(blockXY), PROPERTY_HURT);
-			mobHandlerHurtMob(mobNum, 1, PROPERTY_HURT);
+			createItemMob(x, y, genericBlock(blockXY));
 		}
 		else if (!isSurvival())
 			addInventory(blockXY);
 		blockXY = AIR;
-		checkBlockDelete(x, y, world, bg);
 		hasChangedBlock = true;
 	}
 }
@@ -151,7 +148,6 @@ void setBlock(worldObject* world, int x, int y)
 			{
 				if (subInventory(selectedBlock, 1))
 					world->bgblocks[x][y] = selectedBlock;
-				checkBlockPlace(x, y, world, isCrouched);
 				hasChangedBlock = true;
 			}
 		}
@@ -171,7 +167,6 @@ void setBlock(worldObject* world, int x, int y)
 			{
 				if (subInventory(selectedBlock, 1))
 					world->blocks[x][y] = selectedBlock;
-				checkBlockPlace(x, y, world, isCrouched);
 				hasChangedBlock = true;
 			}
 			else

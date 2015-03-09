@@ -16,6 +16,10 @@
 #include "blockupdaters/leaf.h"
 #include "blockupdaters/redwoodLeaf.h"
 #include "blockupdaters/jungleLeaf.h"
+#include "blockupdaters/snowTop.h"
+#include "blockupdaters/snowGrass.h"
+#include "blockupdaters/cactus.h"
+#include "blockupdaters/plants.h"
 
 blockUpdater* blockUpdaters[10];
 int numBlockUpdaters;
@@ -30,7 +34,6 @@ void blockUpdater::update(worldObject* world, int x, int y, bool bg)
 
 void blockUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 {
-
 }
 
 void proceduralBlockUpdateInit()
@@ -45,6 +48,15 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[numBlockUpdaters++] = new leafUpdater;
 	blockUpdaters[numBlockUpdaters++] = new redwoodLeafUpdater;
 	blockUpdaters[numBlockUpdaters++] = new jungleLeafUpdater;
+	blockUpdaters[numBlockUpdaters++] = new snowTopUpdater;
+	blockUpdaters[numBlockUpdaters++] = new snowGrassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new cactusUpdater;
+	blockUpdaters[numBlockUpdaters++] = new shrubUpdater;
+	blockUpdaters[numBlockUpdaters++] = new tallGrassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new redFlowerUpdater;
+	blockUpdaters[numBlockUpdaters++] = new yellowFlowerUpdater;
+	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater;
+	blockUpdaters[numBlockUpdaters++] = new brownMushroomUpdater;
 }
 
 void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
@@ -82,92 +94,3 @@ void proceduralBlockUpdate(worldObject* world)
 		}
 	}
 }
-
-void checkBlockPlace(int x, int y, worldObject* world, bool bg)
-{
-	if (!bg)
-	{
-		if ((world->blocks[x][y] == TORCH || world->blocks[x][y] == LADDER) && !isBlockWalkThrough(world->bgblocks[x][y]));
-		else if (isBlockWalkThrough(world->blocks[x][y]) && (isBlockWalkThrough(world->blocks[x][y + 1]))) // If a transparent block is on top of a transparent block, delete it
-		{
-			addInventory(world->blocks[x][y]);
-			world->blocks[x][y] = AIR;
-		}
-		if (world->blocks[x][y] == CACTUS && !(world->bgblocks[x][y + 1] == SAND || world->blocks[x][y + 1] == CACTUS || world->blocks[x][y + 1] == SAND))
-		{
-			addInventory(world->blocks[x][y]);
-			world->blocks[x][y] = AIR;
-		}
-		if (world->blocks[x][y] == SNOW_TOP)
-		{
-			if (world->blocks[x][y + 1] == GRASS)
-			{
-				world->blocks[x][y + 1] = SNOW_GRASS;
-				if (isWifi()) placeBlock(x, y + 1);
-			}
-			if (world->bgblocks[x][y + 1] == GRASS)
-			{
-				world->bgblocks[x][y + 1] = SNOW_GRASS;
-				if (isWifi()) placeBlock(x, y + 1);
-			}
-		}
-
-	}
-	else if (bg)
-	{
-		if (isBlockWalkThrough(world->bgblocks[x][y]) && (isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->bgblocks[x][y + 1])))
-		{
-			addInventory(world->bgblocks[x][y]);
-			world->bgblocks[x][y] = AIR;
-		}
-		if (world->bgblocks[x][y] == CACTUS && !(world->bgblocks[x][y + 1] == SAND || world->bgblocks[x][y + 1] == CACTUS || world->blocks[x][y + 1] == SAND))
-		{
-			addInventory(world->bgblocks[x][y]);
-			world->bgblocks[x][y] = AIR;
-		}
-		if (world->bgblocks[x][y] == SNOW_TOP)
-		{
-			if (world->blocks[x][y + 1] == GRASS)
-			{
-				world->blocks[x][y + 1] = SNOW_GRASS;
-				if (isWifi()) placeBlock(x, y + 1);
-			}
-			if (world->bgblocks[x][y + 1] == GRASS)
-			{
-				world->bgblocks[x][y + 1] = SNOW_GRASS;
-				if (isWifi()) placeBlock(x, y + 1);
-			}
-		}
-	}
-}
-
-void checkBlockDelete(int x, int y, worldObject* world, bool bg)
-{
-	if (!(world->blocks[x][y] == SAND || world->bgblocks[x][y] == SAND))
-	{
-		int c = 1;
-		while ((world->blocks[x][y - c] == CACTUS) || (world->bgblocks[x][y - c] == CACTUS))
-		{
-			addInventory(world->bgblocks[x][y - c]);
-			addInventory(world->blocks [x][y - c]);
-			world->blocks[x][y - c] = AIR;
-			world->bgblocks[x][y - c] = AIR;
-			if (isWifi()) placeBlock(x, y - c);
-			++c;
-		}
-	}
-	checkBlockPlace(x, y - 1, world, true);
-	checkBlockPlace(x, y - 1, world, false);
-	if (isWifi()) placeBlock(x, y - 1);
-	if (world->blocks[x][y + 1] == SNOW_GRASS && !(world->blocks[x][y] == SNOW_TOP || world->bgblocks[x][y] == SNOW_TOP))
-	{
-		world->blocks[x][y + 1] = GRASS;
-		if (isWifi()) placeBlock(x, y + 1);
-	}
-	if (world->bgblocks[x][y + 1] == SNOW_GRASS && !(world->blocks[x][y] == SNOW_TOP || world->bgblocks[x][y] == SNOW_TOP))
-	{
-		world->bgblocks[x][y + 1] = GRASS;
-		if (isWifi()) placeBlock(x, y + 1);
-	}
-}
-

@@ -2,7 +2,6 @@
 #include "../general.h"
 #include "../graphics/graphics.h"
 #include "../blockupdate.h"
-#include "../mobs/mobHandler.h"
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
@@ -29,12 +28,10 @@ void leafChanceUpdateGeneric(worldObject* world, int x, int y, bool bg)
 		world->bgblocks[x][y] = AIR;
 	else if (!nearWood)
 		world->blocks[x][y] = AIR;
-	if (!nearWood && (rand() % 5) == 0 && isSurvival())
+	if (!nearWood && (rand() % 5) == 0)
 	{
 		//Spawn an item mob, and send blockId and amount.
-		int mobNum = spawnMobAt(8, world, x * 16 + rand() % 8, y * 16);
-		mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
-		mobHandlerHurtMob(mobNum, 1, PROPERTY_HURT);
+		createItemMob(x, y, blockID);
 	}
 }
 
