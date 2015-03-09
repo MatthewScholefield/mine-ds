@@ -12,6 +12,7 @@
 #include "../worldRender.h"
 #include "../sounds.h"
 #include "../inventory.h"
+#include "../mainGame.h"
 Graphic zombieMobGraphic[3];
 
 zombieMob::zombieMob()
@@ -67,8 +68,7 @@ void zombieMob::hurt(int amount, int type)
 	animationclearframes = 20;
 	if (health <= 0)
 	{
-		if (type == PLAYER_HURT)
-			addInventory(FLESH, rand() % 2 + 1);
+		createItemMob(x, y, FLESH, rand() % 2 + 1);
 		killMob();
 	}
 }

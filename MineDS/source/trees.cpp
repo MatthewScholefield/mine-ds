@@ -89,8 +89,8 @@ void growCactus(worldObject* world, int x, int y)
 
 void growFlower(worldObject* world, int x, int y)
 {
-	if (rand() % 2) world->bgblocks[x][y] = RED_FLOWER;
-	else world->bgblocks[x][y] = YELLOW_FLOWER;
+	if (rand() % 2) world->blocks[x][y] = RED_FLOWER;
+	else world->blocks[x][y] = YELLOW_FLOWER;
 }
 
 void growPumpkinPatch(worldObject* world, int x, int y)

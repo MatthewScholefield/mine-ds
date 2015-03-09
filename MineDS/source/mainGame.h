@@ -1,6 +1,7 @@
 #pragma once
 #include "world.h"
 
+void createItemMob(int x, int y, int blockID, int amount = 1);
 bool isCreative(void);
 bool isSurvival(void);
 void newGame(gamemode_t mode, int seed);

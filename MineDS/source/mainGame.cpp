@@ -10,6 +10,7 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
+#include "mobs/hurt.h"
 #include "mobs/mobPlayer.h"
 #include "deathScreen.h"
 #include "daynight.h"
@@ -28,6 +29,15 @@
 
 bool shouldQuitGame = false;
 worldObject world;
+
+void createItemMob(int x, int y, int blockID, int amount)
+{
+	if (world.gamemode == GAMEMODE_CREATIVE)
+		return;
+	int mobNum = spawnMobAt(8, &world, x * 16 + rand() % 8, y * 16);
+	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
+	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
+}
 
 static void redrawGameUI(void)
 {

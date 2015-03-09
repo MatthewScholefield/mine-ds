@@ -15,5 +15,3 @@ public:
 };
 void proceduralBlockUpdateInit();
 void proceduralBlockUpdate(worldObject* world);
-void checkBlockPlace(int x, int y, worldObject* world, bool bg);
-void checkBlockDelete(int x, int y, worldObject* world, bool bg);

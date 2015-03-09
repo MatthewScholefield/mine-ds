@@ -20,9 +20,10 @@ void plainsBiome(worldObject* world, int startx, int endx)
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world->blocks[x][j] = DIRT;
 		world->blocks[x][y] = GRASS;
+		world->biome[x] = BIOME_PLAINS;
 		if (gx == x)
 		{
-			world->bgblocks[x][y - 1] = TALL_GRASS;
+			world->blocks[x][y - 1] = TALL_GRASS;
 			gx += 1;
 			if (rand() % 2 == 0) gx += rand() % 3;
 		}
@@ -52,6 +53,8 @@ void jungleBiome(worldObject* world, int startx, int endx)
 		int y = findFirstBlock(world, x); // Get the first block that is not AIR...
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world->blocks[x][j] = DIRT;
+		world->blocks[x][y] = JUNGLE_GRASS;
+		world->biome[x] = BIOME_JUNGLE;
 		if (flx == x)
 		{
 			world->bgblocks[x][y - 1] = JUNGLE_LEAF;
@@ -61,7 +64,6 @@ void jungleBiome(worldObject* world, int startx, int endx)
 				flx += 1 + rand() % 3;
 			else flx += 1;
 		}
-		world->blocks[x][y] = JUNGLE_GRASS;
 		if (treex == x)
 		{
 			growJungleTree(world, x, y - 1);
@@ -85,6 +87,7 @@ void snowBiome(worldObject* world, int startx, int endx)
 		for (int j = y; j < endy; ++j) world->blocks[x][j] = DIRT;
 		world->blocks[x][y] = SNOW_TOP;
 		world->blocks[x][y + 1] = SNOW_GRASS;
+		world->biome[x] = BIOME_SNOW;
 		if (flx == x)
 		{
 			growPumpkinPatch(world, x, y - 1);
@@ -113,14 +116,17 @@ void desertBiome(worldObject* world, int startx, int endx)
 		int endy = y + (rand() % 2) + 3;
 		for (int j = y; j < endy; ++j) world->blocks[x][j] = SAND;
 		for (int j = endy - (1 + (rand() % 3)); j < endy; ++j) world->blocks[x][j] = SANDSTONE;
+		world->biome[x] = BIOME_DESERT;
 		if (treex == x)
 		{
 			growCactus(world, x, y - 1);
+			world->blocks[x][y] = SAND;
 			treex += 6 + rand() % 5;
 		}
 		else if (flx == x)
 		{
-			world->bgblocks[x][y - 1] = SHRUB;
+			world->blocks[x][y - 1] = SHRUB;
+			world->blocks[x][y] = SAND;
 			flx += 5 + rand() % 3;
 		}
 		if (flx == x && treex == x)
@@ -142,15 +148,15 @@ void mushroomBiome(worldObject* world, int startx, int endx)
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world->blocks[x][j] = DIRT;
 		world->blocks[x][y] = MYCELIUM;
+		world->biome[x] = BIOME_MUSHROOM;
 		if (flx == x)
 		{
-			world->bgblocks[x][y - 1] = (rand() % 2 == 1 ? MUSHROOM_BROWN : MUSHROOM_RED);
+			world->blocks[x][y - 1] = (rand() % 2 == 1 ? MUSHROOM_BROWN : MUSHROOM_RED);
 			flx += 1 + rand() % 4;
 		}
 		if (treex == x)
 		{
 			growGiantMushroom(world, x, y - 1);
-			world->blocks[x][y - 1] = AIR; //If there is a mushroom there, I haven't added transparency so it whill look weird
 			treex += 8 + rand() % 5;
 		}
 		++x;

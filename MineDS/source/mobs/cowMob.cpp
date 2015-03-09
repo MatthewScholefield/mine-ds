@@ -11,6 +11,7 @@
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"
+#include "../mainGame.h"
 Graphic cowMobGraphic[2];
 
 cowMob::cowMob()
@@ -181,10 +182,12 @@ void cowMob::hurt(int amount, int type)
 	playSound(SOUND_COW_HURT);
 	if (type == PLAYER_HURT)
 		scared = true;
-	if (health <= 0 && type == PLAYER_HURT)
+	if (health <= 0)
 	{
-		addInventory(BEEF_RAW, rand() % 4);
-		addInventory(LEATHER, rand() % 3);
+		if (rand() % 4 != 0)
+			createItemMob(x / 16, y / 16, BEEF_RAW, rand() % 3 + 1);
+		if (rand() % 3 != 0)
+			createItemMob(x / 16, y / 16, LEATHER, rand() % 2 + 1);
 	}
 	animation = 1;
 	animationclearframes = 20;

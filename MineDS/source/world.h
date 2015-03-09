@@ -15,6 +15,14 @@ enum gamemode_t {
 	GAMEMODE_PREVIEW = 3
 };
 
+enum Biome {
+	BIOME_PLAINS = 1,
+	BIOME_SNOW = 2,
+	BIOME_DESERT = 3,
+	BIOME_JUNGLE = 4,
+	BIOME_MUSHROOM = 5
+};
+
 typedef struct {
 	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int data[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
@@ -30,6 +38,7 @@ typedef struct {
 	int seed; //The random number seed used to generate the world
 	double camCalcX;
 	double camCalcY;
+	Biome biome[WORLD_WIDTH + 1];
 } worldObject;
 
 int findFirstBlock(worldObject* world, int x);
