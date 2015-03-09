@@ -148,7 +148,8 @@ void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y)
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
 	u8* Tiles = (u8*) & block_smallTiles;
 	Tiles += frame * (16 * 16);
-	dmaCopy(Tiles, graphics, 8 * 8);
+	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
+	//dmaCopy(Tiles, graphics, 8 * 8);
 
 	g->mob = 2;
 	g->sx = x;

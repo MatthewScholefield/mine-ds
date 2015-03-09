@@ -75,6 +75,8 @@ void dirtUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 			return;
 		else
 			world->blocks[x][y] = grassType;
+		if (world->blocks[x][y] == SNOW_GRASS)
+			world->blocks[x][y - 1] = SNOW_TOP;
 	}
 	else
 	{
@@ -87,5 +89,7 @@ void dirtUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 			return;
 		else
 			world->bgblocks[x][y] = grassType;
+		if (world->bgblocks[x][y] == SNOW_GRASS && isBlockWalkThrough(world->blocks[x][y]))
+			world->bgblocks[x][y - 1] = SNOW_TOP;
 	}
 }

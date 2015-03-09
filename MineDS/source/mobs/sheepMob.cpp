@@ -11,7 +11,7 @@
 #include "../sounds.h"
 #include "../collision.h"
 #include "../inventory.h"
-#include "../general.h"
+#include "../mainGame.h"
 Graphic sheepMobGraphic[2];
 
 sheepMob::sheepMob()
@@ -183,7 +183,10 @@ void sheepMob::hurt(int amount, int type)
 	if (type == PLAYER_HURT)
 		scared = true;
 	if (health <= 0 && type == PLAYER_HURT)
-		addInventory(WHITE_WOOL, rand() % 4);
+	{
+		if (rand() % 4 != 0)
+			createItemMob( x, y, WHITE_WOOL, rand() % 3 + 1);
+	}
 	animation = 1;
 	animationclearframes = 20;
 }

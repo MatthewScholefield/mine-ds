@@ -113,6 +113,7 @@ bool isGrassBlock(int blockID)
 {
 	switch (blockID)
 	{
+		case SNOW_GRASS:
 		case GRASS:
 		case MYCELIUM:
 		case JUNGLE_GRASS:
@@ -247,6 +248,8 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 
 int genericBlock(int blockID)
 {
+	if (!isSurvival())
+		return blockID;
 	switch (blockID)
 	{
 		case GRASS:
