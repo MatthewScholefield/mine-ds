@@ -1,6 +1,7 @@
 #pragma once
 #define NUM_SPRITE_BLOCKS 10
 
+int sapling(int leafID);
 bool canBreak(int blockID);
 bool canDropItem(int blockID);
 int genericBlock(int blockID);
