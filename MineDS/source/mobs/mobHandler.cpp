@@ -16,6 +16,8 @@
 #include "../collision.h"
 #include "../general.h"
 #include "../Config.h"
+#include "../blockID.h"
+#include "../blocks.h"
 #define playerId 1
 
 baseMob* mobs[100];
@@ -23,6 +25,11 @@ const int peacefulmobs[] = {4, 5, 6};
 bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
 int spawn_x, spawn_y;
+
+bool canMobSpawnHere(worldObject *world, int x, int y)
+{
+	return (isBlockWalkThrough(world->blocks[x][y]) && !isBlockWalkThrough(world->blocks[x][y + 1]) && world->blocks[x][y] != CACTUS && world->bgblocks[x][y + 1] != CACTUS);
+}
 
 int getDefaultSpawnX()
 {
