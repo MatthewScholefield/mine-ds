@@ -88,6 +88,21 @@ bool isBlockWalkThrough(int blockID)
 	return false;
 }
 
+int sapling(int leafID)
+{
+	switch (leafID)
+	{
+		case LEAF:
+			return SAPLING_OAK;
+		case LEAF_JUNGLE:
+			return SAPLING_JUNGLE;
+		case LEAF_REDWOOD:
+			return SAPLING_SPRUCE;
+		default:
+			return GLOWSTONE; //Random block
+	}
+}
+
 bool item(int blockID)
 {
 	int i;
