@@ -4,6 +4,7 @@
 
 #define JUMP_VELOCITY 2.5
 
+bool canMobSpawnHere(worldObject *world, int x, int y);
 int getDefaultSpawnX();
 void saveMobs(FILE* f);
 void loadMobs(FILE* f);
