@@ -120,13 +120,13 @@ void pigMob::updateMob(worldObject* world)
 
 		else if (!collisions[1] && !facing && jump)
 		{
-			x += facing ? -1 : 1;
+			x += 0.7;
 			++scaredtimer;
 			jump = 0;
 		}
 		else if (!collisions[2] && facing && jump)
 		{
-			x += facing ? -1 : 1;
+			x -= 0.7;
 			++scaredtimer;
 			jump = 0;
 		}
@@ -160,9 +160,16 @@ void pigMob::loadFromFile(FILE* pFile)
 
 bool canPigMobSpawnHere(worldObject* world, int x, int y)
 {
-	++y;
-	if ((world->blocks[x][y + 1] == GRASS || world->blocks[x][y + 1] == SNOW_GRASS) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
-	return false;
+	if (!canMobSpawnHere(world, x, y))
+		return false;
+	switch (world->biome[x])
+	{
+		case BIOME_PLAINS:
+		case BIOME_SNOW:
+			return true;
+		default:
+			return false;
+	}
 }
 
 void pigMobInit()
