@@ -1,3 +1,4 @@
+#pragma once
 #include "baseMob.h"
 #include "../graphics/graphics.h"
 
@@ -5,6 +6,7 @@ class itemMob : public baseMob {
 public:
 	Graphic itemGraphic;
 	int blockID;
+	int displayID;
 	int amount;
 	int floatY;
 	bool loadedBlockGfx;

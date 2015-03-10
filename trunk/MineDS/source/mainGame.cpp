@@ -30,13 +30,14 @@
 bool shouldQuitGame = false;
 worldObject world;
 
-void createItemMob(int x, int y, int blockID, int amount)
+void createItemMob(int x, int y, int blockID, int amount, int displayID)
 {
 	if (world.gamemode == GAMEMODE_CREATIVE)
 		return;
 	int mobNum = spawnMobAt(8, &world, x * 16 + rand() % 8, y * 16);
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
+	mobHandlerHurtMob(mobNum, displayID, PROPERTY_HURT);
 }
 
 static void redrawGameUI(void)

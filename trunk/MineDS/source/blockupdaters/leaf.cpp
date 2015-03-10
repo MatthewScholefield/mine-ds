@@ -31,7 +31,7 @@ void leafChanceUpdateGeneric(worldObject* world, int x, int y, bool bg)
 	if (!nearWood && (rand() % 5) == 0)
 	{
 		//Spawn an item mob, and send blockId and amount.
-		createItemMob(x, y, blockID);
+		createItemMob(x, y, sapling(blockID), 1, blockID);
 	}
 }
 

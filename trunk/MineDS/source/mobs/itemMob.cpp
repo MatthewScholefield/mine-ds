@@ -24,7 +24,8 @@ itemMob::itemMob(int a, int b)
 	health = 1;
 	mobtype = 8;
 	blockID = -1;
-	amount = 1;
+	displayID = -1;
+	amount = -1;
 	floatY = 0;
 	loadedBlockGfx = false;
 }
@@ -45,7 +46,7 @@ void itemMob::updateMob(worldObject* world)
 		vx = double((rand() % 10) + 20) / 100.0;
 		//Set direction
 		vx *= (rand() % 2) ? -1 : 1;
-		loadGraphicMiniBlock(&itemGraphic, blockID, 8, 8);
+		loadGraphicMiniBlock(&itemGraphic, displayID, 8, 8);
 		loadedBlockGfx = true;
 	}
 	if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx) / 16)][y / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x / 16)][y / 16])))
@@ -101,7 +102,9 @@ void itemMob::loadFromFile(FILE* pFile)
 void itemMob::hurt(int hamount, int type)
 {
 	if (blockID == -1)
-		blockID = hamount;
-	else
+		displayID = blockID = hamount;
+	else if (amount == - 1)
 		amount = hamount;
+	else if (hamount > 0)
+		displayID = hamount;
 }
