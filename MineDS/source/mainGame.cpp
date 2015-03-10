@@ -176,6 +176,7 @@ void startGame(void)
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 
+	shouldQuitGame = false;
 	while (!shouldQuitGame)
 	{
 		updateTime();
@@ -247,8 +248,6 @@ void startMultiplayerGame(bool host)
 		miningUpdate(&world, world.camX, world.camY, touch, keysDown());
 		update_message();
 		mobHandlerUpdate(&world);
-		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
-			break;
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
