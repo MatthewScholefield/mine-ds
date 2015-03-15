@@ -1,0 +1,6 @@
+Ha, I'm nice, I added .txt to the end of a file, I dont have to do that in linux :P
+
+1. Create a proper Item chooser.					
+2. That top screen should be fine! (fur jetzt)							[DONE!]
+3. Create a day-night cycle (A bitmap will not work , G is not big enough for a bitamp)
+					
