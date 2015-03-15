@@ -1,0 +1,34 @@
+MCDS Planning:
+
+How are we going to map the VRAM banks?
+What do the "bases" need to be on the BGS?
+What do we need to focus the VRAM on?
+What graphics are going to use a lot of space, this is where we neede to focus the VRAM on?
+What are the two MAIN elements that need vram? (MAIN_BG,MAIN_SPRITES,SUB_SPRITES,SUB_BG)
+How are the screens going to be set up?
+How much memory shoud be mapped to each element?
+Is there anything that should be written in ASM? *I dont think we need anything with ASM :D* (Hint: lag in real minecraft)
+
+
+MAIN VRAM ELEMENTS:
+-
+-
+VRAM SIZES:
+MAIN_SPRITE
+MAIN_BG
+SUB_BG
+SUB_SPRITE
+VRAM SETTINGS:
+A:
+B:
+C:
+D:
+E:
+F: EXTENDED PALETTE
+G:
+H:
+I:
+
+*I think the player dont have to use much KB (Not much animations, mobs have more). But do you think its possible to let the player use own Player skins? We need the extended palette for the blocks, right?*
+
+We HAVE to use the blocks and items as 16x16 images and resize them to 32x32 in the game, because for the itembar or other things, we need them as 16x16. So we resize them for ingame blocks :D

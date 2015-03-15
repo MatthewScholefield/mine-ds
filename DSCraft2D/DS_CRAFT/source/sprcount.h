@@ -1,0 +1,2 @@
+int nextSprite();
+void resetSpriteCount();

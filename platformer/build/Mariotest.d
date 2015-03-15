@@ -1,0 +1,1 @@
+Mariotest.o: Mariotest.s
