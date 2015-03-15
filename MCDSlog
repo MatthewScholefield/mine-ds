@@ -1,0 +1,37 @@
+MC DS TODO LOG:
+
+
+A 2D creation of minecraft
+
+
+IDEAS:
+
+-Blocks will be 32x32 in size, this makes it VERY easy to code, great for new coders to understand
+-Blocks will be rendered as 63 sprites, this leaves 65 left for mobs and special effects.
+-We will then have 2 bgs under the sprites they wil be BG 3 & 2
+-One BG will be 256*256 and consist of only clouds this bg will move at a rate of 1px every 4 frames
+-Another BG will be 256*512 and consist of the colours of the sky.
+-The first 192px (height) will be the colour of the day's light blue.
+-Next there will be a 64px gradient which goes from the day's light blue to the nights purple.
+-Next there is the nights purple colour (192px height)
+-Then another 64px gradient will go from the nights purple to the day's light blue again.
+-192 sky + 64 gradient + 192 night + 64 graident=512px (height of BG)!
+-The Sky BG will wait 36000 frames (10 minutes) Then scroll down 64 px at a rate of 0.5 px every frame
+-sky BG is now at night.
+-The game has taken 12 minutes and 8 seconds to get to night.
+-Now the game waits 2160 frames (6 minutes) Then scrolls down 64 px at a rate of 0.5px every frame (2 minutes and 8 seconds)
+-A whole day-night cycle is 10+6+2+2=20 minutes 16 seconds.
+-When the BG scroll gets to 512 change it to zero.
+-There is a "MAX MOB COUNT" of 50, this leaves about 15 sprites for room. (In case something goes wrong)
+
+TODO (in order)
+-Do the day, night cycle first, this will probably be the hardest part.
+-Then create a block struct.
+-Fill some block structs and code a renderer.
+-Scroll around world and see if it works.
+-Add a 'player'DONE 
+-Write a world generator
+-Create some mobs
+-Make a particle engine (Block breaking)
+-Add a Title Screen
+-Add multiplayer, (http://www.youwrite.com/greenacorn/index.php?option=com_content&view=article&id=18:nifi-ds-to-ds-comms&catid=9:nds&Itemid=1)
