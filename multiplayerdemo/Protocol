@@ -1,8 +1,0 @@
-!P Clear the screen With (Colour)
-	Syntax !P(serverseed)(color)
-!L Plot Line
-	Syntax !L(serverseed)(xpos)(ypos)(xpos)(ypos)(color)
-#S Server
-	Syntax #S(serverseed)
-#P Ask for a Clear screen
-	Syntax #P(serverseed)
