@@ -147,7 +147,12 @@ void setBlock(worldObject* world, int x, int y)
 			if (isPlaceableBlock)
 			{
 				if (subInventory(selectedBlock, 1))
+				{
 					world->bgblocks[x][y] = selectedBlock;
+					if (selectedBlock == SNOW_GRASS && world->bgblocks[x][y - 1] == AIR)
+						world->bgblocks[x][y - 1] = SNOW_TOP;
+
+				}
 				hasChangedBlock = true;
 			}
 		}
@@ -166,7 +171,11 @@ void setBlock(worldObject* world, int x, int y)
 			if (isPlaceableBlock)
 			{
 				if (subInventory(selectedBlock, 1))
+				{
 					world->blocks[x][y] = selectedBlock;
+					if (selectedBlock == SNOW_GRASS && world->blocks[x][y - 1] == AIR)
+						world->blocks[x][y - 1] = SNOW_TOP;
+				}
 				hasChangedBlock = true;
 			}
 			else
