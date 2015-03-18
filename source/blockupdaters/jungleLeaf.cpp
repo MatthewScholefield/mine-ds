@@ -10,7 +10,7 @@
 
 jungleLeafUpdater::jungleLeafUpdater()
 {
-	blockID = JUNGLE_LEAF;
+	blockID = LEAF_JUNGLE;
 	chance = LEAF_CHANCE_UPDATE;
 }
 

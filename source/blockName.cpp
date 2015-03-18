@@ -26,25 +26,25 @@ const char *getName(int blockID)
 		case GLOWSTONE:
 			name = "Glowstone";
 			break;
-		case LOG:
+		case LOG_OAK:
 			name = "Log";
 			break;
-		case OAK_WOOD:
+		case LOG_SPRUCE:
 			name = "Oak Wood";
 			break;
-		case BIRCH_WOOD:
+		case LOG_BIRCH:
 			name = "Birch Wood";
 			break;
-		case PLANK:
+		case PLANKS_WOOD:
 			name = "Plank";
 			break;
-		case LEAF:
+		case LEAF_OAK:
 			name = "Leaf";
 			break;
-		case REDWOOD_LEAF:
+		case LEAF_SPRUCE:
 			name = "Redwood Leaf";
 			break;
-		case JUNGLE_LEAF:
+		case LEAF_JUNGLE:
 			name = "Jungle Leaf";
 			break;
 		case GLASS:
@@ -155,7 +155,7 @@ const char *getName(int blockID)
 		case JUNGLE_WOOD:
 			name = "Jungle Wood";
 			break;
-		case JUNGLE_GRASS:
+		case GRASS_JUNGLE:
 			name = "Jungle Grass";
 			break;
 		case TALL_GRASS:

@@ -1,10 +1,12 @@
 #pragma once
-#define NUM_SPRITE_BLOCKS 10
+#define NUM_SPRITE_BLOCKS 13
 
 int sapling(int leafID);
+int leaf(int saplingID);
 bool canBreak(int blockID);
 bool canDropItem(int blockID);
 int genericBlock(int blockID);
+int displayBlock(int blockID);
 bool isBlockWalkThrough(int a);
 bool isAGroundBlock(int a);
 int getLightAmount(int a);

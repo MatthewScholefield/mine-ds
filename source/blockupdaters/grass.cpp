@@ -6,6 +6,8 @@
 #include "../blockID.h"
 #include "../blocks.h"
 #include "grass.h"
+#include "../daynight.h"
+#include "../worldRender.h"
 
 grassUpdater::grassUpdater()
 {
@@ -17,7 +19,7 @@ void grassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];
-	if (!isBlockWalkThrough(blockAboveXY))
+	if (!isBlockWalkThrough(blockAboveXY) || (getBrightness(world, x, y) >= 2 && isDay(world)))
 		blockXY = DIRT;
 	else if (rand() % 10 == 0 && !bg && world->biome[x] == BIOME_SNOW)
 	{

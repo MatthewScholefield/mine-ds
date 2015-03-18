@@ -13,8 +13,8 @@
 #include <stdarg.h>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 
-int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED};
-int renderBright[] = {AIR, LOG, OAK_WOOD, BIRCH_WOOD, LEAF, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, REDWOOD_LEAF, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN};
+int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
+int renderBright[] = {AIR, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LEAF_OAK, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, LEAF_SPRUCE, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
 int lightSourceBlocks[] = {TORCH, PUMPKIN_LIGHT, GLOWSTONE, FURNACE_LIT};
 int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
 int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
@@ -25,7 +25,7 @@ int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
 	SEEDS_PUMPKIN, SEEDS_WHEAT};
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
-int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW};
+int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
 
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
@@ -92,14 +92,34 @@ int sapling(int leafID)
 {
 	switch (leafID)
 	{
-		case LEAF:
+		case LEAF_OAK:
 			return SAPLING_OAK;
 		case LEAF_JUNGLE:
 			return SAPLING_JUNGLE;
-		case LEAF_REDWOOD:
+		case LEAF_SPRUCE:
 			return SAPLING_SPRUCE;
 		default:
-			return GLOWSTONE; //Random block
+			return BLOCK_DEBUG; //Random block
+	}
+}
+
+bool isSapling(int blockID)
+{
+	return leaf(blockID) != BLOCK_DEBUG;
+}
+
+int leaf(int saplingID)
+{
+	switch (saplingID)
+	{
+		case SAPLING_OAK:
+			return LEAF_OAK;
+		case SAPLING_JUNGLE:
+			return LEAF_JUNGLE;
+		case SAPLING_SPRUCE:
+			return LEAF_SPRUCE;
+		default:
+			return BLOCK_DEBUG; //Random block
 	}
 }
 
@@ -131,7 +151,7 @@ bool isGrassBlock(int blockID)
 		case SNOW_GRASS:
 		case GRASS:
 		case MYCELIUM:
-		case JUNGLE_GRASS:
+		case GRASS_JUNGLE:
 			return true;
 		default:
 			return false;
@@ -163,8 +183,8 @@ void initBlockProperties()
 	setArray(blockType, SWORD, 5, SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD, SWORD_DIAMOND); //Swords
 
 	//Blocks
-	setArray(blockType, WOOD, 4, LOG, JUNGLE_WOOD, BIRCH_WOOD, OAK_WOOD); //Axe Blocks
-	setArray(blockType, SOIL, 7, JUNGLE_GRASS, GRASS, DIRT, SAND, GRAVEL, SNOW_GRASS, MYCELIUM); //Shovel Blocks
+	setArray(blockType, WOOD, 4, LOG_OAK, JUNGLE_WOOD, LOG_BIRCH, LOG_SPRUCE); //Axe Blocks
+	setArray(blockType, SOIL, 7, GRASS_JUNGLE, GRASS, DIRT, SAND, GRAVEL, SNOW_GRASS, MYCELIUM); //Shovel Blocks
 	setArray(blockType, STONEBLOCK, 7, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE); //Blocks that must be mined with a pickaxe
 
 	int i;
@@ -191,7 +211,7 @@ void initBlockProperties()
 	setArray(hardness, -4, 3, PICKAXE_WOOD, AXE_WOOD, SHOVEL_WOOD);
 
 	//Block Hardness
-	setArray(hardness, 2, 5, JUNGLE_GRASS, GRASS, DIRT, SNOW_GRASS, MYCELIUM); //Blocks with DIRT's hardness
+	setArray(hardness, 2, 5, GRASS_JUNGLE, GRASS, DIRT, SNOW_GRASS, MYCELIUM); //Blocks with DIRT's hardness
 	hardness[STONE] = 30;
 	hardness[SANDSTONE] = 20;
 	hardness[COAL_ORE] = 35;
@@ -268,14 +288,21 @@ int genericBlock(int blockID)
 	switch (blockID)
 	{
 		case GRASS:
-		case JUNGLE_GRASS:
+		case GRASS_JUNGLE:
 		case SNOW_GRASS:
 		case MYCELIUM:
 			return DIRT;
 			break;
 		case TALL_GRASS:
-			return SEEDS_WHEAT;
+			return rand() % 3 == 1 ? SEEDS_WHEAT : AIR;
 			break;
+		case LEAF_JUNGLE:
+		case LEAF_OAK:
+		case LEAF_SPRUCE:
+			if (rand() % 5 != 0)
+				return AIR;
+			else
+				return sapling(blockID);
 		case BEDROCK:
 			return false;
 			break; //Cannot break bedrock
@@ -302,6 +329,13 @@ int genericBlock(int blockID)
 			return DIAMOND;
 			break;
 	}
+	return blockID;
+}
+
+int displayBlock(int blockID)
+{
+	if (isSapling(blockID))
+		return leaf(blockID);
 	return blockID;
 }
 

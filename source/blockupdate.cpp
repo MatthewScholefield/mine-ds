@@ -20,6 +20,7 @@
 #include "blockupdaters/snowGrass.h"
 #include "blockupdaters/cactus.h"
 #include "blockupdaters/plants.h"
+#include "blockupdaters/oakSapling.h"
 
 blockUpdater* blockUpdaters[10];
 int numBlockUpdaters;
@@ -55,8 +56,9 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[numBlockUpdaters++] = new tallGrassUpdater;
 	blockUpdaters[numBlockUpdaters++] = new redFlowerUpdater;
 	blockUpdaters[numBlockUpdaters++] = new yellowFlowerUpdater;
-	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater;
+	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater; 
 	blockUpdaters[numBlockUpdaters++] = new brownMushroomUpdater;
+	blockUpdaters[numBlockUpdaters++] = new oakSaplingUpdater;
 }
 
 void proceduralBlockUpdateCheck(worldObject* world, int x, int y)

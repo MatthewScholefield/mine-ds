@@ -17,6 +17,7 @@
 #define AXE -3
 #define SWORD -4
 
+#define BLOCK_DEBUG 6
 //Blocks
 #define AIR 0
 #define STONE 1
@@ -25,16 +26,12 @@
 #define TORCH 4
 #define PUMPKIN_LIGHT 5
 #define GLOWSTONE 6
-#define LOG 7
-#define OAK_WOOD 8
-#define OAK_LOG 8
-#define BIRCH_WOOD 9
-#define PLANK 10
-#define PLANKS 10
-#define LEAF 11
-#define REDWOOD_LEAF 12
-#define LEAF_REDWOOD 12
-#define JUNGLE_LEAF 13
+#define LOG_OAK 7
+#define LOG_SPRUCE 8
+#define LOG_BIRCH 9
+#define PLANKS_WOOD 10
+#define LEAF_OAK 11
+#define LEAF_SPRUCE 12
 #define LEAF_JUNGLE 13
 #define GLASS 14
 #define CACTUS 15
@@ -83,7 +80,7 @@
 #define ORANGE_WOOL 47
 #define LADDER 48
 #define JUNGLE_WOOD 49
-#define JUNGLE_GRASS 50
+#define GRASS_JUNGLE 50
 #define TALL_GRASS 51
 #define SHRUB 52
 #define RAW_PORKCHOP 53
