@@ -15,9 +15,9 @@ void leafVirus(worldObject* world, int x, int y, int amount, bool down, int bloc
 
 }
 
-void growNormalTree(worldObject* world, int x, int y, bool birch)
+void growTree(worldObject* world, int x, int y, bool birch)
 {
-	int blockID = birch == true ? BIRCH_WOOD : LOG;
+	int blockID = birch == true ? LOG_BIRCH : LOG_OAK;
 	int height = 2 + rand() % 2;
 	int i;
 	for (i = y; i >= y - height; i--)
@@ -25,25 +25,35 @@ void growNormalTree(worldObject* world, int x, int y, bool birch)
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 	}
 	//Now for the leaves...
-	leafVirus(world, x, i, 2 + (rand() % 2), false, LEAF);
+	leafVirus(world, x, i, 2 + (rand() % 2), false, LEAF_OAK);
 }
 
 void growOakTree(worldObject* world, int x, int y)
 {
+	growTree(world, x, y, false);
+}
+
+void growBirchTree(worldObject* world, int x, int y)
+{
+	growTree(world, x, y, true);
+}
+
+void growSpruceTree(worldObject* world, int x, int y)
+{
 	int height = 2 + rand() % 2;
-	int blockID = OAK_WOOD;
+	int blockID = LOG_SPRUCE;
 	int i;
 	for (i = y; i >= y - height; i--)
 	{
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 	}
-	leafVirus(world, x, y - height, 2, false, REDWOOD_LEAF);
+	leafVirus(world, x, y - height, 2, false, LEAF_SPRUCE);
 	y = i;
 	for (i = y; i >= y - height; i--)
 	{
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 	}
-	leafVirus(world, x, i, 2 + rand() % 2, false, REDWOOD_LEAF);
+	leafVirus(world, x, i, 2 + rand() % 2, false, LEAF_SPRUCE);
 }
 
 void growJungleTree(worldObject* world, int x, int y)
@@ -57,15 +67,15 @@ void growJungleTree(worldObject* world, int x, int y)
 		world->bgblocks[x + 1][i] = blockID;
 	}
 	int random = rand() % 2;
-	leafVirus(world, x + random, y - height, 3, false, JUNGLE_LEAF);
+	leafVirus(world, x + random, y - height, 3, false, LEAF_JUNGLE);
 	y = i;
 	for (i = y; i >= y - height; i--)
 	{
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 		world->bgblocks[x + 1][i] = blockID;
 	}
-	leafVirus(world, x, i, 2 + rand() % 3, false, JUNGLE_LEAF);
-	leafVirus(world, x + 1, i, 2 + rand() % 3, false, JUNGLE_LEAF);
+	leafVirus(world, x, i, 2 + rand() % 3, false, LEAF_JUNGLE);
+	leafVirus(world, x + 1, i, 2 + rand() % 3, false, LEAF_JUNGLE);
 }
 
 void growGiantMushroom(worldObject* world, int x, int y)

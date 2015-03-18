@@ -35,7 +35,7 @@ void plainsBiome(worldObject* world, int startx, int endx)
 		}
 		if (treex == x)
 		{
-			growNormalTree(world, x, y - 1, false);
+			growOakTree(world, x, y - 1);
 			treex += 8 + rand() % 5;
 		}
 		++x;
@@ -53,13 +53,13 @@ void jungleBiome(worldObject* world, int startx, int endx)
 		int y = findFirstBlock(world, x); // Get the first block that is not AIR...
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world->blocks[x][j] = DIRT;
-		world->blocks[x][y] = JUNGLE_GRASS;
+		world->blocks[x][y] = GRASS_JUNGLE;
 		world->biome[x] = BIOME_JUNGLE;
 		if (flx == x)
 		{
-			world->bgblocks[x][y - 1] = JUNGLE_LEAF;
+			world->bgblocks[x][y - 1] = LEAF_JUNGLE;
 			if (rand() % 3 == 1)
-				world->bgblocks[x][y - 2] = JUNGLE_LEAF;
+				world->bgblocks[x][y - 2] = LEAF_JUNGLE;
 			if (rand() % 8 == 1)
 				flx += 1 + rand() % 3;
 			else flx += 1;
@@ -95,7 +95,7 @@ void snowBiome(worldObject* world, int startx, int endx)
 		}
 		if (treex == x)
 		{
-			growOakTree(world, x, y);
+			growSpruceTree(world, x, y);
 			world->blocks[x][y] = AIR;
 			//Why no -1 on the y? Well If we did that then we would be starting on top the the snow_top block, and that looks weird!
 			treex += 8 + rand() % 5;
