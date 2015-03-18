@@ -111,7 +111,7 @@ void generateSmallWorld(worldObject* world)//Generates one biome
 	sizex = rand() % 16 + 16;
 	if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
 	j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
-	switch (rand() % 5 + 1)
+	switch (BIOME_PLAINS)//rand() % 5 + 1)
 	{
 		case BIOME_PLAINS:
 			plainsBiome(world, i, i + sizex);
@@ -152,7 +152,7 @@ void generateWorld(worldObject* world)
 			sizex = rand() % 16 + 16;
 			if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
 			j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
-			switch (rand() % 5 + 1)
+			switch (BIOME_PLAINS)//rand() % 5 + 1)rand() % 5 + 1)
 			{
 				case BIOME_PLAINS:
 					plainsBiome(world, i, i + sizex);

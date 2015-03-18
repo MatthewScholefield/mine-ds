@@ -26,18 +26,21 @@
 #include "blockupdate.h"
 #include "blockPages.h"
 #include <time.h>
+#include "blocks.h"
 
 bool shouldQuitGame = false;
 worldObject world;
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID)
 {
-	if (world.gamemode == GAMEMODE_CREATIVE)
+	if (displayID == -1)
+		displayID = blockID;
+	if (world.gamemode == GAMEMODE_CREATIVE || blockID == AIR)
 		return;
 	int mobNum = spawnMobAt(8, &world, x * 16 + rand() % 8, y * 16);
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
-	mobHandlerHurtMob(mobNum, displayID, PROPERTY_HURT);
+	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
 }
 
 static void redrawGameUI(void)

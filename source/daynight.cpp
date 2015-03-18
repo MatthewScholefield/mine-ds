@@ -33,3 +33,8 @@ void timeUpdate(worldObject* world)
 	}
 }
 
+bool isDay(worldObject* world)
+{
+	return world->timeInWorld >= 0 && world->timeInWorld < 80;
+}
+
