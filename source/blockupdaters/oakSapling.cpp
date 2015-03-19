@@ -12,8 +12,8 @@
 
 void saplingUpdate(worldObject *world, int x, int y, bool bg)
 {
-	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+	int blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
 
 	int requiredBlock = AIR;
 	switch (blockXY)

@@ -22,7 +22,7 @@
 #include "blockupdaters/plants.h"
 #include "blockupdaters/oakSapling.h"
 
-blockUpdater* blockUpdaters[10];
+blockUpdater* blockUpdaters[50];
 int numBlockUpdaters;
 
 blockUpdater::blockUpdater()
