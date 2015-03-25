@@ -52,3 +52,6 @@ public:
 };
 
 Config *getGlobalSettings();
+const char * getKeyChar(KEYPAD_BITS key);
+KEYPAD_BITS parseKeyChar(const char *input);
+bool parsePropertyChar(const char *input);
