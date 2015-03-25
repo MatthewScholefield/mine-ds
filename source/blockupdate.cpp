@@ -6,6 +6,7 @@
 #include "communications.h"
 #include "inventory.h"
 #include "general.h"
+
 //Include blockUpdaters
 #include "blockupdaters/furnace.h"
 #include "blockupdaters/air.h"
@@ -21,6 +22,8 @@
 #include "blockupdaters/cactus.h"
 #include "blockupdaters/plants.h"
 #include "blockupdaters/oakSapling.h"
+#include "blockupdaters/spruceSapling.h"
+#include "blockupdaters/jungleSapling.h"
 
 blockUpdater* blockUpdaters[50];
 int numBlockUpdaters;
@@ -59,6 +62,8 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater; 
 	blockUpdaters[numBlockUpdaters++] = new brownMushroomUpdater;
 	blockUpdaters[numBlockUpdaters++] = new oakSaplingUpdater;
+	blockUpdaters[numBlockUpdaters++] = new jungleSaplingUpdater;
+	blockUpdaters[numBlockUpdaters++] = new spruceSaplingUpdater;
 }
 
 void proceduralBlockUpdateCheck(worldObject* world, int x, int y)

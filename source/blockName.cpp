@@ -306,7 +306,13 @@ const char *getName(int blockID)
 			name = "Mycelium";
 			break;
 		case SAPLING_OAK:
-			name = "Sapling";
+			name = "Oak Sapling";
+			break;
+		case SAPLING_SPRUCE:
+			name = "Spruce Sapling";
+			break;
+		case SAPLING_JUNGLE:
+			name = "Spruce Sapling";
 			break;
 	}
 	return name;
