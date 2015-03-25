@@ -4,7 +4,7 @@
 #include "Config.h"
 
 #define WORLD_PATH	"/MineWorld.dat"
-#define CONTROLS_PATH	"/MineConfig.bin"
+#define CONTROLS_PATH	"/MineConfig.cfg"
 
 void initFile(void);
 bool saveWorld(worldObject *world);

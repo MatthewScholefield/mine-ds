@@ -388,53 +388,6 @@ bool setControlsScreen()
 	}
 }
 
-const char * getKeyChar(KEYPAD_BITS key)
-{
-	const char * returnKeyChar;
-	switch (key)
-	{
-		case KEY_UP:
-			returnKeyChar = "Up";
-			break;
-		case KEY_DOWN:
-			returnKeyChar = "Down";
-			break;
-		case KEY_LEFT:
-			returnKeyChar = "Left";
-			break;
-		case KEY_RIGHT:
-			returnKeyChar = "Right";
-			break;
-		case KEY_A:
-			returnKeyChar = "A";
-			break;
-		case KEY_B:
-			returnKeyChar = "B";
-			break;
-		case KEY_X:
-			returnKeyChar = "X";
-			break;
-		case KEY_Y:
-			returnKeyChar = "Y";
-			break;
-		case KEY_L:
-			returnKeyChar = "L";
-			break;
-		case KEY_R:
-			returnKeyChar = "R";
-			break;
-		case KEY_START:
-			returnKeyChar = "Start";
-			break;
-		case KEY_SELECT:
-			returnKeyChar = "Select";
-			break;
-		default:
-			returnKeyChar = "Error";
-	}
-	return returnKeyChar;
-}
-
 void viewControls()
 {
 	drawBackground();

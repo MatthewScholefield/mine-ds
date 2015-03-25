@@ -5,6 +5,7 @@
 #include "graphics/inventoryGraphics.h"
 #include "titlescreen.h"
 #include "mining.h"
+#include "general.h"
 #include <nds.h>
 
 const int BLOCK_PAGES [NUM_BLOCK_PAGES][NUM_INV_SPACES] = {

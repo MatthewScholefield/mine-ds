@@ -1,7 +1,6 @@
+#pragma once
 #include <stdio.h>
 #include "../world.h"
-#ifndef BASE_MOB_H
-#define BASE_MOB_H
 //
 bool canBaseMobSpawnHere(worldObject* world, int x, int y);
 
@@ -45,4 +44,3 @@ public:
 	baseMob(int x, int y);
 };
 void baseMobInit();
-#endif
