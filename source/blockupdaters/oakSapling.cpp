@@ -10,9 +10,31 @@
 #include "../worldRender.h"
 #include "../mainGame.h"
 
+void saplingChanceUpdate(worldObject *world, int x, int y, bool bg)
+{
+	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+
+	if (getBrightness(world, x, y + 1) < 2)
+	{
+		switch (blockXY)
+		{
+			case SAPLING_OAK:
+				growOakTree(world, x, y);
+				break;
+			case SAPLING_JUNGLE:
+				growJungleTree(world, x, y);
+				break;
+			case SAPLING_SPRUCE:
+				growSpruceTree(world, x, y);
+				break;
+		}
+		blockXY = AIR;
+	}
+}
+
 void saplingUpdate(worldObject *world, int x, int y, bool bg)
 {
-	int blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
 
 	int requiredBlock = AIR;
@@ -35,23 +57,6 @@ void saplingUpdate(worldObject *world, int x, int y, bool bg)
 		blockXY = AIR;
 		return;
 	}
-
-	if (getBrightness(world, x, y + 1) < 2)
-	{
-		switch (blockXY)
-		{
-			case SAPLING_OAK:
-				growOakTree(world, x, y);
-				break;
-			case SAPLING_JUNGLE:
-				growJungleTree(world, x, y);
-				break;
-			case SAPLING_SPRUCE:
-				growSpruceTree(world, x, y);
-				break;
-		}
-		blockXY = AIR;
-	}
 }
 
 oakSaplingUpdater::oakSaplingUpdater()
@@ -60,7 +65,12 @@ oakSaplingUpdater::oakSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-void oakSaplingUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void oakSaplingUpdater::update(worldObject* world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
+}
+
+void oakSaplingUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+{
+	saplingChanceUpdate(world, x, y, bg);
 }
