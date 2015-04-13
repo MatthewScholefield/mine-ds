@@ -25,8 +25,7 @@ A 2D survival NDS game inspired by Minecraft. The current version incorperated a
 - Download the Mine DS source to a directory and in a command prompt type "make"
 
 # Contact
-Contact us by filling out [the form on the website][2].
+Contact us by sending us a message on GitHub.
 
 [1]:http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/
-[2]:http://mineds.t15.org/contacts/
 [CA]:http://www.mediafire.com/convkey/19cc/85ftrcfh4s15fj7zg.jpg "Cover Art"
