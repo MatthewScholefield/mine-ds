@@ -1,5 +1,6 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
+#include "graphics/inventoryGraphics.h"
 #include "mobs/mobHandler.h"
 #include "mining.h"
 #include <stdio.h>
@@ -21,6 +22,7 @@ void deathScreenSetup()
 {
 	if (deathScreenShow == true)
 	{
+		disableInvGraphics();
 		consoleClear();
 		lcdMainOnTop();
 		drawBackground();
@@ -57,6 +59,7 @@ int deathScreenUpdate()
 				deathScreenShow = true;
 				consoleClear();
 				printf("\n\n\n\n\n\n\n\n");
+				enableInvGraphics();
 				lcdMainOnBottom();
 				setMiningDisabled(false);
 				died = false;
