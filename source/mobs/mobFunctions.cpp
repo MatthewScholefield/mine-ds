@@ -8,6 +8,11 @@
 
 void calculatePhysics(baseMob* mob)
 {
+	if (mob->collisions[3] && mob->vy > 0)
+	{
+		mob->y += mob->vy;
+		mob->vy = 0;
+	}
 	if (mob->collisions[0] || mob->collisions[4])
 		mob -> vy = 0;
 	else
@@ -25,7 +30,7 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 			collision(world, mob, 0, (mob->x + mob -> sx / 2) / 16, (mob->y + 6 + mob -> sy / 2) / 16 + b, false);
 		mob->y -= int(mob->vy); //Main statement Positive velocity=up
 		int blockx = (mob->x + mob -> sx / 2) / 16;
-		int blocky = (mob->y + 6 + mob -> sy / 2) / 16;
+		int blocky = (mob->y + ((mob->mobtype == 8) ? 6 : 0) + mob -> sy / 2) / 16;
 		for (int i = 0; i < 4; ++i)
 			mob -> collisions[i] = false;
 		int a;
@@ -41,9 +46,9 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 		{
 			if (spritecol(mob -> x + (a - 1), mob -> y, (blockx - 1 + a)*16, (blocky + 1)*16, mob -> sx, mob ->sy, 16, 16) && !isBlockWalkThrough(world->blocks[blockx - 1 + a][blocky + 1]))
 			{
-				if (a == 0 && mob->collisions[2] == false && mob->vy <= 0.0) collide = true;
+				if (a == 0 && mob->collisions[2] == false && mob->vy >= 0.0) collide = true;
 				else if (a == 1) collide = true;
-				else if (a == 2 && mob->collisions[1] == false && mob->vy <= 0.0) collide = true;
+				else if (a == 2 && mob->collisions[1] == false && mob->vy >= 0.0) collide = true;
 			}
 		}
 		if (collide)
