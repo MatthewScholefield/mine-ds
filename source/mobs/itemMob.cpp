@@ -67,7 +67,7 @@ void itemMob::updateMob(worldObject* world)
 	if (target == NULL)
 		target = mobHandlerFindMob(8, 2, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
-		showGraphic(&itemGraphic, x - world->camX, y - world->camY - 4 + int(4.0 * sin(double(floatY)*6.28 / 100)), false);
+		showGraphic(&itemGraphic, x - world->camX, y - 2 - world->camY + int(4.0 * sin(double(floatY)*6.28 / 100)), false);
 	else
 	{
 		addInventory(blockID, amount);
