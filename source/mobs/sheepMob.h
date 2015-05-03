@@ -29,6 +29,9 @@ public:
 	virtual bool isMyPlayer();
 	sheepMob();
 	sheepMob(int x, int y);
+
+	~sheepMob() {
+	}
 };
 void sheepMobInit();
 #endif

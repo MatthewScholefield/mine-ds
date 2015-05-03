@@ -29,6 +29,9 @@ public:
 	virtual bool isMyPlayer();
 	pigMob();
 	pigMob(int x, int y);
+
+	~pigMob() {
+	}
 };
 void pigMobInit();
 #endif

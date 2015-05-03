@@ -18,4 +18,7 @@ public:
 	virtual bool isMyPlayer();
 	virtual void killMob();
 	itemMob(int x, int y);
+
+	~itemMob() {
+	}
 };

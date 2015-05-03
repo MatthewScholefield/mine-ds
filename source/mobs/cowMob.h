@@ -22,6 +22,9 @@ public:
 	virtual bool isMyPlayer();
 	cowMob();
 	cowMob(int x, int y);
+
+	~cowMob() {
+	}
 };
 void cowMobInit();
 #endif

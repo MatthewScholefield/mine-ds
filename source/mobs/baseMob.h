@@ -42,5 +42,8 @@ public:
 	virtual void updateMob(worldObject* world);
 	baseMob();
 	baseMob(int x, int y);
+
+	virtual ~baseMob() {
+	}
 };
 void baseMobInit();
