@@ -2,7 +2,7 @@
 #include "baseMob.h"
 #include <fat.h>
 
-#define JUMP_VELOCITY 2.5
+#define JUMP_VELOCITY -2.7
 
 bool canMobSpawnHere(worldObject *world, int x, int y);
 int getDefaultSpawnX();

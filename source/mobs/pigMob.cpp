@@ -69,8 +69,8 @@ void pigMob::updateMob(worldObject* world)
 	else if (mov == 1)
 		dir = false;
 
-	if (animation == 0) showGraphic(&pigMobGraphic[0], x - world->camX, y - world->camY, facing ? true : false);
-	else if (animation == 1) showGraphic(&pigMobGraphic[1], x - world->camX, y - world->camY, facing ? true : false);
+	if (animation == 0) showGraphic(&pigMobGraphic[0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	else if (animation == 1) showGraphic(&pigMobGraphic[1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
 
 	if (host == true)
 	{

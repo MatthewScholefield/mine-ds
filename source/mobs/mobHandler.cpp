@@ -86,7 +86,7 @@ int isMobAt(int x, int y)
 	int i;
 	for (i = 0; i <= 100; ++i)
 	{
-		if (spritecol(mobs[i]->x, mobs[i]->y, x, y, mobs[i]->sx, mobs[i]->sy, 4, 4) && mobs[i]->alive == true)
+		if (spriteCol(mobs[i]->x - mobs[i]->sx / 2 + 1, mobs[i]->y - mobs[i]->sy / 2 + 1, x - 1, y - 1, mobs[i]->sx, mobs[i]->sy, 1, 1) && mobs[i]->alive == true)
 			return i;
 	}
 	return -1;
