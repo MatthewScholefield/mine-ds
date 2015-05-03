@@ -76,8 +76,8 @@ void zombieMob::hurt(int amount, int type)
 void zombieMob::updateMob(worldObject* world)
 {
 	if (world->timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
-	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
-	else if (animation == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
+	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	else if (animation == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		target = mobHandlerFindMob(128, 2, x, y);
@@ -108,7 +108,7 @@ void zombieMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
 		else --animationclearframes;
-		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
+		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
 		target = mobHandlerFindMob(512, 2, x, y);
 		if (target->mobtype == 2) notarget = 0;

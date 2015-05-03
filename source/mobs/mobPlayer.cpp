@@ -148,13 +148,13 @@ void playerMob::updateMob(worldObject* world)
 
 			if (world->camX > WORLD_WIDTH * 16 - 256) world->camX = WORLD_WIDTH * 16 - 256;
 			if (world->camY > (WORLD_HEIGHT + 1)*16 - 192) world->camY = (WORLD_HEIGHT + 1)*16 - 192;
-			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1] && !collisions[3])
+			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1])
 			{
 				animateMob(&playerMobGraphic[0], 0);
 				x += (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
 				facing = false;
 			}
-			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2] && !collisions[3])
+			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2])
 			{
 				animateMob(&playerMobGraphic[0], 0);
 				x -= (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
@@ -218,11 +218,11 @@ void playerMob::updateMob(worldObject* world)
 			{
 				if (getTime() % 3 == 1)
 					animateMob(&playerMobGraphic[PLAYER_SPRITE_MINE], 0);
-				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->camX - 5, y - world->camY, facing ? true : false);
+				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
 			}
 			else
-				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->camX - 5, y - world->camY, facing ? true : false);
-		else if (animation == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->camX - 5, y - world->camY, facing ? true : false);
+				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+		else if (animation == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
 	}
 }
 

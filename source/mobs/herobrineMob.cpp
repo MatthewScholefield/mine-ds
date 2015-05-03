@@ -58,8 +58,8 @@ herobrineMob::herobrineMob(int a, int b)
 void herobrineMob::updateMob(worldObject* world)
 {
 	++waitingCount;
-	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
-	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
+	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		if (collisions[0] && collisions[3])
@@ -100,7 +100,7 @@ void herobrineMob::updateMob(worldObject* world)
 		if (notarget > 1800) killMob();
 		if (animationclearframes == 0) animation = 0;
 		else --animationclearframes;
-		if (spritecol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
+		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
 		target = mobHandlerFindMob(512, 2, x, y);
 		if (target->mobtype == 2) notarget = 0;
