@@ -17,6 +17,10 @@ public:
 	virtual bool isMyPlayer();
 	herobrineMob();
 	herobrineMob(int x, int y);
+
+	~herobrineMob() {
+
+	}
 };
 void herobrineMobInit();
 #endif

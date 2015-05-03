@@ -18,6 +18,7 @@
 #include "../Config.h"
 #include "../blockID.h"
 #include "../blocks.h"
+#include "../worldRender.h"
 #define playerId 1
 
 baseMob* mobs[100];
@@ -362,8 +363,10 @@ void mobHandlerUpdate(worldObject* world)
 	int goodMobs = 0;
 	if (!hasSpawnPlayer)
 	{
-		spawnMob(1, world);
+		int player = spawnMob(1, world);
 		hasSpawnPlayer = true;
+		if (player != -1)
+			updateBrightnessAround(world, mobs[player]->x, mobs[player]->y);
 	}
 	int i;
 	for (i = 1; i < 100; ++i)

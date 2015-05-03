@@ -19,5 +19,8 @@ public:
 	virtual void hurt(int amount, int type);
 	MplayerMob();
 	MplayerMob(int x, int y);
+
+	~MplayerMob() {
+	}
 };
 void MplayerMobInit();
