@@ -22,5 +22,8 @@ public:
 	virtual bool isMyPlayer();
 	playerMob();
 	playerMob(int x, int y);
+
+	~playerMob() {
+	}
 };
 void playerMobInit();

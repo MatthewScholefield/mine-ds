@@ -25,6 +25,9 @@ public:
 	virtual bool isMyPlayer();
 	zombieMob();
 	zombieMob(int x, int y);
+
+	~zombieMob() {
+	}
 };
 void zombieMobInit();
 #endif
