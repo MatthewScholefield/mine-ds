@@ -16,7 +16,7 @@ void collisionWithCactus(worldObject* world, baseMob* mob, int type, int x, int 
 
 }
 
-void collision(worldObject* world, baseMob* mob, int type, int x, int y, bool sub)
+void cactusCheck(worldObject* world, baseMob* mob, int type, int x, int y, bool sub)
 {
 	if (mob->host == true)
 	{
