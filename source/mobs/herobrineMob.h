@@ -1,7 +1,7 @@
 #include "baseMob.h"
 #ifndef HEROBRINE_MOB_H
 #define HEROBRINE_MOB_H
-bool canHerobrineMobSpawnHere(worldObject* world, int x, int y);
+bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y);
 
 class herobrineMob : public baseMob {
 public:
@@ -12,7 +12,7 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(worldObject* world);
+	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	herobrineMob();

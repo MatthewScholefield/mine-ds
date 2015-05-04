@@ -69,7 +69,7 @@ void blocksCanPlace()
 	frameCounting = 0;
 }
 
-void mineBlock(worldObject* world, int x, int y, bool bg)
+void mineBlock(WorldObject* world, int x, int y, bool bg)
 {
 	int selectedBlock = getBlockID(invSlot);
 	if (getType(selectedBlock) == SWORD)
@@ -126,7 +126,7 @@ void mineBlock(worldObject* world, int x, int y, bool bg)
 	}
 }
 
-void setBlock(worldObject* world, int x, int y)
+void setBlock(WorldObject* world, int x, int y)
 {
 	int selectedBlock = getBlockID(invSlot);
 	skipLightUpdate = false;
@@ -194,7 +194,7 @@ void setBlock(worldObject* world, int x, int y)
 	}
 }
 
-void miningUpdate(worldObject* world, int a, int b, touchPosition touch, int keys) // keys = keysDown();
+void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int keys) // keys = keysDown();
 {
 	if (disableTouchMine)
 		return;

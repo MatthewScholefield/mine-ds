@@ -13,7 +13,7 @@ furnaceUpdater::furnaceUpdater()
 	blockID = FURNACE_LIT;
 }
 
-void furnaceUpdater::update(worldObject* world, int x, int y, bool bg)
+void furnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{

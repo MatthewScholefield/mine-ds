@@ -14,7 +14,7 @@ jungleLeafUpdater::jungleLeafUpdater()
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void jungleLeafUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void jungleLeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

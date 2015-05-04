@@ -4,15 +4,15 @@
 
 #define JUMP_VELOCITY -2.7
 
-bool canMobSpawnHere(worldObject *world, int x, int y);
+bool canMobSpawnHere(WorldObject *world, int x, int y);
 int getDefaultSpawnX();
 void saveMobs(FILE* f);
 void loadMobs(FILE* f);
-int spawnMobAt(int mobId, worldObject* world, int x, int y);
+int spawnMobAt(int mobId, WorldObject* world, int x, int y);
 void mobHandlerInit();
-void mobHandlerUpdate(worldObject* world);
+void mobHandlerUpdate(WorldObject* world);
 void mobHandlerKillMob(int a);
-void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, worldObject* world, bool f);
+void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, WorldObject* world, bool f);
 void mobsReset(bool playerSpawned = false);
 void mobHandlerHurtMob(int mobNum, int amount, int type);
 int isMobAt(int x, int y);

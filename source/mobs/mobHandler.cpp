@@ -27,7 +27,7 @@ bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
 int spawn_x, spawn_y;
 
-bool canMobSpawnHere(worldObject *world, int x, int y)
+bool canMobSpawnHere(WorldObject *world, int x, int y)
 {
 	return (isBlockWalkThrough(world->blocks[x][y]) && !isBlockWalkThrough(world->blocks[x][y + 1]) && world->blocks[x][y] != CACTUS && world->bgblocks[x][y + 1] != CACTUS);
 }
@@ -140,7 +140,7 @@ int findFreeMobSpawnNum()
 	return -1;
 }
 
-bool canMobSpawnHere(int mobId, worldObject* world, int a, int b)
+bool canMobSpawnHere(int mobId, WorldObject* world, int a, int b)
 {
 	switch (mobId)
 	{
@@ -236,7 +236,7 @@ void saveMobs(FILE* f)
 	fprintf(f, " -1");
 }
 
-void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
+void spawnMobOn(int mobId, WorldObject* world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
@@ -254,7 +254,7 @@ void spawnMobOn(int mobId, worldObject* world, int j, bool skipCheck = false)
 		}
 }
 
-int spawnMob(int mobId, worldObject* world)
+int spawnMob(int mobId, WorldObject* world)
 {
 	int i;
 	int j;
@@ -275,7 +275,7 @@ int spawnMob(int mobId, worldObject* world)
 	return -1;
 }
 
-int spawnMobAt(int mobId, worldObject* world, int x, int y)
+int spawnMobAt(int mobId, WorldObject* world, int x, int y)
 {
 	int mobNum = findFreeMobSpawnNum();
 	if (mobNum >= 0)
@@ -311,7 +311,7 @@ void loadMobs(FILE* f)
 	}
 }
 
-void spawnMobNoCheck(int mobId, worldObject* world, int mobNum)
+void spawnMobNoCheck(int mobId, WorldObject* world, int mobNum)
 {
 	if (mobNum >= 0)
 	{
@@ -320,7 +320,7 @@ void spawnMobNoCheck(int mobId, worldObject* world, int mobNum)
 	}
 }
 
-void spawnMob(int mobId, worldObject* world, int mobNum)
+void spawnMob(int mobId, WorldObject* world, int mobNum)
 {
 	int i;
 	int j;
@@ -338,7 +338,7 @@ void spawnMob(int mobId, worldObject* world, int mobNum)
 			}
 }
 
-void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, worldObject* world, bool facing)
+void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, WorldObject* world, bool facing)
 {
 	//printf("Recieved mob update! - %d, %d\n", mobNum,mobtype);
 	if (mobs[mobNum]->mobtype != mobtype)
@@ -357,7 +357,7 @@ void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobN
 	//:D
 }
 
-void mobHandlerUpdate(worldObject* world)
+void mobHandlerUpdate(WorldObject* world)
 {
 	int badMobs = 0;
 	int goodMobs = 0;

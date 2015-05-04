@@ -32,7 +32,7 @@ dirtUpdater::dirtUpdater()
 //This function recursively checks for the ID of a grass block that can spread to the xy coord
 //If it finds nothing, -1 is returned
 
-int getGrassSpreadID(worldObject* world, int x, int y, bool bg, int scanIndex = 0)
+int getGrassSpreadID(WorldObject* world, int x, int y, bool bg, int scanIndex = 0)
 { //scanIndex is the index of the scan arrays for the current
 	if (!bg)
 	{
@@ -64,7 +64,7 @@ int getGrassSpreadID(worldObject* world, int x, int y, bool bg, int scanIndex = 
 	}
 }
 
-void dirtUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void dirtUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg)
 	{

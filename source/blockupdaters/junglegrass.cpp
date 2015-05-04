@@ -13,7 +13,7 @@ junglegrassUpdater::junglegrassUpdater()
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void junglegrassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void junglegrassUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg)
 	{

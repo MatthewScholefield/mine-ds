@@ -13,7 +13,7 @@ myceliumUpdater::myceliumUpdater()
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void myceliumUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void myceliumUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg)
 	{
