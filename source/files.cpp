@@ -61,11 +61,11 @@ bool saveControls(Config *controls)
 		fprintf(fp, "Switch Screen: %s\n", getKeyChar(controls->getKey(ACTION_SWITCH_SCREEN)));
 		fprintf(fp, "Menu: %s\n", getKeyChar(controls->getKey(ACTION_MENU)));
 		fprintf(fp, "Climb: %s\n", getKeyChar(controls->getKey(ACTION_CLIMB)));
-		fprintf(fp, "\n==Game Options");
-		fprintf(fp, "Herobrine: %s", controls->getProperty(PROPERTY_HEROBRINE) ? "Enabled" : "Disabled");
-		fprintf(fp, "Draw Mode: %s", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
-		fprintf(fp, "Smooth Camera: %s", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
-		fprintf(fp, "Creative Speed: %s", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
+		fprintf(fp, "\n==Game Options\n");
+		fprintf(fp, "Herobrine: %s\n", controls->getProperty(PROPERTY_HEROBRINE) ? "Enabled" : "Disabled");
+		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
+		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
+		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
 		fclose(fp);
 		return true;
 	}
@@ -133,14 +133,14 @@ bool loadControls(Config *controls)
 		controls->setKey(ACTION_MENU, parseKeyChar(&parseChar));
 		fscanf(fp, "Climb: %s\n", &parseChar);
 		controls->setKey(ACTION_CLIMB, parseKeyChar(&parseChar));
-		fprintf(fp, "\n==Game Options");
-		fprintf(fp, "Herobrine: %s", &parseChar);
+		fprintf(fp, "\n==Game Options\n");
+		fprintf(fp, "Herobrine: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_HEROBRINE, parsePropertyChar(&parseChar));
-		fprintf(fp, "Draw Mode: %s", &parseChar);
+		fprintf(fp, "Draw Mode: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_DRAW, parsePropertyChar(&parseChar));
-		fprintf(fp, "Smooth Camera: %s", &parseChar);
+		fprintf(fp, "Smooth Camera: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_SMOOTH, parsePropertyChar(&parseChar));
-		fprintf(fp, "Creative Speed: %s", &parseChar);
+		fprintf(fp, "Creative Speed: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_SPEED, parsePropertyChar(&parseChar));
 		fclose(fp);
 		return true;
