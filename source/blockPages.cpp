@@ -40,6 +40,7 @@ const char *getPageName(int page)
 	{
 		case PAGE_WOOL: return "Wool";
 		case PAGE_BLOCKS: return "Blocks";
+		case PAGE_PLANTS: return "Plants";
 		case PAGE_ORES: return "Ores";
 		case PAGE_TOOLS: return "Tools";
 		default:
