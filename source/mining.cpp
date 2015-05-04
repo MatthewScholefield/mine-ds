@@ -38,9 +38,14 @@ int getSelectedSlot()
 	return invSlot;
 }
 
-void setMiningDisabled(bool set)//false enables block destroy, true disable it
+void setMiningDisabled(bool set) //false enables block destroy, true disable it
 {
 	disableTouchMine = set;
+}
+
+bool canMine() //Returns whether touch input can destroy blocks
+{
+	return !disableTouchMine;
 }
 
 void calculateTopBlock()

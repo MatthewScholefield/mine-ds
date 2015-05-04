@@ -14,6 +14,7 @@
 #include "../mainGame.h"
 #include "../graphics/inventoryGraphics.h"
 #include "../Config.h"
+#include "../mining.h"
 #include <time.h>
 
 #define PLAYER_FULL_HEALTH 20
@@ -150,18 +151,18 @@ void playerMob::updateMob(WorldObject* world)
 			if (world->camY > (WORLD_HEIGHT + 1)*16 - 192) world->camY = (WORLD_HEIGHT + 1)*16 - 192;
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1])
 			{
-				animateMob(&playerMobGraphic[0], 0);
+				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
 				x += (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
 				facing = false;
 			}
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2])
 			{
-				animateMob(&playerMobGraphic[0], 0);
+				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
 				x -= (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
 				facing = true;
 			}
 			else
-				setAnimFrame(&playerMobGraphic[0], 0, 0);
+				setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_WALK], 0, 0);
 
 			if ((collisions[0] || !isSurvival()) && !collisions[3] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
@@ -214,9 +215,11 @@ void playerMob::updateMob(WorldObject* world)
 	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
 	{
 		if (animation == 0)
-			if (keysHeld() & KEY_TOUCH)
+			if (keysHeld() & KEY_TOUCH && canMine() && playerMobGraphic[PLAYER_SPRITE_WALK].anim_frame == 0)
 			{
-				if (getTime() % 3 == 1)
+				if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1]))
+					setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_MINE], 0, 1);
+				else if (getTime() % 3 == 1)
 					animateMob(&playerMobGraphic[PLAYER_SPRITE_MINE], 0);
 				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
 			}
