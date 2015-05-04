@@ -12,7 +12,7 @@ snowTopUpdater::snowTopUpdater()
 	blockID = SNOW_TOP;
 }
 
-void snowTopUpdater::update(worldObject* world, int x, int y, bool bg)
+void snowTopUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg && isBlockWalkThrough(world->blocks[x][y + 1]))
 	{

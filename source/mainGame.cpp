@@ -29,15 +29,15 @@
 #include "blocks.h"
 
 bool shouldQuitGame = false;
-worldObject world;
+WorldObject *world;
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID)
 {
 	if (displayID == -1)
 		displayID = blockID;
-	if (world.gamemode == GAMEMODE_CREATIVE || blockID == AIR)
+	if (world->gamemode == GAMEMODE_CREATIVE || blockID == AIR)
 		return;
-	int mobNum = spawnMobAt(8, &world, x * 16 + rand() % 8, y * 16);
+	int mobNum = spawnMobAt(8, world, x * 16 + rand() % 8, y * 16);
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
@@ -73,7 +73,7 @@ static int inGameMenu()
 		{
 			case 1: // save game
 				printXY(1, 22, "Saving game");
-				if (!saveWorld(&world))
+				if (!saveWorld(world))
 				{
 					printXY(1, 22, "Failed to save game");
 					sleep(1);
@@ -95,12 +95,12 @@ static int inGameMenu()
 
 /*bool isCreative(void)
 {
-	return (world.gamemode == GAMEMODE_CREATIVE);
+	return (world->gamemode == GAMEMODE_CREATIVE);
 }*/
 
 bool isSurvival(void)
 {
-	return (world.gamemode == GAMEMODE_SURVIVAL);
+	return (world->gamemode == GAMEMODE_SURVIVAL);
 }
 
 void quitGame()
@@ -110,39 +110,53 @@ void quitGame()
 
 void newGame(gamemode_t mode, int seed)
 {
+	delete world;
+	world = new WorldObject();
 	// Zero for a random seed
 	if (seed == 0)
-		world.seed = time(NULL);
-	srand(world.seed);
+		world->seed = time(NULL);
+	srand(world->seed);
 	mobsReset();
 	clearInventory();
 	shouldQuitGame = false;
-	world.gamemode = mode;
-	world.camX = 0;
-	world.camY = 0;
-	world.camCalcX = 0.0;
-	world.camCalcY = 0.0;
-	world.timeInWorld = 0;
-	generateWorld(&world);
+	world->gamemode = mode;
+	world->camX = 0;
+	world->camY = 0;
+	world->camCalcX = 0.0;
+	world->camCalcY = 0.0;
+	world->timeInWorld = 0;
+	generateWorld(world);
+
+	class Example
+	{
+	public:
+		int array[100][100];
+
+		Example() : array
+		{
+		}
+		{
+		};
+	};
 }
 
 void previewGame(void)
 {
 	newGame(GAMEMODE_PREVIEW, 0);
-	mobHandlerUpdate(&world);
+	mobHandlerUpdate(world);
 	if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
-		worldRender_Render(&world, world.camX, int(10 * world.camCalcY));
+		worldRender_Render(world, world->camX, int(10 * world->camCalcY));
 	else
-		worldRender_Render(&world, world.camX, int(world.camCalcY));
+		worldRender_Render(world, world->camX, int(world->camCalcY));
 }
 
 bool loadGame(void)
 {
 	mobsReset(true);
 	shouldQuitGame = false;
-	if (loadWorld(&world))
+	if (loadWorld(world))
 	{
-		srand(world.seed);
+		srand(world->seed);
 		return true;
 	}
 	return false;
@@ -150,7 +164,7 @@ bool loadGame(void)
 
 void joinGame(void)
 {
-	fillWorld(&world, BEDROCK);
+	fillWorld(world, BEDROCK);
 	iprintf("Looking for servers\n");
 	// TODO: Rename clientNifiInit() to something that makes more sense
 	while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
@@ -158,7 +172,7 @@ void joinGame(void)
 	iprintf("Joining Server!\n");
 	if (!doHandshake())
 		return;
-	recieveWorld(&world);
+	recieveWorld(world);
 	// TODO: Move this to nifi.cpp
 	unsigned short buffer[100];
 	int client_id = getClientID();
@@ -185,8 +199,8 @@ void startGame(void)
 	{
 		updateTime();
 		scanKeys();
-		mobHandlerUpdate(&world);
-		updateInventory(touch, &world, oldKeys);
+		mobHandlerUpdate(world);
+		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
 			clear_messages();
@@ -197,14 +211,14 @@ void startGame(void)
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		miningUpdate(&world, world.camX, world.camY, touch, keysDown());
-		proceduralBlockUpdate(&world);
+		miningUpdate(world, world->camX, world->camY, touch, keysDown());
+		proceduralBlockUpdate(world);
 		swiWaitForVBlank(); //Should be the only time called in the loop
-		worldRender_Render(&world, world.camX, world.camY);
+		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
-		timeUpdate(&world);
+		timeUpdate(world);
 	}
 }
 
@@ -226,20 +240,20 @@ void startMultiplayerGame(bool host)
 	{
 		lcdMainOnBottom();
 		iprintf("Generating World!\n");
-		generateWorld(&world);
+		generateWorld(world);
 		while (!hostNifiInit()) swiWaitForVBlank();
-		communicationInit(&world);
+		communicationInit(world);
 		consoleClear();
 		unsigned short buffer[100];
 		int server_id = getServerID();
 		sprintf((char *) buffer, "Server ID: %d\n", server_id);
 		printGlobalMessage((char *) buffer);
-		world.timeInWorld = 0;
+		world->timeInWorld = 0;
 	}
 	lcdMainOnBottom();
-	world.timeInWorld = 0;
-	world.camX = 0;
-	world.camY = 0;
+	world->timeInWorld = 0;
+	world->camX = 0;
+	world->camY = 0;
 
 	while (!shouldQuitGame)
 	{
@@ -249,21 +263,21 @@ void startMultiplayerGame(bool host)
 		recieveWorldUpdate();
 		touchRead(&touch);
 		nifiUpdate();
-		miningUpdate(&world, world.camX, world.camY, touch, keysDown());
+		miningUpdate(world, world->camX, world->camY, touch, keysDown());
 		update_message();
-		mobHandlerUpdate(&world);
+		mobHandlerUpdate(world);
 		swiWaitForVBlank();
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
 		if (host)
-			timeUpdate(&world);
-		worldRender_Render(&world, world.camX, world.camY);
+			timeUpdate(world);
+		worldRender_Render(world, world->camX, world->camY);
 	}
 	nifiDisable();
 }
 
 /*void setSeed(int seed)
 {
-	world.seed = seed;
+	world->seed = seed;
 }*/

@@ -1,4 +1,4 @@
 #pragma once
 #include "world.h"
-void timeUpdate(worldObject* world);
-bool isDay(worldObject* world);
+void timeUpdate(WorldObject* world);
+bool isDay(WorldObject* world);

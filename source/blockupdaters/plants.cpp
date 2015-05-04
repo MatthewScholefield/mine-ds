@@ -9,7 +9,7 @@
 #include "../mobs/hurt.h"
 #include "../mainGame.h"
 
-void plantUpdate(int beneathID, worldObject* world, int x, int y, bool bg)
+void plantUpdate(int beneathID, WorldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
@@ -25,7 +25,7 @@ shrubUpdater::shrubUpdater()
 	blockID = SHRUB;
 }
 
-void shrubUpdater::update(worldObject* world, int x, int y, bool bg)
+void shrubUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(SAND, world, x, y, bg);
 }
@@ -35,7 +35,7 @@ tallGrassUpdater::tallGrassUpdater()
 	blockID = TALL_GRASS;
 }
 
-void tallGrassUpdater::update(worldObject* world, int x, int y, bool bg)
+void tallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 }
@@ -45,7 +45,7 @@ redFlowerUpdater::redFlowerUpdater()
 	blockID = FLOWER_RED;
 }
 
-void redFlowerUpdater::update(worldObject* world, int x, int y, bool bg)
+void redFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 }
@@ -55,7 +55,7 @@ yellowFlowerUpdater::yellowFlowerUpdater()
 	blockID = FLOWER_YELLOW;
 }
 
-void yellowFlowerUpdater::update(worldObject* world, int x, int y, bool bg)
+void yellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 }
@@ -65,7 +65,7 @@ redMushroomUpdater::redMushroomUpdater()
 	blockID = MUSHROOM_RED;
 }
 
-void redMushroomUpdater::update(worldObject* world, int x, int y, bool bg)
+void redMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
 }
@@ -75,7 +75,7 @@ brownMushroomUpdater::brownMushroomUpdater()
 	blockID = MUSHROOM_BROWN;
 }
 
-void brownMushroomUpdater::update(worldObject* world, int x, int y, bool bg)
+void brownMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
 }

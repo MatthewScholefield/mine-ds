@@ -73,7 +73,7 @@ void zombieMob::hurt(int amount, int type)
 	}
 }
 
-void zombieMob::updateMob(worldObject* world)
+void zombieMob::updateMob(WorldObject* world)
 {
 	if (world->timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
 	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
@@ -128,7 +128,7 @@ void zombieMob::loadFromFile(FILE* pFile)
 	killMob();
 }
 
-bool canZombieMobSpawnHere(worldObject* world, int x, int y)
+bool canZombieMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)

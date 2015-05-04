@@ -46,7 +46,7 @@ void MplayerMob::hurt(int amount, int type)
 	return; //Do nothing, if a Multiplayer mob is hurt then it should be realised on the server not client...
 }
 
-void MplayerMob::updateMob(worldObject* world)
+void MplayerMob::updateMob(WorldObject* world)
 {
 	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
 	{
@@ -69,7 +69,7 @@ void MplayerMob::loadFromFile(FILE* pFile)
 	killMob();
 }
 
-bool canMplayerMobSpawnHere(worldObject* world, int x, int y)
+bool canMplayerMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS)

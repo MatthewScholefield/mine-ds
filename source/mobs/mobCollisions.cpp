@@ -4,7 +4,7 @@
 #include "../Config.h"
 #include <nds.h>
 
-void collisionWithCactus(worldObject* world, baseMob* mob, int type, int x, int y, bool sub)
+void collisionWithCactus(WorldObject* world, baseMob* mob, int type, int x, int y, bool sub)
 {
 	if (mob->timeOnCactus > 40 || mob->timeOnCactus == -1)
 	{
@@ -16,7 +16,7 @@ void collisionWithCactus(worldObject* world, baseMob* mob, int type, int x, int 
 
 }
 
-void cactusCheck(worldObject* world, baseMob* mob, int type, int x, int y, bool sub)
+void cactusCheck(WorldObject* world, baseMob* mob, int type, int x, int y, bool sub)
 {
 	if (mob->host == true)
 	{

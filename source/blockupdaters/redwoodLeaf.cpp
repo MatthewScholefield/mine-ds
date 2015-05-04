@@ -14,7 +14,7 @@ redwoodLeafUpdater::redwoodLeafUpdater()
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void redwoodLeafUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void redwoodLeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

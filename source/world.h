@@ -23,7 +23,8 @@ enum Biome {
 	BIOME_MUSHROOM = 5
 };
 
-typedef struct {
+class WorldObject {
+public:
 	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int data[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int brightness[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
@@ -39,8 +40,14 @@ typedef struct {
 	double camCalcX;
 	double camCalcY;
 	Biome biome[WORLD_WIDTH + 1];
-} worldObject;
 
-int findFirstBlock(worldObject* world, int x);
-int findFirstBiomeBlock(worldObject* world, int x);
-void drawLineDown(worldObject* world, int x, int y);
+	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+	, camY(1), camX(1), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
+	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }
+	{
+	};
+};
+
+int findFirstBlock(WorldObject* world, int x);
+int findFirstBiomeBlock(WorldObject* world, int x);
+void drawLineDown(WorldObject* world, int x, int y);

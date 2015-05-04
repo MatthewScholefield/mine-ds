@@ -9,7 +9,7 @@
 #include "leaf.h"
 #include "../mainGame.h"
 
-void leafChanceUpdateGeneric(worldObject* world, int x, int y, bool bg)
+void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 {
 	int leafID = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	bool nearWood = false;
@@ -38,7 +38,7 @@ leafUpdater::leafUpdater()
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void leafUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void leafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

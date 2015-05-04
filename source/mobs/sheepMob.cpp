@@ -62,7 +62,7 @@ sheepMob::sheepMob(int a, int b)
 	smallmob = true;
 }
 
-void sheepMob::updateMob(worldObject* world)
+void sheepMob::updateMob(WorldObject* world)
 {
 	if (rand() % 2 == 1 && mov == 1)
 		dir = true;
@@ -158,7 +158,7 @@ void sheepMob::loadFromFile(FILE* pFile)
 	killMob();
 }
 
-bool canSheepMobSpawnHere(worldObject* world, int x, int y)
+bool canSheepMobSpawnHere(WorldObject* world, int x, int y)
 {
 	if (!canMobSpawnHere(world, x, y))
 		return false;

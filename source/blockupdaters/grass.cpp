@@ -15,7 +15,7 @@ grassUpdater::grassUpdater()
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void grassUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void grassUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];

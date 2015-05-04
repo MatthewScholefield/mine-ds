@@ -8,9 +8,9 @@
  */
 
 #include "world.h"
-void fillWorld(worldObject* world, int blockType);
-void generateWorld(worldObject* world);
-void generateSmallWorld(worldObject* world);
-void randGenerate(worldObject* world);
-void fixgrass(worldObject* world);
+void fillWorld(WorldObject* world, int blockType);
+void generateWorld(WorldObject* world);
+void generateSmallWorld(WorldObject* world);
+void randGenerate(WorldObject* world);
+void fixgrass(WorldObject* world);
 

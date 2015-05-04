@@ -1,6 +1,6 @@
 #include "baseMob.h"
 
-bool canPlayerMobSpawnHere(worldObject* world, int x, int y);
+bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
 
 class playerMob : public baseMob {
 public:
@@ -17,7 +17,7 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(worldObject* world);
+	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	playerMob();

@@ -18,12 +18,12 @@ void calculatePhysics(baseMob* mob)
 	if (mob->vy > 10) mob->vy = 10;
 }
 
-int blockAtPixel(worldObject *world, int pixX, int pixY)
+int blockAtPixel(WorldObject *world, int pixX, int pixY)
 {
 	return world->blocks[pixX / 16][pixY / 16];
 }
 
-void calculateMiscData(worldObject* world, baseMob* mob)
+void calculateMiscData(WorldObject* world, baseMob* mob)
 {
 	if (mob->host)
 	{
@@ -94,7 +94,7 @@ void calculateMiscData(worldObject* world, baseMob* mob)
 	}
 }
 
-void calculateMiscDataSmall(worldObject* world, baseMob* mob)
+void calculateMiscDataSmall(WorldObject* world, baseMob* mob)
 {
 	/*if (mob->host)
 	{

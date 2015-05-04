@@ -10,7 +10,7 @@
 #include "../worldRender.h"
 #include "../mainGame.h"
 
-void saplingChanceUpdate(worldObject *world, int x, int y, bool bg)
+void saplingChanceUpdate(WorldObject *world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 
@@ -32,7 +32,7 @@ void saplingChanceUpdate(worldObject *world, int x, int y, bool bg)
 	}
 }
 
-void saplingUpdate(worldObject *world, int x, int y, bool bg)
+void saplingUpdate(WorldObject *world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
@@ -65,12 +65,12 @@ oakSaplingUpdater::oakSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-void oakSaplingUpdater::update(worldObject* world, int x, int y, bool bg)
+void oakSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
 }
 
-void oakSaplingUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void oakSaplingUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	saplingChanceUpdate(world, x, y, bg);
 }

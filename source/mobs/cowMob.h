@@ -3,7 +3,7 @@
 #include "baseMob.h"
 #ifndef COW_MOB_H
 #define COW_MOB_H
-bool canCowMobSpawnHere(worldObject* world, int x, int y);
+bool canCowMobSpawnHere(WorldObject* world, int x, int y);
 
 class cowMob : public baseMob {
 public:
@@ -17,7 +17,7 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(worldObject* world);
+	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	cowMob();

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "../world.h"
 //
-bool canBaseMobSpawnHere(worldObject* world, int x, int y);
+bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 
 class baseMob {
 public:
@@ -39,7 +39,7 @@ public:
 	void unKillMob();
 	void setXYPos(int x, int y);
 	void resetVelocity();
-	virtual void updateMob(worldObject* world);
+	virtual void updateMob(WorldObject* world);
 	baseMob();
 	baseMob(int x, int y);
 

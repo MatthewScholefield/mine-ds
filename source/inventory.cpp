@@ -199,7 +199,7 @@ void changeGraphic(int blockID)
 	loadedInvGraphic = true;
 }
 
-void updateInventory(touchPosition touch, worldObject* world, uint oldKeys)
+void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 {
 
 	if (showingInventory == 0)
