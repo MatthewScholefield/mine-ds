@@ -3,7 +3,7 @@
 #include "baseMob.h"
 #ifndef PIG_MOB_H
 #define PIG_MOB_H
-bool canPigMobSpawnHere(worldObject* world, int x, int y);
+bool canPigMobSpawnHere(WorldObject* world, int x, int y);
 
 class pigMob : public baseMob {
 public:
@@ -24,7 +24,7 @@ public:
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
-	virtual void updateMob(worldObject* world);
+	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	pigMob();

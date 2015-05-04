@@ -3,7 +3,7 @@
 #include "blockID.h"
 #include "blocks.h"
 
-int findFirstBlock(worldObject* world, int x)
+int findFirstBlock(WorldObject* world, int x)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
@@ -18,7 +18,7 @@ int findFirstBlock(worldObject* world, int x)
 		if (!isAGroundBlock(world->blocks[x][i])) return i;
 	return -1;
 }*/
-void drawLineDown(worldObject* world, int x, int y)
+void drawLineDown(WorldObject* world, int x, int y)
 {
 	int i;
 	for (i = y; i < WORLD_HEIGHT; ++i)
@@ -35,7 +35,7 @@ void drawLineDown(worldObject* world, int x, int y)
 	}
 }
 
-void drawLineThing(worldObject* world, int x1, int y1, int x2, int y2)
+void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2)
 {
 	// if x1 == x2 or y1 == y2, then it does not matter what we set here
 	int delta_x(x2 - x1);

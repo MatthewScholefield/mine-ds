@@ -35,7 +35,7 @@ bool itemMob::isMyPlayer()
 	return false;
 }
 
-void itemMob::updateMob(worldObject* world)
+void itemMob::updateMob(WorldObject* world)
 {
 
 	if (!alive)

@@ -32,11 +32,11 @@ blockUpdater::blockUpdater()
 {
 }
 
-void blockUpdater::update(worldObject* world, int x, int y, bool bg)
+void blockUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 }
 
-void blockUpdater::chanceUpdate(worldObject* world, int x, int y, bool bg)
+void blockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 }
 
@@ -66,7 +66,7 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[numBlockUpdaters++] = new spruceSaplingUpdater;
 }
 
-void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
+void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)
 {
 	for (int i = 0; i < numBlockUpdaters; ++i)
 	{
@@ -89,7 +89,7 @@ void proceduralBlockUpdateCheck(worldObject* world, int x, int y)
 	}
 }
 
-void proceduralBlockUpdate(worldObject* world)
+void proceduralBlockUpdate(WorldObject* world)
 {
 	int sx = world->camX / 16;
 	int sy = world->camY / 16;

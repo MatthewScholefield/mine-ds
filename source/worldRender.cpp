@@ -22,7 +22,7 @@ uint16 *bg2ptr;
 Graphic blockGraphics[NUM_SPRITE_BLOCKS];
 int sunbrightness;
 
-int getBrightness(worldObject* world, int x, int y)
+int getBrightness(WorldObject* world, int x, int y)
 {
 	if (world->sun[x][y] + sunbrightness < world->brightness[x][y])
 		return world->sun[x][y] + sunbrightness;
@@ -75,7 +75,7 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
-void brightnessSpread2(worldObject* world, int x, int y, int brightness)
+void brightnessSpread2(WorldObject* world, int x, int y, int brightness)
 {
 	if (y > WORLD_HEIGHT + 1) return;
 	if (y < 0) return;
@@ -105,7 +105,7 @@ void brightnessSpread2(worldObject* world, int x, int y, int brightness)
 	else return;
 }
 
-void updateBrightnessAround(worldObject* world, int x, int y)
+void updateBrightnessAround(WorldObject* world, int x, int y)
 {
 	int i, j;
 	bool startshade = false;
@@ -155,7 +155,7 @@ void updateBrightnessAround(worldObject* world, int x, int y)
 	}
 }
 
-void Calculate_Brightness(worldObject* world)
+void Calculate_Brightness(WorldObject* world)
 {
 	int i, j;
 	//Kill Every block so it has no brightness...
@@ -264,7 +264,7 @@ void renderTile16(int x, int y, int tile, int palette)
 	setTileXY(x + 1, y + 1, tile + 3, palette);
 }
 
-void renderBlockAdd(worldObject* world, int i, int j, int blockId)
+void renderBlockAdd(WorldObject* world, int i, int j, int blockId)
 {
 	if (world->sun[i][j] + sunbrightness < world->brightness[i][j])
 	{
@@ -277,7 +277,7 @@ void renderBlockAdd(worldObject* world, int i, int j, int blockId)
 		renderTile16(i, j, blockId, world->brightness[i][j] + 6);
 }
 
-void renderBlock(worldObject* world, int i, int j, int blockId)
+void renderBlock(WorldObject* world, int i, int j, int blockId)
 {
 	if (world->sun[i][j] + sunbrightness < world->brightness[i][j])
 	{
@@ -290,7 +290,7 @@ void renderBlock(worldObject* world, int i, int j, int blockId)
 		renderTile16(i, j, blockId, world->brightness[i][j]);
 }
 
-void renderWorld(worldObject* world, int screen_x, int screen_y)
+void renderWorld(WorldObject* world, int screen_x, int screen_y)
 {
 	int i, j;
 	for (i = screen_x / 16 - 2; i <= screen_x / 16 + 20; ++i)
@@ -322,7 +322,7 @@ void renderWorld(worldObject* world, int screen_x, int screen_y)
 	}
 }
 
-void worldRender_Render(worldObject* world, int screen_x, int screen_y)
+void worldRender_Render(WorldObject* world, int screen_x, int screen_y)
 {
 	//iprintf("%d,%d\n",screen_x,screen_y);
 	beginRender(screen_x, screen_y);

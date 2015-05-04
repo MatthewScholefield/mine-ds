@@ -113,7 +113,7 @@ void showHealth(int health)
 		showGraphic(&hearts[1], i * 4, 56);
 }
 
-void playerMob::updateMob(worldObject* world)
+void playerMob::updateMob(WorldObject* world)
 {
 	if (host)
 	{
@@ -247,7 +247,7 @@ bool playerMob::isMyPlayer()
 	return true;
 }
 
-bool canPlayerMobSpawnHere(worldObject* world, int x, int y)
+bool canPlayerMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;

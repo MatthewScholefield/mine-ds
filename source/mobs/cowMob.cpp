@@ -62,7 +62,7 @@ cowMob::cowMob(int a, int b)
 	smallmob = true;
 }
 
-void cowMob::updateMob(worldObject* world)
+void cowMob::updateMob(WorldObject* world)
 {
 	if (rand() % 2 == 1 && mov == 1)
 		dir = true;
@@ -156,7 +156,7 @@ void cowMob::loadFromFile(FILE* pFile)
 	killMob();
 }
 
-bool canCowMobSpawnHere(worldObject* world, int x, int y)
+bool canCowMobSpawnHere(WorldObject* world, int x, int y)
 {
 	if (!canMobSpawnHere(world, x, y))
 		return false;

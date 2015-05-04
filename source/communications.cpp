@@ -26,7 +26,7 @@ bool canSpawnMob()
 }
 int addamount;
 
-worldObject* worldptr;
+WorldObject* worldptr;
 
 int doHandshake()
 {
@@ -61,7 +61,7 @@ void connectSuccess()
 	code = code2;
 }*/
 
-void recieveWorld(worldObject* world2)
+void recieveWorld(WorldObject* world2)
 {
 	recv_code = 0;
 	code = 0;
@@ -141,7 +141,7 @@ void recieveWorldUpdate()
 	}
 }
 
-void communicationInit(worldObject* world2)
+void communicationInit(WorldObject* world2)
 {
 	worldptr = world2;
 }

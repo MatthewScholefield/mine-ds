@@ -55,7 +55,7 @@ herobrineMob::herobrineMob(int a, int b)
 	waitingCount = -rand() % 4000;
 }
 
-void herobrineMob::updateMob(worldObject* world)
+void herobrineMob::updateMob(WorldObject* world)
 {
 	++waitingCount;
 	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
@@ -120,7 +120,7 @@ void herobrineMob::loadFromFile(FILE* pFile)
 	killMob();
 }
 
-bool canHerobrineMobSpawnHere(worldObject* world, int x, int y)
+bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)

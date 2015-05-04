@@ -5,5 +5,5 @@
 class jungleLeafUpdater : public blockUpdater {
 public:
 	jungleLeafUpdater();
-	virtual void chanceUpdate(worldObject* world, int x, int y, bool bg);
+	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 };

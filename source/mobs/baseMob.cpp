@@ -69,7 +69,7 @@ baseMob::baseMob(int a, int b)
 	vx = 0;
 }*/
 
-void baseMob::updateMob(worldObject* world)
+void baseMob::updateMob(WorldObject* world)
 {
 	if (animation == 0) showGraphic(&baseMobGraphic[0], x - world->camX, y - world->camY);
 	else if (animation == 1) showGraphic(&baseMobGraphic[1], x - world->camX, y - world->camY);
@@ -102,7 +102,7 @@ void baseMob::loadFromFile(FILE* pFile)
 	killMob();
 }
 
-bool canBaseMobSpawnHere(worldObject* world, int x, int y)
+bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
