@@ -6,4 +6,5 @@ int getSelectedSlot();
 void miningUpdate(WorldObject* world, int sx, int sy, touchPosition touch, int keys);
 void blocksCanPlace();
 void setMiningDisabled(bool a);
+bool canMine();
 void setSelectedSpace(int a);

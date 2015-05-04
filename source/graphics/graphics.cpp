@@ -168,7 +168,7 @@ void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame)
 	sprite->frame_gfx = gfx;
 }
 
-void setAnimFrame(Graphic* g, int mobSlot, int frame)
+void drawAnimFrame(Graphic* g, int mobSlot, int frame)
 {
 	int slot = frame + mobSlot * (FRAMES_PER_ANIMATION);
 
@@ -182,7 +182,13 @@ void animateMob(Graphic* g, int mobSlot)
 	++g->anim_frame;
 	if (g->anim_frame >= FRAMES_PER_ANIMATION)
 		g->anim_frame = 0;
-	setAnimFrame(g, mobSlot, g->anim_frame);
+	drawAnimFrame(g, mobSlot, g->anim_frame);
+}
+
+void setAnimFrame(Graphic* g, int mobSlot, int frame)
+{
+	g->anim_frame = frame;
+	drawAnimFrame(g, mobSlot, g->anim_frame);
 }
 
 /**
