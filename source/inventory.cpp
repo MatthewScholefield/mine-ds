@@ -308,7 +308,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				backButton.setColored(false);
 				saveButton.setColored(false);
 				craftButton.setColored(false);
-				pageButton.setVisible(false);
+				pageButton.setColored(false);
 			}
 		}
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
