@@ -10,6 +10,7 @@
 #define ACTION_SWITCH_SCREEN 7
 #define ACTION_MENU 8
 #define ACTION_CLIMB 9
+#define ACTION_DROP 10
 
 #define PROPERTY_HEROBRINE 0
 #define PROPERTY_DRAW 1
@@ -27,6 +28,7 @@ private:
 	KEYPAD_BITS switchScreen;
 	KEYPAD_BITS menu;
 	KEYPAD_BITS climb;
+  KEYPAD_BITS dropItem;
 	bool properties[4];
 public:
 	void setKey(int action, KEYPAD_BITS key);
@@ -43,6 +45,7 @@ public:
 	switchScreen(KEY_Y),
 	menu(KEY_START),
 	climb(KEY_UP),
+  dropItem(KEY_SELECT),
 	properties {
 		false, false, true, true
 	}

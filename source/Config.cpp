@@ -36,6 +36,9 @@ void Config::setKey(int action, KEYPAD_BITS key)
 		case ACTION_CLIMB:
 			climb = key;
 			break;
+    case ACTION_DROP:
+      dropItem = key;
+      break;
 	}
 
 }
@@ -72,6 +75,8 @@ KEYPAD_BITS Config::getKey(int action)
 		case ACTION_CLIMB:
 			returnKey = climb;
 			break;
+    case ACTION_DROP:
+      returnKey = dropItem;
 	}
 	return returnKey;
 }
