@@ -101,10 +101,14 @@ void itemMob::loadFromFile(FILE* pFile)
 
 void itemMob::hurt(int hamount, int type)
 {
-	if (blockID == -1)
-		displayID = blockID = hamount;
-	else if (amount == - 1)
-		amount = hamount;
-	else if (hamount > 0)
-		displayID = hamount;
+  if (type == PROPERTY_HURT)
+  {
+	  if (blockID == -1)
+	  	displayID = blockID = hamount;
+	  else if (amount == - 1)
+	  	amount = hamount;
+	  else if (hamount > 0)
+	  	displayID = hamount;
+  }
+  else killMob();
 }
