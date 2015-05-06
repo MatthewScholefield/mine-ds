@@ -161,6 +161,15 @@ void playerMob::updateMob(WorldObject* world)
 				x -= (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
 				facing = true;
 			}
+      else if (keysDown() & getGlobalSettings()->getKey(ACTION_DROP))
+      {
+     		printLocalMessage("Dropping Item\n");
+        int blockIDToDrop = getBlockID(getSelectedSlot());
+        if (subInventory(blockIDToDrop,1))
+        {
+     	  	createItemMob(x/16, y/16 - 2, blockIDToDrop,1);
+        }
+      }
 			else
 				setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_WALK], 0, 0);
 

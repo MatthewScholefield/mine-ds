@@ -23,6 +23,7 @@ int invSlot = 0;
 bool loadedTopGraphic = false;
 Graphic topBlock;
 bool disableTouchMine = false;
+int oldBlockID = AIR;
 bool canPlaceBlocks = true;
 bool hasChangedBlock = false;
 int frameCounting = 0;
@@ -287,6 +288,8 @@ void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int key
 		invSlot = 0;
 		calculateTopBlock();
 	}
+  if (getBlockID(invSlot)!=oldBlockID) calculateTopBlock();
+  oldBlockID = getBlockID(invSlot);
 	//Draw the selected block
 	if (getBlockID(invSlot) != 0)
 		showGraphic(&topBlock, 0, 48);
