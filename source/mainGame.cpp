@@ -126,18 +126,6 @@ void newGame(gamemode_t mode, int seed)
 	world->camCalcY = 0.0;
 	world->timeInWorld = 0;
 	generateWorld(world);
-
-	class Example
-	{
-	public:
-		int array[100][100];
-
-		Example() : array
-		{
-		}
-		{
-		};
-	};
 }
 
 void previewGame(void)
