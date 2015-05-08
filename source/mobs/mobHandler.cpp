@@ -363,10 +363,8 @@ void mobHandlerUpdate(WorldObject* world)
 	int goodMobs = 0;
 	if (!hasSpawnPlayer)
 	{
-		int player = spawnMob(1, world);
+		spawnMob(1, world);
 		hasSpawnPlayer = true;
-		if (player != -1)
-			updateBrightnessAround(world, mobs[player]->x, mobs[player]->y);
 	}
 	int i;
 	for (i = 1; i < 100; ++i)
