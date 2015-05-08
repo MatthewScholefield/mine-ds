@@ -322,7 +322,6 @@ bool hostNifiInit()
 {
 	host = true;
 	server_id = rand() % 1024;
-	iprintf("Server ID: %d\n", server_id);
 	return true;
 }
 
@@ -332,13 +331,13 @@ bool clientNifiInit()
 	if (clientReInit == true)
 	{
 		client_id = rand() % 1024;
-		iprintf("Client ID: %d\n", client_id);
+		iprintf("\x1b[11;1HClient ID: %d", client_id);
 		lookForServers = true;
 		clientReInit = false;
 	}
 	if (foundServer)
 	{
-		iprintf("\x1b[10;0HDo you wish to join server\nID: %d ?\n", server_id);
+		iprintf("\x1b[10;0HDo you wish to join server\nID: %d ?", server_id);
 		drawButton(2, 15, 5);
 		drawButton(15, 15, 5);
 		printXY(4, 16, "Yes");
