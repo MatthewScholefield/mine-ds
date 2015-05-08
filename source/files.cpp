@@ -8,6 +8,7 @@
 #include "inventory.h"
 #include "files.h"
 #include "mobs/mobHandler.h"
+#include "worldRender.h"
 
 void initFile(void)
 {
@@ -80,6 +81,8 @@ bool loadWorld(WorldObject *world)
 
 	if (openedWorld)
 	{
+		delete world;
+		world = new WorldObject();
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
 		world->gamemode = gamemode_t(loadGameMode);
@@ -89,7 +92,9 @@ bool loadWorld(WorldObject *world)
 				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
 			if (i % 64 == 0)
 				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH + 100))));
+
 		}
+		Calculate_Brightness(world);
 		int loadBiome;
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
