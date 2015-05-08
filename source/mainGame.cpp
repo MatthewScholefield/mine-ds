@@ -152,14 +152,22 @@ bool loadGame(void)
 
 void joinGame(void)
 {
-	fillWorld(world, BEDROCK);
-	iprintf("Looking for servers\n");
+	//fillWorld(world, BEDROCK);
+	delete world;
+	world = new WorldObject();
+	consoleClear();
+	drawBackground();
+	printXY(1, 10, "Looking for servers");
 	// TODO: Rename clientNifiInit() to something that makes more sense
 	while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
 		swiWaitForVBlank();
-	iprintf("Joining Server!\n");
+	printXY(1, 11, "Joining Server!");
 	if (!doHandshake())
+	{
+		printXY(1, 12, "Handshake Failed");
+		sleep(2);
 		return;
+	}
 	recieveWorld(world);
 	// TODO: Move this to nifi.cpp
 	unsigned short buffer[100];
@@ -214,6 +222,7 @@ void startGame(void)
 
 void startMultiplayerGame(bool host)
 {
+	int oldKeys = keysHeld();
 	touchPosition touch;
 
 	nifiEnable();
@@ -223,11 +232,14 @@ void startMultiplayerGame(bool host)
 	drawBackground();
 	playMusic(MUSIC_HAL2);
 	mobsReset();
+	lcdMainOnBottom();
 
 	if (host)
 	{
-		lcdMainOnBottom();
 		iprintf("Generating World!\n");
+		delete world;
+		world = new WorldObject();
+		world->gamemode = GAMEMODE_CREATIVE;
 		generateWorld(world);
 		while (!hostNifiInit()) swiWaitForVBlank();
 		communicationInit(world);
@@ -236,31 +248,35 @@ void startMultiplayerGame(bool host)
 		int server_id = getServerID();
 		sprintf((char *) buffer, "Server ID: %d\n", server_id);
 		printGlobalMessage((char *) buffer);
-		world->timeInWorld = 0;
 	}
-	lcdMainOnBottom();
 	world->timeInWorld = 0;
 	world->camX = 0;
 	world->camY = 0;
 
 	while (!shouldQuitGame)
 	{
-		scanKeys();
-		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
-			break;
 		recieveWorldUpdate();
-		touchRead(&touch);
-		nifiUpdate();
-		miningUpdate(world, world->camX, world->camY, touch, keysDown());
-		update_message();
+		updateTime();
+		scanKeys();
 		mobHandlerUpdate(world);
-		swiWaitForVBlank();
+		updateInventory(touch, world, oldKeys);
+		update_message();
+		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
+			clear_messages();
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)
+			break;
+		oldKeys = keysHeld();
+		touchRead(&touch);
+		miningUpdate(world, world->camX, world->camY, touch, keysDown());
+		if (host)
+			proceduralBlockUpdate(world);
+		swiWaitForVBlank(); //Should be the only time called in the loop
+		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		graphicFrame();
 		if (host)
 			timeUpdate(world);
-		worldRender_Render(world, world->camX, world->camY);
 	}
 	nifiDisable();
 }
