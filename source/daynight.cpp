@@ -19,8 +19,10 @@ void timeUpdate(WorldObject* world)
 		++world->timeInWorld;
 		timeTillChange = 0;
 		if (world->timeInWorld > 120) world->timeInWorld = 0;
-		if (world->timeInWorld >= 80 && world->timeInWorld < 90) ++world->worldBrightness;
-		else if (world->timeInWorld > 110) --world->worldBrightness;
+		if (world->timeInWorld >= 80 && world->timeInWorld < 90) world->worldBrightness = world->timeInWorld - 79;
+		else if (world->timeInWorld > 110) world->worldBrightness = 10 - (world->timeInWorld - 110);
+    else if (world->timeInWorld>=90) world->worldBrightness = 10;
+    else world->worldBrightness = 0;
 		setBackdropColor(RGB15(r[world->worldBrightness], g[world->worldBrightness], b[world->worldBrightness]));
 		setSun(world->worldBrightness);
 		if (isWifi())
