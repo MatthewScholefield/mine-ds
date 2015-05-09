@@ -429,10 +429,10 @@ void controlsScreen()
 		consoleClear();
 		drawBackground();
 
-		Button edit(17, 10, "Edit");
-		Button save(8, 15, "Save");
-		Button load(17, 15, "Load");
-		Button view(8, 10, "View");
+		Button edit(18, 10, "Edit");
+		Button save(7, 16, "Save");
+		Button load(18, 16, "Load");
+		Button view(7, 10, "View");
 		Button buttons[] = {edit, save, load, view};
 
 		switch (menu(buttons, 4))
@@ -507,12 +507,12 @@ void settingsScreen()
 		consoleClear();
 		drawBackground();
 
-		Button controls(8, 8, "Controls", 15);
-		Button options(8, 13, "Game Options", 15);
-		Button language(8, 18, "Language", 15);
-		Button buttons[] = {controls, options, language};
+		Button controls(8, 10, "Controls", 15);
+		Button options(8, 16, "Game Options", 15);
+		//Button language(8, 18, "Language", 15);
+		Button buttons[] = {controls, options}; //, language};
 
-		switch (menu(buttons, 3))
+		switch (menu(buttons, 2))//3))
 		{
 			case 1: // controls
 				controlsScreen();
@@ -520,9 +520,9 @@ void settingsScreen()
 			case 2: // game options
 				gameOptions();
 				break;
-			case 3: // credits screen
-				//TODO: add language screen
-				break;
+				/*case 3: // credits screen
+						//TODO: add language screen
+					break;*/
 			default: // back button
 				backbutton = true;
 				break;
