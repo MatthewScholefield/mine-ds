@@ -152,6 +152,7 @@ bool loadGame(void)
 
 void joinGame(void)
 {
+	nifiEnable();
 	//fillWorld(world, BEDROCK);
 	delete world;
 	world = new WorldObject();
