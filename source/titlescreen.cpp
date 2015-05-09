@@ -607,24 +607,21 @@ void titlescreen()
 		playMusic(MUSIC_CALM);
 		clearInventory();
 
-		Button singlePlayer(8, 8, "Single Player", 15);
-		Button multiPlayer(8, 13, "Multiplayer", 15);
-		Button settings(8, 18, "Settings", 15);
+		//Button multiPlayer(8, 13, "Multiplayer", 15);
+		Button singlePlayer(8, 10, "Single Player", 15);
+		Button settings(8, 16, "Settings", 15);
 		Button power(29, 21, "\xFE"); // \xFE = Dot
-		Button buttons[] = {singlePlayer, multiPlayer, settings, power};
+		Button buttons[] = {singlePlayer, settings, power};
 
-		switch (menu(buttons, 4, false))
+		switch (menu(buttons, 3, false))
 		{
 			case 1: // single player
 				gameModeScreen();
 				break;
-			case 2: // multiplayer
-				multiplayerScreen();
-				break;
-			case 3: // settings
+			case 2: // settings
 				settingsScreen();
 				break;
-			case 4: //Power
+			case 3: //Power
 				poweroff = true;
 				break;
 		}
