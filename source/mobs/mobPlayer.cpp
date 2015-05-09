@@ -114,6 +114,11 @@ void showHealth(int health)
 		showGraphic(&hearts[1], i * 4, 56);
 }
 
+bool checkLadder(WorldObject *world, int x, int y)
+{
+	return world->blocks[x / 16][y / 16] == LADDER || world->bgblocks[x / 16][y / 16] == LADDER;
+}
+
 void playerMob::updateMob(WorldObject* world)
 {
 	if (host)
@@ -171,8 +176,20 @@ void playerMob::updateMob(WorldObject* world)
 				if (subInventory(blockIDToDrop, 1))
 					createItemMob(x / 16, y / 16 - 2, blockIDToDrop, 1);
 			}
-
-			if ((collisions[0] || !isSurvival()) && !collisions[3] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+			bool onLadder = false;
+			for (int i = -1; i < 2; ++i)
+			{
+				if (checkLadder(world, x, y + 16 * i))
+				{
+					onLadder = true;
+					break;
+				}
+			}
+			if (onLadder && keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB))
+				vy = -1;
+			else if (onLadder)
+				vy = 1;
+			if ((!onLadder || !checkLadder(world, x, y + 15)) && (collisions[0] || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[3] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
