@@ -25,6 +25,7 @@ bool saveWorld(WorldObject *world)
 	{
 		//fwrite(world, sizeof (*world), 1, worldFile);
 		fprintf(worldFile, "%d ", world->gamemode);
+    fprintf(worldFile, "%d ", world->timeInWorld);
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
@@ -86,6 +87,9 @@ bool loadWorld(WorldObject *world)
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
 		world->gamemode = gamemode_t(loadGameMode);
+    int loadTimeInWorld;
+		fscanf(worldFile, "%d ", &loadTimeInWorld);
+    world->timeInWorld = loadTimeInWorld;
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
