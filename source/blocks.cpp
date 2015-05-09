@@ -296,10 +296,14 @@ int genericBlock(int blockID)
 		case TALL_GRASS:
 			return rand() % 3 == 1 ? SEEDS_WHEAT : AIR;
 			break;
-		case LEAF_JUNGLE:
 		case LEAF_OAK:
 		case LEAF_SPRUCE:
 			if (rand() % 3 != 0)
+				return AIR;
+			else
+				return sapling(blockID);
+		case LEAF_JUNGLE:
+			if (rand() % 5 != 0)
 				return AIR;
 			else
 				return sapling(blockID);
