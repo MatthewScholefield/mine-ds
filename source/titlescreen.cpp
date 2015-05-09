@@ -509,8 +509,8 @@ void settingsScreen()
 
 		Button controls(8, 8, "Controls", 15);
 		Button options(8, 13, "Game Options", 15);
-		Button credits(8, 18, "Credits", 15);
-		Button buttons[] = {controls, options, credits};
+		Button language(8, 18, "Language", 15);
+		Button buttons[] = {controls, options, language};
 
 		switch (menu(buttons, 3))
 		{
@@ -521,7 +521,7 @@ void settingsScreen()
 				gameOptions();
 				break;
 			case 3: // credits screen
-				creditsScreen();
+				//TODO: add language screen
 				break;
 			default: // back button
 				backbutton = true;
@@ -607,11 +607,11 @@ void titlescreen()
 		playMusic(MUSIC_CALM);
 		clearInventory();
 
-		//Button multiPlayer(8, 13, "Multiplayer", 15);
-		Button singlePlayer(8, 10, "Single Player", 15);
-		Button settings(8, 16, "Settings", 15);
+		Button singlePlayer(8, 8, "Single Player", 15);
+		Button settings(8, 13, "Settings", 15);
+		Button credits(8, 18, "Credits", 15);
 		Button power(29, 21, "\xFE"); // \xFE = Dot
-		Button buttons[] = {singlePlayer, settings, power};
+		Button buttons[] = {singlePlayer, settings, credits, power};
 
 		switch (menu(buttons, 3, false))
 		{
@@ -622,6 +622,9 @@ void titlescreen()
 				settingsScreen();
 				break;
 			case 3: //Power
+				creditsScreen();
+				break;
+			case 4: //Power
 				poweroff = true;
 				break;
 		}
