@@ -157,17 +157,20 @@ void playerMob::updateMob(WorldObject* world)
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1])
 			{
 				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
-				x += (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
+				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 				facing = false;
 			}
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2])
 			{
 				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
-				x -= (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 1 : 2;
+				vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
 				facing = true;
 			}
 			else
+			{
 				setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_WALK], 0, 0);
+				vx = 0;
+			}
 
 			if (keysDown() & getGlobalSettings()->getKey(ACTION_DROP))
 			{
@@ -260,14 +263,15 @@ void playerMob::sendWifiUpdate()
 
 void playerMob::saveToFile(FILE* pFile)
 {
-	fprintf(pFile, "%d %d %d ", int(x), y, health);
+	fprintf(pFile, "%d %d %d ", int(x), int(y), health);
 }
 
 void playerMob::loadFromFile(FILE* pFile)
 {
-	int loadX;
-	fscanf(pFile, "%d %d %d ", &loadX, &y, &health);
+	int loadX, loadY;
+	fscanf(pFile, "%d %d %d ", &loadX, &loadY, &health);
 	x = loadX;
+	y = loadY;
 }
 
 bool playerMob::isMyPlayer()

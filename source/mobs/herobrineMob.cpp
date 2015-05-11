@@ -63,7 +63,7 @@ void herobrineMob::updateMob(WorldObject* world)
 	if (host == true)
 	{
 		if (collisions[0] && collisions[3])
-			while (y > 16 && (world->blocks[int(x) / 16][(y / 16) + 1] != AIR || world->blocks[int(x) / 16][y / 16] != AIR))
+			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
 		target = mobHandlerFindMob(128, 2, x, y);
 		if (target->x < x && target->mobtype == 2) facing = true;
@@ -82,7 +82,7 @@ void herobrineMob::updateMob(WorldObject* world)
 			if (waitingCount > 1000)
 			{
 				waitingCount = 1100;
-				x += ((facing ? -1 : 1) * rand() % (distance < 40 && rand() % 2 ? 2 : 3));
+				vx = ((facing ? -1 : 1) * rand() % (distance < 40 && rand() % 2 ? 2 : 3));
 			}
 			else
 			{

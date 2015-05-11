@@ -104,6 +104,7 @@ void mobsReset(bool playerSpawned)
 	for (i = 0; i < 100; ++i)
 	{
 		delete mobs[i];
+		mobs[i] = NULL;
 		mobs[i] = new baseMob();
 		mobs[i] -> killMob();
 	}
@@ -388,6 +389,7 @@ void mobHandlerUpdate(WorldObject* world)
 					mobs[i]->ping = 0;
 					mobs[i]->alive = false;
 					delete mobs[i];
+					mobs[i] = NULL;
 				}
 			}
 		}
