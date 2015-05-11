@@ -93,15 +93,17 @@ void zombieMob::updateMob(WorldObject* world)
 		}
 		else if (!collisions[1] && facing == false && !collisions[3] && jump > 1)
 		{
-			x += facing ? -1 : 1;
+			vx = facing ? -1 : 1;
 			jump = 0;
 		}
 		else if (!collisions[2] && facing == true && !collisions[3] && jump > 1)
 		{
-			x += facing ? -1 : 1;
+			vx = facing ? -1 : 1;
 			jump = 0;
 		}
-		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
+		else
+			vx = 0;
+		if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
 			vy = JUMP_VELOCITY;
 		if (target->mobtype == 2) notarget = 0;
 		ping = 0;

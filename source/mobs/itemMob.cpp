@@ -14,6 +14,24 @@
 #include "../collision.h"
 #include "../inventory.h"
 #include "mobFunctions.h"
+#include "../mining.h"
+
+Graphic *itemGraphics[NUM_BLOCKS];
+bool inUse[NUM_BLOCKS] = {false};
+
+void itemGraphicUpdate()
+{
+	for (int i = 0; i < NUM_BLOCKS; ++i)
+	{
+		if (!inUse[i] && itemGraphics[i])
+		{
+			unloadGraphic(itemGraphics[i]);
+			delete itemGraphics[i];
+			itemGraphics[i] = NULL;
+		}
+		inUse[i] = false;
+	}
+}
 
 itemMob::itemMob(int a, int b)
 {
@@ -27,7 +45,10 @@ itemMob::itemMob(int a, int b)
 	displayID = -1;
 	amount = -1;
 	floatY = 0;
-	loadedBlockGfx = false;
+	//Set initial velocity
+	vx = double((rand() % 10) + 20) / 100.0;
+	//Set direction
+	vx *= (rand() % 2) ? -1 : 1;
 }
 
 bool itemMob::isMyPlayer()
@@ -37,22 +58,17 @@ bool itemMob::isMyPlayer()
 
 void itemMob::updateMob(WorldObject* world)
 {
-
 	if (!alive)
 		return;
-	if (!loadedBlockGfx)
+	if (!itemGraphics[blockID])
 	{
-		//Set initial velocity
-		vx = double((rand() % 10) + 20) / 100.0;
-		//Set direction
-		vx *= (rand() % 2) ? -1 : 1;
-		loadGraphicMiniBlock(&itemGraphic, displayID, 8, 8);
-		loadedBlockGfx = true;
+		itemGraphics[blockID] = new Graphic();
+		loadGraphicMiniBlock(itemGraphics[blockID], displayID, 8, 8);
 	}
+	inUse[blockID] = true;
 	if (vx != 0)//(vx > 0&& isBlockWalkThrough(world->blocks[int ((x + sx) / 16)][y / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x / 16)][y / 16])))
 	{
 		bool positive = vx > 0;
-		x += vx;
 		vx -= positive ? 0.005 : -0.005;
 		if ((positive && vx < 0) || (!positive && vx > 0))
 			vx = 0;
@@ -67,7 +83,7 @@ void itemMob::updateMob(WorldObject* world)
 	if (target == NULL)
 		target = mobHandlerFindMob(8, 2, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
-		showGraphic(&itemGraphic, x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
+		showGraphic(itemGraphics[blockID], x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
 	else
 	{
 		addInventory(blockID, amount);
@@ -90,8 +106,6 @@ void itemMob::killMob()
 {
 	timeTillWifiUpdate = 1;
 	alive = false;
-	if (loadedBlockGfx)
-		unloadGraphic(&itemGraphic);
 }
 
 void itemMob::loadFromFile(FILE* pFile)

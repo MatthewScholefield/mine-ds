@@ -7,7 +7,7 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 class baseMob {
 public:
 	float x;
-	int y;
+	float y;
 	float vy;
 	float vx;
 	int sx;
