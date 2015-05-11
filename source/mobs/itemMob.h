@@ -2,14 +2,15 @@
 #include "baseMob.h"
 #include "../graphics/graphics.h"
 
+void itemGraphicUpdate();
+
 class itemMob : public baseMob {
 public:
-	Graphic itemGraphic;
 	int blockID;
 	int displayID;
 	int amount;
 	int floatY;
-	bool loadedBlockGfx;
+	//bool loadedBlockGfx;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();

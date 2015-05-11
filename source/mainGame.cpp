@@ -12,6 +12,7 @@
 #include "mobs/mobHandler.h"
 #include "mobs/hurt.h"
 #include "mobs/mobPlayer.h"
+#include "mobs/itemMob.h"
 #include "deathScreen.h"
 #include "daynight.h"
 #include "graphics/inventoryGraphics.h"
@@ -197,6 +198,7 @@ void startGame(void)
 		updateTime();
 		scanKeys();
 		mobHandlerUpdate(world);
+		itemGraphicUpdate();
 		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
@@ -260,6 +262,7 @@ void startMultiplayerGame(bool host)
 		updateTime();
 		scanKeys();
 		mobHandlerUpdate(world);
+		itemGraphicUpdate();
 		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)

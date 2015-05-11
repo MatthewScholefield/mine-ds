@@ -83,6 +83,7 @@ void cowMob::updateMob(WorldObject* world)
 		{
 			scared = false;
 			scaredtimer = 0;
+			vx = 0;
 		}
 
 		if (target->mobtype != 2)
@@ -101,15 +102,17 @@ void cowMob::updateMob(WorldObject* world)
 					facing = false;
 				if (!collisions[1] && !dir && jump > 1)
 				{
-					x += dir ? -1 : 1;
+					vx = dir ? -1 : 1;
 					jump = 0;
 				}
 				if (!collisions[2] && dir && jump > 1)
 				{
-					x += dir ? -1 : 1;
+					vx = dir ? -1 : 1;
 					jump = 0;
 				}
-				else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
+				else
+					vx = 0;
+				if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 					vy = JUMP_VELOCITY;
 				if (mov > 59)
 					mov = 0;
@@ -118,13 +121,13 @@ void cowMob::updateMob(WorldObject* world)
 		}
 		else if (!collisions[1] && !facing && jump)
 		{
-			x += 0.7;
+			vx = 0.7;
 			++scaredtimer;
 			jump = 0;
 		}
 		else if (!collisions[2] && facing && jump)
 		{
-			x -= 0.7;
+			vx = -0.7;
 			++scaredtimer;
 			jump = 0;
 		}
