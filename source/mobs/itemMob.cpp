@@ -46,9 +46,10 @@ itemMob::itemMob(int a, int b)
 	amount = -1;
 	floatY = 0;
 	//Set initial velocity
-	vx = double((rand() % 10) + 20) / 100.0;
+	vx = double((rand() % 10) + 40) / 100.0;
 	//Set direction
 	vx *= (rand() % 2) ? -1 : 1;
+	vy = 0;
 }
 
 bool itemMob::isMyPlayer()
@@ -66,15 +67,32 @@ void itemMob::updateMob(WorldObject* world)
 		loadGraphicMiniBlock(itemGraphics[blockID], displayID, 8, 8);
 	}
 	inUse[blockID] = true;
-	if (vx != 0)//(vx > 0&& isBlockWalkThrough(world->blocks[int ((x + sx) / 16)][y / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x / 16)][y / 16])))
+	if (vx != 0)
 	{
-		bool positive = vx > 0;
-		vx -= positive ? 0.005 : -0.005;
-		if ((positive && vx < 0) || (!positive && vx > 0))
+		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
+		{
+			bool positive = vx > 0;
+			vx -= positive ? 1.0 / 120.0 : -1.0 / 120.0;
+			if ((positive && vx < 0) || (!positive && vx > 0))
+				vx = 0;
+			x += vx;
+		}
+		else
+		{
+			x -= vx;
 			vx = 0;
+		}
 	}
-	else if (vx != 0)
-		vx = 0;
+	if (isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2) / 16]))
+	{
+		y += 16.0 * vy / double(FPS);
+		vy += (18.0 / 60.0);
+	}
+	if (vy != 0 && !isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2 - 1) / 16]))
+	{
+		y -= int(y + sy / 2) % 16;
+		vy = 0;
+	}
 	++floatY;
 	if (floatY > 100)
 		floatY = 0;
