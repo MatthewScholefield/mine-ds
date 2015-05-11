@@ -377,8 +377,8 @@ void mobHandlerUpdate(WorldObject* world)
 				++badMobs;
 			if (mobs[i]->mobtype == 4 || mobs[i]->mobtype == 5 || mobs[i]->mobtype == 6)
 				++goodMobs;
-			if (mobs[i]->smallmob == false) calculateMiscData(world, mobs[i]);
-			else calculateMiscDataSmall(world, mobs[i]);
+			if (mobs[i]->smallmob == false && mobs[i]->mobtype != 8) calculateMiscData(world, mobs[i]);
+			else if (mobs[i]->mobtype != 8) calculateMiscDataSmall(world, mobs[i]);
 			mobs[i]->updateMob(world);
 			--mobs[i]->timeTillWifiUpdate;
 			if (isWifi())
