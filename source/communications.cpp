@@ -234,7 +234,7 @@ void sendMobUpdater(baseMob* mob, int mobNum)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();
-	if (mob->alive == true) sprintf((char *) buffer, "[MOB: %d %d %d %d %d %d %d", server_id, mobNum, int(mob->x), int(mob->y), mob->animation, mob->mobtype, mob->facing);
+	if (mob->alive == true) sprintf((char *) buffer, "[MOB: %d %d %d %d %d %d %d", server_id, mobNum, int(mob->x), int(mob->y), mob->animation, mob->mobType, mob->facing);
 	else sprintf((char *) buffer, "[DIE: %d %d", server_id, mobNum);
 	Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 }

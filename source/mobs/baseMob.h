@@ -13,13 +13,10 @@ public:
 	int sx;
 	int sy;
 	bool smallmob = false;
-	int gravityValue;
-	int gravity;
-	bool onground;
 	bool alive;
 	int animation;
-	int animationclearframes;
-	int mobtype;
+	int animationClearFrames;
+	int mobType;
 	int timeOnCactus;
 	bool onCactus;
 	int health; //Health of the mob, 0 is dead ;)

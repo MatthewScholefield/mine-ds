@@ -23,10 +23,9 @@ herobrineMob::herobrineMob()
 	vx = 0;
 	ping = 0;
 	alive = false;
-	onground = false;
 	health = 7;
-	mobtype = 0;
-	animationclearframes = 0;
+	mobType = 0;
+	animationClearFrames = 0;
 	notarget = 0;
 	waitingCount = -rand() % 4000;
 }
@@ -35,8 +34,6 @@ herobrineMob::herobrineMob(int a, int b)
 {
 	target = NULL;
 	jump = 0;
-	gravity = 3;
-	gravityValue = 3;
 	sx = 6;
 	sy = 32;
 	x = a;
@@ -44,9 +41,8 @@ herobrineMob::herobrineMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	facing = false;
-	mobtype = 3;
+	mobType = 3;
 	health = 7;
 	ping = 0;
 	animation = 0;
@@ -66,13 +62,13 @@ void herobrineMob::updateMob(WorldObject* world)
 			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
 		target = mobHandlerFindMob(128, 2, x, y);
-		if (target->x < x && target->mobtype == 2) facing = true;
-		else if (target->mobtype == 2) facing = false;
+		if (target->x < x && target->mobType == 2) facing = true;
+		else if (target->mobType == 2) facing = false;
 		++jump;
 		int distance = target->x - x;
 		if (distance < 0)
 			distance *= -1;
-		if (target->mobtype != 2)
+		if (target->mobType != 2)
 		{
 			++notarget;
 			jump = 0;
@@ -95,15 +91,15 @@ void herobrineMob::updateMob(WorldObject* world)
 		}
 		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
 			vy = JUMP_VELOCITY;
-		if (target->mobtype == 2) notarget = 0;
+		if (target->mobType == 2) notarget = 0;
 		ping = 0;
 		if (notarget > 1800) killMob();
-		if (animationclearframes == 0) animation = 0;
-		else --animationclearframes;
+		if (animationClearFrames == 0) animation = 0;
+		else --animationClearFrames;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
 		target = mobHandlerFindMob(512, 2, x, y);
-		if (target->mobtype == 2) notarget = 0;
+		if (target->mobType == 2) notarget = 0;
 	}
 }
 
@@ -147,7 +143,7 @@ void herobrineMob::hurt(int amount, int type)
 	//playSound(HEROBRINE_H);
 	health -= amount;
 	animation = 1;
-	animationclearframes = 20;
+	animationClearFrames = 20;
 	if (health <= 0)
 	{
 		if (type == CACTUS_HURT)
