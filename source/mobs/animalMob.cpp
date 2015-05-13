@@ -19,17 +19,16 @@ animalMob::animalMob()
 	target = NULL;
 	mov = 0;
 	dir = true;
-	scaredtimer = 0;
+	scaredTimer = 0;
 	x = 0;
 	y = 0;
 	vy = 0;
 	vx = 0;
 	ping = 0;
 	alive = false;
-	onground = false;
 	health = 10;
-	mobtype = 0;
-	animationclearframes = 0;
+	mobType = 0;
+	animationClearFrames = 0;
 	notarget = 0;
 	smallmob = true;
 }
@@ -39,9 +38,7 @@ animalMob::animalMob(int a, int b)
 	target = NULL;
 	mov = 0;
 	dir = true;
-	scaredtimer = 0;
-	gravity = 3;
-	gravityValue = 3;
+	scaredTimer = 0;
 	sx = 10;
 	sy = 16;
 	x = a;
@@ -49,9 +46,8 @@ animalMob::animalMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	facing = false;
-	mobtype = 5;
+	mobType = 5;
 	health = 10;
 	ping = 0;
 	animation = 0;
@@ -70,18 +66,18 @@ void animalMob::updateMob(WorldObject* world)
 	{
 		target = mobHandlerFindMob(256, 2, x, y);
 
-		if (scaredtimer == 1)
+		if (scaredTimer == 1)
 		{
 			vx = 0;
-			scaredtimer = 0;
+			scaredTimer = 0;
 		}
 
-		if (target->mobtype != 2) //Out of range of player
+		if (target->mobType != 2) //Out of range of player
 		{
-			scaredtimer = 0;
+			scaredTimer = 0;
 			++notarget;
 		}
-		else if (scaredtimer == 0)
+		else if (scaredTimer == 0)
 		{
 			if (mov > 1)
 			{
@@ -121,15 +117,15 @@ void animalMob::updateMob(WorldObject* world)
 			vx = (facing = target->x > x) ? -RUN_VELOCITY : RUN_VELOCITY;
 			if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
 				vy = JUMP_VELOCITY;
-			--scaredtimer;
+			--scaredTimer;
 		}
-		if (mobtype == 2) notarget = 0;
+		if (mobType == 2) notarget = 0;
 		ping = 0;
 		if (health <= 0)
 			killMob();
 		//if (notarget > 1800) killMob();
-		if (animationclearframes == 0) animation = 0;
-		else --animationclearframes;
+		if (animationClearFrames == 0) animation = 0;
+		else --animationClearFrames;
 	}
 }
 
@@ -167,7 +163,7 @@ void animalMob::hurt(int amount, int type)
 			break;
 	}
 	if (type == PLAYER_HURT)
-		scaredtimer = 200;
+		scaredTimer = 200;
 	if (health <= 0)
 	{
 		switch (animal)
@@ -185,7 +181,7 @@ void animalMob::hurt(int amount, int type)
 		}
 	}
 	animation = 1;
-	animationclearframes = 20;
+	animationClearFrames = 20;
 }
 
 bool animalMob::isMyPlayer()

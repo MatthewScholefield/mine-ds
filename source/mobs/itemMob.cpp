@@ -40,7 +40,7 @@ itemMob::itemMob(int a, int b)
 	x = a;
 	y = b;
 	health = 1;
-	mobtype = 8;
+	mobType = 8;
 	blockID = -1;
 	displayID = -1;
 	amount = -1;

@@ -32,21 +32,18 @@ playerMob::playerMob()
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	facing = 0;
 	animation = 0;
-	mobtype = 2;
+	mobType = 2;
 	health = PLAYER_FULL_HEALTH;
 	ping = 0;
 	reheal = 0;
 	tillBrightness = 0;
-	deathscreen = false;
+	deathScreen = false;
 }
 
 playerMob::playerMob(int a, int b)
 {
-	gravity = 3;
-	gravityValue = 3;
 	sx = 6;
 	sy = 32;
 	x = a;
@@ -54,16 +51,15 @@ playerMob::playerMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	facing = false;
-	mobtype = 2;
+	mobType = 2;
 	health = PLAYER_FULL_HEALTH;
 	ping = 0;
 	animation = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 	reheal = 0;
 	tillBrightness = 0;
-	deathscreen = false;
+	deathScreen = false;
 }
 
 void playerMob::hurt(int amount, int type)
@@ -77,7 +73,7 @@ void playerMob::hurt(int amount, int type)
 		playSound(SOUND_PLAYER_HURT);
 		health -= amount;
 		animation = 1;
-		animationclearframes = 20;
+		animationClearFrames = 20;
 		if (health <= 0)
 		{
 			std::string message;
@@ -196,8 +192,8 @@ void playerMob::updateMob(WorldObject* world)
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
-			if (animationclearframes == 0) animation = 0;
-			else --animationclearframes;
+			if (animationClearFrames == 0) animation = 0;
+			else --animationClearFrames;
 			if (reheal > 300)
 			{
 				if (health < 20)
@@ -206,11 +202,11 @@ void playerMob::updateMob(WorldObject* world)
 			}
 			showHealth(health);
 		}
-		else if (deathscreen == false)
+		else if (deathScreen == false)
 		{
 			clearInventory();
 			deathScreenSetup();
-			deathscreen = true;
+			deathScreen = true;
 			health = -50;
 		}
 		else
@@ -228,7 +224,7 @@ void playerMob::updateMob(WorldObject* world)
 						{
 							x = i * 16;
 							y = j * 16 - 16;
-							deathscreen = false;
+							deathScreen = false;
 							health = PLAYER_FULL_HEALTH;
 							i = WORLD_WIDTH + 1;
 							j = WORLD_HEIGHT + 1;

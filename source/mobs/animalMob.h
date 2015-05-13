@@ -10,7 +10,7 @@ enum AnimalType {
 
 class animalMob : public baseMob {
 public:
-	int scaredtimer; //Limits how long the cow is scared
+	int scaredTimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
 	baseMob* target;

@@ -17,8 +17,6 @@ baseMob::baseMob()
 	mobId = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 	animation = 0;
-	gravity = 3;
-	gravityValue = 3;
 	sx = 6;
 	sy = 32;
 	timeOnCactus = 30;
@@ -29,10 +27,9 @@ baseMob::baseMob()
 	vx = 0;
 	ping = 0;
 	alive = false;
-	onground = false;
 	health = 10;
-	mobtype = 0;
-	animationclearframes = 0;
+	mobType = 0;
+	animationClearFrames = 0;
 
 }
 
@@ -45,8 +42,6 @@ baseMob::baseMob(int a, int b)
 	animation = 0;
 	onCactus = false;
 	timeOnCactus = 30;
-	gravity = 3;
-	gravityValue = 3;
 	sx = 6;
 	sy = 32;
 	x = a;
@@ -54,12 +49,11 @@ baseMob::baseMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	facing = false;
 	ping = 0;
-	mobtype = 0;
+	mobType = 0;
 	health = 10;
-	animationclearframes = 0;
+	animationClearFrames = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
 
@@ -78,8 +72,8 @@ void baseMob::updateMob(WorldObject* world)
 		ping = 0;
 		if (health <= 0)
 			killMob();
-		if (animationclearframes == 0) animation = 0;
-		else --animationclearframes;
+		if (animationClearFrames == 0) animation = 0;
+		else --animationClearFrames;
 	}
 }
 
@@ -120,7 +114,7 @@ void baseMob::hurt(int amount, int type)
 
 	health -= amount;
 	animation = 1;
-	animationclearframes = 20;
+	animationClearFrames = 20;
 }
 
 void baseMob::killMob()
