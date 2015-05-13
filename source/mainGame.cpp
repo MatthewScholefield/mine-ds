@@ -34,6 +34,8 @@ WorldObject *world;
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID)
 {
+	if (amount < 1)
+		return;
 	if (displayID == -1)
 		displayID = blockID;
 	if (world->gamemode == GAMEMODE_CREATIVE || blockID == AIR)

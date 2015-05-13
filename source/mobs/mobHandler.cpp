@@ -5,9 +5,7 @@
 #include "mobMPlayer.h"
 #include "zombieMob.h"
 #include "herobrineMob.h"
-#include "pigMob.h"
-#include "cowMob.h"
-#include "sheepMob.h"
+#include "animalMob.h"
 #include "itemMob.h"
 #include "mobFunctions.h"
 #include "hurt.h"
@@ -119,9 +117,7 @@ void mobHandlerInit()
 	MplayerMobInit();
 	zombieMobInit();
 	herobrineMobInit();
-	pigMobInit();
-	cowMobInit();
-	sheepMobInit();
+	animalMobInit();
 	int i;
 	for (i = 0; i < 100; ++i)
 	{
@@ -157,14 +153,8 @@ bool canMobSpawnHere(int mobId, WorldObject* world, int a, int b)
 		case 3:
 			return canZombieMobSpawnHere(world, a, b);
 			break;
-		case 4:
-			return canPigMobSpawnHere(world, a, b);
-			break;
 		case 5:
-			return canCowMobSpawnHere(world, a, b);
-			break;
-		case 6:
-			return canSheepMobSpawnHere(world, a, b);
+			return canAnimalMobSpawnHere(world, a, b);
 			break;
 		case 7:
 			return canHerobrineMobSpawnHere(world, a, b);
@@ -196,16 +186,9 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 			mobs[mobNum] = new zombieMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
-		case 4:
-			mobs[mobNum] = new pigMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
 		case 5:
-			mobs[mobNum] = new cowMob(x, y);
-			mobs[mobNum]->unKillMob();
-			break;
-		case 6:
-			mobs[mobNum] = new sheepMob(x, y);
+
+			mobs[mobNum] = new animalMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 7:
