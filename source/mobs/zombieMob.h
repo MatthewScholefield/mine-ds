@@ -16,7 +16,7 @@ public:
 	//bool potioneffects[5];
 	int jump;
 	baseMob* target;
-	int notarget;
+	int noTarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();

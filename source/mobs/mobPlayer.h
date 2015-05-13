@@ -11,7 +11,7 @@ public:
 	bool alive;
 	bool host; // Was this mob spawn'd by this nds?*/
 	//bool potioneffects[5];
-	bool deathscreen;
+	bool deathScreen;
 	int reheal;
 	int tillBrightness;
 	virtual void saveToFile(FILE* sFile);

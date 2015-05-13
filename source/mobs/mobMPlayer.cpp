@@ -16,18 +16,15 @@ MplayerMob::MplayerMob()
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	animation = 0;
 	sx = 6;
 	sy = 32;
-	mobtype = 2;
+	mobType = 2;
 	ping = 0;
 }
 
 MplayerMob::MplayerMob(int a, int b)
 {
-	gravity = 3;
-	gravityValue = 3;
 	sx = 6;
 	sy = 32;
 	x = a;
@@ -35,9 +32,8 @@ MplayerMob::MplayerMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	animation = 0;
-	mobtype = 2;
+	mobType = 2;
 	ping = 0;
 }
 

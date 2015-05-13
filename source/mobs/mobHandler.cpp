@@ -17,13 +17,12 @@
 #include "../blockID.h"
 #include "../blocks.h"
 #include "../worldRender.h"
-#define playerId 1
+#define PLAYER_ID 1
 
 baseMob* mobs[100];
 const int peacefulmobs[] = {4, 5, 6};
 bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
-int spawn_x, spawn_y;
 
 bool canMobSpawnHere(WorldObject *world, int x, int y)
 {
@@ -32,7 +31,7 @@ bool canMobSpawnHere(WorldObject *world, int x, int y)
 
 int getDefaultSpawnX()
 {
-	return mobs[playerId]->x / 16 + (rand() % 5) - 2;
+	return mobs[PLAYER_ID]->x / 16 + (rand() % 5) - 2;
 }
 
 baseMob* mobHandlerFindMob(int range, int type, int x, int y)
@@ -42,7 +41,7 @@ baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 	int i;
 	for (i = 0; i < 100; ++i)
 	{
-		if (mobs[i]->mobtype == type)
+		if (mobs[i]->mobType == type)
 		{
 			if (mobs[i]->x > x - range && mobs[i]->x < x + range)
 				if (mobs[i]->y > y - range && mobs[i]->y < y + range)
@@ -72,7 +71,7 @@ void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 
 void mobHandlerHurtMob(int mobNum, int amount, int type)
 {
-	if (mobs[mobNum]->mobtype == 8 && type != PROPERTY_HURT) //itemMob
+	if (mobs[mobNum]->mobType == 8 && type != PROPERTY_HURT) //itemMob
 		return;
 	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
 		mobs[mobNum]->hurt(amount, type);
@@ -211,7 +210,7 @@ void saveMobs(FILE* f)
 		if (mobs[i]->alive)
 		{
 			int mobType;
-			mobType = mobs[i]->mobtype;
+			mobType = mobs[i]->mobType;
 			if (mobType == 2 && mobs[i]->isMyPlayer()) mobType = 1;
 			fprintf(f, "%d ", mobType);
 			mobs[i]->saveToFile(f);
@@ -325,9 +324,9 @@ void spawnMob(int mobId, WorldObject* world, int mobNum)
 void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, WorldObject* world, bool facing)
 {
 	//printf("Recieved mob update! - %d, %d\n", mobNum,mobtype);
-	if (mobs[mobNum]->mobtype != mobtype)
+	if (mobs[mobNum]->mobType != mobtype)
 	{
-		if (mobs[mobNum]->mobtype == 1)
+		if (mobs[mobNum]->mobType == 1)
 			spawnMobAt(1, world, mobs[mobNum]->x, mobs[mobNum]->y);
 		spawnMobNoCheck(mobtype, world, mobNum);
 	}
@@ -356,12 +355,12 @@ void mobHandlerUpdate(WorldObject* world)
 
 		if (mobs[i]->alive == true)
 		{
-			if (mobs[i]->mobtype == 3 || mobs[i]->mobtype == 7)
+			if (mobs[i]->mobType == 3 || mobs[i]->mobType == 7)
 				++badMobs;
-			if (mobs[i]->mobtype == 4 || mobs[i]->mobtype == 5 || mobs[i]->mobtype == 6)
+			if (mobs[i]->mobType == 4 || mobs[i]->mobType == 5 || mobs[i]->mobType == 6)
 				++goodMobs;
-			if (mobs[i]->smallmob == false && mobs[i]->mobtype != 8) calculateMiscData(world, mobs[i]);
-			else if (mobs[i]->mobtype != 8) calculateMiscDataSmall(world, mobs[i]);
+			if (mobs[i]->smallmob == false && mobs[i]->mobType != 8) calculateMiscData(world, mobs[i]);
+			else if (mobs[i]->mobType != 8) calculateMiscDataSmall(world, mobs[i]);
 			mobs[i]->updateMob(world);
 			--mobs[i]->timeTillWifiUpdate;
 			if (isWifi())
@@ -400,6 +399,6 @@ void mobHandlerUpdate(WorldObject* world)
 		if (rand() % 2)
 			take = -16 - (rand() % 16);
 		else take = 16 + (rand() % 16);
-		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[playerId]->x / 16 + take);
+		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[PLAYER_ID]->x / 16 + take);
 	}
 }

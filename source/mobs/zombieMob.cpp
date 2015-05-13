@@ -25,19 +25,16 @@ zombieMob::zombieMob()
 	vx = 0;
 	ping = 0;
 	alive = false;
-	onground = false;
 	health = 10;
-	mobtype = 0;
-	animationclearframes = 0;
-	notarget = 0;
+	mobType = 0;
+	animationClearFrames = 0;
+	noTarget = 0;
 }
 
 zombieMob::zombieMob(int a, int b)
 {
 	target = NULL;
 	jump = 0;
-	gravity = 3;
-	gravityValue = 3;
 	sx = 6;
 	sy = 32;
 	x = a;
@@ -45,13 +42,12 @@ zombieMob::zombieMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	onground = false;
 	facing = false;
-	mobtype = 3;
+	mobType = 3;
 	health = 20;
 	ping = 0;
 	animation = 0;
-	notarget = 0;
+	noTarget = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
 
@@ -65,7 +61,7 @@ void zombieMob::hurt(int amount, int type)
 	playSound(SOUND_ZOMBIE_HURT);
 	health -= amount;
 	animation = 1;
-	animationclearframes = 20;
+	animationClearFrames = 20;
 	if (health <= 0)
 	{
 		createItemMob(x, y, FLESH, rand() % 2 + 1);
@@ -81,14 +77,14 @@ void zombieMob::updateMob(WorldObject* world)
 	if (host == true)
 	{
 		target = mobHandlerFindMob(128, 2, x, y);
-		if (target->x < x && target->mobtype == 2) facing = true;
-		else if (target->mobtype == 2) facing = false;
+		if (target->x < x && target->mobType == 2) facing = true;
+		else if (target->mobType == 2) facing = false;
 		++jump;
 		if (target->x > x - 4 && target->x < x + 4)
 			jump = 0;
-		if (target->mobtype != 2)
+		if (target->mobType != 2)
 		{
-			++notarget;
+			++noTarget;
 			jump = 0;
 		}
 		else if (!collisions[1] && facing == false && !collisions[3] && jump > 1)
@@ -105,15 +101,15 @@ void zombieMob::updateMob(WorldObject* world)
 			vx = 0;
 		if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
 			vy = JUMP_VELOCITY;
-		if (target->mobtype == 2) notarget = 0;
+		if (target->mobType == 2) noTarget = 0;
 		ping = 0;
-		if (notarget > 1800) killMob();
-		if (animationclearframes == 0) animation = 0;
-		else --animationclearframes;
+		if (noTarget > 1800) killMob();
+		if (animationClearFrames == 0) animation = 0;
+		else --animationClearFrames;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
 		target = mobHandlerFindMob(512, 2, x, y);
-		if (target->mobtype == 2) notarget = 0;
+		if (target->mobType == 2) noTarget = 0;
 	}
 }
 
