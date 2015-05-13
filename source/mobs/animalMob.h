@@ -1,30 +1,33 @@
-#include <stdio.h>
-#include "../world.h"
+#pragma once
 #include "baseMob.h"
-#ifndef COW_MOB_H
-#define COW_MOB_H
-bool canCowMobSpawnHere(WorldObject* world, int x, int y);
+#include "../world.h"
 
-class cowMob : public baseMob {
+enum AnimalType {
+	ANIMAL_COW = 0,
+	ANIMAL_SHEEP = 1,
+	ANIMAL_PIG = 2
+};
+
+class animalMob : public baseMob {
 public:
-	int jump;
-	bool scared = false; //Whether cow is scared and will run away from the player
 	int scaredtimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
 	baseMob* target;
 	int notarget;
+	AnimalType animal;
+
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
-	cowMob();
-	cowMob(int x, int y);
+	animalMob();
 
-	~cowMob() {
-	}
+	animalMob(int x, int y);
+
+	~animalMob() {}
 };
-void cowMobInit();
-#endif
+void animalMobInit();
+bool canAnimalMobSpawnHere(WorldObject* world, int x, int y);

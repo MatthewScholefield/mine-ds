@@ -3,6 +3,8 @@
 #include <fat.h>
 
 #define JUMP_VELOCITY -6.0
+#define WALK_VELOCITY 2.0
+#define RUN_VELOCITY 3.0
 
 bool canMobSpawnHere(WorldObject *world, int x, int y);
 int getDefaultSpawnX();

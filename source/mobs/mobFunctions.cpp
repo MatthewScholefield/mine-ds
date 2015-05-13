@@ -9,18 +9,13 @@
 
 void calculatePhysics(baseMob* mob)
 {
-	if ((!mob->collisions[0] && mob->vy > 0) || (!mob->collisions[3] && mob->vy < 0))
-		mob->y += 16.0 * mob->vy / double(FPS); //Main statement Positive velocity=down
-	if ((mob->vx > 0 && !mob->collisions[1]) || (mob->vx < 0 && !mob->collisions[2]))
-		mob->x += int(16.0 * mob->vx / double(FPS));
-
-	//Velocity Cap
-	if (mob->vy > 25) mob->vy = 25;
-
 	if ((mob->collisions[0] && mob->vy > 0) || (mob->collisions[3] && mob->vy < 0) || mob->collisions[4])
 		mob->vy = 0;
 	else
-		mob->vy += (18.0 / 60.0);
+		mob->vy += (18.0 / float(FPS)); //Gravity Acceleration = +18.0 m/s^2
+
+	//Velocity Cap
+	if (mob->vy > 25) mob->vy = 25;
 }
 
 int blockAtPixel(WorldObject *world, int pixX, int pixY)
@@ -96,6 +91,15 @@ void calculateMiscData(WorldObject *world, baseMob* mob)
 		}
 
 		calculateCollisions(world, mob);
+		if ((!mob->collisions[0] && mob->vy > 0) || (!mob->collisions[3] && mob->vy < 0))
+			mob->y += 16.0 * mob->vy / float(FPS); //Main statement Positive velocity=down
+		if ((mob->vx > 0 && !mob->collisions[1]) || (mob->vx < 0 && !mob->collisions[2]))
+		{
+			if (mob->isMyPlayer())
+				mob->x += int(16.0 * mob->vx / float(FPS));
+			else
+				mob->x += 16.0 * mob->vx / float(FPS);
+		}
 	}
 }
 
@@ -141,11 +145,20 @@ void calculateMiscDataSmall(WorldObject* world, baseMob* mob)
 					(!isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
 					&& isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
 				mob->x += 16 - int(mob->x - mob->sx / 2 + 1) % 16;
-			else if (int(mob->y) % 16 < 9)
-				mob->y -= int(mob->y) % 16;
+			else if (int(mob->y + mob->sy / 2) % 16 < 9)
+				mob->y -= int(mob->y + mob->sy / 2) % 16;
 		}
 
 		calculateCollisions(world, mob);
+		if ((!mob->collisions[0] && mob->vy > 0) || (!mob->collisions[3] && mob->vy < 0))
+			mob->y += 16.0 * mob->vy / float(FPS); //Main statement Positive velocity=down
+		if ((mob->vx > 0 && !mob->collisions[1]) || (mob->vx < 0 && !mob->collisions[2]))
+		{
+			if (mob->isMyPlayer())
+				mob->x += int(16.0 * mob->vx / float(FPS));
+			else
+				mob->x += 16.0 * mob->vx / float(FPS);
+		}
 	}
 }
 
@@ -153,3 +166,4 @@ bool onScreen(int x, int y, int camX, int camY)
 {
 	return x > camX && x < camX + 256 && y > camY && y < camY + 192;
 }
+
