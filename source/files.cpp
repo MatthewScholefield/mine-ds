@@ -9,6 +9,8 @@
 #include "files.h"
 #include "mobs/mobHandler.h"
 #include "worldRender.h"
+#include "titlescreen.h"
+#include "graphics/Button.h"
 
 void initFile(void)
 {
@@ -23,15 +25,15 @@ bool saveWorld(WorldObject *world)
 
 	if (openedWorld)
 	{
-		//fwrite(world, sizeof (*world), 1, worldFile);
-		fprintf(worldFile, "%d ", world->gamemode);
-    fprintf(worldFile, "%d ", world->timeInWorld);
+		fprintf(worldFile, VERSION_STRING);
+		fprintf(worldFile, " %d ", world->gamemode);
+		fprintf(worldFile, "%d ", world->timeInWorld);
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
 				fprintf(worldFile, "%d %d %d ", world->blocks[i][j], world->bgblocks[i][j], world->data[i][j]);
 			if (i % 50 == 0)
-				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH + 100))));
+				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 		}
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 			fprintf(worldFile, "%d ", world->biome[i]);
@@ -84,18 +86,41 @@ bool loadWorld(WorldObject *world)
 	{
 		delete world;
 		world = new WorldObject();
+		char *versionChar = new char();
+		fscanf(worldFile, "%s ", versionChar);
+		if (strcmp(versionChar, VERSION_STRING) != 0)
+		{
+			consoleClear();
+			drawBackground();
+			printXY(4, 9, "Incorrect World Version");
+			Button attempt(8, 11, "Attempt Load");
+			Button abort(8, 16, "Abort", 14);
+			Button buttons[] = {attempt, abort};
+			switch (menu(buttons, 2, false))
+			{
+				case 1:
+					consoleClear();
+					drawBackground();
+					break;
+				case 2:
+					fclose(worldFile);
+					delete versionChar;
+					return false;
+			}
+		}
+		delete versionChar;
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
 		world->gamemode = gamemode_t(loadGameMode);
-    int loadTimeInWorld;
+		int loadTimeInWorld;
 		fscanf(worldFile, "%d ", &loadTimeInWorld);
-    world->timeInWorld = loadTimeInWorld;
+		world->timeInWorld = loadTimeInWorld;
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
 				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
 			if (i % 64 == 0)
-				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH + 100))));
+				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 
 		}
 		Calculate_Brightness(world);
