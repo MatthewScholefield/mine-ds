@@ -26,7 +26,8 @@ bool saveWorld(WorldObject *world)
 	if (openedWorld)
 	{
 		fprintf(worldFile, VERSION_STRING);
-		fprintf(worldFile, " %d ", world->gamemode);
+		fprintf(worldFile, " %d %d ", WORLD_WIDTH, WORLD_HEIGHT);
+		fprintf(worldFile, "%d ", world->gamemode);
 		fprintf(worldFile, "%d ", world->timeInWorld);
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
@@ -88,11 +89,16 @@ bool loadWorld(WorldObject *world)
 		world = new WorldObject();
 		char *versionChar = new char();
 		fscanf(worldFile, "%s ", versionChar);
-		if (strcmp(versionChar, VERSION_STRING) != 0)
+		int worldBlocksX, worldBlocksY;
+		fscanf(worldFile, "%d %d ", &worldBlocksX, &worldBlocksY);
+		if (worldBlocksX != WORLD_WIDTH || worldBlocksY != WORLD_HEIGHT || strcmp(versionChar, VERSION_STRING) != 0)
 		{
 			consoleClear();
 			drawBackground();
-			printXY(4, 9, "Incorrect World Version");
+			if (strcmp(versionChar, VERSION_STRING) != 0)
+				printXY(4, 9, "Incorrect World Version");
+			else
+				printXY(5, 9, "Incorrect Block Count");
 			Button attempt(8, 11, "Attempt Load");
 			Button abort(8, 16, "Abort", 14);
 			Button buttons[] = {attempt, abort};
@@ -115,9 +121,9 @@ bool loadWorld(WorldObject *world)
 		int loadTimeInWorld;
 		fscanf(worldFile, "%d ", &loadTimeInWorld);
 		world->timeInWorld = loadTimeInWorld;
-		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		for (int i = 0; i <= worldBlocksX; ++i)
 		{
-			for (int j = 0; j <= WORLD_HEIGHT; ++j)
+			for (int j = 0; j <= worldBlocksY; ++j)
 				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
 			if (i % 64 == 0)
 				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
