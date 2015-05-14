@@ -113,11 +113,15 @@ void quitGame()
 
 void newGame(gamemode_t mode, int seed)
 {
+	if (world->gamemode == GAMEMODE_PREVIEW)
+		seed = world->seed;
 	delete world;
 	world = new WorldObject();
 	// Zero for a random seed
 	if (seed == 0)
 		world->seed = time(NULL);
+	else
+		world->seed = seed;
 	srand(world->seed);
 	mobsReset();
 	clearInventory();
