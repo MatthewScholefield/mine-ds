@@ -185,9 +185,9 @@ void playerMob::updateMob(WorldObject* world)
 				}
 			}
 			if (onLadder && keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB))
-				vy = -1;
+				vy = -3;
 			else if (onLadder)
-				vy = 1;
+				vy = 2;
 			if ((!onLadder || !checkLadder(world, x, y + 15)) && (collisions[0] || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[3] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
 
