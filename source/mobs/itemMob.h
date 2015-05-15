@@ -10,6 +10,7 @@ public:
 	int displayID;
 	int amount;
 	int floatY;
+	int hurtStage;
 	//bool loadedBlockGfx;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
