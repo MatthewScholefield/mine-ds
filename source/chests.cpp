@@ -2,6 +2,7 @@
 #include "general.h"
 #include "blockID.h"
 #include "inventory.h"
+#include "mainGame.h"
 
 void createChest(WorldObject *world, int x, int y, bool bg)
 {
@@ -43,4 +44,31 @@ int getChestID(WorldObject *world, int x, int y, bool bg)
 	else
 		databyte &= 0x0000FFFF;
 	return databyte;
+}
+
+void destroyChest(WorldObject *world, int x, int y, bool bg)
+{
+	int blockID;
+	if (bg)
+	{
+		if (world->bgblocks[x][y] != CHEST)
+			return;
+		blockID = world->data[x][y] & 0xFFFF0000;
+		blockID /= 0x00010000;
+	}
+	else
+	{
+		if (world->blocks[x][y] != CHEST)
+			return;
+		blockID = world->data[x][y] & 0x0000FFFF;
+	}
+	world->chestInUse[blockID] = false;
+	for (int i = 0; i < MAX_CHESTS; ++i)
+		if (world->chestInUse[i])
+			for (int j = 0; j < CHEST_SLOTS; ++j)
+			{
+				createItemMob(x, y, world->chests[i][j][INDEX_BLOCK_ID], world->chests[i][j][INDEX_AMOUNT], world->chests[i][j][INDEX_BLOCK_ID], (rand() % 25) / 10.0);
+				world->chests[i][j][INDEX_BLOCK_ID] = world->chests[i][j][INDEX_AMOUNT] = 0;
+			}
+
 }
