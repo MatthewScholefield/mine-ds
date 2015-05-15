@@ -32,7 +32,7 @@
 bool shouldQuitGame = false;
 WorldObject *world;
 
-void createItemMob(int x, int y, int blockID, int amount, int displayID, int initVX)
+void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
 {
 	if (amount < 1)
 		return;
