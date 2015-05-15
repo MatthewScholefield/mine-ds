@@ -41,6 +41,9 @@ bool saveWorld(WorldObject *world)
 
 		saveInventory(worldFile);
 		saveMobs(worldFile);
+		for (int i = 0; i < MAX_CHESTS; ++i)
+			for (int j = 0; j < CHEST_SLOTS; ++j)
+				fprintf(worldFile, "%d %d ", world->chests[i][j][INDEX_BLOCK_ID], world->chests[i][j][INDEX_AMOUNT]);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		return true;
@@ -138,6 +141,9 @@ bool loadWorld(WorldObject *world)
 		}
 		loadInventory(worldFile);
 		loadMobs(worldFile);
+		for (int i = 0; i < MAX_CHESTS; ++i)
+			for (int j = 0; j < CHEST_SLOTS; ++j)
+				fscanf(worldFile, "%d %d ", &world->chests[i][j][INDEX_BLOCK_ID], &world->chests[i][j][INDEX_AMOUNT]);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		return true;
