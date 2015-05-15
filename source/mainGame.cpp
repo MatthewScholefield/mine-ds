@@ -32,7 +32,7 @@
 bool shouldQuitGame = false;
 WorldObject *world;
 
-void createItemMob(int x, int y, int blockID, int amount, int displayID)
+void createItemMob(int x, int y, int blockID, int amount, int displayID, int initVX)
 {
 	if (amount < 1)
 		return;
@@ -44,6 +44,8 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID)
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
+	if (initVX != 54321) //Default value
+		mobHandlerHurtMob(mobNum, initVX, PROPERTY_HURT);
 }
 
 static void redrawGameUI(void)

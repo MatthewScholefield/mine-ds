@@ -50,6 +50,7 @@ itemMob::itemMob(int a, int b)
 	//Set direction
 	vx *= (rand() % 2) ? -1 : 1;
 	vy = 0;
+	hurtStage = 0;
 }
 
 bool itemMob::isMyPlayer()
@@ -133,14 +134,19 @@ void itemMob::loadFromFile(FILE* pFile)
 
 void itemMob::hurt(int hamount, int type)
 {
-  if (type == PROPERTY_HURT)
-  {
-	  if (blockID == -1)
-	  	displayID = blockID = hamount;
-	  else if (amount == - 1)
-	  	amount = hamount;
-	  else if (hamount > 0)
-	  	displayID = hamount;
-  }
-  else killMob();
+	if (type == PROPERTY_HURT)
+	{
+		if (hurtStage == 0)
+			displayID = blockID = hamount;
+		else if (hurtStage == 1)
+			amount = hamount;
+		else if (hurtStage == 2)
+			displayID = hamount;
+		else if (hurtStage == 3)
+			vx = hamount;
+		else
+			return;
+		++hurtStage;
+	}
+	else killMob();
 }
