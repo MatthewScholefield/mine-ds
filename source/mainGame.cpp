@@ -45,7 +45,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
 	if (initVX != 54321) //Default value
-		mobHandlerHurtMob(mobNum, initVX, PROPERTY_HURT);
+		mobHandlerHurtMob(mobNum, initVX * 100.00, PROPERTY_HURT);
 }
 
 static void redrawGameUI(void)
