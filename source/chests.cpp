@@ -3,6 +3,7 @@
 #include "blockID.h"
 #include "inventory.h"
 #include "mainGame.h"
+#include "communications.h"
 
 void createChest(WorldObject *world, int x, int y, bool bg)
 {
@@ -71,16 +72,17 @@ void destroyChest(WorldObject *world, int x, int y, bool bg)
 			return;
 		blockID = world->data[x][y] & 0x0000FFFF;
 	}
-	world->chestInUse[blockID] = false;
-	for (int i = 0; i < MAX_CHESTS; ++i)
+	for (int j = 0; j < CHEST_SLOTS; ++j)
 	{
-		if (world->chestInUse[i])
+		if (isSurvival())
 		{
-			for (int j = 0; j < CHEST_SLOTS; ++j)
-			{
-				createItemMob(x, y, world->chests[i][j][INDEX_BLOCK_ID], world->chests[i][j][INDEX_AMOUNT], world->chests[i][j][INDEX_BLOCK_ID], (rand() % 25) / 10.0);
-				world->chests[i][j][INDEX_BLOCK_ID] = world->chests[i][j][INDEX_AMOUNT] = 0;
-			}
+			for (int i = 0; i < 3; ++i)
+				createItemMob(x, y, world->chests[blockID][j][INDEX_BLOCK_ID], world->chests[blockID][j][INDEX_AMOUNT] / 4, world->chests[blockID][j][INDEX_BLOCK_ID], ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+			createItemMob(x, y, world->chests[blockID][j][INDEX_BLOCK_ID], world->chests[blockID][j][INDEX_AMOUNT] - 3 * (world->chests[blockID][j][INDEX_AMOUNT] / 4), world->chests[blockID][j][INDEX_BLOCK_ID], ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
 		}
+		world->chests[blockID][j][INDEX_BLOCK_ID] = world->chests[blockID][j][INDEX_AMOUNT] = 0;
 	}
+	world->chestInUse[blockID] = false;
+	if (!isSurvival())
+		addInventory(CHEST);
 }
