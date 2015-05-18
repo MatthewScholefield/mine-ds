@@ -150,7 +150,7 @@ void generateWorld(WorldObject* world)
 		{
 			int sizex;
 			sizex = rand() % 16 + 16;
-			if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
+			if (i + sizex >= WORLD_WIDTH) sizex = WORLD_WIDTH - 1 - i;
 			j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
 			switch (rand() % 5 + 1)
 			{

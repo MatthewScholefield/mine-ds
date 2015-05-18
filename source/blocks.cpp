@@ -218,6 +218,7 @@ void initBlockProperties()
 	hardness[IRON_ORE] = 40;
 	hardness[GOLD_ORE] = 40;
 	hardness[DIAMOND_ORE] = 45;
+	hardness[CHEST] = 20;
 }
 
 bool canBreak(int blockID) //checks a blockvalue

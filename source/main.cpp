@@ -44,7 +44,6 @@ int main()
 	drawBackground();
 	setupFont();
 	nifiInit();
-	swiWaitForVBlank();
 	initBlockProperties();
 	worldRender_Init();
 	graphicsInit();

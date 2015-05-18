@@ -9,7 +9,7 @@
 #define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
 #define WORLD_WIDTHPX	(WORLD_WIDTH * 16)
 
-#define CHEST_SLOTS 10
+#define CHEST_SLOTS 30
 #define MAX_CHESTS 30
 #define INDEX_BLOCK_ID 0
 #define INDEX_AMOUNT 1
@@ -52,6 +52,8 @@ public:
 	, camY(1), camX(1), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}
 	{
+		for (int i = 0; i < MAX_CHESTS; ++i)
+			chestInUse[i] = false;
 	};
 };
 

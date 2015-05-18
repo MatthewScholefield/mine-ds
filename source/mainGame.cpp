@@ -115,10 +115,12 @@ void quitGame()
 
 void newGame(gamemode_t mode, int seed)
 {
-	if (world->gamemode == GAMEMODE_PREVIEW)
+	if (world && world->gamemode == GAMEMODE_PREVIEW)
 		seed = world->seed;
 	delete world;
 	world = new WorldObject();
+	for (int i = 0; i < MAX_CHESTS; ++i)
+		world->chestInUse[i] = false;
 	// Zero for a random seed
 	if (seed == 0)
 		world->seed = time(NULL);
@@ -199,6 +201,9 @@ void startGame(void)
 	playMusic(MUSIC_HAL2);
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
+	enableInvGraphics();
+	updateInvGraphics();
+	addInventory(CHEST, 7);
 
 	shouldQuitGame = false;
 	while (!shouldQuitGame)
