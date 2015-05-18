@@ -143,7 +143,7 @@ void itemMob::hurt(int hamount, int type)
 		else if (hurtStage == 2)
 			displayID = hamount;
 		else if (hurtStage == 3)
-			vx = hamount;
+			vx = hamount / 100.0;
 		else
 			return;
 		++hurtStage;

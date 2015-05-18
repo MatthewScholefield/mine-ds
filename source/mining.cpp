@@ -135,11 +135,11 @@ void mineBlock(WorldObject* world, int x, int y, bool bg) //True if block broken
 	{
 
 		if (canDropItem(blockXY))
-		{
 			createItemMob(x, y, genericBlock(blockXY));
-		}
 		else if (!isSurvival())
 			addInventory(blockXY);
+		if (blockXY == CHEST)
+			destroyChest(world, x, y, bg);
 		blockXY = AIR;
 		hasChangedBlock = true;
 	}

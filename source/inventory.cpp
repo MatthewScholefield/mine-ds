@@ -94,7 +94,10 @@ void addInventory(int blockID, int amount, bool direct) //adds the specified amo
 	if (space == -1)
 		return;
 	mainPlayerInv.blocks[space].blockId = blockID;
-	mainPlayerInv.blocks[space].blockAmount += amount;
+	if (isSurvival())
+		mainPlayerInv.blocks[space].blockAmount += amount;
+	else
+		mainPlayerInv.blocks[space].blockAmount = 1;
 	updateInvGraphics();
 }
 
