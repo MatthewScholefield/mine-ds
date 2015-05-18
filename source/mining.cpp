@@ -17,6 +17,8 @@
 #include "blockName.h"
 #include "Config.h"
 #include "mining.h"
+#include "graphics/inventoryGraphics.h"
+#include "chests.h"
 
 bool skipLightUpdate = false; //Whether to skip light update
 int invSlot = 0;
@@ -33,6 +35,7 @@ int miningX = -1; //X,Y Value of block that is currently being mined
 int miningY = -1;
 int mining = 10; //Length till block break
 int miningRate = 1; //Rate at which Block is Mined. Caculated from item in hand and block's hardness. Currently not calculated
+int framesOnBlock = 0;
 
 int getSelectedSlot()
 {
@@ -52,7 +55,15 @@ bool canMine() //Returns whether touch input can destroy blocks
 void calculateTopBlock()
 {
 	if (loadedTopGraphic) unloadGraphic(&topBlock);
-	loadGraphicSub(&topBlock, 2, getBlockID(invSlot));
+	if (invSlot<-1 && getOpenedChestID() != -1)
+		loadGraphicSub(&topBlock, 2, getChestBlockID(-invSlot - 2));
+	else if (invSlot > 0)
+		loadGraphicSub(&topBlock, 2, getBlockID(invSlot));
+	else
+	{
+		loadedTopGraphic = false;
+		return;
+	}
 	loadedTopGraphic = true;
 }
 
@@ -75,7 +86,7 @@ void blocksCanPlace()
 	frameCounting = 0;
 }
 
-void mineBlock(WorldObject* world, int x, int y, bool bg)
+void mineBlock(WorldObject* world, int x, int y, bool bg) //True if block broken
 {
 	int selectedBlock = getBlockID(invSlot);
 	if (getType(selectedBlock) == SWORD)
@@ -107,9 +118,11 @@ void mineBlock(WorldObject* world, int x, int y, bool bg)
 			}
 			mining = getHardness(blockXY)*10 / handHardness;
 			miningRate = 1;
+			framesOnBlock = 0;
 		}
 		else
 			mining -= miningRate;
+		++framesOnBlock;
 		if (mining > 0)
 		{
 			skipLightUpdate = true;
@@ -154,10 +167,12 @@ void setBlock(WorldObject* world, int x, int y)
 			{
 				if (subInventory(selectedBlock, 1))
 				{
-					world->bgblocks[x][y] = selectedBlock;
+					if (selectedBlock == CHEST)
+						createChest(world, x, y, true);
+					else
+						world->bgblocks[x][y] = selectedBlock;
 					if (selectedBlock == SNOW_GRASS && world->bgblocks[x][y - 1] == AIR)
 						world->bgblocks[x][y - 1] = SNOW_TOP;
-
 				}
 				hasChangedBlock = true;
 			}
@@ -178,7 +193,10 @@ void setBlock(WorldObject* world, int x, int y)
 			{
 				if (subInventory(selectedBlock, 1))
 				{
-					world->blocks[x][y] = selectedBlock;
+					if (selectedBlock == CHEST)
+						createChest(world, x, y, false);
+					else
+						world->blocks[x][y] = selectedBlock;
 					if (selectedBlock == SNOW_GRASS && world->blocks[x][y - 1] == AIR)
 						world->blocks[x][y - 1] = SNOW_TOP;
 				}
@@ -250,8 +268,21 @@ void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int key
 		if (!skipLightUpdate)
 			updateBrightnessAround(world, x, y);
 	}
+	else if (framesOnBlock > 0 && framesOnBlock < 30 && world->blocks[miningX][miningY] == CHEST)
+	{
+		openChest(world, miningX, miningY, false);
+		framesOnBlock = 0;
+	}
+	else if (framesOnBlock > 0 && framesOnBlock < 30 && world->bgblocks[miningX][miningY] == CHEST)
+	{
+		openChest(world, miningX, miningY, true);
+		framesOnBlock = 0;
+	}
 	else
+	{
 		hasChangedBlock = false;
+		framesOnBlock = 0;
+	}
 	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
 		int origSlot = invSlot;
