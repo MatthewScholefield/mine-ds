@@ -43,6 +43,7 @@ void craftingInit()
 	addCraftingRecipe(TORCH, 4, COAL, 1, STICK, 1);
 	addCraftingRecipe(CRAFTING_TABLE, 1, PLANKS_WOOD, 4);
 	addCraftingRecipe(LADDER, 2, STICK, 8);
+	addCraftingRecipe(CHEST, 1, PLANKS_WOOD, 8);
 
 	//Furnace Recipes
 	addFurnaceRecipe(GLASS, 1, SAND, 1);

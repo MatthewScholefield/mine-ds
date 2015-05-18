@@ -21,12 +21,18 @@ void drawBackground() //Draws dirt background and MineDS Logo
 
 	int i, j; //They are famous variables :P
 
-	for (i = 0; i <= 24; ++i) //Draws dirt Background
+	for (i = 7; i <= 24; ++i) //Draws dirt Background
 		for (j = 0; j <= 31; ++j)
 			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
 	for (i = 0; i <= 25; ++i)
 		for (j = 0; j <= 6; ++j)
-			setSubBgTile(i + 2, j, i + (j * 32)); //Draw the MineDS Logo!
+			setSubBgTile(i + 3, j, i + (j * 32)); //Draw the MineDS Logo!
+	for (i = 0; i <= 6; ++i)
+		for (j = 0; j < 3; ++j)
+			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
+	for (i = 0; i <= 6; ++i)
+		for (j = 29; j <= 31; ++j)
+			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
 }
 
 int menu(Button buttons[], int size, bool showBack)
