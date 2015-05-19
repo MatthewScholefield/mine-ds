@@ -172,7 +172,6 @@ void playerMob::updateMob(WorldObject* world)
 
 			if (keysDown() & getGlobalSettings()->getKey(ACTION_DROP))
 			{
-				printLocalMessage("Dropping Item\n");
 				int blockIDToDrop = getBlockID(getSelectedSlot());
 				if (subInventory(blockIDToDrop, 1))
 					createItemMob(x / 16, y / 16 - 2, blockIDToDrop, 1);
