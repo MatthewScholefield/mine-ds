@@ -84,7 +84,7 @@ void itemMob::updateMob(WorldObject* world)
 			vx = 0;
 		}
 	}
-	if (isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2) / 16]))
+	if (isBlockWalkThrough(world->blocks[int(x - sx / 2 + 1) / 16][int(y + sy / 2) / 16]) && isBlockWalkThrough(world->blocks[int(x + sx / 2) / 16][int(y + sy / 2) / 16]))
 	{
 		y += 16.0 * vy / double(FPS);
 		vy += (18.0 / 60.0);
