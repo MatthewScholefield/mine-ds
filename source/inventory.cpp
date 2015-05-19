@@ -257,7 +257,6 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				}
 				else if (selectedspace > -1 && !(mainPlayerInv.blocks[selectedspace].blockId == AIR))
 				{ //Source: Inventory, Destination:Inventory
-					//printXY(1, 1, "INV TO INV");
 					int tmpId, tmpAmount = 0;
 					tmpId = mainPlayerInv.blocks[selectedspace].blockId;
 					tmpAmount = mainPlayerInv.blocks[selectedspace].blockAmount;
@@ -272,7 +271,6 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				}
 				else
 				{
-					//printXY(1, 2, "SET SPACE");
 					selectedspace = space;
 					setSelectedSpace(space);
 					changeGraphic(mainPlayerInv.blocks[space].blockId);
@@ -292,8 +290,6 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					mainPlayerInv.blocks[selectedspace].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-					printXY(0, 0, tmpAmount);
-					printXY(0, 1, world->chests[getOpenedChestID()][space][INDEX_AMOUNT]);
 					selectedspace = -1;
 					setSelectedSpace(getInventorySlot(AIR));
 					changeGraphic(AIR);

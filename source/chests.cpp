@@ -15,12 +15,6 @@ void createChest(WorldObject *world, int x, int y, bool bg)
 			chestID = i;
 			break;
 		}
-		else
-		{
-			char buffer[20];
-			sprintf(buffer, "Chest In Use: %d", i);
-			printLocalMessage(buffer);
-		}
 	if (chestID == -1)
 	{
 		printLocalMessage("No more chests available");

@@ -1,5 +1,4 @@
 #include <nds.h>
-#include <stdio.h>
 #include "inventoryGraphics.h"
 #include "subBgHandler.h"
 #include "graphics.h"
@@ -7,7 +6,6 @@
 #include "../inventory.h"
 #include "../general.h"
 #include "../mainGame.h"
-
 #include "../blockID.h"
 #include "../titlescreen.h"
 #include "../inventory.h"
@@ -27,10 +25,6 @@ bool chestOpened = false;
 int openedChestID;
 
 int (*openedChestPtr)[CHEST_SLOTS][2];
-
-/*void initInvGraphics()
-{
-}*/
 
 void enableInvGraphics()
 {
@@ -96,7 +90,6 @@ void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numR
 					printXY(startX + i * xDist, startY + j * yDist, getBlockAmount(j * amountPerRow + i));
 				else
 					printXY(startX + i * xDist, startY + j * yDist, "  ");
-
 			}
 }
 
@@ -107,32 +100,6 @@ void updateInvGraphics()
 		return;
 	drawBasicInv(0, 8, 32, 7);
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
-	/*int a, i, j;
-	j = 8; //start x
-	i = 72; //start y
-	for (a = 0; a < NUM_INV_SPACES; ++a)
-	{
-		if (isSurvival())
-		{
-			if (getBlockAmount(a) != 0 && getBlockID(a) != 0)
-			{
-				if (getBlockAmount(a) > 9)
-					printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8, (int) (getBlockAmount(a) / 10));
-				else
-					printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8, ' ');
-				printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8 + 1, (int) (getBlockAmount(a) % 10));
-			}
-			else
-				printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8 + 1, ' ');
-		}
-		if (j < 232)
-			j += 16; //increment x
-		else
-		{
-			j = 8; //Exact same as start x
-			i += 24; //increment y
-		}
-	}*/
 }
 
 void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)
@@ -203,37 +170,6 @@ void drawInv() //Draws the items in the inventory (called by the mainPlayer->upd
 	if (chestOpened)
 		drawGraphics(true, 1, 1, 15, 2, 2, 3);
 	drawGraphics(false, 1, 9, 15, 2, 2, 3);
-	/*int i, j;
-	if (!empty)
-	{
-		int a;
-		j = 8; //start x
-		i = 72; //start y
-		for (a = 0; a < NUM_INV_SPACES; ++a)
-		{
-			if (getBlockID(a) != loadedID[a])
-			{
-				//Need to reload graphic
-				if (loadedInvGfx[a] == true)
-					unloadGraphic(&&invBlockGfx[a]);
-				else
-					loadedInvGfx[a] = true;
-				loadGraphicSub(&&invBlockGfx[a], 2, getBlockID(a));
-				loadedID[a] = getBlockID(a);
-			}
-			//Show sprite image of block
-			if (getBlockID(a) != 0)
-				showGraphic(&&invBlockGfx[a], j, i, false, 2);
-
-			if (j < 232)
-				j += 16; //increment x
-			else
-			{
-				j = 8; //Exact same as start x
-				i += 24; //increment y
-			}
-		}
-	}*/
 }
 
 void openChest(WorldObject *world, int x, int y, bool bg)
@@ -266,41 +202,6 @@ void closeChest()
 	drawInvButtons(true, isSurvival());
 }
 
-
-/*void drawChestItems() //Draws the items in the inventory (called by the mainPlayer->update if in survival mode)
-{
-	int i, j;
-	if (!empty)
-	{
-		int a;
-		j = 1 * 8; //start x
-		i = 1 * 8; //start y
-		for (a = 0; a < NUM_INV_SPACES; ++a)
-		{
-			if ((*openedChestPtr)[a][INDEX_BLOCK_ID] != loadedChestID[a])
-			{
-				//Need to reload graphic
-				if (loadedChestGfx[a])
-					unloadGraphic(&&chestBlockGfx[a]);
-				else
-					loadedChestGfx[a] = true;
-				loadGraphicSub(&&chestBlockGfx[a], 2, (*openedChestPtr)[a][INDEX_BLOCK_ID]);
-				loadedChestID[a] = (*openedChestPtr)[a][INDEX_BLOCK_ID];
-			}
-			//Show sprite image of block
-			if ((*openedChestPtr)[a][INDEX_BLOCK_ID] != 0)
-				showGraphic(&&chestBlockGfx[a], j, i, false, 2);
-			if (j < 21 * 8)
-				j += 16; //increment x
-			else
-			{
-				j = 1 * 8; //Exact same as start x
-				i += 24; //increment y
-			}
-		}
-	}
-}*/
-
 void updateChestItems() //Changes graphics and text
 {
 	oldEnabled = enabled;
@@ -308,30 +209,4 @@ void updateChestItems() //Changes graphics and text
 		return;
 	drawBasicInv(0, 0, 32, 7);
 	drawQuantity(true, 1, 2, 15, 2, 2, 3);
-	/*int i, j;
-	j = 8; //start x
-	i = 72; //start y
-	for (int a = 0; a < CHEST_SLOTS; ++a)
-	{
-		if (isSurvival())
-		{
-			if ((*openedChestPtr)[a][INDEX_AMOUNT] != 0 && (*openedChestPtr)[a][INDEX_BLOCK_ID] != 0)
-			{
-				if ((*openedChestPtr)[a][INDEX_AMOUNT] > 9)
-					printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8, (int) (((*openedChestPtr)[a][INDEX_AMOUNT]) / 10));
-				else
-					printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8, ' ');
-				printf("\x1b[%d;%dH%d", i / 8 + 1, j / 8 + 1, (int) (((*openedChestPtr)[a][INDEX_AMOUNT]) % 10));
-			}
-			else
-				printf("\x1b[%d;%dH%c", i / 8 + 1, j / 8 + 1, ' ');
-		}
-		if (j < 232)
-			j += 16; //increment x
-		else
-		{
-			j = 8; //Exact same as start x
-			i += 24; //increment y
-		}
-	}*/
 }
