@@ -324,6 +324,9 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 		case 9:
 			return ACTION_CLIMB;
 			break;
+		case 10:
+			return ACTION_DROP;
+			break;
 		default:
 			return -1;
 	}
@@ -334,11 +337,10 @@ bool setControlsScreen()
 	uint oldKeys;
 	touchPosition touch;
 	drawBackground();
-
+	consoleClear();
 	Button back(25, 19, "Back");
 
-	consoleClear(); //Removes All text from the screen
-	const short ITEMS = 9;
+	const short ITEMS = 10;
 	const short MAX_NAME_LENGTH = 13;
 	const short X = 8, Y = 9;
 
@@ -352,7 +354,7 @@ bool setControlsScreen()
 	printXY(X + 1, Y + 7, "Switch Screen");
 	printXY(X + 1, Y + 8, "Menu");
 	printXY(X + 1, Y + 9, "Climb");
-	printXY(26, 20, "Back");
+	printXY(X + 1, Y + 10, "Drop Item");
 
 	scanKeys();
 	touchRead(&touch);
@@ -398,7 +400,7 @@ void viewControls()
 {
 	drawBackground();
 	consoleClear();
-	const short ITEMS = 9;
+	const short ITEMS = 10;
 	const short X = 4, Y = 7;
 	const short MAX_LENGTH = 13 + 3 + 5;
 
@@ -412,6 +414,7 @@ void viewControls()
 	printXY(X + 1, Y + 7, "Switch Screen---");
 	printXY(X + 1, Y + 8, "         Menu---");
 	printXY(X + 1, Y + 9, "        Climb---");
+	printXY(X + 1, Y + 10, "    Drop Item---");
 
 	printXY(X + 17, Y + 1, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_LEFT)));
 	printXY(X + 17, Y + 2, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_RIGHT)));
@@ -422,6 +425,7 @@ void viewControls()
 	printXY(X + 17, Y + 7, getKeyChar(getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN)));
 	printXY(X + 17, Y + 8, getKeyChar(getGlobalSettings()->getKey(ACTION_MENU)));
 	printXY(X + 17, Y + 9, getKeyChar(getGlobalSettings()->getKey(ACTION_CLIMB)));
+	printXY(X + 17, Y + 10, getKeyChar(getGlobalSettings()->getKey(ACTION_DROP)));
 	Button buttons[0];
 	menu(buttons, 0);
 }
