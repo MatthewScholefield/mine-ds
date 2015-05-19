@@ -174,7 +174,7 @@ int getBlockID(int invSlot)
 {
 	if (invSlot>-1)
 		return mainPlayerInv.blocks[invSlot].blockId;
-	else if (invSlot<-1)
+	else if (invSlot<-1 && getOpenedChestID() != -1)
 		return getChestBlockID(-invSlot - 2);
 	else
 		return -1;
@@ -198,7 +198,7 @@ void clearInventory() //clears inventory
 	showingInventory = 0;
 }
 
-void changeGraphic(int blockID)
+void changeInvSelectedGraphic(int blockID)
 {
 	if (loadedInvGraphic == true)
 	{
@@ -207,6 +207,7 @@ void changeGraphic(int blockID)
 	}
 	loadGraphicSub(&heldBlock, 2, blockID);
 	loadedInvGraphic = true;
+	updateTopName(getBlockID(blockID));
 }
 
 void openInventory()
@@ -214,7 +215,9 @@ void openInventory()
 	lcdMainOnTop();
 	showingInventory = 1;
 	setMiningDisabled(true);
-	changeGraphic(AIR);
+	changeInvSelectedGraphic(AIR);
+	selectedSpace = -1;
+	setSelectedSpace(-1);
 	backButton.setVisible(true);
 	saveButton.setVisible(true);
 	craftButton.setVisible(isSurvival());
@@ -256,10 +259,8 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					selectedSpace = -1;
-					setSelectedSpace(getInventorySlot(AIR));
-					changeGraphic(AIR);
-					updateInvGraphics();
-					updateChestItems();
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
 				}
 				else if (selectedSpace > -1 && !(mainPlayerInv.blocks[selectedSpace].blockId == AIR))
 				{ //Source: Inventory, Destination:Inventory
@@ -271,9 +272,8 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					selectedSpace = -1;
-					setSelectedSpace(getInventorySlot(AIR));
-					changeGraphic(AIR);
-					updateInvGraphics();
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH) && getOpenedChestID() != -1)
 				{
@@ -289,10 +289,8 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 							world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID] = tmpId;
 							world->chests[getOpenedChestID()][i][INDEX_AMOUNT] = tmpAmount;
 							selectedSpace = -1;
-							setSelectedSpace(getInventorySlot(AIR));
-							changeGraphic(AIR);
-							updateInvGraphics();
-							updateChestItems();
+							setSelectedSpace(getInventorySlot(-1));
+							changeInvSelectedGraphic(AIR);
 							break;
 						}
 				}
@@ -300,8 +298,10 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				{
 					selectedSpace = space;
 					setSelectedSpace(space);
-					changeGraphic(mainPlayerInv.blocks[space].blockId);
+					changeInvSelectedGraphic(mainPlayerInv.blocks[space].blockId);
 				}
+				updateInvGraphics();
+				updateChestItems();
 			}
 			else if (getOpenedChestID() != -1 && oldX > 1 * 8 && oldY > 1 * 8 && oldY < 6 * 8 && oldX < 31 * 8)
 			{
@@ -318,10 +318,8 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
 					selectedSpace = -1;
-					setSelectedSpace(getInventorySlot(AIR));
-					changeGraphic(AIR);
-					updateInvGraphics();
-					updateChestItems();
+					setSelectedSpace(getInventorySlot(-1));
+					changeInvSelectedGraphic(AIR);
 				}
 				else if (selectedSpace < -1 && world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Chest
@@ -333,9 +331,8 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
 					selectedSpace = -1;
-					setSelectedSpace(getInventorySlot(AIR));
-					changeGraphic(AIR);
-					updateChestItems();
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
 				{
@@ -343,17 +340,17 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = AIR;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = 0;
 					selectedSpace = -1;
-					setSelectedSpace(getInventorySlot(AIR));
-					changeGraphic(AIR);
-					updateInvGraphics();
-					updateChestItems();
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
 				}
 				else
 				{
 					selectedSpace = -space - 2;
 					setSelectedSpace(-space - 2);
-					changeGraphic(world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID]);
+					changeInvSelectedGraphic(world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID]);
 				}
+				updateInvGraphics();
+				updateChestItems();
 			}
 			else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
@@ -402,8 +399,8 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			else
 			{
 				selectedSpace = -1;
-				setSelectedSpace(getInventorySlot(AIR));
-				changeGraphic(AIR);
+				setSelectedSpace(-1);
+				changeInvSelectedGraphic(AIR);
 				backButton.setColored(false);
 				saveButton.setColored(false);
 				craftButton.setColored(false);
@@ -439,7 +436,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			setMiningDisabled(true);
 			drawBackground();
 			consoleClear();
-			changeGraphic(AIR);
+			changeInvSelectedGraphic(AIR);
 			backButton.setVisible(true);
 			saveButton.setVisible(true);
 			craftButton.setVisible(isSurvival());

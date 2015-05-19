@@ -1,10 +1,14 @@
 #include "blockID.h"
+#include <stdio.h>
+
 
 const char *getName(int blockID)
 {
 	const char *name;
 	switch (blockID)
 	{
+		case -1:
+			return "";
 		case AIR:
 			name = "Air";
 			break;
@@ -312,8 +316,15 @@ const char *getName(int blockID)
 			name = "Spruce Sapling";
 			break;
 		case SAPLING_JUNGLE:
-			name = "Spruce Sapling";
+			name = "Jungle Sapling";
 			break;
 	}
 	return name;
+}
+
+void updateTopName(int blockID)
+{
+	iprintf("\x1b[7;3H                            ");
+	if (blockID != AIR)
+		iprintf("\x1b[7;3H%s", getName(blockID));
 }

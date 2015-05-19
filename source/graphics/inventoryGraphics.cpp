@@ -10,6 +10,7 @@
 #include "../titlescreen.h"
 #include "../inventory.h"
 #include "../chests.h"
+#include "../blockName.h"
 
 Graphic invBlockGfx[NUM_INV_SPACES];
 Graphic chestBlockGfx[CHEST_SLOTS];
@@ -46,16 +47,27 @@ int getChestBlockID(int slot)
 	return (*openedChestPtr)[slot][INDEX_BLOCK_ID];
 }
 
+void drawSlots(int selectedSlot, int startX, int startY, int xCount, int yCount, int xSpace, int ySpace)
+{
+	int slot = 0;
+	for (int j = 0; j < yCount; ++j)
+		for (int i = 0; i < xCount; ++i)
+		{
+			int tile = 154;
+			if (slot == selectedSlot)
+				tile = 155;
+			setSubBgTile(startX + i*xSpace, startY + j*ySpace, tile);
+			setSubBgTile(startX + i*xSpace, startY + j * ySpace + 1, tile, V_FLIP);
+			setSubBgTile(startX + i * xSpace + 1, startY + j*ySpace, tile, H_FLIP);
+			setSubBgTile(startX + i * xSpace + 1, startY + j * ySpace + 1, tile, BOTH_FLIP);
+			++slot;
+		}
+}
+
 void drawBasicInv(int startX, int startY, int sizeX, int sizeY)
 {
 	for (int i = startX + 1; i < startX + sizeX - 1; ++i)
 	{
-		//Draw item boxes
-		setSubBgTile(i, startY + 1, 154, (i - startX - 1) % 2);
-		setSubBgTile(i, startY + 2, 154, V_FLIP + (i - startX - 1) % 2);
-		setSubBgTile(i, startY + 4, 154, (i - startX - 1) % 2);
-		setSubBgTile(i, startY + 5, 154, V_FLIP + (i - startX - 1) % 2);
-
 		//Draw border
 		setSubBgTile(i, startY, 30);
 		setSubBgTile(i, startY + sizeY / 2, 28 + (i % 2));
@@ -99,7 +111,9 @@ void updateInvGraphics()
 	if (!enabled)
 		return;
 	drawBasicInv(0, 8, 32, 7);
+	drawSlots(getSelectedSlot(), 1, 9);
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
+	updateTopName(getBlockID(getSelectedSlot()));
 }
 
 void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)
@@ -204,9 +218,12 @@ void closeChest()
 
 void updateChestItems() //Changes graphics and text
 {
-	oldEnabled = enabled;
-	if (!enabled)
+	if (!chestOpened)
 		return;
 	drawBasicInv(0, 0, 32, 7);
+	if (getSelectedSlot()<-1)
+		drawSlots(-getSelectedSlot() - 2, 1, 1);
+	else
+		drawSlots(-1, 1, 1);
 	drawQuantity(true, 1, 2, 15, 2, 2, 3);
 }
