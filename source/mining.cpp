@@ -96,7 +96,7 @@ void mineBlock(WorldObject* world, int x, int y, bool bg) //True if block broken
 	}
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	bool stylusMoved = (miningX == x || miningY == y) ? false : true;
-	if (isSurvival())
+	if (isSurvival() || blockXY == CHEST)
 	{
 		if (stylusMoved)
 		{
