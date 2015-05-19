@@ -85,14 +85,14 @@ void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numR
 		for (int j = 0; j < numRows; ++j)
 			if (chest)
 			{
-				if ((*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT] != 0 && (*openedChestPtr)[j * amountPerRow + i][INDEX_BLOCK_ID] != 0)
+				if (isSurvival() && (*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT] != 0 && (*openedChestPtr)[j * amountPerRow + i][INDEX_BLOCK_ID] != 0)
 					printXY(startX + i * xDist, startY + j * yDist, (*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT]);
 				else
 					printXY(startX + i * xDist, startY + j*yDist, "  ");
 			}
 			else if (!chest)
 			{
-				if (getBlockAmount(j * amountPerRow + i) != 0 && getBlockID(j * amountPerRow + i) != 0)
+				if (isSurvival() && getBlockAmount(j * amountPerRow + i) != 0 && getBlockID(j * amountPerRow + i) != 0)
 					printXY(startX + i * xDist, startY + j * yDist, getBlockAmount(j * amountPerRow + i));
 				else
 					printXY(startX + i * xDist, startY + j * yDist, "  ");
@@ -307,7 +307,7 @@ void updateChestItems() //Changes graphics and text
 	if (!enabled)
 		return;
 	drawBasicInv(0, 0, 32, 7);
-	drawQuantity(true, 1, 1, 15, 2, 2, 3);
+	drawQuantity(true, 1, 2, 15, 2, 2, 3);
 	/*int i, j;
 	j = 8; //start x
 	i = 72; //start y
