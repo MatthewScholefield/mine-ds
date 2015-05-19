@@ -216,7 +216,7 @@ void saveMobs(FILE* f)
 			mobs[i]->saveToFile(f);
 		}
 	}
-	fprintf(f, " -1");
+	fprintf(f, "-1 ");
 }
 
 void spawnMobOn(int mobId, WorldObject* world, int j, bool skipCheck = false)
