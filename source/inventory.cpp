@@ -172,7 +172,13 @@ int checkInventorySlot(int slot)
 
 int getBlockID(int invSlot)
 {
-	return mainPlayerInv.blocks[invSlot].blockId;
+	if (invSlot>-1)
+		return mainPlayerInv.blocks[invSlot].blockId;
+	else if (invSlot<-1)
+		return getChestBlockID(-invSlot - 2);
+	else
+		return -1;
+
 }
 
 int getBlockAmount(int invSlot)
@@ -314,7 +320,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				{
 					selectedSpace = -space - 2;
 					setSelectedSpace(-space - 2);
-					changeGraphic(mainPlayerInv.blocks[space].blockId);
+					changeGraphic(world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID]);
 				}
 			}
 			else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
