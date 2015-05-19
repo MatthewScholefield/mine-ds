@@ -54,7 +54,8 @@ bool canMine() //Returns whether touch input can destroy blocks
 
 void calculateTopBlock()
 {
-	if (loadedTopGraphic) unloadGraphic(&topBlock);
+	if (loadedTopGraphic)
+		unloadGraphic(&topBlock);
 	if (invSlot<-1 && getOpenedChestID() != -1)
 		loadGraphicSub(&topBlock, 2, getChestBlockID(-invSlot - 2));
 	else if (invSlot > 0)
