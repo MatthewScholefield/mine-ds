@@ -26,7 +26,7 @@
 #include "blockName.h"
 #include "chests.h"
 bool loadedInvGraphic = false;
-int selectedspace = -1;
+int selectedSpace = -1;
 Graphic heldBlock;
 Button backButton(1, 16, "Back", false);
 Button saveButton(8, 16, "Save World", false);
@@ -240,38 +240,38 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				int space = 0;
 				space += 15 * ((oldY - (8 + 1)*8) / (3 * 8));
 				space += (oldX - 8) / 16;
-				if (getOpenedChestID() != -1 && selectedspace<-1 && world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_BLOCK_ID] != AIR)
+				if (getOpenedChestID() != -1 && selectedSpace<-1 && world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Inventory
 					int tmpId, tmpAmount = 0;
-					tmpId = world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_BLOCK_ID];
-					tmpAmount = world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
-					world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
+					tmpId = world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID];
+					tmpAmount = world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
+					world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
-					selectedspace = -1;
+					selectedSpace = -1;
 					setSelectedSpace(getInventorySlot(AIR));
 					changeGraphic(AIR);
 					updateInvGraphics();
 					updateChestItems();
 				}
-				else if (selectedspace > -1 && !(mainPlayerInv.blocks[selectedspace].blockId == AIR))
+				else if (selectedSpace > -1 && !(mainPlayerInv.blocks[selectedSpace].blockId == AIR))
 				{ //Source: Inventory, Destination:Inventory
 					int tmpId, tmpAmount = 0;
-					tmpId = mainPlayerInv.blocks[selectedspace].blockId;
-					tmpAmount = mainPlayerInv.blocks[selectedspace].blockAmount;
-					mainPlayerInv.blocks[selectedspace].blockId = mainPlayerInv.blocks[space].blockId;
-					mainPlayerInv.blocks[selectedspace].blockAmount = mainPlayerInv.blocks[space].blockAmount;
+					tmpId = mainPlayerInv.blocks[selectedSpace].blockId;
+					tmpAmount = mainPlayerInv.blocks[selectedSpace].blockAmount;
+					mainPlayerInv.blocks[selectedSpace].blockId = mainPlayerInv.blocks[space].blockId;
+					mainPlayerInv.blocks[selectedSpace].blockAmount = mainPlayerInv.blocks[space].blockAmount;
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
-					selectedspace = -1;
+					selectedSpace = -1;
 					setSelectedSpace(getInventorySlot(AIR));
 					changeGraphic(AIR);
 					updateInvGraphics();
 				}
 				else
 				{
-					selectedspace = space;
+					selectedSpace = space;
 					setSelectedSpace(space);
 					changeGraphic(mainPlayerInv.blocks[space].blockId);
 				}
@@ -281,38 +281,38 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				int space = 0;
 				space += 15 * ((oldY - 1 * 8) / (3 * 8));
 				space += (oldX - 8) / 16;
-				if (selectedspace > -1 && mainPlayerInv.blocks[selectedspace].blockId != AIR)
+				if (selectedSpace > -1 && mainPlayerInv.blocks[selectedSpace].blockId != AIR)
 				{ //Source: Inventory, Destination: Chest
 					int tmpId, tmpAmount = 0;
-					tmpId = mainPlayerInv.blocks[selectedspace].blockId;
-					tmpAmount = mainPlayerInv.blocks[selectedspace].blockAmount;
-					mainPlayerInv.blocks[selectedspace].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-					mainPlayerInv.blocks[selectedspace].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
+					tmpId = mainPlayerInv.blocks[selectedSpace].blockId;
+					tmpAmount = mainPlayerInv.blocks[selectedSpace].blockAmount;
+					mainPlayerInv.blocks[selectedSpace].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
+					mainPlayerInv.blocks[selectedSpace].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-					selectedspace = -1;
+					selectedSpace = -1;
 					setSelectedSpace(getInventorySlot(AIR));
 					changeGraphic(AIR);
 					updateInvGraphics();
 					updateChestItems();
 				}
-				else if (selectedspace < -1 && world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_BLOCK_ID] != AIR)
+				else if (selectedSpace < -1 && world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Chest
 					int tmpId, tmpAmount = 0;
-					tmpId = world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_BLOCK_ID];
-					tmpAmount = world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-					world->chests[getOpenedChestID()][-selectedspace - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
+					tmpId = world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID];
+					tmpAmount = world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
+					world->chests[getOpenedChestID()][-selectedSpace - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-					selectedspace = -1;
+					selectedSpace = -1;
 					setSelectedSpace(getInventorySlot(AIR));
 					changeGraphic(AIR);
 					updateChestItems();
 				}
 				else
 				{
-					selectedspace = -space - 2;
+					selectedSpace = -space - 2;
 					setSelectedSpace(-space - 2);
 					changeGraphic(mainPlayerInv.blocks[space].blockId);
 				}
@@ -320,7 +320,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 			{
 				closeChest();
-				selectedspace = -1;
+				selectedSpace = -1;
 				lcdMainOnBottom();
 				showingInventory = 0;
 				setMiningDisabled(false);
@@ -363,7 +363,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			}
 			else
 			{
-				selectedspace = -1;
+				selectedSpace = -1;
 				setSelectedSpace(getInventorySlot(AIR));
 				changeGraphic(AIR);
 				backButton.setColored(false);
@@ -379,7 +379,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			saveButton.setVisible(false);
 			craftButton.setVisible(false);
 			pageButton.setVisible(false);
-			selectedspace = -1;
+			selectedSpace = -1;
 			lcdMainOnBottom();
 			showingInventory = 0;
 			setMiningDisabled(false);
