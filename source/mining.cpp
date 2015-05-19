@@ -57,22 +57,22 @@ void calculateTopBlock()
 	if (loadedTopGraphic)
 		unloadGraphic(&topBlock);
 	if (invSlot<-1 && getOpenedChestID() != -1)
-		loadGraphicSub(&topBlock, 2, getChestBlockID(-invSlot - 2));
+	{
+		loadGraphicSub(&topBlock, 2, getChestBlockID(invSlot));
+		drawSlots(-invSlot - 2, 1, 1);
+	}
 	else if (invSlot > 0)
+	{
 		loadGraphicSub(&topBlock, 2, getBlockID(invSlot));
+		drawSlots(invSlot, 1, 9);
+	}
 	else
 	{
 		loadedTopGraphic = false;
 		return;
 	}
 	loadedTopGraphic = true;
-}
-
-void updateTopName()
-{
-	printXY(2, 7, "                            ");
-	if (getBlockID(invSlot) != AIR)
-		iprintf("\x1b[7;2H%s", getName(getBlockID(invSlot)));
+	updateTopName(getBlockID(invSlot));
 }
 
 void setSelectedSpace(int space)
@@ -295,7 +295,6 @@ void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int key
 			if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
 		}
 		calculateTopBlock();
-		updateTopName();
 	}
 	else if (keys & getGlobalSettings()->getKey(ACTION_ITEM_RIGHT))
 	{
@@ -308,7 +307,6 @@ void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int key
 			if (invSlot >= NUM_INV_SPACES) invSlot = 0;
 		}
 		calculateTopBlock();
-		updateTopName();
 	}
 	if (invSlot < 0)
 	{
