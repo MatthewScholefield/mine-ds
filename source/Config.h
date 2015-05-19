@@ -28,7 +28,7 @@ private:
 	KEYPAD_BITS switchScreen;
 	KEYPAD_BITS menu;
 	KEYPAD_BITS climb;
-  KEYPAD_BITS dropItem;
+	KEYPAD_BITS dropItem;
 	bool properties[4];
 public:
 	void setKey(int action, KEYPAD_BITS key);
@@ -45,7 +45,7 @@ public:
 	switchScreen(KEY_Y),
 	menu(KEY_START),
 	climb(KEY_UP),
-  dropItem(KEY_SELECT),
+	dropItem(KEY_SELECT),
 	properties {
 		false, false, true, true
 	}
