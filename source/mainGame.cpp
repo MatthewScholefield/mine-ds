@@ -128,7 +128,7 @@ void newGame(gamemode_t mode, int seed)
 		world->seed = seed;
 	srand(world->seed);
 	mobsReset();
-	clearInventory();
+	clearInventory(true);
 	shouldQuitGame = false;
 	world->gamemode = mode;
 	world->camX = 0;
