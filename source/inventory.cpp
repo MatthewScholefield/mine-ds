@@ -186,7 +186,7 @@ int getBlockAmount(int invSlot)
 	return mainPlayerInv.blocks[invSlot].blockAmount;
 }
 
-void clearInventory() //clears inventory
+void clearInventory(bool direct) //clears inventory
 {
 	int i;
 	for (i = 0; i < NUM_INV_SPACES; ++i)
@@ -194,7 +194,8 @@ void clearInventory() //clears inventory
 		mainPlayerInv.blocks[i].blockAmount = 0;
 		mainPlayerInv.blocks[i].blockId = 0;
 	}
-	updateInvGraphics();
+	if (!direct)
+		updateInvGraphics();
 	showingInventory = 0;
 }
 

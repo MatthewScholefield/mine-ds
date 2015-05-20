@@ -9,7 +9,7 @@ bool subInventory(int blockID, int amount);
 int checkInventory(int blockID);
 int checkInventorySlot(int slot);
 int getInventorySlot(int blockID);
-void clearInventory();
+void clearInventory(bool direct = false);
 void addInventory(int blockID);
 int getBlockAmount(int invSlot);
 int getBlockID(int invSlot);
