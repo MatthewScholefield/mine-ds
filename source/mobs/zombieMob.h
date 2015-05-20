@@ -3,6 +3,8 @@
 #include "baseMob.h"
 #ifndef ZOMBIE_MOB_H
 #define ZOMBIE_MOB_H
+#define ZOMBIE_SPEED 0.5
+
 bool canZombieMobSpawnHere(WorldObject* world, int x, int y);
 
 class zombieMob : public baseMob {

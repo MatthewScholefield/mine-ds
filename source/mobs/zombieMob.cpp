@@ -79,23 +79,17 @@ void zombieMob::updateMob(WorldObject* world)
 		target = mobHandlerFindMob(128, 2, x, y);
 		if (target->x < x && target->mobType == 2) facing = true;
 		else if (target->mobType == 2) facing = false;
-		++jump;
-		if (target->x > x - 4 && target->x < x + 4)
-			jump = 0;
 		if (target->mobType != 2)
-		{
 			++noTarget;
-			jump = 0;
-		}
-		else if (!collisions[1] && facing == false && !collisions[3] && jump > 1)
+		else if (!collisions[1] && facing == false && !collisions[3])
 		{
-			vx = facing ? -1 : 1;
-			jump = 0;
+			if (vx <= 0)
+				vx = double(rand() % 15) / 10.0 + ZOMBIE_SPEED;
 		}
-		else if (!collisions[2] && facing == true && !collisions[3] && jump > 1)
+		else if (!collisions[2] && facing == true && !collisions[3])
 		{
-			vx = facing ? -1 : 1;
-			jump = 0;
+			if (vx >= 0)
+				vx = -double(rand() % 15) / 10.0 - ZOMBIE_SPEED;
 		}
 		else
 			vx = 0;
