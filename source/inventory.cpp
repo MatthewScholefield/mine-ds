@@ -368,8 +368,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				drawBackground();
 				drawInvButtons(false, isSurvival());
 				updateInvGraphics();
-				if (!isSurvival())
-					printXY(1, 15, getPageName(getBlockPage()));
+				updatePageName();
 			}
 			else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))
 			{ //Crafting Menu
@@ -423,8 +422,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			drawBackground();
 			updateInvGraphics();
 			drawInvButtons(false, isSurvival());
-			if (!isSurvival())
-				printXY(1, 15, getPageName(getBlockPage()));
+			updatePageName();
 		}
 		oldX = touch.px;
 		oldY = touch.py;
@@ -443,8 +441,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			craftButton.setVisible(isSurvival());
 			pageButton.setVisible(!isSurvival());
 			enableInvGraphics();
-			if (!isSurvival())
-				printXY(1, 15, getPageName(getBlockPage()));
+			updatePageName();
 		}
 		else
 		{

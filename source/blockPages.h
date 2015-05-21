@@ -11,5 +11,7 @@
 void setBlockPage(int page);
 int getBlockPage();
 const char *getPageName(int page);
+void updatePageName();
 int pageMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY, unsigned int* oldKeys);
 void pageMenuInit();
+void changeBlockPage(bool forward);

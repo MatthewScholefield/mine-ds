@@ -5,6 +5,7 @@
 #include "graphics/inventoryGraphics.h"
 #include "titlescreen.h"
 #include "mining.h"
+#include "mainGame.h"
 #include "general.h"
 #include <nds.h>
 
@@ -22,19 +23,6 @@ Button leftButtonPageScreen(0, 10, "\x011", false);
 Button rightButtonPageScreen(29, 10, "\x010", false);
 Button backButtonPageScreen(1, 16, "Back", false);
 
-void setBlockPage(int page)
-{
-	blockPage = page;
-	clearInventory();
-	for (int i = 0; i < NUM_INV_SPACES; ++i)
-		addInventory(BLOCK_PAGES[page][i]);
-}
-
-int getBlockPage()
-{
-	return blockPage;
-}
-
 const char *getPageName(int page)
 {
 	switch (page)
@@ -48,6 +36,45 @@ const char *getPageName(int page)
 		default:
 			return "Error";
 	}
+}
+
+void updatePageName()
+{
+	if (isSurvival())
+		return;
+	printXY(1, 15, "        ");
+	printXY(1, 15, getPageName(blockPage));
+}
+
+void setBlockPage(int page)
+{
+	if (page < 0)
+		page = NUM_BLOCK_PAGES - 1;
+	else if (page >= NUM_BLOCK_PAGES)
+		page = 0;
+	blockPage = page;
+	clearInventory(true);
+	for (int i = 0; i < NUM_INV_SPACES; ++i)
+		addInventory(BLOCK_PAGES[page][i]);
+	updatePageName();
+}
+
+void changeBlockPage(bool forward)
+{
+	blockPage += forward ? 1 : -1;
+	if (blockPage < 0)
+		blockPage = NUM_BLOCK_PAGES - 1;
+	else if (blockPage >= NUM_BLOCK_PAGES)
+		blockPage = 0;
+	clearInventory(true);
+	for (int i = 0; i < NUM_INV_SPACES; ++i)
+		addInventory(BLOCK_PAGES[blockPage][i]);
+	updatePageName();
+}
+
+int getBlockPage()
+{
+	return blockPage;
 }
 
 void pageMenuInit()

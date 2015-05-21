@@ -19,6 +19,7 @@
 #include "mining.h"
 #include "graphics/inventoryGraphics.h"
 #include "chests.h"
+#include "blockPages.h"
 
 bool skipLightUpdate = false; //Whether to skip light update
 int invSlot = 0;
@@ -286,25 +287,35 @@ void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int key
 	}
 	if (keys & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
-		int origSlot = invSlot;
-		--invSlot;
-		if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
-		while ((checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR) && invSlot != origSlot)
+		if (!isSurvival() && keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
+			changeBlockPage(false);
+		else
 		{
+			int origSlot = invSlot;
 			--invSlot;
 			if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
+			while ((checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR) && invSlot != origSlot)
+			{
+				--invSlot;
+				if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
+			}
 		}
 		calculateTopBlock();
 	}
 	else if (keys & getGlobalSettings()->getKey(ACTION_ITEM_RIGHT))
 	{
-		int origSlot = invSlot;
-		++invSlot;
-		if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
-		while ((checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR) && invSlot != origSlot)
+		if (!isSurvival() && keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
+			changeBlockPage(true);
+		else
 		{
+			int origSlot = invSlot;
 			++invSlot;
-			if (invSlot >= NUM_INV_SPACES) invSlot = 0;
+			if (invSlot < 0) invSlot = NUM_INV_SPACES - 1;
+			while ((checkInventorySlot(invSlot) == 0 || getBlockID(invSlot) == AIR) && invSlot != origSlot)
+			{
+				++invSlot;
+				if (invSlot >= NUM_INV_SPACES) invSlot = 0;
+			}
 		}
 		calculateTopBlock();
 	}
@@ -318,8 +329,8 @@ void miningUpdate(WorldObject* world, int a, int b, touchPosition touch, int key
 		invSlot = 0;
 		calculateTopBlock();
 	}
-  if (getBlockID(invSlot)!=oldBlockID) calculateTopBlock();
-  oldBlockID = getBlockID(invSlot);
+	if (getBlockID(invSlot) != oldBlockID) calculateTopBlock();
+	oldBlockID = getBlockID(invSlot);
 	//Draw the selected block
 	if (getBlockID(invSlot) != 0)
 		showGraphic(&topBlock, 0, 48);
