@@ -54,8 +54,7 @@ static void redrawGameUI(void)
 	consoleClear();
 	drawBackground();
 	drawInvButtons(false, isSurvival());
-	if (!isSurvival())
-		printXY(1, 15, getPageName(getBlockPage()));
+	updatePageName();
 	updateInvGraphics();
 }
 
