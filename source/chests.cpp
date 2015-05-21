@@ -25,7 +25,7 @@ void createChest(WorldObject *world, int x, int y, bool bg)
 	{
 		world->bgblocks[x][y] = CHEST;
 		world->data[x][y] &= 0x0000FFFF; //Clears left 16 bits
-		chestID <<= 16; //Shift left 8 bits
+		chestID <<= 16; //Shift left 16 bits
 		world->data[x][y] |= chestID;
 	}
 	else
@@ -43,7 +43,7 @@ int getChestID(WorldObject *world, int x, int y, bool bg)
 	if (bg)
 	{
 		databyte &= 0xFFFF0000;
-		databyte >>= 16;
+		databyte >>= 16; //Shift right 16 bits
 	}
 	else
 		databyte &= 0x0000FFFF;
