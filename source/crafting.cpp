@@ -89,6 +89,14 @@ void updateCraftingGraphics()
 	}
 }
 
+bool canCraftRecipe(int recipe)
+{
+	for (InvBlock i : craftingRecipes[recipe].neededblocks)
+		if (checkInventory(i.blockId) < i.blockAmount)
+			return false;
+	return true;
+}
+
 void craftingMenuInit()
 {
 	disableInvGraphics();
@@ -100,38 +108,20 @@ void craftingMenuInit()
 	craftButtonCraftScreen.setVisible(true);
 	rightButtonCraftScreen.setVisible(true);
 	leftButtonCraftScreen.setVisible(true);
-	currentViewingRecipe = 0;
+	for (currentViewingRecipe = 0; !canCraftRecipe(currentViewingRecipe) && currentViewingRecipe < nextCraftingRecipe; ++currentViewingRecipe);
+	if (currentViewingRecipe == nextCraftingRecipe)
+		currentViewingRecipe = 0;
 	updateCraftingGraphics();
 }
 
 void craftItem()
 {
-	if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId, craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount))
+	if (canCraftRecipe(currentViewingRecipe))
 	{
-		if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[1].blockId, craftingRecipes[currentViewingRecipe].neededblocks[1].blockAmount))
-		{
-			if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[2].blockId, craftingRecipes[currentViewingRecipe].neededblocks[2].blockAmount))
-			{
-				if (subInventory(craftingRecipes[currentViewingRecipe].neededblocks[3].blockId, craftingRecipes[currentViewingRecipe].neededblocks[3].blockAmount))
-				{
-					//can Craft the item....
-					addInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId, craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
-				}
-				else
-				{
-					addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId, craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
-					addInventory(craftingRecipes[currentViewingRecipe].neededblocks[1].blockId, craftingRecipes[currentViewingRecipe].neededblocks[1].blockAmount);
-					addInventory(craftingRecipes[currentViewingRecipe].neededblocks[2].blockId, craftingRecipes[currentViewingRecipe].neededblocks[2].blockAmount);
-				}
-			}
-			else
-			{
-				addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId, craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
-				addInventory(craftingRecipes[currentViewingRecipe].neededblocks[1].blockId, craftingRecipes[currentViewingRecipe].neededblocks[1].blockAmount);
-			}
-		}
-		else
-			addInventory(craftingRecipes[currentViewingRecipe].neededblocks[0].blockId, craftingRecipes[currentViewingRecipe].neededblocks[0].blockAmount);
+		for (InvBlock i : craftingRecipes[currentViewingRecipe].neededblocks)
+			subInventory(i.blockId, i.blockAmount);
+		addInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId,
+				craftingRecipes[currentViewingRecipe].createdblock.blockAmount, true);
 	}
 }
 
@@ -160,16 +150,40 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 	{
 		if (rightButtonCraftScreen.isTouching(*oldX, *oldY) && rightButtonCraftScreen.isColored)
 		{
-			++currentViewingRecipe;
-			if (currentViewingRecipe >= nextCraftingRecipe)
-				currentViewingRecipe = 0;
+			int initialRecipe = currentViewingRecipe;
+			if (!canCraftRecipe(currentViewingRecipe))
+				++currentViewingRecipe;
+			else
+			{
+				do
+				{
+					++currentViewingRecipe;
+					if (currentViewingRecipe >= nextCraftingRecipe)
+						currentViewingRecipe = 0;
+				}
+				while (!canCraftRecipe(currentViewingRecipe) && initialRecipe != currentViewingRecipe);
+			}
+			if (initialRecipe == currentViewingRecipe)
+				currentViewingRecipe = initialRecipe + 1;
 			updateCraftingGraphics();
 		}
 		else if (leftButtonCraftScreen.isTouching(*oldX, *oldY) && leftButtonCraftScreen.isColored)
 		{
-			--currentViewingRecipe;
-			if (currentViewingRecipe < 0)
-				currentViewingRecipe = nextCraftingRecipe - 1;
+			int initialRecipe = currentViewingRecipe;
+			if (!canCraftRecipe(currentViewingRecipe))
+				--currentViewingRecipe;
+			else
+			{
+				do
+				{
+					--currentViewingRecipe;
+					if (currentViewingRecipe < 0)
+						currentViewingRecipe = nextCraftingRecipe - 1;
+				}
+				while (!canCraftRecipe(currentViewingRecipe) && initialRecipe != currentViewingRecipe);
+			}
+			if (initialRecipe == currentViewingRecipe)
+				currentViewingRecipe = initialRecipe - 1;
 			updateCraftingGraphics();
 		}
 		else if (backButtonCraftScreen.isTouching(*oldX, *oldY) && backButtonCraftScreen.isColored)
