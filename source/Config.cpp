@@ -173,9 +173,9 @@ bool parsePropertyChar(const char *input)
 {
 	std::string upperCase(input);
 	upperCase = stringToUpper(upperCase);
-	if (upperCase == "ENABLED")
+	if (strcmp(upperCase.c_str(), "ENABLED") == 0)
 		return true;
-	if (upperCase == "DISABLED")
+	if (strcmp(upperCase.c_str(), "DISABLED") == 0)
 		return false;
 	return NULL;
 }
