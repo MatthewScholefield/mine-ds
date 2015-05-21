@@ -64,12 +64,13 @@ bool saveControls(Config *controls)
 		fprintf(fp, "Move Right: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_RIGHT)));
 		fprintf(fp, "Jump: %s\n", getKeyChar(controls->getKey(ACTION_JUMP)));
 		fprintf(fp, "Crouch: %s\n", getKeyChar(controls->getKey(ACTION_CROUCH)));
-		fprintf(fp, "ItemLeft: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_LEFT)));
+		fprintf(fp, "Item Left: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_LEFT)));
 		fprintf(fp, "Item Right: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_RIGHT)));
 		fprintf(fp, "Switch Screen: %s\n", getKeyChar(controls->getKey(ACTION_SWITCH_SCREEN)));
 		fprintf(fp, "Menu: %s\n", getKeyChar(controls->getKey(ACTION_MENU)));
 		fprintf(fp, "Climb: %s\n", getKeyChar(controls->getKey(ACTION_CLIMB)));
-		fprintf(fp, "\n==Game Options\n");
+		fprintf(fp, "Drop: %s\n", getKeyChar(controls->getKey(ACTION_DROP)));
+		fprintf(fp, "\n==Game Options==\n");
 		fprintf(fp, "Herobrine: %s\n", controls->getProperty(PROPERTY_HEROBRINE) ? "Enabled" : "Disabled");
 		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
 		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
@@ -169,7 +170,7 @@ bool loadControls(Config *controls)
 		controls->setKey(ACTION_JUMP, parseKeyChar(&parseChar));
 		fscanf(fp, "Crouch: %s\n", &parseChar);
 		controls->setKey(ACTION_CROUCH, parseKeyChar(&parseChar));
-		fscanf(fp, "ItemLeft: %s\n", &parseChar);
+		fscanf(fp, "Item Left: %s\n", &parseChar);
 		controls->setKey(ACTION_ITEM_LEFT, parseKeyChar(&parseChar));
 		fscanf(fp, "Item Right: %s\n", &parseChar);
 		controls->setKey(ACTION_ITEM_RIGHT, parseKeyChar(&parseChar));
@@ -179,7 +180,9 @@ bool loadControls(Config *controls)
 		controls->setKey(ACTION_MENU, parseKeyChar(&parseChar));
 		fscanf(fp, "Climb: %s\n", &parseChar);
 		controls->setKey(ACTION_CLIMB, parseKeyChar(&parseChar));
-		fprintf(fp, "\n==Game Options\n");
+		fscanf(fp, "Drop: %s\n", &parseChar);
+		controls->setKey(ACTION_DROP, parseKeyChar(&parseChar));
+		fprintf(fp, "\n==Game Options==\n");
 		fprintf(fp, "Herobrine: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_HEROBRINE, parsePropertyChar(&parseChar));
 		fprintf(fp, "Draw Mode: %s\n", &parseChar);
