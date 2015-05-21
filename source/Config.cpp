@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include "Config.h"
+#include "general.h"
 
 Config globalSettings;
 
