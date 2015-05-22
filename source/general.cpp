@@ -2,17 +2,26 @@
 #include <string>
 #include <nds.h>
 #include <dswifi9.h>
+#include <maxmod9.h>
 #include "nifi.h"
 #include "general.h"
+#include "mainGame.h"
 
 std::string messages[MESSAGE_COUNT];
 int currentTime = 0;
 int triggerTime = 1;
 
+void updateFrame()
+{
+	if (songIsPlaying())
+		mmStreamUpdate();
+	swiWaitForVBlank();
+}
+
 void sleep(unsigned int seconds)
 {
 	for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i)
-		swiWaitForVBlank(); // sleeps for one frame
+		updateFrame(); // sleeps for one frame
 }
 
 int getOldestMessageIndex()

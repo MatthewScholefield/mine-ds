@@ -35,6 +35,74 @@ bool shouldQuitGame = false;
 WorldObject *world;
 FILE *file;
 
+bool playingSong = false;
+
+bool songIsPlaying()
+{
+	return playingSong;
+}
+
+mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
+{
+	if (file)
+	{
+		size_t samplesize = 1;
+		switch (format)
+		{
+			case MM_STREAM_8BIT_MONO: samplesize = 1;
+				break;
+			case MM_STREAM_8BIT_STEREO: samplesize = 2;
+				break;
+			case MM_STREAM_16BIT_MONO: samplesize = 2;
+				break;
+			case MM_STREAM_16BIT_STEREO: samplesize = 4;
+				break;
+		}
+
+		int res = fread(dest, samplesize, length, file);
+		if (res)
+		{
+			length = res;
+		}
+		else
+		{
+			mmStreamClose();
+			fclose(file);
+			length = 0;
+			playingSong = false;
+		}
+	}
+	return length;
+}
+
+void playSong()
+{
+	if (playingSong)
+		return;
+	mm_stream mystream;
+	mystream.buffer_length = 1024;
+	mystream.callback = stream;
+	mystream.timer = MM_TIMER1;
+	mystream.manual = true;
+
+	file = fopen("MineCraft Remix - Calm 3 Chillstep.raw", "rb");
+	mystream.sampling_rate = 22050;
+	mystream.format = MM_STREAM_16BIT_STEREO;
+	mmStreamOpen(&mystream);
+	mmStreamUpdate();
+	mmStreamUpdate();
+	playingSong = true;
+}
+
+void stopSong()
+{
+	if (!playingSong)
+		return;
+	mmStreamClose();
+	fclose(file);
+	playingSong = false;
+}
+
 void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
 {
 	if (amount < 1)
@@ -174,7 +242,7 @@ void joinGame(void)
 	printXY(1, 10, "Looking for servers");
 	// TODO: Rename clientNifiInit() to something that makes more sense
 	while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
-		swiWaitForVBlank();
+		updateFrame();
 	printXY(1, 11, "Joining Server!");
 	if (!doHandshake())
 	{
@@ -190,8 +258,6 @@ void joinGame(void)
 	printGlobalMessage((char *) buffer);
 	startMultiplayerGame(false);
 }
-
-mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format);
 
 void startGame(void)
 {
@@ -211,22 +277,9 @@ void startGame(void)
 
 	shouldQuitGame = false;
 
-	mm_stream mystream;
-	mystream.buffer_length = 1024;
-	mystream.callback = stream;
-	mystream.timer = MM_TIMER1;
-	mystream.manual = true;
-
-	file = fopen("MineCraft Remix - Calm 3 Chillstep.raw", "rb");
-	mystream.sampling_rate = 22050;
-	mystream.format = MM_STREAM_16BIT_STEREO;
-	mmStreamOpen(&mystream);
-	mmStreamUpdate();
-	mmStreamUpdate();
-
 	while (!shouldQuitGame)
 	{
-		mmStreamUpdate();
+		playSong();
 		updateTime();
 		scanKeys();
 		mobHandlerUpdate(world);
@@ -244,7 +297,7 @@ void startGame(void)
 		touchRead(&touch);
 		miningUpdate(world, world->camX, world->camY, touch, keysDown());
 		proceduralBlockUpdate(world);
-		swiWaitForVBlank(); //Should be the only time called in the loop
+		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
@@ -278,7 +331,7 @@ void startMultiplayerGame(bool host)
 		world = new WorldObject();
 		world->gamemode = GAMEMODE_CREATIVE;
 		generateWorld(world);
-		while (!hostNifiInit()) swiWaitForVBlank();
+		while (!hostNifiInit()) updateFrame();
 		communicationInit(world);
 		consoleClear();
 		unsigned short buffer[100];
@@ -308,7 +361,7 @@ void startMultiplayerGame(bool host)
 		miningUpdate(world, world->camX, world->camY, touch, keysDown());
 		if (host)
 			proceduralBlockUpdate(world);
-		swiWaitForVBlank(); //Should be the only time called in the loop
+		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
@@ -318,39 +371,6 @@ void startMultiplayerGame(bool host)
 	}
 	nifiDisable();
 }
-
-mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
-{
-	if (file)
-	{
-		size_t samplesize = 1;
-		switch (format)
-		{
-			case MM_STREAM_8BIT_MONO: samplesize = 1;
-				break;
-			case MM_STREAM_8BIT_STEREO: samplesize = 2;
-				break;
-			case MM_STREAM_16BIT_MONO: samplesize = 2;
-				break;
-			case MM_STREAM_16BIT_STEREO: samplesize = 4;
-				break;
-		}
-
-		int res = fread(dest, samplesize, length, file);
-		if (res)
-		{
-			length = res;
-		}
-		else
-		{
-			mmStreamClose();
-			fclose(file);
-			length = 0;
-		}
-	}
-	return length;
-}
-
 /*void setSeed(int seed)
 {
 	world->seed = seed;
