@@ -18,6 +18,7 @@ inline void printXY(int x, int y, const char *output);
 inline void printXY(int x, int y, int output);
 void updateTime();
 unsigned int getTime();
+void updateFrame();
 
 inline void printXY(int x, int y, const char *output) {
 	iprintf("\x1b[%d;%dH%s", y, x, output);
