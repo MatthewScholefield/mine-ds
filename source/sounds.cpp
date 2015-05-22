@@ -19,7 +19,7 @@ void initSound(void)
 
 static void loadSound(sound_t sound)
 {
-	unsigned int i;
+	/*unsigned int i;
 
 	if (sound == SOUND_NONE)
 		return;
@@ -34,12 +34,12 @@ static void loadSound(sound_t sound)
 		mmUnloadEffect(loaded_sounds[sounds_pos]);
 	loaded_sounds[sounds_pos] = sound;
 	sounds_pos = (sounds_pos + 1) & (LENGTH(loaded_sounds) - 1);
-	mmLoadEffect(sound);
+	mmLoadEffect(sound);*/
 }
 
 void playSound(sound_t sound)
 {
-	if (sound == SOUND_NONE)
+	/*if (sound == SOUND_NONE)
 		return;
 
 	if (isWifi())
@@ -52,13 +52,13 @@ void playSound(sound_t sound)
 	}
 
 	loadSound(sound);
-	mmEffect(sound);
+	mmEffect(sound);*/
 }
 
 void playSoundNifi(sound_t sound)
 {
-	loadSound(sound);
-	mmEffect(sound);
+	/*loadSound(sound);
+	mmEffect(sound);*/
 }
 
 void playMusic(music_t music)
@@ -66,13 +66,13 @@ void playMusic(music_t music)
 	if (music == MUSIC_NONE)
 		return;
 
-	if (music != loaded_music)
+	/*if (music != loaded_music)
 	{
 		stopMusic();
 		mmLoad(music);
 		loaded_music = music;
 		mmStart(music, MM_PLAY_LOOP); //Prevents music restarting
-	}
+	}*/
 }
 
 void stopMusic(void)
@@ -80,7 +80,7 @@ void stopMusic(void)
 	if (loaded_music == MUSIC_NONE)
 		return;
 
-	mmStop();
+	/*mmStop();
 	mmUnload(loaded_music);
-	loaded_music = MUSIC_NONE;
+	loaded_music = MUSIC_NONE;*/
 }

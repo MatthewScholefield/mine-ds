@@ -1,0 +1,1 @@
+c:\devkitPro\devkitARM\bin\arm-none-eabi-addr2line.exe -f -C -e Mine-DS.elf 0217A18C
