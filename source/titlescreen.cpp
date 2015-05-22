@@ -46,7 +46,7 @@ int menu(Button buttons[], int size, bool showBack)
 	uint oldKeys = keysHeld();
 	while (!chosen)
 	{
-		swiWaitForVBlank();
+		updateFrame();
 		updateTime(); //Used to ensure random world seed changes
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
@@ -104,7 +104,7 @@ bool enableDisableMenu(bool initial)
 	scanKeys();
 	touchRead(&touch);
 	oldKeys = keysHeld();
-	swiWaitForVBlank();
+	updateFrame();
 	bool returnVal = initial;
 	while (1)
 	{
@@ -133,7 +133,7 @@ bool enableDisableMenu(bool initial)
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		swiWaitForVBlank();
+		updateFrame();
 	}
 }
 
@@ -177,7 +177,7 @@ void creditsScreen()
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		swiWaitForVBlank();
+		updateFrame();
 	}
 }
 
@@ -212,7 +212,7 @@ KEYPAD_BITS askForKeyScreen()
 	scanKeys();
 	touchRead(&touch);
 	oldKeys = keysHeld();
-	swiWaitForVBlank();
+	updateFrame();
 	KEYPAD_BITS key = KEY_LID;
 	bool chosen = false;
 
@@ -285,7 +285,7 @@ KEYPAD_BITS askForKeyScreen()
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		swiWaitForVBlank();
+		updateFrame();
 	}
 	return key;
 }
@@ -359,7 +359,7 @@ bool setControlsScreen()
 	scanKeys();
 	touchRead(&touch);
 	oldKeys = keysHeld();
-	swiWaitForVBlank();
+	updateFrame();
 	while (1)
 	{
 		scanKeys();
@@ -392,7 +392,7 @@ bool setControlsScreen()
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		swiWaitForVBlank();
+		updateFrame();
 	}
 }
 
