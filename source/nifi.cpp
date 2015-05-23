@@ -346,7 +346,7 @@ bool clientNifiInit()
 		touchPosition touch;
 		while (something)
 		{
-			swiWaitForVBlank();
+			updateFrame();
 			scanKeys();
 			touchRead(&touch);
 			if (keysDown() & KEY_TOUCH && touch.px < 100)

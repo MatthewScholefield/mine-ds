@@ -9,6 +9,7 @@
 #include "mobs/baseMob.h"
 #include "mining.h"
 #include "worldRender.h"
+#include "general.h"
 //0 = Nothing
 //1 = Recieved Handshake, Connected Successfully.
 //2 = Revieved Handshake, Game Mismatch. //TODO
@@ -41,7 +42,7 @@ int doHandshake()
 	while (timer > 0 && code == 0)
 	{
 		--timer;
-		swiWaitForVBlank();
+		updateFrame();
 	}
 	if (code == 1)
 	{
@@ -87,7 +88,7 @@ void recieveWorld(WorldObject* world2)
 					Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 					framecounter = 0;
 				}
-				swiWaitForVBlank();
+				updateFrame();
 			}
 			j += addamount;
 		}
