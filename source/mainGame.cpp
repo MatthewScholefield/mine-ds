@@ -28,80 +28,10 @@
 #include "blockPages.h"
 #include <time.h>
 #include "blocks.h"
-#include <maxmod9.h>
-#include <mm_types.h>
+#include "sounds.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
-FILE *file;
-
-bool playingSong = false;
-
-bool songIsPlaying()
-{
-	return playingSong;
-}
-
-mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
-{
-	if (file)
-	{
-		size_t samplesize = 1;
-		switch (format)
-		{
-			case MM_STREAM_8BIT_MONO: samplesize = 1;
-				break;
-			case MM_STREAM_8BIT_STEREO: samplesize = 2;
-				break;
-			case MM_STREAM_16BIT_MONO: samplesize = 2;
-				break;
-			case MM_STREAM_16BIT_STEREO: samplesize = 4;
-				break;
-		}
-
-		int res = fread(dest, samplesize, length, file);
-		if (res)
-		{
-			length = res;
-		}
-		else
-		{
-			mmStreamClose();
-			fclose(file);
-			length = 0;
-			playingSong = false;
-		}
-	}
-	return length;
-}
-
-void playSong()
-{
-	if (playingSong)
-		return;
-	mm_stream mystream;
-	mystream.buffer_length = 1024;
-	mystream.callback = stream;
-	mystream.timer = MM_TIMER1;
-	mystream.manual = true;
-
-	file = fopen("MineCraft Remix - Calm 3 Chillstep.raw", "rb");
-	mystream.sampling_rate = 22050;
-	mystream.format = MM_STREAM_16BIT_STEREO;
-	mmStreamOpen(&mystream);
-	mmStreamUpdate();
-	mmStreamUpdate();
-	playingSong = true;
-}
-
-void stopSong()
-{
-	if (!playingSong)
-		return;
-	mmStreamClose();
-	fclose(file);
-	playingSong = false;
-}
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
 {
@@ -279,7 +209,7 @@ void startGame(void)
 
 	while (!shouldQuitGame)
 	{
-		playSong();
+		playMusic(MUSIC_HAL2);
 		updateTime();
 		scanKeys();
 		mobHandlerUpdate(world);
@@ -303,8 +233,6 @@ void startGame(void)
 		oamUpdate(&oamSub);
 		graphicFrame();
 		timeUpdate(world);
-		mm_word position = mmStreamGetPosition() / 22050;
-		iprintf("\x1b[15;13H%02d:%02d\n", position / 60, position % 60);
 	}
 }
 

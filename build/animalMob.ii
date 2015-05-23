@@ -1,0 +1,7301 @@
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp"
+# 1 "c:\\Users\\Matthew\\Documents\\GitHub\\Mine-DS\\build//"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp"
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 1 3
+# 29 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\_ansi.h" 1 3
+# 15 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\_ansi.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\newlib.h" 1 3
+# 16 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\_ansi.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\config.h" 1 3
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\ieeefp.h" 1 3
+# 5 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\config.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\features.h" 1 3
+# 25 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\features.h" 3
+extern "C" {
+# 233 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\features.h" 3
+}
+# 6 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\config.h" 2 3
+# 17 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\_ansi.h" 2 3
+# 30 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+
+
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\cdefs.h" 1 3
+# 43 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\cdefs.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 1 3
+# 23 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+extern "C" {
+
+
+
+typedef signed char __int8_t;
+
+typedef unsigned char __uint8_t;
+# 41 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef short int __int16_t;
+
+typedef short unsigned int __uint16_t;
+# 63 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef long int __int32_t;
+
+typedef long unsigned int __uint32_t;
+# 89 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef long long int __int64_t;
+
+typedef long long unsigned int __uint64_t;
+# 120 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef signed char __int_least8_t;
+
+typedef unsigned char __uint_least8_t;
+# 146 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef short int __int_least16_t;
+
+typedef short unsigned int __uint_least16_t;
+# 168 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef long int __int_least32_t;
+
+typedef long unsigned int __uint_least32_t;
+# 186 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef long long int __int_least64_t;
+
+typedef long long unsigned int __uint_least64_t;
+# 200 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+typedef int __intptr_t;
+
+typedef unsigned int __uintptr_t;
+# 217 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_default_types.h" 3
+}
+# 44 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\cdefs.h" 2 3
+
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 212 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 3 4
+typedef unsigned int size_t;
+# 46 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\cdefs.h" 2 3
+# 36 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 147 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 3 4
+typedef int ptrdiff_t;
+# 422 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 3 4
+typedef struct {
+  long long __max_align_ll __attribute__((__aligned__(__alignof__(long long))));
+  long double __max_align_ld __attribute__((__aligned__(__alignof__(long double))));
+} max_align_t;
+
+
+
+
+
+
+  typedef decltype(nullptr) nullptr_t;
+# 37 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+
+
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stdarg.h" 1 3 4
+# 40 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stdarg.h" 3 4
+typedef __builtin_va_list __gnuc_va_list;
+# 40 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+
+
+
+
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 1 3
+# 9 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+extern "C" {
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\_ansi.h" 1 3
+# 14 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 15 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 1 3
+# 12 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\_types.h" 1 3
+# 13 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\lock.h" 1 3
+
+
+
+
+
+typedef int _LOCK_T;
+typedef int _LOCK_RECURSIVE_T;
+# 14 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 2 3
+
+
+typedef long _off_t;
+
+
+
+typedef int __dev_t;
+
+
+
+typedef unsigned short __uid_t;
+
+
+typedef unsigned short __gid_t;
+
+
+
+__extension__ typedef long long _off64_t;
+
+
+
+
+
+
+
+typedef long _fpos_t;
+# 55 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 3
+typedef signed int _ssize_t;
+# 67 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 353 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 3 4
+typedef unsigned int wint_t;
+# 68 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_types.h" 2 3
+
+
+
+typedef struct
+{
+  int __count;
+  union
+  {
+    wint_t __wch;
+    unsigned char __wchb[4];
+  } __value;
+} _mbstate_t;
+
+
+
+typedef _LOCK_RECURSIVE_T _flock_t;
+
+
+
+
+typedef void *_iconv_t;
+# 16 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 2 3
+
+
+
+
+
+
+typedef unsigned long __ULong;
+# 38 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+struct _reent;
+
+
+
+
+
+
+struct _Bigint
+{
+  struct _Bigint *_next;
+  int _k, _maxwds, _sign, _wds;
+  __ULong _x[1];
+};
+
+
+struct __tm
+{
+  int __tm_sec;
+  int __tm_min;
+  int __tm_hour;
+  int __tm_mday;
+  int __tm_mon;
+  int __tm_year;
+  int __tm_wday;
+  int __tm_yday;
+  int __tm_isdst;
+};
+
+
+
+
+
+
+
+struct _on_exit_args {
+ void * _fnargs[32];
+ void * _dso_handle[32];
+
+ __ULong _fntypes;
+
+
+ __ULong _is_cxa;
+};
+# 91 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+struct _atexit {
+ struct _atexit *_next;
+ int _ind;
+
+ void (*_fns[32])(void);
+        struct _on_exit_args _on_exit_args;
+};
+# 115 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+struct __sbuf {
+ unsigned char *_base;
+ int _size;
+};
+# 179 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+struct __sFILE {
+  unsigned char *_p;
+  int _r;
+  int _w;
+  short _flags;
+  short _file;
+  struct __sbuf _bf;
+  int _lbfsize;
+
+
+
+
+
+
+  void * _cookie;
+
+  int (* _read) (struct _reent *, void *, char *, int)
+                                          ;
+  int (* _write) (struct _reent *, void *, const char *, int)
+
+                                   ;
+  _fpos_t (* _seek) (struct _reent *, void *, _fpos_t, int);
+  int (* _close) (struct _reent *, void *);
+
+
+  struct __sbuf _ub;
+  unsigned char *_up;
+  int _ur;
+
+
+  unsigned char _ubuf[3];
+  unsigned char _nbuf[1];
+
+
+  struct __sbuf _lb;
+
+
+  int _blksize;
+  _off_t _offset;
+
+
+  struct _reent *_data;
+
+
+
+  _flock_t _lock;
+
+  _mbstate_t _mbstate;
+  int _flags2;
+};
+# 285 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+typedef struct __sFILE __FILE;
+
+
+
+struct _glue
+{
+  struct _glue *_next;
+  int _niobs;
+  __FILE *_iobs;
+};
+# 317 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+struct _rand48 {
+  unsigned short _seed[3];
+  unsigned short _mult[3];
+  unsigned short _add;
+
+
+
+
+};
+# 569 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+struct _reent
+{
+  int _errno;
+
+
+
+
+  __FILE *_stdin, *_stdout, *_stderr;
+
+  int _inc;
+  char _emergency[25];
+
+  int _current_category;
+  const char *_current_locale;
+
+  int __sdidinit;
+
+  void (* __cleanup) (struct _reent *);
+
+
+  struct _Bigint *_result;
+  int _result_k;
+  struct _Bigint *_p5s;
+  struct _Bigint **_freelist;
+
+
+  int _cvtlen;
+  char *_cvtbuf;
+
+  union
+    {
+      struct
+        {
+          unsigned int _unused_rand;
+          char * _strtok_last;
+          char _asctime_buf[26];
+          struct __tm _localtime_buf;
+          int _gamma_signgam;
+          __extension__ unsigned long long _rand_next;
+          struct _rand48 _r48;
+          _mbstate_t _mblen_state;
+          _mbstate_t _mbtowc_state;
+          _mbstate_t _wctomb_state;
+          char _l64a_buf[8];
+          char _signal_buf[24];
+          int _getdate_err;
+          _mbstate_t _mbrlen_state;
+          _mbstate_t _mbrtowc_state;
+          _mbstate_t _mbsrtowcs_state;
+          _mbstate_t _wcrtomb_state;
+          _mbstate_t _wcsrtombs_state;
+   int _h_errno;
+        } _reent;
+
+
+
+      struct
+        {
+
+          unsigned char * _nextf[30];
+          unsigned int _nmalloc[30];
+        } _unused;
+    } _new;
+
+
+
+  struct _atexit *_atexit;
+  struct _atexit _atexit0;
+
+
+
+  void (**(_sig_func))(int);
+
+
+
+
+  struct _glue __sglue;
+  __FILE __sf[3];
+};
+# 762 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+extern struct _reent *_impure_ptr ;
+extern struct _reent *const _global_impure_ptr ;
+
+void _reclaim_reent (struct _reent *);
+
+
+
+
+
+  struct _reent * __getreent (void);
+# 788 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\reent.h" 3
+}
+# 48 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 1 3
+# 69 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 70 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 2 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\types.h" 1 3
+# 19 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\types.h" 3
+typedef long int __off_t;
+typedef int __pid_t;
+
+__extension__ typedef long long int __loff_t;
+# 71 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 2 3
+# 93 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+typedef unsigned char u_char;
+
+
+
+typedef unsigned short u_short;
+
+
+
+typedef unsigned int u_int;
+
+
+
+typedef unsigned long u_long;
+
+
+
+
+
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+
+
+
+typedef unsigned long clock_t;
+
+
+
+
+typedef long time_t;
+
+
+
+
+
+
+
+struct timespec {
+  time_t tv_sec;
+  long tv_nsec;
+};
+
+
+struct itimerspec {
+  struct timespec it_interval;
+  struct timespec it_value;
+};
+
+
+typedef long daddr_t;
+
+
+
+typedef char * caddr_t;
+# 155 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+typedef unsigned int ino_t;
+# 184 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+typedef _off_t off_t;
+typedef __dev_t dev_t;
+typedef __uid_t uid_t;
+typedef __gid_t gid_t;
+
+
+
+
+
+typedef int pid_t;
+
+
+
+
+
+
+
+typedef long key_t;
+
+typedef _ssize_t ssize_t;
+# 217 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+typedef unsigned int mode_t __attribute__ ((__mode__ (__SI__)));
+
+
+
+
+typedef unsigned short nlink_t;
+# 244 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+typedef long fd_mask;
+
+
+
+
+
+
+
+typedef struct _types_fd_set {
+ fd_mask fds_bits[(((64)+(((sizeof (fd_mask) * 8))-1))/((sizeof (fd_mask) * 8)))];
+} _types_fd_set;
+# 275 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\types.h" 3
+typedef unsigned long clockid_t;
+
+
+
+
+typedef unsigned long timer_t;
+
+
+
+typedef unsigned long useconds_t;
+typedef long suseconds_t;
+
+typedef __uint32_t fsblkcnt_t;
+typedef __uint32_t fsfilcnt_t;
+# 49 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+
+extern "C" {
+
+typedef __FILE FILE;
+
+
+
+
+typedef _fpos_t fpos_t;
+
+
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\stdio.h" 1 3
+# 64 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 2 3
+# 164 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+FILE * tmpfile (void);
+char * tmpnam (char *);
+
+char * tempnam (const char *, const char *);
+
+int fclose (FILE *);
+int fflush (FILE *);
+FILE * freopen (const char *, const char *, FILE *);
+void setbuf (FILE *, char *);
+int setvbuf (FILE *, char *, int, size_t);
+int fprintf (FILE *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int fscanf (FILE *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int printf (const char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)))
+                                                            ;
+int scanf (const char *, ...) __attribute__ ((__format__ (__scanf__, 1, 2)))
+                                                           ;
+int sscanf (const char *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int vfprintf (FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int vprintf (const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 1, 0)))
+                                                            ;
+int vsprintf (char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int fgetc (FILE *);
+char * fgets (char *, int, FILE *);
+int fputc (int, FILE *);
+int fputs (const char *, FILE *);
+int getc (FILE *);
+int getchar (void);
+char * gets (char *);
+int putc (int, FILE *);
+int putchar (int);
+int puts (const char *);
+int ungetc (int, FILE *);
+size_t fread (void * , size_t _size, size_t _n, FILE *);
+size_t fwrite (const void * , size_t _size, size_t _n, FILE *);
+
+
+
+int fgetpos (FILE *, fpos_t *);
+
+int fseek (FILE *, long, int);
+
+
+
+int fsetpos (FILE *, const fpos_t *);
+
+long ftell ( FILE *);
+void rewind (FILE *);
+void clearerr (FILE *);
+int feof (FILE *);
+int ferror (FILE *);
+void perror (const char *);
+
+FILE * fopen (const char * _name, const char * _type);
+int sprintf (char *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int remove (const char *);
+int rename (const char *, const char *);
+# 235 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+int fseeko (FILE *, off_t, int);
+off_t ftello ( FILE *);
+
+
+
+
+
+
+
+int asiprintf (char **, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+char * asniprintf (char *, size_t *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+char * asnprintf (char *, size_t *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int asprintf (char **, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+
+int diprintf (int, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+
+int fiprintf (FILE *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int fiscanf (FILE *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int iprintf (const char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)))
+                                                            ;
+int iscanf (const char *, ...) __attribute__ ((__format__ (__scanf__, 1, 2)))
+                                                           ;
+int siprintf (char *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int siscanf (const char *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int snprintf (char *, size_t, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int sniprintf (char *, size_t, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int vasiprintf (char **, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+char * vasniprintf (char *, size_t *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+char * vasnprintf (char *, size_t *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int vasprintf (char **, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int vdiprintf (int, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int vfiprintf (FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int vfiscanf (FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int vfscanf (FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int viprintf (const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 1, 0)))
+                                                            ;
+int viscanf (const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 1, 0)))
+                                                           ;
+int vscanf (const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 1, 0)))
+                                                           ;
+int vsiprintf (char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int vsiscanf (const char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int vsniprintf (char *, size_t, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int vsnprintf (char *, size_t, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int vsscanf (const char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+# 313 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+FILE * fdopen (int, const char *);
+
+int fileno (FILE *);
+int getw (FILE *);
+int pclose (FILE *);
+FILE * popen (const char *, const char *);
+int putw (int, FILE *);
+void setbuffer (FILE *, char *, int);
+int setlinebuf (FILE *);
+int getc_unlocked (FILE *);
+int getchar_unlocked (void);
+void flockfile (FILE *);
+int ftrylockfile (FILE *);
+void funlockfile (FILE *);
+int putc_unlocked (int, FILE *);
+int putchar_unlocked (int);
+# 338 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+int dprintf (int, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+
+FILE * fmemopen (void *, size_t, const char *);
+
+
+FILE * open_memstream (char **, size_t *);
+
+int renameat (int, const char *, int, const char *);
+
+int vdprintf (int, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+
+
+
+
+
+
+
+int _asiprintf_r (struct _reent *, char **, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+char * _asniprintf_r (struct _reent *, char *, size_t *, const char *, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+char * _asnprintf_r (struct _reent *, char *, size_t *, const char *, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+int _asprintf_r (struct _reent *, char **, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _diprintf_r (struct _reent *, int, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _dprintf_r (struct _reent *, int, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _fclose_r (struct _reent *, FILE *);
+int _fcloseall_r (struct _reent *);
+FILE * _fdopen_r (struct _reent *, int, const char *);
+int _fflush_r (struct _reent *, FILE *);
+int _fgetc_r (struct _reent *, FILE *);
+int _fgetc_unlocked_r (struct _reent *, FILE *);
+char * _fgets_r (struct _reent *, char *, int, FILE *);
+char * _fgets_unlocked_r (struct _reent *, char *, int, FILE *);
+
+
+
+
+int _fgetpos_r (struct _reent *, FILE *, fpos_t *);
+int _fsetpos_r (struct _reent *, FILE *, const fpos_t *);
+
+int _fiprintf_r (struct _reent *, FILE *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _fiscanf_r (struct _reent *, FILE *, const char *, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+FILE * _fmemopen_r (struct _reent *, void *, size_t, const char *);
+FILE * _fopen_r (struct _reent *, const char *, const char *);
+FILE * _freopen_r (struct _reent *, const char *, const char *, FILE *);
+int _fprintf_r (struct _reent *, FILE *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _fpurge_r (struct _reent *, FILE *);
+int _fputc_r (struct _reent *, int, FILE *);
+int _fputc_unlocked_r (struct _reent *, int, FILE *);
+int _fputs_r (struct _reent *, const char *, FILE *);
+int _fputs_unlocked_r (struct _reent *, const char *, FILE *);
+size_t _fread_r (struct _reent *, void * , size_t _size, size_t _n, FILE *);
+size_t _fread_unlocked_r (struct _reent *, void * , size_t _size, size_t _n, FILE *);
+int _fscanf_r (struct _reent *, FILE *, const char *, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+int _fseek_r (struct _reent *, FILE *, long, int);
+int _fseeko_r (struct _reent *, FILE *, _off_t, int);
+long _ftell_r (struct _reent *, FILE *);
+_off_t _ftello_r (struct _reent *, FILE *);
+void _rewind_r (struct _reent *, FILE *);
+size_t _fwrite_r (struct _reent *, const void * , size_t _size, size_t _n, FILE *);
+size_t _fwrite_unlocked_r (struct _reent *, const void * , size_t _size, size_t _n, FILE *);
+int _getc_r (struct _reent *, FILE *);
+int _getc_unlocked_r (struct _reent *, FILE *);
+int _getchar_r (struct _reent *);
+int _getchar_unlocked_r (struct _reent *);
+char * _gets_r (struct _reent *, char *);
+int _iprintf_r (struct _reent *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int _iscanf_r (struct _reent *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+FILE * _open_memstream_r (struct _reent *, char **, size_t *);
+void _perror_r (struct _reent *, const char *);
+int _printf_r (struct _reent *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int _putc_r (struct _reent *, int, FILE *);
+int _putc_unlocked_r (struct _reent *, int, FILE *);
+int _putchar_unlocked_r (struct _reent *, int);
+int _putchar_r (struct _reent *, int);
+int _puts_r (struct _reent *, const char *);
+int _remove_r (struct _reent *, const char *);
+int _rename_r (struct _reent *, const char *_old, const char *_new)
+                                          ;
+int _scanf_r (struct _reent *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int _siprintf_r (struct _reent *, char *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _siscanf_r (struct _reent *, const char *, const char *, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+int _sniprintf_r (struct _reent *, char *, size_t, const char *, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+int _snprintf_r (struct _reent *, char *, size_t, const char *, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+int _sprintf_r (struct _reent *, char *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _sscanf_r (struct _reent *, const char *, const char *, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+char * _tempnam_r (struct _reent *, const char *, const char *);
+FILE * _tmpfile_r (struct _reent *);
+char * _tmpnam_r (struct _reent *, char *);
+int _ungetc_r (struct _reent *, int, FILE *);
+int _vasiprintf_r (struct _reent *, char **, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+char * _vasniprintf_r (struct _reent*, char *, size_t *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+char * _vasnprintf_r (struct _reent*, char *, size_t *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+int _vasprintf_r (struct _reent *, char **, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vdiprintf_r (struct _reent *, int, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vdprintf_r (struct _reent *, int, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vfiprintf_r (struct _reent *, FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vfiscanf_r (struct _reent *, FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+int _vfprintf_r (struct _reent *, FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vfscanf_r (struct _reent *, FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+int _viprintf_r (struct _reent *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int _viscanf_r (struct _reent *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int _vprintf_r (struct _reent *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int _vscanf_r (struct _reent *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int _vsiprintf_r (struct _reent *, char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vsiscanf_r (struct _reent *, const char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+int _vsniprintf_r (struct _reent *, char *, size_t, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+int _vsnprintf_r (struct _reent *, char *, size_t, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+int _vsprintf_r (struct _reent *, char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vsscanf_r (struct _reent *, const char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+
+
+
+int fpurge (FILE *);
+ssize_t __getdelim (char **, size_t *, int, FILE *);
+ssize_t __getline (char **, size_t *, FILE *);
+
+
+void clearerr_unlocked (FILE *);
+int feof_unlocked (FILE *);
+int ferror_unlocked (FILE *);
+int fileno_unlocked (FILE *);
+int fflush_unlocked (FILE *);
+int fgetc_unlocked (FILE *);
+int fputc_unlocked (int, FILE *);
+size_t fread_unlocked (void * , size_t _size, size_t _n, FILE *);
+size_t fwrite_unlocked (const void * , size_t _size, size_t _n, FILE *);
+# 538 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+int __srget_r (struct _reent *, FILE *);
+int __swbuf_r (struct _reent *, int, FILE *);
+# 562 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+FILE *funopen (const void * __cookie, int (*__readfn)(void * __cookie, char *__buf, int __n), int (*__writefn)(void * __cookie, const char *__buf, int __n), fpos_t (*__seekfn)(void * __cookie, fpos_t __off, int __whence), int (*__closefn)(void * __cookie))
+
+
+
+
+
+                                   ;
+FILE *_funopen_r (struct _reent *, const void * __cookie, int (*__readfn)(void * __cookie, char *__buf, int __n), int (*__writefn)(void * __cookie, const char *__buf, int __n), fpos_t (*__seekfn)(void * __cookie, fpos_t __off, int __whence), int (*__closefn)(void * __cookie))
+
+
+
+
+
+                                   ;
+
+
+
+
+
+
+
+typedef ssize_t cookie_read_function_t(void *__cookie, char *__buf, size_t __n);
+typedef ssize_t cookie_write_function_t(void *__cookie, const char *__buf,
+     size_t __n);
+
+
+
+
+typedef int cookie_seek_function_t(void *__cookie, off_t *__off, int __whence);
+
+typedef int cookie_close_function_t(void *__cookie);
+typedef struct
+{
+
+
+  cookie_read_function_t *read;
+  cookie_write_function_t *write;
+  cookie_seek_function_t *seek;
+  cookie_close_function_t *close;
+} cookie_io_functions_t;
+FILE *fopencookie (void *__cookie, const char *__mode, cookie_io_functions_t __functions)
+                                                         ;
+FILE *_fopencookie_r (struct _reent *, void *__cookie, const char *__mode, cookie_io_functions_t __functions)
+                                                         ;
+# 725 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdio.h" 3
+}
+# 2 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../world.h" 1
+       
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 1 3
+# 15 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 16 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 2 3
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\time.h" 1 3
+# 19 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 2 3
+# 29 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 3
+extern "C" {
+
+struct tm
+{
+  int tm_sec;
+  int tm_min;
+  int tm_hour;
+  int tm_mday;
+  int tm_mon;
+  int tm_year;
+  int tm_wday;
+  int tm_yday;
+  int tm_isdst;
+
+
+
+
+
+
+};
+
+clock_t clock (void);
+double difftime (time_t _time2, time_t _time1);
+time_t mktime (struct tm *_timeptr);
+time_t time (time_t *_timer);
+
+char *asctime (const struct tm *_tblock);
+char *ctime (const time_t *_time);
+struct tm *gmtime (const time_t *_timer);
+struct tm *localtime (const time_t *_timer);
+
+size_t strftime (char * _s, size_t _maxsize, const char * _fmt, const struct tm * _t)
+
+                                        ;
+
+char *asctime_r (const struct tm *, char *)
+                       ;
+char *ctime_r (const time_t *, char *);
+struct tm *gmtime_r (const time_t *, struct tm *)
+                            ;
+struct tm *localtime_r (const time_t *, struct tm *)
+                            ;
+
+}
+
+
+extern "C" {
+
+
+
+char *strptime (const char *, const char *, struct tm *)
+
+                            ;
+void tzset (void);
+void _tzset_r (struct _reent *);
+
+typedef struct __tzrule_struct
+{
+  char ch;
+  int m;
+  int n;
+  int d;
+  int s;
+  time_t change;
+  long offset;
+} __tzrule_type;
+
+typedef struct __tzinfo_struct
+{
+  int __tznorth;
+  int __tzyear;
+  __tzrule_type __tzrule[2];
+} __tzinfo_type;
+
+__tzinfo_type *__gettzinfo (void);
+# 129 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 3
+extern long _timezone;
+extern int _daylight;
+extern char *_tzname[2];
+# 140 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 3
+}
+# 209 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 3
+extern "C" {
+# 287 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\time.h" 3
+}
+# 3 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../world.h" 2
+# 17 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../world.h"
+enum gamemode_t {
+ GAMEMODE_CREATIVE = 1,
+ GAMEMODE_SURVIVAL = 2,
+ GAMEMODE_PREVIEW = 3
+};
+
+enum Biome {
+ BIOME_PLAINS = 1,
+ BIOME_SNOW = 2,
+ BIOME_DESERT = 3,
+ BIOME_JUNGLE = 4,
+ BIOME_MUSHROOM = 5
+};
+
+class WorldObject {
+public:
+ int blocks[(512) + 1][(128) + 1];
+ int data[(512) + 1][(128) + 1];
+ int brightness[(512) + 1][(128) + 1];
+ int lightemit[(512) + 1][(128) + 1];
+ int sun[(512) + 1][(128) + 1];
+ int bgblocks[(512) + 1][(128) + 1];
+ int camY;
+ int camX;
+ int timeInWorld;
+ int worldBrightness;
+ gamemode_t gamemode;
+ int seed;
+ double camCalcX;
+ double camCalcY;
+ Biome biome[(512) + 1];
+ bool chestInUse[30];
+ int chests[30][30][2];
+
+ WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+ , camY(1), camX(1), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
+ , seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}
+ {
+  for (int i = 0; i < 30; ++i)
+   chestInUse[i] = false;
+ };
+};
+
+int findFirstBlock(WorldObject* world, int x);
+int findFirstBiomeBlock(WorldObject* world, int x);
+void drawLineDown(WorldObject* world, int x, int y);
+# 3 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../blocks.h" 1
+       
+
+
+int sapling(int leafID);
+int leaf(int saplingID);
+bool canBreak(int blockID);
+bool canDropItem(int blockID);
+int genericBlock(int blockID);
+int displayBlock(int blockID);
+bool isBlockWalkThrough(int a);
+bool isAGroundBlock(int a);
+int getLightAmount(int a);
+bool isBlockALightSource(int a);
+bool item(int a);
+bool alwaysRenderBright(int a);
+void initBlockProperties();
+int getHardness(int blockID);
+int getType(int blockID);
+int getSpriteBlock(int index);
+bool isSpriteBlock(int block);
+bool isGrassBlock(int blockID);
+# 4 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/hurt.h" 1
+# 5 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../graphics/graphics.h" 1
+       
+# 1 "c:/devkitPro/libnds/include/nds.h" 1
+# 228 "c:/devkitPro/libnds/include/nds.h"
+extern "C" {
+
+
+# 1 "c:/devkitPro/libnds/include/nds/libversion.h" 1
+# 232 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/ndstypes.h" 1
+# 37 "c:/devkitPro/libnds/include/nds/ndstypes.h"
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stdint.h" 1 3 4
+# 9 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stdint.h" 3 4
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 1 3 4
+# 13 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\_intsup.h" 1 3 4
+# 14 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 2 3 4
+
+
+extern "C" {
+
+
+
+typedef __int8_t int8_t ;
+typedef __uint8_t uint8_t ;
+
+
+
+
+typedef __int_least8_t int_least8_t;
+typedef __uint_least8_t uint_least8_t;
+
+
+
+
+typedef __int16_t int16_t ;
+typedef __uint16_t uint16_t ;
+
+
+
+
+typedef __int_least16_t int_least16_t;
+typedef __uint_least16_t uint_least16_t;
+
+
+
+
+typedef __int32_t int32_t ;
+typedef __uint32_t uint32_t ;
+
+
+
+
+typedef __int_least32_t int_least32_t;
+typedef __uint_least32_t uint_least32_t;
+
+
+
+
+typedef __int64_t int64_t ;
+typedef __uint64_t uint64_t ;
+
+
+
+
+typedef __int_least64_t int_least64_t;
+typedef __uint_least64_t uint_least64_t;
+# 74 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+  typedef int int_fast8_t;
+  typedef unsigned int uint_fast8_t;
+# 84 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+  typedef int int_fast16_t;
+  typedef unsigned int uint_fast16_t;
+# 94 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+  typedef int int_fast32_t;
+  typedef unsigned int uint_fast32_t;
+# 104 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+  typedef long long int int_fast64_t;
+  typedef long long unsigned int uint_fast64_t;
+# 153 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+  typedef long long int intmax_t;
+# 162 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+  typedef long long unsigned int uintmax_t;
+
+
+
+
+
+
+typedef __intptr_t intptr_t;
+typedef __uintptr_t uintptr_t;
+# 508 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdint.h" 3 4
+}
+# 10 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stdint.h" 2 3 4
+# 38 "c:/devkitPro/libnds/include/nds/ndstypes.h" 2
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stdbool.h" 1 3 4
+# 39 "c:/devkitPro/libnds/include/nds/ndstypes.h" 2
+# 69 "c:/devkitPro/libnds/include/nds/ndstypes.h"
+typedef uint8_t uint8;
+
+typedef uint16_t uint16;
+
+typedef uint32_t uint32;
+
+typedef uint64_t uint64;
+
+
+typedef int8_t int8;
+
+typedef int16_t int16;
+
+typedef int32_t int32;
+
+typedef int64_t int64;
+
+
+typedef float float32;
+
+typedef double float64;
+
+
+typedef volatile uint8_t vuint8;
+
+typedef volatile uint16_t vuint16;
+
+typedef volatile uint32_t vuint32;
+
+typedef volatile uint64_t vuint64;
+
+
+typedef volatile int8_t vint8;
+
+typedef volatile int16_t vint16;
+
+typedef volatile int32_t vint32;
+
+typedef volatile int64_t vint64;
+
+
+typedef volatile float32 vfloat32;
+
+typedef volatile float64 vfloat64;
+
+
+typedef uint8_t byte;
+
+
+typedef uint8_t u8;
+
+typedef uint16_t u16;
+
+typedef uint32_t u32;
+
+typedef uint64_t u64;
+
+
+typedef int8_t s8;
+
+typedef int16_t s16;
+
+typedef int32_t s32;
+
+typedef int64_t s64;
+
+
+typedef volatile u8 vu8;
+
+typedef volatile u16 vu16;
+
+typedef volatile u32 vu32;
+
+typedef volatile u64 vu64;
+
+
+typedef volatile s8 vs8;
+
+typedef volatile s16 vs16;
+
+typedef volatile s32 vs32;
+
+typedef volatile s64 vs64;
+# 163 "c:/devkitPro/libnds/include/nds/ndstypes.h"
+typedef void (* VoidFn)(void);
+
+typedef void (* IntFn)(void);
+typedef void (* fp)(void);
+# 233 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/bios.h" 1
+# 40 "c:/devkitPro/libnds/include/nds/bios.h"
+extern "C" {
+
+
+
+# 1 "c:/devkitPro/libnds/include/nds/ndstypes.h" 1
+# 45 "c:/devkitPro/libnds/include/nds/bios.h" 2
+# 58 "c:/devkitPro/libnds/include/nds/bios.h"
+typedef int (*getHeaderCallback)(u8 *source, u16 *dest, u32 arg);
+# 70 "c:/devkitPro/libnds/include/nds/bios.h"
+typedef int (*getResultCallback)(u8 * source);
+
+
+
+
+
+
+typedef u8 (*getByteCallback)(u8 *source);
+
+
+
+
+
+typedef struct DecompressionStream
+{
+ getHeaderCallback getSize;
+ getResultCallback getResult;
+ getByteCallback readByte;
+
+} __attribute__ ((packed)) TDecompressionStream;
+
+
+
+typedef struct UnpackStruct
+{
+ uint16 sourceSize;
+ uint8 sourceWidth;
+ uint8 destWidth;
+ uint32 dataOffset;
+} __attribute__ ((packed)) TUnpackStruct, * PUnpackStruct;
+
+
+
+
+
+
+void swiSoftReset(void);
+# 121 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiDelay(uint32 duration);
+# 130 "c:/devkitPro/libnds/include/nds/bios.h"
+int swiDivide(int numerator, int divisor);
+
+
+
+
+
+
+
+int swiRemainder(int numerator, int divisor);
+# 148 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiDivMod(int numerator, int divisor, int * result, int * remainder);
+# 167 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiCopy(const void * source, void * dest, int flags);
+# 179 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiFastCopy(const void * source, void * dest, int flags);
+
+
+
+
+
+
+
+int swiSqrt(int value);
+# 197 "c:/devkitPro/libnds/include/nds/bios.h"
+uint16 swiCRC16(uint16 crc, void * data, uint32 size);
+
+
+
+
+
+int swiIsDebugger(void);
+# 214 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiUnpackBits(uint8 * source, uint32 * destination, PUnpackStruct params);
+# 225 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiDecompressLZSSWram(void * source, void * destination);
+# 239 "c:/devkitPro/libnds/include/nds/bios.h"
+int swiDecompressLZSSVram(void * source, void * destination, uint32 toGetSize, TDecompressionStream * stream);
+
+int swiDecompressLZSSVramNTR(void * source, void * destination, uint32 toGetSize, TDecompressionStream * stream);
+int swiDecompressLZSSVramTWL(void * source, void * destination, uint32 toGetSize, TDecompressionStream * stream);
+# 255 "c:/devkitPro/libnds/include/nds/bios.h"
+int swiDecompressHuffman(void * source, void * destination, uint32 toGetSize, TDecompressionStream * stream);
+# 272 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiDecompressRLEWram(void * source, void * destination);
+# 291 "c:/devkitPro/libnds/include/nds/bios.h"
+int swiDecompressRLEVram(void * source, void * destination, uint32 toGetSize, TDecompressionStream * stream);
+# 301 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiWaitForIRQ(void);
+
+
+
+
+
+
+
+void swiSetHaltCR(uint32 data);
+# 321 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiDecodeDelta8(void * source, void * destination);
+# 333 "c:/devkitPro/libnds/include/nds/bios.h"
+void swiDecodeDelta16(void * source, void * destination);
+# 395 "c:/devkitPro/libnds/include/nds/bios.h"
+}
+# 234 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/card.h" 1
+# 31 "c:/devkitPro/libnds/include/nds/card.h"
+# 1 "c:/devkitPro/libnds/include/nds/ndstypes.h" 1
+# 32 "c:/devkitPro/libnds/include/nds/card.h" 2
+# 107 "c:/devkitPro/libnds/include/nds/card.h"
+extern "C" {
+
+
+
+void cardWriteCommand(const u8 *command);
+void cardPolledTransfer(u32 flags, u32 *destination, u32 length, const u8 *command);
+void cardStartTransfer(const u8 *command, u32 *destination, int channel, u32 flags);
+uint32 cardWriteAndRead(const u8 *command, u32 flags);
+void cardParamCommand (u8 command, u32 parameter, u32 flags, u32 *destination, u32 length);
+
+
+
+void cardReadHeader(u8 *header);
+u32 cardReadID(u32 flags);
+void cardReset();
+
+
+static inline void eepromWaitBusy() {
+
+ while ((*(vu16*)0x040001A0) & (1<<7));
+}
+
+
+void cardReadEeprom(u32 address, u8 *data, u32 length, u32 addrtype);
+
+
+void cardWriteEeprom(u32 address, u8 *data, u32 length, u32 addrtype);
+
+
+
+u32 cardEepromReadID();
+
+
+u8 cardEepromCommand(u8 command);
+# 149 "c:/devkitPro/libnds/include/nds/card.h"
+int cardEepromGetType(void);
+
+
+u32 cardEepromGetSize();
+
+
+void cardEepromChipErase(void);
+
+
+void cardEepromSectorErase(u32 address);
+
+
+}
+# 235 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/debug.h" 1
+# 41 "c:/devkitPro/libnds/include/nds/debug.h"
+void nocashWrite(const char *message, int len);
+
+
+
+void nocashMessage(const char *message);
+# 236 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/dma.h" 1
+# 114 "c:/devkitPro/libnds/include/nds/dma.h"
+static inline
+
+
+
+
+
+
+
+void dmaCopyWords(uint8 channel, const void* src, void* dest, uint32 size) {
+ (*(vuint32*)(0x040000B0+(channel*12))) = (uint32)src;
+ (*(vuint32*)(0x040000B4+(channel*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(channel*12))) = ((1 << (31)) | (1 << (26)) | 0) | (size>>2);
+ while((*(vuint32*)(0x040000B8+(channel*12))) & (1 << (31)));
+}
+
+static inline
+
+
+
+
+
+
+
+void dmaCopyHalfWords(uint8 channel, const void* src, void* dest, uint32 size) {
+ (*(vuint32*)(0x040000B0+(channel*12))) = (uint32)src;
+ (*(vuint32*)(0x040000B4+(channel*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(channel*12))) = ((1 << (31)) | 0 | 0) | (size>>1);
+ while((*(vuint32*)(0x040000B8+(channel*12))) & (1 << (31)));
+}
+
+static inline
+
+
+
+
+
+
+void dmaCopy(const void * source, void * dest, uint32 size) {
+ (*(vuint32*)(0x040000B0+(3*12))) = (uint32)source;
+ (*(vuint32*)(0x040000B4+(3*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(3*12))) = ((1 << (31)) | 0 | 0) | (size>>1);
+ while((*(vuint32*)(0x040000B8+(3*12))) & (1 << (31)));
+}
+
+static inline
+# 167 "c:/devkitPro/libnds/include/nds/dma.h"
+void dmaCopyWordsAsynch(uint8 channel, const void* src, void* dest, uint32 size) {
+ (*(vuint32*)(0x040000B0+(channel*12))) = (uint32)src;
+ (*(vuint32*)(0x040000B4+(channel*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(channel*12))) = ((1 << (31)) | (1 << (26)) | 0) | (size>>2);
+
+}
+
+static inline
+# 183 "c:/devkitPro/libnds/include/nds/dma.h"
+void dmaCopyHalfWordsAsynch(uint8 channel, const void* src, void* dest, uint32 size) {
+ (*(vuint32*)(0x040000B0+(channel*12))) = (uint32)src;
+ (*(vuint32*)(0x040000B4+(channel*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(channel*12))) = ((1 << (31)) | 0 | 0) | (size>>1);
+}
+
+static inline
+
+
+
+
+
+
+
+void dmaCopyAsynch(const void * source, void * dest, uint32 size) {
+ (*(vuint32*)(0x040000B0+(3*12))) = (uint32)source;
+ (*(vuint32*)(0x040000B4+(3*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(3*12))) = ((1 << (31)) | 0 | 0) | (size>>1);
+}
+
+static inline
+
+
+
+
+
+
+
+void dmaFillWords( u32 value, void* dest, uint32 size) {
+
+
+
+
+ (*(vuint32*)(0x040000E0+(3*4))) = (vuint32)value;
+ (*(vuint32*)(0x040000B0+(3*12))) = (uint32)&(*(vuint32*)(0x040000E0+(3*4)));
+
+
+    (*(vuint32*)(0x040000B4+(3*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(3*12))) = (1 << (24)) | ((1 << (31)) | (1 << (26)) | 0) | (size>>2);
+ while((*(vuint32*)(0x040000B8+(3*12))) & (1 << (31)));
+}
+
+static inline
+
+
+
+
+
+
+
+void dmaFillHalfWords( u16 value, void* dest, uint32 size) {
+
+
+
+
+ (*(vuint32*)(0x040000E0+(3*4))) = (vuint32)value;
+ (*(vuint32*)(0x040000B0+(3*12))) = (uint32)&(*(vuint32*)(0x040000E0+(3*4)));
+
+
+ (*(vuint32*)(0x040000B4+(3*12))) = (uint32)dest;
+ (*(vuint32*)(0x040000B8+(3*12))) = (1 << (24)) | ((1 << (31)) | 0 | 0) | (size>>1);
+ while((*(vuint32*)(0x040000B8+(3*12))) & (1 << (31)));
+}
+
+static inline
+
+
+
+
+
+int dmaBusy(uint8 channel) {
+ return ((*(vuint32*)(0x040000B8+(channel*12))) & (1 << (31)))>>31;
+}
+# 237 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/interrupts.h" 1
+# 42 "c:/devkitPro/libnds/include/nds/interrupts.h"
+enum IRQ_MASKS {
+ IRQ_VBLANK = (1 << (0)),
+ IRQ_HBLANK = (1 << (1)),
+ IRQ_VCOUNT = (1 << (2)),
+ IRQ_TIMER0 = (1 << (3)),
+ IRQ_TIMER1 = (1 << (4)),
+ IRQ_TIMER2 = (1 << (5)),
+ IRQ_TIMER3 = (1 << (6)),
+ IRQ_NETWORK = (1 << (7)),
+ IRQ_DMA0 = (1 << (8)),
+ IRQ_DMA1 = (1 << (9)),
+ IRQ_DMA2 = (1 << (10)),
+ IRQ_DMA3 = (1 << (11)),
+ IRQ_KEYS = (1 << (12)),
+ IRQ_CART = (1 << (13)),
+ IRQ_IPC_SYNC = (1 << (16)),
+ IRQ_FIFO_EMPTY = (1 << (17)),
+ IRQ_FIFO_NOT_EMPTY = (1 << (18)),
+ IRQ_CARD = (1 << (19)),
+ IRQ_CARD_LINE = (1 << (20)),
+ IRQ_GEOMETRY_FIFO = (1 << (21)),
+ IRQ_LID = (1 << (22)),
+ IRQ_SPI = (1 << (23)),
+ IRQ_WIFI = (1 << (24)),
+ IRQ_ALL = (~0)
+};
+
+typedef enum IRQ_MASKS IRQ_MASK;
+
+
+
+enum IRQ_MASKSAUX {
+ IRQ_I2C = (1 << (6)),
+ IRQ_SDMMC = (1 << (8))
+};
+# 127 "c:/devkitPro/libnds/include/nds/interrupts.h"
+enum IME_VALUE {
+ IME_DISABLE = 0,
+ IME_ENABLE = 1,
+};
+
+
+
+extern "C" {
+
+
+
+extern VoidFn __irq_vector[];
+extern vuint32 __irq_flags[];
+extern vuint32 __irq_flagsaux[];
+
+
+
+
+
+struct IntTable{IntFn handler; u32 mask;};
+# 156 "c:/devkitPro/libnds/include/nds/interrupts.h"
+void irqInit();
+# 172 "c:/devkitPro/libnds/include/nds/interrupts.h"
+void irqSet(u32 irq, VoidFn handler);
+void irqSetAUX(u32 irq, VoidFn handler);
+
+
+
+
+
+void irqClear(u32 irq);
+void irqClearAUX(u32 irq);
+# 191 "c:/devkitPro/libnds/include/nds/interrupts.h"
+void irqInitHandler(VoidFn handler);
+
+
+
+
+
+
+void irqEnable(u32 irq);
+void irqEnableAUX(u32 irq);
+
+
+
+
+
+
+void irqDisable(u32 irq);
+void irqDisableAUX(u32 irq);
+# 220 "c:/devkitPro/libnds/include/nds/interrupts.h"
+void swiIntrWait(u32 waitForSet, uint32 flags);
+# 229 "c:/devkitPro/libnds/include/nds/interrupts.h"
+void swiWaitForVBlank(void);
+# 239 "c:/devkitPro/libnds/include/nds/interrupts.h"
+VoidFn setPowerButtonCB(VoidFn CB);
+
+static inline int enterCriticalSection() {
+ int oldIME = (*(vuint32*)0x04000208);
+ (*(vuint32*)0x04000208) = 0;
+ return oldIME;
+}
+
+static inline void leaveCriticalSection(int oldIME) {
+ (*(vuint32*)0x04000208) = oldIME;
+}
+
+
+
+}
+# 238 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/ipc.h" 1
+# 39 "c:/devkitPro/libnds/include/nds/ipc.h"
+enum IPC_SYNC_BITS {
+ IPC_SYNC_IRQ_ENABLE = (1 << (14)),
+ IPC_SYNC_IRQ_REQUEST = (1 << (13))
+};
+
+
+static inline void IPC_SendSync(unsigned int sync) {
+
+ (*(vuint16*)0x04000180) = ((*(vuint16*)0x04000180) & 0xf0ff) | (((sync) & 0x0f) << 8) | IPC_SYNC_IRQ_REQUEST;
+}
+
+
+static inline int IPC_GetSync() {
+
+ return (*(vuint16*)0x04000180) & 0x0f;
+}
+# 63 "c:/devkitPro/libnds/include/nds/ipc.h"
+enum IPC_CONTROL_BITS {
+ IPC_FIFO_SEND_EMPTY = (1<<0),
+ IPC_FIFO_SEND_FULL = (1<<1),
+ IPC_FIFO_SEND_IRQ = (1<<2),
+ IPC_FIFO_SEND_CLEAR = (1<<3),
+ IPC_FIFO_RECV_EMPTY = (1<<8),
+ IPC_FIFO_RECV_FULL = (1<<9),
+ IPC_FIFO_RECV_IRQ = (1<<10),
+ IPC_FIFO_ERROR = (1<<14),
+ IPC_FIFO_ENABLE = (1<<15)
+};
+# 239 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/memory.h" 1
+# 87 "c:/devkitPro/libnds/include/nds/memory.h"
+typedef struct sGBAHeader {
+ u32 entryPoint;
+ u8 logo[156];
+ char title[0xC];
+ char gamecode[0x4];
+
+ u16 makercode;
+ u8 is96h;
+ u8 unitcode;
+ u8 devicecode;
+ u8 unused[7];
+ u8 version;
+ u8 complement;
+ u16 checksum;
+} __attribute__ ((__packed__)) tGBAHeader;
+
+
+
+
+
+
+
+typedef struct sNDSHeader {
+ char gameTitle[12];
+ char gameCode[4];
+ char makercode[2];
+ u8 unitCode;
+ u8 deviceType;
+ u8 deviceSize;
+ u8 reserved1[9];
+ u8 romversion;
+ u8 flags;
+
+ u32 arm9romOffset;
+ u32 arm9executeAddress;
+ u32 arm9destination;
+ u32 arm9binarySize;
+
+ u32 arm7romOffset;
+ u32 arm7executeAddress;
+ u32 arm7destination;
+ u32 arm7binarySize;
+
+ u32 filenameOffset;
+ u32 filenameSize;
+ u32 fatOffset;
+ u32 fatSize;
+
+ u32 arm9overlaySource;
+ u32 arm9overlaySize;
+ u32 arm7overlaySource;
+ u32 arm7overlaySize;
+
+ u32 cardControl13;
+ u32 cardControlBF;
+ u32 bannerOffset;
+
+ u16 secureCRC16;
+
+ u16 readTimeout;
+
+ u32 unknownRAM1;
+ u32 unknownRAM2;
+
+ u32 bfPrime1;
+ u32 bfPrime2;
+ u32 romSize;
+
+ u32 headerSize;
+ u32 zeros88[14];
+ u8 gbaLogo[156];
+ u16 logoCRC16;
+ u16 headerCRC16;
+
+ u32 debugRomSource;
+ u32 debugRomSize;
+ u32 debugRomDestination;
+ u32 offset_0x16C;
+
+ u8 zero[0x90];
+} __attribute__ ((__packed__)) tNDSHeader;
+# 176 "c:/devkitPro/libnds/include/nds/memory.h"
+typedef struct sNDSBanner {
+  u16 version;
+  u16 crc;
+  u8 reserved[28];
+  u8 icon[512];
+  u16 palette[16];
+  u16 titles[6][128];
+} __attribute__ ((__packed__)) tNDSBanner;
+
+
+
+
+
+extern "C" {
+
+
+
+
+
+
+
+static inline
+
+
+
+
+void sysSetCartOwner(bool arm9) {
+  (*(vu16*)0x04000204) = ((*(vu16*)0x04000204) & ~(1 << (7))) | (arm9 ? 0 : (1 << (7)));
+}
+
+static inline
+
+
+
+
+void sysSetCardOwner(bool arm9) {
+  (*(vu16*)0x04000204) = ((*(vu16*)0x04000204) & ~(1 << (11))) | (arm9 ? 0 : (1 << (11)));
+}
+
+static inline
+
+
+
+
+
+void sysSetBusOwners(bool arm9rom, bool arm9card) {
+  (*(vu16*)0x04000204) = ((*(vu16*)0x04000204) & ~((1 << (11))|(1 << (7)))) |
+        (arm9card ? 0: (1 << (11))) |
+                         (arm9rom ? 0: (1 << (7)) );
+}
+
+
+
+}
+# 240 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/system.h" 1
+# 45 "c:/devkitPro/libnds/include/nds/system.h"
+typedef enum
+{
+ DISP_IN_VBLANK = (1 << (0)),
+ DISP_IN_HBLANK = (1 << (1)),
+ DISP_YTRIGGERED = (1 << (2)),
+ DISP_VBLANK_IRQ = (1 << (3)),
+ DISP_HBLANK_IRQ = (1 << (4)),
+ DISP_YTRIGGER_IRQ = (1 << (5))
+}DISP_BITS;
+# 72 "c:/devkitPro/libnds/include/nds/system.h"
+static inline
+
+
+
+
+
+void SetYtrigger(int Yvalue) {
+ (*(vu16*)0x04000004) = ((*(vu16*)0x04000004) & 0x007F ) | (Yvalue << 8) | (( Yvalue & 0x100 ) >> 1) ;
+}
+
+
+
+typedef enum
+{
+ PM_SOUND_AMP = (1 << (0)),
+ PM_SOUND_MUTE = (1 << (1)),
+ PM_BACKLIGHT_BOTTOM = (1 << (2)),
+ PM_BACKLIGHT_TOP = (1 << (3)),
+ PM_SYSTEM_PWR = (1 << (6)),
+
+ POWER_LCD = (1 << (16)) | (1 << (0)),
+ POWER_2D_A = (1 << (16)) | (1 << (1)),
+ POWER_MATRIX = (1 << (16)) | (1 << (2)),
+ POWER_3D_CORE = (1 << (16)) | (1 << (3)),
+ POWER_2D_B = (1 << (16)) | (1 << (9)),
+ POWER_SWAP_LCDS = (1 << (16)) | (1 << (15)),
+ POWER_ALL_2D = (1 << (16)) | POWER_LCD | POWER_2D_A | POWER_2D_B,
+ POWER_ALL = (1 << (16)) | POWER_ALL_2D | POWER_3D_CORE | POWER_MATRIX
+}PM_Bits;
+
+
+
+
+
+
+
+void systemSleep(void);
+
+
+
+
+void ledBlink(int bm);
+
+extern bool __dsimode;
+# 128 "c:/devkitPro/libnds/include/nds/system.h"
+void powerOn(int bits);
+
+
+
+
+
+
+
+void powerOff(int bits);
+
+
+void systemMsgHandler(int bytes, void* user_data);
+void systemValueHandler(u32 value, void* data);
+
+
+static inline void lcdSwap(void) { *(vu16*)0x4000304 ^= POWER_SWAP_LCDS; }
+
+
+static inline void lcdMainOnTop(void) { *(vu16*)0x4000304 |= POWER_SWAP_LCDS; }
+
+
+static inline void lcdMainOnBottom(void) { *(vu16*)0x4000304 &= ~POWER_SWAP_LCDS; }
+
+
+static inline
+void systemShutDown(void) {
+ powerOn(PM_SYSTEM_PWR);
+}
+
+void readFirmware(u32 address, void *buffer, u32 length);
+int writeFirmware(u32 address, void *buffer, u32 length);
+
+
+
+u32 getBatteryLevel();
+
+
+
+
+
+void setVectorBase(int highVector);
+
+
+
+
+
+
+
+typedef struct sysVectors_t {
+ u32 reset;
+ u32 undefined;
+ u32 swi;
+ u32 prefetch_abort;
+ u32 data_abort;
+
+
+ u32 fiq;
+} sysVectors;
+
+
+extern sysVectors SystemVectors;
+void setSDcallback(void(*callback)(int));
+
+
+
+u8* getHeapStart();
+
+u8* getHeapEnd();
+
+u8* getHeapLimit();
+# 272 "c:/devkitPro/libnds/include/nds/system.h"
+typedef enum {
+ BACKLIGHT_LOW,
+ BACKLIGHT_MED,
+ BACKLIGHT_HIGH,
+ BACKLIGHT_MAX
+} BACKLIGHT_LEVELS;
+# 315 "c:/devkitPro/libnds/include/nds/system.h"
+typedef struct tPERSONAL_DATA
+{
+ u8 RESERVED0[2];
+
+ u8 theme;
+ u8 birthMonth;
+ u8 birthDay;
+
+ u8 RESERVED1[1];
+
+ s16 name[10];
+ u16 nameLen;
+
+ s16 message[26];
+ u16 messageLen;
+
+ u8 alarmHour;
+ u8 alarmMinute;
+
+
+ u8 RESERVED2[4];
+
+
+ u16 calX1;
+ u16 calY1;
+ u8 calX1px;
+ u8 calY1px;
+
+ u16 calX2;
+ u16 calY2;
+ u8 calX2px;
+ u8 calY2px;
+
+ struct {
+  unsigned int language : 3;
+  unsigned int gbaScreen : 1;
+  unsigned int defaultBrightness : 2;
+  unsigned int autoMode : 1;
+  unsigned int RESERVED5 : 2;
+  unsigned int settingsLost : 1;
+  unsigned int RESERVED6 : 6;
+ } __attribute__ ((packed));
+
+ u16 RESERVED3;
+ u32 rtcOffset;
+ u32 RESERVED4;
+} __attribute__ ((packed)) PERSONAL_DATA ;
+
+
+
+
+
+
+typedef struct {
+ u8 year;
+ u8 month;
+ u8 day;
+
+ u8 weekday;
+ u8 hours;
+ u8 minutes;
+ u8 seconds;
+} RTCtime;
+
+
+
+
+
+
+
+struct __argv {
+ int argvMagic;
+ char *commandLine;
+ int length;
+ int argc;
+ char **argv;
+ int dummy;
+ u32 host;
+};
+
+
+
+
+
+struct __bootstub {
+ u64 bootsig;
+ VoidFn arm9reboot;
+ VoidFn arm7reboot;
+ u32 bootsize;
+};
+# 413 "c:/devkitPro/libnds/include/nds/system.h"
+void *memCached(void *address);
+
+
+
+
+
+
+void *memUncached(void *address);
+
+void resetARM7(u32 address);
+# 241 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/timers.h" 1
+# 42 "c:/devkitPro/libnds/include/nds/timers.h"
+extern "C" {
+# 110 "c:/devkitPro/libnds/include/nds/timers.h"
+typedef enum {
+ ClockDivider_1 = 0,
+ ClockDivider_64 = 1,
+ ClockDivider_256 = 2,
+ ClockDivider_1024 = 3
+}ClockDivider;
+# 211 "c:/devkitPro/libnds/include/nds/timers.h"
+void timerStart(int timer, ClockDivider divider, u16 ticks, VoidFn callback);
+
+
+
+
+
+
+u16 timerElapsed(int timer);
+
+
+static inline
+
+
+
+
+u16 timerTick(int timer) {
+ return (*(vu16*)(0x04000100+((timer)<<2)));
+}
+
+
+
+
+
+
+u16 timerPause(int timer);
+
+
+static inline
+
+
+
+void timerUnpause(int timer) {
+ (*(vu16*)(0x04000102+((timer)<<2))) |= (1<<7);
+}
+
+
+
+
+
+
+u16 timerStop(int timer);
+
+
+
+
+void cpuStartTiming(int timer);
+
+
+
+
+
+u32 cpuGetTiming();
+
+
+
+
+u32 cpuEndTiming();
+
+static inline
+u32 timerTicks2usec(u32 ticks) {
+ return (((u64)ticks)*1000000)/(33513982);
+}
+static inline
+u32 timerTicks2msec(u32 ticks) {
+ return (((u64)ticks)*1000)/(33513982);
+}
+
+
+static inline u16 timerFreqToTicks_1(int freq) {return -(33513982) / freq;}
+static inline u16 timerFreqToTicks_64(int freq) {return (-(33513982) >> 6) / freq;}
+static inline u16 timerFreqToTicks_256(int freq) {return (-(33513982) >> 8) / freq;}
+static inline u16 timerFreqToTicks_1024(int freq) {return (-(33513982) >> 10) / freq;}
+
+
+
+
+}
+# 242 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/fifocommon.h" 1
+# 11 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+typedef enum {
+ FIFO_PM = 0,
+ FIFO_SOUND = 1,
+ FIFO_SYSTEM = 2,
+ FIFO_MAXMOD = 3,
+ FIFO_DSWIFI = 4,
+ FIFO_SDMMC = 5,
+ FIFO_FIRMWARE = 6,
+ FIFO_RSVD_01 = 7,
+ FIFO_USER_01 = 8,
+ FIFO_USER_02 = 9,
+ FIFO_USER_03 = 10,
+ FIFO_USER_04 = 11,
+ FIFO_USER_05 = 12,
+ FIFO_USER_06 = 13,
+ FIFO_USER_07 = 14,
+ FIFO_USER_08 = 15,
+} FifoChannels;
+
+
+
+typedef enum {
+    SOUND_SET_PAN = 0 << 20,
+ SOUND_SET_VOLUME = 1 << 20,
+ SOUND_SET_FREQ = 2 << 20,
+ SOUND_SET_WAVEDUTY = 3 << 20,
+ SOUND_MASTER_ENABLE = 4 << 20,
+ SOUND_MASTER_DISABLE = 5 << 20,
+ SOUND_PAUSE = 6 << 20,
+ SOUND_RESUME = 7 << 20,
+ SOUND_KILL = 8 << 20,
+ SOUND_SET_MASTER_VOL = 9 << 20,
+ MIC_STOP = 10 << 20
+} FifoSoundCommand;
+
+
+
+typedef enum {
+ SYS_REQ_TOUCH,
+ SYS_REQ_KEYS,
+ SYS_REQ_TIME,
+ SYS_SET_TIME,
+ SDMMC_INSERT,
+ SDMMC_REMOVE
+} FifoSystemCommands;
+
+typedef enum {
+ SDMMC_HAVE_SD,
+ SDMMC_SD_START,
+ SDMMC_SD_IS_INSERTED,
+ SDMMC_SD_STOP
+} FifoSdmmcCommands;
+
+typedef enum {
+ FW_READ,
+ FW_WRITE
+} FifoFirmwareCommands;
+
+
+typedef enum {
+ PM_REQ_ON = (1<<16),
+ PM_REQ_OFF = (2<<16),
+ PM_REQ_LED = (3<<16),
+ PM_REQ_SLEEP = (4<<16),
+ PM_REQ_SLEEP_DISABLE = (5<<16),
+ PM_REQ_SLEEP_ENABLE = (6<<16),
+ PM_REQ_BATTERY = (7<<16),
+ PM_DSI_HACK = (8<<16)
+}FifoPMCommands;
+
+
+typedef enum {
+ WIFI_ENABLE,
+ WIFI_DISABLE,
+ WIFI_SYNC,
+ WIFI_STARTUP
+} FifoWifiCommands;
+
+
+
+typedef enum {
+ PM_LED_ON = 0,
+ PM_LED_SLEEP = 1,
+ PM_LED_BLINK = 3,
+}PM_LedBlinkMode;
+
+
+
+extern "C" {
+# 115 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+typedef void (*FifoAddressHandlerFunc)(void * address, void * userdata);
+# 126 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+typedef void (*FifoValue32HandlerFunc)(u32 value32, void * userdata);
+# 138 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+typedef void (*FifoDatamsgHandlerFunc)(int num_bytes, void * userdata);
+# 149 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoInit();
+# 162 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoSendAddress(int channel, void *address);
+# 178 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoSendValue32(int channel, u32 value32);
+# 192 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoSendDatamsg(int channel, int num_bytes, u8 * data_array);
+# 208 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoSetAddressHandler(int channel, FifoAddressHandlerFunc newhandler, void * userdata);
+# 224 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoSetValue32Handler(int channel, FifoValue32HandlerFunc newhandler, void * userdata);
+# 240 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoSetDatamsgHandler(int channel, FifoDatamsgHandlerFunc newhandler, void * userdata);
+# 251 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoCheckAddress(int channel);
+# 261 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoCheckValue32(int channel);
+# 271 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+bool fifoCheckDatamsg(int channel);
+# 281 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+int fifoCheckDatamsgLength(int channel);
+# 291 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+void * fifoGetAddress(int channel);
+# 301 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+u32 fifoGetValue32(int channel);
+# 315 "c:/devkitPro/libnds/include/nds/fifocommon.h"
+int fifoGetDatamsg(int channel, int buffersize, u8 * destbuffer);
+
+
+
+};
+# 243 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/touch.h" 1
+# 9 "c:/devkitPro/libnds/include/nds/touch.h"
+typedef struct touchPosition {
+ u16 rawx;
+ u16 rawy;
+ u16 px;
+ u16 py;
+ u16 z1;
+ u16 z2;
+} touchPosition;
+# 244 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/input.h" 1
+# 35 "c:/devkitPro/libnds/include/nds/input.h"
+typedef enum KEYPAD_BITS {
+  KEY_A = (1 << (0)),
+  KEY_B = (1 << (1)),
+  KEY_SELECT = (1 << (2)),
+  KEY_START = (1 << (3)),
+  KEY_RIGHT = (1 << (4)),
+  KEY_LEFT = (1 << (5)),
+  KEY_UP = (1 << (6)),
+  KEY_DOWN = (1 << (7)),
+  KEY_R = (1 << (8)),
+  KEY_L = (1 << (9)),
+  KEY_X = (1 << (10)),
+  KEY_Y = (1 << (11)),
+  KEY_TOUCH = (1 << (12)),
+  KEY_LID = (1 << (13))
+} KEYPAD_BITS;
+# 245 "c:/devkitPro/libnds/include/nds.h" 2
+
+
+
+
+
+
+# 1 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h" 1
+# 34 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h"
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 1 3
+# 10 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\ieeefp.h" 1 3
+# 11 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 2 3
+
+
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 17 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 2 3
+
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\stdlib.h" 1 3
+# 21 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 2 3
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\alloca.h" 1 3
+# 23 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 2 3
+
+
+
+
+
+
+extern "C" {
+
+typedef struct
+{
+  int quot;
+  int rem;
+} div_t;
+
+typedef struct
+{
+  long quot;
+  long rem;
+} ldiv_t;
+
+
+
+
+typedef struct
+{
+  long long int quot;
+  long long int rem;
+} lldiv_t;
+
+
+
+
+typedef int (*__compar_fn_t) (const void *, const void *);
+
+
+
+
+
+
+
+int __locale_mb_cur_max (void);
+
+
+
+void abort (void) __attribute__ ((__noreturn__));
+int abs (int);
+int atexit (void (*__func)(void));
+double atof (const char *__nptr);
+
+float atoff (const char *__nptr);
+
+int atoi (const char *__nptr);
+int _atoi_r (struct _reent *, const char *__nptr);
+long atol (const char *__nptr);
+long _atol_r (struct _reent *, const char *__nptr);
+void * bsearch (const void * __key, const void * __base, size_t __nmemb, size_t __size, __compar_fn_t _compar)
+
+
+
+                                ;
+void * calloc (size_t __nmemb, size_t __size) __attribute__ ((__nothrow__));
+div_t div (int __numer, int __denom);
+void exit (int __status) __attribute__ ((__noreturn__));
+void free (void *) __attribute__ ((__nothrow__));
+char * getenv (const char *__string);
+char * _getenv_r (struct _reent *, const char *__string);
+char * _findenv (const char *, int *);
+char * _findenv_r (struct _reent *, const char *, int *);
+
+extern char *suboptarg;
+int getsubopt (char **, char * const *, char **);
+
+long labs (long);
+ldiv_t ldiv (long __numer, long __denom);
+void * malloc (size_t __size) __attribute__ ((__nothrow__));
+int mblen (const char *, size_t);
+int _mblen_r (struct _reent *, const char *, size_t, _mbstate_t *);
+int mbtowc (wchar_t *, const char *, size_t);
+int _mbtowc_r (struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *);
+int wctomb (char *, wchar_t);
+int _wctomb_r (struct _reent *, char *, wchar_t, _mbstate_t *);
+size_t mbstowcs (wchar_t *, const char *, size_t);
+size_t _mbstowcs_r (struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *);
+size_t wcstombs (char *, const wchar_t *, size_t);
+size_t _wcstombs_r (struct _reent *, char *, const wchar_t *, size_t, _mbstate_t *);
+
+
+char * mkdtemp (char *);
+int mkostemp (char *, int);
+int mkostemps (char *, int, int);
+int mkstemp (char *);
+int mkstemps (char *, int);
+char * mktemp (char *) __attribute__ ((__warning__ ("the use of `mktemp' is dangerous; use `mkstemp' instead")));
+
+char * _mkdtemp_r (struct _reent *, char *);
+int _mkostemp_r (struct _reent *, char *, int);
+int _mkostemps_r (struct _reent *, char *, int, int);
+int _mkstemp_r (struct _reent *, char *);
+int _mkstemps_r (struct _reent *, char *, int);
+char * _mktemp_r (struct _reent *, char *) __attribute__ ((__warning__ ("the use of `mktemp' is dangerous; use `mkstemp' instead")));
+
+void qsort (void * __base, size_t __nmemb, size_t __size, __compar_fn_t _compar);
+int rand (void);
+void * realloc (void * __r, size_t __size) __attribute__ ((__nothrow__));
+
+void * reallocf (void * __r, size_t __size);
+char * realpath (const char * path, char * resolved_path);
+
+void srand (unsigned __seed);
+double strtod (const char * __n, char ** __end_PTR);
+double _strtod_r (struct _reent *,const char * __n, char ** __end_PTR);
+
+
+
+float strtof (const char * __n, char ** __end_PTR);
+
+
+
+
+
+
+
+long strtol (const char * __n, char ** __end_PTR, int __base);
+long _strtol_r (struct _reent *,const char * __n, char ** __end_PTR, int __base);
+unsigned long strtoul (const char * __n, char ** __end_PTR, int __base);
+unsigned long _strtoul_r (struct _reent *,const char * __n, char ** __end_PTR, int __base);
+
+int system (const char *__string);
+
+
+long a64l (const char *__input);
+char * l64a (long __input);
+char * _l64a_r (struct _reent *,long __input);
+int on_exit (void (*__func)(int, void *),void * __arg);
+
+
+
+
+void _Exit (int __status) __attribute__ ((__noreturn__));
+
+
+int putenv (char *__string);
+int _putenv_r (struct _reent *, char *__string);
+void * _reallocf_r (struct _reent *, void *, size_t);
+int setenv (const char *__string, const char *__value, int __overwrite);
+int _setenv_r (struct _reent *, const char *__string, const char *__value, int __overwrite);
+
+char * gcvt (double,int,char *);
+char * gcvtf (float,int,char *);
+char * fcvt (double,int,int *,int *);
+char * fcvtf (float,int,int *,int *);
+char * ecvt (double,int,int *,int *);
+char * ecvtbuf (double, int, int*, int*, char *);
+char * fcvtbuf (double, int, int*, int*, char *);
+char * ecvtf (float,int,int *,int *);
+char * dtoa (double, int, int, int *, int*, char**);
+
+char * __itoa (int, char *, int);
+char * __utoa (unsigned, char *, int);
+
+char * itoa (int, char *, int);
+char * utoa (unsigned, char *, int);
+int rand_r (unsigned *__seed);
+
+double drand48 (void);
+double _drand48_r (struct _reent *);
+double erand48 (unsigned short [3]);
+double _erand48_r (struct _reent *, unsigned short [3]);
+long jrand48 (unsigned short [3]);
+long _jrand48_r (struct _reent *, unsigned short [3]);
+void lcong48 (unsigned short [7]);
+void _lcong48_r (struct _reent *, unsigned short [7]);
+long lrand48 (void);
+long _lrand48_r (struct _reent *);
+long mrand48 (void);
+long _mrand48_r (struct _reent *);
+long nrand48 (unsigned short [3]);
+long _nrand48_r (struct _reent *, unsigned short [3]);
+unsigned short *
+       seed48 (unsigned short [3]);
+unsigned short *
+       _seed48_r (struct _reent *, unsigned short [3]);
+void srand48 (long);
+void _srand48_r (struct _reent *, long);
+
+
+
+
+long long atoll (const char *__nptr);
+
+
+long long _atoll_r (struct _reent *, const char *__nptr);
+
+
+
+
+long long llabs (long long);
+lldiv_t lldiv (long long __numer, long long __denom);
+long long strtoll (const char * __n, char ** __end_PTR, int __base);
+
+
+long long _strtoll_r (struct _reent *, const char * __n, char ** __end_PTR, int __base);
+
+
+
+
+unsigned long long strtoull (const char * __n, char ** __end_PTR, int __base);
+
+
+unsigned long long _strtoull_r (struct _reent *, const char * __n, char ** __end_PTR, int __base);
+
+
+void cfree (void *);
+int unsetenv (const char *__string);
+int _unsetenv_r (struct _reent *, const char *__string);
+# 246 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 3
+char * _dtoa_r (struct _reent *, double, int, int, int *, int*, char**);
+
+void * _malloc_r (struct _reent *, size_t) __attribute__ ((__nothrow__));
+void * _calloc_r (struct _reent *, size_t, size_t) __attribute__ ((__nothrow__));
+void _free_r (struct _reent *, void *) __attribute__ ((__nothrow__));
+void * _realloc_r (struct _reent *, void *, size_t) __attribute__ ((__nothrow__));
+void _mstats_r (struct _reent *, char *);
+
+int _system_r (struct _reent *, const char *);
+
+void __eprintf (const char *, const char *, unsigned int, const char *);
+# 279 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\stdlib.h" 3
+extern long double strtold (const char *, char **);
+
+
+
+}
+# 35 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h" 2
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\string.h" 1 3
+# 17 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\string.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 18 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\string.h" 2 3
+
+extern "C" {
+
+void * memchr (const void *, int, size_t);
+int memcmp (const void *, const void *, size_t);
+void * memcpy (void * , const void * , size_t);
+void * memmove (void *, const void *, size_t);
+void * memset (void *, int, size_t);
+char *strcat (char *, const char *);
+char *strchr (const char *, int);
+int strcmp (const char *, const char *);
+int strcoll (const char *, const char *);
+char *strcpy (char *, const char *);
+size_t strcspn (const char *, const char *);
+char *strerror (int);
+size_t strlen (const char *);
+char *strncat (char *, const char *, size_t);
+int strncmp (const char *, const char *, size_t);
+char *strncpy (char *, const char *, size_t);
+char *strpbrk (const char *, const char *);
+char *strrchr (const char *, int);
+size_t strspn (const char *, const char *);
+char *strstr (const char *, const char *);
+
+char *strtok (char *, const char *);
+
+size_t strxfrm (char *, const char *, size_t);
+
+
+char *strtok_r (char *, const char *, char **);
+
+
+int bcmp (const void *, const void *, size_t);
+void bcopy (const void *, void *, size_t);
+void bzero (void *, size_t);
+int ffs (int);
+char *index (const char *, int);
+
+
+void * memccpy (void * , const void * , int, size_t);
+
+
+
+
+
+void * memrchr (const void *, int, size_t);
+
+
+
+
+char *rindex (const char *, int);
+
+char *stpcpy (char *, const char *);
+char *stpncpy (char *, const char *, size_t);
+
+int strcasecmp (const char *, const char *);
+
+
+
+
+
+
+char *strdup (const char *);
+
+
+char *_strdup_r (struct _reent *, const char *);
+
+
+char *strndup (const char *, size_t);
+
+
+
+char *_strndup_r (struct _reent *, const char *, size_t);
+# 106 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\string.h" 3
+int strerror_r (int, char *, size_t)
+             __asm__ ("" "__xpg_strerror_r");
+
+
+
+
+
+
+
+char * _strerror_r (struct _reent *, int, int, int *);
+
+
+size_t strlcat (char *, const char *, size_t);
+size_t strlcpy (char *, const char *, size_t);
+
+
+int strncasecmp (const char *, const char *, size_t);
+
+
+
+size_t strnlen (const char *, size_t);
+
+
+char *strsep (char **, const char *);
+
+
+
+
+
+
+
+char *strlwr (char *);
+char *strupr (char *);
+
+
+
+char *strsignal (int __signo);
+# 163 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\string.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\sys\\string.h" 1 3
+# 164 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\string.h" 2 3
+
+}
+# 36 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h" 2
+
+
+
+
+
+typedef struct DynamicArray
+{
+ void** data;
+ unsigned int cur_size;
+}DynamicArray;
+# 54 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h"
+void* DynamicArrayInit(DynamicArray* v, unsigned int initialSize);
+
+
+
+
+
+void DynamicArrayDelete(DynamicArray* v);
+
+
+
+
+
+
+
+void* DynamicArrayGet(DynamicArray* v, unsigned int index);
+# 77 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h"
+bool DynamicArraySet(DynamicArray *v, unsigned int index, void* item);
+# 252 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/linkedlist.h" 1
+# 35 "c:/devkitPro/libnds/include/nds/arm9/linkedlist.h"
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\malloc.h" 1 3
+# 10 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\malloc.h" 3
+# 1 "c:\\devkitpro\\devkitarm\\lib\\gcc\\arm-none-eabi\\4.9.2\\include\\stddef.h" 1 3 4
+# 11 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\malloc.h" 2 3
+
+
+# 1 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\machine\\malloc.h" 1 3
+# 14 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\malloc.h" 2 3
+
+
+extern "C" {
+
+
+
+
+
+struct mallinfo {
+  size_t arena;
+  size_t ordblks;
+  size_t smblks;
+  size_t hblks;
+  size_t hblkhd;
+  size_t usmblks;
+  size_t fsmblks;
+  size_t uordblks;
+  size_t fordblks;
+  size_t keepcost;
+};
+
+
+
+extern void * malloc (size_t);
+
+
+
+
+extern void * _malloc_r (struct _reent *, size_t);
+
+
+extern void free (void *);
+
+
+
+
+extern void _free_r (struct _reent *, void *);
+
+
+extern void * realloc (void *, size_t);
+
+
+
+
+extern void * _realloc_r (struct _reent *, void *, size_t);
+
+
+extern void * calloc (size_t, size_t);
+
+
+
+
+extern void * _calloc_r (struct _reent *, size_t, size_t);
+
+
+extern void * memalign (size_t, size_t);
+
+
+
+
+extern void * _memalign_r (struct _reent *, size_t, size_t);
+
+
+extern struct mallinfo mallinfo (void);
+
+
+
+
+extern struct mallinfo _mallinfo_r (struct _reent *);
+
+
+extern void malloc_stats (void);
+
+
+
+
+extern void _malloc_stats_r (struct _reent *);
+
+
+extern int mallopt (int, int);
+
+
+
+
+extern int _mallopt_r (struct _reent *, int, int);
+
+
+extern size_t malloc_usable_size (void *);
+
+
+
+
+extern size_t _malloc_usable_size_r (struct _reent *, void *);
+
+
+
+
+
+extern void * valloc (size_t);
+
+
+
+
+extern void * _valloc_r (struct _reent *, size_t);
+
+
+extern void * pvalloc (size_t);
+
+
+
+
+extern void * _pvalloc_r (struct _reent *, size_t);
+
+
+extern int malloc_trim (size_t);
+
+
+
+
+extern int _malloc_trim_r (struct _reent *, size_t);
+
+
+
+
+extern void mstats (char *);
+
+
+
+
+extern void _mstats_r (struct _reent *, char *);
+# 162 "c:\\devkitpro\\devkitarm\\arm-none-eabi\\include\\malloc.h" 3
+extern void cfree (void *);
+
+
+
+}
+# 36 "c:/devkitPro/libnds/include/nds/arm9/linkedlist.h" 2
+
+
+
+typedef struct LinkedList{
+ struct LinkedList *next;
+ struct LinkedList *prev;
+ void *data;
+}LinkedList;
+# 56 "c:/devkitPro/libnds/include/nds/arm9/linkedlist.h"
+LinkedList* linkedlistAdd(LinkedList **front, void* data);
+# 65 "c:/devkitPro/libnds/include/nds/arm9/linkedlist.h"
+void linkedlistRemove(LinkedList *node);
+# 253 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/background.h" 1
+# 87 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+# 1 "c:/devkitPro/libnds/include/nds/arm9/video.h" 1
+# 91 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+# 1 "c:/devkitPro/libnds/include/nds/arm9/sassert.h" 1
+# 38 "c:/devkitPro/libnds/include/nds/arm9/sassert.h"
+extern "C" {
+# 53 "c:/devkitPro/libnds/include/nds/arm9/sassert.h"
+void __sassert(const char *fileName, int lineNumber, const char* conditionString, const char* format, ...)
+__attribute__((format(printf,4,5)));
+
+
+}
+# 92 "c:/devkitPro/libnds/include/nds/arm9/video.h" 2
+
+
+extern "C" {
+
+
+extern u16 mosaicShadow;
+extern u16 mosaicShadowSub;
+# 160 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+typedef enum {
+ VRAM_A_LCD = 0,
+ VRAM_A_MAIN_BG = 1,
+ VRAM_A_MAIN_BG_0x06000000 = 1 | ((0)<<3),
+ VRAM_A_MAIN_BG_0x06020000 = 1 | ((1)<<3),
+ VRAM_A_MAIN_BG_0x06040000 = 1 | ((2)<<3),
+ VRAM_A_MAIN_BG_0x06060000 = 1 | ((3)<<3),
+ VRAM_A_MAIN_SPRITE = 2,
+ VRAM_A_MAIN_SPRITE_0x06400000 = 2 | ((0)<<3),
+ VRAM_A_MAIN_SPRITE_0x06420000 = 2 | ((1)<<3),
+ VRAM_A_TEXTURE = 3,
+ VRAM_A_TEXTURE_SLOT0 = 3 | ((0)<<3),
+ VRAM_A_TEXTURE_SLOT1 = 3 | ((1)<<3),
+ VRAM_A_TEXTURE_SLOT2 = 3 | ((2)<<3),
+ VRAM_A_TEXTURE_SLOT3 = 3 | ((3)<<3)
+} VRAM_A_TYPE;
+
+
+typedef enum {
+ VRAM_B_LCD = 0,
+ VRAM_B_MAIN_BG = 1 | ((1)<<3),
+ VRAM_B_MAIN_BG_0x06000000 = 1 | ((0)<<3),
+ VRAM_B_MAIN_BG_0x06020000 = 1 | ((1)<<3),
+ VRAM_B_MAIN_BG_0x06040000 = 1 | ((2)<<3),
+ VRAM_B_MAIN_BG_0x06060000 = 1 | ((3)<<3),
+ VRAM_B_MAIN_SPRITE = 2,
+ VRAM_B_MAIN_SPRITE_0x06400000 = 2 | ((0)<<3),
+ VRAM_B_MAIN_SPRITE_0x06420000 = 2 | ((1)<<3),
+ VRAM_B_TEXTURE = 3 | ((1)<<3),
+ VRAM_B_TEXTURE_SLOT0 = 3 | ((0)<<3),
+ VRAM_B_TEXTURE_SLOT1 = 3 | ((1)<<3),
+ VRAM_B_TEXTURE_SLOT2 = 3 | ((2)<<3),
+ VRAM_B_TEXTURE_SLOT3 = 3 | ((3)<<3)
+} VRAM_B_TYPE;
+
+
+typedef enum {
+ VRAM_C_LCD = 0,
+ VRAM_C_MAIN_BG = 1 | ((2)<<3),
+ VRAM_C_MAIN_BG_0x06000000 = 1 | ((0)<<3),
+ VRAM_C_MAIN_BG_0x06020000 = 1 | ((1)<<3),
+ VRAM_C_MAIN_BG_0x06040000 = 1 | ((2)<<3),
+ VRAM_C_MAIN_BG_0x06060000 = 1 | ((3)<<3),
+ VRAM_C_ARM7 = 2,
+ VRAM_C_ARM7_0x06000000 = 2 | ((0)<<3),
+ VRAM_C_ARM7_0x06020000 = 2 | ((1)<<3),
+ VRAM_C_SUB_BG = 4,
+ VRAM_C_SUB_BG_0x06200000 = 4 | ((0)<<3),
+ VRAM_C_TEXTURE = 3 | ((2)<<3),
+ VRAM_C_TEXTURE_SLOT0 = 3 | ((0)<<3),
+ VRAM_C_TEXTURE_SLOT1 = 3 | ((1)<<3),
+ VRAM_C_TEXTURE_SLOT2 = 3 | ((2)<<3),
+ VRAM_C_TEXTURE_SLOT3 = 3 | ((3)<<3)
+} VRAM_C_TYPE;
+
+
+typedef enum {
+ VRAM_D_LCD = 0,
+ VRAM_D_MAIN_BG = 1 | ((3)<<3),
+ VRAM_D_MAIN_BG_0x06000000 = 1 | ((0)<<3),
+ VRAM_D_MAIN_BG_0x06020000 = 1 | ((1)<<3),
+ VRAM_D_MAIN_BG_0x06040000 = 1 | ((2)<<3),
+ VRAM_D_MAIN_BG_0x06060000 = 1 | ((3)<<3),
+ VRAM_D_ARM7 = 2 | ((1)<<3),
+ VRAM_D_ARM7_0x06000000 = 2 | ((0)<<3),
+ VRAM_D_ARM7_0x06020000 = 2 | ((1)<<3),
+ VRAM_D_SUB_SPRITE = 4,
+ VRAM_D_TEXTURE = 3 | ((3)<<3),
+ VRAM_D_TEXTURE_SLOT0 = 3 | ((0)<<3),
+ VRAM_D_TEXTURE_SLOT1 = 3 | ((1)<<3),
+ VRAM_D_TEXTURE_SLOT2 = 3 | ((2)<<3),
+ VRAM_D_TEXTURE_SLOT3 = 3 | ((3)<<3)
+} VRAM_D_TYPE;
+
+
+typedef enum {
+ VRAM_E_LCD = 0,
+ VRAM_E_MAIN_BG = 1,
+ VRAM_E_MAIN_SPRITE = 2,
+ VRAM_E_TEX_PALETTE = 3,
+ VRAM_E_BG_EXT_PALETTE = 4,
+} VRAM_E_TYPE;
+
+
+typedef enum {
+ VRAM_F_LCD = 0,
+ VRAM_F_MAIN_BG = 1,
+ VRAM_F_MAIN_BG_0x06000000 = 1 | ((0)<<3),
+ VRAM_F_MAIN_BG_0x06004000 = 1 | ((1)<<3),
+ VRAM_F_MAIN_BG_0x06010000 = 1 | ((2)<<3),
+ VRAM_F_MAIN_BG_0x06014000 = 1 | ((3)<<3),
+ VRAM_F_MAIN_SPRITE = 2,
+ VRAM_F_MAIN_SPRITE_0x06400000 = 2 | ((0)<<3),
+ VRAM_F_MAIN_SPRITE_0x06404000 = 2 | ((1)<<3),
+ VRAM_F_MAIN_SPRITE_0x06410000 = 2 | ((2)<<3),
+ VRAM_F_MAIN_SPRITE_0x06414000 = 2 | ((3)<<3),
+ VRAM_F_TEX_PALETTE = 3,
+ VRAM_F_TEX_PALETTE_SLOT0 = 3 | ((0)<<3),
+ VRAM_F_TEX_PALETTE_SLOT1 = 3 | ((1)<<3),
+ VRAM_F_TEX_PALETTE_SLOT4 = 3 | ((2)<<3),
+ VRAM_F_TEX_PALETTE_SLOT5 = 3 | ((3)<<3),
+ VRAM_F_BG_EXT_PALETTE = 4,
+ VRAM_F_BG_EXT_PALETTE_SLOT01 = 4 | ((0)<<3),
+ VRAM_F_BG_EXT_PALETTE_SLOT23 = 4 | ((1)<<3),
+ VRAM_F_SPRITE_EXT_PALETTE = 5,
+} VRAM_F_TYPE;
+
+
+typedef enum {
+ VRAM_G_LCD = 0,
+ VRAM_G_MAIN_BG = 1,
+ VRAM_G_MAIN_BG_0x06000000 = 1 | ((0)<<3),
+ VRAM_G_MAIN_BG_0x06004000 = 1 | ((1)<<3),
+ VRAM_G_MAIN_BG_0x06010000 = 1 | ((2)<<3),
+ VRAM_G_MAIN_BG_0x06014000 = 1 | ((3)<<3),
+ VRAM_G_MAIN_SPRITE = 2,
+ VRAM_G_MAIN_SPRITE_0x06400000 = 2 | ((0)<<3),
+ VRAM_G_MAIN_SPRITE_0x06404000 = 2 | ((1)<<3),
+ VRAM_G_MAIN_SPRITE_0x06410000 = 2 | ((2)<<3),
+ VRAM_G_MAIN_SPRITE_0x06414000 = 2 | ((3)<<3),
+ VRAM_G_TEX_PALETTE = 3,
+ VRAM_G_TEX_PALETTE_SLOT0 = 3 | ((0)<<3),
+ VRAM_G_TEX_PALETTE_SLOT1 = 3 | ((1)<<3),
+ VRAM_G_TEX_PALETTE_SLOT4 = 3 | ((2)<<3),
+ VRAM_G_TEX_PALETTE_SLOT5 = 3 | ((3)<<3),
+ VRAM_G_BG_EXT_PALETTE = 4,
+ VRAM_G_BG_EXT_PALETTE_SLOT01 = 4 | ((0)<<3),
+ VRAM_G_BG_EXT_PALETTE_SLOT23 = 4 | ((1)<<3),
+ VRAM_G_SPRITE_EXT_PALETTE = 5,
+} VRAM_G_TYPE;
+
+
+typedef enum {
+ VRAM_H_LCD = 0,
+ VRAM_H_SUB_BG = 1,
+ VRAM_H_SUB_BG_EXT_PALETTE = 2,
+} VRAM_H_TYPE;
+
+
+typedef enum {
+ VRAM_I_LCD = 0,
+ VRAM_I_SUB_BG_0x06208000 = 1,
+ VRAM_I_SUB_SPRITE = 2,
+ VRAM_I_SUB_SPRITE_EXT_PALETTE = 3,
+}VRAM_I_TYPE;
+
+
+
+
+
+typedef u16 _palette[256];
+
+
+typedef _palette _ext_palette[16];
+# 344 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+u32 vramSetPrimaryBanks(VRAM_A_TYPE a, VRAM_B_TYPE b, VRAM_C_TYPE c, VRAM_D_TYPE d);
+
+__attribute__ ((deprecated)) u32 vramSetMainBanks(VRAM_A_TYPE a, VRAM_B_TYPE b, VRAM_C_TYPE c, VRAM_D_TYPE d);
+
+
+
+
+
+
+
+u32 vramSetBanks_EFG(VRAM_E_TYPE e, VRAM_F_TYPE f, VRAM_G_TYPE g);
+
+
+
+
+u32 vramDefault();
+
+
+
+
+void vramRestorePrimaryBanks(u32 vramTemp);
+
+__attribute__ ((deprecated)) void vramRestoreMainBanks(u32 vramTemp);
+
+
+
+
+void vramRestoreBanks_EFG(u32 vramTemp);
+
+static inline
+
+
+
+void vramSetBankA(VRAM_A_TYPE a) { (*(vu8*)0x04000240) = (1<<7) | a; }
+
+static inline
+
+
+
+void vramSetBankB(VRAM_B_TYPE b) { (*(vu8*)0x04000241) = (1<<7) | b; }
+
+static inline
+
+
+
+void vramSetBankC(VRAM_C_TYPE c) { (*(vu8*)0x04000242) = (1<<7) | c; }
+
+static inline
+
+
+
+void vramSetBankD(VRAM_D_TYPE d) { (*(vu8*)0x04000243) = (1<<7) | d; }
+
+static inline
+
+
+
+void vramSetBankE(VRAM_E_TYPE e) { (*(vu8*)0x04000244) = (1<<7) | e; }
+
+static inline
+
+
+
+void vramSetBankF(VRAM_F_TYPE f) { (*(vu8*)0x04000245) = (1<<7) | f; }
+
+static inline
+
+
+
+void vramSetBankG(VRAM_G_TYPE g) { (*(vu8*)0x04000246) = (1<<7) | g; }
+
+static inline
+
+
+
+void vramSetBankH(VRAM_H_TYPE h) { (*(vu8*)0x04000248) = (1<<7) | h; }
+
+static inline
+
+
+
+void vramSetBankI(VRAM_I_TYPE i) { (*(vu8*)0x04000249) = (1<<7) | i; }
+# 472 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+typedef enum
+{
+ MODE_0_2D = 0x10000,
+ MODE_1_2D = 0x10001,
+ MODE_2_2D = 0x10002,
+ MODE_3_2D = 0x10003,
+ MODE_4_2D = 0x10004,
+ MODE_5_2D = 0x10005,
+ MODE_6_2D = 0x10006,
+ MODE_0_3D = (0x10000 | (1 << 8) | (1<<3)),
+ MODE_1_3D = (0x10001 | (1 << 8) | (1<<3)),
+ MODE_2_3D = (0x10002 | (1 << 8) | (1<<3)),
+ MODE_3_3D = (0x10003 | (1 << 8) | (1<<3)),
+ MODE_4_3D = (0x10004 | (1 << 8) | (1<<3)),
+ MODE_5_3D = (0x10005 | (1 << 8) | (1<<3)),
+ MODE_6_3D = (0x10006 | (1 << 8) | (1<<3)),
+
+ MODE_FIFO = (3<<16),
+
+ MODE_FB0 = (0x00020000),
+ MODE_FB1 = (0x00060000),
+ MODE_FB2 = (0x000A0000),
+ MODE_FB3 = (0x000E0000)
+}VideoMode;
+# 536 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+static inline
+
+
+
+void videoSetMode( u32 mode) { (*(vu32*)0x04000000) = mode; }
+
+static inline
+
+
+
+void videoSetModeSub( u32 mode) { (*(vu32*)0x04001000) = mode; }
+
+static inline
+
+
+
+int videoGetMode() {return ((*(vu32*)0x04000000) & 0x30007);}
+
+static inline
+
+
+
+int videoGetModeSub() {return ((*(vu32*)0x04001000) & 0x30007);}
+
+static inline
+
+
+
+bool video3DEnabled() {return ((*(vu32*)0x04000000) & (1<<3)) ? true : false;}
+
+static inline
+
+
+
+void videoBgEnable(int number) {(*(vu32*)0x04000000) |= 1 << (8 + number);}
+
+static inline
+
+
+
+void videoBgEnableSub(int number) {(*(vu32*)0x04001000) |= 1 << (8 + number);}
+
+static inline
+
+
+
+void videoBgDisable(int number) {(*(vu32*)0x04000000) &= ~(1 << (8 + number));}
+
+static inline
+
+
+
+void videoBgDisableSub(int number) {(*(vu32*)0x04001000) &= ~(1 << (8 + number));}
+
+
+
+
+
+void setBrightness(int screen, int level);
+
+
+static inline
+# 606 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+void setBackdropColor(const u16 color)
+{
+    ((u16*)0x05000000)[0] = color;
+}
+
+static inline
+# 620 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+void setBackdropColorSub(const u16 color)
+{
+    ((u16*)0x05000400)[0] = color;
+}
+# 805 "c:/devkitPro/libnds/include/nds/arm9/video.h"
+}
+# 88 "c:/devkitPro/libnds/include/nds/arm9/background.h" 2
+
+# 1 "c:/devkitPro/libnds/include/nds/memory.h" 1
+# 90 "c:/devkitPro/libnds/include/nds/arm9/background.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/dma.h" 1
+# 91 "c:/devkitPro/libnds/include/nds/arm9/background.h" 2
+# 101 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+typedef struct bg_scroll {
+ u16 x;
+ u16 y;
+} bg_scroll;
+
+
+typedef struct bg_transform {
+    s16 hdx;
+    s16 vdx;
+    s16 hdy;
+    s16 vdy;
+    s32 dx;
+    s32 dy;
+} bg_transform;
+
+
+typedef struct bg_attribute {
+    u16 control[4];
+    bg_scroll scroll[4];
+    bg_transform bg2_rotation;
+    bg_transform bg3_rotation;
+} bg_attribute;
+# 146 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+typedef struct TileMapEntry8 {
+  u8 index;
+} TileMapEntry8;
+
+
+typedef struct TileMapEntry16 {
+  u16 index:10;
+  u16 hflip:1;
+  u16 vflip:1;
+  u16 palette:4;
+} __attribute__ ((packed)) TileMapEntry16;
+
+
+typedef enum
+{
+   BG_32x32 = (0 << 14),
+   BG_64x32 = (1 << 14),
+   BG_32x64 = (2 << 14),
+   BG_64x64 = (3 << 14),
+
+   BG_RS_16x16 = (0 << 14),
+   BG_RS_32x32 = (1 << 14),
+   BG_RS_64x64 = (2 << 14),
+   BG_RS_128x128 = (3 << 14),
+
+   BG_BMP8_128x128 = ((0 << 14) | (1 << (7))),
+   BG_BMP8_256x256 = ((1 << 14) | (1 << (7))),
+   BG_BMP8_512x256 = ((2 << 14) | (1 << (7))),
+   BG_BMP8_512x512 = ((3 << 14) | (1 << (7))),
+   BG_BMP8_1024x512 = (1 << (14)),
+   BG_BMP8_512x1024 = 0,
+
+   BG_BMP16_128x128 = ((0 << 14) | (1 << (7)) | (1 << (2))),
+   BG_BMP16_256x256 = ((1 << 14) | (1 << (7)) | (1 << (2))),
+   BG_BMP16_512x256 = ((2 << 14) | (1 << (7)) | (1 << (2))),
+   BG_BMP16_512x512 = ((3 << 14) | (1 << (7)) | (1 << (2))),
+
+   BG_MOSAIC_ON = ((1 << (6))),
+   BG_MOSAIC_OFF = (0),
+
+   BG_PRIORITY_0 = (0),
+   BG_PRIORITY_1 = (1),
+   BG_PRIORITY_2 = (2),
+   BG_PRIORITY_3 = (3),
+
+   BG_WRAP_OFF = (0),
+   BG_WRAP_ON = (1 << 13),
+
+   BG_PALETTE_SLOT0 = 0,
+   BG_PALETTE_SLOT1 = 0,
+   BG_PALETTE_SLOT2 = (1 << (13)),
+   BG_PALETTE_SLOT3 = (1 << (13)),
+
+   BG_COLOR_256 = 0x80,
+   BG_COLOR_16 = 0x00
+
+}BackgroundControl;
+# 422 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+typedef struct BgState
+{
+ int angle;
+ s32 centerX;
+ s32 centerY;
+ s32 scaleX;
+ s32 scaleY;
+ s32 scrollX;
+ s32 scrollY;
+ int size;
+ int type;
+ bool dirty;
+}BgState;
+
+
+
+extern vuint16* bgControl[8];
+extern bg_scroll* bgScrollTable[8];
+extern bg_transform* bgTransform[8];
+extern BgState bgState[8];
+
+
+typedef enum
+{
+ BgType_Text8bpp,
+ BgType_Text4bpp,
+ BgType_Rotation,
+ BgType_ExRotation,
+ BgType_Bmp8,
+ BgType_Bmp16
+}BgType;
+
+
+
+
+
+
+
+typedef enum
+{
+ BgSize_R_128x128 = (0 << 14),
+ BgSize_R_256x256 = (1 << 14),
+ BgSize_R_512x512 = (2 << 14),
+ BgSize_R_1024x1024 = (3 << 14),
+
+ BgSize_T_256x256 = (0 << 14) | (1 << 16),
+ BgSize_T_512x256 = (1 << 14) | (1 << 16),
+ BgSize_T_256x512 = (2 << 14) | (1 << 16),
+ BgSize_T_512x512 = (3 << 14) | (1 << 16),
+
+ BgSize_ER_128x128 = (0 << 14) | (2 << 16),
+ BgSize_ER_256x256 = (1 << 14) | (2 << 16),
+ BgSize_ER_512x512 = (2 << 14) | (2 << 16),
+ BgSize_ER_1024x1024 = (3 << 14) | (2 << 16),
+
+ BgSize_B8_128x128 = ((0 << 14) | (1 << (7)) | (3 << 16)),
+ BgSize_B8_256x256 = ((1 << 14) | (1 << (7)) | (3 << 16)),
+ BgSize_B8_512x256 = ((2 << 14) | (1 << (7)) | (3 << 16)),
+ BgSize_B8_512x512 = ((3 << 14) | (1 << (7)) | (3 << 16)),
+ BgSize_B8_1024x512 = (1 << 14) | (3 << 16),
+ BgSize_B8_512x1024 = (0) | (3 << 16),
+
+ BgSize_B16_128x128 = ((0 << 14) | (1 << (7)) | (1 << (2)) | (4 << 16)),
+ BgSize_B16_256x256 = ((1 << 14) | (1 << (7)) | (1 << (2)) | (4 << 16)),
+ BgSize_B16_512x256 = ((2 << 14) | (1 << (7)) | (1 << (2)) | (4 << 16)),
+ BgSize_B16_512x512 = ((3 << 14) | (1 << (7)) | (1 << (2)) | (4 << 16)),
+}BgSize;
+
+
+
+extern "C" {
+
+
+
+bool bgIsText(int id);
+int bgInit_call(int layer, BgType type, BgSize size, int mapBase, int tileBase);
+int bgInitSub_call(int layer, BgType type, BgSize size, int mapBase, int tileBase);
+
+
+
+
+void bgUpdate(void);
+
+
+static inline
+
+
+
+
+
+
+void bgSetRotate(int id, int angle)
+{
+   bgState[id].angle = angle;
+   bgState[id].dirty = true;
+}
+
+
+static inline
+
+
+
+
+
+
+void bgRotate(int id, int angle)
+{
+ ((!bgIsText(id)) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 529, "!bgIsText(id)", "Cannot Rotate a Text Background"));
+
+ bgSetRotate(id, angle + bgState[id].angle);
+}
+
+
+static inline
+# 554 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSet(int id, int angle, s32 sx, s32 sy, s32 scrollX, s32 scrollY, s32 rotCenterX, s32 rotCenterY)
+{
+    bgState[id].scaleX = sx;
+ bgState[id].scaleY = sy;
+
+    bgState[id].scrollX = scrollX;
+ bgState[id].scrollY = scrollY;
+
+   bgState[id].centerX = rotCenterX;
+ bgState[id].centerY = rotCenterY;
+
+ bgState[id].angle = angle;
+
+ bgState[id].dirty = true;
+}
+
+static inline
+# 581 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetRotateScale(int id, int angle, s32 sx, s32 sy)
+{
+ bgState[id].scaleX = sx;
+ bgState[id].scaleY = sy;
+ bgState[id].angle = angle;
+
+ bgState[id].dirty = true;
+}
+
+
+static inline
+# 600 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetScale(int id, s32 sx, s32 sy)
+{
+ ((!bgIsText(id)) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 602, "!bgIsText(id)", "Cannot Scale a Text Background"));
+
+ bgState[id].scaleX = sx;
+ bgState[id].scaleY = sy;
+
+ bgState[id].dirty = true;
+}
+
+
+static inline
+# 633 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+int bgInit(int layer, BgType type, BgSize size, int mapBase, int tileBase)
+{
+    ((layer >= 0 && layer <= 3) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 635, "layer >= 0 && layer <= 3", "Only layers 0 - 3 are supported"));
+    ((tileBase >= 0 && tileBase <= 15) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 636, "tileBase >= 0 && tileBase <= 15", "Background tile base is out of range"));
+    ((mapBase >=0 && mapBase <= 31) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 637, "mapBase >=0 && mapBase <= 31", "Background Map Base is out of range"));
+ ((layer != 0 || !video3DEnabled()) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 638, "layer != 0 || !video3DEnabled()", "Background 0 is currently being used for 3D display"));
+    ((layer > 1 || type == BgType_Text8bpp || type == BgType_Text4bpp) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 639, "layer > 1 || type == BgType_Text8bpp || type == BgType_Text4bpp", "Incorrect background type for mode"));
+
+ ((tileBase == 0 || type < BgType_Bmp8) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 641, "tileBase == 0 || type < BgType_Bmp8", "Tile base is unused for bitmaps.  Can be offset using mapBase * 16KB"));
+ (((mapBase == 0 || type != BgType_Bmp8) || (size != BgSize_B8_512x1024 && size != BgSize_B8_1024x512)) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 642, "(mapBase == 0 || type != BgType_Bmp8) || (size != BgSize_B8_512x1024 && size != BgSize_B8_1024x512)", "Large Bitmaps cannot be offset"));
+
+ return bgInit_call(layer, type, size, mapBase, tileBase);
+}
+
+
+static inline
+# 670 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+int bgInitSub(int layer, BgType type, BgSize size, int mapBase, int tileBase)
+{
+    ((layer >= 0 && layer <= 3) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 672, "layer >= 0 && layer <= 3", "Only layers 0 - 3 are supported"));
+    ((tileBase >= 0 && tileBase <= 15) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 673, "tileBase >= 0 && tileBase <= 15", "Background tile base is out of range"));
+    ((mapBase >=0 && mapBase <= 31) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 674, "mapBase >=0 && mapBase <= 31", "Background Map Base is out of range"));
+    ((layer > 1 || type == BgType_Text8bpp|| type == BgType_Text4bpp) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 675, "layer > 1 || type == BgType_Text8bpp|| type == BgType_Text4bpp", "Incorrect background type for mode"));
+ ((tileBase == 0 || type < BgType_Bmp8) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 676, "tileBase == 0 || type < BgType_Bmp8", "Tile base is unused for bitmaps.  Can be offset using mapBase * 16KB"));
+ (((size != BgSize_B8_512x1024 && size != BgSize_B8_1024x512)) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 677, "(size != BgSize_B8_512x1024 && size != BgSize_B8_1024x512)", "Sub Display has no large Bitmaps"));
+
+ return bgInitSub_call(layer, type, size, mapBase, tileBase);
+}
+
+static inline
+# 692 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+vuint16* bgSetControlBits(int id, u16 bits)
+{
+ ((id >= 0 && id <= 7) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 694, "id >= 0 && id <= 7", "bgSetControlBits(), id must be the number returned from bgInit or bgInitSub"));
+ *bgControl[id] |= bits;
+ return bgControl[id];
+}
+
+static inline
+
+
+
+
+
+
+void bgClearControlBits(int id, u16 bits)
+{
+ ((id >= 0 && id <= 7) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 708, "id >= 0 && id <= 7", "bgClearControlBits(), id must be the number returned from bgInit or bgInitSub"));
+ *bgControl[id] &= ~bits;
+}
+
+static inline
+
+
+
+
+void bgWrapOn(int id)
+{
+ bgSetControlBits(id, (1 << (13)));
+}
+
+static inline
+
+
+
+
+void bgWrapOff(int id)
+{
+ bgClearControlBits(id, (1 << (13)));
+}
+
+
+static inline
+
+
+
+
+
+
+
+void bgSetPriority(int id, unsigned int priority)
+{
+ ((priority < 4) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 743, "priority < 4", "Priority must be less than 4"));
+
+ *bgControl[id] &= ~ 3;
+ *bgControl[id] |= priority;
+}
+
+static inline
+
+
+
+
+
+
+
+void bgSetMapBase(int id, unsigned int base)
+{
+ ((base <= 31) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 759, "base <= 31", "Map base cannot exceed 31"));
+
+ *bgControl[id] &= ~ (31 << 8);
+ *bgControl[id] |= base << 8;
+}
+
+static inline
+
+
+
+
+
+
+
+void bgSetTileBase(int id, unsigned int base)
+{
+ ((base <= 15) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 775, "base <= 15", "Tile base cannot exceed 15"));
+
+ *bgControl[id] &= ~ (15 << 2);
+ *bgControl[id] |= base << 2;
+}
+
+
+static inline
+# 793 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetScrollf(int id, s32 x, s32 y)
+{
+ bgState[id].scrollX = x;
+ bgState[id].scrollY = y;
+
+ bgState[id].dirty = true;
+}
+
+static inline
+# 810 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetScroll(int id, int x, int y)
+{
+ bgSetScrollf(id, x << 8, y << 8);
+}
+
+
+static inline
+
+
+
+void bgMosaicEnable(int id)
+{
+ *bgControl[id] |= (1 << (6));
+}
+
+static inline
+
+
+
+void bgMosaicDisable(int id)
+{
+ *bgControl[id] &= ~(1 << (6));
+}
+
+static inline
+
+
+
+
+void bgSetMosaic(unsigned int dx, unsigned int dy)
+{
+ ((dx < 16 && dy < 16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 841, "dx < 16 && dy < 16", "Mosaic range is 0 to 15"));
+
+ mosaicShadow = ( mosaicShadow & 0xff00) | (dx | (dy << 4));
+ (*(vu16*)0x0400004C) = mosaicShadow;
+}
+
+static inline
+
+
+
+
+void bgSetMosaicSub(unsigned int dx, unsigned int dy)
+{
+ ((dx < 16 && dy < 16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 854, "dx < 16 && dy < 16", "Mosaic range is 0 to 15"));
+
+ mosaicShadowSub = ( mosaicShadowSub & 0xff00) | (dx | (dy << 4));
+ (*(vu16*)0x0400104C) = mosaicShadowSub;
+}
+
+static inline
+
+
+
+
+int bgGetPriority(int id)
+{
+ return *bgControl[id] & 3;
+}
+
+static inline
+
+
+
+
+
+int bgGetMapBase(int id)
+{
+ return (*bgControl[id] >> 8) & 31;
+}
+
+static inline
+
+
+
+
+int bgGetTileBase(int id)
+{
+ return (*bgControl[id] >> 2) & 15;
+}
+
+static inline
+
+
+
+
+u16* bgGetMapPtr(int id)
+{
+ return (id < 4) ? ((u16*)((u16*)(((bgGetMapBase(id))*0x800) + 0x06000000))) : ((u16*)((u16*)(((bgGetMapBase(id))*0x800) + 0x06200000)));
+}
+
+static inline
+
+
+
+
+u16* bgGetGfxPtr(int id)
+{
+ if(bgState[id].type < BgType_Bmp8)
+  return (id < 4) ? (u16*)(((u16*)(((bgGetTileBase(id))*0x4000) + 0x06000000))) : ((u16*)((u16*)(((bgGetTileBase(id))*0x4000) + 0x06200000)));
+ else
+  return (id < 4) ? (u16*)(((u16*)0x6000000) + 0x2000 * (bgGetMapBase(id))) : (u16*)(((u16*)0x6200000) + 0x2000 * (bgGetMapBase(id)));
+}
+
+
+static inline
+# 926 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgScrollf(int id, s32 dx, s32 dy)
+{
+ bgSetScrollf(id, bgState[id].scrollX + dx, bgState[id].scrollY + dy);
+}
+
+static inline
+# 942 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgScroll(int id, int dx, int dy)
+{
+ bgScrollf(id, dx << 8, dy << 8);
+}
+
+static inline
+
+
+
+
+void bgShow(int id)
+{
+ if(id < 4)
+  videoBgEnable(id);
+ else
+  videoBgEnableSub(id & 3);
+}
+
+static inline
+
+
+
+
+void bgHide(int id)
+{
+ if(id < 4)
+  videoBgDisable(id);
+ else
+  videoBgDisableSub(id & 3);
+}
+
+static inline
+# 984 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetCenterf(int id, s32 x, s32 y)
+{
+ ((!bgIsText(id)) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 986, "!bgIsText(id)", "Text Backgrounds have no Center of Rotation"));
+
+  bgState[id].centerX = x;
+ bgState[id].centerY = y;
+
+ bgState[id].dirty = true;
+}
+
+static inline
+# 1003 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetCenter(int id, int x, int y)
+{
+ bgSetCenterf(id, x << 8, y << 8);
+}
+
+
+static inline
+# 1024 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgSetAffineMatrixScroll(int id, int hdx, int vdx, int hdy, int vdy, int scrollx, int scrolly)
+{
+ ((!bgIsText(id)) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/background.h", 1026, "!bgIsText(id)", "Text Backgrounds have no affine matrix and scroll registers."));
+
+ bgTransform[id]->hdx = hdx;
+ bgTransform[id]->vdx = vdx;
+ bgTransform[id]->hdy = hdy;
+ bgTransform[id]->vdy = vdy;
+
+ bgTransform[id]->dx = scrollx;
+ bgTransform[id]->dy = scrolly;
+
+ bgState[id].dirty = false;
+}
+
+static inline
+# 1059 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgExtPaletteEnable(void)
+{
+  (*(vu32*)0x04000000) |= (1 << 30);
+}
+
+static inline
+# 1085 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgExtPaletteEnableSub(void)
+{
+  (*(vu32*)0x04001000) |= (1 << 30);
+}
+
+static inline
+# 1111 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgExtPaletteDisable(void)
+{
+  (*(vu32*)0x04000000) &= ~(1 << 30);
+}
+
+static inline
+# 1137 "c:/devkitPro/libnds/include/nds/arm9/background.h"
+void bgExtPaletteDisableSub(void)
+{
+  (*(vu32*)0x04001000) &= ~(1 << 30);
+}
+
+
+
+}
+# 254 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h" 1
+# 32 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h"
+# 1 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h" 1
+# 45 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+# 1 "c:/devkitPro/libnds/include/nds/arm9/cache.h" 1
+# 36 "c:/devkitPro/libnds/include/nds/arm9/cache.h"
+extern "C" {
+# 45 "c:/devkitPro/libnds/include/nds/arm9/cache.h"
+void IC_InvalidateAll();
+
+
+
+
+
+
+
+void IC_InvalidateRange(const void *base, u32 size);
+
+
+
+
+
+void DC_FlushAll();
+
+
+
+
+
+
+
+void DC_FlushRange(const void *base, u32 size);
+
+
+
+
+
+void DC_InvalidateAll();
+
+
+
+
+
+
+
+void DC_InvalidateRange(const void *base, u32 size);
+
+
+}
+# 46 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/trig_lut.h" 1
+# 54 "c:/devkitPro/libnds/include/nds/arm9/trig_lut.h"
+extern "C" {
+# 109 "c:/devkitPro/libnds/include/nds/arm9/trig_lut.h"
+s16 sinLerp(s16 angle);
+
+
+
+
+
+s16 cosLerp(s16 angle);
+
+
+
+
+
+s32 tanLerp(s16 angle);
+
+
+
+
+
+
+s16 asinLerp(s16 par);
+
+
+
+
+
+s16 acosLerp(s16 par);
+
+
+
+
+
+
+}
+# 47 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/math.h" 1
+# 78 "c:/devkitPro/libnds/include/nds/arm9/math.h"
+static inline
+
+
+
+
+
+
+int32 divf32(int32 num, int32 den)
+{
+ (*(vu16*)(0x04000280)) = 1;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ (*(vs64*) (0x04000290)) = ((int64)num) << 12;
+ (*(vs32*) (0x04000298)) = den;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ return ((*(vs32*) (0x040002A0)));
+}
+
+static inline
+
+
+
+
+
+
+int32 mulf32(int32 a, int32 b)
+{
+ long long result = (long long)a * (long long)b;
+ return (int32)(result >> 12);
+}
+
+static inline
+
+
+
+
+
+int32 sqrtf32(int32 a)
+{
+ (*(vu16*)(0x040002B0)) = 1;
+
+ while((*(vu16*)(0x040002B0)) & (1<<15));
+
+ (*(vs64*) (0x040002B8)) = ((int64)a) << 12;
+
+ while((*(vu16*)(0x040002B0)) & (1<<15));
+
+ return (*(vu32*) (0x040002B4));
+}
+
+
+
+static inline
+
+
+
+
+
+
+int32 div32(int32 num, int32 den)
+{
+ (*(vu16*)(0x04000280)) = 0;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ (*(vs32*) (0x04000290)) = num;
+ (*(vs32*) (0x04000298)) = den;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ return ((*(vs32*) (0x040002A0)));
+}
+
+static inline
+
+
+
+
+
+
+int32 mod32(int32 num, int32 den)
+{
+ (*(vu16*)(0x04000280)) = 0;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ (*(vs32*) (0x04000290)) = num;
+ (*(vs32*) (0x04000298)) = den;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ return ((*(vs32*) (0x040002A8)));
+}
+
+static inline
+
+
+
+
+
+
+int32 div64(int64 num, int32 den)
+{
+ (*(vu16*)(0x04000280)) = 1;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ (*(vs64*) (0x04000290)) = num;
+ (*(vs32*) (0x04000298)) = den;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ return ((*(vs32*) (0x040002A0)));
+}
+
+static inline
+
+
+
+
+
+
+int32 mod64(int64 num, int32 den)
+{
+ (*(vu16*)(0x04000280)) = 1;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ (*(vs64*) (0x04000290)) = num;
+ (*(vs32*) (0x04000298)) = den;
+
+ while((*(vu16*)(0x04000280)) & (1<<15));
+
+ return ((*(vs32*) (0x040002A8)));
+}
+
+static inline
+
+
+
+
+
+u32 sqrt32(int a)
+{
+ (*(vu16*)(0x040002B0)) = 0;
+
+ while((*(vu16*)(0x040002B0)) & (1<<15));
+
+ (*(vs32*) (0x040002B8)) = a;
+
+ while((*(vu16*)(0x040002B0)) & (1<<15));
+
+ return (*(vu32*) (0x040002B4));
+}
+
+static inline
+
+
+
+
+
+u32 sqrt64(long long a)
+{
+ (*(vu16*)(0x040002B0)) = 1;
+
+ while((*(vu16*)(0x040002B0)) & (1<<15));
+
+ (*(vs64*) (0x040002B8)) = a;
+
+ while((*(vu16*)(0x040002B0)) & (1<<15));
+
+ return (*(vu32*) (0x040002B4));
+}
+
+static inline
+# 266 "c:/devkitPro/libnds/include/nds/arm9/math.h"
+void crossf32(int32 *a, int32 *b, int32 *result)
+{
+ result[0] = mulf32(a[1], b[2]) - mulf32(b[1], a[2]);
+ result[1] = mulf32(a[2], b[0]) - mulf32(b[2], a[0]);
+ result[2] = mulf32(a[0], b[1]) - mulf32(b[0], a[1]);
+}
+
+
+static inline
+# 283 "c:/devkitPro/libnds/include/nds/arm9/math.h"
+int32 dotf32(int32 *a, int32 *b)
+{
+ return mulf32(a[0], b[0]) + mulf32(a[1], b[1]) + mulf32(a[2], b[2]);
+}
+
+
+
+static inline
+# 299 "c:/devkitPro/libnds/include/nds/arm9/math.h"
+void normalizef32(int32* a)
+{
+
+ int32 magnitude = sqrtf32( mulf32(a[0], a[0]) + mulf32(a[1], a[1]) + mulf32(a[2], a[2]) );
+
+ a[0] = divf32(a[0], magnitude);
+ a[1] = divf32(a[1], magnitude);
+ a[2] = divf32(a[2], magnitude);
+}
+# 48 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/dynamicArray.h" 1
+# 49 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h" 2
+# 82 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+typedef uint16 fixed12d3;
+# 91 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+typedef short t16;
+
+
+
+
+
+
+typedef short int v16;
+
+
+
+
+
+
+typedef short int v10;
+# 114 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+typedef unsigned short rgb;
+
+
+typedef struct m3x3 {
+ int m[9];
+} m3x3;
+
+
+typedef struct m4x4 {
+ int m[16];
+} m4x4;
+
+
+typedef struct m4x3 {
+ int m[12];
+} m4x3;
+
+
+typedef struct GLvector {
+ int x, y, z;
+} GLvector;
+# 144 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+typedef enum {
+ GL_TRIANGLES = 0,
+ GL_QUADS = 1,
+ GL_TRIANGLE_STRIP = 2,
+ GL_QUAD_STRIP = 3,
+ GL_TRIANGLE = 0,
+ GL_QUAD = 1
+} GL_GLBEGIN_ENUM;
+
+
+
+
+typedef enum {
+ GL_PROJECTION = 0,
+ GL_POSITION = 1,
+ GL_MODELVIEW = 2,
+ GL_TEXTURE = 3
+} GL_MATRIX_MODE_ENUM;
+
+
+
+
+typedef enum {
+ GL_AMBIENT = 0x01,
+ GL_DIFFUSE = 0x02,
+ GL_AMBIENT_AND_DIFFUSE = 0x03,
+ GL_SPECULAR = 0x04,
+ GL_SHININESS = 0x08,
+ GL_EMISSION = 0x10
+} GL_MATERIALS_ENUM;
+
+
+
+
+enum GL_POLY_FORMAT_ENUM {
+ POLY_FORMAT_LIGHT0 = (1<<0),
+ POLY_FORMAT_LIGHT1 = (1<<1),
+ POLY_FORMAT_LIGHT2 = (1<<2),
+ POLY_FORMAT_LIGHT3 = (1<<3),
+ POLY_MODULATION = (0<<4),
+ POLY_DECAL = (1<<4),
+ POLY_TOON_HIGHLIGHT = (2<<4),
+ POLY_SHADOW = (3<<4),
+ POLY_CULL_FRONT = (1<<6),
+ POLY_CULL_BACK = (2<<6),
+ POLY_CULL_NONE = (3<<6),
+ POLY_FOG = (1<<15)
+};
+
+
+
+enum GL_TEXTURE_SIZE_ENUM {
+ TEXTURE_SIZE_8 = 0,
+ TEXTURE_SIZE_16 = 1,
+ TEXTURE_SIZE_32 = 2,
+ TEXTURE_SIZE_64 = 3,
+ TEXTURE_SIZE_128 = 4,
+ TEXTURE_SIZE_256 = 5,
+ TEXTURE_SIZE_512 = 6,
+ TEXTURE_SIZE_1024 = 7
+};
+
+
+
+
+typedef enum {
+ GL_TEXTURE_WRAP_S = (1 << 16),
+ GL_TEXTURE_WRAP_T = (1 << 17),
+ GL_TEXTURE_FLIP_S = (1 << 18),
+ GL_TEXTURE_FLIP_T = (1 << 19),
+ GL_TEXTURE_COLOR0_TRANSPARENT = (1<<29),
+ TEXGEN_OFF = (0<<30),
+ TEXGEN_TEXCOORD = (1<<30),
+ TEXGEN_NORMAL = (2<<30),
+ TEXGEN_POSITION = (3<<30)
+}GL_TEXTURE_PARAM_ENUM;
+
+
+
+
+typedef enum {
+ GL_NOTEXTURE = 0,
+ GL_RGB32_A3 = 1,
+ GL_RGB4 = 2,
+ GL_RGB16 = 3,
+ GL_RGB256 = 4,
+ GL_COMPRESSED = 5,
+ GL_RGB8_A5 = 6,
+ GL_RGBA = 7,
+ GL_RGB = 8
+} GL_TEXTURE_TYPE_ENUM;
+
+
+
+enum GL_TEXTURE_PALETTE_PARAM_ENUM {
+ GL_COLOR_TABLE_FORMAT_EXT = 0,
+ GL_COLOR_TABLE_WIDTH_EXT = 1
+};
+
+
+
+
+enum DISP3DCNT_ENUM {
+ GL_TEXTURE_2D = (1<<0),
+ GL_TOON_HIGHLIGHT = (1<<1),
+ GL_ALPHA_TEST = (1<<2),
+ GL_BLEND = (1<<3),
+ GL_ANTIALIAS = (1<<4),
+ GL_OUTLINE = (1<<5),
+ GL_FOG_ONLY_ALPHA = (1<<6),
+ GL_FOG = (1<<7),
+ GL_COLOR_UNDERFLOW = (1<<12),
+ GL_POLY_OVERFLOW = (1<<13),
+ GL_CLEAR_BMP = (1<<14)
+};
+
+
+
+
+typedef enum {
+ GL_GET_VERTEX_RAM_COUNT,
+ GL_GET_POLYGON_RAM_COUNT,
+ GL_GET_MATRIX_VECTOR,
+ GL_GET_MATRIX_POSITION,
+ GL_GET_MATRIX_PROJECTION,
+ GL_GET_MATRIX_CLIP,
+ GL_GET_TEXTURE_WIDTH,
+ GL_GET_TEXTURE_HEIGHT
+} GL_GET_ENUM;
+
+
+
+
+
+enum GLFLUSH_ENUM {
+ GL_TRANS_MANUALSORT = (1<<0),
+ GL_WBUFFERING = (1<<1)
+};
+# 290 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+typedef struct s_SingleBlock {
+ uint32 indexOut;
+ uint8 *AddrSet;
+ struct s_SingleBlock *node[ 4 ];
+ uint32 blockSize;
+} s_SingleBlock;
+
+typedef struct s_vramBlock {
+ uint8 *startAddr, *endAddr;
+ struct s_SingleBlock *firstBlock;
+ struct s_SingleBlock *firstEmpty;
+ struct s_SingleBlock *firstAlloc;
+
+ struct s_SingleBlock *lastExamined;
+ uint8 *lastExaminedAddr;
+ uint32 lastExaminedSize;
+
+ DynamicArray blockPtrs;
+ DynamicArray deallocBlocks;
+
+ uint32 blockCount;
+ uint32 deallocCount;
+} s_vramBlock;
+
+typedef struct gl_texture_data {
+ void* vramAddr;
+ uint32 texIndex;
+ uint32 texIndexExt;
+ int palIndex;
+ uint32 texFormat;
+ uint32 texSize;
+} gl_texture_data;
+
+typedef struct gl_palette_data {
+ void* vramAddr;
+ uint32 palIndex;
+ uint16 addr;
+ uint16 palSize;
+ uint32 connectCount;
+} gl_palette_data;
+# 340 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+typedef struct gl_hidden_globals {
+ GL_MATRIX_MODE_ENUM matrixMode;
+ s_vramBlock *vramBlocks[ 2 ];
+ int vramLock[ 2 ];
+
+
+ DynamicArray texturePtrs;
+ DynamicArray palettePtrs;
+
+ DynamicArray deallocTex;
+ DynamicArray deallocPal;
+ uint32 deallocTexSize;
+ uint32 deallocPalSize;
+
+ int activeTexture;
+ int activePalette;
+ int texCount;
+ int palCount;
+
+
+ u32 clearColor;
+
+ uint8 isActive;
+} gl_hidden_globals;
+
+
+
+extern gl_hidden_globals glGlobalData;
+
+
+static gl_hidden_globals* glGlob = &glGlobalData;
+# 413 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+extern "C" {
+
+
+
+
+
+
+
+void glRotatef32i(int angle, int32 x, int32 y, int32 z);
+# 433 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+int glTexImage2D(int target, int empty1, GL_TEXTURE_TYPE_ENUM type, int sizeX, int sizeY, int empty2, int param, const void* texture);
+# 442 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void glColorTableEXT(int target, int empty1, uint16 width, int empty2, int empty3, const uint16* table);
+# 451 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void glColorSubTableEXT( int target, int start, int count, int empty1, int empty2, const uint16* data );
+
+
+
+
+
+
+void glGetColorTableEXT( int target, int empty1, int empty2, uint16* table );
+
+
+
+
+void glAssignColorTable(int target, int name);
+
+
+
+
+void glTexParameter(int target, int param);
+
+
+u32 glGetTexParameter(void);
+
+
+
+
+
+void glGetColorTableParameterEXT( int target, int pname, int * params );
+
+
+
+void* glGetTexturePointer( int name);
+
+
+
+
+void glBindTexture(int target, int name);
+
+
+
+
+
+int glGenTextures(int n, int *names);
+
+
+
+
+
+int glDeleteTextures(int n, int *names);
+
+
+void glResetTextures(void);
+
+
+
+
+int glLockVRAMBank( uint16 *addr );
+
+
+
+
+
+int glUnlockVRAMBank( uint16 *addr );
+
+
+
+
+
+void glTexCoord2f32(int32 u, int32 v);
+
+
+
+
+void glMaterialf(GL_MATERIALS_ENUM mode, rgb color);
+
+
+void glInit_C(void);
+
+
+gl_hidden_globals* glGetGlobals();
+
+
+
+}
+
+
+
+static inline
+
+
+
+
+ u32 POLY_ALPHA(u32 n) { return (u32)((n) << 16); };
+
+static inline
+
+
+
+
+
+ u32 POLY_ID(u32 n) { return (u32)((n)<<24); };
+
+static inline
+
+
+
+ void glBegin(GL_GLBEGIN_ENUM mode) { (*(vu32*) 0x04000500) = mode; }
+
+static inline
+
+
+ void glEnd(void) { (*(vu32*) 0x04000504) = 0; }
+
+static inline
+
+
+
+
+ void glClearDepth(fixed12d3 depth) { (*(vu16*) 0x04000354) = depth; }
+
+static inline
+
+
+
+
+
+ void glColor3b(uint8 red, uint8 green, uint8 blue) { (*(vu32*) 0x04000480) = (vu32)((red>>3)|((green>>3)<<5)|((blue>>3)<<10)); }
+
+static inline
+
+
+
+ void glColor(rgb color) { (*(vu32*) 0x04000480) = (vu32)color; }
+
+static inline
+
+
+
+
+
+void glVertex3v16(v16 x, v16 y, v16 z) {
+ (*(vu32*) 0x0400048C) = (y << 16) | (x & 0xFFFF);
+ (*(vu32*) 0x0400048C) = z;
+}
+
+static inline
+
+
+
+
+
+ void glTexCoord2t16(t16 u, t16 v) { (*(vu32*) 0x04000488) = (((u) & 0xFFFF) | ((v) << 16)); }
+
+static inline
+
+
+
+ void glPushMatrix(void) { (*(vu32*)0x04000444) = 0; }
+
+static inline
+
+
+
+
+ void glPopMatrix(int num) { (*(vu32*)0x04000448) = num; }
+
+static inline
+
+
+
+
+ void glRestoreMatrix(int index) { (*(vu32*)0x04000450) = index; }
+
+static inline
+
+
+
+
+ void glStoreMatrix(int index) { (*(vu32*)0x0400044C) = index; }
+
+static inline
+
+
+
+
+ void glScalev(const GLvector* v) {
+ (*(vs32*) 0x0400046C) = v->x;
+ (*(vs32*) 0x0400046C) = v->y;
+ (*(vs32*) 0x0400046C) = v->z;
+}
+
+static inline
+
+
+
+
+ void glTranslatev(const GLvector* v) {
+ (*(vs32*) 0x04000470) = v->x;
+ (*(vs32*) 0x04000470) = v->y;
+ (*(vs32*) 0x04000470) = v->z;
+}
+
+
+
+
+static inline
+
+
+
+
+
+
+ void glTranslatef32(int x, int y, int z) {
+ (*(vs32*) 0x04000470) = x;
+ (*(vs32*) 0x04000470) = y;
+ (*(vs32*) 0x04000470) = z;
+}
+
+static inline
+
+
+
+
+
+
+ void glScalef32(int x, int y, int z) {
+ (*(vs32*) 0x0400046C) = x;
+ (*(vs32*) 0x0400046C) = y;
+ (*(vs32*) 0x0400046C) = z;
+}
+
+static inline
+# 690 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+ void glLight(int id, rgb color, v10 x, v10 y, v10 z) {
+ id = (id & 3) << 30;
+ (*(vu32*) 0x040004C8) = id | ((z & 0x3FF) << 20) | ((y & 0x3FF) << 10) | (x & 0x3FF);
+ (*(vu32*) 0x040004CC) = id | color;
+}
+
+static inline
+
+
+
+
+
+ void glNormal(u32 normal) { (*(vu32*) 0x04000484) = normal; }
+
+static inline
+
+
+ void glLoadIdentity(void) { (*(vu32*)0x04000454) = 0; }
+
+static inline
+
+
+
+
+ void glMatrixMode(GL_MATRIX_MODE_ENUM mode) { (*(vu32*)0x04000440) = mode; }
+
+static inline
+
+
+
+
+
+
+
+ void glViewport(uint8 x1, uint8 y1, uint8 x2, uint8 y2) { (*(vu32*) 0x04000580) = (x1) + (y1 << 8) + (x2 << 16) + (y2 << 24); }
+
+static inline
+
+
+
+
+void glFlush(u32 mode) { asm volatile("" ::: "memory"); (*(vu32*) 0x04000540) = mode; }
+
+static inline
+
+
+void glMaterialShinyness(void) {
+ u32 shiny32[128/4];
+ u8 *shiny8 = (u8*)shiny32;
+
+ int i;
+
+ for (i = 0; i < 128 * 2; i += 2)
+  shiny8[i>>1] = i;
+
+ for (i = 0; i < 128 / 4; i++)
+  (*(vu32*) 0x040004D0) = shiny32[i];
+}
+
+static inline
+
+
+
+
+
+
+void glCallList(const u32* list) {
+ ((list != __null) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 757, "list != NULL", "glCallList received a null display list pointer"));
+
+ u32 count = *list++;
+
+ ((count != 0) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 761, "count != 0", "glCallList received a display list of size 0"));
+
+
+ DC_FlushRange(list, count*4);
+
+
+
+ while(((*(vuint32*)(0x040000B8+(0*12))) & (1 << (31)))||((*(vuint32*)(0x040000B8+(1*12))) & (1 << (31)))||((*(vuint32*)(0x040000B8+(2*12))) & (1 << (31)))||((*(vuint32*)(0x040000B8+(3*12))) & (1 << (31))));
+
+
+ (*(vuint32*)(0x040000B0+(0*12))) = (u32)list;
+ (*(vuint32*)(0x040000B4+(0*12))) = 0x4000400;
+ (*(vuint32*)(0x040000B8+(0*12))) = ((1 << (31)) | (1 << (26)) | (1 << (22)) | (7<<27)) | count;
+ while((*(vuint32*)(0x040000B8+(0*12))) & (1 << (31)));
+}
+static inline
+
+
+
+
+void glPolyFmt(u32 params) {
+ (*(vu32*) 0x040004A4) = params;
+}
+
+static inline
+
+
+
+void glEnable(int bits) {
+ (*(vu16*) 0x04000060) |= bits;
+}
+
+static inline
+
+
+
+void glDisable(int bits) {
+ (*(vu16*) 0x04000060) &= ~bits;
+}
+
+static inline
+
+
+
+void glFogShift(int shift) {
+ ((shift>=0 && shift<16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 806, "shift>=0 && shift<16", "glFogShift is out of range"));
+ (*(vu16*) 0x04000060) = ((*(vu16*) 0x04000060) & 0xF0FF) | (shift<<8);
+}
+
+static inline
+
+
+
+void glFogOffset(int offset) {
+ ((offset>=0 && offset<0x8000) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 815, "offset>=0 && offset<0x8000", "glFogOffset is out of range"));
+ (*(vu32*) 0x0400035C) = offset;
+}
+
+static inline
+
+
+
+
+
+
+void glFogColor(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
+ ((red<32) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 827, "red<32", "glFogColor red is out of range"));
+ ((green<32) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 828, "green<32", "glFogColor green is out of range"));
+ ((blue<32) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 829, "blue<32", "glFogColor blue is out of range"));
+ ((alpha<32) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 830, "alpha<32", "glFogColor alpha is out of range"));
+ (*(vu32*) 0x04000358) = ((red)|((green)<<5)|((blue)<<10)) | (alpha << 16);
+}
+
+static inline
+
+
+
+
+void glFogDensity(int index, int density) {
+ ((index>= 0 && index<32) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 840, "index>= 0 && index<32", "glFogDensity index is out of range"));
+ ((index>= 0 && density<128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/videoGL.h", 841, "index>= 0 && density<128", "glFogDensity density is out of range"));
+ ((vu8*) 0x04000360)[index] = density;
+}
+
+
+static inline
+
+
+
+void glLoadMatrix4x4(const m4x4 *m) {
+ (*(vs32*) 0x04000458) = m->m[0];
+ (*(vs32*) 0x04000458) = m->m[1];
+ (*(vs32*) 0x04000458) = m->m[2];
+ (*(vs32*) 0x04000458) = m->m[3];
+
+ (*(vs32*) 0x04000458) = m->m[4];
+ (*(vs32*) 0x04000458) = m->m[5];
+ (*(vs32*) 0x04000458) = m->m[6];
+ (*(vs32*) 0x04000458) = m->m[7];
+
+ (*(vs32*) 0x04000458) = m->m[8];
+ (*(vs32*) 0x04000458) = m->m[9];
+ (*(vs32*) 0x04000458) = m->m[10];
+ (*(vs32*) 0x04000458) = m->m[11];
+
+ (*(vs32*) 0x04000458) = m->m[12];
+ (*(vs32*) 0x04000458) = m->m[13];
+ (*(vs32*) 0x04000458) = m->m[14];
+ (*(vs32*) 0x04000458) = m->m[15];
+}
+
+static inline
+
+
+
+void glLoadMatrix4x3(const m4x3 * m) {
+ (*(vs32*) 0x0400045C) = m->m[0];
+ (*(vs32*) 0x0400045C) = m->m[1];
+ (*(vs32*) 0x0400045C) = m->m[2];
+ (*(vs32*) 0x0400045C) = m->m[3];
+
+ (*(vs32*) 0x0400045C) = m->m[4];
+ (*(vs32*) 0x0400045C) = m->m[5];
+ (*(vs32*) 0x0400045C) = m->m[6];
+ (*(vs32*) 0x0400045C) = m->m[7];
+
+ (*(vs32*) 0x0400045C) = m->m[8];
+ (*(vs32*) 0x0400045C) = m->m[9];
+ (*(vs32*) 0x0400045C) = m->m[10];
+ (*(vs32*) 0x0400045C) = m->m[11];
+}
+
+static inline
+
+
+
+void glMultMatrix4x4(const m4x4 * m) {
+ (*(vs32*) 0x04000460) = m->m[0];
+ (*(vs32*) 0x04000460) = m->m[1];
+ (*(vs32*) 0x04000460) = m->m[2];
+ (*(vs32*) 0x04000460) = m->m[3];
+
+ (*(vs32*) 0x04000460) = m->m[4];
+ (*(vs32*) 0x04000460) = m->m[5];
+ (*(vs32*) 0x04000460) = m->m[6];
+ (*(vs32*) 0x04000460) = m->m[7];
+
+ (*(vs32*) 0x04000460) = m->m[8];
+ (*(vs32*) 0x04000460) = m->m[9];
+ (*(vs32*) 0x04000460) = m->m[10];
+ (*(vs32*) 0x04000460) = m->m[11];
+
+ (*(vs32*) 0x04000460) = m->m[12];
+ (*(vs32*) 0x04000460) = m->m[13];
+ (*(vs32*) 0x04000460) = m->m[14];
+ (*(vs32*) 0x04000460) = m->m[15];
+}
+
+static inline
+
+
+
+void glMultMatrix4x3(const m4x3 * m) {
+ (*(vs32*) 0x04000464) = m->m[0];
+ (*(vs32*) 0x04000464) = m->m[1];
+ (*(vs32*) 0x04000464) = m->m[2];
+ (*(vs32*) 0x04000464) = m->m[3];
+
+ (*(vs32*) 0x04000464) = m->m[4];
+ (*(vs32*) 0x04000464) = m->m[5];
+ (*(vs32*) 0x04000464) = m->m[6];
+ (*(vs32*) 0x04000464) = m->m[7];
+
+ (*(vs32*) 0x04000464) = m->m[8];
+ (*(vs32*) 0x04000464) = m->m[9];
+ (*(vs32*) 0x04000464) = m->m[10];
+ (*(vs32*) 0x04000464) = m->m[11];
+
+}
+
+static inline
+
+
+
+void glMultMatrix3x3(const m3x3 * m) {
+ (*(vs32*) 0x04000468) = m->m[0];
+ (*(vs32*) 0x04000468) = m->m[1];
+ (*(vs32*) 0x04000468) = m->m[2];
+
+ (*(vs32*) 0x04000468) = m->m[3];
+ (*(vs32*) 0x04000468) = m->m[4];
+ (*(vs32*) 0x04000468) = m->m[5];
+
+ (*(vs32*) 0x04000468) = m->m[6];
+ (*(vs32*) 0x04000468) = m->m[7];
+ (*(vs32*) 0x04000468) = m->m[8];
+}
+
+static inline
+
+
+
+void glRotateXi(int angle) {
+ int sine = sinLerp(angle);
+ int cosine = cosLerp(angle);
+
+ (*(vs32*) 0x04000468) = ((1) << 12);
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = 0;
+
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = cosine;
+ (*(vs32*) 0x04000468) = sine;
+
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = -sine;
+ (*(vs32*) 0x04000468) = cosine;
+}
+
+static inline
+
+
+
+ void glRotateYi(int angle) {
+ int sine = sinLerp(angle);
+ int cosine = cosLerp(angle);
+
+ (*(vs32*) 0x04000468) = cosine;
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = -sine;
+
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = ((1) << 12);
+ (*(vs32*) 0x04000468) = 0;
+
+ (*(vs32*) 0x04000468) = sine;
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = cosine;
+}
+
+static inline
+
+
+
+void glRotateZi(int angle) {
+ int sine = sinLerp(angle);
+ int cosine = cosLerp(angle);
+
+ (*(vs32*) 0x04000468) = cosine;
+ (*(vs32*) 0x04000468) = sine;
+ (*(vs32*) 0x04000468) = 0;
+
+ (*(vs32*) 0x04000468) = - sine;
+ (*(vs32*) 0x04000468) = cosine;
+ (*(vs32*) 0x04000468) = 0;
+
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = 0;
+ (*(vs32*) 0x04000468) = ((1) << 12);
+}
+
+static inline
+# 1031 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void glOrthof32(int left, int right, int bottom, int top, int zNear, int zFar) {
+ (*(vs32*) 0x04000460) = divf32(((2) << 12), right - left);
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = divf32(((2) << 12), top - bottom);
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = divf32(((-2) << 12), zFar - zNear);
+ (*(vs32*) 0x04000460) = 0;
+
+ (*(vs32*) 0x04000460) = -divf32(right + left, right - left);
+ (*(vs32*) 0x04000460) = -divf32(top + bottom, top - bottom);
+ (*(vs32*) 0x04000460) = -divf32(zFar + zNear, zFar - zNear);
+ (*(vs32*) 0x04000460) = ((int)((1.0F) * (1 << 12)));
+}
+static inline
+# 1064 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void gluLookAtf32(int eyex, int eyey, int eyez, int lookAtx, int lookAty, int lookAtz, int upx, int upy, int upz) {
+ int32 side[3], forward[3], up[3], eye[3];
+
+ forward[0] = eyex - lookAtx;
+ forward[1] = eyey - lookAty;
+ forward[2] = eyez - lookAtz;
+
+ normalizef32(forward);
+
+ up[0] = upx;
+ up[1] = upy;
+ up[2] = upz;
+ eye[0] = eyex;
+ eye[1] = eyey;
+ eye[2] = eyez;
+
+ crossf32(up, forward, side);
+
+ normalizef32(side);
+
+
+ crossf32(forward, side, up);
+
+ glMatrixMode(GL_MODELVIEW);
+
+
+
+ (*(vs32*) 0x04000464) = side[0];
+ (*(vs32*) 0x04000464) = up[0];
+ (*(vs32*) 0x04000464) = forward[0];
+
+ (*(vs32*) 0x04000464) = side[1];
+ (*(vs32*) 0x04000464) = up[1];
+ (*(vs32*) 0x04000464) = forward[1];
+
+ (*(vs32*) 0x04000464) = side[2];
+ (*(vs32*) 0x04000464) = up[2];
+ (*(vs32*) 0x04000464) = forward[2];
+
+ (*(vs32*) 0x04000464) = -dotf32(eye,side);
+ (*(vs32*) 0x04000464) = -dotf32(eye,up);
+ (*(vs32*) 0x04000464) = -dotf32(eye,forward);
+
+}
+
+static inline
+# 1118 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void glFrustumf32(int left, int right, int bottom, int top, int near, int far) {
+
+ (*(vs32*) 0x04000460) = divf32(2*near, right - left);
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = divf32(2*near, top - bottom);
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+
+ (*(vs32*) 0x04000460) = divf32(right + left, right - left);
+ (*(vs32*) 0x04000460) = divf32(top + bottom, top - bottom);
+ (*(vs32*) 0x04000460) = -divf32(far + near, far - near);
+ (*(vs32*) 0x04000460) = ((int)((-1.0F) * (1 << 12)));
+
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = -divf32(2 * mulf32(far, near), far - near);
+ (*(vs32*) 0x04000460) = 0;
+}
+
+static inline
+
+
+
+
+
+
+void gluPerspectivef32(int fovy, int aspect, int zNear, int zFar) {
+ int xmin, xmax, ymin, ymax;
+
+ ymax = mulf32(zNear, tanLerp(fovy>>1));
+
+ ymin = -ymax;
+ xmin = mulf32(ymin, aspect);
+ xmax = mulf32(ymax, aspect);
+
+ glFrustumf32(xmin, xmax, ymin, ymax, zNear, zFar);
+}
+
+static inline
+
+
+
+
+
+
+
+void gluPickMatrix(int x, int y, int width, int height, const int viewport[4]) {
+ (*(vs32*) 0x04000460) = ((viewport[2]) << 12) / width;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = ((viewport[3]) << 12) / height;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = ((1) << 12);
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = ((viewport[2] + ((viewport[0] - x)<<1)) << 12) / width;
+ (*(vs32*) 0x04000460) = ((viewport[3] + ((viewport[1] - y)<<1)) << 12) / height;
+ (*(vs32*) 0x04000460) = 0;
+ (*(vs32*) 0x04000460) = ((1) << 12);
+}
+
+static inline
+
+
+void glResetMatrixStack(void) {
+
+ while((*(vu32*) 0x04000600) & (1 << (14))){
+  (*(vu32*) 0x04000600) |= 1 << 15;
+ }
+
+
+ if(((*(vu32*) 0x04000600)&(1<<13))!=0) {
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix(1);
+ }
+
+
+ glMatrixMode(GL_MODELVIEW);
+ glPopMatrix(((*(vu32*) 0x04000600) >> 8) & 0x1F);
+
+
+ glMatrixMode(GL_MODELVIEW);
+ glLoadIdentity();
+ glMatrixMode(GL_PROJECTION);
+ glLoadIdentity();
+ glMatrixMode(GL_TEXTURE);
+ glLoadIdentity();
+}
+static inline
+
+
+
+
+void glSetOutlineColor(int id, rgb color) {
+ ((vu16*) 0x04000330)[id] = color;
+}
+
+static inline
+
+
+
+void glSetToonTable(const uint16 *table) {
+ int i;
+ for(i = 0; i < 32; i++ )
+  ((vu16*) 0x04000380)[i] = table[i];
+}
+
+static inline
+
+
+
+
+
+ void glSetToonTableRange(int start, int end, rgb color) {
+ int i;
+ for(i = start; i <= end; i++ )
+  ((vu16*) 0x04000380)[i] = color;
+}
+
+static inline
+
+
+
+
+
+
+void glGetFixed(const GL_GET_ENUM param, int* f) {
+ int i;
+ switch (param) {
+  case GL_GET_MATRIX_VECTOR:
+   while(((*(vu32*) 0x04000600) & (1 << (27))));
+   for(i = 0; i < 9; i++) f[i] = ((vs32*) (0x04000680))[i];
+   break;
+  case GL_GET_MATRIX_CLIP:
+   while(((*(vu32*) 0x04000600) & (1 << (27))));
+   for(i = 0; i < 16; i++) f[i] = ((vs32*) (0x04000640))[i];
+   break;
+  case GL_GET_MATRIX_PROJECTION:
+   glMatrixMode(GL_POSITION);
+   glPushMatrix();
+   glLoadIdentity();
+   while(((*(vu32*) 0x04000600) & (1 << (27))));
+    for(i = 0; i < 16; i++) f[i] = ((vs32*) (0x04000640))[i];
+   glPopMatrix(1);
+   break;
+  case GL_GET_MATRIX_POSITION:
+   glMatrixMode(GL_PROJECTION);
+   glPushMatrix();
+   glLoadIdentity();
+   while(((*(vu32*) 0x04000600) & (1 << (27))));
+    for(i = 0; i < 16; i++) f[i] = ((vs32*) (0x04000640))[i];
+   glPopMatrix(1);
+   break;
+  default:
+   break;
+ }
+}
+
+static inline
+
+
+
+
+void glAlphaFunc(int alphaThreshold) {
+ (*(vu16*) 0x04000340) = alphaThreshold;
+}
+
+static inline
+
+
+
+
+void glCutoffDepth(fixed12d3 wVal) {
+ (*(vu16*)0x04000610) = wVal;
+}
+
+static inline
+
+
+void glInit() {
+ glInit_C();
+}
+
+static inline
+
+
+
+
+
+
+void glClearColor(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
+ (*(vu32*) 0x04000350) = glGlob->clearColor = ( glGlob->clearColor & 0xFFE08000) | (0x7FFF & ((red)|((green)<<5)|((blue)<<10))) | ((alpha & 0x1F) << 16);
+}
+
+static inline
+
+
+
+void glClearPolyID(uint8 ID) {
+ (*(vu32*) 0x04000350) = glGlob->clearColor = ( glGlob->clearColor & 0xC0FFFFFF) | (( ID & 0x3F ) << 24 );
+}
+
+static inline
+
+
+
+
+void glGetInt(GL_GET_ENUM param, int* i) {
+ switch (param) {
+  case GL_GET_POLYGON_RAM_COUNT:
+   *i = (*(vu16*) 0x04000604);
+   break;
+  case GL_GET_VERTEX_RAM_COUNT:
+   *i = (*(vu16*) 0x04000606);
+   break;
+  case GL_GET_TEXTURE_WIDTH: {
+   gl_texture_data *tex = (gl_texture_data*)DynamicArrayGet( &glGlob->texturePtrs, glGlob->activeTexture );
+   if( tex )
+    *i = 8 << ((tex->texFormat >> 20 ) & 7 );
+   break; }
+  case GL_GET_TEXTURE_HEIGHT: {
+   gl_texture_data *tex = (gl_texture_data*)DynamicArrayGet( &glGlob->texturePtrs, glGlob->activeTexture );
+   if( tex )
+    *i = 8 << ((tex->texFormat >> 23 ) & 7 );
+   break; }
+  default:
+   break;
+ }
+}
+
+
+
+
+
+
+
+static inline
+
+
+
+
+
+
+void glVertex3f(float x, float y, float z) {
+ glVertex3v16(((v16)((x) * (1 << 12))), ((v16)((y) * (1 << 12))), ((v16)((z) * (1 << 12))));
+}
+
+static inline
+
+
+
+
+
+
+
+void glRotatef32(float angle, int x, int y, int z) {
+    glRotatef32i((int)(angle * (1 << 15) / 360.0), x, y, z);
+}
+
+static inline
+
+
+
+
+
+
+
+void glRotatef(float angle, float x, float y, float z) {
+ glRotatef32(angle, ((int)((x) * (1 << 12))), ((int)((y) * (1 << 12))), ((int)((z) * (1 << 12))));
+}
+
+static inline
+
+
+
+
+
+
+void glColor3f(float r, float g, float b) {
+ glColor3b((uint8)(r*255), (uint8)(g*255), (uint8)(b*255));
+}
+
+static inline
+
+
+
+
+
+
+
+void glScalef(float x, float y, float z) {
+ (*(vs32*) 0x0400046C) = ((int)((x) * (1 << 12)));
+ (*(vs32*) 0x0400046C) = ((int)((y) * (1 << 12)));
+ (*(vs32*) 0x0400046C) = ((int)((z) * (1 << 12)));
+}
+
+static inline
+
+
+
+
+
+
+
+void glTranslatef(float x, float y, float z) {
+ (*(vs32*) 0x04000470) = ((int)((x) * (1 << 12)));
+ (*(vs32*) 0x04000470) = ((int)((y) * (1 << 12)));
+ (*(vs32*) 0x04000470) = ((int)((z) * (1 << 12)));
+}
+
+static inline
+
+
+
+
+
+
+
+void glNormal3f(float x, float y, float z) {
+ glNormal((u32)(((((x>.998) ? 0x1FF : ((v10)((x)*(1<<9))))) & 0x3FF) | (((((y>.998) ? 0x1FF : ((v10)((y)*(1<<9))))) & 0x3FF) << 10) | ((((z>.998) ? 0x1FF : ((v10)((z)*(1<<9))))) << 20)));
+}
+
+static inline
+
+
+
+
+void glRotateX(float angle) {
+ glRotateXi((int)(angle * (1 << 15) / 360.0));
+}
+
+static inline
+
+
+
+
+void glRotateY(float angle) {
+ glRotateYi((int)(angle * (1 << 15) / 360.0));
+}
+
+static inline
+
+
+
+
+void glRotateZ(float angle) {
+ glRotateZi((int)(angle * (1 << 15) / 360.0));
+}
+
+static inline
+# 1485 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void glOrtho(float left, float right, float bottom, float top, float zNear, float zFar) {
+ glOrthof32(((int)((left) * (1 << 12))), ((int)((right) * (1 << 12))), ((int)((bottom) * (1 << 12))), ((int)((top) * (1 << 12))), ((int)((zNear) * (1 << 12))), ((int)((zFar) * (1 << 12))));
+}
+
+static inline
+# 1504 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+void gluLookAt( float eyex, float eyey, float eyez,
+        float lookAtx, float lookAty, float lookAtz,
+        float upx, float upy, float upz) {
+ gluLookAtf32(((int)((eyex) * (1 << 12))), ((int)((eyey) * (1 << 12))), ((int)((eyez) * (1 << 12))),
+     ((int)((lookAtx) * (1 << 12))), ((int)((lookAty) * (1 << 12))), ((int)((lookAtz) * (1 << 12))),
+     ((int)((upx) * (1 << 12))), ((int)((upy) * (1 << 12))), ((int)((upz) * (1 << 12))));
+}
+
+static inline
+# 1522 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h"
+ void glFrustum(float left, float right, float bottom, float top, float near, float far) {
+ glFrustumf32(((int)((left) * (1 << 12))), ((int)((right) * (1 << 12))), ((int)((bottom) * (1 << 12))), ((int)((top) * (1 << 12))), ((int)((near) * (1 << 12))), ((int)((far) * (1 << 12))));
+}
+
+static inline
+
+
+
+
+
+
+
+ void gluPerspective(float fovy, float aspect, float zNear, float zFar) {
+ gluPerspectivef32((int)(fovy * (1 << 15) / 360.0), ((int)((aspect) * (1 << 12))), ((int)((zNear) * (1 << 12))), ((int)((zFar) * (1 << 12))));
+}
+
+static inline
+
+
+
+
+
+
+ void glTexCoord2f(float s, float t) {
+ gl_texture_data *tex = (gl_texture_data*)DynamicArrayGet( &glGlob->texturePtrs, glGlob->activeTexture );
+ if( tex ) {
+  int x = (tex->texFormat >> 20) & 7;
+  int y = (tex->texFormat >> 23) & 7;
+  glTexCoord2t16(((t16)((s*(8 << x)) * (1 << 4))), ((t16)((t*(8<<y)) * (1 << 4))));
+ }
+}
+# 33 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h" 2
+
+
+
+
+
+
+extern "C" {
+# 53 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h"
+int BoxTest(v16 x, v16 y, v16 z, v16 width, v16 height, v16 depth);
+# 65 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h"
+int BoxTestf(float x, float y, float z, float width, float height, float depth);
+# 78 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h"
+void BoxTest_Asynch(v16 x, v16 y, v16 z, v16 height, v16 width, v16 depth);
+# 91 "c:/devkitPro/libnds/include/nds/arm9/boxtest.h"
+void BoxTestf_Asynch(float x, float y, float z, float width, float height, float depth);
+
+
+
+
+int BoxTestResult(void);
+
+
+}
+# 255 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/cache.h" 1
+# 256 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/console.h" 1
+# 69 "c:/devkitPro/libnds/include/nds/arm9/console.h"
+# 1 "c:/devkitPro/libnds/include/nds/arm9/background.h" 1
+# 70 "c:/devkitPro/libnds/include/nds/arm9/console.h" 2
+
+
+extern "C" {
+
+
+typedef bool(* ConsolePrint)(void* con, char c);
+
+
+typedef struct ConsoleFont
+{
+ u16* gfx;
+ u16* pal;
+ u16 numColors;
+
+ u8 bpp;
+
+ u16 asciiOffset;
+ u16 numChars;
+ bool convertSingleColor;
+
+
+}ConsoleFont;
+# 132 "c:/devkitPro/libnds/include/nds/arm9/console.h"
+typedef struct PrintConsole
+{
+ ConsoleFont font;
+
+ u16* fontBgMap;
+ u16* fontBgGfx;
+
+ u8 mapBase;
+ u8 gfxBase;
+
+ u8 bgLayer;
+ int bgId;
+
+ int cursorX;
+ int cursorY;
+
+ int prevCursorX;
+ int prevCursorY;
+
+ int consoleWidth;
+ int consoleHeight;
+
+ int windowX;
+ int windowY;
+ int windowWidth;
+ int windowHeight;
+
+ int tabSize;
+
+ u16 fontCharOffset;
+
+
+ u16 fontCurPal;
+
+ ConsolePrint PrintChar;
+
+
+ bool consoleInitialised;
+ bool loadGraphics;
+}PrintConsole;
+
+
+
+typedef enum
+{
+ DebugDevice_NULL = 0x0,
+ DebugDevice_NOCASH = 0x1,
+ DebugDevice_CONSOLE = 0x02
+}DebugDevice;
+
+
+
+
+
+void consoleSetFont(PrintConsole* console, ConsoleFont* font);
+# 195 "c:/devkitPro/libnds/include/nds/arm9/console.h"
+void consoleSetWindow(PrintConsole* console, int x, int y, int width, int height);
+
+
+
+
+
+PrintConsole* consoleGetDefault(void);
+
+
+
+
+
+PrintConsole *consoleSelect(PrintConsole* console);
+# 220 "c:/devkitPro/libnds/include/nds/arm9/console.h"
+PrintConsole* consoleInit(PrintConsole* console, int layer, BgType type, BgSize size, int mapBase, int tileBase, bool mainDisplay, bool loadGraphics);
+
+
+
+
+
+
+
+PrintConsole* consoleDemoInit(void);
+
+
+void consoleClear(void);
+
+
+
+
+void consoleDebugInit(DebugDevice device);
+
+
+}
+# 257 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/decompress.h" 1
+# 36 "c:/devkitPro/libnds/include/nds/arm9/decompress.h"
+# 1 "c:/devkitPro/libnds/include/nds/bios.h" 1
+# 37 "c:/devkitPro/libnds/include/nds/arm9/decompress.h" 2
+
+
+
+typedef enum
+{
+   LZ77,
+   LZ77Vram,
+   HUFF,
+   RLE,
+   RLEVram
+}DecompressType;
+
+
+extern "C" {
+# 59 "c:/devkitPro/libnds/include/nds/arm9/decompress.h"
+void decompress(const void* data, void* dst, DecompressType type);
+# 69 "c:/devkitPro/libnds/include/nds/arm9/decompress.h"
+void decompressStream(const void* data, void* dst, DecompressType type, getByteCallback readCB, getHeaderCallback getHeaderCB);
+
+
+}
+# 258 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/exceptions.h" 1
+# 36 "c:/devkitPro/libnds/include/nds/arm9/exceptions.h"
+extern "C" {
+
+
+
+extern VoidFn exceptionC[];
+extern u32 exceptionStack;
+
+
+extern s32 exceptionRegisters[];
+
+
+void enterException(void);
+
+
+void setExceptionHandler(VoidFn handler);
+
+
+void defaultExceptionHandler();
+
+
+u32 getCPSR();
+
+
+}
+# 259 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/guitarGrip.h" 1
+# 29 "c:/devkitPro/libnds/include/nds/arm9/guitarGrip.h"
+extern "C" {
+# 42 "c:/devkitPro/libnds/include/nds/arm9/guitarGrip.h"
+bool guitarGripIsInserted();
+
+
+
+
+
+void guitarGripScanKeys();
+
+
+u8 guitarGripKeysHeld();
+
+
+u8 guitarGripKeysDown();
+
+
+u8 guitarGripKeysUp();
+
+
+
+}
+# 260 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/image.h" 1
+# 42 "c:/devkitPro/libnds/include/nds/arm9/image.h"
+typedef struct RGB_24
+{
+ unsigned char r;
+ unsigned char g;
+ unsigned char b;
+} __attribute__ ((packed)) RGB_24;
+
+
+
+
+typedef struct sImage
+{
+ short height;
+ short width;
+ int bpp;
+ unsigned short* palette;
+
+
+ union
+ {
+  u8* data8;
+  u16* data16;
+  u32* data32;
+ } image;
+
+} sImage, *psImage;
+
+
+extern "C" {
+
+
+
+
+
+void image24to16(sImage* img);
+
+
+
+
+void image8to16(sImage* img);
+
+
+
+
+
+void image8to16trans(sImage* img, u8 transparentColor);
+
+
+
+
+void imageDestroy(sImage* img);
+
+
+
+
+void imageTileData(sImage* img);
+
+
+}
+
+
+
+# 1 "c:/devkitPro/libnds/include/nds/arm9/pcx.h" 1
+# 37 "c:/devkitPro/libnds/include/nds/arm9/pcx.h"
+typedef struct PCXHeader
+{
+   char manufacturer;
+   char version;
+   char encoding;
+   char bitsPerPixel;
+   short int xmin,ymin;
+   short int xmax,ymax;
+   short int hres;
+   short int vres;
+   char palette16[48];
+   char reserved;
+   char colorPlanes;
+   short int bytesPerLine;
+   short int paletteYype;
+   char filler[58];
+}__attribute__ ((packed)) PCXHeader, *pPCXHeader;
+
+
+extern "C" {
+
+
+
+
+
+
+
+int loadPCX(const unsigned char* pcx, sImage* image);
+
+
+}
+# 105 "c:/devkitPro/libnds/include/nds/arm9/image.h" 2
+# 261 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/input.h" 1
+# 38 "c:/devkitPro/libnds/include/nds/arm9/input.h"
+# 1 "c:/devkitPro/libnds/include/nds/touch.h" 1
+# 39 "c:/devkitPro/libnds/include/nds/arm9/input.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/input.h" 1
+# 40 "c:/devkitPro/libnds/include/nds/arm9/input.h" 2
+
+
+extern "C" {
+
+
+
+
+
+void scanKeys(void);
+
+
+
+
+uint32 keysCurrent(void);
+
+
+uint32 keysHeld(void);
+
+
+uint32 keysDown(void);
+
+
+uint32 keysDownRepeat(void);
+
+
+
+
+
+void keysSetRepeat( u8 setDelay, u8 setRepeat );
+
+
+uint32 keysUp(void);
+
+
+
+__attribute__ ((deprecated)) touchPosition touchReadXY() ;
+
+
+
+
+
+
+void touchRead(touchPosition *data);
+
+
+}
+# 262 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/keyboard.h" 1
+# 52 "c:/devkitPro/libnds/include/nds/arm9/keyboard.h"
+typedef void (*KeyChangeCallback)(int key);
+
+
+typedef enum
+{
+ Lower = 0,
+ Upper = 1,
+ Numeric = 2,
+ Reduced = 3
+}KeyboardState;
+
+
+typedef struct KeyMap {
+ const u16* mapDataPressed;
+ const u16* mapDataReleased;
+ const int* keymap;
+ int width;
+ int height;
+}KeyMap;
+
+
+typedef struct Keyboard {
+ int background;
+ int keyboardOnSub;
+    int offset_x;
+ int offset_y;
+ int grid_width;
+ int grid_height;
+ KeyboardState state;
+    int shifted;
+    int visible;
+ KeyMap* mappings[4];
+
+
+
+
+ const u16* tiles;
+    u32 tileLen;
+    const u16* palette;
+    u32 paletteLen;
+    int mapBase;
+ int tileBase;
+ int tileOffset;
+ u32 scrollSpeed;
+ KeyChangeCallback OnKeyPressed;
+ KeyChangeCallback OnKeyReleased;
+}Keyboard;
+
+
+
+
+
+
+typedef enum
+{
+ NOKEY = -1,
+ DVK_FOLD = -23,
+ DVK_TAB = 9,
+ DVK_BACKSPACE = 8,
+ DVK_CAPS = -15,
+ DVK_SHIFT = -14,
+ DVK_SPACE = 32,
+ DVK_MENU = -5,
+ DVK_ENTER = 10,
+ DVK_CTRL = -16,
+ DVK_UP = -17,
+ DVK_RIGHT = -18,
+ DVK_DOWN = -19,
+ DVK_LEFT = -20,
+ DVK_ALT = -26
+} Keys;
+
+
+
+extern "C" {
+
+
+
+Keyboard* keyboardGetDefault(void);
+# 143 "c:/devkitPro/libnds/include/nds/arm9/keyboard.h"
+Keyboard* keyboardInit(Keyboard* keyboard, int layer, BgType type, BgSize size, int mapBase, int tileBase, bool mainDisplay, bool loadGraphics);
+
+
+
+
+
+Keyboard* keyboardDemoInit(void);
+
+
+
+void keyboardShow(void);
+
+
+
+void keyboardHide(void);
+
+
+
+
+
+
+
+int keyboardGetKey(int x, int y);
+
+
+
+
+
+void keyboardGetString(char * buffer, int maxLen);
+
+
+
+
+int keyboardGetChar(void);
+
+
+
+
+
+int keyboardUpdate(void);
+
+
+}
+# 263 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/math.h" 1
+# 264 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/paddle.h" 1
+# 29 "c:/devkitPro/libnds/include/nds/arm9/paddle.h"
+extern "C" {
+
+
+
+
+
+
+
+bool paddleIsInserted();
+
+
+
+
+
+u16 paddleRead();
+
+
+void paddleReset();
+
+
+
+}
+# 265 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/pcx.h" 1
+# 266 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/piano.h" 1
+# 32 "c:/devkitPro/libnds/include/nds/arm9/piano.h"
+extern "C" {
+# 55 "c:/devkitPro/libnds/include/nds/arm9/piano.h"
+bool pianoIsInserted();
+
+
+
+
+
+void pianoScanKeys();
+
+
+u16 pianoKeysHeld();
+
+
+u16 pianoKeysDown();
+
+
+u16 pianoKeysUp();
+
+
+}
+# 267 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/rumble.h" 1
+# 32 "c:/devkitPro/libnds/include/nds/arm9/rumble.h"
+extern "C" {
+
+
+
+
+
+
+typedef enum {
+   RUMBLE,
+   WARIOWARE
+}RUMBLE_TYPE;
+
+
+
+
+
+bool isRumbleInserted(void);
+
+
+
+
+
+void setRumble(bool position);
+
+
+}
+# 268 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/sassert.h" 1
+# 269 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/sound.h" 1
+# 38 "c:/devkitPro/libnds/include/nds/arm9/sound.h"
+extern "C" {
+
+
+
+
+typedef void (* MicCallback)(void* completedBuffer, int length);
+
+
+typedef enum {
+ SoundFormat_16Bit = 1,
+ SoundFormat_8Bit = 0,
+ SoundFormat_PSG = 3,
+ SoundFormat_ADPCM = 2
+}SoundFormat;
+
+
+typedef enum {
+ MicFormat_8Bit = 1,
+ MicFormat_12Bit = 0
+}MicFormat;
+
+
+typedef enum {
+ DutyCycle_0 = 7,
+ DutyCycle_12 = 0,
+ DutyCycle_25 = 1,
+ DutyCycle_37 = 2,
+ DutyCycle_50 = 3,
+ DutyCycle_62 = 4,
+ DutyCycle_75 = 5,
+ DutyCycle_87 = 6
+}DutyCycle;
+
+
+
+
+
+void soundEnable(void);
+
+
+
+
+void soundDisable(void);
+# 96 "c:/devkitPro/libnds/include/nds/arm9/sound.h"
+int soundPlaySample(const void* data, SoundFormat format, u32 dataSize, u16 freq, u8 volume, u8 pan, bool loop, u16 loopPoint);
+# 107 "c:/devkitPro/libnds/include/nds/arm9/sound.h"
+int soundPlayPSG(DutyCycle cycle, u16 freq, u8 volume, u8 pan);
+# 117 "c:/devkitPro/libnds/include/nds/arm9/sound.h"
+int soundPlayNoise(u16 freq, u8 volume, u8 pan);
+
+
+
+
+
+void soundPause(int soundId);
+
+
+
+
+
+
+void soundSetWaveDuty(int soundId, DutyCycle cycle);
+
+
+
+
+
+void soundKill(int soundId);
+
+
+
+
+
+void soundResume(int soundId);
+
+
+
+
+
+
+void soundSetVolume(int soundId, u8 volume);
+
+
+
+
+
+
+void soundSetPan(int soundId, u8 pan);
+
+
+
+
+
+
+void soundSetFreq(int soundId, u16 freq);
+# 176 "c:/devkitPro/libnds/include/nds/arm9/sound.h"
+int soundMicRecord(void *buffer, u32 bufferLength, MicFormat format, int freq, MicCallback callback);
+
+
+
+
+void soundMicOff(void);
+
+
+}
+# 270 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/sprite.h" 1
+# 43 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+# 1 "c:/devkitPro/libnds/include/nds/system.h" 1
+# 44 "c:/devkitPro/libnds/include/nds/arm9/sprite.h" 2
+# 86 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+typedef enum
+{
+ OBJMODE_NORMAL,
+ OBJMODE_BLENDED,
+ OBJMODE_WINDOWED,
+ OBJMODE_BITMAP,
+
+} ObjBlendMode;
+
+
+typedef enum {
+ OBJSHAPE_SQUARE,
+ OBJSHAPE_WIDE,
+ OBJSHAPE_TALL,
+ OBJSHAPE_FORBIDDEN,
+} ObjShape;
+
+
+typedef enum {
+ OBJSIZE_8,
+ OBJSIZE_16,
+ OBJSIZE_32,
+ OBJSIZE_64,
+} ObjSize;
+
+
+typedef enum {
+ OBJCOLOR_16,
+ OBJCOLOR_256,
+} ObjColMode;
+
+
+typedef enum {
+ OBJPRIORITY_0,
+ OBJPRIORITY_1,
+ OBJPRIORITY_2,
+ OBJPRIORITY_3,
+} ObjPriority;
+
+
+typedef union SpriteEntry
+{
+ struct
+ {
+  struct
+  {
+   u16 y :8;
+   union
+   {
+    struct
+    {
+     u8 :1;
+     bool isHidden :1;
+     u8 :6;
+    };
+    struct
+    {
+     bool isRotateScale :1;
+     bool isSizeDouble :1;
+     ObjBlendMode blendMode :2;
+     bool isMosaic :1;
+     ObjColMode colorMode :1;
+     ObjShape shape :2;
+    };
+   };
+  };
+
+  union {
+   struct {
+    u16 x :9;
+    u8 :7;
+   };
+   struct {
+    u8 :8;
+    union {
+     struct {
+      u8 :4;
+      bool hFlip :1;
+      bool vFlip :1;
+      u8 :2;
+     };
+     struct {
+      u8 :1;
+      u8 rotationIndex :5;
+      ObjSize size :2;
+     };
+    };
+   };
+  };
+
+  struct
+  {
+   u16 gfxIndex :10;
+   ObjPriority priority :2;
+   u8 palette :4;
+  };
+
+  u16 attribute3;
+ };
+
+ struct {
+  uint16 attribute[3];
+  uint16 filler;
+ };
+
+} SpriteEntry, * pSpriteEntry;
+
+
+
+
+typedef struct SpriteRotation
+{
+ uint16 filler1[3];
+ int16 hdx;
+
+ uint16 filler2[3];
+ int16 vdx;
+
+ uint16 filler3[3];
+ int16 hdy;
+
+ uint16 filler4[3];
+ int16 vdy;
+} SpriteRotation, * pSpriteRotation;
+# 219 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+typedef union OAMTable {
+ SpriteEntry oamBuffer[128];
+ SpriteRotation matrixBuffer[32];
+} OAMTable;
+
+
+
+
+typedef enum {
+   SpriteSize_8x8 = (OBJSIZE_8 << 14) | (OBJSHAPE_SQUARE << 12) | (8*8>>5),
+   SpriteSize_16x16 = (OBJSIZE_16 << 14) | (OBJSHAPE_SQUARE << 12) | (16*16>>5),
+   SpriteSize_32x32 = (OBJSIZE_32 << 14) | (OBJSHAPE_SQUARE << 12) | (32*32>>5),
+   SpriteSize_64x64 = (OBJSIZE_64 << 14) | (OBJSHAPE_SQUARE << 12) | (64*64>>5),
+
+   SpriteSize_16x8 = (OBJSIZE_8 << 14) | (OBJSHAPE_WIDE << 12) | (16*8>>5),
+   SpriteSize_32x8 = (OBJSIZE_16 << 14) | (OBJSHAPE_WIDE << 12) | (32*8>>5),
+   SpriteSize_32x16 = (OBJSIZE_32 << 14) | (OBJSHAPE_WIDE << 12) | (32*16>>5),
+   SpriteSize_64x32 = (OBJSIZE_64 << 14) | (OBJSHAPE_WIDE << 12) | (64*32>>5),
+
+   SpriteSize_8x16 = (OBJSIZE_8 << 14) | (OBJSHAPE_TALL << 12) | (8*16>>5),
+   SpriteSize_8x32 = (OBJSIZE_16 << 14) | (OBJSHAPE_TALL << 12) | (8*32>>5),
+   SpriteSize_16x32 = (OBJSIZE_32 << 14) | (OBJSHAPE_TALL << 12) | (16*32>>5),
+   SpriteSize_32x64 = (OBJSIZE_64 << 14) | (OBJSHAPE_TALL << 12) | (32*64>>5)
+
+}SpriteSize;
+
+
+
+
+
+
+typedef enum{
+   SpriteMapping_1D_32 = (1 << 4) | (0 << 20) | (0 << 28) | 0,
+   SpriteMapping_1D_64 = (1 << 4) | (1 << 20) | (1 << 28) | 1,
+   SpriteMapping_1D_128 = (1 << 4) | (2 << 20) | (2 << 28) | 2,
+   SpriteMapping_1D_256 = (1 << 4) | (3 << 20) | (3 << 28) | 3,
+   SpriteMapping_2D = (0 << 4) | (4 << 28),
+   SpriteMapping_Bmp_1D_128 = (1 << 4) | (2 << 20) | (4 << 4) |(0 << 22) | (5 << 28) | 2,
+   SpriteMapping_Bmp_1D_256 = (1 << 4) | (3 << 20) | (4 << 4) |(1 << 22) | (6 << 28) | 3,
+   SpriteMapping_Bmp_2D_128 = (0 << 4) | (0 << 4) | (7 << 28) | 2,
+   SpriteMapping_Bmp_2D_256 = (0 << 4) | (2 << 4) | (8 << 28) | 3
+}SpriteMapping;
+
+
+typedef enum{
+   SpriteColorFormat_16Color = OBJCOLOR_16,
+   SpriteColorFormat_256Color = OBJCOLOR_256,
+   SpriteColorFormat_Bmp = OBJMODE_BITMAP
+}SpriteColorFormat;
+
+
+typedef struct AllocHeader
+{
+   u16 nextFree;
+   u16 size;
+}AllocHeader;
+
+
+
+
+
+
+typedef struct OamState
+{
+ int gfxOffsetStep;
+ s16 firstFree;
+ AllocHeader *allocBuffer;
+ s16 allocBufferSize;
+ union
+ {
+  SpriteEntry *oamMemory;
+  SpriteRotation *oamRotationMemory;
+ };
+ SpriteMapping spriteMapping;
+}OamState;
+
+
+extern "C" {
+
+
+
+extern OamState oamMain;
+
+extern OamState oamSub;
+
+
+
+
+
+
+unsigned int oamGfxPtrToOffset(OamState *oam, const void* offset);
+# 320 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+void oamInit(OamState* oam, SpriteMapping mapping, bool extPalette);
+
+
+
+
+
+void oamDisable(OamState* oam );
+
+
+
+
+
+void oamEnable(OamState* oam );
+
+
+
+
+
+
+
+u16* oamGetGfxPtr(OamState* oam, int gfxOffsetIndex);
+# 349 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+u16* oamAllocateGfx(OamState *oam, SpriteSize size, SpriteColorFormat colorFormat);
+
+
+
+
+
+
+void oamFreeGfx(OamState *oam, const void* gfxOffset);
+
+static inline
+
+
+
+
+
+void oamSetMosaic(unsigned int dx, unsigned int dy) {
+ ((dx < 16 && dy < 16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 365, "dx < 16 && dy < 16", "Mosaic range must be 0 to 15"));
+
+ mosaicShadow = ( mosaicShadow & 0x00ff) | (dx << 8)| (dy << 12);
+ (*(vu16*)0x0400004C) = mosaicShadow;
+}
+
+static inline
+
+
+
+
+
+void oamSetMosaicSub(unsigned int dx, unsigned int dy){
+ ((dx < 16 && dy < 16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 378, "dx < 16 && dy < 16", "Mosaic range must be 0 to 15"));
+
+ mosaicShadowSub = ( mosaicShadowSub & 0x00ff) | (dx << 8)| (dy << 12);
+ (*(vu16*)0x0400104C) = mosaicShadowSub;
+}
+# 402 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+void oamSet(OamState* oam, int id, int x, int y, int priority, int palette_alpha, SpriteSize size, SpriteColorFormat format, const void* gfxOffset, int affineIndex, bool sizeDouble, bool hide, bool hflip, bool vflip, bool mosaic);
+
+static inline
+
+
+
+
+
+
+
+void oamSetXY(OamState* oam, int id, int x, int y)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 414, "oam == &oamMain || oam == &oamSub", "oamSetXY() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 415, "id >= 0 && id < SPRITE_COUNT", "oamSetXY() index is out of bounds, must be 0-127"));
+    oam->oamMemory[id].x = x;
+    oam->oamMemory[id].y = y;
+}
+
+static inline
+
+
+
+
+
+
+void oamSetPriority(OamState* oam, int id, int priority)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 429, "oam == &oamMain || oam == &oamSub", "oamSetPriority() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 430, "id >= 0 && id < SPRITE_COUNT", "oamSetPriority() index is out of bounds, must be 0-127"));
+    ((priority >= 0 && priority < 4) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 431, "priority >= 0 && priority < 4", "oamSetPriority() priority is out of bounds, must be 0-3"));
+    oam->oamMemory[id].priority = (ObjPriority)priority;
+}
+
+static inline
+
+
+
+
+
+
+void oamSetPalette(OamState* oam, int id, int palette)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 444, "oam == &oamMain || oam == &oamSub", "oamSetPalette() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 445, "id >= 0 && id < SPRITE_COUNT", "oamSetPalette() index is out of bounds, must be 0-127"));
+    ((palette >= 0 && palette < 16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 446, "palette >= 0 && palette < 16", "oamSetPalette() palette is out of bounds, must be 0-15"));
+    ((oam->oamMemory[id].blendMode != (ObjBlendMode)SpriteColorFormat_Bmp) ? (void)0 : __sassert (
+ "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+# 447 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+    ,
+ 448
+# 447 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+    , "oam->oamMemory[id].blendMode != (ObjBlendMode)SpriteColorFormat_Bmp", "oamSetPalette() cannot set palette on a bitmapped sprite"))
+                                                                       ;
+    oam->oamMemory[id].palette = palette;
+}
+
+static inline
+
+
+
+
+
+
+void oamSetAlpha(OamState* oam, int id, int alpha)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 461, "oam == &oamMain || oam == &oamSub", "oamSetAlpha() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 462, "id >= 0 && id < SPRITE_COUNT", "oamSetAlpha() index is out of bounds, must be 0-127"));
+    ((alpha >= 0 && alpha < 16) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 463, "alpha >= 0 && alpha < 16", "oamSetAlpha() alpha is out of bounds, must be 0-15"));
+    ((oam->oamMemory[id].blendMode == (ObjBlendMode)SpriteColorFormat_Bmp) ? (void)0 : __sassert (
+ "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+# 464 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+    ,
+ 465
+# 464 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+    , "oam->oamMemory[id].blendMode == (ObjBlendMode)SpriteColorFormat_Bmp", "oamSetAlpha() cannot set alpha on a paletted sprite"))
+                                                                  ;
+    oam->oamMemory[id].palette = alpha;
+}
+
+static inline
+# 478 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+void oamSetGfx(OamState* oam, int id, SpriteSize size, SpriteColorFormat format, const void* gfxOffset)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 480, "oam == &oamMain || oam == &oamSub", "oamSetGfx() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 481, "id >= 0 && id < SPRITE_COUNT", "oamSetGfx() index is out of bounds, must be 0-127"));
+    oam->oamMemory[id].shape = (ObjShape)(((size) >> 12) & 0x3);
+    oam->oamMemory[id].size = (ObjSize)(((size) >> 14) & 0x3);
+    oam->oamMemory[id].gfxIndex = oamGfxPtrToOffset(oam, gfxOffset);
+
+    if(format != SpriteColorFormat_Bmp)
+        oam->oamMemory[id].colorMode = (ObjColMode)format;
+    else
+    {
+        oam->oamMemory[id].blendMode = (ObjBlendMode)format;
+        oam->oamMemory[id].colorMode = (ObjColMode)0;
+    }
+}
+
+static inline
+
+
+
+
+
+
+
+void oamSetAffineIndex(OamState* oam, int id, int affineIndex, bool sizeDouble)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 505, "oam == &oamMain || oam == &oamSub", "oamSetAffineIndex() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 506, "id >= 0 && id < SPRITE_COUNT", "oamSetAffineIndex() index is out of bounds, must be 0-127"));
+
+    if(affineIndex >= 0 && affineIndex < 32)
+    {
+        oam->oamMemory[id].rotationIndex = affineIndex;
+        oam->oamMemory[id].isSizeDouble = sizeDouble;
+        oam->oamMemory[id].isRotateScale = true;
+    }
+    else
+    {
+        oam->oamMemory[id].isSizeDouble = false;
+        oam->oamMemory[id].isRotateScale = false;
+    }
+}
+
+static inline
+
+
+
+
+
+
+void oamSetHidden(OamState* oam, int id, bool hide)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 530, "oam == &oamMain || oam == &oamSub", "oamSetHidden() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 531, "id >= 0 && id < SPRITE_COUNT", "oamSetHidden() index is out of bounds, must be 0-127"));
+    ((!oam->oamMemory[id].isRotateScale) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 532, "!oam->oamMemory[id].isRotateScale", "oamSetHidden() cannot set hide on a RotateScale sprite"));
+    oam->oamMemory[id].isHidden = hide ? true : false;
+}
+
+static inline
+
+
+
+
+
+
+
+void oamSetFlip(OamState* oam, int id, bool hflip, bool vflip)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 546, "oam == &oamMain || oam == &oamSub", "oamSetFlip() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 547, "id >= 0 && id < SPRITE_COUNT", "oamSetFlip() index is out of bounds, must be 0-127"));
+    ((!oam->oamMemory[id].isRotateScale) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 548, "!oam->oamMemory[id].isRotateScale", "oamSetFlip() cannot set flip on a RotateScale sprite"));
+    oam->oamMemory[id].hFlip = hflip ? true : false;
+    oam->oamMemory[id].vFlip = vflip ? true : false;
+}
+
+static inline
+
+
+
+
+
+
+void oamSetMosaicEnabled(OamState* oam, int id, bool mosaic)
+{
+    ((oam == &oamMain || oam == &oamSub) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 562, "oam == &oamMain || oam == &oamSub", "oamSetMosaicEnabled() oam must be &oamMain or &oamSub"));
+    ((id >= 0 && id < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 563, "id >= 0 && id < SPRITE_COUNT", "oamSetMosaicEnabled() index is out of bounds, must be 0-127"));
+    oam->oamMemory[id].isMosaic = mosaic ? true : false;
+}
+
+
+
+
+
+
+
+void oamClear(OamState *oam, int start, int count);
+
+
+static inline
+
+
+
+
+
+
+void oamClearSprite(OamState *oam, int index)
+{
+    ((index >= 0 && index < 128) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 585, "index >= 0 && index < SPRITE_COUNT", "oamClearSprite() index is out of bounds, must be 0-127"));
+    oam->oamMemory[index].attribute[0] = (2<<8);
+}
+
+
+
+
+
+
+void oamUpdate(OamState* oam);
+# 604 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+void oamRotateScale(OamState* oam, int rotId, int angle, int sx, int sy);
+
+static inline
+# 620 "c:/devkitPro/libnds/include/nds/arm9/sprite.h"
+void oamAffineTransformation(OamState* oam, int rotId, int hdx, int hdy, int vdx, int vdy)
+{
+ ((rotId >= 0 && rotId < 32) ? (void)0 : __sassert ("c:/devkitPro/libnds/include/nds/arm9/sprite.h", 622, "rotId >= 0 && rotId < 32", "oamAffineTransformation() rotId is out of bounds, must be 0-31"));
+
+ oam->oamRotationMemory[rotId].hdx = hdx;
+ oam->oamRotationMemory[rotId].vdx = vdx;
+ oam->oamRotationMemory[rotId].hdy = hdy;
+ oam->oamRotationMemory[rotId].vdy = vdy;
+}
+
+
+
+
+
+
+int oamCountFragments(OamState *oam);
+
+
+
+void oamAllocReset(OamState *oam);
+
+
+
+}
+# 271 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/window.h" 1
+# 35 "c:/devkitPro/libnds/include/nds/arm9/window.h"
+# 1 "c:/devkitPro/libnds/include/nds/arm9/sprite.h" 1
+# 36 "c:/devkitPro/libnds/include/nds/arm9/window.h" 2
+
+
+
+
+
+
+typedef enum {
+  WINDOW_0 = (1 << 13),
+  WINDOW_1 = (1 << 14),
+  WINDOW_OBJ = (1 << 15),
+  WINDOW_OUT = (1 << (16)),
+
+}WINDOW;
+
+
+
+static inline
+
+
+
+
+void windowEnable(WINDOW w) { (*(vu32*)0x04000000) |= w & (WINDOW_0|WINDOW_1|WINDOW_OBJ); }
+
+static inline
+
+
+
+
+void windowDisable(WINDOW w) { (*(vu32*)0x04000000) &= ~(w & (WINDOW_0|WINDOW_1|WINDOW_OBJ)); }
+
+static inline
+
+
+
+
+void windowEnableSub(WINDOW w) { (*(vu32*)0x04001000) |= w & (WINDOW_0|WINDOW_1|WINDOW_OBJ); }
+
+static inline
+
+
+
+
+void windowDisableSub(WINDOW w) { (*(vu32*)0x04001000) &= ~(w & (WINDOW_0|WINDOW_1|WINDOW_OBJ)); }
+# 88 "c:/devkitPro/libnds/include/nds/arm9/window.h"
+void windowSetBounds(WINDOW window, u8 left, u8 top, u8 right, u8 bottom);
+# 98 "c:/devkitPro/libnds/include/nds/arm9/window.h"
+void windowSetBoundsSub(WINDOW window, u8 left, u8 top, u8 right, u8 bottom);
+# 108 "c:/devkitPro/libnds/include/nds/arm9/window.h"
+void bgWindowEnable(int id, WINDOW window);
+
+
+
+
+
+
+void bgWindowDisable(int id, WINDOW window);
+
+
+
+
+
+
+void oamWindowEnable(OamState* oam, WINDOW w);
+
+
+
+
+
+
+void oamWindowDisable(OamState* oam, WINDOW w);
+# 272 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/trig_lut.h" 1
+# 273 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/video.h" 1
+# 274 "c:/devkitPro/libnds/include/nds.h" 2
+# 1 "c:/devkitPro/libnds/include/nds/arm9/videoGL.h" 1
+# 275 "c:/devkitPro/libnds/include/nds.h" 2
+# 296 "c:/devkitPro/libnds/include/nds.h"
+}
+# 3 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../graphics/graphics.h" 2
+
+
+
+
+
+
+
+typedef struct {
+
+ u16* Gfx;
+
+ u8* frame_gfx;
+
+ int state;
+
+ int anim_frame;
+
+ int sx;
+
+ int sy;
+
+ int mob;
+
+ bool main;
+} Graphic;
+void graphicsInit();
+void graphicFrame();
+void loadGraphicMob(Graphic* g, int frame);
+void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y);
+void loadGraphicParticle(Graphic* g, int frame, int x, int y);
+void loadGraphic(Graphic* g, int mob, int frame, int x, int y);
+void loadGraphic(Graphic* g, int mob, int frame);
+void loadGraphicSubMob(Graphic* g, int frame);
+void loadGraphicSub(Graphic* g, int font, int frame, int x = 8, int y = 8);
+void unloadGraphic(Graphic* g);
+void animateMob(Graphic* g, int mobSlot);
+void loadGraphicAnim(Graphic* g, int frame);
+void setAnimFrame(Graphic* g, int mobSlot, int frame);
+bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
+# 6 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../debugflag.h" 1
+# 7 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.h" 1
+       
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/baseMob.h" 1
+       
+
+
+
+bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
+
+class baseMob {
+public:
+ float x;
+ float y;
+ float vy;
+ float vx;
+ int sx;
+ int sy;
+ bool smallmob = false;
+ bool alive;
+ int animation;
+ int animationClearFrames;
+ int mobType;
+ int timeOnCactus;
+ bool onCactus;
+ int health;
+ int timeTillWifiUpdate;
+ int ping;
+ int mobId;
+ bool host;
+ bool collisions[5];
+
+ virtual void saveToFile(FILE* sFile);
+ virtual void loadFromFile(FILE* sFile);
+ virtual void sendWifiUpdate();
+ virtual void hurt(int amount, int type);
+ virtual bool isMyPlayer();
+ bool facing;
+ void killMob();
+ void unKillMob();
+ void setXYPos(int x, int y);
+ void resetVelocity();
+ virtual void updateMob(WorldObject* world);
+ baseMob();
+ baseMob(int x, int y);
+
+ virtual ~baseMob() {
+ }
+};
+void baseMobInit();
+# 3 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.h" 2
+
+
+enum AnimalType {
+ ANIMAL_COW = 0,
+ ANIMAL_SHEEP = 1,
+ ANIMAL_PIG = 2
+};
+
+class animalMob : public baseMob {
+public:
+ int scaredTimer;
+ bool dir;
+ int mov;
+ baseMob* target;
+ int notarget;
+ AnimalType animal;
+
+ virtual void saveToFile(FILE* sFile);
+ virtual void loadFromFile(FILE* sFile);
+ virtual void sendWifiUpdate();
+ virtual void updateMob(WorldObject* world);
+ virtual void hurt(int amount, int type);
+ virtual bool isMyPlayer();
+ animalMob();
+
+ animalMob(int x, int y);
+
+ ~animalMob() {}
+};
+void animalMobInit();
+bool canAnimalMobSpawnHere(WorldObject* world, int x, int y);
+# 8 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/mobHandler.h" 1
+
+
+# 1 "c:/devkitPro/libnds/include/fat.h" 1
+# 36 "c:/devkitPro/libnds/include/fat.h"
+extern "C" {
+
+
+# 1 "c:/devkitPro/libnds/include/libfatversion.h" 1
+# 40 "c:/devkitPro/libnds/include/fat.h" 2
+# 54 "c:/devkitPro/libnds/include/fat.h"
+# 1 "c:/devkitPro/libnds/include/nds/disc_io.h" 1
+# 41 "c:/devkitPro/libnds/include/nds/disc_io.h"
+typedef uint32_t sec_t;
+
+typedef bool (* FN_MEDIUM_STARTUP)(void) ;
+typedef bool (* FN_MEDIUM_ISINSERTED)(void) ;
+typedef bool (* FN_MEDIUM_READSECTORS)(sec_t sector, sec_t numSectors, void* buffer) ;
+typedef bool (* FN_MEDIUM_WRITESECTORS)(sec_t sector, sec_t numSectors, const void* buffer) ;
+typedef bool (* FN_MEDIUM_CLEARSTATUS)(void) ;
+typedef bool (* FN_MEDIUM_SHUTDOWN)(void) ;
+
+struct DISC_INTERFACE_STRUCT {
+ unsigned long ioType ;
+ unsigned long features ;
+ FN_MEDIUM_STARTUP startup ;
+ FN_MEDIUM_ISINSERTED isInserted ;
+ FN_MEDIUM_READSECTORS readSectors ;
+ FN_MEDIUM_WRITESECTORS writeSectors ;
+ FN_MEDIUM_CLEARSTATUS clearStatus ;
+ FN_MEDIUM_SHUTDOWN shutdown ;
+} ;
+
+typedef struct DISC_INTERFACE_STRUCT DISC_INTERFACE ;
+
+extern const DISC_INTERFACE __io_dsisd;
+# 55 "c:/devkitPro/libnds/include/fat.h" 2
+# 66 "c:/devkitPro/libnds/include/fat.h"
+extern bool fatInit (uint32_t cacheSize, bool setAsDefaultDevice);
+
+
+
+
+extern bool fatInitDefault (void);
+
+
+
+
+
+
+
+extern bool fatMountSimple (const char* name, const DISC_INTERFACE* interface);
+# 89 "c:/devkitPro/libnds/include/fat.h"
+extern bool fatMount (const char* name, const DISC_INTERFACE* interface, sec_t startSector, uint32_t cacheSize, uint32_t SectorsPerPage);
+
+
+
+
+
+extern void fatUnmount (const char* name);
+
+
+
+
+extern void fatGetVolumeLabel (const char* name, char *label);
+# 113 "c:/devkitPro/libnds/include/fat.h"
+int FAT_getAttr(const char *file);
+int FAT_setAttr(const char *file, uint8_t attr );
+
+
+
+
+}
+# 4 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/mobHandler.h" 2
+
+
+
+
+
+bool canMobSpawnHere(WorldObject *world, int x, int y);
+int getDefaultSpawnX();
+void saveMobs(FILE* f);
+void loadMobs(FILE* f);
+int spawnMobAt(int mobId, WorldObject* world, int x, int y);
+void mobHandlerInit();
+void mobHandlerUpdate(WorldObject* world);
+void mobHandlerKillMob(int a);
+void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, WorldObject* world, bool f);
+void mobsReset(bool playerSpawned = false);
+void mobHandlerHurtMob(int mobNum, int amount, int type);
+int isMobAt(int x, int y);
+void mobHandlerHurtMobWifi(int mobNum, int amount, int type);
+baseMob* mobHandlerFindMob(int range, int type, int x, int y);
+# 9 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../blockID.h" 1
+       
+# 10 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../general.h" 1
+       
+
+
+
+
+
+
+void sleep(unsigned int seconds);
+void printGlobalMessage(const char* s);
+
+
+
+
+void update_message();
+void printLocalMessage(const char* s);
+void clear_messages();
+inline void printXY(int x, int y, const char *output);
+inline void printXY(int x, int y, int output);
+void updateTime();
+unsigned int getTime();
+void updateFrame();
+
+inline void printXY(int x, int y, const char *output) {
+ iprintf("\x1b[%d;%dH%s", y, x, output);
+}
+
+inline void printXY(int x, int y, int output) {
+ iprintf("\x1b[%d;%dH%d", y, x, output);
+}
+# 11 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../sounds.h" 1
+       
+
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/build/soundbank.h" 1
+# 4 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../sounds.h" 2
+
+enum sound_t {
+ SOUND_NONE = -1,
+ SOUND_COW_HURT = 7,
+ SOUND_PIG_HURT = 18,
+ SOUND_PLAYER_HURT = 19,
+ SOUND_SHEEP_HURT = 20,
+ SOUND_ZOMBIE_HURT = 21
+};
+
+enum music_t {
+ MUSIC_NONE = -1,
+ MUSIC_CALM = 0,
+ MUSIC_HAL2 = 1
+};
+
+void initSound(void);
+void playSound(sound_t sound);
+void playSoundNifi(sound_t sound);
+void playMusic(music_t music);
+void stopMusic(void);
+bool streamIsOpen();
+# 12 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../collision.h" 1
+       
+int spriteCol(int fx, int fy, int sx, int sy, int fSizex, int fSizey, int sSizex, int sSizey);
+# 13 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../inventory.h" 1
+       
+
+
+
+int getInventoryState();
+int spaceForItem(int blockID);
+void addInventory(int blockID, int amount, bool direct = false);
+bool subInventory(int blockID, int amount);
+int checkInventory(int blockID);
+int checkInventorySlot(int slot);
+int getInventorySlot(int blockID);
+void clearInventory(bool direct = false);
+void addInventory(int blockID);
+int getBlockAmount(int invSlot);
+int getBlockID(int invSlot);
+void saveInventory(FILE* data);
+void loadInventory(FILE* data);
+void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys);
+void drawInvButtons(bool drawBack, bool survival = true);
+void openInventory();
+
+
+typedef struct {
+ int blockId = 0;
+ int blockAmount = 0;
+} InvBlock;
+
+typedef struct {
+ InvBlock blocks[32];
+
+ int hand;
+} Inventory;
+# 14 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+# 1 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/../mainGame.h" 1
+       
+
+
+void createItemMob(int x, int y, int blockID, int amount = 1, int displayID = -1, float initVX = 54321);
+bool isCreative(void);
+bool isSurvival(void);
+void newGame(gamemode_t mode, int seed);
+void previewGame(void);
+bool loadGame(void);
+void joinGame(void);
+void startGame(void);
+void startMultiplayerGame(bool host);
+void returnToGame(void);
+void setSeed(int seed);
+void quitGame();
+bool songIsPlaying();
+# 15 "c:/Users/Matthew/Documents/GitHub/Mine-DS/source/mobs/animalMob.cpp" 2
+Graphic animalGraphics[3][2];
+
+animalMob::animalMob()
+{
+ target = __null;
+ mov = 0;
+ dir = true;
+ scaredTimer = 0;
+ x = 0;
+ y = 0;
+ vy = 0;
+ vx = 0;
+ ping = 0;
+ alive = false;
+ health = 10;
+ mobType = 0;
+ animationClearFrames = 0;
+ notarget = 0;
+ smallmob = true;
+}
+
+animalMob::animalMob(int a, int b)
+{
+ target = __null;
+ mov = 0;
+ dir = true;
+ scaredTimer = 0;
+ sx = 10;
+ sy = 16;
+ x = a;
+ y = b;
+ vy = 0;
+ vx = 0;
+ alive = false;
+ facing = false;
+ mobType = 5;
+ health = 10;
+ ping = 0;
+ animation = 0;
+ notarget = 0;
+ timeTillWifiUpdate = rand() % 4 + 4;
+ smallmob = true;
+ animal = AnimalType(rand() % 3);
+}
+
+void animalMob::updateMob(WorldObject* world)
+{
+ if (animation == 0) showGraphic(&animalGraphics[animal][0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+ else if (animation == 1) showGraphic(&animalGraphics[animal][1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+
+ if (host == true)
+ {
+  target = mobHandlerFindMob(256, 2, x, y);
+
+  if (scaredTimer == 1)
+  {
+   vx = 0;
+   scaredTimer = 0;
+  }
+
+  if (target->mobType != 2)
+  {
+   scaredTimer = 0;
+   ++notarget;
+  }
+  else if (scaredTimer == 0)
+  {
+   if (mov > 1)
+   {
+    if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
+     vy = -6.0;
+    else if (!(collisions[1] || collisions[2]))
+     --mov;
+    if (!collisions[0] && ((collisions[1] && dir) || (collisions[2]&&!dir)) && vy > 0)
+    {
+     mov = 50;
+     dir = !(facing = dir);
+     vx = (facing) ? -2.0 : 2.0;
+    }
+   }
+   else if (mov == 1)
+   {
+    vx = 0;
+    mov = 0;
+   }
+   else if (rand() % 50 == 0)
+   {
+    mov = 60 + (rand() % 40);
+    if (rand() % 2 == 0)
+    {
+     dir = !(facing = false);
+     vx = 2.0;
+    }
+    else
+    {
+     dir = !(facing = true);
+     vx = -2.0;
+    }
+   }
+  }
+  else
+  {
+   vx = (facing = target->x > x) ? -3.0 : 3.0;
+   if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
+    vy = -6.0;
+   --scaredTimer;
+  }
+  if (mobType == 2) notarget = 0;
+  ping = 0;
+  if (health <= 0)
+   killMob();
+
+  if (animationClearFrames == 0) animation = 0;
+  else --animationClearFrames;
+ }
+}
+
+void animalMob::sendWifiUpdate()
+{
+}
+
+void animalMob::saveToFile(FILE* pFile)
+{
+}
+
+void animalMob::loadFromFile(FILE* pFile)
+{
+ killMob();
+}
+
+void animalMob::hurt(int amount, int type)
+{
+
+ if (animation == 1)
+  return;
+ if (type != 1 && collisions[0])
+  vy = -6.0;
+ health -= amount;
+ switch (animal)
+ {
+  case ANIMAL_COW:
+   playSound(SOUND_COW_HURT);
+   break;
+  case ANIMAL_SHEEP:
+   playSound(SOUND_SHEEP_HURT);
+   break;
+  case ANIMAL_PIG:
+   playSound(SOUND_PIG_HURT);
+   break;
+ }
+ if (type == 2)
+  scaredTimer = 200;
+ if (health <= 0)
+ {
+  switch (animal)
+  {
+   case ANIMAL_COW:
+    createItemMob(x / 16, y / 16, 54, rand() % 4);
+    createItemMob(x / 16, y / 16, 55, rand() % 3);
+    break;
+   case ANIMAL_SHEEP:
+    createItemMob(x / 16, y / 16, 40, rand() % 4);
+    break;
+   case ANIMAL_PIG:
+    createItemMob(x / 16, y / 16, 53, rand() % 3);
+    break;
+  }
+ }
+ animation = 1;
+ animationClearFrames = 20;
+}
+
+bool animalMob::isMyPlayer()
+{
+ return false;
+}
+
+bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
+{
+ return canMobSpawnHere(world, x, y);
+}
+
+void animalMobInit()
+{
+ loadGraphic(&animalGraphics[ANIMAL_PIG][0], true, 10, 16, 16);
+ loadGraphic(&animalGraphics[ANIMAL_PIG][1], true, 11, 16, 16);
+ loadGraphic(&animalGraphics[ANIMAL_COW][0], true, 12, 16, 16);
+ loadGraphic(&animalGraphics[ANIMAL_COW][1], true, 13, 16, 16);
+ loadGraphic(&animalGraphics[ANIMAL_SHEEP][0], true, 14, 16, 16);
+ loadGraphic(&animalGraphics[ANIMAL_SHEEP][1], true, 15, 16, 16);
+}
