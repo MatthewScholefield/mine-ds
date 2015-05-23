@@ -22,3 +22,4 @@ void playSound(sound_t sound);
 void playSoundNifi(sound_t sound);
 void playMusic(music_t music);
 void stopMusic(void);
+bool streamIsOpen();

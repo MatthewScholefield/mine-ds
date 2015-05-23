@@ -6,6 +6,7 @@
 #include "nifi.h"
 #include "general.h"
 #include "mainGame.h"
+#include "sounds.h"
 
 std::string messages[MESSAGE_COUNT];
 int currentTime = 0;
@@ -13,8 +14,12 @@ int triggerTime = 1;
 
 void updateFrame()
 {
-	if (songIsPlaying())
+	if (streamIsOpen())
+	{
 		mmStreamUpdate();
+		mm_word position = mmStreamGetPosition() / 22050;
+		iprintf("\x1b[15;13H%02d:%02d\n", position / 60, position % 60);
+	}
 	swiWaitForVBlank();
 }
 
