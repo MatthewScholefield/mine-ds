@@ -2,17 +2,31 @@
 #include <string>
 #include <nds.h>
 #include <dswifi9.h>
+#include <maxmod9.h>
 #include "nifi.h"
 #include "general.h"
+#include "mainGame.h"
+#include "sounds.h"
 
 std::string messages[MESSAGE_COUNT];
 int currentTime = 0;
 int triggerTime = 1;
 
+void updateFrame()
+{
+	if (streamIsOpen())
+	{
+		mmStreamUpdate();
+		mm_word position = mmStreamGetPosition() / 22050;
+		iprintf("\x1b[15;13H%02d:%02d\n", position / 60, position % 60);
+	}
+	swiWaitForVBlank();
+}
+
 void sleep(unsigned int seconds)
 {
 	for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i)
-		swiWaitForVBlank(); // sleeps for one frame
+		updateFrame(); // sleeps for one frame
 }
 
 int getOldestMessageIndex()
