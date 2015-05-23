@@ -28,6 +28,7 @@
 #include "blockPages.h"
 #include <time.h>
 #include "blocks.h"
+#include "sounds.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
@@ -171,7 +172,7 @@ void joinGame(void)
 	printXY(1, 10, "Looking for servers");
 	// TODO: Rename clientNifiInit() to something that makes more sense
 	while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
-		swiWaitForVBlank();
+		updateFrame();
 	printXY(1, 11, "Joining Server!");
 	if (!doHandshake())
 	{
@@ -205,8 +206,10 @@ void startGame(void)
 	addInventory(CHEST, 7);
 
 	shouldQuitGame = false;
+
 	while (!shouldQuitGame)
 	{
+		playMusic(MUSIC_HAL2);
 		updateTime();
 		scanKeys();
 		mobHandlerUpdate(world);
@@ -224,7 +227,7 @@ void startGame(void)
 		touchRead(&touch);
 		miningUpdate(world, world->camX, world->camY, touch, keysDown());
 		proceduralBlockUpdate(world);
-		swiWaitForVBlank(); //Should be the only time called in the loop
+		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
@@ -256,7 +259,7 @@ void startMultiplayerGame(bool host)
 		world = new WorldObject();
 		world->gamemode = GAMEMODE_CREATIVE;
 		generateWorld(world);
-		while (!hostNifiInit()) swiWaitForVBlank();
+		while (!hostNifiInit()) updateFrame();
 		communicationInit(world);
 		consoleClear();
 		unsigned short buffer[100];
@@ -286,7 +289,7 @@ void startMultiplayerGame(bool host)
 		miningUpdate(world, world->camX, world->camY, touch, keysDown());
 		if (host)
 			proceduralBlockUpdate(world);
-		swiWaitForVBlank(); //Should be the only time called in the loop
+		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
@@ -296,7 +299,6 @@ void startMultiplayerGame(bool host)
 	}
 	nifiDisable();
 }
-
 /*void setSeed(int seed)
 {
 	world->seed = seed;
