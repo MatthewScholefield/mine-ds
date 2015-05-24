@@ -56,7 +56,7 @@ void zombieMob::hurt(int amount, int type)
 
 	if (animation == 1)
 		return;
-	if (type != VOID_HURT && collisions[0])
+	if (type != VOID_HURT && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
 	playSound(SOUND_ZOMBIE_HURT);
 	health -= amount;
@@ -81,19 +81,19 @@ void zombieMob::updateMob(WorldObject* world)
 		else if (target->mobType == 2) facing = false;
 		if (target->mobType != 2)
 			++noTarget;
-		else if (!collisions[1] && facing == false && !collisions[3])
+		else if (!collisions[SIDE_RIGHT] && facing == false && !collisions[SIDE_TOP])
 		{
 			if (vx <= 0)
 				vx = double(rand() % 15) / 10.0 + ZOMBIE_SPEED;
 		}
-		else if (!collisions[2] && facing == true && !collisions[3])
+		else if (!collisions[SIDE_LEFT] && facing == true && !collisions[SIDE_TOP])
 		{
 			if (vx >= 0)
 				vx = -double(rand() % 15) / 10.0 - ZOMBIE_SPEED;
 		}
 		else
 			vx = 0;
-		if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
+		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && animation != 1)
 			vy = JUMP_VELOCITY;
 		if (target->mobType == 2) noTarget = 0;
 		ping = 0;

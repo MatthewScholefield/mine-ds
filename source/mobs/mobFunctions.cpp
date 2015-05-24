@@ -9,7 +9,7 @@
 
 void calculatePhysics(baseMob* mob)
 {
-	if ((mob->collisions[0] && mob->vy > 0) || (mob->collisions[3] && mob->vy < 0) || mob->collisions[4])
+	if ((mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (mob->collisions[SIDE_TOP] && mob->vy < 0) || mob->collisions[COLLISION_STUCK])
 		mob->vy = 0;
 	else
 		mob->vy += (18.0 / float(FPS)); //Gravity Acceleration = +18.0 m/s^2
@@ -25,17 +25,17 @@ int blockAtPixel(WorldObject *world, int pixX, int pixY)
 
 void calculateCollisions(WorldObject *world, baseMob *mob)
 {
-	mob->collisions[0] = !isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2) / 16])
+	mob->collisions[SIDE_BOTTOM] = !isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2) / 16])
 			|| !isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2) / 16]);
-	mob->collisions[1] = !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
+	mob->collisions[SIDE_RIGHT] = !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
 			|| !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y) / 16)])
 			|| !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y + mob->sy / 2 - 1) / 16)]);
-	mob->collisions[2] = !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
+	mob->collisions[SIDE_LEFT] = !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
 			|| !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y) / 16)])
 			|| !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y + mob->sy / 2 - 1) / 16)]);
-	mob->collisions[3] = !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)])
+	mob->collisions[SIDE_TOP] = !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)])
 			|| !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2) / 16)][int((mob->y - mob->sy / 2) / 16)]);
-	mob->collisions[4] = false;
+	mob->collisions[COLLISION_STUCK] = false;
 }
 
 void calculateMiscData(WorldObject *world, baseMob* mob)
@@ -89,9 +89,9 @@ void calculateMiscData(WorldObject *world, baseMob* mob)
 		}
 
 		calculateCollisions(world, mob);
-		if ((!mob->collisions[0] && mob->vy > 0) || (!mob->collisions[3] && mob->vy < 0))
+		if ((!mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (!mob->collisions[SIDE_TOP] && mob->vy < 0))
 			mob->y += 16.0 * mob->vy / float(FPS); //Main statement Positive velocity=down
-		if ((mob->vx > 0 && !mob->collisions[1]) || (mob->vx < 0 && !mob->collisions[2]))
+		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
 		{
 			if (mob->isMyPlayer())
 				mob->x += int(16.0 * mob->vx / float(FPS));
@@ -151,9 +151,9 @@ void calculateMiscDataSmall(WorldObject* world, baseMob* mob)
 		}
 
 		calculateCollisions(world, mob);
-		if ((!mob->collisions[0] && mob->vy > 0) || (!mob->collisions[3] && mob->vy < 0))
+		if ((!mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (!mob->collisions[SIDE_TOP] && mob->vy < 0))
 			mob->y += 16.0 * mob->vy / float(FPS); //Main statement Positive velocity=down
-		if ((mob->vx > 0 && !mob->collisions[1]) || (mob->vx < 0 && !mob->collisions[2]))
+		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
 		{
 			if (mob->isMyPlayer())
 				mob->x += int(16.0 * mob->vx / float(FPS));
