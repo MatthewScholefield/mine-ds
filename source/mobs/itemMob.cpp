@@ -140,21 +140,38 @@ void itemMob::loadFromFile(FILE* pFile)
 
 void itemMob::hurt(int hamount, int type)
 {
-	if (type == PROPERTY_HURT)
+	switch (type)
 	{
-		if (hurtStage == 0)
-			displayID = blockID = hamount;
-		else if (hurtStage == 1)
-			amount = hamount;
-		else if (hurtStage == 2)
-			displayID = hamount > 0 ? hamount : displayID;
-		else if (hurtStage == 3)
-			brightness = hamount;
-		else if (hurtStage == 4)
-			vx = hamount / 100.0;
-		else
-			return;
-		++hurtStage;
+		case PROPERTY_HURT:
+		{
+			switch (hurtStage)
+			{
+				case 0:
+					displayID = blockID = hamount;
+					break;
+				case 1:
+					amount = hamount;
+					break;
+				case 2:
+					displayID = hamount > 0 ? hamount : displayID;
+					break;
+				case 3:
+					brightness = hamount;
+					break;
+				case 4:
+					vx = hamount / 100.0;
+					break;
+				default:
+					return;
+			}
+			++hurtStage;
+			break;
+		}
+		case CACTUS_HURT:
+			if (rand() % 10 == 1)
+				killMob();
+			break;
+		default:
+			break;
 	}
-	else killMob();
 }

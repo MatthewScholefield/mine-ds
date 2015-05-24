@@ -6,3 +6,4 @@
 #define HEROBRINE_HURT 4
 #define SUN_HURT 5
 #define PROPERTY_HURT 6
+#define FALL_HURT 7

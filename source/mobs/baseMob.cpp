@@ -5,6 +5,7 @@
 #include "../debugflag.h"
 #include "baseMob.h"
 #include "../blockID.h"
+#include "hurt.h"
 //ASDF?
 Graphic baseMobGraphic[3];
 
@@ -111,7 +112,6 @@ void baseMobInit()
 
 void baseMob::hurt(int amount, int type)
 {
-
 	health -= amount;
 	animation = 1;
 	animationClearFrames = 20;
@@ -131,4 +131,16 @@ void baseMob::unKillMob()
 bool baseMob::isMyPlayer()
 {
 	return false;
+}
+
+bool jumpHurtType(int hurtType)
+{
+	switch (hurtType)
+	{
+		case VOID_HURT:
+		case FALL_HURT:
+			return false;
+		default:
+			return true;
+	}
 }
