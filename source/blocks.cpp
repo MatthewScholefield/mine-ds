@@ -72,6 +72,18 @@ int getSpriteBlock(int index)
 	return spriteBlocks[index];
 }
 
+int getSpriteIndex(int block)
+{
+	int returnVal = -1;
+	for (int i = 0; i < NUM_SPRITE_BLOCKS; ++i)
+		if (spriteBlocks[i] == block)
+		{
+			returnVal = i;
+			break;
+		}
+	return returnVal;
+}
+
 bool isSpriteBlock(int block)
 {
 	for (int i = 0; i < NUM_SPRITE_BLOCKS; ++i)
