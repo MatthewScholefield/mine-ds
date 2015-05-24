@@ -11,6 +11,8 @@ public:
 	int amount;
 	int floatY;
 	int hurtStage;
+	int palID;
+	Graphic *itemGraphic;
 	//bool loadedBlockGfx;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
