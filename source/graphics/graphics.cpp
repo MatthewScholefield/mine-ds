@@ -56,6 +56,35 @@ void graphicFrame()
 	oamClear(&oamSub, 0, 0);
 }
 
+void setBlockPalette(int brightness, bool reset)
+{
+	brightness = 15 - brightness;
+	vramSetBankF(VRAM_F_LCD);
+	unsigned short *palette = new unsigned short[256];
+	for (int i = 0; i < 256; ++i)
+	{
+		unsigned short slot = block_smallPal[i];
+		unsigned short blue = slot & 0x1F;
+		slot >>= 5;
+		unsigned short green = slot & 0x1F;
+		slot >>= 5;
+		unsigned short red = slot;
+		blue = (blue * brightness) / 15;
+		green = (green * brightness) / 15;
+		red = (red * brightness) / 15; //*/
+		slot = red;
+		slot <<= 5;
+		slot |= green;
+		slot <<= 5;
+		slot |= blue;
+		palette[i] = slot;
+	}
+	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[2], block_smallPalLen);
+	delete[] palette;
+	if (reset)
+		vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+}
+
 /**
 	\breif Init's the DS's Sprite Engine, to be used for MineDS.
 	Should be called when initing the DS.
@@ -67,21 +96,19 @@ void graphicsInit()
 
 	//Set the bank for our Graphics.
 	oamInit(&oamSub, SpriteMapping_1D_256, true);
-	vramSetBankI(VRAM_I_LCD);
-
 	//Vram I is for Sub Sprite Palette!
+	vramSetBankI(VRAM_I_LCD);
+	dmaCopy(block_smallPal, VRAM_I_EXT_SPR_PALETTE[2], block_smallPalLen);
 	dmaCopy(subPal, VRAM_I_EXT_SPR_PALETTE[0], subPalLen);
 	dmaCopy(fontPal, VRAM_I_EXT_SPR_PALETTE[1], fontPalLen);
-	dmaCopy(block_smallPal, VRAM_I_EXT_SPR_PALETTE[2], block_smallPalLen);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain, SpriteMapping_1D_256, true);
-	vramSetBankF(VRAM_F_LCD);
 
 	//Start copying palettes
+	setBlockPalette(0, false);
 	dmaCopy(mobsPal, VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
 	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[1], particlesPalLen);
-	dmaCopy(block_smallPal, VRAM_F_EXT_SPR_PALETTE[2], block_smallPalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
@@ -146,7 +173,8 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) & block_smallTiles;
+	/*for (int i : block_smallPal)*/
+	u8* Tiles = ((u8*) & block_smallTiles);
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
 	//dmaCopy(Tiles, graphics, 8 * 8);

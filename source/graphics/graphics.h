@@ -27,6 +27,7 @@ typedef struct {
 } Graphic;
 void graphicsInit();
 void graphicFrame();
+void setBlockPalette(int brightness, bool reset = true);
 void loadGraphicMob(Graphic* g, int frame);
 void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y);
 void loadGraphicParticle(Graphic* g, int frame, int x, int y);

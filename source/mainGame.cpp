@@ -131,11 +131,6 @@ void newGame(gamemode_t mode, int seed)
 	clearInventory(true);
 	shouldQuitGame = false;
 	world->gamemode = mode;
-	world->camX = 0;
-	world->camY = 0;
-	world->camCalcX = 0.0;
-	world->camCalcY = 0.0;
-	world->timeInWorld = 0;
 	generateWorld(world);
 }
 
