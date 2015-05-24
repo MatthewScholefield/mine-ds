@@ -45,6 +45,16 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
+	if (getBrightness(world, x, y) < 3)
+	{
+		mobHandlerHurtMob(mobNum, 3, PROPERTY_HURT); //world->brightness[x][y], PROPERTY_HURT);
+
+	}
+	else if (getBrightness(world, x, y) < 16)
+		mobHandlerHurtMob(mobNum, getBrightness(world, x, y), PROPERTY_HURT); //world->brightness[x][y], PROPERTY_HURT);
+	else
+		printXY(1, 1, "ERROR");
+	printXY(1, 1, getBrightness(world, x, y));
 	if (initVX != 54321) //Default value
 		mobHandlerHurtMob(mobNum, initVX * 100.00, PROPERTY_HURT);
 }

@@ -10,26 +10,28 @@
 typedef struct {
 	//! \breif Pointer to loaded graphic in VRAM
 	u16* Gfx;
-	//Frame of animation
+	//! \breif Frame of animation
 	u8* frame_gfx;
-	//animation state
+	//! \breif animation state
 	int state;
-	//Animation frame
+	//! \breif Animation frame
 	int anim_frame;
 	//! \breif x Size of Graphic in pixels.
 	int sx;
 	//! \breif y Size of Graphic in pixels.
 	int sy;
 	//! \breif Whether Graphic is a mob or a particle.
-	int mob;
+	int type;
 	//! \breif Whether loaded for main or sub OAM.
 	bool main;
+	//! \breif the palette index to use
+	int paletteID;
 } Graphic;
 void graphicsInit();
 void graphicFrame();
-void setBlockPalette(int brightness, bool reset = true);
+void setBlockPalette(int brightness, int index = 2, bool isolated = true);
 void loadGraphicMob(Graphic* g, int frame);
-void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y);
+void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID);
 void loadGraphicParticle(Graphic* g, int frame, int x, int y);
 void loadGraphic(Graphic* g, int mob, int frame, int x, int y);
 void loadGraphic(Graphic* g, int mob, int frame);
