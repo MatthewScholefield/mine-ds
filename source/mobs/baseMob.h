@@ -1,7 +1,13 @@
 #pragma once
 #include <stdio.h>
 #include "../world.h"
-//
+
+#define SIDE_BOTTOM 0
+#define SIDE_RIGHT 1
+#define SIDE_LEFT 2
+#define SIDE_TOP 3
+#define COLLISION_STUCK 4
+
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 
 class baseMob {
