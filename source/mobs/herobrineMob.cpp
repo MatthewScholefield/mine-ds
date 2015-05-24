@@ -58,7 +58,7 @@ void herobrineMob::updateMob(WorldObject* world)
 	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
-		if (collisions[0] && collisions[3])
+		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])
 			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
 		target = mobHandlerFindMob(128, 2, x, y);
@@ -73,7 +73,7 @@ void herobrineMob::updateMob(WorldObject* world)
 			++notarget;
 			jump = 0;
 		}
-		else if (!collisions[1] && !collisions[3] && jump > 1)
+		else if (!collisions[SIDE_RIGHT] && !collisions[SIDE_TOP] && jump > 1)
 		{
 			if (waitingCount > 1000)
 			{
@@ -89,7 +89,7 @@ void herobrineMob::updateMob(WorldObject* world)
 				jump = 0;
 			}
 		}
-		else if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3] && animation != 1)
+		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && animation != 1)
 			vy = JUMP_VELOCITY;
 		if (target->mobType == 2) notarget = 0;
 		ping = 0;
@@ -138,7 +138,7 @@ void herobrineMob::hurt(int amount, int type)
 
 	if (animation == 1)
 		return;
-	if (type != VOID_HURT && collisions[0])
+	if (type != VOID_HURT && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
 	//playSound(HEROBRINE_H);
 	health -= amount;

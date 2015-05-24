@@ -81,11 +81,11 @@ void animalMob::updateMob(WorldObject* world)
 		{
 			if (mov > 1)
 			{
-				if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
+				if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP])
 					vy = JUMP_VELOCITY;
-				else if (!(collisions[1] || collisions[2]))
+				else if (!(collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]))
 					--mov;
-				if (!collisions[0] && ((collisions[1] && dir) || (collisions[2]&&!dir)) && vy > 0)
+				if (!collisions[SIDE_BOTTOM] && ((collisions[SIDE_RIGHT] && dir) || (collisions[SIDE_LEFT]&&!dir)) && vy > 0)
 				{
 					mov = 50;
 					dir = !(facing = dir); //Change Direction
@@ -115,7 +115,7 @@ void animalMob::updateMob(WorldObject* world)
 		else //Scared
 		{
 			vx = (facing = target->x > x) ? -RUN_VELOCITY : RUN_VELOCITY;
-			if ((collisions[1] || collisions[2]) && collisions[0] && !collisions[3])
+			if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP])
 				vy = JUMP_VELOCITY;
 			--scaredTimer;
 		}
@@ -147,7 +147,7 @@ void animalMob::hurt(int amount, int type)
 
 	if (animation == 1)
 		return;
-	if (type != VOID_HURT && collisions[0])
+	if (type != VOID_HURT && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
 	health -= amount;
 	switch (animal)

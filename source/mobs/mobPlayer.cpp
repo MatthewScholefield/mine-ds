@@ -68,7 +68,7 @@ void playerMob::hurt(int amount, int type)
 	{
 		if (animation == 1)
 			return;
-		if (type != VOID_HURT && collisions[0])
+		if (type != VOID_HURT && collisions[SIDE_BOTTOM])
 			vy = JUMP_VELOCITY;
 		playSound(SOUND_PLAYER_HURT);
 		health -= amount;
@@ -150,14 +150,14 @@ void playerMob::updateMob(WorldObject* world)
 			world->camX = int(world->camCalcX);
 			world->camY = int(world->camCalcY);
 
-			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1])
+			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
 			{
 				closeChest(); //Close a chest, if open
 				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
 				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 				facing = false;
 			}
-			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2])
+			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
 			{
 				closeChest();
 				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
@@ -189,7 +189,7 @@ void playerMob::updateMob(WorldObject* world)
 				vy = -3;
 			else if (onLadder)
 				vy = 2;
-			if ((!onLadder || !checkLadder(world, x, y + 15)) && (collisions[0] || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[3] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+			if ((!onLadder || !checkLadder(world, x, y + 15)) && (collisions[SIDE_BOTTOM] || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
@@ -242,7 +242,7 @@ void playerMob::updateMob(WorldObject* world)
 		if (animation == 0)
 			if (keysHeld() & KEY_TOUCH && canMine() && playerMobGraphic[PLAYER_SPRITE_WALK].anim_frame == 0)
 			{
-				if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[2]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[1]))
+				if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT]))
 					setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_MINE], 0, 1);
 				else if (getTime() % 3 == 1)
 					animateMob(&playerMobGraphic[PLAYER_SPRITE_MINE], 0);
