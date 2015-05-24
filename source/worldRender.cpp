@@ -269,30 +269,17 @@ void renderTile16(int x, int y, int tile, int palette)
 	setTileXY(x + 1, y + 1, tile + 3, palette);
 }
 
-void renderBlockAdd(WorldObject* world, int i, int j, int blockId)
+void renderBlock(WorldObject* world, int i, int j, int blockId, bool add = false)
 {
 	if (world->sun[i][j] + sunbrightness < world->brightness[i][j])
 	{
-		int brightness = world->sun[i][j] + sunbrightness + 6;
+		int brightness = world->sun[i][j] + sunbrightness + (add ? 6 : 0);
 		if (brightness > 15) brightness = 15;
 		if (brightness < 0) brightness = 0;
 		renderTile16(i, j, blockId, brightness);
 	}
 	else
-		renderTile16(i, j, blockId, world->brightness[i][j] + 6);
-}
-
-void renderBlock(WorldObject* world, int i, int j, int blockId)
-{
-	if (world->sun[i][j] + sunbrightness < world->brightness[i][j])
-	{
-		int brightness = world->sun[i][j] + sunbrightness;
-		if (brightness > 15) brightness = 15;
-		if (brightness < 0) brightness = 0;
-		renderTile16(i, j, blockId, brightness);
-	}
-	else
-		renderTile16(i, j, blockId, world->brightness[i][j]);
+		renderTile16(i, j, blockId, world->brightness[i][j] + (add ? 6 : 0));
 }
 
 void renderWorld(WorldObject* world, int screen_x, int screen_y)
@@ -305,23 +292,16 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 			//Check The Block is on screen
 			if (onScreen(16, i, j, 1, 1))
 			{
-				if (world->blocks[i][j] != AIR && !isSpriteBlock(world->blocks[i][j]))
+				if (isSpriteBlock(world->blocks[i][j]) && world->bgblocks[i][j] != AIR
+						&& showGraphic(&blockGraphics[getSpriteIndex(world->blocks[i][j])]
+						, (i * 16) - screen_x, (j * 16) - screen_y))
+					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+				else if (world->blocks[i][j] != AIR)
 					renderBlock(world, i, j, world->blocks[i][j]);
-				else if (world->bgblocks[i][j] != AIR && alwaysRenderBright(world->bgblocks[i][j]) == false) renderBlockAdd(world, i, j, world->bgblocks[i][j]);
-				else if (world->bgblocks[i][j] != AIR) renderBlock(world, i, j, world->bgblocks[i][j]);
-				else renderTile16(i, j, world->blocks[i][j], 0); //But if we run out of sprite IDs, render as a tile...
-				if (isSpriteBlock(world->blocks[i][j]))
-				{
-					int index;
-					for (index = 0; index < NUM_SPRITE_BLOCKS; ++index)
-						if (getSpriteBlock(index) == world->blocks[i][j])
-							break;
-					if (world->blocks[i][j] == SNOW_TOP && (world->bgblocks[i][j] == SNOW_TOP || world->bgblocks[i][j] == AIR || !showGraphic(&blockGraphics[index], (i * 16) - screen_x, (j * 16) - screen_y)))
-						renderBlock(world, i, j, world->blocks[i][j]); //Render the block as a sprite...
-					else if (world->blocks[i][j] != SNOW_TOP && !showGraphic(&blockGraphics[index], (i * 16) - screen_x, (j * 16) - screen_y, false, 1))
-						renderBlock(world, i, j, world->blocks[i][j]);
-					//But if we run out of sprite IDs, render as a tile...
-				}
+				else if (world->bgblocks[i][j] != AIR)
+					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+				else
+					renderBlock(world, i, j, AIR);
 			}
 		}
 	}
