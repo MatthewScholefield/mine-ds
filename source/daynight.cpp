@@ -4,6 +4,7 @@
 #include <dswifi9.h>
 #include <stdio.h>
 #include "general.h"
+#include "graphics/graphics.h"
 
 #include "worldRender.h"
 int timeTillChange = 0;
@@ -25,6 +26,7 @@ void timeUpdate(WorldObject* world)
     else world->worldBrightness = 0;
 		setBackdropColor(RGB15(r[world->worldBrightness], g[world->worldBrightness], b[world->worldBrightness]));
 		setSun(world->worldBrightness);
+		setBlockPalette(world->worldBrightness);
 		if (isWifi())
 		{
 			unsigned short buffer[100];
