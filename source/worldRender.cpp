@@ -24,9 +24,14 @@ int sunbrightness;
 
 int getBrightness(WorldObject* world, int x, int y)
 {
+	int brightness;
 	if (world->sun[x][y] + sunbrightness < world->brightness[x][y])
-		return world->sun[x][y] + sunbrightness;
-	return world->brightness[x][y];
+		brightness = world->sun[x][y] + sunbrightness;
+	else
+		brightness = world->brightness[x][y];
+	if (brightness > 15) brightness = 15;
+	else if (brightness < 0) brightness = 0;
+	return brightness;
 }
 
 void setSun(int brightness)
