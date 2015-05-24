@@ -68,7 +68,7 @@ void playerMob::hurt(int amount, int type)
 	{
 		if (animation == 1)
 			return;
-		if (type != VOID_HURT && collisions[SIDE_BOTTOM])
+		if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 			vy = JUMP_VELOCITY;
 		playSound(SOUND_PLAYER_HURT);
 		health -= amount;
@@ -89,12 +89,29 @@ void playerMob::hurt(int amount, int type)
 				message = "The host";
 			else
 				message = "Steve";
-			if (type == CACTUS_HURT) message += " was pricked to death";
-			else if (type == VOID_HURT) message += " fell out of the world";
-			else if (type == PLAYER_HURT) message += " was killed by a player";
-			else if (type == ZOMBIE_HURT) message += " was eaten by a zombie";
-			else if (type == HEROBRINE_HURT) message += " was murdered by a Herobrine";
-			else message += " died";
+			switch (type)
+			{
+				case CACTUS_HURT:
+					message += " was pricked to death";
+					break;
+				case VOID_HURT:
+					message += " fell out of the world";
+					break;
+				case PLAYER_HURT:
+					message += " was killed by a player";
+					break;
+				case ZOMBIE_HURT:
+					message += " was eaten by a zombie";
+					break;
+				case HEROBRINE_HURT:
+					message += " was murdered by a Herobrine";
+					break;
+				case FALL_HURT:
+					message += " hit the ground too hard";
+					break;
+				default:
+					message += " died";
+			}
 			message += "\n";
 			printGlobalMessage((char*) message.c_str());
 		}

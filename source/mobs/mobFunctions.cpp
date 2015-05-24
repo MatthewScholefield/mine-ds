@@ -6,10 +6,17 @@
 #include "mobCollisions.h"
 #include "../general.h"
 #include "mobFunctions.h"
+#include "hurt.h"
 
 void calculatePhysics(baseMob* mob)
 {
-	if ((mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (mob->collisions[SIDE_TOP] && mob->vy < 0) || mob->collisions[COLLISION_STUCK])
+	if (mob->collisions[SIDE_BOTTOM] && mob->vy > 0)
+	{
+		if (int(mob->vy) > 9)
+			mob->hurt(2 * (mob->vy - 9), FALL_HURT);
+		mob->vy = 0;
+	}
+	else if (mob->collisions[SIDE_TOP] && mob->vy < 0)
 		mob->vy = 0;
 	else
 		mob->vy += (18.0 / float(FPS)); //Gravity Acceleration = +18.0 m/s^2
