@@ -71,8 +71,6 @@ void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 
 void mobHandlerHurtMob(int mobNum, int amount, int type)
 {
-	if (mobs[mobNum]->mobType == 8 && type != PROPERTY_HURT) //itemMob
-		return;
 	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
 		mobs[mobNum]->hurt(amount, type);
 	else if (isWifi())

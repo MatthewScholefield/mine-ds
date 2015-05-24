@@ -58,7 +58,6 @@ int deathScreenUpdate()
 				drawBackground();
 				deathScreenShow = true;
 				consoleClear();
-				printf("\n\n\n\n\n\n\n\n");
 				enableInvGraphics();
 				lcdMainOnBottom();
 				setMiningDisabled(false);

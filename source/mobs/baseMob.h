@@ -50,3 +50,4 @@ public:
 	}
 };
 void baseMobInit();
+bool jumpHurtType(int hurtType);
