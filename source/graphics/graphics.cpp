@@ -61,8 +61,6 @@ void graphicFrame()
 void setBlockPalette(int darkness, int index, bool isolated)
 {
 	darkness = 15 - darkness;
-	if (darkness < 1)
-		darkness = 1;
 	if (isolated)
 		vramSetBankF(VRAM_F_LCD);
 	unsigned short *palette = new unsigned short[256];
@@ -112,16 +110,11 @@ void graphicsInit()
 
 	//Start copying palettes
 	vramSetBankF(VRAM_F_LCD);
-	setBlockPalette(15, 2, false);
+	setBlockPalette(0, 2, false);
 	dmaCopy(mobsPal, VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
 	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[1], particlesPalLen);
 	for (int i = 3; i < 16; ++i)
-	{
 		setBlockPalette((15 * (i - 3)) / 12, i, false);
-		/*printXY(1, 1, (15 * (i - 3)) / 12);
-		printXY(1, 2, i);
-		sleep(1);*/
-	}
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
