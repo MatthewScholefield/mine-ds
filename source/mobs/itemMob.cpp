@@ -16,12 +16,12 @@
 #include "mobFunctions.h"
 #include "../mining.h"
 
-Graphic *itemGraphics[NUM_BLOCKS];
+//Graphic *itemGraphics[NUM_BLOCKS];
 bool inUse[NUM_BLOCKS] = {false};
 
 void itemGraphicUpdate()
 {
-	for (int i = 0; i < NUM_BLOCKS; ++i)
+	/*for (int i = 0; i < NUM_BLOCKS; ++i)
 	{
 		if (!inUse[i] && itemGraphics[i])
 		{
@@ -30,7 +30,7 @@ void itemGraphicUpdate()
 			itemGraphics[i] = NULL;
 		}
 		inUse[i] = false;
-	}
+	}*/
 }
 
 itemMob::itemMob(int a, int b)
@@ -51,6 +51,7 @@ itemMob::itemMob(int a, int b)
 	vx *= (rand() % 2) ? -1 : 1;
 	vy = 0;
 	hurtStage = 0;
+	itemGraphic = NULL;
 }
 
 bool itemMob::isMyPlayer()
@@ -62,10 +63,10 @@ void itemMob::updateMob(WorldObject* world)
 {
 	if (!alive)
 		return;
-	if (!itemGraphics[blockID])
+	if (!itemGraphic)
 	{
-		itemGraphics[blockID] = new Graphic();
-		loadGraphicMiniBlock(itemGraphics[blockID], displayID, 8, 8);
+		itemGraphic = new Graphic();
+		loadGraphicMiniBlock(itemGraphic, displayID, 8, 8, palID);
 	}
 	inUse[blockID] = true;
 	if (vx != 0)
@@ -102,7 +103,7 @@ void itemMob::updateMob(WorldObject* world)
 	if (target == NULL)
 		target = mobHandlerFindMob(8, 2, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
-		showGraphic(itemGraphics[blockID], x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
+		showGraphic(itemGraphic, x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
 	else
 	{
 		addInventory(blockID, amount);
@@ -123,6 +124,7 @@ void itemMob::saveToFile(FILE* pFile)
 
 void itemMob::killMob()
 {
+	delete itemGraphic;
 	timeTillWifiUpdate = 1;
 	alive = false;
 }
@@ -143,6 +145,8 @@ void itemMob::hurt(int hamount, int type)
 		else if (hurtStage == 2)
 			displayID = hamount > 0 ? hamount : displayID;
 		else if (hurtStage == 3)
+			palID = hamount;
+		else if (hurtStage == 4)
 			vx = hamount / 100.0;
 		else
 			return;

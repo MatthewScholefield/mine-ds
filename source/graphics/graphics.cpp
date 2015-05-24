@@ -56,10 +56,11 @@ void graphicFrame()
 	oamClear(&oamSub, 0, 0);
 }
 
-void setBlockPalette(int brightness, bool reset)
+void setBlockPalette(int darkness, int index, bool isolated)
 {
-	brightness = 15 - brightness;
-	vramSetBankF(VRAM_F_LCD);
+	darkness = 15 - darkness;
+	if (isolated)
+		vramSetBankF(VRAM_F_LCD);
 	unsigned short *palette = new unsigned short[256];
 	for (int i = 0; i < 256; ++i)
 	{
@@ -69,9 +70,9 @@ void setBlockPalette(int brightness, bool reset)
 		unsigned short green = slot & 0x1F;
 		slot >>= 5;
 		unsigned short red = slot;
-		blue = (blue * brightness) / 15;
-		green = (green * brightness) / 15;
-		red = (red * brightness) / 15; //*/
+		blue = (blue * darkness) / 15;
+		green = (green * darkness) / 15;
+		red = (red * darkness) / 15; //*/
 		slot = red;
 		slot <<= 5;
 		slot |= green;
@@ -79,9 +80,9 @@ void setBlockPalette(int brightness, bool reset)
 		slot |= blue;
 		palette[i] = slot;
 	}
-	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[2], block_smallPalLen);
+	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], block_smallPalLen);
 	delete[] palette;
-	if (reset)
+	if (isolated)
 		vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
@@ -106,9 +107,12 @@ void graphicsInit()
 	oamInit(&oamMain, SpriteMapping_1D_256, true);
 
 	//Start copying palettes
-	setBlockPalette(0, false);
+	vramSetBankF(VRAM_F_LCD);
+	setBlockPalette(15, 2, false);
 	dmaCopy(mobsPal, VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
 	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[1], particlesPalLen);
+	for (int i = 3; i < 16; ++i)
+		setBlockPalette(i, i, false);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
@@ -120,7 +124,8 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) & mobsTiles;
 		Tiles += frame * FRAMES_PER_ANIMATION * (16 * 32);
 		dmaCopy(Tiles, graphics, 16 * 32);
-		g->mob = true;
+		g->type = 1;
+		g->paletteID = 0;
 		g->sx = 16;
 		g->sy = 32;
 		g->Gfx = graphics;
@@ -131,7 +136,8 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) & mobsTiles;
 		Tiles += frame * FRAMES_PER_ANIMATION * (16 * 16);
 		dmaCopy(Tiles, graphics, 16 * 16);
-		g->mob = true;
+		g->type = 1;
+		g->paletteID = 0;
 		g->sx = 16;
 		g->sy = 16;
 		g->Gfx = graphics;
@@ -146,7 +152,8 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) & particlesTiles;
 		Tiles += frame * (8 * 8);
 		dmaCopy(Tiles, graphics, 8 * 8);
-		g->mob = false;
+		g->type = 0;
+		g->paletteID = 1;
 		g->sx = x;
 		g->sy = y;
 		g->Gfx = graphics;
@@ -164,13 +171,14 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
 	dmaCopy(Tiles + 8 * 8, graphics + 8 * 4 * 2, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 3, graphics + 8 * 4 * 3, 8 * 8);
-	g->mob = 2;
+	g->type = 2;
+	g->paletteID = 2;
 	g->sx = x;
 	g->sy = y;
 	g->Gfx = graphics;
 }
 
-void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y)
+void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
 	/*for (int i : block_smallPal)*/
@@ -179,7 +187,8 @@ void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y)
 	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
 	//dmaCopy(Tiles, graphics, 8 * 8);
 
-	g->mob = 2;
+	g->type = 4;
+	g->paletteID = paletteID;
 	g->sx = x;
 	g->sy = y;
 	g->Gfx = graphics;
@@ -189,7 +198,8 @@ void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y)
 void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame)
 {
 	gfx += frame * FRAMES_PER_ANIMATION * (16 * 32);
-	sprite->mob = 3;
+	sprite->type = 3;
+	sprite->paletteID = 0;
 	sprite->sx = 16;
 	sprite->sy = 32;
 	sprite->Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
@@ -286,7 +296,8 @@ void loadGraphicSubParticle(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) & subTiles;
 		Tiles += frame * (8 * 8);
 		dmaCopy(Tiles, graphics, 8 * 8);
-		g->mob = false;
+		g->type = 0;
+		g->paletteID = 0;
 		g->sx = x;
 		g->sy = y;
 		g->Gfx = graphics;
@@ -303,7 +314,8 @@ void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) & fontTiles;
 		Tiles += frame * (8 * 8);
 		dmaCopy(Tiles, graphics, 8 * 8);
-		g->mob = 1;
+		g->type = 1;
+		g->paletteID = 1;
 		g->sx = x;
 		g->sy = y;
 		g->Gfx = graphics;
@@ -321,7 +333,8 @@ void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
 	dmaCopy(Tiles + 8 * 8, graphics + 8 * 4 * 2, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 3, graphics + 8 * 4 * 3, 8 * 8);
-	g->mob = 2;
+	g->type = 2;
+	g->paletteID = 2;
 	g->sx = x;
 	g->sy = y;
 	g->Gfx = graphics;
@@ -356,39 +369,41 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	if (spriteID > SPRITE_COUNT - 1) return false;
 	if (g->main)
 	{
-		switch (g->mob)
+		switch (g->type)
 		{
-			case 0:
-				oamSet(&oamMain, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			case 0://1
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
-			case 1:
+			case 1://0
 				if (g->sy == 32)
-					oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+					oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				else
-					oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+					oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
-			case 2:
-				oamSet(&oamMain, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			case 2://2
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
-			case 3:
-				oamSet(&oamMain, spriteID, x, y, pri, 0, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+			case 3://0
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
-
+			case 4://miniBlock
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
 		}
 	}
 	else
 	{
-		switch (g->mob)
+		switch (g->type)
 		{
 			case 0:
 				if (g->sx == 8 && g->sy == 8)
-					oamSet(&oamSub, spriteID, x, y, pri, 0, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+					oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case 1:
-				oamSet(&oamSub, spriteID, x, y, pri, 1, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case 2:
-				oamSet(&oamSub, spriteID, x, y, pri, 2, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 		}
 	}
