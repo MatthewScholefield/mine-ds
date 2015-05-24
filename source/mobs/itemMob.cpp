@@ -15,9 +15,9 @@
 #include "../inventory.h"
 #include "mobFunctions.h"
 #include "../mining.h"
+#include "../worldRender.h"
 
 //Graphic *itemGraphics[NUM_BLOCKS];
-bool inUse[NUM_BLOCKS] = {false};
 
 void itemGraphicUpdate()
 {
@@ -66,9 +66,8 @@ void itemMob::updateMob(WorldObject* world)
 	if (!itemGraphic)
 	{
 		itemGraphic = new Graphic();
-		loadGraphicMiniBlock(itemGraphic, displayID, 8, 8, palID);
+		loadGraphicMiniBlock(itemGraphic, displayID, 8, 8, 3 + (12 * brightness) / 15);
 	}
-	inUse[blockID] = true;
 	if (vx != 0)
 	{
 		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
@@ -95,6 +94,8 @@ void itemMob::updateMob(WorldObject* world)
 		y -= int(y + sy / 2) % 16;
 		vy = 0;
 	}
+	if (world->blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
+		itemGraphic->paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
 	++floatY;
 	if (floatY > 100)
 		floatY = 0;
@@ -111,7 +112,10 @@ void itemMob::updateMob(WorldObject* world)
 		killMob();
 	}
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
+	{
+		alive = false;
 		killMob();
+	}
 }
 
 void itemMob::sendWifiUpdate()
@@ -145,7 +149,7 @@ void itemMob::hurt(int hamount, int type)
 		else if (hurtStage == 2)
 			displayID = hamount > 0 ? hamount : displayID;
 		else if (hurtStage == 3)
-			palID = hamount;
+			brightness = hamount;
 		else if (hurtStage == 4)
 			vx = hamount / 100.0;
 		else
