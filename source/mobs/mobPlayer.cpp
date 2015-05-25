@@ -114,6 +114,16 @@ void playerMob::hurt(int amount, int type)
 			}
 			message += "\n";
 			printGlobalMessage((char*) message.c_str());
+			if (isSurvival())
+			{
+				for (int j = 0; j < NUM_INV_SPACES; ++j)
+				{
+					for (int i = 0; i < 3; ++i)
+						createItemMob(x / 16, y / 16, getBlockID(j), checkInventorySlot(j) / 4, getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+					createItemMob(x / 16, y / 16, getBlockID(j), checkInventorySlot(j) - 3 * (checkInventorySlot(j) / 4), getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+				}
+			}
+			clearInventory(true);
 		}
 	}
 }
@@ -222,7 +232,6 @@ void playerMob::updateMob(WorldObject* world)
 		}
 		else if (deathScreen == false)
 		{
-			clearInventory();
 			deathScreenSetup();
 			deathScreen = true;
 			health = -50;

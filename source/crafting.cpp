@@ -40,6 +40,10 @@ void craftingInit()
 	addCraftingRecipe(SWORD_STONE, 1, COBBLESTONE, 2, STICK, 1);
 	addCraftingRecipe(SWORD_IRON, 1, INGOT_IRON, 2, STICK, 1);
 	addCraftingRecipe(SWORD_DIAMOND, 1, DIAMOND, 2, STICK, 1);
+	addCraftingRecipe(SHOVEL_WOOD, 1, PLANKS_WOOD, 1, STICK, 2);
+	addCraftingRecipe(SHOVEL_STONE, 1, COBBLESTONE, 1, STICK, 2);
+	addCraftingRecipe(SHOVEL_IRON, 1, INGOT_IRON, 1, STICK, 2);
+	addCraftingRecipe(SHOVEL_DIAMOND, 1, DIAMOND, 1, STICK, 2);
 	addCraftingRecipe(TORCH, 4, COAL, 1, STICK, 1);
 	addCraftingRecipe(CRAFTING_TABLE, 1, PLANKS_WOOD, 4);
 	addCraftingRecipe(LADDER, 2, STICK, 8);
