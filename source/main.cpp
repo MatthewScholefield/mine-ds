@@ -57,20 +57,5 @@ int main()
 	initSound();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
 	clear_messages();
-
-	/*FILE *inventoryFile;
-	if ((inventoryFile = fopen(INVENTORY_PATH, "r")) != NULL)
-	{
-		for (int i = 0; i < NUM_INV_SPACES; ++i)
-		{
-			int l, id, quantity;
-			fscanf(inventoryFile, "%d %d %d ", &l, &id, &quantity);
-			iprintf("\x1b[8;1HIndex:%d\nID:%d Quantity:%d", l, id, quantity);
-		}
-	}
-	else
-		printXY(1, 1, "FAILED");
-	printXY(1, 11, "DONE");
-	sleep(100);*/
 	titlescreen();
 }
