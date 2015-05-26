@@ -1,5 +1,5 @@
 # Mine-DS
-A 2D survival NDS game inspired by Minecraft. The current version incorperates a variety of survival features such as:
+A 2D survival NDS game inspired by Minecraft. The current version incorporates a variety of survival features such as:
 - Inventory
 - Crafting
 - Zombies
