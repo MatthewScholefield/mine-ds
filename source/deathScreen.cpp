@@ -8,10 +8,14 @@
 #include "sounds.h"
 #include "titlescreen.h"
 #include "general.h"
-bool deathScreenShow = true;
-touchPosition touch;
-int oldKeys;
+bool mustPrintDeathScreen = true;
 bool died = false; //Used to show whether exitted to titlescreen after dying
+touchPosition *touch;
+touchPosition *oldTouch;
+uint32 oldKeys;
+
+Button *respawnButton;
+Button *deathToTitleScreenButton;
 
 /*bool getDied()
 {
@@ -20,63 +24,60 @@ bool died = false; //Used to show whether exitted to titlescreen after dying
 
 void deathScreenSetup()
 {
-	if (deathScreenShow == true)
+	if (mustPrintDeathScreen == true)
 	{
 		disableInvGraphics();
 		consoleClear();
 		lcdMainOnTop();
 		drawBackground();
-		printf("\x1b[8;10HYou Died!");
+		printf("\x1b[8;11HYou Died!");
 		drawButton(8, 10, 14);
 		drawButton(8, 15, 14);
-		printXY(12, 11, "Respawn");
-		printXY(10, 16, "TitleScreen");
-		stopMusic();
-		deathScreenShow = false;
+		//printXY(12, 11, "Respawn");
+		//printXY(10, 16, "TitleScreen");
+		//stopMusic();
+		mustPrintDeathScreen = false;
 		oldKeys = keysHeld();
-		touchRead(&touch);
 		setMiningDisabled(true);
+		respawnButton = new Button(8, 10, "Respawn", 14);
+		deathToTitleScreenButton = new Button(8, 15, "TitleScreen", 14);
+		touch = new touchPosition;
 	}
 }
 
 int deathScreenUpdate()
 {
-	if (deathScreenShow == false)
+	if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 	{
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			if (touch.px > 64 && touch.px < 184 && touch.py > 80 && touch.py < 104)
-				drawButtonColored(8, 10, 14);
-			else if (touch.px > 64 && touch.px < 184 && touch.py > 120 && touch.py < 152)
-				drawButtonColored(8, 15, 14);
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (touch.px > 64 && touch.px < 184 && touch.py > 80 && touch.py < 104)
-			{
-				drawBackground();
-				deathScreenShow = true;
-				consoleClear();
-				enableInvGraphics();
-				lcdMainOnBottom();
-				setMiningDisabled(false);
-				died = false;
-				return false;
-			}
-			else drawButton(8, 10, 14);
-			if (touch.px > 64 && touch.px < 184 && touch.py > 120 && touch.py < 144)
-			{
-				drawBackground();
-				deathScreenShow = true;
-				setMiningDisabled(false);
-				died = true;
-				return 1;
-			}
-			else drawButton(8, 15, 14);
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
+		touchRead(touch);
+		respawnButton->setColored(respawnButton->isTouching(touch->px, touch->py));
+		deathToTitleScreenButton->setColored(deathToTitleScreenButton->isTouching(touch->px, touch->py));
 	}
+	else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+	{
+		if (respawnButton->isTouching(touch->px, touch->py) && respawnButton->isColored)
+		{
+			drawBackground();
+			mustPrintDeathScreen = true;
+			consoleClear();
+			enableInvGraphics();
+			lcdMainOnBottom();
+			setMiningDisabled(false);
+			died = false;
+			return 0;
+		}
+		else if (deathToTitleScreenButton->isTouching(touch->px, touch->py) && deathToTitleScreenButton->isColored)
+		{
+			drawBackground();
+			mustPrintDeathScreen = true;
+			setMiningDisabled(false);
+			died = true;
+			return 1;
+		}
+		respawnButton->setColored(false);
+		deathToTitleScreenButton->setColored(false);
+	}
+	oldKeys = keysHeld();
+	touchRead(touch);
 	return 2;
 }

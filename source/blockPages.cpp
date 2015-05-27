@@ -92,7 +92,7 @@ void pageMenuInit()
 
 int pageMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY, unsigned int* oldKeys)
 {
-	scanKeys();
+	//scanKeys();
 	if (keysHeld() & KEY_TOUCH && !(*oldKeys & KEY_TOUCH))
 	{
 		touchRead(touch);
