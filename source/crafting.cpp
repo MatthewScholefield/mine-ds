@@ -131,7 +131,7 @@ void craftItem()
 
 int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY, unsigned int* oldKeys)
 {
-	scanKeys();
+	//scanKeys();
 	showGraphic(&resultBlock, 166, 84);
 	iprintf("\x1b[11;23H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
 	for (int i = 0; i < 4; ++i)

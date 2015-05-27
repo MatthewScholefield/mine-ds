@@ -198,6 +198,8 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 		default:
 			break;
 	}
+	mobs[mobNum]->x += mobs[mobNum]->sx / 2;
+	mobs[mobNum]->y += mobs[mobNum]->sy / 2;
 }
 
 void saveMobs(FILE* f)

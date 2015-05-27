@@ -17,7 +17,7 @@
 #include "../mining.h"
 #include <time.h>
 
-#define PLAYER_FULL_HEALTH 20
+#define PLAYER_FULL_HEALTH 1
 #define PLAYER_SPRITE_WALK 0
 #define PLAYER_SPRITE_HURT 1
 #define PLAYER_SPRITE_MINE 2
@@ -119,8 +119,8 @@ void playerMob::hurt(int amount, int type)
 				for (int j = 0; j < NUM_INV_SPACES; ++j)
 				{
 					for (int i = 0; i < 3; ++i)
-						createItemMob(x / 16, y / 16, getBlockID(j), checkInventorySlot(j) / 4, getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
-					createItemMob(x / 16, y / 16, getBlockID(j), checkInventorySlot(j) - 3 * (checkInventorySlot(j) / 4), getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+						createItemMob(x / 16, (y - 24) / 16, getBlockID(j), checkInventorySlot(j) / 4, getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+					createItemMob(x / 16, (y - 24) / 16, getBlockID(j), checkInventorySlot(j) - 3 * (checkInventorySlot(j) / 4), getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
 				}
 			}
 			clearInventory(true);
@@ -249,8 +249,8 @@ void playerMob::updateMob(WorldObject* world)
 					{
 						if (canPlayerMobSpawnHere(world, i, j))
 						{
-							x = i * 16;
-							y = j * 16 - 16;
+							x = i * 16 + 8;
+							y = j * 16;
 							deathScreen = false;
 							health = PLAYER_FULL_HEALTH;
 							i = WORLD_WIDTH + 1;
