@@ -41,17 +41,11 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		displayID = blockID;
 	if (world->gamemode == GAMEMODE_CREATIVE || blockID == AIR)
 		return;
-	int mobNum = spawnMobAt(8, world, x * 16 + 8, y * 16);
+	int mobNum = spawnMobAt(8, world, x * 16 + 4, y * 16 - 4);
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
-	/*if (getBrightness(world, x, y) < 3)
-		mobHandlerHurtMob(mobNum, 3, PROPERTY_HURT);
-	else if (getBrightness(world, x, y) < 16)*/
-	mobHandlerHurtMob(mobNum, getBrightness(world, x, y), PROPERTY_HURT); //world->brightness[x][y], PROPERTY_HURT);
-	/*else
-		printXY(1, 1, "ERROR");
-	printXY(1, 1, getBrightness(world, x, y));*/
+	mobHandlerHurtMob(mobNum, getBrightness(world, x, y), PROPERTY_HURT);
 	if (initVX != 54321) //Default value
 		mobHandlerHurtMob(mobNum, initVX * 100.00, PROPERTY_HURT);
 }
