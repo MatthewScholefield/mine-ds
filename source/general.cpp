@@ -15,11 +15,7 @@ int triggerTime = 1;
 void updateFrame()
 {
 	if (streamIsOpen())
-	{
 		mmStreamUpdate();
-		mm_word position = mmStreamGetPosition() / 22050;
-		iprintf("\x1b[15;13H%02d:%02d\n", position / 60, position % 60);
-	}
 	swiWaitForVBlank();
 }
 
