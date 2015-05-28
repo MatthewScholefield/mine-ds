@@ -49,7 +49,7 @@ public:
 	int chests[MAX_CHESTS][CHEST_SLOTS][2];
 
 	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
-	, camY(1), camX(1), timeInWorld(80), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
+	, camY(1), camX(1), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}
 	{
 		for (int i = 0; i < MAX_CHESTS; ++i)
