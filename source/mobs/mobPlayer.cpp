@@ -17,7 +17,7 @@
 #include "../mining.h"
 #include <time.h>
 
-#define PLAYER_FULL_HEALTH 1
+#define PLAYER_FULL_HEALTH 20
 #define PLAYER_SPRITE_WALK 0
 #define PLAYER_SPRITE_HURT 1
 #define PLAYER_SPRITE_MINE 2
