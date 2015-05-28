@@ -199,7 +199,6 @@ void startGame(void)
 		setBlockPage(PAGE_WOOL);
 	enableInvGraphics();
 	updateInvGraphics();
-	addInventory(CHEST, 7);
 
 	shouldQuitGame = false;
 
