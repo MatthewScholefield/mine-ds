@@ -2,6 +2,7 @@
 #include <nds.h>
 #include <stdio.h>
 #include "world.h"
+#include "InvBlock.h"
 int getInventoryState();
 int spaceForItem(int blockID);
 void addInventory(int blockID, int amount, bool direct = false);
@@ -19,11 +20,6 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys);
 void drawInvButtons(bool drawBack, bool survival = true);
 void openInventory();
 #define NUM_INV_SPACES 30
-
-typedef struct {
-	int blockId = 0;
-	int blockAmount = 0;
-} InvBlock;
 
 typedef struct {
 	InvBlock blocks[32];

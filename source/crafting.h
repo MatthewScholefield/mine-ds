@@ -1,7 +1,7 @@
 #pragma once
 #include <nds.h>
 #include "blockID.h"
-#include "inventory.h"
+#include "InvBlock.h"
 
 typedef struct {
 	InvBlock createdblock;

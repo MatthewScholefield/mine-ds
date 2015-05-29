@@ -6,6 +6,7 @@
 #include "blockID.h"
 #include "general.h"
 #include "titlescreen.h" // for isSurvival
+#include "inventory.h"
 #include <nds.h> // for keysDown()
 #include <stdio.h>
 #include "crafting.h"
