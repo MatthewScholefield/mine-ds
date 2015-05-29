@@ -1,5 +1,6 @@
 #pragma once
 #include <time.h>
+#include "Furnace.h"
 
 //Do not change WORLD_HEIGHT or WORLD_WIDTH unless you are prepared to update assembly code
 //Assembly functions in worldfunctions.s depend on these values being as they are
@@ -11,6 +12,7 @@
 
 #define CHEST_SLOTS 30
 #define MAX_CHESTS 30
+#define MAX_FURNACES 30
 #define INDEX_BLOCK_ID 0
 #define INDEX_AMOUNT 1
 
@@ -47,14 +49,21 @@ public:
 	Biome biome[WORLD_WIDTH + 1];
 	bool chestInUse[MAX_CHESTS];
 	int chests[MAX_CHESTS][CHEST_SLOTS][2];
+	Furnace *furnaces[MAX_FURNACES];
 
 	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 	, camY(1), camX(1), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
-	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}
+	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}, furnaces()
 	{
-		for (int i = 0; i < MAX_CHESTS; ++i)
-			chestInUse[i] = false;
-	};
+	}
+
+	~WorldObject() {
+		for (int i = 0; i < MAX_FURNACES; ++i)
+			if (furnaces[i]) {
+				delete furnaces[i];
+				furnaces[i] = NULL;
+			}
+	}
 };
 
 int findFirstBlock(WorldObject* world, int x);
