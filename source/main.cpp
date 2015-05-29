@@ -24,13 +24,13 @@
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
 #include "crafting.h"
-#include "nifi.h"
+//#include "nifi.h"
 #include "sounds.h"
 #include "files.h"
 #include "general.h"
 #include "blockupdate.h"
-#include <maxmod9.h>    // Maxmod definitions for ARM9
-#include <string>
+//#include <maxmod9.h>    // Maxmod definitions for ARM9
+//#include <string>
 
 
 int screen_x, screen_y;
@@ -43,7 +43,7 @@ int main()
 	subBgInit();
 	drawBackground();
 	setupFont();
-	nifiInit();
+	//nifiInit();
 	initBlockProperties();
 	worldRender_Init();
 	graphicsInit();
