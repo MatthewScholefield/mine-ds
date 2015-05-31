@@ -97,13 +97,11 @@ void drawButtonColored(int x, int y, int sizex)
 void drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 {
 	for (int i = 0; i < lx; ++i)
-	{
 		for (int j = 0; j < ly; ++j)
 			setSubBgTile(x + i, y + j, 28 + (i + 1) % 2);
-	}
 }
 
-void drawBox(int x, int y, int lx, int ly)
+void drawBoxFrame(int x, int y, int lx, int ly)
 {
 	setSubBgTile(x, y, 26); //Top-Left Corner
 	setSubBgTile(x, y + ly - 1, 26, V_FLIP); //Bottom-Left Corner
@@ -119,5 +117,10 @@ void drawBox(int x, int y, int lx, int ly)
 		setSubBgTile(x + i, y, 30); //Top Edge
 		setSubBgTile(x + i, y + ly - 1, 30, V_FLIP); //Bottom Edge
 	}
+}
+
+void drawBox(int x, int y, int lx, int ly)
+{
+	drawBoxFrame(x, y, lx, ly);
 	drawBoxCenter(x + 1, y + 1, lx - 2, ly - 2);
 }

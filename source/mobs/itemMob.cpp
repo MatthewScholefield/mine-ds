@@ -17,22 +17,6 @@
 #include "../mining.h"
 #include "../worldRender.h"
 
-//Graphic *itemGraphics[NUM_BLOCKS];
-
-void itemGraphicUpdate()
-{
-	/*for (int i = 0; i < NUM_BLOCKS; ++i)
-	{
-		if (!inUse[i] && itemGraphics[i])
-		{
-			unloadGraphic(itemGraphics[i]);
-			delete itemGraphics[i];
-			itemGraphics[i] = NULL;
-		}
-		inUse[i] = false;
-	}*/
-}
-
 itemMob::itemMob(int a, int b)
 {
 	sx = 8;

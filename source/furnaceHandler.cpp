@@ -45,7 +45,7 @@ void disperseItems(int x, int y, InvBlock block)
 	disperseItems(x, y, block.blockId, block.blockAmount);
 }
 
-void detroyFurnace(WorldObject *world, int x, int y, bool bg)
+void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 {
 	int id = (world->data[x][y] & (bg ? 0xFFFF0000 : 0x0000FFFF)) >> (bg ? 16 : 0);
 	disperseItems(x, y, world->furnaces[id]->source);

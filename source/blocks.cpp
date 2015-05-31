@@ -249,7 +249,7 @@ bool canBreak(int blockID) //checks a blockvalue
 bool canDropItem(int blockID) //checks is the item should be dropped when mined
 {
 	if (!isSurvival())
-		return true;
+		return false;
 	if (getType(blockID) == STONEBLOCK)
 	{
 		if (getType(getBlockID(getSelectedSlot())) != PICKAXE)
