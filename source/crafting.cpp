@@ -170,6 +170,8 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 			}
 			if (initialRecipe == currentViewingRecipe)
 				currentViewingRecipe = initialRecipe + 1;
+			if (currentViewingRecipe >= nextCraftingRecipe)
+				currentViewingRecipe = 0;
 			updateCraftingGraphics();
 		}
 		else if (leftButtonCraftScreen.isTouching(*oldX, *oldY) && leftButtonCraftScreen.isColored)
@@ -189,6 +191,8 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 			}
 			if (initialRecipe == currentViewingRecipe)
 				currentViewingRecipe = initialRecipe - 1;
+			if (currentViewingRecipe < 0)
+				currentViewingRecipe = nextCraftingRecipe - 1;
 			updateCraftingGraphics();
 		}
 		else if (backButtonCraftScreen.isTouching(*oldX, *oldY) && backButtonCraftScreen.isColored)
