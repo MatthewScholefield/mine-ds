@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include "world.h"
 #include "InvBlock.h"
+int getSelectedSlot();
+void setSelectedSpace(int a);
+void changeInvSelectedGraphic(int blockID = -1);
 int getInventoryState();
 int spaceForItem(int blockID);
 void addInventory(int blockID, int amount, bool direct = false);

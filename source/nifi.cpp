@@ -302,7 +302,6 @@ void nifiEnable()
 {
 	Wifi_EnableWifi();
 	wifiEnabled = true;
-	blocksCanPlace();
 }
 
 void nifiDisable()
@@ -310,7 +309,6 @@ void nifiDisable()
 	Wifi_DisableWifi();
 	wifiEnabled = false;
 	nifiClearClients();
-	blocksCanPlace();
 }
 
 bool isWifi() //Checks if wifi is enabled

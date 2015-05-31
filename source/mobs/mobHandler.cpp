@@ -80,7 +80,7 @@ void mobHandlerHurtMob(int mobNum, int amount, int type)
 int isMobAt(int x, int y)
 {
 	int i;
-	for (i = 0; i <= 100; ++i)
+	for (i = 0; i < 100; ++i)
 	{
 		if (spriteCol(mobs[i]->x - mobs[i]->sx / 2 + 1, mobs[i]->y - mobs[i]->sy / 2 + 1, x - 1, y - 1, mobs[i]->sx, mobs[i]->sy, 1, 1) && mobs[i]->alive == true)
 			return i;
@@ -128,7 +128,7 @@ void mobHandlerInit()
 int findFreeMobSpawnNum()
 {
 	int i;
-	for (i = 1; i <= 100; ++i)
+	for (i = 1; i < 100; ++i)
 		if (mobs[i]->alive == false && mobs[i]->isMyPlayer() == false)
 			return i;
 	return -1;

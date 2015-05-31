@@ -59,12 +59,14 @@ void destroyChest(WorldObject *world, int x, int y, bool bg)
 			return;
 		blockID = world->data[x][y] & 0xFFFF0000;
 		blockID >>= 16;
+		world->bgblocks[x][y] = AIR;
 	}
 	else
 	{
 		if (world->blocks[x][y] != CHEST)
 			return;
 		blockID = world->data[x][y] & 0x0000FFFF;
+		world->blocks[x][y] = AIR;
 	}
 	for (int j = 0; j < CHEST_SLOTS; ++j)
 	{
@@ -76,7 +78,7 @@ void destroyChest(WorldObject *world, int x, int y, bool bg)
 		}
 		world->chests[blockID][j][INDEX_BLOCK_ID] = world->chests[blockID][j][INDEX_AMOUNT] = 0;
 	}
+	if (isSurvival())
+		createItemMob(x, y, CHEST);
 	world->chestInUse[blockID] = false;
-	if (!isSurvival())
-		addInventory(CHEST);
 }

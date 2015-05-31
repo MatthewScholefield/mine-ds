@@ -2,9 +2,8 @@
 #include "world.h"
 #include <nds.h>
 #define NUM_BLOCKS 102
-int getSelectedSlot();
-void miningUpdate(WorldObject* world, int sx, int sy, touchPosition touch, int keys);
-void blocksCanPlace();
+#define ACTIVATE_DELAY 30
+void miningUpdate(WorldObject* world, touchPosition touch);
+void enableMining();
 void setMiningDisabled(bool a);
 bool canMine();
-void setSelectedSpace(int a);

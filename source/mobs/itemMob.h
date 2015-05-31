@@ -2,8 +2,6 @@
 #include "baseMob.h"
 #include "../graphics/graphics.h"
 
-void itemGraphicUpdate();
-
 class itemMob : public baseMob {
 public:
 	int blockID;
