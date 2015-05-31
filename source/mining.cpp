@@ -74,7 +74,7 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 				createFurnace(world, x, y, bg);
 				break;
 			default:
-        if(!item(blockId))
+        if(!item(blockID))
         {
   				if (bg)
   					world->bgblocks[x][y] = blockID;
