@@ -146,18 +146,16 @@ void creditsScreen()
 {
 	uint oldKeys = keysHeld();
 	touchPosition touch;
-	drawBackground();
-	drawButton(11, 8, 9);
-	drawButton(9, 12, 12);
-	drawButton(5, 16, 22);
-	drawButton(7, 20, 17);
-	Button back(25, 19, "Back");
 	consoleClear();
-	printXY(12, 9, "Mine DS");
-	printXY(11, 13, "Coded by");
-	printXY(6, 17, "CoolAs, Ray, Dirbaio,");
-	printXY(9, 21, "and Wolfgange");
-	printXY(26, 20, "Back");
+	drawBackground();
+	Button back(25, 19, "Back");
+	drawBox(4, 7, 24, 11);
+	printXY(12, 9, "Coded by");
+	printXY(6, 10, "CoolAs, Ray, Dirbaio,");
+	printXY(10, 11, "and Wolfgange");
+	printXY(8, 13, "Texture Pack from");
+	printXY(9, 14, "Scary Sauce Pack");
+	printXY(8, 15, "by cool_story_bro");
 	scanKeys();
 	bool chosen = false;
 	while (!chosen)
