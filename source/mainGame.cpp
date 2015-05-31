@@ -199,6 +199,7 @@ void startGame(void)
 		setBlockPage(PAGE_WOOL);
 	enableInvGraphics();
 	updateInvGraphics();
+	addInventory(CHEST);
 
 	shouldQuitGame = false;
 
@@ -207,8 +208,9 @@ void startGame(void)
 		playMusic(MUSIC_HAL2);
 		updateTime();
 		scanKeys();
+		if (keysHeld() & KEY_TOUCH)
+			touchRead(&touch);
 		mobHandlerUpdate(world);
-		itemGraphicUpdate();
 		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
@@ -219,8 +221,8 @@ void startGame(void)
 				break;
 		}
 		oldKeys = keysHeld();
-		touchRead(&touch);
-		miningUpdate(world, world->camX, world->camY, touch, keysDown());
+		
+		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
 		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
@@ -272,7 +274,6 @@ void startMultiplayerGame(bool host)
 		updateTime();
 		scanKeys();
 		mobHandlerUpdate(world);
-		itemGraphicUpdate();
 		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
@@ -281,7 +282,7 @@ void startMultiplayerGame(bool host)
 			break;
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		miningUpdate(world, world->camX, world->camY, touch, keysDown());
+		miningUpdate(world, touch);
 		if (host)
 			proceduralBlockUpdate(world);
 		updateFrame(); //Should be the only time called in the loop

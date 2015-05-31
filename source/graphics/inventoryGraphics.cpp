@@ -66,7 +66,7 @@ void drawSlots(int selectedSlot, int startX, int startY, int xCount, int yCount,
 
 void drawBasicInv(int startX, int startY, int sizeX, int sizeY)
 {
-	for (int i = startX + 1; i < startX + sizeX - 1; ++i)
+	/*for (int i = startX + 1; i < startX + sizeX - 1; ++i)
 	{
 		//Draw border
 		setSubBgTile(i, startY, 30);
@@ -82,7 +82,7 @@ void drawBasicInv(int startX, int startY, int sizeX, int sizeY)
 	setSubBgTile(startX, startY, 26);
 	setSubBgTile(startX + sizeX - 1, startY, 26, H_FLIP);
 	setSubBgTile(startX, startY + sizeY - 1, 26, V_FLIP);
-	setSubBgTile(startX + sizeX - 1, startY + sizeY - 1, 26, BOTH_FLIP);
+	setSubBgTile(startX + sizeX - 1, startY + sizeY - 1, 26, BOTH_FLIP);*/
 }
 
 void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)
@@ -105,15 +105,50 @@ void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numR
 			}
 }
 
+void drawSelectedFrame()
+{
+	setSubBgTile(0, 7, 27);
+	setSubBgTile(3, 7, 27, H_FLIP);
+	setSubBgTile(0, 6, 27);
+	setSubBgTile(3, 6, 27, H_FLIP);
+	setSubBgTile(0, 5, 26);
+	setSubBgTile(3, 5, 26, H_FLIP);
+	setSubBgTile(1, 5, 30);
+	setSubBgTile(2, 5, 30);
+	setSubBgTile(0, 8, 27);
+	setSubBgTile(0, 8, 27);
+	setSubBgTile(3, 8, 27, H_FLIP);
+	setSubBgTile(3, 8, 28);
+	setSubBgTile(1, 8, 28);
+	setSubBgTile(2, 8, 29);
+	for (int i = 6; i < 8; ++i)
+		for (int j = 1; j < 3; ++j)
+			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
+}
+
 void updateInvGraphics()
 {
 	oldEnabled = enabled;
 	if (!enabled)
 		return;
-	drawBasicInv(0, 8, 32, 7);
+	drawBoxFrame(0, 8, 32, 7);
+	drawBoxCenter(1, 11, 31, 1);
 	drawSlots(getSelectedSlot(), 1, 9);
+	if (getOpenedChestID() == -1)
+		drawSelectedFrame();
+	else
+	{
+		setSubBgTile(0, 6, 27);
+		setSubBgTile(0, 7, 27);
+		setSubBgTile(0, 8, 27);
+		setSubBgTile(3, 6, 28);
+		setSubBgTile(3, 7, 27, H_FLIP);
+		setSubBgTile(3, 8, 28);
+		drawBoxCenter(1, 6, 2, 3);
+	}
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
 	updateTopName(getBlockID(getSelectedSlot()));
+	changeInvSelectedGraphic();
 }
 
 void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)
@@ -141,7 +176,6 @@ void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numR
 				}
 				if (loadedChestGfx[a])
 					showGraphic(&chestBlockGfx[a], startX * 8 + i * 8 * xDist, startY * 8 + j * 8 * yDist, false, 2);
-
 			}
 			else if (!chest)
 			{
@@ -176,9 +210,9 @@ void drawInv() //Draws the items in the inventory (called by the mainPlayer->upd
 	}
 	if (!oldEnabled)
 	{
-		updateInvGraphics();
 		if (chestOpened)
 			updateChestItems();
+		updateInvGraphics();
 		oldEnabled = true;
 	}
 	if (chestOpened)
@@ -196,6 +230,7 @@ void openChest(WorldObject *world, int x, int y, bool bg)
 	for (int i = 0; i < CHEST_SLOTS; ++i)
 		loadedChestGfx[i] = false;
 	updateChestItems();
+	updateInvGraphics();
 	openInventory();
 }
 
@@ -220,7 +255,8 @@ void updateChestItems() //Changes graphics and text
 {
 	if (!chestOpened)
 		return;
-	drawBasicInv(0, 0, 32, 7);
+	drawBoxFrame(0, 0, 32, 7);
+	drawBoxCenter(1, 3, 31, 1);
 	if (getSelectedSlot()<-1)
 		drawSlots(-getSelectedSlot() - 2, 1, 1);
 	else

@@ -206,8 +206,6 @@ void matchBlocks(int x, int y, int block, int bgblock)
 		sprintf((char *) buffer, "[CHKB: %d %d %d %d", server_id, client_id, x, y);
 		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 	}
-	else
-		blocksCanPlace();
 }
 
 void matchBlocksHost(int client_id, int x, int y, int block, int bgblock)
@@ -278,6 +276,5 @@ void placeBlock(int x, int y)
 		sprintf((char *) buffer, "[BLKP: %d %d %d %d %d", server_id, x, y, worldptr->blocks[x][y], worldptr->bgblocks[x][y]);
 		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 		nifiConfirmBlocksAllPlayers(x, y);
-		blocksCanPlace();
 	}
 }

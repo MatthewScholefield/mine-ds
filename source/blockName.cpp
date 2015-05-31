@@ -10,7 +10,7 @@ const char *getName(int blockID)
 		case -1:
 			return "";
 		case AIR:
-			name = "Air";
+			name = "";
 			break;
 		case STONE:
 			name = "Stone";
@@ -324,7 +324,5 @@ const char *getName(int blockID)
 
 void updateTopName(int blockID)
 {
-	iprintf("\x1b[7;3H                            ");
-	if (blockID != AIR)
-		iprintf("\x1b[7;3H%s", getName(blockID));
+	iprintf("\x1b[7;4H%s                 ", getName(blockID));
 }
