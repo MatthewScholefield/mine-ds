@@ -16,7 +16,7 @@
 int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
 int renderBright[] = {AIR, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LEAF_OAK, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, LEAF_SPRUCE, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
 int lightSourceBlocks[] = {TORCH, PUMPKIN_LIGHT, GLOWSTONE, FURNACE_LIT};
-int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
+int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
 int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
 	PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_DIAMOND, COAL, INGOT_IRON, INGOT_GOLD, DIAMOND,
 	STICK, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED, SHOVEL_DIAMOND,
@@ -26,7 +26,7 @@ int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
 int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
-
+int foodItems[] = {POCKCHOP_RAW, BEEF_RAW, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW,CHICKEN_COOKED};
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
 	//va_list is fine to use and it shouldn't add any overhead as it is used in (i)printf to create infinite arguments.
