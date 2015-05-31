@@ -61,6 +61,8 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg)
 void placeBlock(WorldObject *world, int x, int y, bool bg)
 {
 	int blockID = getBlockID(getSelectedSlot());
+	if (item(blockID))
+		return;
 	if (subInventory(blockID, 1))
 	{
 		switch (blockID)

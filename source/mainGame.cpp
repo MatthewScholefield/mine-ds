@@ -63,6 +63,8 @@ static void redrawGameUI(void)
 static int inGameMenu()
 {
 	bool backbutton = false;
+	oamClear(&oamSub, 0, 0);
+	oamUpdate(&oamSub);
 
 	while (!backbutton)
 	{
