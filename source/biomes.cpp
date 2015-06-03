@@ -57,9 +57,9 @@ void jungleBiome(WorldObject* world, int startx, int endx)
 		world->biome[x] = BIOME_JUNGLE;
 		if (flx == x)
 		{
-			world->bgblocks[x][y - 1] = LEAF_JUNGLE;
+			world->bgblocks[x][y - 1] = LEAVES_JUNGLE;
 			if (rand() % 3 == 1)
-				world->bgblocks[x][y - 2] = LEAF_JUNGLE;
+				world->bgblocks[x][y - 2] = LEAVES_JUNGLE;
 			if (rand() % 8 == 1)
 				flx += 1 + rand() % 3;
 			else flx += 1;

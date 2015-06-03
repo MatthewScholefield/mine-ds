@@ -28,7 +28,7 @@ void growTree(WorldObject* world, int x, int y, bool birch)
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 	}
 	//Now for the leaves...
-	leafVirus(world, x, i, 2 + (rand() % 2), false, LEAF_OAK);
+	leafVirus(world, x, i, 2 + (rand() % 2), false, LEAVES_OAK);
 }
 
 void growOakTree(WorldObject* world, int x, int y)
@@ -50,13 +50,13 @@ void growSpruceTree(WorldObject* world, int x, int y)
 	{
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 	}
-	leafVirus(world, x, y - height, 2, false, LEAF_SPRUCE);
+	leafVirus(world, x, y - height, 2, false, LEAVES_SPRUCE);
 	y = i;
 	for (i = y; i >= y - height; i--)
 	{
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 	}
-	leafVirus(world, x, i, 2 + rand() % 2, false, LEAF_SPRUCE);
+	leafVirus(world, x, i, 2 + rand() % 2, false, LEAVES_SPRUCE);
 }
 
 void growJungleTree(WorldObject* world, int x, int y)
@@ -70,15 +70,15 @@ void growJungleTree(WorldObject* world, int x, int y)
 		world->bgblocks[x + 1][i] = blockID;
 	}
 	int random = rand() % 2;
-	leafVirus(world, x + random, y - height, 3, false, LEAF_JUNGLE);
+	leafVirus(world, x + random, y - height, 3, false, LEAVES_JUNGLE);
 	y = i;
 	for (i = y; i >= y - height; i--)
 	{
 		world->bgblocks[x][i] = blockID; // Draw the trunk.
 		world->bgblocks[x + 1][i] = blockID;
 	}
-	leafVirus(world, x, i, 2 + rand() % 3, false, LEAF_JUNGLE);
-	leafVirus(world, x + 1, i, 2 + rand() % 3, false, LEAF_JUNGLE);
+	leafVirus(world, x, i, 2 + rand() % 3, false, LEAVES_JUNGLE);
+	leafVirus(world, x + 1, i, 2 + rand() % 3, false, LEAVES_JUNGLE);
 }
 
 void growGiantMushroom(WorldObject* world, int x, int y)
