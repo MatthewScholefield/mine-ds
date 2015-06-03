@@ -1,5 +1,4 @@
 @echo off
-
 mkdir tmp
 mv pack tmp/pack
 cp default.txt tmp/default.txt
@@ -57,7 +56,11 @@ set /P useDefault=Default Values found. Use them ^(Y/n^)?
 )
 if not defined useDefault set useDefault=1
 if /I "%useDefault%" EQU "Y" set useDefault=1
-if "%useDefault%"=="1" goto after
+if "%useDefault%"=="1" (
+ cls
+ echo Converting texture pack ...
+ goto after
+)
 set useDefault=0
 echo.>default.txt
 set loop=1
@@ -81,7 +84,7 @@ if /I "%c%" EQU "N" set useDefault=2
 
 set n=1
 :loop
-set l=1
+set l=0
 set custom=0
 set /A mod=(n) %% 16
 set /A x=(mod)*16
@@ -90,7 +93,16 @@ set /A y=mult*16
 
 if "%useDefault%"=="0" goto guess
 if "%useDefault%"=="2" goto guess
-head -%n% default.txt | tail -1 | xargs -I ` composite -geometry +%x%+%y% ` final.png final.png
+head -%n% default.txt | tail -1 > line.txt
+set /P line=<line.txt
+:: SNOW_TOP
+if "%n%"=="18" (
+ convert.exe -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png tmp.png
+ set /A y=y+15
+ set line=tmp.png
+)
+convert -crop 16x16+0+0 %line% miff:- | composite -geometry +%x%+%y% - final.png final.png
+<nul set /p ="."
 
 set /A n=n+1
 if "%n%"=="%m%" goto end
@@ -125,7 +137,11 @@ if "%useDefault%"=="2" (
  )
 )
 cls
-head -%l% searchResults.txt | tail -1
+if not "%l%"=="0" (
+ head -%l% searchResults.txt | tail -1
+) else (
+ awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1
+)
 echo "for the BLOCK:"
 head -%n% names.txt | tail -1
 
@@ -145,8 +161,11 @@ echo ==Search Results==
 cat searchResults.txt
 echo.
 echo (Starting at 1. Enter 0 to customize search term)
-set /P l=Which search result is correct? 
-if NOT "%l%"=="0" goto complete
+set /P setLine=Which search result is correct? 
+if NOT "%setLine%"=="0" (
+ set l=%setLine%
+ goto complete
+)
 :searchTerm
 cls
 head -%n% names.txt | tail -1
@@ -155,8 +174,19 @@ find . -regextype sed -iregex ".*[^a-z]%search%[^a-z].*png$" > searchResults.txt
 goto customize
 
 :continue
-cat searchResults.txt | head -%l% | tail -1 | sed -E -e "s/\.\\/(.*)/\1/" | xargs -I ` composite -geometry +%x%+%y% ` final.png final.png
-cat searchResults.txt | head -%l% | tail -1 | sed -E -e "s/\.\\/(.*)/\1/" | sed -E -e "s/\\//\\\\\//g" > output.txt
+:: SNOW_TOP
+if "%n%"=="15" (
+ convert -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png tmp.png
+ set /A y=y+15
+ composite -geometry +%x%+%y% tmp.png final.png final.png
+) else (
+ if "%l%"=="0" (
+  awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` miff:- | composite -geometry +%x%+%y% - final.png final.png
+ ) else (
+  cat searchResults.txt | head -%l% | tail -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` miff:- | composite -geometry +%x%+%y% - final.png final.png
+ )
+)
+cat fin.txt | sed -E -e "s/\\//\\\\\//g" > output.txt
 set /p output=<output.txt
 sed -i "%n%s/.*/%output%/" default.txt
 set /A n=n+1
