@@ -71,7 +71,7 @@
 #define CYAN_WOOL 38
 #define GRAY_WOOL 39
 #define WHITE_WOOL 40
-#define DRAK_GRAY_WOOL 41
+#define DARK_GRAY_WOOL 41
 #define PINK_WOOL 42
 #define LIGHT_GREEN_WOOL 43
 #define YELLOW_WOOL 44
