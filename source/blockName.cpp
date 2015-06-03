@@ -132,8 +132,8 @@ const char *getName(int blockID)
 		case WHITE_WOOL:
 			name = "White Wool";
 			break;
-		case DRAK_GRAY_WOOL:
-			name = "Drak Gray Wool";
+		case DARK_GRAY_WOOL:
+			name = "Dark Gray Wool";
 			break;
 		case PINK_WOOL:
 			name = "Pink Wool";
