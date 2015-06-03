@@ -76,7 +76,7 @@
 #define LIGHT_GREEN_WOOL 43
 #define YELLOW_WOOL 44
 #define LIGHT_BLUE_WOOL 45
-#define FUCHSIA_WOOL 46
+#define MAGENTA_WOOL 46
 #define ORANGE_WOOL 47
 #define LADDER 48
 #define JUNGLE_WOOD 49
