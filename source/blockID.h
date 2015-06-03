@@ -24,6 +24,7 @@
 #define DIRT 2
 #define GRASS 3
 #define TORCH 4
+#define PUMPKIN_FACE_ON 5
 #define PUMPKIN_LIGHT 5
 #define GLOWSTONE 6
 #define LOG_OAK 7
@@ -66,6 +67,7 @@
 #define BLOCK_DIAMOND 31
 #define BLACK_WOOL 32
 #define RED_WOOL 33
+#define GREEN_WOOL 34
 #define DARK_GREEN_WOOL 34
 #define BROWN_WOOL 35
 #define BlUE_WOOL 36
@@ -75,6 +77,7 @@
 #define WHITE_WOOL 40
 #define DARK_GRAY_WOOL 41
 #define PINK_WOOL 42
+#define LIME_WOOL 43
 #define LIGHT_GREEN_WOOL 43
 #define YELLOW_WOOL 44
 #define LIGHT_BLUE_WOOL 45
@@ -83,7 +86,7 @@
 #define LADDER 48
 #define JUNGLE_WOOD 49
 #define GRASS_JUNGLE 50
-#define GRASS_SIDE 51
+#define TALLGRASS 51
 #define TALL_GRASS 51
 #define DEADBUSH 52
 #define SHRUB 52
