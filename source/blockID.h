@@ -52,8 +52,10 @@
 #define ORE_REDSTONE 24
 #define TNT 25
 #define SANDSTONE 26
+#define ROSE 27
 #define RED_FLOWER 27
 #define FLOWER_RED 27
+#define DANDELION 28
 #define YELLOW_FLOWER 28
 #define FLOWER_YELLOW 28
 #define IRON_BLOCK 29
