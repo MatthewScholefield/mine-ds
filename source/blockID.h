@@ -83,6 +83,7 @@
 #define GRASS_JUNGLE 50
 #define GRASS_SIDE 51
 #define TALL_GRASS 51
+#define DEADBUSH 52
 #define SHRUB 52
 #define RAW_PORKCHOP 53
 #define PORKCHOP_RAW 53
