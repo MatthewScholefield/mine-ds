@@ -42,14 +42,14 @@ const char *getName(int blockID)
 		case PLANKS_WOOD:
 			name = "Plank";
 			break;
-		case LEAF_OAK:
-			name = "Leaf";
+		case LEAVES_OAK:
+			name = "Leaves";
 			break;
-		case LEAF_SPRUCE:
-			name = "Redwood Leaf";
+		case LEAVES_SPRUCE:
+			name = "Redwood Leaves";
 			break;
-		case LEAF_JUNGLE:
-			name = "Jungle Leaf";
+		case LEAVES_JUNGLE:
+			name = "Jungle Leaves";
 			break;
 		case GLASS:
 			name = "Glass";

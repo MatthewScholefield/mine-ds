@@ -30,9 +30,9 @@
 #define LOG_SPRUCE 8
 #define LOG_BIRCH 9
 #define PLANKS_WOOD 10
-#define LEAF_OAK 11
-#define LEAF_SPRUCE 12
-#define LEAF_JUNGLE 13
+#define LEAVES_OAK 11
+#define LEAVES_SPRUCE 12
+#define LEAVES_JUNGLE 13
 #define GLASS 14
 #define CACTUS 15
 #define SAND 16
