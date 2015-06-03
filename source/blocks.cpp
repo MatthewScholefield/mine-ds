@@ -14,7 +14,7 @@
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 
 int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
-int renderBright[] = {AIR, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LEAF_OAK, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, LEAF_SPRUCE, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
+int renderBright[] = {AIR, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LEAVES_OAK, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, LEAVES_SPRUCE, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
 int lightSourceBlocks[] = {TORCH, PUMPKIN_LIGHT, GLOWSTONE, FURNACE_LIT};
 int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
 int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
@@ -104,11 +104,11 @@ int sapling(int leafID)
 {
 	switch (leafID)
 	{
-		case LEAF_OAK:
+		case LEAVES_OAK:
 			return SAPLING_OAK;
-		case LEAF_JUNGLE:
+		case LEAVES_JUNGLE:
 			return SAPLING_JUNGLE;
-		case LEAF_SPRUCE:
+		case LEAVES_SPRUCE:
 			return SAPLING_SPRUCE;
 		default:
 			return BLOCK_DEBUG; //Random block
@@ -125,11 +125,11 @@ int leaf(int saplingID)
 	switch (saplingID)
 	{
 		case SAPLING_OAK:
-			return LEAF_OAK;
+			return LEAVES_OAK;
 		case SAPLING_JUNGLE:
-			return LEAF_JUNGLE;
+			return LEAVES_JUNGLE;
 		case SAPLING_SPRUCE:
-			return LEAF_SPRUCE;
+			return LEAVES_SPRUCE;
 		default:
 			return BLOCK_DEBUG; //Random block
 	}
@@ -309,13 +309,13 @@ int genericBlock(int blockID)
 		case TALL_GRASS:
 			return rand() % 3 == 1 ? SEEDS_WHEAT : AIR;
 			break;
-		case LEAF_OAK:
-		case LEAF_SPRUCE:
+		case LEAVES_OAK:
+		case LEAVES_SPRUCE:
 			if (rand() % 3 != 0)
 				return AIR;
 			else
 				return sapling(blockID);
-		case LEAF_JUNGLE:
+		case LEAVES_JUNGLE:
 			if (rand() % 5 != 0)
 				return AIR;
 			else
