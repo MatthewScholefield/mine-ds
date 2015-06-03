@@ -101,7 +101,7 @@ if "%n%"=="18" (
  set /A y=y+15
  set line=tmp.png
 )
-convert -crop 16x16+0+0 %line% miff:- | composite -geometry +%x%+%y% - final.png final.png
+convert -crop 16x16+0+0 %line% gif:- | composite -geometry +%x%+%y% - final.png final.png
 <nul set /p ="."
 
 set /A n=n+1
@@ -181,9 +181,9 @@ if "%n%"=="15" (
  composite -geometry +%x%+%y% tmp.png final.png final.png
 ) else (
  if "%l%"=="0" (
-  awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` miff:- | composite -geometry +%x%+%y% - final.png final.png
+  awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` gif:- | composite -geometry +%x%+%y% - final.png final.png
  ) else (
-  cat searchResults.txt | head -%l% | tail -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` miff:- | composite -geometry +%x%+%y% - final.png final.png
+  cat searchResults.txt | head -%l% | tail -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` gif:- | composite -geometry +%x%+%y% - final.png final.png
  )
 )
 cat fin.txt | sed -E -e "s/\\//\\\\\//g" > output.txt
