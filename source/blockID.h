@@ -81,6 +81,7 @@
 #define LADDER 48
 #define JUNGLE_WOOD 49
 #define GRASS_JUNGLE 50
+#define GRASS_SIDE 51
 #define TALL_GRASS 51
 #define SHRUB 52
 #define RAW_PORKCHOP 53
