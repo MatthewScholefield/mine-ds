@@ -1,4 +1,5 @@
 @echo off
+setlocal EnableDelayedExpansion
 ls -d */ | tr '/' '\n' | sed -e "/^$/d" > folder.txt
 nl folder.txt
 set /p folderID=Enter the number of the directory you would like to convert: 
@@ -97,17 +98,35 @@ set /A x=(mod)*16
 set /A mult=(n)/16
 set /A y=mult*16
 
+set "first="
+head -%n% par1.txt | tail -1 > first.txt
+set /p first=<first.txt
+
 if "%useDefault%"=="0" goto guess
 if "%useDefault%"=="2" goto guess
 head -%n% default.txt | tail -1 > line.txt
 set /P line=<line.txt
 :: SNOW_TOP
 if "%n%"=="18" (
- convert.exe -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png tmp.png
- set /A y=y+15
- set line=tmp.png
+ set /A y=^(15+y^)
+ convert -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png miff:- | composite -geometry +!x!+!y! - final.png final.png
+) else if "%n%"=="75" (
+ call:drawChest
+) else if "%n%"=="11" (
+ set input=%line%
+ call:colorize 205 255 180
+) else if "%n%"=="12" (
+ set input=%line%
+ call:colorize 190 255 190 85
+) else if "%n%"=="13" (
+ set input=%line%
+ call:colorize 150 255 130 80
+) else if "%n%"=="51" (
+ set input=%line%
+ call:colorize 180 255 180
+) else (
+ convert -crop 16x16+0+0 %line% gif:- | composite -geometry +%x%+%y% - final.png final.png
 )
-convert -crop 16x16+0+0 %line% gif:- | composite -geometry +%x%+%y% - final.png final.png
 <nul set /p ="."
 
 set /A n=n+1
@@ -185,6 +204,26 @@ if "%n%"=="15" (
  convert -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png tmp.png
  set /A y=y+15
  composite -geometry +%x%+%y% tmp.png final.png final.png
+ echo pack/assets/minecraft/textures/blocks/snow.png> fin.txt
+) else if "%n%"=="75"(
+ call:drawChest
+ echo %chest%>fin.txt
+) else if "%n%"=="11" (
+ awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" > fin.txt
+ set /p input=<fin.txt
+ call:colorize 205 255 180
+) else if "%n%"=="12" (
+ awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" > fin.txt
+ set /p input=<fin.txt
+ call:colorize 110 255 110 50
+) else if "%n%"=="13" (
+ awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" > fin.txt
+ set /p input=<fin.txt
+ call:colorize 150 255 130 80
+) else if "%n%"=="51" (
+ awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" > fin.txt
+ set /p input=<fin.txt
+ call:colorize 180 255 180
 ) else (
  if "%l%"=="0" (
   awk '{ print length, $0 }' searchResults.txt | sort -n | cut -d" " -f2- | head -1 | sed -E -e "s/\.\\/(.*)/\1/" | tee fin.txt | xargs -I ` convert -crop 16x16+0+0 ` gif:- | composite -geometry +%x%+%y% - final.png final.png
@@ -204,3 +243,27 @@ mv tmp/pack %folder%
 mv tmp/final.png %folder%.png
 cp tmp/default.txt default.txt
 rm -rf tmp
+rm -f setFolder.txt
+rm -f folder.txt
+goto:eof
+
+::-----------------------------
+::functions here
+::-----------------------------
+:drawChest
+set chest=pack/assets/minecraft/textures/entity/chest/normal.png
+set /A x=x+1
+set /A y=y+1
+convert -crop 14x5+14+14 %chest% miff:- | composite -geometry +%x%+%y% - final.png final.png
+set /A y=y+5
+convert -crop 14x10+14+33 %chest% miff:- | composite -geometry +%x%+%y% - final.png final.png
+set /A x=x+6
+set /A y=y-2
+convert -crop 2x4+2+1 %chest% miff:- | composite -geometry +%x%+%y% - final.png final.png
+goto:eof
+
+:colorize
+set "amount=%~4"
+if not defined amount set amount=90
+convert %input% -fill rgb(%~1,%~2,%~3) -tint %amount% gif:- | composite -geometry +%x%+%y% - final.png final.png
+goto:eof
