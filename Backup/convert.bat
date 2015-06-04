@@ -106,27 +106,36 @@ if "%useDefault%"=="0" goto guess
 if "%useDefault%"=="2" goto guess
 head -%n% default.txt | tail -1 > line.txt
 set /P line=<line.txt
-:: SNOW_TOP
-if "%n%"=="18" (
+
+if "%n%"=="18" ( :: Snow Top
  set /A y=^(15+y^)
  convert -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png miff:- | composite -geometry +!x!+!y! - final.png final.png
-) else if "%n%"=="75" (
+) else if "%n%"=="75" ( :: Chest
  call:drawChest
-) else if "%n%"=="11" (
+) else if "%n%"=="11" ( :: Oak Leaves
  set input=%line%
- call:colorize 205 255 180
-) else if "%n%"=="12" (
+ call:colorize 90 170 25
+) else if "%n%"=="12" ( :: Spruce Leaves
  set input=%line%
- call:colorize 190 255 190 85
-) else if "%n%"=="13" (
+ call:colorize 143 200 140
+) else if "%n%"=="13" ( :: Jungle Leaves
  set input=%line%
- call:colorize 150 255 130 80
-) else if "%n%"=="51" (
- set input=%line%
- call:colorize 180 255 180
+ call:colorize 85 255 52
+) else if "%n%"=="51" ( :: Tall Grass
+ set /a y=y+8
+ convert -crop 16x8+0+0 %line% gif:- | convert - -fill rgb^(90,170,25^) -tint 70 gif:- | composite -geometry +!x!+!y! - final.png final.png
 ) else (
  convert -crop 16x16+0+0 %line% gif:- | composite -geometry +%x%+%y% - final.png final.png
 )
+
+if "%n%"=="50" ( :: Jungle Grass
+ set input=pack/assets/minecraft/textures/blocks/grass_side_overlay.png
+ call:colorize 85 255 52
+) else if "%n%"=="3" ( :: Grass
+ set input=pack/assets/minecraft/textures/blocks/grass_side_overlay.png
+ call:colorize 90 170 25
+)
+
 <nul set /p ="."
 
 set /A n=n+1
@@ -264,6 +273,6 @@ goto:eof
 
 :colorize
 set "amount=%~4"
-if not defined amount set amount=90
+if not defined amount set amount=70
 convert %input% -fill rgb(%~1,%~2,%~3) -tint %amount% gif:- | composite -geometry +%x%+%y% - final.png final.png
 goto:eof
