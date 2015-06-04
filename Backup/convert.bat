@@ -1,6 +1,12 @@
 @echo off
+ls -d */ | tr '/' '\n' | sed -e "/^$/d" > folder.txt
+nl folder.txt
+set /p folderID=Enter the number of the directory you would like to convert: 
+head -%folderID% folder.txt | tail -1 > setFolder.txt
+set /p folder=<setFolder.txt
+
 mkdir tmp
-mv pack tmp/pack
+mv %folder% tmp/pack
 cp default.txt tmp/default.txt
 cd tmp
 
@@ -194,7 +200,7 @@ if "%n%"=="%m%" goto end
 goto loop
 :end
 cd ..
-mv tmp/pack pack
-mv tmp/final.png final.png
+mv tmp/pack %folder%
+mv tmp/final.png %folder%.png
 cp tmp/default.txt default.txt
 rm -rf tmp
