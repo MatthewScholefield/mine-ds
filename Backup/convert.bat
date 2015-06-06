@@ -7,7 +7,7 @@ head -%folderID% folder.txt | tail -1 > setFolder.txt
 set /p folder=<setFolder.txt
 
 mkdir tmp
-mv %folder% tmp/pack
+mv "%folder%" tmp/pack
 cp default.txt tmp/default.txt
 cd tmp
 
@@ -248,12 +248,17 @@ if "%n%"=="%m%" goto end
 goto loop
 :end
 cd ..
-mv tmp/pack %folder%
-mv tmp/final.png %folder%.png
+mv tmp/pack "%folder%"
+mv tmp/final.png "%folder%.png"
 cp tmp/default.txt default.txt
 rm -rf tmp
 rm -f setFolder.txt
 rm -f folder.txt
+"grit.exe" "%folder%.png" -ftbin -gB8 -gt -th 16 -gT FF00FF -m!
+rm -f texture_img.bin
+rm -f texture_pal.bin
+ren "%folder%.img.bin" texture_img.bin
+ren "%folder%.pal.bin" texture_pal.bin
 goto:eof
 
 ::-----------------------------

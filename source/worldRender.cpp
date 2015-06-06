@@ -213,7 +213,7 @@ void worldRender_LoadSprites()
 		loadGraphic(&blockGraphics[i], 2, getSpriteBlock(i));
 }
 
-void worldRender_Init()
+void worldRender_Init(const unsigned int *blockTiles, const unsigned short *blockPalette)
 {
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
 	REG_DISPCNT = MODE_5_2D | DISPLAY_BG_EXT_PALETTE;
@@ -223,10 +223,10 @@ void worldRender_Init()
 	REG_BG2CNT |= BG_WRAP_ON;
 	bgUpdate();
 	vramSetBankE(VRAM_E_LCD);
-	dmaCopy(&block_smallPal, VRAM_E_EXT_PALETTE[2][0], block_smallPalLen); //Copy the palette
+	dmaCopy(blockPalette, VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 	bg2ptr = bgGetMapPtr(2); //The Map Base
-	dmaCopy(&block_smallTiles, bgGetGfxPtr(2), block_smallTilesLen); //Copy Tiles
+	dmaCopy(blockTiles, bgGetGfxPtr(2), TEXTURE_TILES_LEN); //Copy Tiles
 	BlockShader();
 	sunlight = 0;
 	int i, j;
