@@ -7,8 +7,14 @@
 #include "sub_bg.h"
 #include "block_small.h"
 #include "font.h"
-
+#include <vector>
+#include <algorithm>
 #include "../general.h"
+#include "../worldRender.h"
+unsigned int const *loadedTextureTiles;
+unsigned short const *loadedTexturePalette;
+unsigned int *loadedTexFile;
+unsigned short *loadedPalFile;
 /**
 	\file graphics.cpp
 	\breif A file containing Sprite and particle related functions.
@@ -66,7 +72,7 @@ void setBlockPalette(int darkness, int index, bool isolated)
 	unsigned short *palette = new unsigned short[256];
 	for (int i = 0; i < 256; ++i)
 	{
-		unsigned short slot = block_smallPal[i];
+		unsigned short slot = loadedTexturePalette[i];
 		unsigned short blue = slot & 0x1F;
 		slot >>= 5;
 		unsigned short green = slot & 0x1F;
@@ -82,18 +88,67 @@ void setBlockPalette(int darkness, int index, bool isolated)
 		slot |= blue;
 		palette[i] = slot;
 	}
-	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], block_smallPalLen);
+	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], TEXTURE_PAL_LEN);
 	delete[] palette;
 	if (isolated)
 		vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
+void loadTexture(const unsigned int *source, const unsigned short *sourcePal)
+{
+	loadedTextureTiles = source;
+	loadedTexturePalette = sourcePal;
+	/*delete[] loadedTextureTiles;
+	loadedTextureTiles = new unsigned int[TEXTURE_TILES_ARRAY_LEN];*/
+	/*for (int i = 0; i < TEXTURE_TILES_ARRAY_LEN; ++i)
+		loadedTextureTiles[i] = source[i];*/
+	/*delete[] loadedTexturePalette;
+	loadedTexturePalette = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
+	int color = 0;
+	color |= 15 << 15;
+	for (int i = 0; i < TEXTURE_PAL_ARRAY_LEN; ++i)
+		loadedTexturePalette[i] = block_smallPal[i]; //color; //sourcePal[i];*/
+}
+
+void loadDefaultTexture()
+{
+	//Load with arrays generated from GRIT
+	loadTexture(block_smallTiles, block_smallPal);
+}
 /**
 	\breif Init's the DS's Sprite Engine, to be used for MineDS.
 	Should be called when initing the DS.
  */
 void graphicsInit()
 {
+	FILE *imgFile, *palFile;
+	bool openedImg = (imgFile = fopen("/texture_img.bin", "rb")) != NULL;
+	bool openedPal = (palFile = fopen("/texture_pal.bin", "rb")) != NULL;
+	if (!openedImg || !openedPal)
+	{
+		printXY(1, 1, "Failed to load textures");
+		sleep(2);
+		printXY(1, 2, "Loading default textures");
+		loadTexture(block_smallTiles, block_smallPal);
+	}
+	else
+	{
+		delete[] loadedTexFile;
+		loadedTexFile = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
+		delete[] loadedPalFile;
+		loadedPalFile = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
+		fread(loadedTexFile, sizeof (uint16_t), TEXTURE_TILES_ARRAY_LEN, imgFile);
+		fread(loadedPalFile, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, palFile);
+
+		loadedTextureTiles = loadedTexFile;
+		loadedTexturePalette = loadedPalFile;
+	}
+	if (openedImg)
+		fclose(imgFile);
+	if (openedPal)
+		fclose(palFile);
+	worldRender_Init(loadedTextureTiles, loadedTexturePalette);
+	
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 
@@ -101,7 +156,7 @@ void graphicsInit()
 	oamInit(&oamSub, SpriteMapping_1D_256, true);
 	//Vram I is for Sub Sprite Palette!
 	vramSetBankI(VRAM_I_LCD);
-	dmaCopy(block_smallPal, VRAM_I_EXT_SPR_PALETTE[2], block_smallPalLen);
+	dmaCopy(loadedTexturePalette, VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
 	dmaCopy(subPal, VRAM_I_EXT_SPR_PALETTE[0], subPalLen);
 	dmaCopy(fontPal, VRAM_I_EXT_SPR_PALETTE[1], fontPalLen);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
@@ -167,7 +222,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) & block_smallTiles;
+	u8* Tiles = (u8*) loadedTextureTiles;
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles, graphics, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
@@ -183,8 +238,8 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	/*for (int i : block_smallPal)*/
-	u8* Tiles = ((u8*) & block_smallTiles);
+	/*for (int i : loadedTexturePalette)*/
+	u8* Tiles = ((u8*) loadedTextureTiles);
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
 	//dmaCopy(Tiles, graphics, 8 * 8);
@@ -329,7 +384,7 @@ void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
 void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) & block_smallTiles;
+	u8* Tiles = (u8*) loadedTextureTiles;
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles, graphics, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);

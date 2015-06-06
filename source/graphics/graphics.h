@@ -1,6 +1,10 @@
 #pragma once
 #include <nds.h>
 #define FRAMES_PER_ANIMATION 6
+#define TEXTURE_TILES_LEN 65536
+#define TEXTURE_TILES_ARRAY_LEN 16384
+#define TEXTURE_PAL_LEN 512
+#define TEXTURE_PAL_ARRAY_LEN 256
 /**
 	\file graphics.h
 	\breif A file used to define the Graphic structure.
@@ -42,4 +46,5 @@ void animateMob(Graphic* g, int mobSlot);
 void loadGraphicAnim(Graphic* g, int frame);
 void setAnimFrame(Graphic* g, int mobSlot, int frame);
 bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
+//void loadTexture(const unsigned int (*tiles)[TEXTURE_TILES_ARRAY_LEN], const unsigned short int (*palette)[TEXTURE_PAL_ARRAY_LEN], bool loadToVRAM = true);
 #define unloadGraphicSub(x) unloadGraphic(x)
