@@ -11,10 +11,17 @@
 #include <algorithm>
 #include "../general.h"
 #include "../worldRender.h"
+
+//A pointer to the loaded texture
 unsigned int const *loadedTextureTiles;
 unsigned short const *loadedTexturePalette;
+
+//A pointer to the non-const texture data loaded into memory
 unsigned int *loadedTexFile;
 unsigned short *loadedPalFile;
+
+//A comment from 1995 :D
+
 /**
 	\file graphics.cpp
 	\breif A file containing Sprite and particle related functions.
