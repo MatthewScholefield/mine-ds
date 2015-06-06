@@ -10,7 +10,7 @@
 #include "world.h"
 #include "block_small.h"
 
-void worldRender_Init();
+void worldRender_Init(const unsigned int *blockTiles, const unsigned short *blockPalette);
 void worldRender_Render(WorldObject* world, int screen_x, int screen_y);
 void Calculate_Brightness(WorldObject* world);
 extern "C" {

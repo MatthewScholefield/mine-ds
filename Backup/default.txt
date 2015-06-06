@@ -69,7 +69,7 @@ pack/assets/minecraft/textures/items/porkchop_cooked.png
 pack/assets/minecraft/textures/items/chicken_raw.png
 pack/assets/minecraft/textures/items/chicken_cooked.png
 pack/assets/minecraft/textures/blocks/cobblestone.png
-pack/assets/minecraft/textures/blocks/furnace_side.png
+pack/assets/minecraft/textures/blocks/furnace_front_off.png
 pack/assets/minecraft/textures/blocks/furnace_front_on.png
 pack/assets/minecraft/textures/blocks/crafting_table_front.png
 pack/assets/minecraft/textures/blocks/planks_oak.png

@@ -40,12 +40,12 @@ void renderWorld(WorldObject* world);
 int main()
 {
 	defaultExceptionHandler();
+	initFile();
 	subBgInit();
 	drawBackground();
 	setupFont();
 	//nifiInit();
 	initBlockProperties();
-	worldRender_Init();
 	graphicsInit();
 	mobHandlerInit();
 	worldRender_LoadSprites();
@@ -53,7 +53,6 @@ int main()
 	proceduralBlockUpdateInit();
 	graphicFrame();
 	oamClear(&oamSub, 0, 127);
-	initFile();
 	initSound();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
 	clear_messages();
