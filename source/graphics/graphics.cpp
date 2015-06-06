@@ -98,16 +98,6 @@ void loadTexture(const unsigned int *source, const unsigned short *sourcePal)
 {
 	loadedTextureTiles = source;
 	loadedTexturePalette = sourcePal;
-	/*delete[] loadedTextureTiles;
-	loadedTextureTiles = new unsigned int[TEXTURE_TILES_ARRAY_LEN];*/
-	/*for (int i = 0; i < TEXTURE_TILES_ARRAY_LEN; ++i)
-		loadedTextureTiles[i] = source[i];*/
-	/*delete[] loadedTexturePalette;
-	loadedTexturePalette = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
-	int color = 0;
-	color |= 15 << 15;
-	for (int i = 0; i < TEXTURE_PAL_ARRAY_LEN; ++i)
-		loadedTexturePalette[i] = block_smallPal[i]; //color; //sourcePal[i];*/
 }
 
 void loadDefaultTexture()
@@ -125,12 +115,7 @@ void graphicsInit()
 	bool openedImg = (imgFile = fopen("/texture_img.bin", "rb")) != NULL;
 	bool openedPal = (palFile = fopen("/texture_pal.bin", "rb")) != NULL;
 	if (!openedImg || !openedPal)
-	{
-		printXY(1, 1, "Failed to load textures");
-		sleep(2);
-		printXY(1, 2, "Loading default textures");
 		loadTexture(block_smallTiles, block_smallPal);
-	}
 	else
 	{
 		delete[] loadedTexFile;
