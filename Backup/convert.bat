@@ -1,10 +1,26 @@
-@echo off
+@echo on
+set usingZIP=0
 setlocal EnableDelayedExpansion
 ls -d */ | tr '/' '\n' | sed -e "/^$/d" > folder.txt
+ls -d *.zip | tr '/' '\n' | sed -e "/^$/d" >> folder.txt
 nl folder.txt
-set /p folderID=Enter the number of the directory you would like to convert: 
-head -%folderID% folder.txt | tail -1 > setFolder.txt
-set /p folder=<setFolder.txt
+set /p folderID=Enter the number of the texture you would like to convert: 
+head -%folderID% folder.txt | tail -1 | grep -i -e "\.zip" > setFolder.txt
+set "line="
+set /p line=<setFolder.txt
+
+if not defined line (
+ head -%folderID% folder.txt | tail -1 > setFolder.txt
+ set /p folder=<setFolder.txt
+) else if "%line%"=="" (
+ head -%folderID% folder.txt | tail -1 > setFolder.txt
+ set /p folder=<setFolder.tx
+) else (
+ head -%folderID% folder.txt | tail -1 | sed -E -e "s/(.*)\.zip/\1/" > setFolder.txt
+ set /p folder=<setFolder.txt
+ unzip "%line%" -d "!folder!"
+ set usingZIP=1
+)
 
 mkdir tmp
 mv "%folder%" tmp/pack
@@ -254,11 +270,13 @@ cp tmp/default.txt default.txt
 rm -rf tmp
 rm -f setFolder.txt
 rm -f folder.txt
-"grit.exe" "%folder%.png" -ftbin -gB8 -gt -th 16 -gT FF00FF -m!
+"grit.exe" "%folder%.png" -ftbin -gB8 -gt -th 16 -gT FF00FF -m^!
 rm -f texture_img.bin
 rm -f texture_pal.bin
 ren "%folder%.img.bin" texture_img.bin
 ren "%folder%.pal.bin" texture_pal.bin
+rm -f "%folder%.h"
+if "%usingZIP%"=="1" rf -rm "%folder%"
 goto:eof
 
 ::-----------------------------
