@@ -113,6 +113,7 @@ void craftingMenuInit()
 	craftButtonCraftScreen.setVisible(true);
 	rightButtonCraftScreen.setVisible(true);
 	leftButtonCraftScreen.setVisible(true);
+	drawBox(5, 8, 22, 7);
 	for (currentViewingRecipe = 0; !canCraftRecipe(currentViewingRecipe) && currentViewingRecipe < nextCraftingRecipe; ++currentViewingRecipe);
 	if (currentViewingRecipe == nextCraftingRecipe)
 		currentViewingRecipe = 0;
@@ -132,9 +133,8 @@ void craftItem()
 
 int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY, unsigned int* oldKeys)
 {
-	//scanKeys();
-	showGraphic(&resultBlock, 166, 84);
-	iprintf("\x1b[11;23H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
+	showGraphic(&resultBlock, 19 * 8 + 4, 10 * 8 + 4);
+	iprintf("\x1b[11;22H%d/%d ", checkInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId), craftingRecipes[currentViewingRecipe].createdblock.blockAmount);
 	for (int i = 0; i < 4; ++i)
 	{
 		showGraphic(&neededblocks[i], 60, ((i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
