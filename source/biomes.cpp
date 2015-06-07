@@ -96,7 +96,6 @@ void snowBiome(WorldObject* world, int startx, int endx)
 		if (treex == x)
 		{
 			growSpruceTree(world, x, y);
-			world->blocks[x][y] = AIR;
 			//Why no -1 on the y? Well If we did that then we would be starting on top the the snow_top block, and that looks weird!
 			treex += 8 + rand() % 5;
 		}
