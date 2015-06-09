@@ -105,7 +105,11 @@ int destroyTime(int blockID, int selectedBlock) //Calculated the required frames
 			if (blockTypeXY != SOIL) handHardness = 1;
 			break;
 	}
-	return getHardness(blockID)*10 / handHardness;
+	int val = getHardness(blockID)*10 / handHardness;
+	if (val > ACTIVATE_DELAY)
+		return val;
+	else
+		return ACTIVATE_DELAY;
 }
 
 void changeTarget(int newSum, int newBlock)
@@ -187,7 +191,7 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 	}
 	int touchedBlock;
 	bool oldLayerIsBG = layerIsBG;
-	if (world->blocks[x][y] == AIR || (isBlockWalkThrough(world->blocks[x][y])
+	if ((world->blocks[x][y] == AIR && isSurvival) || (isBlockWalkThrough(world->blocks[x][y])
 			&& keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)))
 	{
 		touchedBlock = world->bgblocks[x][y];
