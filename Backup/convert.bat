@@ -1,42 +1,91 @@
-@echo off
-set usingZIP=0
+@ECHO OFF
+REM BFCPEOPTIONSTART
+REM Advanced BAT to EXE Converter www.BatToExeConverter.com
+REM BFCPEEXE=C:\Users\Matthew\Desktop\convert.exe
+REM BFCPEICON=
+REM BFCPEICONINDEX=0
+REM BFCPEEMBEDDISPLAY=0
+REM BFCPEEMBEDDELETE=1
+REM BFCPEADMINEXE=0
+REM BFCPEINVISEXE=0
+REM BFCPEVERINCLUDE=0
+REM BFCPEVERVERSION=1.0.0.0
+REM BFCPEVERPRODUCT=Mine DS Texture Converter
+REM BFCPEVERDESC=Converts Minecraft Texture Packs
+REM BFCPEVERCOMPANY=
+REM BFCPEVERCOPYRIGHT=
+REM BFCPEEMBED=C:\cygwin64\bin\[.exe
+REM BFCPEEMBED=C:\cygwin64\bin\addftinfo.exe
+REM BFCPEEMBED=C:\cygwin64\bin\apropos
+REM BFCPEEMBED=C:\cygwin64\bin\arch.exe
+REM BFCPEEMBED=C:\cygwin64\bin\ash.exe
+REM BFCPEEMBED=C:\cygwin64\bin\awk
+REM BFCPEEMBED=C:\cygwin64\bin\base64.exe
+REM BFCPEEMBED=C:\cygwin64\bin\basename.exe
+REM BFCPEEMBED=C:\cygwin64\bin\bash.exe
+REM BFCPEEMBED=C:\cygwin64\bin\bashbug
+REM BFCPEEMBED=C:\cygwin64\bin\bunzip2.exe
+REM BFCPEEMBED=C:\cygwin64\bin\bzcat.exe
+REM BFCPEEMBED=C:\cygwin64\bin\bzcmp
+REM BFCPEEMBED=C:\cygwin64\bin\bzdiff
+REM BFCPEEMBED=C:\cygwin64\bin\bzegrep
+REM BFCPEEMBED=C:\cygwin64\bin\bzfgrep
+REM BFCPEEMBED=C:\cygwin64\bin\bzgrep
+REM BFCPEEMBED=C:\cygwin64\bin\bzip2.exe
+REM BFCPEEMBED=C:\cygwin64\bin\bzip2recover.exe
+REM BFCPEEMBED=C:\cygwin64\bin\bzless
+REM BFCPEEMBED=C:\cygwin64\bin\bzmore
+REM BFCPEEMBED=C:\cygwin64\bin\cal.exe
+REM BFCPEEMBED=C:\cygwin64\bin\ca-legacy
+REM BFCPEEMBED=C:\cygwin64\bin\cat.exe
+REM BFCPEEMBED=C:\cygwin64\bin\catman.exe
+REM BFCPEEMBED=C:\cygwin64\bin\chcon.exe
+REM BFCPEEMBED=C:\Users\Matthew\Desktop\tex\default.txt
+REM BFCPEOPTIONEND
+@ECHO ON
+@echo on
 setlocal EnableDelayedExpansion
+set usingZIP=0
+
 ls -d */ | tr '/' '\n' | sed -e "/^$/d" > folder.txt
-ls -d *.zip | tr '/' '\n' | sed -e "/^$/d" >> folder.txt
+mkdir tmp
+mv folder.txt tmp/
+ls -d *.zip | tr '/' '\n' | sed -e "/^$/d" >> tmp/folder.txt
+cd tmp
 nl folder.txt
 set /p folderID=Enter the number of the texture you would like to convert: 
 head -%folderID% folder.txt | tail -1 | grep -i -e "\.zip" > setFolder.txt
 set "line="
 set /p line=<setFolder.txt
 
-if not defined line (
+cd ..
+set zipExists=1
+if "%line%"=="" set zipExists=0
+if not defined line set zipExists=0
+
+if "%zipExists%"=="0" (
+ cd tmp
  head -%folderID% folder.txt | tail -1 > setFolder.txt
  set /p folder=<setFolder.txt
  tr '.' ' ' <setFolder.txt >setFolder2.txt
  set /p checkFolder=<setFolder2.txt
+ cd ..
  if NOT "!folder!" EQU "!checkFolder!" (
   mv -R "!folder!" "!checkFolder!"
-pause
-  set folder=!checkFolder!
- )
-) else if "%line%"=="" (
- head -%folderID% folder.txt | tail -1 > setFolder.txt
- set /p folder=<setFolder.txt
- tr '.' ' ' <setFolder.txt >setFolder2.txt
- set /p checkFolder=<setFolder2.txt
- if NOT "!folder!" EQU "!checkFolder!" (
-  mv -R "!folder!" "!checkFolder!"
-pause
   set folder=!checkFolder!
  )
 ) else (
+ cd tmp
  head -%folderID% folder.txt | tail -1 | sed -E -e "s/(.*)\.zip/\1/" > setFolder.txt
  set /p folder=<setFolder.txt
  tr '.' ' ' <setFolder.txt >setFolder2.txt
  set /p checkFolder=<setFolder2.txt
+ cd ..
  if NOT "!folder!" EQU "!checkFolder!" (
+  cd tmp
   echo !checkFolder!.zip>setFolder.txt
   set newZIP=<setFolder.txt
+  cd ..
   ren "%line%" "!newZIP!"
   set folder=!checkFolder!
  )
@@ -45,7 +94,6 @@ pause
  set usingZIP=1
 )
 
-mkdir tmp
 mv "%folder%" tmp/pack
 cp default.txt tmp/default.txt
 cd tmp
@@ -305,15 +353,11 @@ mv tmp/pack "%folder%"
 mv tmp/final.png "%folder%.png"
 cp tmp/default.txt default.txt
 rm -rf tmp
-rm -f setFolder.txt
-rm -f setFolder2.txt
-rm -f folder.txt
 "grit.exe" "%folder%.png" -ftbin -gB8 -gt -th 16 -gT FF00FF -m^^!
 :: call gritcmd.bat
-rm -f texture_img.bin
-rm -f texture_pal.bin
-ren "%folder%.img.bin" texture_img.bin
-ren "%folder%.pal.bin" texture_pal.bin
+copy /b "%folder%.img.bin" + "%folder%.pal.bin" texture.bin
+rm -f "%folder%.img.bin"
+rm -f "%folder%.pal.bin"
 rm -f "%folder%.h"
 if "%usingZIP%"=="1" rm -rf "%folder%"
 goto:eof

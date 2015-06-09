@@ -118,27 +118,22 @@ void loadDefaultTexture()
  */
 void graphicsInit()
 {
-	FILE *imgFile, *palFile;
-	bool openedImg = (imgFile = fopen("/texture_img.bin", "rb")) != NULL;
-	bool openedPal = (palFile = fopen("/texture_pal.bin", "rb")) != NULL;
-	if (!openedImg || !openedPal)
-		loadTexture(block_smallTiles, block_smallPal);
+	FILE *texFile;
+	if ((texFile = fopen("/texture.bin", "rb")) == NULL)
+		loadDefaultTexture();
 	else
 	{
 		delete[] loadedTexFile;
 		loadedTexFile = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
 		delete[] loadedPalFile;
 		loadedPalFile = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
-		fread(loadedTexFile, sizeof (uint16_t), TEXTURE_TILES_ARRAY_LEN, imgFile);
-		fread(loadedPalFile, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, palFile);
+		fread(loadedTexFile, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
+		fread(loadedPalFile, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
 
 		loadedTextureTiles = loadedTexFile;
 		loadedTexturePalette = loadedPalFile;
+		fclose(texFile);
 	}
-	if (openedImg)
-		fclose(imgFile);
-	if (openedPal)
-		fclose(palFile);
 	worldRender_Init(loadedTextureTiles, loadedTexturePalette);
 	
 	graphicFrame();
