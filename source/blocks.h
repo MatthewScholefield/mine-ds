@@ -1,5 +1,5 @@
 #pragma once
-#define NUM_SPRITE_BLOCKS 13
+#define NUM_SPRITE_BLOCKS 14
 
 int sapling(int leafID);
 int leaf(int saplingID);
