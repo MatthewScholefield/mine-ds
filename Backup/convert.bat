@@ -1,4 +1,4 @@
-@echo on
+@echo off
 set usingZIP=0
 setlocal EnableDelayedExpansion
 ls -d */ | tr '/' '\n' | sed -e "/^$/d" > folder.txt
@@ -12,13 +12,36 @@ set /p line=<setFolder.txt
 if not defined line (
  head -%folderID% folder.txt | tail -1 > setFolder.txt
  set /p folder=<setFolder.txt
+ tr '.' ' ' <setFolder.txt >setFolder2.txt
+ set /p checkFolder=<setFolder2.txt
+ if NOT "!folder!" EQU "!checkFolder!" (
+  mv -R "!folder!" "!checkFolder!"
+pause
+  set folder=!checkFolder!
+ )
 ) else if "%line%"=="" (
  head -%folderID% folder.txt | tail -1 > setFolder.txt
- set /p folder=<setFolder.tx
+ set /p folder=<setFolder.txt
+ tr '.' ' ' <setFolder.txt >setFolder2.txt
+ set /p checkFolder=<setFolder2.txt
+ if NOT "!folder!" EQU "!checkFolder!" (
+  mv -R "!folder!" "!checkFolder!"
+pause
+  set folder=!checkFolder!
+ )
 ) else (
  head -%folderID% folder.txt | tail -1 | sed -E -e "s/(.*)\.zip/\1/" > setFolder.txt
  set /p folder=<setFolder.txt
- unzip "%line%" -d "!folder!"
+ tr '.' ' ' <setFolder.txt >setFolder2.txt
+ set /p checkFolder=<setFolder2.txt
+ if NOT "!folder!" EQU "!checkFolder!" (
+  echo !checkFolder!.zip>setFolder.txt
+  set newZIP=<setFolder.txt
+  ren "%line%" "!newZIP!"
+  set folder=!checkFolder!
+ )
+ echo Extracting %line%...
+ unzip "%line%" -d "!folder!" >nul
  set usingZIP=1
 )
 
@@ -122,20 +145,34 @@ if "%useDefault%"=="0" goto guess
 if "%useDefault%"=="2" goto guess
 head -%n% default.txt | tail -1 > line.txt
 set /P line=<line.txt
-
 if "%n%"=="18" ( :: Snow Top
  set /A y=^(15+y^)
  convert -crop 16x1+0+15 pack/assets/minecraft/textures/blocks/snow.png miff:- | composite -geometry +!x!+!y! - final.png final.png
 ) else if "%n%"=="75" ( :: Chest
  call:drawChest
 ) else if "%n%"=="11" ( :: Oak Leaves
- set input=%line%
+ if exist pack/assets/minecraft/textures/blocks/leaves_oak_opaque.png (
+  convert pack/assets/minecraft/textures/blocks/leaves_oak_opaque.png tmp.gif
+ ) else (
+  convert %line% -background black -alpha off tmp.gif
+ )
+ set input=tmp.gif
  call:colorize 90 170 25
 ) else if "%n%"=="12" ( :: Spruce Leaves
- set input=%line%
+ if exist pack/assets/minecraft/textures/blocks/leaves_spruce_opaque.png (
+  convert pack/assets/minecraft/textures/blocks/leaves_spruce_opaque.png tmp.gif
+ ) else (
+  convert %line% -background black -alpha off tmp.gif
+ )
+ set input=tmp.gif
  call:colorize 143 200 140
 ) else if "%n%"=="13" ( :: Jungle Leaves
- set input=%line%
+ if exist pack/assets/minecraft/textures/blocks/leaves_jungle_opaque.png (
+  convert pack/assets/minecraft/textures/blocks/leaves_jungle_opaque.png tmp.gif
+ ) else (
+  convert %line% -background black -alpha off tmp.gif
+ )
+ set input=tmp.gif
  call:colorize 85 255 52
 ) else if "%n%"=="51" ( :: Tall Grass
  set /a y=y+8
@@ -269,14 +306,16 @@ mv tmp/final.png "%folder%.png"
 cp tmp/default.txt default.txt
 rm -rf tmp
 rm -f setFolder.txt
+rm -f setFolder2.txt
 rm -f folder.txt
-"grit.exe" "%folder%.png" -ftbin -gB8 -gt -th 16 -gT FF00FF -m^!
+"grit.exe" "%folder%.png" -ftbin -gB8 -gt -th 16 -gT FF00FF -m^^!
+:: call gritcmd.bat
 rm -f texture_img.bin
 rm -f texture_pal.bin
 ren "%folder%.img.bin" texture_img.bin
 ren "%folder%.pal.bin" texture_pal.bin
 rm -f "%folder%.h"
-if "%usingZIP%"=="1" rf -rm "%folder%"
+if "%usingZIP%"=="1" rm -rf "%folder%"
 goto:eof
 
 ::-----------------------------

@@ -8,9 +8,9 @@ pack/assets/minecraft/textures/blocks/log_oak.png
 pack/assets/minecraft/textures/blocks/log_spruce.png
 pack/assets/minecraft/textures/blocks/log_birch.png
 pack/assets/minecraft/textures/blocks/planks_oak.png
-pack/assets/minecraft/textures/blocks/leaves_oak_opaque.png
-pack/assets/minecraft/textures/blocks/leaves_spruce_opaque.png
-pack/assets/minecraft/textures/blocks/leaves_jungle_opaque.png
+pack/assets/minecraft/textures/blocks/leaves_oak.png
+pack/assets/minecraft/textures/blocks/leaves_spruce.png
+pack/assets/minecraft/textures/blocks/leaves_jungle.png
 pack/assets/minecraft/textures/blocks/glass.png
 pack/assets/minecraft/textures/blocks/cactus_side.png
 pack/assets/minecraft/textures/blocks/sand.png
