@@ -2,6 +2,7 @@
 #include <nds.h>
 #include <stdio.h>
 #include <string>
+#include <sys/stat.h>
 #include "general.h"
 #include "Config.h"
 #include "world.h"
@@ -15,13 +16,14 @@
 void initFile(void)
 {
 	fatInitDefault();
+	mkdir(MINE_DS_FOLDER, 0777);
 }
 
 bool saveWorld(WorldObject *world)
 {
 	FILE *worldFile;
 
-	bool openedWorld = (worldFile = fopen(WORLD_PATH, "w+")) != NULL;
+	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != NULL;
 
 	if (openedWorld)
 	{
@@ -57,7 +59,7 @@ bool saveControls(Config *controls)
 {
 	FILE *fp;
 
-	if ((fp = fopen(CONTROLS_PATH, "w+")) != NULL)
+	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != NULL)
 	{
 		fprintf(fp, "==Controls==\n");
 		fprintf(fp, "Move Left: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_LEFT)));
@@ -85,7 +87,7 @@ bool loadWorld(WorldObject *world)
 {
 	FILE *worldFile;
 
-	bool openedWorld = (worldFile = fopen(WORLD_PATH, "r")) != NULL;
+	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "r")) != NULL;
 
 	if (openedWorld)
 	{
@@ -158,7 +160,7 @@ bool loadControls(Config *controls)
 {
 	FILE *fp;
 
-	if ((fp = fopen(CONTROLS_PATH, "r")) != NULL)
+	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "r")) != NULL)
 	{
 		char parseChar;
 		fscanf(fp, "==Controls==\n");
