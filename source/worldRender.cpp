@@ -39,41 +39,6 @@ void setSun(int brightness)
 	sunbrightness = brightness;
 }
 
-void BlockShader()
-{
-	//setBackdropColor(RGB15(69,195,237));
-	setBackdropColor(RGB15(17, 24, 31));
-	vramSetBankE(VRAM_E_LCD);
-	//Extreme Thanks to dirbaio...
-	for (int i = 1; i < 16; ++i)
-	{
-		for (int j = 0; j < 256; ++j)
-		{
-			uint16 col = VRAM_E_EXT_PALETTE[2][0][j];
-			uint16 r = (col >> 0) & 0x1F;
-			uint16 g = (col >> 5) & 0x1F;
-			uint16 b = (col >> 10) & 0x1F;
-			uint16 a = (col >> 15) & 0x1;
-			//r = (r - i*2)/2;
-			//g = (g - i*2)/2;
-			//b = (b - i*2)/2;
-			int brightness = (16 - i)*16;
-			r = r * brightness / 256;
-			g = g * brightness / 256;
-			b = b * brightness / 256;
-			VRAM_E_EXT_PALETTE[2][i][j] =
-					r << 0 |
-					g << 5 |
-					b << 10 |
-					a << 15;
-
-		}
-	}
-	for (int j = 0; j < 256; ++j)
-		VRAM_E_EXT_PALETTE[2][15][j] = 0;
-	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
-}
-
 inline void setTileXY(int x, int y, uint16 tile, int palette)
 {
 	tile |= palette << 12;
@@ -213,7 +178,7 @@ void worldRender_LoadSprites()
 		loadGraphic(&blockGraphics[i], 2, getSpriteBlock(i));
 }
 
-void worldRender_Init(const unsigned int *blockTiles, const unsigned short *blockPalette)
+void worldRender_Init()
 {
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
 	REG_DISPCNT = MODE_5_2D | DISPLAY_BG_EXT_PALETTE;
@@ -222,12 +187,7 @@ void worldRender_Init(const unsigned int *blockTiles, const unsigned short *bloc
 	bgSetPriority(2, 1);
 	REG_BG2CNT |= BG_WRAP_ON;
 	bgUpdate();
-	vramSetBankE(VRAM_E_LCD);
-	dmaCopy(blockPalette, VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
-	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 	bg2ptr = bgGetMapPtr(2); //The Map Base
-	dmaCopy(blockTiles, bgGetGfxPtr(2), TEXTURE_TILES_LEN); //Copy Tiles
-	BlockShader();
 	sunlight = 0;
 	int i, j;
 	for (i = 0; i <= 16; ++i)
