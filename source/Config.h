@@ -1,5 +1,6 @@
 #pragma once
 #include <nds.h>
+#include <string>
 
 #define ACTION_MOVE_LEFT 1
 #define ACTION_MOVE_RIGHT 2
@@ -31,6 +32,7 @@ private:
 	KEYPAD_BITS dropItem;
 	bool properties[4];
 public:
+	std::string textureName;
 	void setKey(int action, KEYPAD_BITS key);
 	bool getProperty(int property);
 	void setProperty(int property, bool);
@@ -48,7 +50,8 @@ public:
 	dropItem(KEY_SELECT),
 	properties {
 		false, false, true, true
-	}
+	},
+	textureName("default")
 	{
 
 	}

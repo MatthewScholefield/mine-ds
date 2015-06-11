@@ -18,8 +18,8 @@ unsigned int const *loadedTextureTiles;
 unsigned short const *loadedTexturePalette;
 
 //A pointer to the non-const texture data loaded into memory
-unsigned int *loadedTexFile;
-unsigned short *loadedPalFile;
+unsigned int *loadedTilesMem = NULL;
+unsigned short *loadedPalMem = NULL;
 
 //A comment from 1995 :D
 
@@ -102,16 +102,74 @@ void setBlockPalette(int darkness, int index, bool isolated)
 		vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
-void loadTexture(const unsigned int *source, const unsigned short *sourcePal)
+void loadTexture(const unsigned int *sourceTilesMem, const unsigned short *sourcePalMem, bool clearMem)
 {
-	loadedTextureTiles = source;
-	loadedTexturePalette = sourcePal;
+	if (clearMem)
+	{
+		delete[] loadedTilesMem;
+		delete[] loadedPalMem;
+		loadedTilesMem = NULL;
+		loadedPalMem = NULL;
+	}
+	loadedTextureTiles = sourceTilesMem;
+	loadedTexturePalette = sourcePalMem;
+}
+
+void loadMemTex(unsigned int *sourceTilesMem, unsigned short *sourcePalMem)
+{
+	if (loadedTilesMem)
+		delete[] loadedTilesMem;
+	if (loadedPalMem)
+		delete[] loadedPalMem;
+	loadedTilesMem = sourceTilesMem;
+	loadedPalMem = sourcePalMem;
+	loadTexture(sourceTilesMem, sourcePalMem);
+}
+
+void updateTexture()
+{
+	vramSetBankE(VRAM_E_LCD);
+	dmaCopy(loadedTexturePalette, VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
+	for (int i = 1; i < 16; ++i)
+	{
+		for (int j = 0; j < 256; ++j)
+		{
+			uint16 col = VRAM_E_EXT_PALETTE[2][0][j];
+			uint16 r = (col >> 0) & 0x1F;
+			uint16 g = (col >> 5) & 0x1F;
+			uint16 b = (col >> 10) & 0x1F;
+			uint16 a = (col >> 15) & 0x1;
+			int brightness = (16 - i)*16;
+			r = r * brightness / 256;
+			g = g * brightness / 256;
+			b = b * brightness / 256;
+			VRAM_E_EXT_PALETTE[2][i][j] =
+					r << 0 |
+					g << 5 |
+					b << 10 |
+					a << 15;
+		}
+	}
+	for (int j = 0; j < 256; ++j)
+		VRAM_E_EXT_PALETTE[2][15][j] = 0;
+	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
+
+	vramSetBankF(VRAM_F_LCD);
+	for (int i = 3; i < 16; ++i)
+		setBlockPalette((15 * (i - 3)) / 12, i, false);
+	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+
+	vramSetBankI(VRAM_I_LCD); //Loads Sub Screen Block Graphics
+	dmaCopy(loadedTexturePalette, VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
+	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
+
+	dmaCopy(loadedTextureTiles, bgGetGfxPtr(2), TEXTURE_TILES_LEN); //Copy Tiles
 }
 
 void loadDefaultTexture()
 {
 	//Load with arrays generated from GRIT
-	loadTexture(block_smallTiles, block_smallPal);
+	loadTexture(block_smallTiles, block_smallPal, true);
 }
 /**
 	\breif Init's the DS's Sprite Engine, to be used for MineDS.
@@ -119,23 +177,10 @@ void loadDefaultTexture()
  */
 void graphicsInit()
 {
-	FILE *texFile;
-	if ((texFile = fopen(MINE_DS_FOLDER "texture.bin", "rb")) == NULL)
-		loadDefaultTexture();
-	else
-	{
-		delete[] loadedTexFile;
-		loadedTexFile = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
-		delete[] loadedPalFile;
-		loadedPalFile = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
-		fread(loadedTexFile, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
-		fread(loadedPalFile, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
-
-		loadedTextureTiles = loadedTexFile;
-		loadedTexturePalette = loadedPalFile;
-		fclose(texFile);
-	}
-	worldRender_Init(loadedTextureTiles, loadedTexturePalette);
+	loadTexture(getGlobalSettings()->textureName.c_str());
+	updateTexture();
+	worldRender_Init();
+	setBackdropColor(RGB15(17, 24, 31));
 	
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
@@ -144,7 +189,6 @@ void graphicsInit()
 	oamInit(&oamSub, SpriteMapping_1D_256, true);
 	//Vram I is for Sub Sprite Palette!
 	vramSetBankI(VRAM_I_LCD);
-	dmaCopy(loadedTexturePalette, VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
 	dmaCopy(subPal, VRAM_I_EXT_SPR_PALETTE[0], subPalLen);
 	dmaCopy(fontPal, VRAM_I_EXT_SPR_PALETTE[1], fontPalLen);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
