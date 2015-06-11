@@ -46,6 +46,7 @@ int main()
 	setupFont();
 	//nifiInit();
 	initBlockProperties();
+	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
 	graphicsInit();
 	mobHandlerInit();
 	worldRender_LoadSprites();
@@ -54,7 +55,6 @@ int main()
 	graphicFrame();
 	oamClear(&oamSub, 0, 127);
 	initSound();
-	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
 	clear_messages();
 	titlescreen();
 }

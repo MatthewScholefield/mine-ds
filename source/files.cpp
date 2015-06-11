@@ -12,6 +12,7 @@
 #include "worldRender.h"
 #include "titlescreen.h"
 #include "graphics/Button.h"
+#include "graphics/graphics.h"
 
 void initFile(void)
 {
@@ -77,6 +78,7 @@ bool saveControls(Config *controls)
 		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
 		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
 		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
+		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
 		fclose(fp);
 		return true;
 	}
@@ -193,8 +195,30 @@ bool loadControls(Config *controls)
 		controls->setProperty(PROPERTY_SMOOTH, parsePropertyChar(&parseChar));
 		fscanf(fp, "Creative Speed: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_SPEED, parsePropertyChar(&parseChar));
+		fscanf(fp, "\nTexture Pack: %s\n", &parseChar);
+		controls->textureName = &parseChar;
 		fclose(fp);
 		return true;
 	}
 	return false;
+}
+
+void loadTexture(const char *fileName)
+{
+	std::string temp(fileName);
+	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
+	FILE *texFile = fopen(temp.c_str(), "rb");
+	if (!texFile)
+	{
+		loadDefaultTexture();
+		updateTexture();
+		return;
+	}
+	unsigned int *tilesMem = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
+	unsigned short *palMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
+	fread(tilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
+	fread(palMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
+	loadMemTex(tilesMem, palMem);
+	fclose(texFile);
+	updateTexture();
 }
