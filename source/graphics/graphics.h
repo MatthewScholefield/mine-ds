@@ -46,5 +46,8 @@ void animateMob(Graphic* g, int mobSlot);
 void loadGraphicAnim(Graphic* g, int frame);
 void setAnimFrame(Graphic* g, int mobSlot, int frame);
 bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
-//void loadTexture(const unsigned int (*tiles)[TEXTURE_TILES_ARRAY_LEN], const unsigned short int (*palette)[TEXTURE_PAL_ARRAY_LEN], bool loadToVRAM = true);
-#define unloadGraphicSub(x) unloadGraphic(x)
+
+void loadTexture(const unsigned int *sourceTilesMem, const unsigned short *sourcePalMem, bool clearMem = false);
+void loadMemTex(unsigned int *sourceTilesMem, unsigned short *sourcePalMem);
+void updateTexture();
+void loadDefaultTexture();

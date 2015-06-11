@@ -191,7 +191,7 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 	}
 	int touchedBlock;
 	bool oldLayerIsBG = layerIsBG;
-	if ((world->blocks[x][y] == AIR && isSurvival) || (isBlockWalkThrough(world->blocks[x][y])
+	if ((world->blocks[x][y] == AIR && isSurvival()) || (isBlockWalkThrough(world->blocks[x][y])
 			&& keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)))
 	{
 		touchedBlock = world->bgblocks[x][y];
