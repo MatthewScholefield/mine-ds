@@ -3,8 +3,9 @@
 #include "world.h"
 #include "Config.h"
 
-#define WORLD_PATH	"/MineWorld.dat"
-#define CONTROLS_PATH	"/MineConfig.cfg"
+#define WORLD_FILENAME	"MineWorld.dat"
+#define CONTROLS_FILENAME	"MineConfig.cfg"
+#define MINE_DS_FOLDER "/Mine DS/"
 
 void initFile(void);
 bool saveWorld(WorldObject *world);
