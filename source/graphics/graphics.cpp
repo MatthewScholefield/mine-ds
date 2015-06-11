@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "../general.h"
 #include "../worldRender.h"
+#include "../files.h"
 
 //A pointer to the loaded texture
 unsigned int const *loadedTextureTiles;
@@ -119,7 +120,7 @@ void loadDefaultTexture()
 void graphicsInit()
 {
 	FILE *texFile;
-	if ((texFile = fopen("/texture.bin", "rb")) == NULL)
+	if ((texFile = fopen(MINE_DS_FOLDER "texture.bin", "rb")) == NULL)
 		loadDefaultTexture();
 	else
 	{
