@@ -150,12 +150,14 @@ void creditsScreen()
 	drawBackground();
 	Button back(25, 19, "Back");
 	drawBox(4, 7, 24, 11);
-	printXY(12, 9, "Coded by");
-	printXY(6, 10, "CoolAs, Ray, Dirbaio,");
-	printXY(10, 11, "and Wolfgange");
-	printXY(8, 13, "Texture Pack from");
-	printXY(9, 14, "Scary Sauce Pack");
-	printXY(8, 15, "by cool_story_bro");
+	printXY(7, 8, "--- Programming ---");
+	printXY(6, 9, "CoolAs, Ray, Dirbaio,");
+	printXY(10, 10, "and Wolfgange");
+	printXY(6, 12, "--- Texture Packs ---");
+	printXY(9, 13, "MaxPack by Maxim");
+	printXY(15, 14, "And");
+	printXY(9, 15, "Scary Sauce Pack");
+	printXY(8, 16, "by cool_story_bro");
 	scanKeys();
 	bool chosen = false;
 	while (!chosen)
