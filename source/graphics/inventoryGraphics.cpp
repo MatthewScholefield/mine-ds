@@ -64,27 +64,6 @@ void drawSlots(int selectedSlot, int startX, int startY, int xCount, int yCount,
 		}
 }
 
-void drawBasicInv(int startX, int startY, int sizeX, int sizeY)
-{
-	/*for (int i = startX + 1; i < startX + sizeX - 1; ++i)
-	{
-		//Draw border
-		setSubBgTile(i, startY, 30);
-		setSubBgTile(i, startY + sizeY / 2, 28 + (i % 2));
-		setSubBgTile(i, startY + sizeY - 1, 30, V_FLIP);
-	}
-	for (int j = startY + 1; j < startY + sizeY - 1; ++j)
-	{
-		setSubBgTile(startX, j, 27);
-		setSubBgTile(startX + sizeX - 1, j, 27, H_FLIP);
-	}
-	//Draw Corners
-	setSubBgTile(startX, startY, 26);
-	setSubBgTile(startX + sizeX - 1, startY, 26, H_FLIP);
-	setSubBgTile(startX, startY + sizeY - 1, 26, V_FLIP);
-	setSubBgTile(startX + sizeX - 1, startY + sizeY - 1, 26, BOTH_FLIP);*/
-}
-
 void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)
 {
 	for (int i = 0; i < amountPerRow; ++i)
@@ -132,7 +111,7 @@ void updateInvGraphics()
 	if (!enabled)
 		return;
 	drawBoxFrame(0, 8, 32, 7);
-	drawBoxCenter(1, 11, 31, 1);
+	drawBoxCenter(1, 11, 30, 1);
 	drawSlots(getSelectedSlot(), 1, 9);
 	if (getOpenedChestID() == -1)
 		drawSelectedFrame();
@@ -256,7 +235,7 @@ void updateChestItems() //Changes graphics and text
 	if (!chestOpened)
 		return;
 	drawBoxFrame(0, 0, 32, 7);
-	drawBoxCenter(1, 3, 31, 1);
+	drawBoxCenter(1, 3, 30, 1);
 	if (getSelectedSlot()<-1)
 		drawSlots(-getSelectedSlot() - 2, 1, 1);
 	else
