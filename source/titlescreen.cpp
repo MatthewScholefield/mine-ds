@@ -181,18 +181,54 @@ void creditsScreen()
 	}
 }
 
-KEYPAD_BITS askForKeyScreen()
+int listMenu(int x, int y, int numItems, int maxNameLength)
 {
+	touchPosition touch;
 	drawBackground();
-	consoleClear(); //Removes All text from the screen
-
 	Button back(25, 19, "Back");
 
-	const short ITEMS = 12;
-	const short MAX_NAME_LENGTH = 6;
-	const short X = 10, Y = 8;
+	drawBox(x, y, maxNameLength + 2, numItems + 2);
 
-	drawBox(X, Y, MAX_NAME_LENGTH + 2, ITEMS + 2);
+	scanKeys();
+	touchRead(&touch);
+	int column = 0;
+	while (1)
+	{
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH)
+			touchRead(&touch);
+		if (keysDown() & KEY_TOUCH) //New Press
+		{
+			touchRead(&touch);
+			column = ((touch.py - 8) / 8) + 1 - y;
+			if (column <= numItems && column >= 1 && touch.px >= (x + 1) * 8 && touch.px < (x + maxNameLength + 1) * 8)
+				for (int i = 0; i < maxNameLength; ++i)
+					setSubBgTile(x + 1 + i, y + column, 60);
+			else if (back.isTouching(touch.px, touch.py))
+				back.setColored(true);
+
+		}
+		else if (keysUp() & KEY_TOUCH)
+		{
+			int newColumn = ((touch.py - 8) / 8) + 1 - y;
+			if (back.isColored && back.isTouching(touch.px, touch.py))
+				return 0;
+			else if (column == newColumn && column <= numItems && column >= 1 && touch.px >= (x + 1) * 8 && touch.px < (x + maxNameLength + 1) * 8)
+				return column;
+			else //Remove any colored buttons, if any
+			{
+				drawBoxCenter(x + 1, y + 1, maxNameLength, numItems);
+				back.setColored(false);
+			}
+		}
+		updateFrame();
+	}
+}
+
+KEYPAD_BITS askForKeyScreen()
+{
+	consoleClear();
+	const short X = 10, Y = 8;
 	printXY(X + 1, Y + 1, "Up");
 	printXY(X + 1, Y + 2, "Down");
 	printXY(X + 1, Y + 3, "Left");
@@ -205,87 +241,46 @@ KEYPAD_BITS askForKeyScreen()
 	printXY(X + 1, Y + 10, "R");
 	printXY(X + 1, Y + 11, "Start");
 	printXY(X + 1, Y + 12, "Select");
-
-
-	uint oldKeys;
-	touchPosition touch;
-	scanKeys();
-	touchRead(&touch);
-	oldKeys = keysHeld();
-	updateFrame();
 	KEYPAD_BITS key = KEY_LID;
-	bool chosen = false;
 
-	while (!chosen)
+	switch (listMenu(X, Y, 12, 6))
 	{
-		scanKeys();
-		int column = ((touch.py - 8) / 8) + 1 - Y;
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			touchRead(&touch);
-			column = ((touch.py - 8) / 8) + 1 - Y;
-			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-				for (int i = 0; i < MAX_NAME_LENGTH; ++i)
-					setSubBgTile(X + 1 + i, Y + column, 60);
-			else if (back.isTouching(touch.px, touch.py))
-				back.setColored(true);
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (back.isColored && back.isTouching(touch.px, touch.py))
-				chosen = true;
-			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-			{
-				switch (column)
-				{
-					case 1:
-						key = KEY_UP;
-						break;
-					case 2:
-						key = KEY_DOWN;
-						break;
-					case 3:
-						key = KEY_LEFT;
-						break;
-					case 4:
-						key = KEY_RIGHT;
-						break;
-					case 5:
-						key = KEY_A;
-						break;
-					case 6:
-						key = KEY_B;
-						break;
-					case 7:
-						key = KEY_X;
-						break;
-					case 8:
-						key = KEY_Y;
-						break;
-					case 9:
-						key = KEY_L;
-						break;
-					case 10:
-						key = KEY_R;
-						break;
-					case 11:
-						key = KEY_START;
-						break;
-					case 12:
-						key = KEY_SELECT;
-						break;
-				}
-				chosen = true;
-			}
-			else //Remove any colored buttons, if any
-			{
-				drawBoxCenter(X + 1, Y + 1, MAX_NAME_LENGTH, ITEMS);
-				back.setColored(false);
-			}
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
-		updateFrame();
+		case 1:
+			key = KEY_UP;
+			break;
+		case 2:
+			key = KEY_DOWN;
+			break;
+		case 3:
+			key = KEY_LEFT;
+			break;
+		case 4:
+			key = KEY_RIGHT;
+			break;
+		case 5:
+			key = KEY_A;
+			break;
+		case 6:
+			key = KEY_B;
+			break;
+		case 7:
+			key = KEY_X;
+			break;
+		case 8:
+			key = KEY_Y;
+			break;
+		case 9:
+			key = KEY_L;
+			break;
+		case 10:
+			key = KEY_R;
+			break;
+		case 11:
+			key = KEY_START;
+			break;
+		case 12:
+			key = KEY_SELECT;
+			break;
 	}
 	return key;
 }
@@ -334,17 +329,8 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 
 bool setControlsScreen()
 {
-	uint oldKeys;
-	touchPosition touch;
-	drawBackground();
 	consoleClear();
-	Button back(25, 19, "Back");
-
-	const short ITEMS = 10;
-	const short MAX_NAME_LENGTH = 13;
 	const short X = 8, Y = 9;
-
-	drawBox(X, Y, MAX_NAME_LENGTH + 2, ITEMS + 2);
 	printXY(X + 1, Y + 1, "Move Left");
 	printXY(X + 1, Y + 2, "Move Right");
 	printXY(X + 1, Y + 3, "Jump");
@@ -355,45 +341,13 @@ bool setControlsScreen()
 	printXY(X + 1, Y + 8, "Menu");
 	printXY(X + 1, Y + 9, "Climb");
 	printXY(X + 1, Y + 10, "Drop Item");
-
-	scanKeys();
-	touchRead(&touch);
-	oldKeys = keysHeld();
-	updateFrame();
-	while (1)
-	{
-		scanKeys();
-		int column = ((touch.py - 8) / 8) + 1 - Y;
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			touchRead(&touch);
-			column = ((touch.py - 8) / 8) + 1 - Y;
-			if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-				for (int i = 0; i < MAX_NAME_LENGTH; ++i)
-					setSubBgTile(X + 1 + i, Y + column, 60);
-			else if (back.isTouching(touch.px, touch.py))
-				back.setColored(true);
-
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (back.isColored && back.isTouching(touch.px, touch.py))
-				return true;
-			else if (column <= ITEMS && column >= 1 && touch.px >= (X + 1) * 8 && touch.px < (X + MAX_NAME_LENGTH + 1) * 8)
-			{
-				getGlobalSettings()->setKey(getTappedAction(column), askForKeyScreen());
-				return false;
-			}
-			else //Remove any colored buttons, if any
-			{
-				drawBoxCenter(X + 1, Y + 1, MAX_NAME_LENGTH, ITEMS);
-				back.setColored(false);
-			}
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
-		updateFrame();
-	}
+	int tapped = getTappedAction(listMenu(X, Y, 10, 13));
+	if (tapped == -1)
+		return true;
+	KEYPAD_BITS key = askForKeyScreen();
+	if (key != KEY_LID)
+		getGlobalSettings()->setKey(tapped, key);
+	return false;
 }
 
 void viewControls()
@@ -448,7 +402,7 @@ void controlsScreen()
 		switch (menu(buttons, 4))
 		{
 			case 1: // change controls
-				setControlsScreen();
+				while (!setControlsScreen());
 				break;
 			case 2: // save controls
 				printXY(1, 22, "Saving controls");
