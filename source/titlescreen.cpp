@@ -1,4 +1,5 @@
 #include <time.h>
+#include <dirent.h>
 #include "deathScreen.h"
 #include "graphics/subBgHandler.h"
 #include "graphics/graphics.h"
@@ -327,6 +328,63 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 	}
 }
 
+
+void texturePackScreen()
+{
+	consoleClear();
+	const short X = 5, Y = 9, MAX_NAME_LENGTH = 20;
+	DIR *textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
+	struct dirent *dirContents;
+	int numItems = 0;
+	printXY(X + 1, Y + 1, "Max Pack (Default)");
+	if (textureDir)
+	{
+		while ((dirContents = readdir(textureDir)) != NULL)
+		{
+			if (numItems > 1) //Removes the /. and /..
+			{
+				std::string s(dirContents->d_name);
+				s.erase(s.find_last_of("."), std::string::npos);
+				s.resize(MAX_NAME_LENGTH);
+				printXY(X + 1, Y + numItems, s.c_str());
+			}
+			++numItems;
+		}
+		closedir(textureDir);
+	}
+	else
+		numItems = 2;
+	int fileNum = listMenu(X, Y, numItems - 1, MAX_NAME_LENGTH);
+	switch (fileNum)
+	{
+		case 0:
+			return;
+		case 1:
+			loadDefaultTexture();
+			updateTexture();
+			drawWorld();
+			refreshInventoryGraphics();
+			return;
+		default:
+			break;
+	}
+	++fileNum; //To remove the /..
+	textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
+	numItems = 1;
+	if (textureDir)
+	{
+		while (fileNum > numItems && readdir(textureDir) != NULL)
+			++numItems;
+		dirContents = readdir(textureDir);
+		closedir(textureDir);
+		getGlobalSettings()->textureName = dirContents->d_name;
+		loadTexture(dirContents->d_name);
+		updateTexture();
+		drawWorld();
+		refreshInventoryGraphics();
+	}
+}
+
 bool setControlsScreen()
 {
 	consoleClear();
@@ -471,12 +529,13 @@ void settingsScreen()
 		consoleClear();
 		drawBackground();
 
-		Button controls(8, 10, "Controls", 15);
-		Button options(8, 16, "Game Options", 15);
+		Button controls(8, 8, "Controls", 15);
+		Button options(8, 13, "Game Options", 15);
+		Button texture(8, 18, "Texture Pack", 15);
 		//Button language(8, 18, "Language", 15);
-		Button buttons[] = {controls, options}; //, language};
+		Button buttons[] = {controls, options, texture}; //, language};
 
-		switch (menu(buttons, 2))//3))
+		switch (menu(buttons, 3))
 		{
 			case 1: // controls
 				controlsScreen();
@@ -484,9 +543,9 @@ void settingsScreen()
 			case 2: // game options
 				gameOptions();
 				break;
-				/*case 3: // credits screen
-						//TODO: add language screen
-					break;*/
+			case 3: // Texture Pack
+				texturePackScreen();
+				break;
 			default: // back button
 				backbutton = true;
 				break;
