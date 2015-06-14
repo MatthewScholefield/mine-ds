@@ -14,3 +14,4 @@ void returnToGame(void);
 void setSeed(int seed);
 void quitGame();
 bool songIsPlaying();
+void drawWorld();

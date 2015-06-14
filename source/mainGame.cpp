@@ -122,8 +122,6 @@ void newGame(gamemode_t mode, int seed)
 		seed = world->seed;
 	delete world;
 	world = new WorldObject();
-	for (int i = 0; i < MAX_CHESTS; ++i)
-		world->chestInUse[i] = false;
 	// Zero for a random seed
 	if (seed == 0)
 		world->seed = time(NULL);
@@ -135,16 +133,25 @@ void newGame(gamemode_t mode, int seed)
 	shouldQuitGame = false;
 	world->gamemode = mode;
 	generateWorld(world);
+	if (mode == GAMEMODE_PREVIEW)
+		for (int i = 1; i < WORLD_HEIGHT; ++i)
+			if (!isBlockWalkThrough(world->blocks[0][i]))
+			{
+				world->camCalcY = world->camY = i * 16 - 192 / 2 - 16;
+				break;
+			}
+}
+
+void drawWorld()
+{
+	mobHandlerUpdate(world);
+	worldRender_Render(world, world->camX, world->camY);
 }
 
 void previewGame(void)
 {
 	newGame(GAMEMODE_PREVIEW, 0);
-	mobHandlerUpdate(world);
-	if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
-		worldRender_Render(world, world->camX, int(10 * world->camCalcY));
-	else
-		worldRender_Render(world, world->camX, int(world->camCalcY));
+	drawWorld();
 }
 
 bool loadGame(void)
@@ -266,9 +273,6 @@ void startMultiplayerGame(bool host)
 		sprintf((char *) buffer, "Server ID: %d\n", server_id);
 		printGlobalMessage((char *) buffer);
 	}
-	world->timeInWorld = 0;
-	world->camX = 0;
-	world->camY = 0;
 
 	while (!shouldQuitGame)
 	{
