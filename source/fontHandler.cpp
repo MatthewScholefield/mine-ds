@@ -1,19 +1,14 @@
 #include <nds.h>
-#include <stdio.h>
 #include "font.h"
 ///@breif This function sets up the font and console used for iprintf("Hello World\n");.
 ///It took a while to get working with the subBgTiles, please don't modify unless you know what you are doing.
+ConsoleFont font;
 
 void setupFont()
 {
 	const int tile_base = 1;
 	const int map_base = 0;
-
-
-
 	PrintConsole *console = consoleInit(0, 0, BgType_Text8bpp, BgSize_T_256x256, map_base, tile_base, false, false);
-	ConsoleFont font;
-
 	font.gfx = (u16*) fontTiles;
 	font.pal = (u16*) fontPal;
 	font.numChars = 256;
@@ -22,6 +17,9 @@ void setupFont()
 	font.asciiOffset = 0;
 	font.convertSingleColor = false;
 	consoleSetFont(console, &font);
-	//printXY(0, 7, "");
-	//iprintf("Font setup complete!\n");
+}
+
+void refreshFont()
+{
+	consoleSetFont(NULL, &font); //The NULL parameter is understood as the current console
 }
