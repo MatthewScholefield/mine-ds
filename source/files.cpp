@@ -214,11 +214,20 @@ void loadTexture(const char *fileName)
 		updateTexture();
 		return;
 	}
-	unsigned int *tilesMem = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
-	unsigned short *palMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
-	fread(tilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
-	fread(palMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
-	loadTexture(tilesMem, palMem);
+	unsigned int *blockTilesMem = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
+	unsigned short *blockPalMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
+	fread(blockTilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
+	fread(blockPalMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
+	unsigned int *subBgTilesMem = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
+	unsigned short *subBgPalMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
+	if (fread(subBgTilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile) != TEXTURE_TILES_ARRAY_LEN || fread(subBgPalMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile) != TEXTURE_PAL_ARRAY_LEN)
+	{
+		delete[] subBgTilesMem;
+		delete[] subBgPalMem;
+		subBgTilesMem = NULL;
+		subBgPalMem = NULL;
+	}
 	fclose(texFile);
+	loadTexture(blockTilesMem, blockPalMem, subBgTilesMem, subBgPalMem);
 	updateTexture();
 }

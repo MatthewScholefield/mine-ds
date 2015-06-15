@@ -41,13 +41,12 @@ int main()
 {
 	defaultExceptionHandler();
 	initFile();
-	subBgInit();
-	drawBackground();
-	setupFont();
 	//nifiInit();
 	initBlockProperties();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
+	subBgInit();
 	graphicsInit();
+	setupFont();
 	mobHandlerInit();
 	worldRender_LoadSprites();
 	craftingInit();
