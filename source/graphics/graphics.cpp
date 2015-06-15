@@ -13,13 +13,8 @@
 #include "../worldRender.h"
 #include "../files.h"
 
-//A pointer to the loaded texture
-unsigned int const *loadedTextureTiles;
-unsigned short const *loadedTexturePalette;
-
-//A pointer to the non-const texture data loaded into memory
-unsigned int *loadedTilesMem = NULL;
-unsigned short *loadedPalMem = NULL;
+std::vector<unsigned int> loadedTiles;
+std::vector<unsigned short> loadedPal;
 
 //A comment from 1995 :D
 
@@ -80,7 +75,7 @@ void setBlockPalette(int darkness, int index, bool isolated)
 	unsigned short *palette = new unsigned short[256];
 	for (int i = 0; i < 256; ++i)
 	{
-		unsigned short slot = loadedTexturePalette[i];
+		unsigned short slot = loadedPal.data()[i];
 		unsigned short blue = slot & 0x1F;
 		slot >>= 5;
 		unsigned short green = slot & 0x1F;
@@ -104,32 +99,14 @@ void setBlockPalette(int darkness, int index, bool isolated)
 
 void loadTexture(const unsigned int *sourceTilesMem, const unsigned short *sourcePalMem, bool clearMem)
 {
-	if (clearMem)
-	{
-		delete[] loadedTilesMem;
-		delete[] loadedPalMem;
-		loadedTilesMem = NULL;
-		loadedPalMem = NULL;
-	}
-	loadedTextureTiles = sourceTilesMem;
-	loadedTexturePalette = sourcePalMem;
-}
-
-void loadMemTex(unsigned int *sourceTilesMem, unsigned short *sourcePalMem)
-{
-	if (loadedTilesMem)
-		delete[] loadedTilesMem;
-	if (loadedPalMem)
-		delete[] loadedPalMem;
-	loadedTilesMem = sourceTilesMem;
-	loadedPalMem = sourcePalMem;
-	loadTexture(sourceTilesMem, sourcePalMem);
+	loadedTiles.assign(sourceTilesMem, sourceTilesMem + TEXTURE_TILES_ARRAY_LEN);
+	loadedPal.assign(sourcePalMem, sourcePalMem + TEXTURE_PAL_ARRAY_LEN);
 }
 
 void updateTexture()
 {
 	vramSetBankE(VRAM_E_LCD);
-	dmaCopy(loadedTexturePalette, VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
+	dmaCopy(loadedPal.data(), VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
 	for (int i = 1; i < 16; ++i)
 	{
 		for (int j = 0; j < 256; ++j)
@@ -159,10 +136,10 @@ void updateTexture()
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	vramSetBankI(VRAM_I_LCD); //Loads Sub Screen Block Graphics
-	dmaCopy(loadedTexturePalette, VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
+	dmaCopy(loadedPal.data(), VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 
-	dmaCopy(loadedTextureTiles, bgGetGfxPtr(2), TEXTURE_TILES_LEN); //Copy Tiles
+	dmaCopy(loadedTiles.data(), bgGetGfxPtr(2), TEXTURE_TILES_LEN); //Copy Tiles
 }
 
 void loadDefaultTexture()
@@ -253,7 +230,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) loadedTextureTiles;
+	u8* Tiles = (u8*) loadedTiles.data();
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles, graphics, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
@@ -269,11 +246,9 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	/*for (int i : loadedTexturePalette)*/
-	u8* Tiles = ((u8*) loadedTextureTiles);
+	u8* Tiles = (u8*) loadedTiles.data();
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
-	//dmaCopy(Tiles, graphics, 8 * 8);
 
 	g->type = 4;
 	g->paletteID = paletteID;
@@ -415,7 +390,7 @@ void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
 void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) loadedTextureTiles;
+	u8* Tiles = (u8*) loadedTiles.data();
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles, graphics, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);

@@ -218,7 +218,7 @@ void loadTexture(const char *fileName)
 	unsigned short *palMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
 	fread(tilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
 	fread(palMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
-	loadMemTex(tilesMem, palMem);
+	loadTexture(tilesMem, palMem);
 	fclose(texFile);
 	updateTexture();
 }
