@@ -379,7 +379,6 @@ void texturePackScreen()
 		closedir(textureDir);
 		getGlobalSettings()->textureName = dirContents->d_name;
 		loadTexture(dirContents->d_name);
-		updateTexture();
 		drawWorld();
 		refreshInventoryGraphics();
 	}

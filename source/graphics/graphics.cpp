@@ -12,9 +12,10 @@
 #include "../general.h"
 #include "../worldRender.h"
 #include "../files.h"
+#include "../fontHandler.h"
 
-std::vector<unsigned int> loadedTiles;
-std::vector<unsigned short> loadedPal;
+std::vector<unsigned int> blockTiles, subBgTiles;
+std::vector<unsigned short> blockPal, subBgPal;
 
 //A comment from 1995 :D
 
@@ -75,7 +76,7 @@ void setBlockPalette(int darkness, int index, bool isolated)
 	unsigned short *palette = new unsigned short[256];
 	for (int i = 0; i < 256; ++i)
 	{
-		unsigned short slot = loadedPal.data()[i];
+		unsigned short slot = blockPal.data()[i];
 		unsigned short blue = slot & 0x1F;
 		slot >>= 5;
 		unsigned short green = slot & 0x1F;
@@ -97,16 +98,27 @@ void setBlockPalette(int darkness, int index, bool isolated)
 		vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
-void loadTexture(const unsigned int *sourceTilesMem, const unsigned short *sourcePalMem, bool clearMem)
+void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc, const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc)
 {
-	loadedTiles.assign(sourceTilesMem, sourceTilesMem + TEXTURE_TILES_ARRAY_LEN);
-	loadedPal.assign(sourcePalMem, sourcePalMem + TEXTURE_PAL_ARRAY_LEN);
+	blockTiles.assign(blockTilesSrc, blockTilesSrc + TEXTURE_TILES_ARRAY_LEN);
+	blockPal.assign(blockPalSrc, blockPalSrc + TEXTURE_PAL_ARRAY_LEN);
+	if (subBgTilesSrc == NULL)
+	{
+		subBgTiles.assign(sub_bgTiles, sub_bgTiles + TEXTURE_TILES_ARRAY_LEN);
+		subBgPal.assign(sub_bgPal, sub_bgPal + TEXTURE_PAL_ARRAY_LEN);
+	}
+	else
+	{
+		subBgTiles.assign(subBgTilesSrc, subBgTilesSrc + TEXTURE_TILES_ARRAY_LEN);
+		subBgPal.assign(subBgPalSrc, subBgPalSrc + TEXTURE_PAL_ARRAY_LEN);
+	}
 }
 
 void updateTexture()
 {
+	//=== Main Block BG ===
 	vramSetBankE(VRAM_E_LCD);
-	dmaCopy(loadedPal.data(), VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
+	dmaCopy(blockPal.data(), VRAM_E_EXT_PALETTE[2][0], TEXTURE_PAL_LEN); //Copy the palette
 	for (int i = 1; i < 16; ++i)
 	{
 		for (int j = 0; j < 256; ++j)
@@ -130,22 +142,30 @@ void updateTexture()
 		VRAM_E_EXT_PALETTE[2][15][j] = 0;
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 
+	//=== Main Block Gfx ===
 	vramSetBankF(VRAM_F_LCD);
 	for (int i = 3; i < 16; ++i)
 		setBlockPalette((15 * (i - 3)) / 12, i, false);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
-	vramSetBankI(VRAM_I_LCD); //Loads Sub Screen Block Graphics
-	dmaCopy(loadedPal.data(), VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
+	//=== Sub Block ===
+	vramSetBankI(VRAM_I_LCD);
+	dmaCopy(blockPal.data(), VRAM_I_EXT_SPR_PALETTE[2], TEXTURE_PAL_LEN);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
+	dmaCopy(blockTiles.data(), bgGetGfxPtr(2), TEXTURE_TILES_LEN);
 
-	dmaCopy(loadedTiles.data(), bgGetGfxPtr(2), TEXTURE_TILES_LEN); //Copy Tiles
+	//=== Sub BG ===
+	vramSetBankH(VRAM_H_LCD);
+	dmaCopy(subBgPal.data(), VRAM_H_EXT_PALETTE[2][0], TEXTURE_PAL_LEN);
+	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
+	dmaCopy(subBgTiles.data(), bgGetGfxPtr(6), sub_bgTilesLen);
+	refreshFont();
 }
 
 void loadDefaultTexture()
 {
 	//Load with arrays generated from GRIT
-	loadTexture(block_smallTiles, block_smallPal, true);
+	loadTexture(block_smallTiles, block_smallPal, sub_bgTiles, sub_bgPal);
 }
 /**
 	\breif Init's the DS's Sprite Engine, to be used for MineDS.
@@ -154,7 +174,6 @@ void loadDefaultTexture()
 void graphicsInit()
 {
 	loadTexture(getGlobalSettings()->textureName.c_str());
-	updateTexture();
 	worldRender_Init();
 	setBackdropColor(RGB15(17, 24, 31));
 	
@@ -230,7 +249,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) loadedTiles.data();
+	u8* Tiles = (u8*) blockTiles.data();
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles, graphics, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
@@ -246,7 +265,7 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) loadedTiles.data();
+	u8* Tiles = (u8*) blockTiles.data();
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
 
@@ -390,7 +409,7 @@ void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
 void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
 {
 	u16 * graphics = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) loadedTiles.data();
+	u8* Tiles = (u8*) blockTiles.data();
 	Tiles += frame * (16 * 16);
 	dmaCopy(Tiles, graphics, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);

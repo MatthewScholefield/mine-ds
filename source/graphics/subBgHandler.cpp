@@ -1,11 +1,12 @@
 #include <nds.h>
 #include "font.h"
 #include "sub_bg.h"
-uint16 *bgptr;
-uint16 *fontgfx;
+#include "graphics.h"
 #define V_FLIP 2
 #define H_FLIP 1
 #define BOTH_FLIP 3
+
+uint16 *bgptr;
 
 inline void setSubTileXY(int x, int y, uint16 tile, int palette, int flip)
 {
@@ -47,13 +48,10 @@ void subBgInit()
 	vramSetBankC(VRAM_C_SUB_BG);
 	int bg = bgInitSub(2, BgType_ExRotation, BgSize_ER_256x256, 1, 6); //16bit BG
 	bgptr = bgGetMapPtr(bg);
-	fontgfx = (uint16*) 0x0620400;
 	vramSetBankH(VRAM_H_LCD);
 	dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
-	dmaCopy(&sub_bgPal, VRAM_H_EXT_PALETTE[2][0], sub_bgPalLen); //Copy the palette
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
-	dmaCopy(&sub_bgTiles, bgGetGfxPtr(bg), sub_bgTilesLen);
-	dmaCopy(&fontTiles, fontgfx, fontTilesLen);
+	dmaCopy(&fontTiles, (uint16*) 0x0620400, fontTilesLen);
 }
 
 void drawButton(int x, int y, int sizex)
