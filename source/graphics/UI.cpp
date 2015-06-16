@@ -7,9 +7,7 @@
 
 void drawBackground() //Draws dirt background and MineDS Logo
 {
-
 	int i, j; //They are famous variables :P
-
 	for (i = 7; i <= 24; ++i) //Draws dirt Background
 		for (j = 0; j <= 31; ++j)
 			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
