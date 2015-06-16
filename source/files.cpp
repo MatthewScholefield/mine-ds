@@ -10,7 +10,7 @@
 #include "files.h"
 #include "mobs/mobHandler.h"
 #include "worldRender.h"
-#include "titlescreen.h"
+#include "graphics/UI.h"
 #include "graphics/Button.h"
 #include "graphics/graphics.h"
 
@@ -203,7 +203,7 @@ bool loadControls(Config *controls)
 	return false;
 }
 
-void loadTexture(const char *fileName)
+bool loadTexture(const char *fileName)
 {
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
@@ -212,7 +212,9 @@ void loadTexture(const char *fileName)
 	{
 		loadDefaultTexture();
 		updateTexture();
-		return;
+		if (strcmp(fileName, "default") == 0)
+			return true;
+		return false;
 	}
 
 	unsigned int *blockTilesMem = new unsigned int[TILES_ARRAY_LEN];
@@ -223,7 +225,6 @@ void loadTexture(const char *fileName)
 		delete[] blockPalMem;
 		blockTilesMem = NULL;
 		blockPalMem = NULL;
-		
 	}
 
 	unsigned int *mobTilesMem = new unsigned int[TILES_ARRAY_LEN];
@@ -256,4 +257,5 @@ void loadTexture(const char *fileName)
 	delete[] mobPalMem;
 	delete[] subBgTilesMem;
 	delete[] subBgPalMem;
+	return true;
 }

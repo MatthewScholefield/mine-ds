@@ -3,7 +3,7 @@
 #include "inventory.h"
 #include "graphics/Button.h"
 #include "graphics/inventoryGraphics.h"
-#include "titlescreen.h"
+#include "graphics/UI.h"
 #include "mining.h"
 #include "mainGame.h"
 #include "general.h"
