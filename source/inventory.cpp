@@ -10,7 +10,7 @@
 #include "graphics/inventoryGraphics.h"
 #include "graphics/subBgHandler.h"
 #include "graphics/Button.h"
-#include "titlescreen.h"
+#include "graphics/UI.h"
 #include "crafting.h"
 #include "inventory.h"
 #include "blockID.h"

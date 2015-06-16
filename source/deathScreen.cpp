@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <nds.h>
 #include "sounds.h"
-#include "titlescreen.h"
+#include "graphics/UI.h"
 #include "general.h"
 bool mustPrintDeathScreen = true;
 bool died = false; //Used to show whether exitted to titlescreen after dying

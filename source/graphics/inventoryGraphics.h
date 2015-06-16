@@ -11,4 +11,3 @@ void closeChest();
 void updateChestItems();
 int getOpenedChestID();
 int getChestBlockID(int slot);
-void refreshInventoryGraphics();
