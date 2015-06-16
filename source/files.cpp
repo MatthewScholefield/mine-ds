@@ -101,28 +101,20 @@ bool loadWorld(WorldObject *world)
 		fscanf(worldFile, "%d %d ", &worldBlocksX, &worldBlocksY);
 		if (worldBlocksX != WORLD_WIDTH || worldBlocksY != WORLD_HEIGHT || strcmp(versionChar, VERSION_STRING) != 0)
 		{
+			bool exit;
+			if (strcmp(versionChar, VERSION_STRING) != 0)
+				exit = !createDialog(std::string("Incorrect World Version! Attempt load?"));
+			else
+				exit = !createDialog(std::string("Incorrect Block Count! Attempt load?"));
+			delete versionChar;
+			if (exit)
+			{
+				fclose(worldFile);
+				return false;
+			}
 			consoleClear();
 			drawBackground();
-			if (strcmp(versionChar, VERSION_STRING) != 0)
-				printXY(4, 9, "Incorrect World Version");
-			else
-				printXY(5, 9, "Incorrect Block Count");
-			Button attempt(8, 11, "Attempt Load");
-			Button abort(8, 16, "Abort", 14);
-			Button buttons[] = {attempt, abort};
-			switch (menu(buttons, 2, false))
-			{
-				case 1:
-					consoleClear();
-					drawBackground();
-					break;
-				case 2:
-					fclose(worldFile);
-					delete versionChar;
-					return false;
-			}
 		}
-		delete versionChar;
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
 		world->gamemode = gamemode_t(loadGameMode);
