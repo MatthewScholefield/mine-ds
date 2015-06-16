@@ -129,8 +129,8 @@ bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
 
 void herobrineMobInit()
 {
-	loadGraphic(&herobrineMobGraphic[0], true, 8);
-	loadGraphic(&herobrineMobGraphic[1], true, 9);
+	loadGraphic(&herobrineMobGraphic[0], GRAPHIC_MOB, 8);
+	loadGraphic(&herobrineMobGraphic[1], GRAPHIC_MOB, 9);
 }
 
 void herobrineMob::hurt(int amount, int type)

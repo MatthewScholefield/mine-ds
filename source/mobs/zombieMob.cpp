@@ -133,8 +133,8 @@ bool canZombieMobSpawnHere(WorldObject* world, int x, int y)
 
 void zombieMobInit()
 {
-	loadGraphic(&zombieMobGraphic[0], true, 3);
-	loadGraphic(&zombieMobGraphic[1], true, 4);
+	loadGraphic(&zombieMobGraphic[0], GRAPHIC_MOB, 3);
+	loadGraphic(&zombieMobGraphic[1], GRAPHIC_MOB, 4);
 }
 
 bool zombieMob::isMyPlayer()

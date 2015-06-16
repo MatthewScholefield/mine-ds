@@ -311,10 +311,10 @@ bool canPlayerMobSpawnHere(WorldObject* world, int x, int y)
 
 void playerMobInit()
 {
-	loadGraphicAnim(&playerMobGraphic[PLAYER_SPRITE_WALK], 0); //Walk Animation
-	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], true, 1); //Hurt Graphic
-	loadGraphicAnim(&playerMobGraphic[PLAYER_SPRITE_MINE], 2); //Mine Animation
-	loadGraphicSub(&hearts[0], 0, 0);
-	loadGraphicSub(&hearts[1], 0, 1);
+	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], GRAPHIC_MOB_ANIM, 0); //Walk Animation
+	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], GRAPHIC_MOB, 1); //Hurt Graphic
+	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], GRAPHIC_MOB_ANIM, 2); //Mine Animation
+	loadGraphicSub(&hearts[0], GRAPHIC_PARTICLE, 0);
+	loadGraphicSub(&hearts[1], GRAPHIC_PARTICLE, 1);
 }
 

@@ -75,7 +75,7 @@ bool canMplayerMobSpawnHere(WorldObject* world, int x, int y)
 
 void MplayerMobInit()
 {
-	loadGraphic(&MplayerMobGraphic[0], true, 0);
-	loadGraphic(&MplayerMobGraphic[1], true, 1);
+	loadGraphic(&MplayerMobGraphic[0], GRAPHIC_MOB, 0);
+	loadGraphic(&MplayerMobGraphic[1], GRAPHIC_MOB, 1);
 }
 
