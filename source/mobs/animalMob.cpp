@@ -196,10 +196,10 @@ bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
 
 void animalMobInit()
 {
-	loadGraphic(&animalGraphics[ANIMAL_PIG][0], true, 10, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_PIG][1], true, 11, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_COW][0], true, 12, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_COW][1], true, 13, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_SHEEP][0], true, 14, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_SHEEP][1], true, 15, 16, 16);
+	loadGraphic(&animalGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
+	loadGraphic(&animalGraphics[ANIMAL_PIG][1], GRAPHIC_MOB, 11, 16, 16);
+	loadGraphic(&animalGraphics[ANIMAL_COW][0], GRAPHIC_MOB, 12, 16, 16);
+	loadGraphic(&animalGraphics[ANIMAL_COW][1], GRAPHIC_MOB, 13, 16, 16);
+	loadGraphic(&animalGraphics[ANIMAL_SHEEP][0], GRAPHIC_MOB, 14, 16, 16);
+	loadGraphic(&animalGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);
 }

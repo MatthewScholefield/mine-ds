@@ -8,7 +8,7 @@
 
 furnaceUpdater::furnaceUpdater()
 {
-	loadGraphic(&fireParticle, 0, 0);
+	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
 	blockID = FURNACE_LIT;
 }
