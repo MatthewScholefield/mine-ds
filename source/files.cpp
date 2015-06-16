@@ -214,20 +214,46 @@ void loadTexture(const char *fileName)
 		updateTexture();
 		return;
 	}
-	unsigned int *blockTilesMem = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
-	unsigned short *blockPalMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
-	fread(blockTilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile);
-	fread(blockPalMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile);
-	unsigned int *subBgTilesMem = new unsigned int[TEXTURE_TILES_ARRAY_LEN];
-	unsigned short *subBgPalMem = new unsigned short[TEXTURE_PAL_ARRAY_LEN];
-	if (fread(subBgTilesMem, sizeof (uint32_t), TEXTURE_TILES_ARRAY_LEN, texFile) != TEXTURE_TILES_ARRAY_LEN || fread(subBgPalMem, sizeof (unsigned short), TEXTURE_PAL_ARRAY_LEN, texFile) != TEXTURE_PAL_ARRAY_LEN)
+
+	unsigned int *blockTilesMem = new unsigned int[TILES_ARRAY_LEN];
+	unsigned short *blockPalMem = new unsigned short[PAL_ARRAY_LEN];
+	if (fread(blockTilesMem, sizeof (uint32_t), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN || fread(blockPalMem, sizeof (unsigned short), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN)
+	{
+		delete[] blockTilesMem;
+		delete[] blockPalMem;
+		blockTilesMem = NULL;
+		blockPalMem = NULL;
+		
+	}
+
+	unsigned int *mobTilesMem = new unsigned int[TILES_ARRAY_LEN];
+	unsigned short *mobPalMem = new unsigned short[PAL_ARRAY_LEN];
+	if (fread(mobTilesMem, sizeof (uint32_t), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN || fread(mobPalMem, sizeof (unsigned short), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN)
+	{
+		delete[] mobTilesMem;
+		delete[] mobPalMem;
+		mobTilesMem = NULL;
+		mobPalMem = NULL;
+	}
+
+	unsigned int *subBgTilesMem = new unsigned int[TILES_ARRAY_LEN];
+	unsigned short *subBgPalMem = new unsigned short[PAL_ARRAY_LEN];
+	if (fread(subBgTilesMem, sizeof (uint32_t), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN || fread(subBgPalMem, sizeof (unsigned short), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN)
 	{
 		delete[] subBgTilesMem;
 		delete[] subBgPalMem;
 		subBgTilesMem = NULL;
 		subBgPalMem = NULL;
 	}
+
 	fclose(texFile);
-	loadTexture(blockTilesMem, blockPalMem, subBgTilesMem, subBgPalMem);
+	loadTexture(blockTilesMem, blockPalMem, mobTilesMem, mobPalMem, subBgTilesMem, subBgPalMem);
 	updateTexture();
+
+	delete[] blockTilesMem;
+	delete[] blockPalMem;
+	delete[] mobTilesMem;
+	delete[] mobPalMem;
+	delete[] subBgTilesMem;
+	delete[] subBgPalMem;
 }

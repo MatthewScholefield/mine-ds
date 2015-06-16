@@ -175,7 +175,7 @@ void renderTile16(int a, int b, int c, int d); //HAX
 void worldRender_LoadSprites()
 {
 	for (int i = 0; i < NUM_SPRITE_BLOCKS; ++i)
-		loadGraphic(&blockGraphics[i], 2, getSpriteBlock(i));
+		loadGraphic(&blockGraphics[i], GRAPHIC_BLOCK, getSpriteBlock(i));
 }
 
 void worldRender_Init()

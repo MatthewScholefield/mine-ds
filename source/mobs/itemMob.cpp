@@ -50,7 +50,7 @@ void itemMob::updateMob(WorldObject* world)
 	if (!itemGraphic)
 	{
 		itemGraphic = new Graphic();
-		loadGraphicMiniBlock(itemGraphic, displayID, 8, 8, 3 + (12 * brightness) / 15);
+		loadGraphic(itemGraphic, GRAPHIC_BLOCK_MINI, displayID, 8, 8, 3 + (12 * brightness) / 15);
 	}
 	if (vx != 0)
 	{
