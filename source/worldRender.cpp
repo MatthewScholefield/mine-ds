@@ -45,36 +45,6 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
-void brightnessSpread2(WorldObject* world, int x, int y, int brightness)
-{
-	if (y > WORLD_HEIGHT + 1) return;
-	if (y < 0) return;
-	if (brightness > 15) return;
-	if (world->brightness[x][y] > brightness)
-	{
-		world->brightness[x][y] = brightness;
-		/*if (!isBlockWalkThrough(world->blocks[x][y]))
-		{
-			brightnessSpread(world,x-1,y,brightness+4);
-			brightnessSpread(world,x,y-1,brightness+4);
-			brightnessSpread(world,x+1,y,brightness+4);
-			brightnessSpread(world,x,y+1,brightness+4);
-		}
-		else if (isBlockWalkThrough(world->blocks[x][y]))
-		{
-			brightnessSpread(world,x-1,y,brightness+1);
-			brightnessSpread(world,x,y-1,brightness+1);
-			brightnessSpread(world,x+1,y,brightness+1);
-			brightnessSpread(world,x,y+1,brightness+1);
-		}*/
-		brightnessSpread2(world, x - 1, y, brightness + (alwaysRenderBright(world->blocks[x - 1][y]) ? 1 : 4));
-		brightnessSpread2(world, x, y - 1, brightness + (alwaysRenderBright(world->blocks[x][y - 1]) ? 1 : 4));
-		brightnessSpread2(world, x + 1, y, brightness + (alwaysRenderBright(world->blocks[x + 1][y]) ? 1 : 4));
-		brightnessSpread2(world, x, y + 1, brightness + (alwaysRenderBright(world->blocks[x][y + 1]) ? 1 : 4));
-	}
-	else return;
-}
-
 void updateBrightnessAround(WorldObject* world, int x, int y)
 {
 	int i, j;
@@ -102,7 +72,7 @@ void updateBrightnessAround(WorldObject* world, int x, int y)
 		{
 			if (world->brightness[i][j] < 15)
 				brightnessSpread(world, i, j, world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
-			if (!isBlockWalkThrough(world->blocks[i][j]) && !startshade && world->blocks[i][j] != TORCH)
+			if (blockCastsShadow(world->blocks[i][j]) && !startshade)
 			{
 				//	world->lightemit[i][j]=1+sunlight;
 				//	world->sun[i][j]=true; // This is a block that is lit by the sun...
@@ -148,7 +118,7 @@ void Calculate_Brightness(WorldObject* world)
 		{
 			if (world->brightness[i][j] < 15)
 				brightnessSpread(world, i, j, world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
-			if (!isBlockWalkThrough(world->blocks[i][j]) && !startshade && world->blocks[i][j] != TORCH)
+			if (blockCastsShadow(world->blocks[i][j]) && !startshade)
 			{
 				//	world->lightemit[i][j]=1+sunlight;
 				//	world->sun[i][j]=true; // This is a block that is lit by the sun...

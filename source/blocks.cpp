@@ -151,6 +151,11 @@ bool alwaysRenderBright(int blockID)
 	return false;
 }
 
+bool blockCastsShadow(int blockID)
+{
+	return !isBlockWalkThrough(blockID) && !isSpriteBlock(blockID);
+}
+
 /*bool isAGroundBlock(int blockID)
 {
 	return false;
