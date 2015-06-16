@@ -158,7 +158,7 @@ void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numR
 						unloadGraphic(&chestBlockGfx[a]);
 					else
 						loadedChestGfx[a] = true;
-					loadGraphicSub(&chestBlockGfx[a], 2, (*openedChestPtr)[a][INDEX_BLOCK_ID]);
+					loadGraphicSub(&chestBlockGfx[a], GRAPHIC_BLOCK, (*openedChestPtr)[a][INDEX_BLOCK_ID]);
 					loadedChestID[a] = (*openedChestPtr)[a][INDEX_BLOCK_ID];
 				}
 				if (loadedChestGfx[a])
@@ -178,7 +178,7 @@ void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numR
 						unloadGraphic(&invBlockGfx[a]);
 					else
 						loadedInvGfx[a] = true;
-					loadGraphicSub(&invBlockGfx[a], 2, getBlockID(a));
+					loadGraphicSub(&invBlockGfx[a], GRAPHIC_BLOCK, getBlockID(a));
 					loadedInvID[a] = getBlockID(a);
 				}
 				if (loadedInvGfx[a])

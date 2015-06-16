@@ -106,8 +106,8 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 
 void baseMobInit()
 {
-	loadGraphic(&baseMobGraphic[0], true, 0);
-	loadGraphic(&baseMobGraphic[1], true, 1);
+	loadGraphic(&baseMobGraphic[0], GRAPHIC_MOB, 0);
+	loadGraphic(&baseMobGraphic[1], GRAPHIC_MOB, 1);
 }
 
 void baseMob::hurt(int amount, int type)

@@ -57,9 +57,9 @@ void craftingInit()
 	addFurnaceRecipe(PORKCHOP_COOKED, 1, PORKCHOP_RAW, 1);
 	addFurnaceRecipe(DIAMOND, 1, DIAMOND_ORE, 1);
 	addFurnaceRecipe(INGOT_IRON, 1, IRON_ORE, 1);
-	loadGraphic(&resultBlock, 0, 0);
+	loadGraphic(&resultBlock, GRAPHIC_PARTICLE, 0);
 	for (int i = 0; i <= 3; ++i)
-		loadGraphicSub(&neededblocks[i], 2, 0);
+		loadGraphicSub(&neededblocks[i], GRAPHIC_BLOCK, 0);
 }
 
 void addCraftingRecipe(int block, int amount, int aid, int aamount, int bid, int bamount, int cid, int camount, int did, int damount)
@@ -85,12 +85,12 @@ void addFurnaceRecipe(int block, int amount, int aid, int aamount)
 void updateCraftingGraphics()
 {
 	unloadGraphic(&resultBlock);
-	loadGraphicSub(&resultBlock, 2, craftingRecipes[currentViewingRecipe].createdblock.blockId);
+	loadGraphicSub(&resultBlock, GRAPHIC_BLOCK, craftingRecipes[currentViewingRecipe].createdblock.blockId);
 	for (int i = 0; i <= 3; ++i)
 	{
 
 		unloadGraphic(&neededblocks[i]);
-		loadGraphicSub(&neededblocks[i], 2, craftingRecipes[currentViewingRecipe].neededblocks[i].blockId);
+		loadGraphicSub(&neededblocks[i], GRAPHIC_BLOCK, craftingRecipes[currentViewingRecipe].neededblocks[i].blockId);
 	}
 }
 

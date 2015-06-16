@@ -47,14 +47,14 @@ void changeInvSelectedGraphic(int blockID)
 	{
 		if (invSlot<-1 && getOpenedChestID() != -1)
 		{
-			loadGraphicSub(&selectedGraphic, 2, getChestBlockID(-invSlot - 2));
+			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, getChestBlockID(-invSlot - 2));
 			drawSlots(-invSlot - 2, 1, 1);
 			drawSlots(invSlot, 1, 9);
 			loadedGraphic = getChestBlockID(-invSlot - 2);
 		}
 		else if (invSlot >= 0)
 		{
-			loadGraphicSub(&selectedGraphic, 2, getBlockID(invSlot));
+			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, getBlockID(invSlot));
 			drawSlots(invSlot, 1, 9);
 			if (getOpenedChestID() != -1)
 				drawSlots(-1, 1, 1);
@@ -62,7 +62,7 @@ void changeInvSelectedGraphic(int blockID)
 		}
 		else
 		{
-			loadGraphicSub(&selectedGraphic, 2, AIR);
+			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 			drawSlots(-1, 1, 9);
 			if (getOpenedChestID() != -1)
 				drawSlots(-1, 1, 1);
@@ -72,7 +72,7 @@ void changeInvSelectedGraphic(int blockID)
 	}
 	else
 	{
-		loadGraphicSub(&selectedGraphic, 2, blockID);
+		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, blockID);
 		updateTopName(blockID);
 		loadedGraphic = blockID;
 	}
