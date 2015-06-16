@@ -7,7 +7,7 @@
 #include "../general.h"
 #include "../mainGame.h"
 #include "../blockID.h"
-#include "../titlescreen.h"
+#include "../graphics/UI.h"
 #include "../inventory.h"
 #include "../chests.h"
 #include "../blockName.h"
@@ -128,14 +128,6 @@ void updateInvGraphics()
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
 	updateTopName(getBlockID(getSelectedSlot()));
 	changeInvSelectedGraphic();
-}
-
-void refreshInventoryGraphics()
-{
-	for (int i = 0; i < NUM_INV_SPACES; ++i)
-		loadedInvID[i] = AIR;
-	for (int i = 0; i < CHEST_SLOTS; ++i)
-		loadedChestID[i] = AIR;
 }
 
 void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)

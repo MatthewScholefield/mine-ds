@@ -13,81 +13,10 @@
 #include "general.h"
 #include "files.h"
 #include "nifi.h"
+#include "graphics/UI.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 bool firstWorld = true;
-
-void drawBackground() //Draws dirt background and MineDS Logo
-{
-
-	int i, j; //They are famous variables :P
-
-	for (i = 7; i <= 24; ++i) //Draws dirt Background
-		for (j = 0; j <= 31; ++j)
-			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
-	for (i = 0; i <= 25; ++i)
-		for (j = 0; j <= 6; ++j)
-			setSubBgTile(i + 3, j, i + (j * 32)); //Draw the MineDS Logo!
-	for (i = 0; i <= 6; ++i)
-		for (j = 0; j < 3; ++j)
-			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
-	for (i = 0; i <= 6; ++i)
-		for (j = 29; j <= 31; ++j)
-			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
-}
-
-int menu(Button buttons[], int size, bool showBack)
-{
-	int start = 0;
-	Button back(25, 19, "Back", showBack);
-	touchPosition touch;
-	int selected = -1;
-	bool chosen = false;
-
-	uint oldKeys = keysHeld();
-	while (!chosen)
-	{
-		updateFrame();
-		updateTime(); //Used to ensure random world seed changes
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
-		{
-			touchRead(&touch);
-			if (back.isTouching(touch.px, touch.py))
-				back.setColored(true);
-			for (int i = 0; i < size; ++i)
-				if (buttons[i].isTouching(touch.px, touch.py))
-					buttons[i].setColored(true);
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (back.isColored && back.isTouching(touch.px, touch.py))
-			{
-				selected = 0;
-				chosen = true;
-			}
-			for (int i = 0; i < size; ++i)
-			{
-				if (buttons[i].isColored && buttons[i].isTouching(touch.px, touch.py))
-				{
-					selected = i + 1;
-					chosen = true;
-				}
-			}
-			if (!chosen) //Redraw buttons
-			{
-				back.setColored(false);
-				for (int i = 0; i < size; ++i)
-					buttons[i].setColored(false);
-			}
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
-	}
-	for (int i = 0; i < size; ++i)
-		buttons[i].setColored(false);
-	return selected + start;
-}
 
 bool enableDisableMenu(bool initial)
 {
@@ -136,11 +65,6 @@ bool enableDisableMenu(bool initial)
 		touchRead(&touch);
 		updateFrame();
 	}
-}
-
-int menu(Button buttons[], int size)
-{
-	return menu(buttons, size, true);
 }
 
 void creditsScreen()
@@ -328,7 +252,6 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 	}
 }
 
-
 void texturePackScreen()
 {
 	consoleClear();
@@ -363,7 +286,6 @@ void texturePackScreen()
 			loadDefaultTexture();
 			updateTexture();
 			drawWorld();
-			refreshInventoryGraphics();
 			return;
 		default:
 			break;
@@ -378,14 +300,17 @@ void texturePackScreen()
 		dirContents = readdir(textureDir);
 		closedir(textureDir);
 		getGlobalSettings()->textureName = dirContents->d_name;
-		loadTexture(dirContents->d_name);
+		bool loadError = !loadTexture(dirContents->d_name);
 		drawWorld();
-		refreshInventoryGraphics();
+		if (loadError)
+			createDialog(std::string("Cannot load Texture! Loading the Default texture pack."), false);
 	}
 }
 
-bool setControlsScreen()
+void setControlsScreen()
 {
+	while (1)
+	{
 	consoleClear();
 	const short X = 8, Y = 9;
 	printXY(X + 1, Y + 1, "Move Left");
@@ -400,11 +325,11 @@ bool setControlsScreen()
 	printXY(X + 1, Y + 10, "Drop Item");
 	int tapped = getTappedAction(listMenu(X, Y, 10, 13));
 	if (tapped == -1)
-		return true;
+			break;
 	KEYPAD_BITS key = askForKeyScreen();
 	if (key != KEY_LID)
 		getGlobalSettings()->setKey(tapped, key);
-	return false;
+	}
 }
 
 void viewControls()
@@ -443,51 +368,38 @@ void viewControls()
 
 void controlsScreen()
 {
-	bool backbutton = false;
+	bool exit = false;
 
-	while (!backbutton)
+	while (!exit)
 	{
 		consoleClear();
 		drawBackground();
 
-		Button edit(18, 10, "Edit");
-		Button save(7, 16, "Save");
-		Button load(18, 16, "Load");
-		Button view(7, 10, "View");
-		Button buttons[] = {edit, save, load, view};
+		Button view(10, 10, "View", 12);
+		Button edit(10, 16, "Edit", 12);
+		Button buttons[] = {edit, view};
 
-		switch (menu(buttons, 4))
+		switch (menu(buttons, 2))
 		{
-			case 1: // change controls
-				while (!setControlsScreen());
+			case 1: //Edit controls
+				setControlsScreen();
 				break;
-			case 2: // save controls
-				printXY(1, 22, "Saving controls");
-				if (!saveControls(getGlobalSettings()))
-					printXY(1, 22, "Failed to save controls");
-				sleep(1);
-				break;
-			case 3: // load controls
-				printXY(1, 22, "Loading controls");
-				if (!loadControls(getGlobalSettings()))
-					printXY(1, 22, "Failed to load controls");
-				sleep(1);
-				break;
-			case 4: // view controls
+			case 2: //View controls
 				viewControls();
 				break;
-			default: // back button
-				backbutton = true;
+			default: //Back
+				exit = true;
 				break;
 		}
 	}
+	saveControls(getGlobalSettings());
 }
 
 void gameOptions()
 {
-	bool backbutton = false;
+	bool exit = false;
 
-	while (!backbutton)
+	while (!exit)
 	{
 		consoleClear();
 		drawBackground();
@@ -513,7 +425,7 @@ void gameOptions()
 				getGlobalSettings()->setProperty(PROPERTY_SMOOTH, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SMOOTH)));
 				break;
 			default: // back button
-				backbutton = true;
+				exit = true;
 				break;
 		}
 	}
@@ -521,9 +433,9 @@ void gameOptions()
 
 void settingsScreen()
 {
-	bool backbutton = false;
+	bool exit = false;
 
-	while (!backbutton)
+	while (!exit)
 	{
 		consoleClear();
 		drawBackground();
@@ -531,8 +443,7 @@ void settingsScreen()
 		Button controls(8, 8, "Controls", 15);
 		Button options(8, 13, "Game Options", 15);
 		Button texture(8, 18, "Texture Pack", 15);
-		//Button language(8, 18, "Language", 15);
-		Button buttons[] = {controls, options, texture}; //, language};
+		Button buttons[] = {controls, options, texture};
 
 		switch (menu(buttons, 3))
 		{
@@ -546,7 +457,7 @@ void settingsScreen()
 				texturePackScreen();
 				break;
 			default: // back button
-				backbutton = true;
+				exit = true;
 				break;
 		}
 	}

@@ -13,4 +13,4 @@ bool saveWorld(WorldObject *world);
 bool saveControls(Config *controls);
 bool loadWorld(WorldObject *world);
 bool loadControls(Config *controls);
-void loadTexture(const char *fileName);
+bool loadTexture(const char *fileName);

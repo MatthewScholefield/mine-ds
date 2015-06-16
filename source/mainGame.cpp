@@ -18,6 +18,7 @@
 #include "graphics/inventoryGraphics.h"
 #include "inventory.h"
 #include "titlescreen.h"
+#include "graphics/UI.h"
 #include "Config.h"
 #include "files.h"
 #include "mainGame.h"

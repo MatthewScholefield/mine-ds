@@ -2,10 +2,10 @@
 #include "graphics/graphics.h"
 #include "graphics/inventoryGraphics.h"
 #include "graphics/subBgHandler.h"
-#include "titlescreen.h"
+#include "graphics/UI.h"
 #include "blockID.h"
 #include "general.h"
-#include "titlescreen.h" // for isSurvival
+#include "graphics/UI.h" // for isSurvival
 #include "inventory.h"
 #include <nds.h> // for keysDown()
 #include <stdio.h>
