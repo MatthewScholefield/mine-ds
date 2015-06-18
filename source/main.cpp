@@ -39,9 +39,11 @@ void renderWorld(WorldObject* world);
 
 int main()
 {
+
 	defaultExceptionHandler();
 	initFile();
 	//nifiInit();
+
 	initBlockProperties();
 	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
 	subBgInit();
@@ -56,4 +58,5 @@ int main()
 	initSound();
 	clear_messages();
 	titlescreen();
+	return 0;
 }

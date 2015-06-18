@@ -1,4 +1,5 @@
 #pragma once
+#include "sounds.h"
 #define NUM_SPRITE_BLOCKS 14
 
 int sapling(int leafID);
@@ -21,3 +22,4 @@ int getSpriteBlock(int index);
 bool isSpriteBlock(int block);
 int getSpriteIndex(int block);
 bool isGrassBlock(int blockID);
+SoundAudio getBlockAudio(int blockID);

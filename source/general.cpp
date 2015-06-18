@@ -19,7 +19,7 @@ void updateFrame()
 	swiWaitForVBlank();
 }
 
-void sleep(unsigned int seconds)
+void sleepThread(unsigned int seconds)
 {
 	for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i)
 		updateFrame(); // sleeps for one frame

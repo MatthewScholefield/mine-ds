@@ -9,6 +9,8 @@
 #include "blocks.h"
 #include "mainGame.h"
 #include "inventory.h"
+#include "graphics/graphics.h"
+#include "sounds.h"
 #include <stdio.h>
 #include <stdarg.h>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
@@ -135,6 +137,56 @@ int leaf(int saplingID)
 	}
 }
 
+SoundAudio getBlockAudio(int blockID)
+{
+	switch (blockID)
+	{
+		case SAND:
+			return SOUND_SAND;
+		case SNOW_GRASS:
+			return SOUND_SNOW;
+		case GRAVEL:
+			return SOUND_GRAVEL;
+		case BLACK_WOOL:
+		case RED_WOOL:
+		case GREEN_WOOL:
+		case BROWN_WOOL:
+		case BlUE_WOOL:
+		case PURPLE_WOOL:
+		case CYAN_WOOL:
+		case GRAY_WOOL:
+		case WHITE_WOOL:
+		case DARK_GRAY_WOOL:
+		case PINK_WOOL:
+		case LIME_WOOL:
+		case YELLOW_WOOL:
+		case LIGHT_BLUE_WOOL:
+		case MAGENTA_WOOL:
+		case ORANGE_WOOL:
+			return SOUND_CLOTH;
+		case LEAVES_JUNGLE:
+		case LEAVES_OAK:
+		case LEAVES_SPRUCE:
+		case SAPLING_JUNGLE:
+		case SAPLING_OAK:
+		case SAPLING_SPRUCE:
+			return SOUND_GRASS;
+		default:
+			break;
+	}
+	switch (blockType[blockID])
+	{
+		case SOIL:
+			return SOUND_GRASS;
+		case WOOD:
+			return SOUND_WOOD;
+		case STONEBLOCK:
+			return SOUND_STONE;
+		default:
+			return SOUND_STONE;
+	}
+}
+
 bool item(int blockID)
 {
 	int i;
@@ -200,9 +252,9 @@ void initBlockProperties()
 	setArray(blockType, SWORD, 5, SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD, SWORD_DIAMOND); //Swords
 
 	//Blocks
-	setArray(blockType, WOOD, 4, LOG_OAK, JUNGLE_WOOD, LOG_BIRCH, LOG_SPRUCE); //Axe Blocks
+	setArray(blockType, WOOD, 7, LOG_OAK, JUNGLE_WOOD, LOG_BIRCH, LOG_SPRUCE, PLANKS_WOOD, CHEST, LADDER); //Axe Blocks
 	setArray(blockType, SOIL, 7, GRASS_JUNGLE, GRASS, DIRT, SAND, GRAVEL, SNOW_GRASS, MYCELIUM); //Shovel Blocks
-	setArray(blockType, STONEBLOCK, 7, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE); //Blocks that must be mined with a pickaxe
+	setArray(blockType, STONEBLOCK, 8, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE, BEDROCK); //Blocks that must be mined with a pickaxe
 
 	int i;
 	for (i = 1; i < NUM_BLOCKS; ++i)

@@ -1,17 +1,23 @@
 #include <nds.h>
 #include <maxmod9.h>    // Maxmod definitions for ARM9
-#include "soundbank_bin.h"
 #include "sounds.h"
 #include "nifi.h"
+#include "blockID.h"
+#include "blocks.h"
+#include "mining.h"
 #include <stdio.h>
 #include <dswifi9.h>
+#include <map>
+
+#include "general.h"
 
 #define LENGTH(X)	(sizeof(X) / sizeof(X[0]))
 
-int sounds_pos = 0;
-sound_t loaded_sounds[8] = {SOUND_NONE}; // circular buffer (must be power of two)
-music_t loaded_music = MUSIC_NONE;
+int soundsPos = 0;
+int loadedSounds[8] = {SOUND_NONE}; // circular buffer (must be power of two)
+Music loadedMusic = MUSIC_NONE;
 bool streamOpen = false;
+std::map< std::pair< SoundAudio, SoundType >, std::pair< int, int > > sfxs;
 
 FILE *file;
 
@@ -31,7 +37,7 @@ bool streamIsOpen()
 
 bool songIsPlaying()
 {
-	return loaded_music != MUSIC_NONE;
+	return loadedMusic != MUSIC_NONE;
 }
 
 mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
@@ -71,15 +77,15 @@ void playStreamSong()
 {
 	if (streamOpen)
 		return;
-	mm_stream mystream;
-	mystream.buffer_length = 1024;
-	mystream.callback = stream;
-	mystream.timer = MM_TIMER1;
-	mystream.manual = true;
+	mm_stream musicStream;
+	musicStream.buffer_length = 1024;
+	musicStream.callback = stream;
+	musicStream.timer = MM_TIMER1;
+	musicStream.manual = true;
 
-	mystream.sampling_rate = 22050;
-	mystream.format = MM_STREAM_16BIT_STEREO;
-	mmStreamOpen(&mystream);
+	musicStream.sampling_rate = 22050;
+	musicStream.format = MM_STREAM_16BIT_STEREO;
+	mmStreamOpen(&musicStream);
 	mmStreamUpdate();
 	mmStreamUpdate();
 	streamOpen = true;
@@ -87,32 +93,50 @@ void playStreamSong()
 
 void initSound(void)
 {
-	mmInitDefaultMem((mm_addr) soundbank_bin);
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+	mmInitDefault("nitro:/soundbank.bin");
+#pragma GCC diagnostic pop
+
+	sfxs[ std::make_pair(SOUND_SNOW, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_SNOW_1, SFX_DIG_SNOW_2);
+	sfxs[ std::make_pair(SOUND_SNOW, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_SNOW_1, SFX_STEP_SNOW_2);
+	sfxs[ std::make_pair(SOUND_STONE, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_STONE_1, SFX_DIG_STONE_2);
+	sfxs[ std::make_pair(SOUND_STONE, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_STONE_1, SFX_STEP_STONE_2);
+	sfxs[ std::make_pair(SOUND_CLOTH, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_CLOTH_1, SFX_DIG_CLOTH_2);
+	sfxs[ std::make_pair(SOUND_CLOTH, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_CLOTH_1, SFX_STEP_CLOTH_2);
+	sfxs[ std::make_pair(SOUND_WOOD, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_WOOD_1, SFX_DIG_WOOD_2);
+	sfxs[ std::make_pair(SOUND_WOOD, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_WOOD_1, SFX_STEP_WOOD_2);
+	sfxs[ std::make_pair(SOUND_GRAVEL, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_GRAVEL_1, SFX_DIG_GRAVEL_2);
+	sfxs[ std::make_pair(SOUND_GRAVEL, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_GRAVEL_1, SFX_STEP_GRAVEL_2);
+	sfxs[ std::make_pair(SOUND_SAND, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_SAND_1, SFX_DIG_SAND_2);
+	sfxs[ std::make_pair(SOUND_SAND, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_SAND_1, SFX_STEP_SAND_2);
+	sfxs[ std::make_pair(SOUND_GRASS, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_GRASS_1, SFX_DIG_GRASS_2);
+	sfxs[ std::make_pair(SOUND_GRASS, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_GRASS_1, SFX_STEP_GRASS_2);
+	sfxs[ std::make_pair(SOUND_LADDER, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_WOOD_1, SFX_DIG_WOOD_2);
+	sfxs[ std::make_pair(SOUND_LADDER, SOUND_TYPE_STEP) ] = std::make_pair(SFX_STEP_LADDER_1, SFX_STEP_LADDER_2);
 }
 
-static void loadSound(sound_t sound)
+static void loadSound(int sfx)
 {
 	unsigned int i;
 
-	if (sound == SOUND_NONE)
+	if (sfx == SOUND_NONE)
 		return;
 
-	for (i = 0; i < LENGTH(loaded_sounds); ++i)
+	for (i = 0; i < LENGTH(loadedSounds); ++i)
 	{
-		if (loaded_sounds[i] == sound)
+		if (loadedSounds[i] == sfx)
 			return;
 	}
-
-	if (loaded_sounds[sounds_pos] != SOUND_NONE)
-		mmUnloadEffect(loaded_sounds[sounds_pos]);
-	loaded_sounds[sounds_pos] = sound;
-	sounds_pos = (sounds_pos + 1) & (LENGTH(loaded_sounds) - 1);
-	mmLoadEffect(sound);
+	if (loadedSounds[soundsPos] != SOUND_NONE)
+		mmUnloadEffect(loadedSounds[soundsPos]);
+	loadedSounds[soundsPos] = sfx;
+	soundsPos = (soundsPos + 1) & (LENGTH(loadedSounds) - 1);
+	mmLoadEffect(sfx);
 }
 
-void playSound(sound_t sound)
+void playSound(Sound sfx)
 {
-	if (sound == SOUND_NONE)
+	if (sfx == SOUND_NONE)
 		return;
 
 	if (isWifi())
@@ -120,51 +144,83 @@ void playSound(sound_t sound)
 		// TODO: Move this to nifi.cpp
 		unsigned short buffer[100];
 		int server_id = getServerID();
-		sprintf((char *) buffer, "[SND: %d %d", server_id, sound);
+		sprintf((char *) buffer, "[SND: %d %d", server_id, sfx);
 		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 	}
 
-	loadSound(sound);
-	mmEffect(sound);
+	loadSound(sfx);
+	mmEffect(sfx);
 }
 
-void playSoundNifi(sound_t sound)
+int getSfx(int blockID, SoundType sound)
 {
-	loadSound(sound);
-	mmEffect(sound);
+	const auto key = std::make_pair(getBlockAudio(blockID), sound);
+	if (sfxs.find(key) != sfxs.end())
+	{
+		return ( rand() % 2) ? (sfxs[ key ].first) : (sfxs[ key ].second);
+	}
+	return -1;
 }
 
-void playMusic(music_t music)
+/*int counter = 0;
+
+int count(int val)
 {
-	if (music == MUSIC_NONE)
+	++counter;
+	return val;
+}*/
+
+void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning)
+{
+	int sfxID = getSfx(blockID, type);
+	t_mmsoundeffect blockSound = {
+		{(mm_word) sfxID}, // id
+		705,
+		0, // handle
+		volume, // volume
+		panning, // panning
+	};
+	loadSound(sfxID);
+	mmEffectEx(&blockSound);
+}
+
+void playSoundNifi(Sound sfx)
+{
+	loadSound(sfx);
+	mmEffect(sfx);
+}
+
+void playMusic(Music song)
+{
+	if (song == MUSIC_NONE)
 		return;
 
-	if (music != loaded_music)
+	if (song != loadedMusic)
 	{
 		stopMusic();
 		bool canStream = (file = fopen("MineCraft Remix - Calm 3 Chillstep.raw", "rb")) != NULL;
 		if (!canStream)
 		{
-			mmLoad(music);
-			mmStart(music, MM_PLAY_LOOP); //Prevents music restarting
+			mmLoad(song);
+			mmStart(song, MM_PLAY_LOOP); //Prevents music restarting
 		}
 		else
 			playStreamSong();
-		loaded_music = music;
+		loadedMusic = song;
 	}
 }
 
 void stopMusic(void)
 {
-	if (loaded_music == MUSIC_NONE)
+	if (loadedMusic == MUSIC_NONE)
 		return;
 
 	if (!streamOpen)
 	{
 		mmStop();
-		mmUnload(loaded_music);
+		mmUnload(loadedMusic);
 	}
 	else
 		stopStream();
-	loaded_music = MUSIC_NONE;
+	loadedMusic = MUSIC_NONE;
 }
