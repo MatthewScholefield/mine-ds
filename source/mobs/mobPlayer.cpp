@@ -183,6 +183,8 @@ void playerMob::updateMob(WorldObject* world)
 				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
 				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 				facing = false;
+				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
+					playBlockSfx(world->blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
 			}
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
 			{
@@ -190,6 +192,8 @@ void playerMob::updateMob(WorldObject* world)
 				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
 				vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
 				facing = true;
+				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
+					playBlockSfx(world->blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
 			}
 			else
 			{

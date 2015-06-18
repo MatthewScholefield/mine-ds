@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string>
 #include <sys/stat.h>
+#include <filesystem.h>
+#include <unistd.h>
 #include "general.h"
 #include "Config.h"
 #include "world.h"
@@ -14,9 +16,11 @@
 #include "graphics/Button.h"
 #include "graphics/graphics.h"
 
-void initFile(void)
+void initFile()
 {
+	nitroFSInit(NULL);
 	fatInitDefault();
+	chdir("fat:/");
 	mkdir(MINE_DS_FOLDER, 0777);
 }
 

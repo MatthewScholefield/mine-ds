@@ -20,6 +20,7 @@ bool miningDisabled = false;
 int framesOnBlock;
 int framesTillBreak;
 int targetSum = -1;
+unsigned char soundOffset;
 bool layerIsBG; //Layer of mined block
 bool finishedTask = false;
 
@@ -118,6 +119,7 @@ void changeTarget(int newSum, int newBlock)
 	framesTillBreak = destroyTime(newBlock, getBlockID(getSelectedSlot()));
 	framesOnBlock = 0;
 	finishedTask = false;
+	soundOffset = getTime() % HIT_SOUND_DELAY;
 }
 
 void activateBlock(WorldObject *world, int x, int y, bool bg)
@@ -218,5 +220,12 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 		finishedTask = true;
 	}
 	if (touchedBlock != AIR && !finishedTask)
+	{
 		++framesOnBlock;
+		if (framesTillBreak - framesOnBlock == 8)
+			playBlockSfx(touchedBlock, SOUND_TYPE_DESTROY, 255, touch.px);
+		else if (framesTillBreak - framesOnBlock > 8 && (getTime() - soundOffset) % HIT_SOUND_DELAY == 0)
+			playBlockSfx(touchedBlock, SOUND_TYPE_DESTROY, 80, touch.px);
+	}
+
 }
