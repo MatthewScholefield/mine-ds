@@ -490,7 +490,7 @@ void gameModeScreen()
 			if (!loadGame())
 			{
 				printXY(1, 22, "Failed to load game");
-				sleep(1);
+				sleepThread(1);
 				return;
 			}
 			break;

@@ -5,7 +5,7 @@
 #define SEC_TO_FPS(S)	((S) * FPS)
 #define PI 3.14159265
 
-void sleep(unsigned int seconds);
+void sleepThread(unsigned int seconds);
 void printGlobalMessage(const char* s);
 #define MESSAGE_COUNT 3
 #define MESSAGE_CLEAR_DELAY 500

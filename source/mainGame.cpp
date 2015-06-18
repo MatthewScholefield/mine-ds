@@ -85,7 +85,7 @@ static int inGameMenu()
 				if (!saveWorld(world))
 				{
 					printXY(1, 22, "Failed to save game");
-					sleep(1);
+					sleepThread(1);
 				}
 				break;
 			case 2: // quit game
@@ -183,7 +183,7 @@ void joinGame(void)
 	if (!doHandshake())
 	{
 		printXY(1, 12, "Handshake Failed");
-		sleep(2);
+		sleepThread(2);
 		return;
 	}
 	recieveWorld(world);
