@@ -78,9 +78,8 @@ int menu(Button buttons[], int size, bool showBack)
 int wordWrap(std::string &message, int maxWordLength)
 {
 	int lines = 1;
-	int maxLength = maxWordLength;
 	int prevEndLine = 0;
-	int curEndLine = maxWordLength;
+	unsigned int curEndLine = maxWordLength;
 	for (unsigned int i = 0; i < message.length(); ++i)
 	{
 		if (message[i] == '\n')
