@@ -1,5 +1,6 @@
 #include <time.h>
 #include <dirent.h>
+#include <string>
 #include "deathScreen.h"
 #include "graphics/subBgHandler.h"
 #include "graphics/graphics.h"
@@ -69,41 +70,7 @@ bool enableDisableMenu(bool initial)
 
 void creditsScreen()
 {
-	uint oldKeys = keysHeld();
-	touchPosition touch;
-	consoleClear();
-	drawBackground();
-	Button back(25, 19, "Back");
-	drawBox(4, 7, 24, 11);
-	printXY(7, 8, "--- Programming ---");
-	printXY(6, 9, "CoolAs, Ray, Dirbaio,");
-	printXY(10, 10, "and Wolfgange");
-	printXY(6, 12, "--- Texture Packs ---");
-	printXY(9, 13, "MaxPack by Maxim");
-	printXY(15, 14, "And");
-	printXY(9, 15, "Scary Sauce Pack");
-	printXY(8, 16, "by cool_story_bro");
-	scanKeys();
-	bool chosen = false;
-	while (!chosen)
-	{
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			touchRead(&touch);
-			if (back.isTouching(touch.px, touch.py))
-				back.setColored(true);
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (back.isColored && back.isTouching(touch.px, touch.py))
-				chosen = true;
-			else back.setColored(false);
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
-		updateFrame();
-	}
+	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false);
 }
 
 int listMenu(int x, int y, int numItems, int maxNameLength)
