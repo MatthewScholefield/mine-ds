@@ -75,20 +75,42 @@ int menu(Button buttons[], int size, bool showBack)
 	return selected + start;
 }
 
-int wordWrap(std::string &message, size_t maxWordLength)
+int wordWrap(std::string &message, int maxWordLength)
 {
 	int lines = 1;
-	size_t currentWidth = maxWordLength;
-	while (currentWidth < message.length())
+	int maxLength = maxWordLength;
+	int prevEndLine = 0;
+	int curEndLine = maxWordLength;
+	for (unsigned int i = 0; i < message.length(); ++i)
 	{
-		std::string::size_type spacePosition = message.rfind(' ', currentWidth);
-		if (spacePosition == std::string::npos)
-			spacePosition = message.find(' ', currentWidth);
-		if (spacePosition != std::string::npos)
+		if (message[i] == '\n')
 		{
-			message[ spacePosition ] = '\n';
-			currentWidth = spacePosition + maxWordLength + 1;
 			++lines;
+			prevEndLine = i;
+			curEndLine = i + maxWordLength;
+			continue;
+		}
+		if (i == curEndLine)
+		{
+			for (int j = curEndLine; j > prevEndLine; --j)
+			{
+				if (message[j] == ' ')
+				{
+					i = j;
+					message[i] = '\n';
+					++lines;
+					prevEndLine = i;
+					curEndLine = i + maxWordLength;
+					break;
+				}
+				else if (j == prevEndLine + 1)
+				{
+					message[i] = '\n';
+					++lines;
+					prevEndLine = i;
+					curEndLine = i + maxWordLength;
+				}
+			}
 		}
 	}
 	return lines;
