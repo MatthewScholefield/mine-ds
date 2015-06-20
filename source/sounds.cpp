@@ -162,20 +162,12 @@ int getSfx(int blockID, SoundType sound)
 	return -1;
 }
 
-/*int counter = 0;
-
-int count(int val)
-{
-	++counter;
-	return val;
-}*/
-
 void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning)
 {
 	int sfxID = getSfx(blockID, type);
 	t_mmsoundeffect blockSound = {
 		{(mm_word) sfxID}, // id
-		705,
+		1024,
 		0, // handle
 		volume, // volume
 		panning, // panning
