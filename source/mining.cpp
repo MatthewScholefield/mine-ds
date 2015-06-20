@@ -129,6 +129,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		case AIR:
 		{
 			placeBlock(world, x, y, bg);
+			playBlockSfx(bg ? world->bgblocks[x][y] : world->blocks[x][y], SOUND_TYPE_PLACE, 255, 16 * (x - (world->camX / 16)) + world->camX % 16);
 			break;
 		}
 		case CHEST:
@@ -218,13 +219,12 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 		destroyBlock(world, x, y, world->blocks[x][y] == AIR || keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
 		changeTarget(x + y, AIR);
 		finishedTask = true;
+		playBlockSfx(touchedBlock, SOUND_TYPE_DESTROY, 255, touch.px);
 	}
 	if (touchedBlock != AIR && !finishedTask)
 	{
 		++framesOnBlock;
-		if (framesTillBreak - framesOnBlock == 8)
-			playBlockSfx(touchedBlock, SOUND_TYPE_DESTROY, 255, touch.px);
-		else if (framesTillBreak - framesOnBlock > 8 && (getTime() - soundOffset) % HIT_SOUND_DELAY == 0)
+		if ((getTime() - soundOffset) % HIT_SOUND_DELAY == 0)
 			playBlockSfx(touchedBlock, SOUND_TYPE_DESTROY, 80, touch.px);
 	}
 
