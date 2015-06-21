@@ -6,6 +6,7 @@
 #include <time.h>
 #include "nifi.h"
 #include "mobs/mobHandler.h"
+#include "graphics/graphics.h"
 #include "worldRender.h"
 #include "graphics/subBgHandler.h"
 #include "communications.h"
@@ -82,7 +83,7 @@ void Handler(int packetID, int readlength)
 		if (test_id == server_id)
 		{
 			setSun(sunbrightness);
-			setBackdropColor(RGB15(r, g, b));
+			//setSkyColor(r, g, b);
 		}
 	}
 	else if (!strcmp("[MSG:", msgtype))

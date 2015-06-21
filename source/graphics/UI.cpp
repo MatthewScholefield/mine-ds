@@ -33,6 +33,8 @@ int menu(Button buttons[], int size, bool showBack)
 	uint oldKeys = keysHeld();
 	while (!chosen)
 	{
+		//setSkyColor(17, 24, 31);
+		printXY(1, 1, rand());
 		updateFrame();
 		updateTime(); //Used to ensure random world seed changes
 		scanKeys();
