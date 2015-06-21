@@ -39,7 +39,6 @@ void renderWorld(WorldObject* world);
 
 int main()
 {
-
 	defaultExceptionHandler();
 	initFile();
 	//nifiInit();
@@ -49,6 +48,9 @@ int main()
 	subBgInit();
 	graphicsInit();
 	setupFont();
+	//irqInit();
+	irqSet(IRQ_HBLANK, gradientHandler);
+	irqEnable(IRQ_HBLANK);
 	mobHandlerInit();
 	worldRender_LoadSprites();
 	craftingInit();

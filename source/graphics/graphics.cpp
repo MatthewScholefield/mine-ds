@@ -17,6 +17,7 @@
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
 int textureID = 0;
+uint16 backdropColor[192];
 
 //A comment from 1995 :D
 
@@ -55,6 +56,26 @@ int graphicNextMain()
 int graphicNextSub()
 {
 	return ++SubSpr;
+}
+
+void gradientHandler()
+{
+	setBackdropColor(backdropColor[REG_VCOUNT]);
+}
+
+inline u8 gradVal(u8 val1, u8 val2, u16 vertComp, u8 randomVal)
+{
+	double r = (vertComp + randomVal) / 191.0;
+	return std::min(int(val1 * (1.0 - r) + val2 * r), 31);
+}
+
+void setSkyColor(u8 red1, u8 green1, u8 blue1, u8 red2, u8 green2, u8 blue2)
+{
+	for (u16 i = 0; i < 192; ++i)
+	{
+		u8 randomVal = rand() % 20;
+		backdropColor[i] = RGB15(gradVal(red1, red2, i, randomVal), gradVal(green1, green2, i, randomVal), gradVal(blue1, blue2, i, randomVal));
+	}
 }
 
 /**
@@ -202,7 +223,7 @@ void graphicsInit()
 {
 	loadTexture(getGlobalSettings()->textureName.c_str());
 	worldRender_Init();
-	setBackdropColor(RGB15(17, 24, 31));
+	setSkyColor(17, 24, 31, 12, 15, 31);
 
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
