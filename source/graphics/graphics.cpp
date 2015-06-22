@@ -18,6 +18,7 @@ std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
 int textureID = 0;
 uint16 backdropColor[192];
+double gradientData[192][3];
 
 //A comment from 1995 :D
 
@@ -63,19 +64,25 @@ void gradientHandler()
 	setBackdropColor(backdropColor[REG_VCOUNT]);
 }
 
-inline u8 gradVal(u8 val1, u8 val2, u16 vertComp, u8 randomVal)
+void setSkyColor(double red1, double green1, double blue1, double red2, double green2, double blue2)
 {
-	double r = (vertComp + randomVal) / 191.0;
-	return std::min(int(val1 * (1.0 - r) + val2 * r), 31);
-}
-
-void setSkyColor(u8 red1, u8 green1, u8 blue1, u8 red2, u8 green2, u8 blue2)
-{
-	for (u16 i = 0; i < 192; ++i)
+	for (double i = 0; i < 192; ++i)
 	{
-		u8 randomVal = rand() % 20;
-		backdropColor[i] = RGB15(gradVal(red1, red2, i, randomVal), gradVal(green1, green2, i, randomVal), gradVal(blue1, blue2, i, randomVal));
+		gradientData[int(i)][0] = std::min(red1 * (1.0 - i / 191.0) + (red2 * i) / 191, 31.0);
+		gradientData[int(i)][1] = std::min(green1 * (1.0 - i / 191.0) + (green2 * i) / 191, 31.0);
+		gradientData[int(i)][2] = std::min(blue1 * (1.0 - i / 191.0) + (blue2 * i) / 191, 31.0);
 	}
+	for (u16 i = 0; i < 191; ++i)
+		for (u8 j = 0; j < 3; ++j)
+		{
+			double extra = gradientData[i][j] - ((int) gradientData[i][j]);
+			gradientData[i][j] = int(gradientData[i][j]);
+			gradientData[i + 1][j] += extra;
+		}
+	for (u8 i = 0; i < 3; ++i)
+		gradientData[191][i] = int(gradientData[191][i]);
+	for (u16 i = 0; i < 192; ++i)
+		backdropColor[i] = RGB15(int(gradientData[i][0]), int(gradientData[i][1]), int(gradientData[i][2]));
 }
 
 /**
