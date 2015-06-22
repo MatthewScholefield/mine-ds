@@ -230,7 +230,7 @@ void graphicsInit()
 {
 	loadTexture(getGlobalSettings()->textureName.c_str());
 	worldRender_Init();
-	setSkyColor(17, 24, 31, 12, 15, 31);
+	setSkyColor(12, 15, 31, 17, 24, 31);
 
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
