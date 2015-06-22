@@ -73,5 +73,5 @@ void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockP
 		const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc);
 void updateTexture();
 void loadDefaultTexture();
-void setSkyColor(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
+void setSkyColor(double, double, double, double, double, double);
 void gradientHandler();
