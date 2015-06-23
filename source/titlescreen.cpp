@@ -513,7 +513,7 @@ void titlescreen()
 		Button power(29, 21, "\xFE"); // \xFE = Dot
 		Button buttons[] = {singlePlayer, settings, credits, power};
 
-		switch (menu(buttons, 3, false))
+		switch (menu(buttons, 4, false))
 		{
 			case 1: // single player
 				gameModeScreen();
@@ -521,7 +521,7 @@ void titlescreen()
 			case 2: // settings
 				settingsScreen();
 				break;
-			case 3: //Power
+			case 3: //Credits
 				creditsScreen();
 				break;
 			case 4: //Power

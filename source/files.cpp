@@ -21,7 +21,10 @@ void initFile()
 	nitroFSInit(NULL);
 	fatInitDefault();
 	chdir("fat:/");
-	mkdir(MINE_DS_FOLDER, 0777);
+	mkdir("Mine DS", 0777);
+	chdir("fat:/Mine DS");
+	mkdir("Textures", 0777);
+	chdir("fat:/");
 }
 
 bool saveWorld(WorldObject *world)
@@ -203,7 +206,7 @@ bool loadTexture(const char *fileName)
 {
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
-	FILE *texFile = fopen(temp.c_str(), "rb");
+	FILE *texFile = NULL; // = fopen(temp.c_str(), "rb");
 	if (!texFile)
 	{
 		loadDefaultTexture();
