@@ -131,9 +131,6 @@ void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockP
 		const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
 		const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc)
 {
-	blockTiles.assign(blockTilesSrc, blockTilesSrc + TILES_ARRAY_LEN);
-	blockPal.assign(blockPalSrc, blockPalSrc + PAL_ARRAY_LEN);
-
 	if (!blockTilesSrc || !blockPalSrc)
 	{
 		blockTiles.assign(block_smallTiles, block_smallTiles + TILES_ARRAY_LEN);
@@ -141,8 +138,8 @@ void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockP
 	}
 	else
 	{
-		subBgTiles.assign(blockTilesSrc, blockTilesSrc + TILES_ARRAY_LEN);
-		subBgPal.assign(blockPalSrc, blockPalSrc + PAL_ARRAY_LEN);
+		blockTiles.assign(blockTilesSrc, blockTilesSrc + TILES_ARRAY_LEN);
+		blockPal.assign(blockPalSrc, blockPalSrc + PAL_ARRAY_LEN);
 	}
 
 	if (!subBgTilesSrc || !subBgPalSrc)

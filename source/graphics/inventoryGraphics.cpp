@@ -225,9 +225,12 @@ void closeChest()
 		loadedChestID[i] = AIR;
 		loadedChestGfx[i] = false;
 	}
-	drawBackground();
-	updateInvGraphics();
-	drawInvButtons(true, isSurvival());
+	if (getInventoryState() != 2)
+	{
+		drawBackground();
+		updateInvGraphics();
+		drawInvButtons(true, isSurvival());
+	}
 }
 
 void updateChestItems() //Changes graphics and text
