@@ -164,6 +164,8 @@ int getSfx(int blockID, SoundType sound)
 
 void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning)
 {
+	if (blockID == AIR)
+		return;
 	int sfxID = getSfx(blockID, type);
 	t_mmsoundeffect blockSound = {
 		{(mm_word) sfxID}, // id

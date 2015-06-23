@@ -27,6 +27,7 @@
 #include "chests.h"
 bool loadedTopGraphic = false;
 int invSlot = -1;
+int oldInvSlot;
 Graphic selectedGraphic;
 int loadedGraphic;
 Button backButton(1, 16, "Back", false);
@@ -250,6 +251,9 @@ void clearInventory(bool direct) //clears inventory
 
 void openInventory()
 {
+	oldInvSlot = invSlot;
+	invSlot = -1;
+	changeInvSelectedGraphic();
 	lcdMainOnTop();
 	showingInventory = 1;
 	setMiningDisabled(true);
@@ -261,6 +265,8 @@ void openInventory()
 
 void closeInventory()
 {
+	if (invSlot == -1)
+		invSlot = oldInvSlot;
 	closeChest();
 	lcdMainOnBottom();
 	showingInventory = 0;
