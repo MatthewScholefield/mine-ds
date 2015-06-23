@@ -8,17 +8,17 @@
 void drawBackground() //Draws dirt background and MineDS Logo
 {
 	int i, j; //They are famous variables :P
-	for (i = 7; i <= 24; ++i) //Draws dirt Background
-		for (j = 0; j <= 31; ++j)
+	for (i = 7; i < 32; ++i) //Draws dirt Background
+		for (j = 0; j < 32; ++j)
 			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
-	for (i = 0; i <= 25; ++i)
-		for (j = 0; j <= 6; ++j)
+	for (i = 0; i < 26; ++i)
+		for (j = 0; j < 7; ++j)
 			setSubBgTile(i + 3, j, i + (j * 32)); //Draw the MineDS Logo!
-	for (i = 0; i <= 6; ++i)
+	for (i = 0; i < 7; ++i)
 		for (j = 0; j < 3; ++j)
 			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
-	for (i = 0; i <= 6; ++i)
-		for (j = 29; j <= 31; ++j)
+	for (i = 0; i < 7; ++i)
+		for (j = 29; j < 32; ++j)
 			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
 }
 
@@ -31,14 +31,17 @@ int menu(Button buttons[], int size, bool showBack)
 	bool chosen = false;
 
 	uint oldKeys = keysHeld();
+	moveSubBg(0, 64);
 	while (!chosen)
 	{
+		updateSubBG();
 		updateFrame();
 		updateTime(); //Used to ensure random world seed changes
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
 			touchRead(&touch);
+			touch.py += getScrollY();
 			if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
 			for (int i = 0; i < size; ++i)
@@ -47,6 +50,7 @@ int menu(Button buttons[], int size, bool showBack)
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
+			touch.py += getScrollY();
 			if (back.isColored && back.isTouching(touch.px, touch.py))
 			{
 				selected = 0;
