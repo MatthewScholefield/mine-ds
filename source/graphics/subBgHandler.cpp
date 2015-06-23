@@ -2,11 +2,16 @@
 #include "font.h"
 #include "sub_bg.h"
 #include "graphics.h"
+#include "../fontHandler.h"
 #define V_FLIP 2
 #define H_FLIP 1
 #define BOTH_FLIP 3
 
 uint16 *bgptr;
+double subBgCalcX = 0;
+double subBgCalcY = 0;
+int subBgX = 0;
+int subBgY = 0;
 
 inline void setSubTileXY(int x, int y, uint16 tile, int palette, int flip)
 {
@@ -45,6 +50,8 @@ void setSubBgTile(int x, int y, int tile, int flip)
 void subBgInit()
 {
 	videoSetModeSub(MODE_5_2D | DISPLAY_BG_EXT_PALETTE);
+	REG_BG2CNT |= BG_WRAP_ON;
+	bgSetScroll(6, 1, 1);
 	vramSetBankC(VRAM_C_SUB_BG);
 	int bg = bgInitSub(2, BgType_ExRotation, BgSize_ER_256x256, 1, 6); //16bit BG
 	bgptr = bgGetMapPtr(bg);
@@ -52,6 +59,31 @@ void subBgInit()
 	dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
 	dmaCopy(&fontTiles, (uint16*) 0x0620400, fontTilesLen);
+}
+
+void moveSubBg(int dX, int dY)
+{
+	subBgX += dX;
+	subBgY += dY;
+	subBgX = 0;
+	if (subBgY + 192 > 256)
+		subBgY = 256 - 192;
+	else if (subBgY < 0)
+		subBgY = 0;
+}
+
+int getScrollY()
+{
+	return subBgCalcY;
+}
+
+void updateSubBG()
+{
+	subBgCalcX += (double(subBgX) - subBgCalcX)*0.03;
+	subBgCalcY += (double(subBgY) - subBgCalcY)*0.03;
+	bgSetScroll(6, subBgCalcX, subBgCalcY);
+	bgSetScroll(getConsoleID(), subBgCalcX, subBgCalcY);
+	bgUpdate();
 }
 
 void drawButton(int x, int y, int sizex)

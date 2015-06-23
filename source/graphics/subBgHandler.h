@@ -7,6 +7,9 @@ void drawButtonColored(int x, int y, int sizex);
 void drawBox(int x, int y, int lx, int ly);
 void drawBoxFrame(int x, int y, int lx, int ly);
 void drawBoxCenter(int x, int y, int lx, int ly);
+void moveSubBg(int dX, int dY);
+void updateSubBG();
+int getScrollY();
 #define V_FLIP 2
 #define H_FLIP 1
 #define BOTH_FLIP 3
