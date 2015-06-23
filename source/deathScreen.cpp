@@ -8,6 +8,8 @@
 #include "sounds.h"
 #include "graphics/UI.h"
 #include "general.h"
+#include "inventory.h"
+#include "mainGame.h"
 bool mustPrintDeathScreen = true;
 bool died = false; //Used to show whether exitted to titlescreen after dying
 touchPosition *touch;
@@ -26,6 +28,8 @@ void deathScreenSetup()
 {
 	if (mustPrintDeathScreen == true)
 	{
+		oamClear(&oamSub, 0, 0);
+		oamUpdate(&oamSub);
 		disableInvGraphics();
 		consoleClear();
 		lcdMainOnTop();
@@ -63,6 +67,7 @@ int deathScreenUpdate()
 			enableInvGraphics();
 			lcdMainOnBottom();
 			setMiningDisabled(false);
+			drawInvButtons(false, isSurvival());
 			died = false;
 			return 0;
 		}
