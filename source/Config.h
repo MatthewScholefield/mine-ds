@@ -17,6 +17,8 @@
 #define PROPERTY_DRAW 1
 #define PROPERTY_SPEED 2
 #define PROPERTY_SMOOTH 3
+#define PROPERTY_GRADIENT 4
+#define PROPERTY_DITHERING 5
 
 class Config {
 private:
@@ -30,7 +32,7 @@ private:
 	KEYPAD_BITS menu;
 	KEYPAD_BITS climb;
 	KEYPAD_BITS dropItem;
-	bool properties[4];
+	bool properties[6];
 public:
 	std::string textureName;
 	void setKey(int action, KEYPAD_BITS key);
@@ -49,7 +51,7 @@ public:
 	climb(KEY_UP),
 	dropItem(KEY_SELECT),
 	properties {
-		false, false, true, true
+		false, false, true, true, true, true
 	},
 	textureName("default")
 	{

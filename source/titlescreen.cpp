@@ -15,106 +15,14 @@
 #include "files.h"
 #include "nifi.h"
 #include "graphics/UI.h"
+#include "daynight.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 bool firstWorld = true;
 
-bool enableDisableMenu(bool initial)
-{
-	uint oldKeys;
-	touchPosition touch;
-	drawBackground();
-
-	consoleClear(); //Removes All text from the screen
-	Button enabled(9, 10, "Enabled", 12);
-	Button disabled(9, 15, "Disabled", 12);
-	Button done(25, 19, "Done");
-	enabled.setColored(initial);
-	disabled.setColored(!initial);
-
-	scanKeys();
-	touchRead(&touch);
-	oldKeys = keysHeld();
-	updateFrame();
-	bool returnVal = initial;
-	while (1)
-	{
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
-		{
-			touchRead(&touch);
-			if (enabled.isTouching(touch.px, touch.py))
-			{
-				returnVal = true;
-				enabled.setColored(true);
-				disabled.setColored(false);
-			}
-			else if (disabled.isTouching(touch.px, touch.py))
-			{
-				returnVal = false;
-				enabled.setColored(false);
-				disabled.setColored(true);
-			}
-			done.setColored(done.isTouching(touch.px, touch.py));
-		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
-		{
-			if (done.isColored && done.isTouching(touch.px, touch.py))
-				return returnVal;
-		}
-		oldKeys = keysHeld();
-		touchRead(&touch);
-		updateFrame();
-	}
-}
-
 void creditsScreen()
 {
 	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false);
-}
-
-int listMenu(int x, int y, int numItems, int maxNameLength)
-{
-	touchPosition touch;
-	drawBackground();
-	Button back(25, 19, "Back");
-
-	drawBox(x, y, maxNameLength + 2, numItems + 2);
-
-	scanKeys();
-	touchRead(&touch);
-	int column = 0;
-	while (1)
-	{
-		scanKeys();
-		if (keysHeld() & KEY_TOUCH)
-			touchRead(&touch);
-		if (keysDown() & KEY_TOUCH) //New Press
-		{
-			touchRead(&touch);
-			column = ((touch.py - 8) / 8) + 1 - y;
-			if (column <= numItems && column >= 1 && touch.px >= (x + 1) * 8 && touch.px < (x + maxNameLength + 1) * 8)
-				for (int i = 0; i < maxNameLength; ++i)
-					setSubBgTile(x + 1 + i, y + column, 60);
-			else if (back.isTouching(touch.px, touch.py))
-				back.setColored(true);
-
-		}
-		else if (keysUp() & KEY_TOUCH)
-		{
-			int newColumn = ((touch.py - 8) / 8) + 1 - y;
-			if (back.isColored && back.isTouching(touch.px, touch.py))
-				return 0;
-			else if (column == newColumn && column <= numItems && column >= 1 && touch.px >= (x + 1) * 8 && touch.px < (x + maxNameLength + 1) * 8)
-				return column;
-			else //Remove any colored buttons, if any
-			{
-				drawBoxCenter(x + 1, y + 1, maxNameLength, numItems);
-				back.setColored(false);
-			}
-		}
-		updateFrame();
-	}
 }
 
 KEYPAD_BITS askForKeyScreen()
@@ -398,6 +306,39 @@ void gameOptions()
 	}
 }
 
+void graphicsScreen()
+{
+	bool exit = false;
+	while (!exit)
+	{
+		consoleClear();
+		drawBackground();
+
+		Button texture(8, 8, "Texture Pack", 15);
+		Button gradient(8, 13, "Sky Gradient", 15);
+		Button dithering(8, 18, "Sky Dithering", 15, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
+		Button buttons[] = {texture, gradient, dithering};
+
+		switch (menu(buttons, 3, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT)))
+		{
+			case 1:
+				texturePackScreen();
+				break;
+			case 2:
+				getGlobalSettings()->setProperty(PROPERTY_GRADIENT, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_GRADIENT)));
+				setSkyDay();
+				break;
+			case 3:
+				getGlobalSettings()->setProperty(PROPERTY_DITHERING, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DITHERING)));
+				setSkyDay();
+				break;
+			default:
+				exit = true;
+				break;
+		}
+	}
+}
+
 void settingsScreen()
 {
 	bool exit = false;
@@ -410,9 +351,11 @@ void settingsScreen()
 		Button controls(8, 8, "Controls", 15);
 		Button options(8, 13, "Game Options", 15);
 		Button texture(8, 18, "Texture Pack", 15);
-		Button buttons[] = {controls, options, texture};
+		Button gradient(8, 23, "Sky Gradient", 15);
+		Button dithering(8, 28, "Sky Dithering", 15, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
+		Button buttons[] = {controls, options, texture, gradient, dithering};
 
-		switch (menu(buttons, 3))
+		switch (menu(buttons, 5, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT) ? 64 : 30))
 		{
 			case 1: // controls
 				controlsScreen();
@@ -420,8 +363,16 @@ void settingsScreen()
 			case 2: // game options
 				gameOptions();
 				break;
-			case 3: // Texture Pack
+			case 3: // Graphics options
 				texturePackScreen();
+				break;
+			case 4:
+				getGlobalSettings()->setProperty(PROPERTY_GRADIENT, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_GRADIENT)));
+				setSkyDay();
+				break;
+			case 5:
+				getGlobalSettings()->setProperty(PROPERTY_DITHERING, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DITHERING)));
+				setSkyDay();
 				break;
 			default: // back button
 				exit = true;

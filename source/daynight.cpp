@@ -47,3 +47,8 @@ bool isDay(WorldObject* world)
 	return world->timeInWorld >= 0 && world->timeInWorld < 80;
 }
 
+void setSkyDay()
+{
+	setSkyColor(r[0], g[0], b[0], r2[0], g2[0], b2[0]);
+}
+
