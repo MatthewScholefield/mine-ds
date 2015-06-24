@@ -13,6 +13,7 @@
 #include "../worldRender.h"
 #include "../files.h"
 #include "../fontHandler.h"
+#include "../daynight.h"
 
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
@@ -66,23 +67,32 @@ void gradientHandler()
 
 void setSkyColor(double red1, double green1, double blue1, double red2, double green2, double blue2)
 {
-	for (double i = 0; i < 192; ++i)
+	if (getGlobalSettings()->getProperty(PROPERTY_GRADIENT))
 	{
-		gradientData[int(i)][0] = std::min(red1 * (1.0 - i / 191.0) + (red2 * i) / 191, 31.0);
-		gradientData[int(i)][1] = std::min(green1 * (1.0 - i / 191.0) + (green2 * i) / 191, 31.0);
-		gradientData[int(i)][2] = std::min(blue1 * (1.0 - i / 191.0) + (blue2 * i) / 191, 31.0);
-	}
-	for (u16 i = 0; i < 191; ++i)
-		for (u8 j = 0; j < 3; ++j)
+		for (double i = 0; i < 192; ++i)
 		{
-			double extra = gradientData[i][j] - ((int) gradientData[i][j]);
-			gradientData[i][j] = int(gradientData[i][j]);
-			gradientData[i + 1][j] += extra;
+			gradientData[int(i)][0] = std::min(red1 * (1.0 - i / 191.0) + (red2 * i) / 191, 31.0);
+			gradientData[int(i)][1] = std::min(green1 * (1.0 - i / 191.0) + (green2 * i) / 191, 31.0);
+			gradientData[int(i)][2] = std::min(blue1 * (1.0 - i / 191.0) + (blue2 * i) / 191, 31.0);
 		}
-	for (u8 i = 0; i < 3; ++i)
-		gradientData[191][i] = int(gradientData[191][i]);
-	for (u16 i = 0; i < 192; ++i)
-		backdropColor[i] = RGB15(int(gradientData[i][0]), int(gradientData[i][1]), int(gradientData[i][2]));
+		if (getGlobalSettings()->getProperty(PROPERTY_DITHERING))
+		{
+			for (u16 i = 0; i < 191; ++i)
+				for (u8 j = 0; j < 3; ++j)
+				{
+					double extra = gradientData[i][j] - ((int) gradientData[i][j]);
+					gradientData[i][j] = int(gradientData[i][j]);
+					gradientData[i + 1][j] += extra;
+				}
+			for (u8 i = 0; i < 3; ++i)
+				gradientData[191][i] = int(gradientData[191][i]);
+		}
+		for (u16 i = 0; i < 192; ++i)
+			backdropColor[i] = RGB15(int(gradientData[i][0]), int(gradientData[i][1]), int(gradientData[i][2]));
+	}
+	else
+		for (u16 i = 0; i < 192; ++i)
+			backdropColor[i] = RGB15(int((red1 + red2) / 2.0 + 0.5), int((green1 + green2) / 2.0 + 0.5), int((blue1 + blue2) / 2.0 + 0.5));
 }
 
 /**
@@ -227,7 +237,7 @@ void graphicsInit()
 {
 	loadTexture(getGlobalSettings()->textureName.c_str());
 	worldRender_Init();
-	setSkyColor(12, 15, 31, 17, 24, 31);
+	setSkyDay();
 
 	graphicFrame();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
