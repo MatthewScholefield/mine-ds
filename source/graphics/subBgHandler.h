@@ -8,6 +8,7 @@ void drawBox(int x, int y, int lx, int ly);
 void drawBoxFrame(int x, int y, int lx, int ly);
 void drawBoxCenter(int x, int y, int lx, int ly);
 void moveSubBg(int dX, int dY);
+void setSubBg(int x, int y);
 void updateSubBG();
 int getScrollY();
 #define V_FLIP 2
