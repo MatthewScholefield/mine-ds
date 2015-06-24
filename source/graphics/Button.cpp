@@ -31,6 +31,7 @@ void Button::setVisible(bool setVisible)
 
 bool Button::isTouching(int xVal, int yVal)
 {
+	yVal += getScrollY();
 	return visible && (xVal > x * 8 && xVal < (x + length)*8 && yVal > y * 8 && yVal < (y + 3)*8);
 }
 

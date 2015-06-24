@@ -79,8 +79,8 @@ int getScrollY()
 
 void updateSubBG()
 {
-	subBgCalcX += (double(subBgX) - subBgCalcX)*0.03;
-	subBgCalcY += (double(subBgY) - subBgCalcY)*0.03;
+	subBgCalcX += (double(subBgX) - subBgCalcX)*0.08;
+	subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;
 	bgSetScroll(6, subBgCalcX, subBgCalcY);
 	bgSetScroll(getConsoleID(), subBgCalcX, subBgCalcY);
 	bgUpdate();
