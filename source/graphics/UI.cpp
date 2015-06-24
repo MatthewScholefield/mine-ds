@@ -22,16 +22,16 @@ void drawBackground() //Draws dirt background and MineDS Logo
 			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
 }
 
-int menu(Button buttons[], int size, bool showBack)
+int menu(Button buttons[], int size, bool showBack, int scrollLength)
 {
 	int start = 0;
-	Button back(25, 19, "Back", showBack);
+	Button back(25, 20, "Back", showBack);
+	Button scroll(26, 16, "v", scrollLength > 0);
 	touchPosition touch;
 	int selected = -1;
 	bool chosen = false;
 
 	uint oldKeys = keysHeld();
-	moveSubBg(0, 64);
 	while (!chosen)
 	{
 		updateSubBG();
@@ -41,20 +41,34 @@ int menu(Button buttons[], int size, bool showBack)
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
 			touchRead(&touch);
-			touch.py += getScrollY();
 			if (back.isTouching(touch.px, touch.py))
 				back.setColored(true);
+			else if (scroll.isTouching(touch.px, touch.py))
+				scroll.setColored(true);
 			for (int i = 0; i < size; ++i)
 				if (buttons[i].isTouching(touch.px, touch.py))
 					buttons[i].setColored(true);
 		}
 		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
 		{
-			touch.py += getScrollY();
 			if (back.isColored && back.isTouching(touch.px, touch.py))
 			{
 				selected = 0;
 				chosen = true;
+			}
+			else if (scroll.isColored && scroll.isTouching(touch.px, touch.py))
+			{
+				if (getScrollY() < scrollLength - 1)
+				{
+					moveSubBg(0, scrollLength);
+					scroll.label = "^";
+				}
+				else
+				{
+					moveSubBg(0, -scrollLength);
+					scroll.label = "v";
+				}
+				printXY(scroll.printX, scroll.printY, scroll.label);
 			}
 			for (int i = 0; i < size; ++i)
 			{
@@ -69,6 +83,7 @@ int menu(Button buttons[], int size, bool showBack)
 				back.setColored(false);
 				for (int i = 0; i < size; ++i)
 					buttons[i].setColored(false);
+				scroll.setColored(false);
 			}
 		}
 		oldKeys = keysHeld();
@@ -76,7 +91,103 @@ int menu(Button buttons[], int size, bool showBack)
 	}
 	for (int i = 0; i < size; ++i)
 		buttons[i].setColored(false);
+	moveSubBg(0, -64);
 	return selected + start;
+}
+
+bool enableDisableMenu(bool initial)
+{
+	uint oldKeys;
+	touchPosition touch;
+	drawBackground();
+
+	consoleClear(); //Removes All text from the screen
+	Button enabled(9, 10, "Enabled", 12);
+	Button disabled(9, 15, "Disabled", 12);
+	Button done(25, 19, "Done");
+	enabled.setColored(initial);
+	disabled.setColored(!initial);
+
+	scanKeys();
+	touchRead(&touch);
+	oldKeys = keysHeld();
+	updateFrame();
+	bool returnVal = initial;
+	while (1)
+	{
+		updateSubBG();
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
+		{
+			touchRead(&touch);
+			if (enabled.isTouching(touch.px, touch.py))
+			{
+				returnVal = true;
+				enabled.setColored(true);
+				disabled.setColored(false);
+			}
+			else if (disabled.isTouching(touch.px, touch.py))
+			{
+				returnVal = false;
+				enabled.setColored(false);
+				disabled.setColored(true);
+			}
+			done.setColored(done.isTouching(touch.px, touch.py));
+		}
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+		{
+			if (done.isColored && done.isTouching(touch.px, touch.py))
+				return returnVal;
+		}
+		oldKeys = keysHeld();
+		touchRead(&touch);
+		updateFrame();
+	}
+}
+
+int listMenu(int x, int y, int numItems, int maxNameLength)
+{
+	touchPosition touch;
+	drawBackground();
+	Button back(25, 19, "Back");
+
+	drawBox(x, y, maxNameLength + 2, numItems + 2);
+
+	scanKeys();
+	touchRead(&touch);
+	int column = 0;
+	while (1)
+	{
+		updateSubBG();
+		scanKeys();
+		if (keysHeld() & KEY_TOUCH)
+			touchRead(&touch);
+		if (keysDown() & KEY_TOUCH) //New Press
+		{
+			touchRead(&touch);
+			column = ((touch.py - 8) / 8) + 1 - y;
+			if (column <= numItems && column >= 1 && touch.px >= (x + 1) * 8 && touch.px < (x + maxNameLength + 1) * 8)
+				for (int i = 0; i < maxNameLength; ++i)
+					setSubBgTile(x + 1 + i, y + column, 60);
+			else if (back.isTouching(touch.px, touch.py))
+				back.setColored(true);
+
+		}
+		else if (keysUp() & KEY_TOUCH)
+		{
+			int newColumn = ((touch.py - 8) / 8) + 1 - y;
+			if (back.isColored && back.isTouching(touch.px, touch.py))
+				return 0;
+			else if (column == newColumn && column <= numItems && column >= 1 && touch.px >= (x + 1) * 8 && touch.px < (x + maxNameLength + 1) * 8)
+				return column;
+			else //Remove any colored buttons, if any
+			{
+				drawBoxCenter(x + 1, y + 1, maxNameLength, numItems);
+				back.setColored(false);
+			}
+		}
+		updateFrame();
+	}
 }
 
 int wordWrap(std::string &message, int maxWordLength)
