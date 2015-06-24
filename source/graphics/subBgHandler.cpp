@@ -50,10 +50,14 @@ void setSubBgTile(int x, int y, int tile, int flip)
 void subBgInit()
 {
 	videoSetModeSub(MODE_5_2D | DISPLAY_BG_EXT_PALETTE);
-	REG_BG2CNT |= BG_WRAP_ON;
-	bgSetScroll(6, 1, 1);
+
+	//bgSetScroll(6, 0, -64);
 	vramSetBankC(VRAM_C_SUB_BG);
 	int bg = bgInitSub(2, BgType_ExRotation, BgSize_ER_256x256, 1, 6); //16bit BG
+	REG_BG0CNT_SUB |= BG_WRAP_ON;
+	REG_BG1CNT_SUB |= BG_WRAP_ON;
+	REG_BG2CNT_SUB |= BG_WRAP_ON;
+	REG_BG3CNT_SUB |= BG_WRAP_ON;
 	bgptr = bgGetMapPtr(bg);
 	vramSetBankH(VRAM_H_LCD);
 	dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
@@ -70,6 +74,12 @@ void moveSubBg(int dX, int dY)
 		subBgY = 256 - 192;
 	else if (subBgY < 0)
 		subBgY = 0;
+}
+
+void setSubBg(int x, int y)
+{
+	subBgCalcX = subBgX = x;
+	subBgCalcY = subBgY = y;
 }
 
 int getScrollY()
