@@ -35,8 +35,13 @@ bool Button::isTouching(int xVal, int yVal)
 	return visible && (xVal > x * 8 && xVal < (x + length)*8 && yVal > y * 8 && yVal < (y + 3)*8);
 }
 
-void Button::draw()
+void Button::printLabel()
 {
 	printXY(printX, printY, label);
+}
+
+void Button::draw()
+{
+	printLabel();
 	drawButton(x, y, length);
 }
