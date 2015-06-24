@@ -5,6 +5,19 @@
 #include <string>
 #include <sstream>
 
+void transition()
+{
+	setSubBg(0, -64);
+	bgSetScroll(6, 0, -64);
+	bgUpdate();
+	for (int i = 0; i < 32; ++i)
+		for (int j = 24; j < 32; ++j)
+			setSubBgTile(i, j, ((j % 2) ? 90 : 122) + i % 2);
+	for (int j = 24; j < 32; ++j)
+		printXY(0, j, "\x1b[2K");
+	moveSubBg(0, 64);
+}
+
 void drawBackground() //Draws dirt background and MineDS Logo
 {
 	int i, j; //They are famous variables :P
@@ -24,9 +37,10 @@ void drawBackground() //Draws dirt background and MineDS Logo
 
 int menu(Button buttons[], int size, bool showBack, int scrollLength)
 {
+	transition();
 	int start = 0;
 	Button back(25, 20, "Back", showBack);
-	Button scroll(26, 16, "v", scrollLength > 0);
+	Button scroll(1, 20, "\x1F", scrollLength > 0);
 	touchPosition touch;
 	int selected = -1;
 	bool chosen = false;
@@ -61,14 +75,17 @@ int menu(Button buttons[], int size, bool showBack, int scrollLength)
 				if (getScrollY() < scrollLength - 1)
 				{
 					moveSubBg(0, scrollLength);
-					scroll.label = "^";
+					scroll.label = "\x1E";
+					for (int i = 0; i < size; ++i)
+						if (buttons[i].printY >= 24)
+							buttons[i].printLabel();
 				}
 				else
 				{
 					moveSubBg(0, -scrollLength);
-					scroll.label = "v";
+					scroll.label = "\x1F";
 				}
-				printXY(scroll.printX, scroll.printY, scroll.label);
+				scroll.printLabel();
 			}
 			for (int i = 0; i < size; ++i)
 			{
@@ -97,6 +114,7 @@ int menu(Button buttons[], int size, bool showBack, int scrollLength)
 
 bool enableDisableMenu(bool initial)
 {
+	transition();
 	uint oldKeys;
 	touchPosition touch;
 	drawBackground();
@@ -147,6 +165,7 @@ bool enableDisableMenu(bool initial)
 
 int listMenu(int x, int y, int numItems, int maxNameLength)
 {
+	transition();
 	touchPosition touch;
 	drawBackground();
 	Button back(25, 19, "Back");
@@ -254,6 +273,7 @@ bool createDialog(std::string message, bool cancel)
 	Button okay(X + (cancel ? WIDTH / 2 - 2 : 1), Y + HEIGHT + 1, "OK", cancel ? 4 : WIDTH - 2);
 	Button cancelButton(X + WIDTH - 9, Y + HEIGHT + 1, "Cancel", cancel);
 	Button buttons[] = {okay, cancelButton};
+	transition();
 	if (menu(buttons, cancel ? 2 : 1, false) == 1)
 		return true;
 	return false;
