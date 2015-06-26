@@ -119,7 +119,7 @@ bool loadWorld(WorldObject *world)
 				fclose(worldFile);
 				return false;
 			}
-			consoleClear();
+			clearText();
 			drawBackground();
 		}
 		int loadGameMode;

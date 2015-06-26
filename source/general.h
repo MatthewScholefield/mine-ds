@@ -1,5 +1,7 @@
 #pragma once
 #include <stdio.h>
+#include <vector>
+#include <string>
 
 #define FPS		(60)
 #define SEC_TO_FPS(S)	((S) * FPS)
@@ -19,6 +21,9 @@ inline void printXY(int x, int y, int output);
 void updateTime();
 unsigned int getTime();
 void updateFrame();
+size_t maxStringLength(std::vector<std::string> lines);
+void clearText(bool firstSection, int sizeY = 64);
+void clearText();
 
 inline void printXY(int x, int y, const char *output) {
 	iprintf("\x1b[%d;%dH%s", y, x, output);
@@ -26,4 +31,8 @@ inline void printXY(int x, int y, const char *output) {
 
 inline void printXY(int x, int y, int output) {
 	iprintf("\x1b[%d;%dH%d", y, x, output);
+}
+
+template<typename T> inline const T abs(T const & x) {
+	return ( x < 0) ? -x : x;
 }

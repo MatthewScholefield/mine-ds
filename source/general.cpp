@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string>
+#include <vector>
 #include <nds.h>
 #include <dswifi9.h>
 #include <maxmod9.h>
@@ -7,16 +8,38 @@
 #include "general.h"
 #include "mainGame.h"
 #include "sounds.h"
+#include "fontHandler.h"
 
 std::string messages[MESSAGE_COUNT];
 int currentTime = 0;
 int triggerTime = 1;
+
+void clearText(bool firstSection, int sizeY)
+{
+	clearTextRegion(firstSection ? 0 : 32, 0, 32, sizeY);
+	printXY(1 + (firstSection ? 0 : 32), 1, "HERE");
+	printXY(1 + (!firstSection ? 0 : 32), 1, "   ");
+}
+
+void clearText()
+{
+	clearTextRegion(0, 0, 32, 24);
+}
 
 void updateFrame()
 {
 	if (streamIsOpen())
 		mmStreamUpdate();
 	swiWaitForVBlank();
+}
+
+size_t maxStringLength(std::vector<std::string> lines)
+{
+	size_t maxLength = 0;
+	for (auto line : lines)
+		if (line.length() > maxLength)
+			maxLength = line.length();
+	return maxLength;
 }
 
 void sleepThread(unsigned int seconds)

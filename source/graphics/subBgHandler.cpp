@@ -7,6 +7,8 @@
 #define H_FLIP 1
 #define BOTH_FLIP 3
 
+#include "../general.h"
+
 uint16 *bgptr;
 double subBgCalcX = 0;
 double subBgCalcY = 0;
@@ -18,7 +20,11 @@ inline void setSubTileXY(int x, int y, uint16 tile, int palette, int flip)
 	tile |= palette << 12;
 	tile |= flip << 10;
 	//bgptr[(x%64) + (y%64)*64] = tile;
-	bgptr[x + y * 32] = tile;
+	//if (x < 32)
+	bgptr[x + y * 64] = tile;
+	/*else
+		bgptr[(x - 64) + y * 64 + 32 * 32] = tile;*/
+	//bgptr[x + y * 32] = tile;
 }
 
 void setSubBgTile(int x, int y, int tile)
@@ -53,11 +59,8 @@ void subBgInit()
 
 	//bgSetScroll(6, 0, -64);
 	vramSetBankC(VRAM_C_SUB_BG);
-	int bg = bgInitSub(2, BgType_ExRotation, BgSize_ER_256x256, 1, 6); //16bit BG
-	REG_BG0CNT_SUB |= BG_WRAP_ON;
-	REG_BG1CNT_SUB |= BG_WRAP_ON;
-	REG_BG2CNT_SUB |= BG_WRAP_ON;
-	REG_BG3CNT_SUB |= BG_WRAP_ON;
+	int bg = bgInitSub(2, BgType_ExRotation, BgSize_ER_512x512, 4, 6); //16bit BG
+	bgWrapOn(bg);
 	bgptr = bgGetMapPtr(bg);
 	vramSetBankH(VRAM_H_LCD);
 	dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
@@ -69,7 +72,6 @@ void moveSubBg(int dX, int dY)
 {
 	subBgX += dX;
 	subBgY += dY;
-	subBgX = 0;
 	if (subBgY + 192 > 256)
 		subBgY = 256 - 192;
 	else if (subBgY < 0)
@@ -82,15 +84,22 @@ void setSubBg(int x, int y)
 	subBgCalcY = subBgY = y;
 }
 
+int getScrollX()
+{
+	return int(subBgCalcX + 0.5) % 512;
+}
+
 int getScrollY()
 {
-	return subBgCalcY;
+	return int(subBgCalcY + 0.5);
 }
 
 void updateSubBG()
 {
 	subBgCalcX += (double(subBgX) - subBgCalcX)*0.08;
 	subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;
+	if (abs(subBgCalcX - double(subBgX)) < 0.4)
+		subBgCalcX = subBgX;
 	bgSetScroll(6, subBgCalcX, subBgCalcY);
 	bgSetScroll(getConsoleID(), subBgCalcX, subBgCalcY);
 	bgUpdate();
