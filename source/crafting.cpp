@@ -106,7 +106,7 @@ void craftingMenuInit()
 {
 	disableInvGraphics();
 	lcdMainOnTop();
-	consoleClear();
+	clearText();
 	drawBackground();
 	setMiningDisabled(true);
 	backButtonCraftScreen.setVisible(true);

@@ -275,7 +275,7 @@ void closeInventory()
 	saveButton.setVisible(false);
 	craftButton.setVisible(false);
 	pageButton.setVisible(false);
-	consoleClear();
+	clearText();
 	drawBackground();
 	drawInvButtons(false, isSurvival());
 	updateInvGraphics();
@@ -510,7 +510,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				showingInventory = 1;
 				setMiningDisabled(true);
 				drawBackground();
-				consoleClear();
+				clearText();
 				changeInvSelectedGraphic(AIR);
 				backButton.setVisible(true);
 				saveButton.setVisible(true);
