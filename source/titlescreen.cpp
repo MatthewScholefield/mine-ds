@@ -5,6 +5,7 @@
 #include "graphics/subBgHandler.h"
 #include "graphics/graphics.h"
 #include "graphics/Button.h"
+#include "graphics/Menu.h"
 #include "mainGame.h"
 #include "sounds.h"
 #include "inventory.h"
@@ -19,16 +20,21 @@
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 bool firstWorld = true;
+bool menuFirstSlot = true;
 
 void creditsScreen()
 {
-	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false);
+	startTransition(true);
+	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false, menuFirstSlot);
+	menuFirstSlot = !menuFirstSlot;
 }
 
 KEYPAD_BITS askForKeyScreen()
 {
-	consoleClear();
-	const short X = 10, Y = 8;
+	startTransition(true);
+	drawBackground(menuFirstSlot);
+	clearText(menuFirstSlot);
+	const short X = 10 + (menuFirstSlot ? 0 : 32), Y = 8;
 	printXY(X + 1, Y + 1, "Up");
 	printXY(X + 1, Y + 2, "Down");
 	printXY(X + 1, Y + 3, "Left");
@@ -42,6 +48,8 @@ KEYPAD_BITS askForKeyScreen()
 	printXY(X + 1, Y + 11, "Start");
 	printXY(X + 1, Y + 12, "Select");
 	KEYPAD_BITS key = KEY_LID;
+
+	menuFirstSlot = !menuFirstSlot;
 
 	switch (listMenu(X, Y, 12, 6))
 	{
@@ -129,12 +137,17 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 
 void texturePackScreen()
 {
-	consoleClear();
-	const short X = 5, Y = 9, MAX_NAME_LENGTH = 20;
+	startTransition(true);
+	clearText(menuFirstSlot);
+	const short MAX_NAME_LENGTH = 20;
 	DIR *textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
 	struct dirent *dirContents;
 	int numItems = 0;
-	printXY(X + 1, Y + 1, "Max Pack (Default)");
+	Menu menu(MENU_LIST);
+	menu.setListXY(5, 9);
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
+	menu.addListItem("Max Pack (Default)");
 	if (textureDir)
 	{
 		while ((dirContents = readdir(textureDir)) != NULL)
@@ -144,7 +157,7 @@ void texturePackScreen()
 				std::string s(dirContents->d_name);
 				s.erase(s.find_last_of("."), std::string::npos);
 				s.resize(MAX_NAME_LENGTH);
-				printXY(X + 1, Y + numItems, s.c_str());
+				menu.addListItem(s.c_str());
 			}
 			++numItems;
 		}
@@ -152,7 +165,7 @@ void texturePackScreen()
 	}
 	else
 		numItems = 2;
-	int fileNum = listMenu(X, Y, numItems - 1, MAX_NAME_LENGTH);
+	int fileNum = menu.activate();
 	switch (fileNum)
 	{
 		case 0:
@@ -178,41 +191,50 @@ void texturePackScreen()
 		bool loadError = !loadTexture(dirContents->d_name);
 		drawWorld();
 		if (loadError)
-			createDialog(std::string("Cannot load Texture! Loading the Default texture pack."), false);
+		{
+			createDialog(std::string("Cannot load Texture! Loading the Default texture pack."), false, menuFirstSlot);
+			menuFirstSlot = !menuFirstSlot;
+		}
 	}
 }
 
 void setControlsScreen()
 {
+	startTransition(true);
 	while (1)
 	{
-	consoleClear();
-	const short X = 8, Y = 9;
-	printXY(X + 1, Y + 1, "Move Left");
-	printXY(X + 1, Y + 2, "Move Right");
-	printXY(X + 1, Y + 3, "Jump");
-	printXY(X + 1, Y + 4, "Crouch");
-	printXY(X + 1, Y + 5, "Item Left");
-	printXY(X + 1, Y + 6, "Item Right");
-	printXY(X + 1, Y + 7, "Switch Screen");
-	printXY(X + 1, Y + 8, "Menu");
-	printXY(X + 1, Y + 9, "Climb");
-	printXY(X + 1, Y + 10, "Drop Item");
-	int tapped = getTappedAction(listMenu(X, Y, 10, 13));
-	if (tapped == -1)
+		drawBackground(menuFirstSlot);
+		clearText(menuFirstSlot);
+		Menu menu(MENU_LIST);
+		menu.setListXY(8, 9);
+		menu.addListItem("Move Left");
+		menu.addListItem("Move Right");
+		menu.addListItem("Jump");
+		menu.addListItem("Crouch");
+		menu.addListItem("Item Left");
+		menu.addListItem("Item Right");
+		menu.addListItem("Switch Screen");
+		menu.addListItem("Menu");
+		menu.addListItem("Climb");
+		menu.addListItem("Drop Item");
+		menu.setFrame(menuFirstSlot ? 0 : 32);
+		menuFirstSlot = !menuFirstSlot;
+		int tapped = getTappedAction(menu.activate());
+		if (tapped == -1)
 			break;
-	KEYPAD_BITS key = askForKeyScreen();
-	if (key != KEY_LID)
-		getGlobalSettings()->setKey(tapped, key);
+		KEYPAD_BITS key = askForKeyScreen();
+		if (key != KEY_LID)
+			getGlobalSettings()->setKey(tapped, key);
+		startTransition(false);
 	}
 }
 
 void viewControls()
 {
-	drawBackground();
-	consoleClear();
+	drawBackground(menuFirstSlot);
+	clearText(menuFirstSlot);
 	const short ITEMS = 10;
-	const short X = 4, Y = 7;
+	const short X = 4 + (menuFirstSlot ? 0 : 32), Y = 7;
 	const short MAX_LENGTH = 13 + 3 + 5;
 
 	drawBox(X, Y, MAX_LENGTH + 2, ITEMS + 2);
@@ -237,35 +259,44 @@ void viewControls()
 	printXY(X + 17, Y + 8, getKeyChar(getGlobalSettings()->getKey(ACTION_MENU)));
 	printXY(X + 17, Y + 9, getKeyChar(getGlobalSettings()->getKey(ACTION_CLIMB)));
 	printXY(X + 17, Y + 10, getKeyChar(getGlobalSettings()->getKey(ACTION_DROP)));
-	Button buttons[0];
-	menu(buttons, 0);
+	Menu menu;
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
+	startTransition(true);
+	menu.activate();
 }
 
 void controlsScreen()
 {
 	bool exit = false;
+	startTransition(true);
 
 	while (!exit)
 	{
-		consoleClear();
-		drawBackground();
+		clearText(menuFirstSlot);
+		drawBackground(menuFirstSlot);
 
-		Button view(10, 10, "View", 12);
-		Button edit(10, 16, "Edit", 12);
-		Button buttons[] = {edit, view};
+		Menu menu;
+		menu.addButton(10, 10, "View", 12);
+		menu.addButton(10, 16, "Edit", 12);
 
-		switch (menu(buttons, 2))
+		menu.setFrame(menuFirstSlot ? 0 : 32);
+		menuFirstSlot = !menuFirstSlot;
+
+		switch (menu.activate())
 		{
-			case 1: //Edit controls
-				setControlsScreen();
-				break;
-			case 2: //View controls
+			case 1: //View controls
 				viewControls();
+				break;
+			case 2: //Edit controls
+				setControlsScreen();
 				break;
 			default: //Back
 				exit = true;
 				break;
 		}
+		if (!exit)
+			startTransition(false);
 	}
 	saveControls(getGlobalSettings());
 }
@@ -273,89 +304,89 @@ void controlsScreen()
 void gameOptions()
 {
 	bool exit = false;
+	startTransition(true);
 
 	while (!exit)
 	{
-		consoleClear();
-		drawBackground();
+		clearText(menuFirstSlot);
+		drawBackground(menuFirstSlot);
 
-		Button herobrine(8, 7, "Herobrine", 14);
-		Button drawMode(8, 11, "Draw Mode", 14);
-		Button creativeSpeed(7, 15, "Creative Speed", 16);
-		Button smoothcamera(7, 19, "Smooth camera", 16);
-		Button buttons[] = {herobrine, drawMode, creativeSpeed, smoothcamera};
+		Menu menu;
+		menu.addButton(8, 7, "Herobrine", 14);
+		menu.addButton(8, 11, "Draw Mode", 14);
+		menu.addButton(7, 15, "Creative Speed", 16);
+		menu.addButton(7, 19, "Smooth camera", 16);
 
-		switch (menu(buttons, 4))
+		menu.setFrame(menuFirstSlot ? 0 : 32);
+		menuFirstSlot = !menuFirstSlot;
+
+		Menu boolMenu(MENU_BOOL);
+		boolMenu.setFrame(menuFirstSlot ? 0 : 32);
+		int result = menu.activate();
+		if (result >= 1 && result <= 4)
+		{
+			startTransition(true);
+			clearText(menuFirstSlot);
+			drawBackground(menuFirstSlot);
+			menuFirstSlot = !menuFirstSlot;
+		}
+
+		switch (result)
 		{
 			case 1: // herobrine
-				getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
+				getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
 				break;
 			case 2: // draw mode
-				getGlobalSettings()->setProperty(PROPERTY_DRAW, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
+				getGlobalSettings()->setProperty(PROPERTY_DRAW, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
 				break;
 			case 3: // creative speed
-				getGlobalSettings()->setProperty(PROPERTY_SPEED, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
+				getGlobalSettings()->setProperty(PROPERTY_SPEED, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
 				break;
 			case 4: // Smooth camera
-				getGlobalSettings()->setProperty(PROPERTY_SMOOTH, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_SMOOTH)));
+				getGlobalSettings()->setProperty(PROPERTY_SMOOTH, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_SMOOTH)));
 				break;
 			default: // back button
 				exit = true;
 				break;
 		}
-	}
-}
-
-void graphicsScreen()
-{
-	bool exit = false;
-	while (!exit)
-	{
-		consoleClear();
-		drawBackground();
-
-		Button texture(8, 8, "Texture Pack", 15);
-		Button gradient(8, 13, "Sky Gradient", 15);
-		Button dithering(8, 18, "Sky Dithering", 15, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
-		Button buttons[] = {texture, gradient, dithering};
-
-		switch (menu(buttons, 3, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT)))
-		{
-			case 1:
-				texturePackScreen();
-				break;
-			case 2:
-				getGlobalSettings()->setProperty(PROPERTY_GRADIENT, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_GRADIENT)));
-				setSkyDay();
-				break;
-			case 3:
-				getGlobalSettings()->setProperty(PROPERTY_DITHERING, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DITHERING)));
-				setSkyDay();
-				break;
-			default:
-				exit = true;
-				break;
-		}
+		if (!exit)
+			startTransition(false);
 	}
 }
 
 void settingsScreen()
 {
 	bool exit = false;
+	startTransition(true);
 
 	while (!exit)
 	{
-		consoleClear();
-		drawBackground();
+		clearText(menuFirstSlot);
+		drawBackground(menuFirstSlot);
 
-		Button controls(8, 8, "Controls", 15);
-		Button options(8, 13, "Game Options", 15);
-		Button texture(8, 18, "Texture Pack", 15);
-		Button gradient(8, 23, "Sky Gradient", 15);
-		Button dithering(8, 28, "Sky Dithering", 15, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
-		Button buttons[] = {controls, options, texture, gradient, dithering};
+		Menu menu(MENU_BUTTON, true, 24 + (getGlobalSettings()->getProperty(PROPERTY_GRADIENT) ? 8 : 4));
+		menu.addButton(8, 8, "Controls", 15);
+		menu.addButton(8, 13, "Game Options", 15);
+		menu.addButton(8, 18, "Texture Pack", 15);
+		menu.addButton(8, 23, "Sky Gradient", 15);
+		menu.addButton(8, 28, "Sky Dithering", 15, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
 
-		switch (menu(buttons, 5, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT) ? 64 : 30))
+		menu.setFrame(menuFirstSlot ? 0 : 32);
+		menuFirstSlot = !menuFirstSlot;
+
+		Menu boolMenu(MENU_BOOL);
+		int result = menu.activate();
+
+		if (result == 4 || result == 5)
+		{
+			boolMenu.setFrame(menuFirstSlot ? 0 : 32);
+			drawBackground(menuFirstSlot);
+			clearText(menuFirstSlot);
+			startTransition(true);
+			menuFirstSlot = !menuFirstSlot;
+		}
+
+		switch (result)
 		{
 			case 1: // controls
 				controlsScreen();
@@ -367,31 +398,37 @@ void settingsScreen()
 				texturePackScreen();
 				break;
 			case 4:
-				getGlobalSettings()->setProperty(PROPERTY_GRADIENT, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_GRADIENT)));
+				getGlobalSettings()->setProperty(PROPERTY_GRADIENT, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_GRADIENT)));
 				setSkyDay();
 				break;
 			case 5:
-				getGlobalSettings()->setProperty(PROPERTY_DITHERING, enableDisableMenu(getGlobalSettings()->getProperty(PROPERTY_DITHERING)));
+				getGlobalSettings()->setProperty(PROPERTY_DITHERING, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_DITHERING)));
 				setSkyDay();
 				break;
 			default: // back button
 				exit = true;
 				break;
 		}
+		if (!exit)
+			startTransition(false);
 	}
 }
 
 void gameModeScreen()
 {
-	drawBackground();
-	consoleClear();
+	startTransition(true);
+	drawBackground(menuFirstSlot);
+	clearText(menuFirstSlot);
 
-	Button creativeButton(9, 8, "Creative", 12);
-	Button survivalButton(9, 13, "Survival", 12);
-	Button loadButton(9, 18, "Load World", 12);
-	Button buttons[] = {creativeButton, survivalButton, loadButton};
+	Menu menu;
+	menu.addButton(9, 8, "Creative", 12);
+	menu.addButton(9, 13, "Survival", 12);
+	menu.addButton(9, 18, "Load World", 12);
 
-	switch (menu(buttons, 3))
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
+
+	switch (menu.activate())
 	{
 		case 1: // creative mode
 			// TODO: Add menu to set game seed
@@ -421,15 +458,19 @@ void gameModeScreen()
 
 void multiplayerScreen()
 {
-	consoleClear();
-	drawBackground();
+	clearText(menuFirstSlot);
+	drawBackground(menuFirstSlot);
 
-	Button create(9, 8, "Create Game", 13);
-	Button load(9, 13, "Load Game", 13);
-	Button join(9, 18, "Join Game", 13);
-	Button buttons[] = {create, load, join};
+	Menu menu;
+	menu.addButton(9, 8, "Create Game", 13);
+	menu.addButton(9, 13, "Load Game", 13);
+	menu.addButton(9, 18, "Join Game", 13);
 
-	switch (menu(buttons, 3))
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
+	startTransition(true);
+
+	switch (menu.activate())
 	{
 		case 1: // create game
 			startMultiplayerGame(true);
@@ -452,19 +493,22 @@ void titlescreen()
 	previewGame();
 	while (!poweroff)
 	{
+		drawBackground(menuFirstSlot);
+		clearText(menuFirstSlot);
 		lcdMainOnTop();
-		drawBackground();
-		consoleClear();
 		playMusic(MUSIC_CALM);
 		clearInventory(true);
 
-		Button singlePlayer(8, 8, "Single Player", 15);
-		Button settings(8, 13, "Settings", 15);
-		Button credits(8, 18, "Credits", 15);
-		Button power(29, 21, "\xFE"); // \xFE = Dot
-		Button buttons[] = {singlePlayer, settings, credits, power};
+		Menu menu(MENU_BUTTON, false);
+		menu.addButton(8, 8, "Single Player", 15);
+		menu.addButton(8, 13, "Settings", 15);
+		menu.addButton(8, 18, "Credits", 15);
+		menu.addButton(29, 21, "\xFE"); // \xFE = Dot
 
-		switch (menu(buttons, 4, false))
+		menu.setFrame(menuFirstSlot ? 0 : 32);
+		menuFirstSlot = !menuFirstSlot;
+
+		switch (menu.activate())
 		{
 			case 1: // single player
 				gameModeScreen();
@@ -479,5 +523,6 @@ void titlescreen()
 				poweroff = true;
 				break;
 		}
+		startTransition(false);
 	}
 }

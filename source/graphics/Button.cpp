@@ -32,16 +32,18 @@ void Button::setVisible(bool setVisible)
 bool Button::isTouching(int xVal, int yVal)
 {
 	yVal += getScrollY();
+	xVal = (xVal + getScrollX()) % 512;
 	return visible && (xVal > x * 8 && xVal < (x + length)*8 && yVal > y * 8 && yVal < (y + 3)*8);
 }
 
-void Button::printLabel()
+void Button::printLabel(int xOffset, int yOffset)
 {
-	printXY(printX, printY, label);
+	printXY(printX + xOffset, printY + yOffset, label);
 }
 
-void Button::draw()
+void Button::draw(int xOffset, int yOffset, bool printLabels)
 {
-	printLabel();
+	if (printLabels)
+		printLabel(xOffset, yOffset);
 	drawButton(x, y, length);
 }

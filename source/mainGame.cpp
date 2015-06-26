@@ -54,7 +54,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 static void redrawGameUI(void)
 {
 	lcdMainOnBottom();
-	consoleClear();
+	clearText();
 	drawBackground();
 	drawInvButtons(false, isSurvival());
 	updatePageName();
@@ -71,14 +71,14 @@ static int inGameMenu()
 	{
 		lcdMainOnTop();
 		drawBackground();
-		consoleClear();
+		clearText();
 
 		Button save = Button(10, 8, "Save Game", 11);
 		Button quit = Button(10, 13, "Quit Game", 11);
 		Button settings = Button(10, 18, "Settings", 11);
 		Button buttons[] = {save, quit, settings};
 
-		switch (menu(buttons, 3))
+		switch (createMenu(buttons, 3))
 		{
 			case 1: // save game
 				printXY(1, 22, "Saving game");
@@ -173,7 +173,7 @@ void joinGame(void)
 	//fillWorld(world, BEDROCK);
 	delete world;
 	world = new WorldObject();
-	consoleClear();
+	clearText();
 	drawBackground();
 	printXY(1, 10, "Looking for servers");
 	// TODO: Rename clientNifiInit() to something that makes more sense
@@ -200,7 +200,7 @@ void startGame(void)
 	int oldKeys = keysHeld();
 	touchPosition touch;
 
-	consoleClear();
+	clearText();
 	clear_messages();
 
 	redrawGameUI();
@@ -251,7 +251,7 @@ void startMultiplayerGame(bool host)
 	touchPosition touch;
 
 	nifiEnable();
-	consoleClear();
+	clearText();
 	clear_messages();
 
 	drawBackground();
@@ -268,7 +268,7 @@ void startMultiplayerGame(bool host)
 		generateWorld(world);
 		while (!hostNifiInit()) updateFrame();
 		communicationInit(world);
-		consoleClear();
+		clearText();
 		unsigned short buffer[100];
 		int server_id = getServerID();
 		sprintf((char *) buffer, "Server ID: %d\n", server_id);
