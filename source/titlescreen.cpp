@@ -242,18 +242,13 @@ void viewControls()
 	printXY(X + 1, Y + 1, "    Move Left---");
 	printXY(X + 1, Y + 2, "   Move Right---");
 	printXY(X + 1, Y + 3, "         Jump---");
-	
 	printXY(X + 1, Y + 4, "       Crouch---");
 	printXY(X + 1, Y + 5, "    Item Left---");
-
 	printXY(X + 1, Y + 6, "   Item Right---");
-	/**/
-	
 	printXY(X + 1, Y + 7, "Switch Screen---");
 	printXY(X + 1, Y + 8, "         Menu---");
 	printXY(X + 1, Y + 9, "        Climb---");
 	printXY(X + 1, Y + 10, "    Drop Item---");
-	
 
 	printXY(X + 17, Y + 1, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_LEFT)));
 	printXY(X + 17, Y + 2, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_RIGHT)));
