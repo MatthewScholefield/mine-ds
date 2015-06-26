@@ -10,6 +10,7 @@ void drawBoxCenter(int x, int y, int lx, int ly);
 void moveSubBg(int dX, int dY);
 void setSubBg(int x, int y);
 void updateSubBG();
+int getScrollX();
 int getScrollY();
 #define V_FLIP 2
 #define H_FLIP 1

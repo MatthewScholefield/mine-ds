@@ -82,7 +82,7 @@ void pageMenuInit()
 {
 	disableInvGraphics();
 	lcdMainOnTop();
-	consoleClear();
+	clearText();
 	drawBackground();
 	setMiningDisabled(true);
 	rightButtonPageScreen.setVisible(true);

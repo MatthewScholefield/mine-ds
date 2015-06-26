@@ -31,7 +31,7 @@ void deathScreenSetup()
 		oamClear(&oamSub, 0, 0);
 		oamUpdate(&oamSub);
 		disableInvGraphics();
-		consoleClear();
+		clearText();
 		lcdMainOnTop();
 		drawBackground();
 		printf("\x1b[8;11HYou Died!");
@@ -63,7 +63,7 @@ int deathScreenUpdate()
 		{
 			drawBackground();
 			mustPrintDeathScreen = true;
-			consoleClear();
+			clearText();
 			enableInvGraphics();
 			lcdMainOnBottom();
 			setMiningDisabled(false);
