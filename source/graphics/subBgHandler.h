@@ -12,6 +12,8 @@ void setSubBg(int x, int y);
 void updateSubBG();
 int getScrollX();
 int getScrollY();
+
+int getSubBgID();
 #define V_FLIP 2
 #define H_FLIP 1
 #define BOTH_FLIP 3

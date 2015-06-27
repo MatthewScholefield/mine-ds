@@ -60,6 +60,7 @@ void Menu::addListItem(const char* label)
 
 int Menu::activate(bool initial)
 {
+	swiWaitForVBlank();
 	draw(true);
 	switch (type)
 	{

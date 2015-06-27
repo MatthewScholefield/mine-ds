@@ -1,5 +1,6 @@
 #include "blockID.h"
 #include <stdio.h>
+#include <nds.h>
 
 
 const char *getName(int blockID)
