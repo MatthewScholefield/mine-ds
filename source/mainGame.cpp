@@ -119,6 +119,8 @@ void quitGame()
 
 void newGame(gamemode_t mode, int seed)
 {
+	setSubBg(0, 0);
+	updateSubBG();
 	if (world && world->gamemode == GAMEMODE_PREVIEW)
 		seed = world->seed;
 	delete world;
