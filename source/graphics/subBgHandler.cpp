@@ -9,6 +9,7 @@
 
 #include "../general.h"
 
+int subBgID = 6;
 uint16 *bgptr;
 double subBgCalcX = 0;
 double subBgCalcY = 0;
@@ -59,13 +60,18 @@ void subBgInit()
 
 	//bgSetScroll(6, 0, -64);
 	vramSetBankC(VRAM_C_SUB_BG);
-	int bg = bgInitSub(2, BgType_ExRotation, BgSize_ER_512x512, 4, 6); //16bit BG
-	bgWrapOn(bg);
-	bgptr = bgGetMapPtr(bg);
+	subBgID = bgInitSub(2, BgType_ExRotation, BgSize_ER_512x512, 4, 6); //16bit BG
+	bgWrapOn(subBgID);
+	bgptr = bgGetMapPtr(subBgID);
 	vramSetBankH(VRAM_H_LCD);
 	dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
 	dmaCopy(&fontTiles, (uint16*) 0x0620400, fontTilesLen);
+}
+
+int getSubBgID()
+{
+	return subBgID;
 }
 
 void moveSubBg(int dX, int dY)
@@ -98,8 +104,8 @@ void updateSubBG()
 {
 	subBgCalcX += (double(subBgX) - subBgCalcX)*0.08;
 	subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;
-	if (abs(subBgCalcX - double(subBgX)) < 0.4)
-		subBgCalcX = subBgX;
+	/*if (abs(subBgCalcX - double(subBgX)) < 0.4)
+		subBgCalcX = subBgX;*/
 	bgSetScroll(6, subBgCalcX, subBgCalcY);
 	bgSetScroll(getConsoleID(), subBgCalcX, subBgCalcY);
 	bgUpdate();
