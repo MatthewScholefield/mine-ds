@@ -234,20 +234,26 @@ void viewControls()
 	drawBackground(menuFirstSlot);
 	clearText(menuFirstSlot);
 	const short ITEMS = 10;
-	const short X = 4 + (menuFirstSlot ? 0 : 32), Y = 7;
+	short X = 4 + (menuFirstSlot ? 0 : 32), Y = 7;
 	const short MAX_LENGTH = 13 + 3 + 5;
 
 	drawBox(X, Y, MAX_LENGTH + 2, ITEMS + 2);
+	
 	printXY(X + 1, Y + 1, "    Move Left---");
 	printXY(X + 1, Y + 2, "   Move Right---");
 	printXY(X + 1, Y + 3, "         Jump---");
+	
 	printXY(X + 1, Y + 4, "       Crouch---");
 	printXY(X + 1, Y + 5, "    Item Left---");
+
 	printXY(X + 1, Y + 6, "   Item Right---");
+	/**/
+	
 	printXY(X + 1, Y + 7, "Switch Screen---");
 	printXY(X + 1, Y + 8, "         Menu---");
 	printXY(X + 1, Y + 9, "        Climb---");
 	printXY(X + 1, Y + 10, "    Drop Item---");
+	
 
 	printXY(X + 17, Y + 1, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_LEFT)));
 	printXY(X + 17, Y + 2, getKeyChar(getGlobalSettings()->getKey(ACTION_MOVE_RIGHT)));
@@ -259,6 +265,7 @@ void viewControls()
 	printXY(X + 17, Y + 8, getKeyChar(getGlobalSettings()->getKey(ACTION_MENU)));
 	printXY(X + 17, Y + 9, getKeyChar(getGlobalSettings()->getKey(ACTION_CLIMB)));
 	printXY(X + 17, Y + 10, getKeyChar(getGlobalSettings()->getKey(ACTION_DROP)));
+	
 	Menu menu;
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
