@@ -63,7 +63,7 @@ int graphicNextSub()
 
 void gradientHandler()
 {
-	setBackdropColor(backdropColor[REG_VCOUNT]);
+	setBackdropColor(backdropColor[REG_VCOUNT + 1]);
 }
 
 void setSkyColor(double red1, double green1, double blue1, double red2, double green2, double blue2)
