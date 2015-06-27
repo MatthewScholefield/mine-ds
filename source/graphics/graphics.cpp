@@ -14,6 +14,7 @@
 #include "../files.h"
 #include "../fontHandler.h"
 #include "../daynight.h"
+#include "subBgHandler.h"
 
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
@@ -220,7 +221,7 @@ void updateTexture()
 	vramSetBankH(VRAM_H_LCD);
 	dmaCopy(subBgPal.data(), VRAM_H_EXT_PALETTE[2][0], PAL_LEN);
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
-	dmaCopy(subBgTiles.data(), bgGetGfxPtr(6), sub_bgTilesLen);
+	dmaCopy(subBgTiles.data(), bgGetGfxPtr(getSubBgID()), sub_bgTilesLen);
 	refreshFont();
 }
 

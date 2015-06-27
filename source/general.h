@@ -26,11 +26,13 @@ void clearText(bool firstSection, int sizeY = 64);
 void clearText();
 
 inline void printXY(int x, int y, const char *output) {
-	iprintf("\x1b[%d;%dH%s", y, x, output);
+	//if (y > 31 || x > 31) return;
+	printf("\x1b[%d;%dH%s", y, x, output);
 }
 
 inline void printXY(int x, int y, int output) {
-	iprintf("\x1b[%d;%dH%d", y, x, output);
+	//if (y > 31 || x > 31) return;
+	printf("\x1b[%d;%dH%d", y, x, output);
 }
 
 template<typename T> inline const T abs(T const & x) {
