@@ -8,3 +8,4 @@ typedef struct
 
 int parseWave(FILE* f,waveInfo* w);
 s16 getADCM(FILE* f,waveInfo* w);
+void ADCMReset();

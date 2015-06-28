@@ -67,7 +67,7 @@ void playStreamSong()
   int ret =  parseWave(file,&w);
   if (ret)
     return;
-  
+  ADCMReset();
 	mm_stream musicStream;
 	musicStream.buffer_length = 1024;
 	musicStream.callback = stream;
