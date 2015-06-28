@@ -71,9 +71,10 @@ static int inGameMenu()
 	{
 		lcdMainOnTop();
 		drawBackground();
+		setCurMenuSlot(false);
 		clearText();
 
-		Menu menu(MENU_BUTTON, false);
+		Menu menu;
 
 		menu.addButton(10, 8, "Save Game", 11);
 		menu.addButton(10, 13, "Quit Game", 11);
@@ -93,6 +94,7 @@ static int inGameMenu()
 				return -1;
 			case 3: // settings
 				settingsScreen();
+				startTransition(false);
 				break;
 			default: // back button
 				backbutton = true;
