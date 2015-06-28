@@ -77,6 +77,8 @@ void playStreamSong()
 	musicStream.sampling_rate = w.sampleRate;
 	musicStream.format = MM_STREAM_16BIT_MONO;
 	mmStreamOpen(&musicStream);
+  mmStreamUpdate();
+	mmStreamUpdate();
 	streamOpen = true;
 }
 
@@ -181,6 +183,7 @@ void playMusic(Music song)
 	if (song != loadedMusic)
 	{
 		stopMusic();
+    if (file!=NULL) fclose(file);
 		bool canStream = (file = fopen("nitro:/soundtrack.wav", "rb")) != NULL;
 		if (!canStream)
 		{
