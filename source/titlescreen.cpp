@@ -514,6 +514,8 @@ void titlescreen()
 		{
 			case 1: // single player
 				gameModeScreen();
+				menuFirstSlot = false;
+				setSubBg(512, 0);
 				break;
 			case 2: // settings
 				settingsScreen();
