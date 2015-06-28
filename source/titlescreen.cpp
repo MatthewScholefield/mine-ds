@@ -22,6 +22,11 @@
 bool firstWorld = true;
 bool menuFirstSlot = true;
 
+void setCurMenuSlot(bool first)
+{
+	menuFirstSlot = first;
+}
+
 void creditsScreen()
 {
 	startTransition(true);
