@@ -29,7 +29,6 @@
 #include "blockPages.h"
 #include <time.h>
 #include "blocks.h"
-#include "sounds.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
