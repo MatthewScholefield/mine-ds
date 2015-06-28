@@ -40,6 +40,15 @@ int predictor = 0;
 int step_index = 0;
 int step = 0;
 int reset = 0;
+void ADCMReset()
+{
+  predictor = 0;
+  step_index = 0;
+  step = 0;
+  reset = 0;
+  get = true;
+  n = 0;
+}
 s16 getADCM(FILE* f,waveInfo* w)
 {
   int nibble = 0;
