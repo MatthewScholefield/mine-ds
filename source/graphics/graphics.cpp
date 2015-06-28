@@ -63,7 +63,9 @@ int graphicNextSub()
 
 void gradientHandler()
 {
-	setBackdropColor(backdropColor[REG_VCOUNT + 1]);
+	setBackdropColor(backdropColor[REG_VCOUNT]);
+	if (backdropColor[REG_VCOUNT] == RGB15(0, 0, 0))
+		printXY(1, 1, "AHHH");
 }
 
 void setSkyColor(double red1, double green1, double blue1, double red2, double green2, double blue2)
@@ -94,6 +96,8 @@ void setSkyColor(double red1, double green1, double blue1, double red2, double g
 	else
 		for (u16 i = 0; i < 192; ++i)
 			backdropColor[i] = RGB15(int((red1 + red2) / 2.0 + 0.5), int((green1 + green2) / 2.0 + 0.5), int((blue1 + blue2) / 2.0 + 0.5));
+	for (u16 i = 0; i < 192; ++i)
+		backdropColor[i] = RGB15(30, 23, 5);
 }
 
 /**
