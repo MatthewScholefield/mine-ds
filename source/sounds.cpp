@@ -10,7 +10,7 @@
 #include <map>
 
 #include "general.h"
-
+#include "audio/audio.h"
 #define LENGTH(X)	(sizeof(X) / sizeof(X[0]))
 
 int soundsPos = 0;
@@ -20,6 +20,7 @@ bool streamOpen = false;
 std::map< std::pair< SoundAudio, SoundType >, std::pair< int, int > > sfxs;
 
 FILE *file;
+waveInfo w;
 
 void stopStream()
 {
@@ -42,34 +43,20 @@ bool songIsPlaying()
 
 mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 {
-	if (file)
-	{
-		size_t samplesize = 1;
-		switch (format)
-		{
-			case MM_STREAM_8BIT_MONO: samplesize = 1;
-				break;
-			case MM_STREAM_8BIT_STEREO: samplesize = 2;
-				break;
-			case MM_STREAM_16BIT_MONO: samplesize = 2;
-				break;
-			case MM_STREAM_16BIT_STEREO: samplesize = 4;
-				break;
-		}
-
-		int res = fread(dest, samplesize, length, file);
-		if (res)
-		{
-			length = res;
-		}
-		else
-		{
+  s16* d = (s16*)dest;	
+  int req = 0;
+  while (req < length)
+  {
+    if (feof(file))
+    {
 			mmStreamClose();
 			fclose(file);
-			length = 0;
-			streamOpen = false;
-		}
-	}
+      streamOpen = false;
+      return req; 
+    }
+    *d++ = (s16)getADCM(file,&w);
+    req++;
+  }
 	return length;
 }
 
@@ -77,17 +64,19 @@ void playStreamSong()
 {
 	if (streamOpen)
 		return;
+  int ret =  parseWave(file,&w);
+  if (ret)
+    return;
+  
 	mm_stream musicStream;
 	musicStream.buffer_length = 1024;
 	musicStream.callback = stream;
 	musicStream.timer = MM_TIMER1;
-	musicStream.manual = true;
+	musicStream.manual = false;
 
-	musicStream.sampling_rate = 22050;
-	musicStream.format = MM_STREAM_16BIT_STEREO;
+	musicStream.sampling_rate = w.sampleRate;
+	musicStream.format = MM_STREAM_16BIT_MONO;
 	mmStreamOpen(&musicStream);
-	mmStreamUpdate();
-	mmStreamUpdate();
 	streamOpen = true;
 }
 
@@ -192,14 +181,15 @@ void playMusic(Music song)
 	if (song != loadedMusic)
 	{
 		stopMusic();
-		bool canStream = (file = fopen("MineCraft Remix - Calm 3 Chillstep.raw", "rb")) != NULL;
+		bool canStream = (file = fopen("nitro:/soundtrack.wav", "rb")) != NULL;
 		if (!canStream)
 		{
 			mmLoad(song);
 			mmStart(song, MM_PLAY_LOOP); //Prevents music restarting
 		}
-		else
+		else{
 			playStreamSong();
+    }
 		loadedMusic = song;
 	}
 }
