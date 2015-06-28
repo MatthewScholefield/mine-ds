@@ -14,7 +14,7 @@ void Menu::draw(bool labels)
 		case MENU_BUTTON:
 			for (std::vector<Button>::size_type i = 0; i != buttons.size(); ++i)
 				if (buttons[i].visible)
-					buttons[i].draw(frameX, frameY, labels);
+					buttons[i].draw(labels);
 			break;
 		case MENU_LIST:
 			if (labels)
@@ -37,7 +37,9 @@ void Menu::setFrame(int x, int y)
 	for (uint i = 0; i < buttons.size(); ++i)
 	{
 		buttons[i].x += x - frameX;
+		buttons[i].printX += x - frameX;
 		buttons[i].y += y - frameY;
+		buttons[i].printY += y - frameY;
 	}
 	frameX = x;
 	frameY = y;
