@@ -2,6 +2,7 @@
 #include "UI.h"
 #include "subBgHandler.h"
 #include "Button.h"
+#include "Menu.h"
 #include <string>
 #include <sstream>
 
@@ -264,10 +265,12 @@ bool createDialog(std::string message, bool cancel, bool firstHalf)
 	const int X = 4 + (firstHalf ? 0 : 32), Y = 11 - HEIGHT / 2;
 	drawBox(X, Y, WIDTH, HEIGHT);
 	printStringCenter(X + 1, Y + 1, WIDTH - 2, message);
-	Button okay(X + (cancel ? WIDTH / 2 - 2 : 1), Y + HEIGHT + 1, "OK", cancel ? 4 : WIDTH - 2);
-	Button cancelButton(X + WIDTH - 9, Y + HEIGHT + 1, "Cancel", cancel);
-	Button buttons[] = {okay, cancelButton};
-	if (createMenu(buttons, cancel ? 2 : 1, false) == 1)
+	Menu menu(MENU_BUTTON, false);
+	
+	menu.addButton(4 + (cancel ? WIDTH / 2 - 2 : 1), Y + HEIGHT + 1, "OK", cancel ? 4 : WIDTH - 2);
+	menu.addButton(4 + WIDTH - 9, Y + HEIGHT + 1, "Cancel", cancel);
+	menu.setFrame(firstHalf ? 0 : 32);
+	if (menu.activate() == 1)
 		return true;
 	return false;
 }

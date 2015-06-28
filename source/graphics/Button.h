@@ -15,8 +15,8 @@ public:
 	bool isTouching(int xVal, int yVal);
 	void setVisible(bool);
 	void setColored(bool);
-	void printLabel(int xOffset = 0, int yOffset = 0);
-	void draw(int xOffset = 0, int yOffset = 0, bool printLabel = true);
+	void printLabel();
+	void draw(bool printLabel = true);
 
 	Button(int setX, int setY, const char * const setLabel, int setLength = -1, bool isVisible = true) :
 	x(setX), y(setY), label(setLabel), length(setLength > 0 ? setLength : strlen(setLabel) + 2),
