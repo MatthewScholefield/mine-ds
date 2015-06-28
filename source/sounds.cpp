@@ -72,7 +72,7 @@ void playStreamSong()
 	musicStream.buffer_length = 1024;
 	musicStream.callback = stream;
 	musicStream.timer = MM_TIMER1;
-	musicStream.manual = false;
+	musicStream.manual = true;
 
 	musicStream.sampling_rate = w.sampleRate;
 	musicStream.format = MM_STREAM_16BIT_MONO;
