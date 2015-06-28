@@ -15,8 +15,9 @@
 #include "biomes.h"
 #include "worldRender.h"
 #include "files.h"
+#include "sounds.h"
 #include <string>
-#include <tr1/regex>
+//#include <tr1/regex>
 void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2);
 
 void fillWorld(WorldObject* world, int blockType)
@@ -137,6 +138,9 @@ void generateSmallWorld(WorldObject* world)//Generates one biome
 
 void generateWorld(WorldObject* world)
 {
+  //Generating a world is intensive on the cpu.
+  //If you don't stop the music, the whole sound engine will become stuffed up.
+  stopMusic();
 	if (world->gamemode == GAMEMODE_PREVIEW)
 		generateSmallWorld(world);
 	else
