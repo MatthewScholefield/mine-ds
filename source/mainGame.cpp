@@ -29,6 +29,7 @@
 #include "blockPages.h"
 #include <time.h>
 #include "blocks.h"
+#include "graphics/Menu.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
@@ -72,12 +73,13 @@ static int inGameMenu()
 		drawBackground();
 		clearText();
 
-		Button save = Button(10, 8, "Save Game", 11);
-		Button quit = Button(10, 13, "Quit Game", 11);
-		Button settings = Button(10, 18, "Settings", 11);
-		Button buttons[] = {save, quit, settings};
+		Menu menu(MENU_BUTTON, false);
 
-		switch (createMenu(buttons, 3))
+		menu.addButton(10, 8, "Save Game", 11);
+		menu.addButton(10, 13, "Quit Game", 11);
+		menu.addButton(10, 18, "Settings", 11);
+
+		switch (menu.activate())
 		{
 			case 1: // save game
 				printXY(1, 22, "Saving game");
