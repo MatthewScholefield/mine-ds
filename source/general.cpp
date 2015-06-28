@@ -28,7 +28,7 @@ void clearText()
 
 void updateFrame()
 {
-	if (streamIsOpen())
+  if (streamIsOpen())
 		mmStreamUpdate();
 	swiWaitForVBlank();
 }
