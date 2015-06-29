@@ -212,7 +212,7 @@ bool loadTexture(const char *fileName)
 {
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
-	FILE *texFile = NULL; // = fopen(temp.c_str(), "rb");
+	FILE *texFile = fopen(temp.c_str(), "rb");
 	if (!texFile)
 	{
 		loadDefaultTexture();
@@ -230,6 +230,12 @@ bool loadTexture(const char *fileName)
 		delete[] blockPalMem;
 		blockTilesMem = NULL;
 		blockPalMem = NULL;
+	}
+	else
+	{
+		loadDefaultTexture();
+		updateTexture();
+		return false;
 	}
 
 	unsigned int *mobTilesMem = new unsigned int[TILES_ARRAY_LEN];
