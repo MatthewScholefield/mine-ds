@@ -4,6 +4,7 @@ typedef struct
 {
   int sampleRate;
   int blockAlign;
+  int dataSize;
 }waveInfo;
 
 int parseWave(FILE* f,waveInfo* w);
