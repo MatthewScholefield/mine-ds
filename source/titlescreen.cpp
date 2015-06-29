@@ -30,7 +30,7 @@ void setCurMenuSlot(bool first)
 void creditsScreen()
 {
 	startTransition(true);
-	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false, menuFirstSlot, false);
+	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd\nand dj-Jo's\nCalm3 Dubstep Remix"), false, menuFirstSlot, false);
 	menuFirstSlot = !menuFirstSlot;
 }
 
@@ -142,7 +142,6 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 
 void texturePackScreen()
 {
-
 	startTransition(true);
 	while (true)
 	{
@@ -478,6 +477,8 @@ void gameModeScreen()
 			return;
 	}
 	startGame();
+	menuFirstSlot = false;
+	setSubBg(512, 0);
 	firstWorld = false;
 }
 
@@ -514,21 +515,20 @@ void multiplayerScreen()
 void titlescreen()
 {
 	bool poweroff = false;
-
 	previewGame();
+	playMusic(MUSIC_CALM);
 	while (!poweroff)
 	{
 		drawBackground(menuFirstSlot);
 		clearText(menuFirstSlot);
 		lcdMainOnTop();
-		playMusic(MUSIC_CALM);
 		clearInventory(true);
 
 		Menu menu(MENU_BUTTON, false);
 		menu.addButton(8, 8, "Single Player", 15);
 		menu.addButton(8, 13, "Settings", 15);
 		menu.addButton(8, 18, "Credits", 15);
-		menu.addButton(29, 21, "\xFE"); // \xFE = Dot
+		menu.addButton(1, 20, "\xFE"); // \xFE = Dot
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);
 		menuFirstSlot = !menuFirstSlot;
@@ -537,8 +537,6 @@ void titlescreen()
 		{
 			case 1: // single player
 				gameModeScreen();
-				menuFirstSlot = false;
-				setSubBg(512, 0);
 				break;
 			case 2: // settings
 				settingsScreen();
