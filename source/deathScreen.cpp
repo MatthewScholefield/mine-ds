@@ -73,7 +73,6 @@ int deathScreenUpdate()
 		}
 		else if (deathToTitleScreenButton->isTouching(touch->px, touch->py) && deathToTitleScreenButton->isColored)
 		{
-			drawBackground();
 			mustPrintDeathScreen = true;
 			setMiningDisabled(false);
 			died = true;
