@@ -11,26 +11,23 @@ void startTransition(bool forward)
 	moveSubBg(forward ? 256 : -256, 0);
 }
 
-static void drawBackOffset(int offX, int offY)
+static void drawBackOffset(int offX, int offY,bool mineDS = true)
 {
 	int i, j; //They are famous variables :P
-	for (i = 7; i < 32; ++i) //Draws dirt Background
+	for (i = 0; i < 32; ++i) //Draws dirt Background
 		for (j = 0; j < 32; ++j)
 			setSubBgTile(j + offX, i + offY, ((i % 2) ? 90 : 122) + j % 2);
-	for (i = 0; i < 26; ++i)
-		for (j = 0; j < 7; ++j)
-			setSubBgTile(i + offX + 3, j + offY, i + (j * 32)); //Draw the MineDS Logo!
-	for (i = 0; i < 7; ++i)
-		for (j = 0; j < 3; ++j)
-			setSubBgTile(j + offX, i + offY, ((i % 2) ? 90 : 122) + j % 2);
-	for (i = 0; i < 7; ++i)
-		for (j = 29; j < 32; ++j)
-			setSubBgTile(j + offX, i + offY, ((i % 2) ? 90 : 122) + j % 2);
+  if (mineDS)
+  {
+	  for (i = 0; i < 26; ++i)
+		  for (j = 0; j < 7; ++j)
+		  	setSubBgTile(i + offX + 3, j + offY, i + (j * 32)); //Draw the MineDS Logo!
+  }
 }
 
-void drawBackground(bool firstSlot) //Draws dirt background and MineDS Logo
+void drawBackground(bool firstSlot,bool mineDS) //Draws dirt background and MineDS Logo
 {
-	drawBackOffset(firstSlot ? 0 : 32, 0);
+	drawBackOffset(firstSlot ? 0 : 32, 0,mineDS);
 }
 
 int createMenu(Button buttons[], int size, bool showBack, int scrollLength)
@@ -256,10 +253,10 @@ void printStringCenter(int x, int y, int width, std::string message)
 	}
 }
 
-bool createDialog(std::string message, bool cancel, bool firstHalf)
+bool createDialog(std::string message, bool cancel, bool firstHalf,bool mineDS)
 {
 	clearText(firstHalf);
-	drawBackground(firstHalf);
+	drawBackground(firstHalf,mineDS);
 	const int WIDTH = 24;
 	const int HEIGHT = wordWrap(message, WIDTH - 2) + 2;
 	const int X = 4 + (firstHalf ? 0 : 32), Y = 11 - HEIGHT / 2;
