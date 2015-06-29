@@ -99,6 +99,7 @@ static int inGameMenu()
 			default: // back button
 				exit = true;
 				setSubBg(0, 0);
+				updateSubBG();
 				break;
 		}
 	}
