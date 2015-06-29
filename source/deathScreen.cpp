@@ -35,17 +35,17 @@ void deathScreenSetup()
 		lcdMainOnTop();
 		drawBackground();
 		printf("\x1b[8;11HYou Died!");
-		drawButton(8, 10, 14);
-		drawButton(8, 15, 14);
-		//printXY(12, 11, "Respawn");
-		//printXY(10, 16, "TitleScreen");
-		//stopMusic();
 		mustPrintDeathScreen = false;
 		oldKeys = keysHeld();
 		setMiningDisabled(true);
+		delete respawnButton;
+		delete deathToTitleScreenButton;
+		delete touch;
 		respawnButton = new Button(8, 10, "Respawn", 14);
 		deathToTitleScreenButton = new Button(8, 15, "TitleScreen", 14);
 		touch = new touchPosition;
+		respawnButton->draw();
+		deathToTitleScreenButton->draw();
 	}
 }
 
