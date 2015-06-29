@@ -67,8 +67,8 @@ int Menu::activate(bool initial)
 	switch (type)
 	{
 		case MENU_BOOL:
-			buttons[2].isColored = initial;
-			buttons[3].isColored = !initial;
+			buttons[2].setColored(initial);
+			buttons[3].setColored(!initial);
 		case MENU_BUTTON:
 		{
 			touchPosition touch;
@@ -89,9 +89,13 @@ int Menu::activate(bool initial)
 							buttons[i].setColored(true);
 					if (type == MENU_BOOL)
 					{
-						for (int i = 2; i < 4; ++i)
-							buttons[i].setColored(buttons[i].isTouching(touch.px, touch.py));
-						selected = buttons[3].isColored;
+
+						if (buttons[2].isTouching(touch.px, touch.py))
+							buttons[2].setColored(true);
+						else if (buttons[3].isTouching(touch.px, touch.py))
+							buttons[2].setColored(false);
+						buttons[3].setColored(!buttons[2].isColored);
+						selected = buttons[2].isColored;
 					}
 				}
 				else if (keysHeld() & KEY_TOUCH)
@@ -139,7 +143,10 @@ int Menu::activate(bool initial)
 				}
 			}
 			moveSubBg(0, -64);
-			return selected;
+			if (type == MENU_BOOL)
+				return buttons[2].isColored;
+			else
+				return selected;
 		}
 		case MENU_LIST:
 		{
