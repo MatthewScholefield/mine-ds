@@ -209,7 +209,7 @@ void startGame(void)
 	clear_messages();
 
 	redrawGameUI();
-	playMusic(MUSIC_HAL2);
+	playMusic(MUSIC_CALM);
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 	enableInvGraphics();
@@ -220,7 +220,6 @@ void startGame(void)
 
 	while (!shouldQuitGame)
 	{
-		playMusic(MUSIC_HAL2);
 		updateTime();
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH)
