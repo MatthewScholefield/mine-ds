@@ -144,6 +144,7 @@ void texturePackScreen()
 {
 	startTransition(true);
 	clearText(menuFirstSlot);
+	drawBackground(menuFirstSlot);
 	const short MAX_NAME_LENGTH = 20;
 	DIR *textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
 	struct dirent *dirContents;
@@ -199,6 +200,11 @@ void texturePackScreen()
 		{
 			createDialog(std::string("Cannot load Texture! Loading the Default texture pack."), false, menuFirstSlot);
 			menuFirstSlot = !menuFirstSlot;
+		}
+		else
+		{
+			drawBackground(!menuFirstSlot);
+			menu.draw();
 		}
 	}
 }
