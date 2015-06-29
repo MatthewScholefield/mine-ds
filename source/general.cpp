@@ -17,8 +17,6 @@ int triggerTime = 1;
 void clearText(bool firstSection, int sizeY)
 {
 	clearTextRegion(firstSection ? 0 : 32, 0, 32, sizeY);
-	printXY(1 + (firstSection ? 0 : 32), 1, "HERE");
-	printXY(1 + (!firstSection ? 0 : 32), 1, "   ");
 }
 
 void clearText()
