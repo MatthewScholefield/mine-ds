@@ -61,8 +61,6 @@ s16 getADCM(FILE* f,waveInfo* w)
     step_index = fgetc(f);
     step = 0;     
     fgetc(f);
-    putchar(predictor&0xff);
-    putchar((predictor&0xFF00)>>8);
     reset-=8;
   }
   else 
