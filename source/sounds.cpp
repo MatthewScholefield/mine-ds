@@ -55,11 +55,9 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
   int req = 0;
   while (req < length)
   {
-    if (feof(file))
-    {
-      streamOpen = false;
-      reqStreamClose = true;
-      return req;
+    if (w.dataSize < w.blockAlign){
+     stopStream();
+     return length;
     }
     *d++ = (s16)getADCM(file,&w);
     req++;
