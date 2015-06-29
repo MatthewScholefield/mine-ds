@@ -30,7 +30,7 @@ void setCurMenuSlot(bool first)
 void creditsScreen()
 {
 	startTransition(true);
-	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false, menuFirstSlot,false);
+	createDialog(std::string("--- Programming ---\nCoolAs, Ray, Dirbaio, and Wolfgange\n\n--- Texture Packs ---\nMaxPack by Maxim\nAnd\nScary Sauce Pack\nby cool_story_bro\n\n--- Audio/Sounds ---\nSnowSong Pack\nby Alecia Shepherd"), false, menuFirstSlot, false);
 	menuFirstSlot = !menuFirstSlot;
 }
 
@@ -142,69 +142,81 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 
 void texturePackScreen()
 {
+
 	startTransition(true);
-	clearText(menuFirstSlot);
-	drawBackground(menuFirstSlot);
-	const short MAX_NAME_LENGTH = 20;
-	DIR *textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
-	struct dirent *dirContents;
-	int numItems = 0;
-	Menu menu(MENU_LIST);
-	menu.setListXY(5, 9);
-	menu.setFrame(menuFirstSlot ? 0 : 32);
-	menuFirstSlot = !menuFirstSlot;
-	menu.addListItem("Max Pack (Default)");
-	if (textureDir)
+	while (true)
 	{
-		while ((dirContents = readdir(textureDir)) != NULL)
+		clearText(menuFirstSlot);
+		drawBackground(menuFirstSlot);
+		const short MAX_NAME_LENGTH = 20;
+		DIR *textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
+		struct dirent *dirContents;
+		int numItems = 0;
+		Menu menu(MENU_LIST);
+		menu.setListXY(5, 9);
+		menu.setFrame(menuFirstSlot ? 0 : 32);
+		menuFirstSlot = !menuFirstSlot;
+		menu.addListItem("Max Pack (Default)");
+		if (textureDir)
 		{
-			if (numItems > 1) //Removes the /. and /..
+			while ((dirContents = readdir(textureDir)) != NULL)
 			{
-				std::string s(dirContents->d_name);
-				s.erase(s.find_last_of("."), std::string::npos);
-				s.resize(MAX_NAME_LENGTH);
-				menu.addListItem(s.c_str());
+				if (numItems > 1) //Removes the /. and /..
+				{
+					std::string s(dirContents->d_name);
+					if (s.find_last_of(".") != std::string::npos)
+						s.erase(s.find_last_of("."), std::string::npos);
+					s.resize(MAX_NAME_LENGTH);
+					menu.addListItem(s.c_str());
+				}
+				++numItems;
 			}
-			++numItems;
-		}
-		closedir(textureDir);
-	}
-	else
-		numItems = 2;
-	int fileNum = menu.activate();
-	switch (fileNum)
-	{
-		case 0:
-			return;
-		case 1:
-			loadDefaultTexture();
-			updateTexture();
-			drawWorld();
-			return;
-		default:
-			break;
-	}
-	++fileNum; //To remove the /..
-	textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
-	numItems = 1;
-	if (textureDir)
-	{
-		while (fileNum > numItems && readdir(textureDir) != NULL)
-			++numItems;
-		dirContents = readdir(textureDir);
-		closedir(textureDir);
-		getGlobalSettings()->textureName = dirContents->d_name;
-		bool loadError = !loadTexture(dirContents->d_name);
-		drawWorld();
-		if (loadError)
-		{
-			createDialog(std::string("Cannot load Texture! Loading the Default texture pack."), false, menuFirstSlot);
-			menuFirstSlot = !menuFirstSlot;
+			closedir(textureDir);
 		}
 		else
+			numItems = 2;
+		int fileNum = menu.activate();
+		switch (fileNum)
 		{
-			drawBackground(!menuFirstSlot);
-			menu.draw();
+			case 0:
+				return;
+			case 1: //Default texture
+				loadDefaultTexture();
+				updateTexture();
+				drawWorld();
+				drawBackground(!menuFirstSlot);
+				menu.draw();
+				return;
+			default:
+				break;
+		}
+		++fileNum; //To remove the /..
+		textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
+		numItems = 1;
+		if (textureDir)
+		{
+			while (fileNum > numItems && readdir(textureDir) != NULL)
+				++numItems;
+			dirContents = readdir(textureDir);
+			getGlobalSettings()->textureName = dirContents->d_name;
+			bool loadError = !loadTexture(dirContents->d_name);
+			drawWorld();
+			closedir(textureDir);
+			if (loadError)
+			{
+				startTransition(true);
+				drawBackground(!menuFirstSlot);
+				menu.draw();
+				createDialog(std::string("Cannot load Texture! Loading the Default texture pack."), false, menuFirstSlot);
+				menuFirstSlot = !menuFirstSlot;
+				startTransition(false);
+			}
+			else
+			{
+				drawBackground(!menuFirstSlot);
+				menu.draw();
+				break;
+			}
 		}
 	}
 }
@@ -249,7 +261,7 @@ void viewControls()
 	const short MAX_LENGTH = 13 + 3 + 5;
 
 	drawBox(X, Y, MAX_LENGTH + 2, ITEMS + 2);
-	
+
 	printXY(X + 1, Y + 1, "    Move Left---");
 	printXY(X + 1, Y + 2, "   Move Right---");
 	printXY(X + 1, Y + 3, "         Jump---");
@@ -271,7 +283,7 @@ void viewControls()
 	printXY(X + 17, Y + 8, getKeyChar(getGlobalSettings()->getKey(ACTION_MENU)));
 	printXY(X + 17, Y + 9, getKeyChar(getGlobalSettings()->getKey(ACTION_CLIMB)));
 	printXY(X + 17, Y + 10, getKeyChar(getGlobalSettings()->getKey(ACTION_DROP)));
-	
+
 	Menu menu;
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
@@ -311,7 +323,7 @@ void controlsScreen()
 		if (!exit)
 			startTransition(false);
 	}
-	saveControls(getGlobalSettings());
+	saveConfig(getGlobalSettings());
 }
 
 void gameOptions()
