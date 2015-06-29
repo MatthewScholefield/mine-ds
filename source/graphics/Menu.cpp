@@ -10,18 +10,17 @@ void Menu::draw(bool labels)
 {
 	switch (type)
 	{
-		case MENU_BOOL:
-		case MENU_BUTTON:
-			for (std::vector<Button>::size_type i = 0; i != buttons.size(); ++i)
-				if (buttons[i].visible)
-					buttons[i].draw(labels);
-			break;
 		case MENU_LIST:
 			if (labels)
 				for (std::vector<std::string>::size_type i = 0; i != listItems.size(); ++i)
 					printXY(frameX + listX + 1, frameY + listY + 1 + i, listItems[i].c_str());
 
 			drawBox(frameX + listX, frameY + listY, maxStringLength(listItems) + 2, listItems.size() + 2);
+		case MENU_BOOL:
+		case MENU_BUTTON:
+			for (std::vector<Button>::size_type i = 0; i != buttons.size(); ++i)
+				if (buttons[i].visible)
+					buttons[i].draw(labels);
 			break;
 	}
 }
