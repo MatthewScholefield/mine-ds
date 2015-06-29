@@ -58,8 +58,12 @@ int parseWave(FILE* f,waveInfo* w)
   blockSize |= fgetc(f)<<8;
   if (finddata(f)) return -4;
   //Ignore the size
-  for (i = 0; i < 4; ++i)
-    fgetc(f);
+  int dataSize = 0;
+  dataSize |= fgetc(f);
+  dataSize |= fgetc(f)<<8;
+  dataSize |= fgetc(f)<<16;
+  dataSize |= fgetc(f)<<24;
   w->blockAlign = blockSize;  
   w->sampleRate = samplingRate;
+  w->dataSize = dataSize;
 }

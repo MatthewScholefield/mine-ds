@@ -21,11 +21,12 @@ int ima_index_table[16] = {
 }; 
 bool get;
 char n;
-int getNibble(FILE* f)
+int getNibble(FILE* f,waveInfo* w)
 {
   if (get)
   {
     n = fgetc(f);
+    w->dataSize -= 1;
     get = false;
     return n & 0x0f;
 
@@ -65,7 +66,7 @@ s16 getADCM(FILE* f,waveInfo* w)
   }
   else 
   {
-    nibble = getNibble(f);
+    nibble = getNibble(f,w);
     step = ima_step_table[step_index];
     int diff = step >> 3;    
   	if(nibble&4)
