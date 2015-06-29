@@ -10,7 +10,7 @@
 
 void initFile(void);
 bool saveWorld(WorldObject *world);
-bool saveControls(Config *controls);
+bool saveConfig(Config *controls);
 bool loadWorld(WorldObject *world);
-bool loadControls(Config *controls);
+bool loadConfig(Config *controls);
 bool loadTexture(const char *fileName);
