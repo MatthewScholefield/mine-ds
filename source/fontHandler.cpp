@@ -26,7 +26,7 @@ void clearTextRegion(int x, int y, int sx, int sy)
 		}
 }
 
-bool put_char(void* con, char c)
+bool putChar(void* con, char c)
 {
 	PrintConsole* currentConsole = (PrintConsole*) con;
 
@@ -34,6 +34,12 @@ bool put_char(void* con, char c)
 	{
 		currentConsole->cursorX = 0;
 		++currentConsole->cursorY;
+	}
+	if (c == '\n')
+	{
+		currentConsole->cursorX = 0;
+		++currentConsole->cursorY;
+		return true;
 	}
 
 	int offset = currentConsole->cursorY * 32;
@@ -53,7 +59,7 @@ void setupFont()
 	const int map_base = 0;
 	console = consoleInit(NULL, 0, BgType_Text8bpp, BgSize_T_512x512, map_base, tile_base, false, false);
 	consoleSetWindow(console, 0, 0, 64, 64);
-	console->PrintChar = put_char;
+	console->PrintChar = putChar;
 	font.gfx = (u16*) fontTiles;
 	font.pal = (u16*) fontPal;
 	font.numChars = 256;
