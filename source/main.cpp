@@ -44,7 +44,7 @@ int main()
 	//nifiInit();
 
 	initBlockProperties();
-	loadControls(getGlobalSettings()); //Silently load controls (May fail silently))
+	loadConfig(getGlobalSettings()); //Silently load controls (May fail silently))
 	subBgInit();
 	graphicsInit();
 	setupFont();
