@@ -223,6 +223,8 @@ void updateTexture()
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
 	dmaCopy(subBgTiles.data(), bgGetGfxPtr(getSubBgID()), sub_bgTilesLen);
 	refreshFont();
+	updateSubBG();
+	swiWaitForVBlank(); //Prevents sub screen flicker
 }
 
 void loadDefaultTexture()

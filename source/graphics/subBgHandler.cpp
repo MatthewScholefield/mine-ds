@@ -8,6 +8,7 @@
 #define BOTH_FLIP 3
 
 #include "../general.h"
+#include "UI.h"
 
 int subBgID = 6;
 uint16 *bgptr;
@@ -67,6 +68,7 @@ void subBgInit()
 	dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
 	vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
 	dmaCopy(&fontTiles, (uint16*) 0x0620400, fontTilesLen);
+	drawBackground();
 }
 
 int getSubBgID()
