@@ -17,6 +17,7 @@ int soundsPos = 0;
 int loadedSounds[8] = {SOUND_NONE}; // circular buffer (must be power of two)
 Music loadedMusic = MUSIC_NONE;
 bool streamOpen = false;
+bool reqStreamClose = false;
 std::map< std::pair< SoundAudio, SoundType >, std::pair< int, int > > sfxs;
 
 FILE *file;
@@ -29,10 +30,16 @@ void stopStream()
 	mmStreamClose();
 	fclose(file);
 	streamOpen = false;
+  loadedMusic = MUSIC_NONE;
 }
 
 bool streamIsOpen()
 {
+  if (reqStreamClose)
+  {
+    reqStreamClose = false;
+    stopStream();
+  }
 	return streamOpen;
 }
 
@@ -49,10 +56,9 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
   {
     if (feof(file))
     {
-			mmStreamClose();
-			fclose(file);
       streamOpen = false;
-      return req; 
+      reqStreamClose = true;
+      return req;
     }
     *d++ = (s16)getADCM(file,&w);
     req++;
