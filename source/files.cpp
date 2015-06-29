@@ -15,6 +15,7 @@
 #include "graphics/UI.h"
 #include "graphics/Button.h"
 #include "graphics/graphics.h"
+#include "sounds.h" //For stopping sound on save / load
 
 void initFile()
 {
@@ -29,8 +30,8 @@ void initFile()
 
 bool saveWorld(WorldObject *world)
 {
+  stopMusic();
 	FILE *worldFile;
-
 	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != NULL;
 
 	if (openedWorld)
@@ -56,10 +57,12 @@ bool saveWorld(WorldObject *world)
 				fprintf(worldFile, "%d %d ", world->chests[i][j][INDEX_BLOCK_ID], world->chests[i][j][INDEX_AMOUNT]);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
+    playMusic(MUSIC_CALM);
 		return true;
 	}
 	if (openedWorld)
 		fclose(worldFile);
+  playMusic(MUSIC_CALM);
 	return false;
 }
 
@@ -94,6 +97,7 @@ bool saveControls(Config *controls)
 
 bool loadWorld(WorldObject *world)
 {
+  stopMusic();
 	FILE *worldFile;
 
 	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "r")) != NULL;
@@ -150,10 +154,12 @@ bool loadWorld(WorldObject *world)
 				fscanf(worldFile, "%d %d ", &world->chests[i][j][INDEX_BLOCK_ID], &world->chests[i][j][INDEX_AMOUNT]);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
+    playMusic(MUSIC_CALM);
 		return true;
 	}
 	if (openedWorld)
 		fclose(worldFile);
+  playMusic(MUSIC_CALM);
 	return false;
 }
 
