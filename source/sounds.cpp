@@ -31,6 +31,7 @@ void stopStream()
 	fclose(file);
 	streamOpen = false;
   loadedMusic = MUSIC_NONE;
+  reqStreamClose = false;
 }
 
 bool streamIsOpen()
@@ -195,11 +196,12 @@ void playMusic(Music song)
 		{
 			mmLoad(song);
 			mmStart(song, MM_PLAY_LOOP); //Prevents music restarting
+  		loadedMusic = song;
 		}
 		else{
 			playStreamSong();
+      loadedMusic = MUSIC_STREAM;
     }
-		loadedMusic = song;
 	}
 }
 
@@ -208,7 +210,7 @@ void stopMusic(void)
 	if (loadedMusic == MUSIC_NONE)
 		return;
 
-	if (!streamOpen)
+	if (!streamOpen && loadedMusic != MUSIC_STREAM)
 	{
 		mmStop();
 		mmUnload(loadedMusic);

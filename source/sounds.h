@@ -30,6 +30,7 @@ enum SoundAudio {
 };
 
 enum Music {
+  MUSIC_STREAM = -2,
 	MUSIC_NONE = -1,
 	MUSIC_CALM = MOD_CALM,
 	MUSIC_HAL2 = MOD_HAL2
