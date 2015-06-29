@@ -63,11 +63,11 @@ static void redrawGameUI(void)
 
 static int inGameMenu()
 {
-	bool backbutton = false;
+	bool exit = false;
 	oamClear(&oamSub, 0, 0);
 	oamUpdate(&oamSub);
 
-	while (!backbutton)
+	while (!exit)
 	{
 		lcdMainOnTop();
 		drawBackground();
@@ -97,7 +97,8 @@ static int inGameMenu()
 				startTransition(false);
 				break;
 			default: // back button
-				backbutton = true;
+				exit = true;
+				setSubBg(0, 0);
 				break;
 		}
 	}
