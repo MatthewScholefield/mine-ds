@@ -46,8 +46,8 @@ int main()
 	initBlockProperties();
 	loadConfig(getGlobalSettings()); //Silently load controls (May fail silently))
 	subBgInit();
-	graphicsInit();
 	setupFont();
+	graphicsInit();
 	//irqInit();
 	irqSet(IRQ_HBLANK, gradientHandler);
 	irqEnable(IRQ_HBLANK);
