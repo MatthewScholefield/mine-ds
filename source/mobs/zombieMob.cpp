@@ -58,7 +58,14 @@ void zombieMob::hurt(int amount, int type)
 		return;
 	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
-	playSound(SOUND_ZOMBIE_HURT);
+	int playerX = getPlayerX();
+	if (abs(x - playerX) < 256)
+	{
+		int volume = 280 - abs(x - playerX);
+		if (volume > 255)
+			volume = 255;
+		playSound(SOUND_ZOMBIE_HURT, volume, (x - playerX) / 2 + 127);
+	}
 	health -= amount;
 	animation = 1;
 	animationClearFrames = 20;

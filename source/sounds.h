@@ -37,7 +37,7 @@ enum Music {
 };
 
 void initSound(void);
-void playSound(Sound sfx);
+void playSound(Sound sfx, mm_byte volume = 255, mm_byte panning = 127);
 void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning = 127);
 void playSoundNifi(Sound sfx);
 void playMusic(Music song);

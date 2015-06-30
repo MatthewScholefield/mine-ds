@@ -130,22 +130,28 @@ static void loadSound(int sfx)
 	mmLoadEffect(sfx);
 }
 
-void playSound(Sound sfx)
+void playSound(Sound sfx, mm_byte volume, mm_byte panning)
 {
 	if (sfx == SOUND_NONE)
 		return;
 
-	if (isWifi())
+	/*if (isWifi())
 	{
 		// TODO: Move this to nifi.cpp
 		unsigned short buffer[100];
 		int server_id = getServerID();
 		sprintf((char *) buffer, "[SND: %d %d", server_id, sfx);
 		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
-	}
-
+	}*/
+	t_mmsoundeffect mobSound = {
+		{(mm_word) sfx}, // id
+		1024,
+		0, // handle
+		volume, // volume
+		panning, // panning
+	};
 	loadSound(sfx);
-	mmEffect(sfx);
+	mmEffectEx(&mobSound);
 }
 
 int getSfx(int blockID, SoundType sound)
