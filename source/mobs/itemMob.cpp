@@ -112,6 +112,7 @@ void itemMob::saveToFile(FILE* pFile)
 
 void itemMob::killMob()
 {
+	playSound(SOUND_POP, 155 + rand() % 100);
 	delete itemGraphic;
 	timeTillWifiUpdate = 1;
 	alive = false;
