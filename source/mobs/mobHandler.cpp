@@ -63,6 +63,11 @@ baseMob* mobHandlerFindMob(int range, int type, int x, int y)
 	return NULL;
 }
 
+int getPlayerX()
+{
+	return mobs[PLAYER_ID]->x;
+}
+
 void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
 {
 	if (mobs[mobNum]->host == true)

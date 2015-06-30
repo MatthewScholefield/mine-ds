@@ -150,17 +150,25 @@ void animalMob::hurt(int amount, int type)
 	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
 	health -= amount;
-	switch (animal)
+	int playerX = getPlayerX();
+	if (abs(x - playerX) < 256)
 	{
-		case ANIMAL_COW:
-			playSound(SOUND_COW_HURT);
-			break;
-		case ANIMAL_SHEEP:
-			playSound(SOUND_SHEEP_HURT);
-			break;
-		case ANIMAL_PIG:
-			playSound(SOUND_PIG_HURT);
-			break;
+		int volume = 280 - abs(x - playerX);
+		if (volume > 255)
+			volume = 255;
+		int panning = (x - playerX) / 2 + 127;
+		switch (animal)
+		{
+			case ANIMAL_COW:
+				playSound(SOUND_COW_HURT, volume, panning);
+				break;
+			case ANIMAL_SHEEP:
+				playSound(SOUND_SHEEP_HURT, volume, panning);
+				break;
+			case ANIMAL_PIG:
+				playSound(SOUND_PIG_HURT, volume, panning);
+				break;
+		}
 	}
 	if (type == PLAYER_HURT)
 		scaredTimer = 200;

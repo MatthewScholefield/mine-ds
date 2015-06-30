@@ -20,3 +20,4 @@ void mobHandlerHurtMob(int mobNum, int amount, int type);
 int isMobAt(int x, int y);
 void mobHandlerHurtMobWifi(int mobNum, int amount, int type);
 baseMob* mobHandlerFindMob(int range, int type, int x, int y);
+int getPlayerX();
