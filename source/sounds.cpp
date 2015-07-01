@@ -5,6 +5,7 @@
 #include "blockID.h"
 #include "blocks.h"
 #include "mining.h"
+#include "files.h"
 #include <stdio.h>
 #include <dswifi9.h>
 #include <map>
@@ -95,7 +96,7 @@ void playStreamSong()
 void initSound(void)
 {
 #pragma GCC diagnostic ignored "-Wwrite-strings"
-	mmInitDefault("nitro:/soundbank.bin");
+	mmInitDefault(SOUNDBANK_FILENAME);
 #pragma GCC diagnostic pop
 
 	sfxs[ std::make_pair(SOUND_SNOW, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_SNOW_1, SFX_DIG_SNOW_2);
@@ -200,7 +201,7 @@ void playMusic(Music song)
 	{
 		stopMusic();
     if (file!=NULL) fclose(file);
-		bool canStream = (file = fopen("nitro:/soundtrack.wav", "rb")) != NULL;
+		bool canStream = (file = fopen(SOUNDTRACK_FILENAME, "rb")) != NULL;
 		if (!canStream)
 		{
 			mmLoad(song);

@@ -19,13 +19,18 @@
 
 void initFile()
 {
+#ifdef USE_NITRO
 	nitroFSInit(NULL);
+  chdir("nitro:/");
+#endif
+#ifdef USE_FAT
 	fatInitDefault();
 	chdir("fat:/");
 	mkdir("Mine DS", 0777);
 	chdir("fat:/Mine DS");
 	mkdir("Textures", 0777);
 	chdir("fat:/");
+#endif
 }
 
 bool saveWorld(WorldObject *world)
