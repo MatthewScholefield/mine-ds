@@ -48,7 +48,12 @@ bool songIsPlaying()
 {
 	return loadedMusic != MUSIC_NONE;
 }
-
+s16 volume(s16 orig,u16 factor)
+{
+  s32 n = (s32)orig * factor;
+  s16 r =  n / 100;
+  return r;
+}
 mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 {
   s16* d = (s16*)dest;	
@@ -59,7 +64,7 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
      stopStream();
      return length;
     }
-    *d++ = (s16)getADCM(file,&w);
+    *d++ = volume((s16)getADCM(file,&w),60);
     req++;
   }
 	return length;
