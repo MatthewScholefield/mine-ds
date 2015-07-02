@@ -139,13 +139,13 @@ int spaceForItem(int blockID)
 	return space;
 }
 
-void addInventory(int blockID, int amount, bool direct) //adds the specified amount to a blockvalue
+bool addInventory(int blockID, int amount, bool direct) //adds the specified amount to a blockvalue
 {
 	if (blockID == AIR)
-		return;
+		return false;
 	int space = spaceForItem(blockID);
 	if (space == -1)
-		return;
+		return false;
 	mainPlayerInv.blocks[space].blockId = blockID;
 	if (isSurvival())
 		mainPlayerInv.blocks[space].blockAmount += amount;
@@ -153,11 +153,12 @@ void addInventory(int blockID, int amount, bool direct) //adds the specified amo
 		mainPlayerInv.blocks[space].blockAmount = 1;
 	if (!direct)
 		updateInvGraphics();
+  return true;
 }
 
-void addInventory(int blockID)
+bool addInventory(int blockID)
 {
-	addInventory(blockID, 1);
+  return addInventory(blockID, 1);
 }
 
 bool subInventory(int blockID, int amount) //subtracts the specified amount to a blockvalue
