@@ -19,17 +19,23 @@
 
 void initFile()
 {
+#ifdef USE_NITRO
 	nitroFSInit(NULL);
+  chdir("nitro:/");
+#endif
+#ifdef USE_FAT
 	fatInitDefault();
 	chdir("fat:/");
 	mkdir("Mine DS", 0777);
 	chdir("fat:/Mine DS");
 	mkdir("Textures", 0777);
 	chdir("fat:/");
+#endif
 }
 
 bool saveWorld(WorldObject *world)
 {
+  if(!SHOULD_SAVE) return false;
   stopMusic();
 	FILE *worldFile;
 	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != NULL;
@@ -69,7 +75,7 @@ bool saveWorld(WorldObject *world)
 bool saveConfig(Config *controls)
 {
 	FILE *fp;
-
+  if(!SHOULD_SAVE) return false;
 	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != NULL)
 	{
 		fprintf(fp, "==Controls==\n");
@@ -88,6 +94,8 @@ bool saveConfig(Config *controls)
 		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
 		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
 		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
+    fprintf(fp, "Gradient: %s\n",controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
+    fprintf(fp, "Dithering: %s\n",controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
 		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
 		fclose(fp);
 		return true;
@@ -97,6 +105,7 @@ bool saveConfig(Config *controls)
 
 bool loadWorld(WorldObject *world)
 {
+  if (!SHOULD_LOAD) return false;
   stopMusic();
 	FILE *worldFile;
 
@@ -165,6 +174,7 @@ bool loadWorld(WorldObject *world)
 
 bool loadConfig(Config *controls)
 {
+  if (!SHOULD_LOAD) return false;
 	FILE *fp;
 
 	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "r")) != NULL)
@@ -200,6 +210,10 @@ bool loadConfig(Config *controls)
 		controls->setProperty(PROPERTY_SMOOTH, parsePropertyChar(&parseChar));
 		fscanf(fp, "Creative Speed: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_SPEED, parsePropertyChar(&parseChar));
+		fscanf(fp, "Gradient: %s\n", &parseChar);
+		controls->setProperty(PROPERTY_GRADIENT, parsePropertyChar(&parseChar));
+		fscanf(fp, "Dithering: %s\n", &parseChar);
+		controls->setProperty(PROPERTY_DITHERING, parsePropertyChar(&parseChar));
 		fscanf(fp, "\nTexture Pack: %s\n", &parseChar);
 		controls->textureName = &parseChar;
 		fclose(fp);
@@ -210,6 +224,7 @@ bool loadConfig(Config *controls)
 
 bool loadTexture(const char *fileName)
 {
+  if (!SHOULD_LOAD) return false;
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
 	FILE *texFile = NULL; // fopen(temp.c_str(), "rb");
