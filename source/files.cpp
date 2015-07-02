@@ -94,6 +94,8 @@ bool saveConfig(Config *controls)
 		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
 		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
 		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
+    fprintf(fp, "Gradient: %s\n",controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
+    fprintf(fp, "Dithering: %s\n",controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
 		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
 		fclose(fp);
 		return true;
@@ -208,6 +210,10 @@ bool loadConfig(Config *controls)
 		controls->setProperty(PROPERTY_SMOOTH, parsePropertyChar(&parseChar));
 		fscanf(fp, "Creative Speed: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_SPEED, parsePropertyChar(&parseChar));
+		fscanf(fp, "Gradient: %s\n", &parseChar);
+		controls->setProperty(PROPERTY_GRADIENT, parsePropertyChar(&parseChar));
+		fscanf(fp, "Dithering: %s\n", &parseChar);
+		controls->setProperty(PROPERTY_DITHERING, parsePropertyChar(&parseChar));
 		fscanf(fp, "\nTexture Pack: %s\n", &parseChar);
 		controls->textureName = &parseChar;
 		fclose(fp);
