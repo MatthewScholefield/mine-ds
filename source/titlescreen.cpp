@@ -436,6 +436,7 @@ void settingsScreen()
 		if (!exit)
 			startTransition(false);
 	}
+  saveConfig(getGlobalSettings());
 }
 
 void gameModeScreen()
