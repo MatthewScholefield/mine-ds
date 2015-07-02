@@ -300,7 +300,7 @@ bool canBreak(int blockID) //checks a blockvalue
 		case AIR:
 			return false;
 	}
-	return spaceForItem(blockID) != -1;
+	return true;
 }
 
 bool canDropItem(int blockID) //checks is the item should be dropped when mined
