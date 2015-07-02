@@ -7,7 +7,7 @@
 
 void Button::setColored(bool colored)
 {
-	if (visible)
+	if (isVisible)
 	{
 		if (colored)
 			drawButtonColored(x, y, length);
@@ -26,24 +26,28 @@ void Button::setVisible(bool setVisible)
 	}
 	else
 		isColored = false;
-	visible = setVisible;
+	isVisible = setVisible;
 }
 
 bool Button::isTouching(int xVal, int yVal)
 {
 	yVal += getScrollY();
 	xVal = (xVal + getScrollX()) % 512;
-	return visible && (xVal > x * 8 && xVal < (x + length)*8 && yVal > y * 8 && yVal < (y + 3)*8);
-}
-
-void Button::printLabel()
-{
-	printXY(printX, printY, label);
+	return isVisible && (xVal > x * 8 && xVal < (x + length)*8 && yVal > y * 8 && yVal < (y + 3)*8);
 }
 
 void Button::draw(bool printLabels)
 {
 	if (printLabels)
-		printLabel();
+		printXY(printX, printY, label);
 	drawButton(x, y, length);
+}
+
+bool Button::update(int state, int touchX, int touchY)
+{
+	if (state == STATE_TAP && isTouching(touchX, touchY))
+		setColored(true);
+	else if (state == STATE_RELEASE && isColored && isTouching(touchX, touchY))
+		return true;
+	return false;
 }

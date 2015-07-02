@@ -2,38 +2,31 @@
 #include <math.h>
 #include <string.h>
 #include "subBgHandler.h"
+#include "UIElement.h"
 #include "../general.h"
 
-class Button {
+class Button : public UIElement {
 public:
-	int x, y;
-	const char *label;
-	int length; //Length of button
 	int printX, printY;
-	bool isColored, visible;
+	bool isColored, checkButton;
+	int checkSet;
 
 	bool isTouching(int xVal, int yVal);
 	void setVisible(bool);
 	void setColored(bool);
-	void printLabel();
 	void draw(bool printLabel = true);
+	bool update(int state, int touchX, int touchY);
 
-	Button(int setX, int setY, const char * const setLabel, int setLength = -1, bool isVisible = true) :
-	x(setX), y(setY), label(setLabel), length(setLength > 0 ? setLength : strlen(setLabel) + 2),
-	printX(setLength > 0 ? setX + round(double(setLength) / 2.0 - double(strlen(setLabel)) / 2.0) : setX + 1),
-	printY(setY + 1), isColored(false), visible(isVisible) {
-		/*if (isVisible) {
-			drawButton(x, y, length);
-			printXY(printX, printY, label);
-		}*/
-	}
+	Button(int x, int y, const char * const label, int length = -1, bool isVisible = true, bool checkButton = false, int checkSet = -1) :
+	UIElement(x, y, label, (length > 0 ? length : strlen(label) + 2), isVisible, NULL),
+	printX(length > 0 ? x + round(double(length) / 2.0 - double(strlen(label)) / 2.0) : x + 1),
+	printY(y + 1), isColored(false), checkButton(checkButton), checkSet(checkSet) {
+}
 
-	Button(int setX, int setY, const char * const setLabel, bool isVisible) :
-	x(setX), y(setY), label(setLabel), length(strlen(setLabel) + 2),
-	printX(setX + 1), printY(setY + 1), isColored(false), visible(isVisible) {
-		/*if (isVisible) {
-			drawButton(x, y, length);
-			printXY(printX, printY, label);
-		}*/
-	}
+	Button(int x, int y, const char * const label, bool isVisible, bool checkButton = false, int checkSet = -1) :
+	UIElement(x, y, label, strlen(label) + 2, isVisible, NULL),
+	printX(length > 0 ? x + round(double(length) / 2.0 - double(strlen(label)) / 2.0) : x + 1),
+	printY(y + 1), isColored(false), checkButton(checkButton), checkSet(checkSet) { }
+
+	~Button() { }
 };
