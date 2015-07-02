@@ -18,9 +18,9 @@ void Menu::draw(bool labels)
 			drawBox(frameX + listX, frameY + listY, maxStringLength(listItems) + 2, listItems.size() + 2);
 		case MENU_BOOL:
 		case MENU_BUTTON:
-			for (std::vector<Button>::size_type i = 0; i != buttons.size(); ++i)
-				if (buttons[i].isVisible)
-					buttons[i].draw(labels);
+			for (std::vector<Button>::size_type i = 0; i != elements.size(); ++i)
+				if (elements[i].isVisible)
+					elements[i].draw(labels);
 			break;
 	}
 }
@@ -33,12 +33,12 @@ void Menu::setListXY(int x, int y)
 
 void Menu::setFrame(int x, int y)
 {
-	for (uint i = 0; i < buttons.size(); ++i)
+	for (uint i = 0; i < elements.size(); ++i)
 	{
-		buttons[i].x += x - frameX;
-		buttons[i].printX += x - frameX;
-		buttons[i].y += y - frameY;
-		buttons[i].printY += y - frameY;
+		elements[i].x += x - frameX;
+		elements[i].printX += x - frameX;
+		elements[i].y += y - frameY;
+		elements[i].printY += y - frameY;
 	}
 	frameX = x;
 	frameY = y;
@@ -46,12 +46,12 @@ void Menu::setFrame(int x, int y)
 
 void Menu::addButton(int x, int y, const char * const label, int length, bool isVisible)
 {
-	buttons.emplace_back(x + frameX, y + frameY, label, length, isVisible);
+	elements.emplace_back(x + frameX, y + frameY, label, length, isVisible);
 }
 
 void Menu::addButton(int x, int y, const char * const label, bool isVisible)
 {
-	buttons.emplace_back(x + frameX, y + frameY, label, isVisible);
+	elements.emplace_back(x + frameX, y + frameY, label, isVisible);
 }
 
 void Menu::addListItem(const char* label)
@@ -66,8 +66,8 @@ int Menu::activate(bool initial)
 	switch (type)
 	{
 		case MENU_BOOL:
-			buttons[2].setColored(initial);
-			buttons[3].setColored(!initial);
+			elements[2].setColored(initial);
+			elements[3].setColored(!initial);
 		case MENU_BUTTON:
 		{
 			touchPosition touch;
@@ -83,27 +83,27 @@ int Menu::activate(bool initial)
 				if (keysDown() & KEY_TOUCH)
 				{
 					touchRead(&touch);
-					for (uint i = 0; i < (type == MENU_BOOL ? 2 : buttons.size()); ++i)
-						if (buttons[i].isTouching(touch.px, touch.py))
-							buttons[i].setColored(true);
+					for (uint i = 0; i < (type == MENU_BOOL ? 2 : elements.size()); ++i)
+						if (elements[i].isTouching(touch.px, touch.py))
+							elements[i].setColored(true);
 					if (type == MENU_BOOL)
 					{
 
-						if (buttons[2].isTouching(touch.px, touch.py))
-							buttons[2].setColored(true);
-						else if (buttons[3].isTouching(touch.px, touch.py))
-							buttons[2].setColored(false);
-						buttons[3].setColored(!buttons[2].isColored);
-						selected = buttons[2].isColored;
+						if (elements[2].isTouching(touch.px, touch.py))
+							elements[2].setColored(true);
+						else if (elements[3].isTouching(touch.px, touch.py))
+							elements[2].setColored(false);
+						elements[3].setColored(!elements[2].isColored);
+						selected = elements[2].isColored;
 					}
 				}
 				else if (keysHeld() & KEY_TOUCH)
 					touchRead(&touch);
 				else if (keysUp() & KEY_TOUCH)
 				{
-					for (uint i = 0; i < buttons.size(); ++i)
+					for (uint i = 0; i < elements.size(); ++i)
 					{
-						if (buttons[i].isColored && buttons[i].isTouching(touch.px, touch.py))
+						if (elements[i].isColored && elements[i].isTouching(touch.px, touch.py))
 						{
 							switch (i)
 							{
@@ -116,14 +116,14 @@ int Menu::activate(bool initial)
 									if (getScrollY() / 8 < (sizeY - 24) / 2)
 									{
 										moveSubBg(0, (sizeY - 24)*8);
-										buttons[1].label = "\x1E";
+										elements[1].label = "\x1E";
 									}
 									else
 									{
 										moveSubBg(0, -(sizeY - 24)*8);
-										buttons[1].label = "\x1F";
+										elements[1].label = "\x1F";
 									}
-									buttons[1].draw();
+									elements[1].draw();
 									break;
 								default:
 									if (type == MENU_BOOL)
@@ -134,13 +134,13 @@ int Menu::activate(bool initial)
 							}
 						}
 					}
-					for (uint i = 0; i < (type == MENU_BOOL ? 2 : buttons.size()); ++i)
-						buttons[i].setColored(false);
+					for (uint i = 0; i < (type == MENU_BOOL ? 2 : elements.size()); ++i)
+						elements[i].setColored(false);
 				}
 			}
 			moveSubBg(0, -64);
 			if (type == MENU_BOOL)
-				return buttons[2].isColored;
+				return elements[2].isColored;
 			else
 				return selected;
 		}
@@ -162,22 +162,22 @@ int Menu::activate(bool initial)
 					if (column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
 						for (int i = 0; i < maxNameLength; ++i)
 							setSubBgTile(frameX + listX + 1 + i, frameY + listY + column, 60);
-					else if (buttons[0].isTouching(touch.px, touch.py))
-						buttons[0].setColored(true);
+					else if (elements[0].isTouching(touch.px, touch.py))
+						elements[0].setColored(true);
 				}
 				else if (keysHeld() & KEY_TOUCH)
 					touchRead(&touch);
 				else if (keysUp() & KEY_TOUCH)
 				{
 					uint newColumn = ((touch.py - 8) / 8) + 1 - (frameY + listY);
-					if (buttons[0].isColored && buttons[0].isTouching(touch.px, touch.py))
+					if (elements[0].isColored && elements[0].isTouching(touch.px, touch.py))
 						return 0;
 					else if (column == newColumn && column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
 						return column;
 					else //Remove any colored buttons, if any
 					{
 						drawBoxCenter(frameX + listX + 1, frameY + listY + 1, maxNameLength, listItems.size());
-						buttons[0].setColored(false);
+						elements[0].setColored(false);
 					}
 				}
 				updateFrame();

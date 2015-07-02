@@ -46,8 +46,17 @@ void Button::draw(bool printLabels)
 bool Button::update(int state, int touchX, int touchY)
 {
 	if (state == STATE_TAP && isTouching(touchX, touchY))
+	{
 		setColored(true);
-	else if (state == STATE_RELEASE && isColored && isTouching(touchX, touchY))
+		if (checkButton)
+			selectedCheck[checkSet] = currentID;
+	}
+	if (currentID != selectedCheck[checkSet] && isColored)
+		setColored(false);
+	else if (!checkButton && state == STATE_RELEASE && isColored && isTouching(touchX, touchY))
+	{
+		setColored(false);
 		return true;
+	}
 	return false;
 }
