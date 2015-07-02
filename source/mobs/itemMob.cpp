@@ -91,9 +91,11 @@ void itemMob::updateMob(WorldObject* world)
 		showGraphic(itemGraphic, x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
 	else
 	{
-		addInventory(blockID, amount);
-		alive = false;
-		killMob();
+    if (addInventory(blockID, amount))
+    {
+		  alive = false;
+  		killMob();
+    }
 	}
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
 	{
