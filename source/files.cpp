@@ -227,7 +227,7 @@ bool loadTexture(const char *fileName)
   if (!SHOULD_LOAD) return false;
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
-	FILE *texFile = NULL; // fopen(temp.c_str(), "rb");
+	FILE *texFile = fopen(temp.c_str(), "rb");
 	if (!texFile)
 	{
 		loadDefaultTexture();
