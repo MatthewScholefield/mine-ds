@@ -121,7 +121,7 @@ int spaceForItem(int blockID)
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
 	{
 		//Found the correct block with correct id.
-		if (mainPlayerInv.blocks[i].blockId == blockID)
+		if (mainPlayerInv.blocks[i].blockId == blockID && mainPlayerInv.blocks[i].blockAmount < 64)
 		{
 			space = i;
 			break;
