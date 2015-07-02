@@ -224,7 +224,10 @@ bool loadConfig(Config *controls)
 
 bool loadTexture(const char *fileName)
 {
-  if (!SHOULD_LOAD) return false;
+  if (!SHOULD_LOAD){
+    loadDefaultTexture();
+    updateTexture();
+  }
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
 	FILE *texFile = fopen(temp.c_str(), "rb");
