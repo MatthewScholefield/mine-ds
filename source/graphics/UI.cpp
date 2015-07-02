@@ -70,16 +70,13 @@ int createMenu(Button buttons[], int size, bool showBack, int scrollLength)
 				{
 					moveSubBg(0, scrollLength);
 					scroll.label = "\x1E";
-					for (int i = 0; i < size; ++i)
-						if (buttons[i].printY >= 24)
-							buttons[i].printLabel();
 				}
 				else
 				{
 					moveSubBg(0, -scrollLength);
 					scroll.label = "\x1F";
 				}
-				scroll.printLabel();
+				scroll.draw();
 			}
 			for (int i = 0; i < size; ++i)
 			{
