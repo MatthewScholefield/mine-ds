@@ -5,6 +5,7 @@
 #include "blockID.h"
 #include "blocks.h"
 #include "mining.h"
+#include "files.h"
 #include <stdio.h>
 #include <dswifi9.h>
 #include <map>
@@ -48,7 +49,12 @@ bool songIsPlaying()
 {
 	return loadedMusic != MUSIC_NONE;
 }
-
+s16 volume(s16 orig,u16 factor)
+{
+  s32 n = (s32)orig * factor;
+  s16 r =  n / 100;
+  return r;
+}
 mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 {
   s16* d = (s16*)dest;	
@@ -59,7 +65,7 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
      stopStream();
      return length;
     }
-    *d++ = (s16)getADCM(file,&w);
+    *d++ = volume((s16)getADCM(file,&w),60);
     req++;
   }
 	return length;
@@ -90,7 +96,7 @@ void playStreamSong()
 void initSound(void)
 {
 #pragma GCC diagnostic ignored "-Wwrite-strings"
-	mmInitDefault("nitro:/soundbank.bin");
+	mmInitDefault(SOUNDBANK_FILENAME);
 #pragma GCC diagnostic pop
 
 	sfxs[ std::make_pair(SOUND_SNOW, SOUND_TYPE_DESTROY) ] = std::make_pair(SFX_DIG_SNOW_1, SFX_DIG_SNOW_2);
@@ -195,7 +201,7 @@ void playMusic(Music song)
 	{
 		stopMusic();
     if (file!=NULL) fclose(file);
-		bool canStream = (file = fopen("nitro:/soundtrack.wav", "rb")) != NULL;
+		bool canStream = (file = fopen(SOUNDTRACK_FILENAME, "rb")) != NULL;
 		if (!canStream)
 		{
 			mmLoad(song);
