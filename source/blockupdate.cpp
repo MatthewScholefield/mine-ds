@@ -24,6 +24,7 @@
 #include "blockupdaters/oakSapling.h"
 #include "blockupdaters/spruceSapling.h"
 #include "blockupdaters/jungleSapling.h"
+#include "blockupdaters/ladder.h"
 
 blockUpdater* blockUpdaters[50];
 int numBlockUpdaters;
@@ -64,6 +65,7 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[numBlockUpdaters++] = new oakSaplingUpdater;
 	blockUpdaters[numBlockUpdaters++] = new jungleSaplingUpdater;
 	blockUpdaters[numBlockUpdaters++] = new spruceSaplingUpdater;
+	blockUpdaters[numBlockUpdaters++] = new ladderUpdater;
 }
 
 void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)

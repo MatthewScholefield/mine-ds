@@ -19,7 +19,7 @@ void Menu::draw(bool labels)
 		case MENU_BOOL:
 		case MENU_BUTTON:
 			for (std::vector<Button>::size_type i = 0; i != buttons.size(); ++i)
-				if (buttons[i].visible)
+				if (buttons[i].isVisible)
 					buttons[i].draw(labels);
 			break;
 	}
@@ -117,16 +117,13 @@ int Menu::activate(bool initial)
 									{
 										moveSubBg(0, (sizeY - 24)*8);
 										buttons[1].label = "\x1E";
-										for (uint i = 0; i < buttons.size(); ++i)
-											if (buttons[i].printY >= 24)
-												buttons[i].printLabel();
 									}
 									else
 									{
 										moveSubBg(0, -(sizeY - 24)*8);
 										buttons[1].label = "\x1F";
 									}
-									buttons[1].printLabel();
+									buttons[1].draw();
 									break;
 								default:
 									if (type == MENU_BOOL)
