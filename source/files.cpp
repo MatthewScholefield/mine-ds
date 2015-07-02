@@ -35,6 +35,7 @@ void initFile()
 
 bool saveWorld(WorldObject *world)
 {
+  if(!SHOULD_SAVE) return false;
   stopMusic();
 	FILE *worldFile;
 	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != NULL;
@@ -74,7 +75,7 @@ bool saveWorld(WorldObject *world)
 bool saveConfig(Config *controls)
 {
 	FILE *fp;
-
+  if(!SHOULD_SAVE) return false;
 	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != NULL)
 	{
 		fprintf(fp, "==Controls==\n");
@@ -102,6 +103,7 @@ bool saveConfig(Config *controls)
 
 bool loadWorld(WorldObject *world)
 {
+  if (!SHOULD_LOAD) return false;
   stopMusic();
 	FILE *worldFile;
 
@@ -170,6 +172,7 @@ bool loadWorld(WorldObject *world)
 
 bool loadConfig(Config *controls)
 {
+  if (!SHOULD_LOAD) return false;
 	FILE *fp;
 
 	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "r")) != NULL)
@@ -215,6 +218,7 @@ bool loadConfig(Config *controls)
 
 bool loadTexture(const char *fileName)
 {
+  if (!SHOULD_LOAD) return false;
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
 	FILE *texFile = NULL; // fopen(temp.c_str(), "rb");
