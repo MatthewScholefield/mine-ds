@@ -1,7 +1,10 @@
 #pragma once
 #include "Button.h"
+#include <memory>
 #include <vector>
 #include <string>
+
+typedef std::tr1::shared_ptr<UIElement> UIElement_ptr;
 
 enum MenuType {
 	MENU_BUTTON,
@@ -15,8 +18,8 @@ private:
 	int frameX, frameY; //In tiles
 	int sizeX, sizeY; //In tiles
 	int listX, listY; //For list menus
-	
-	std::vector<Button> buttons;
+
+	std::vector<UIElement_ptr> elements;
 	std::vector<std::string> listItems;
 
 public:
@@ -31,12 +34,12 @@ public:
 	void addListItem(const char *label);
 
 	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24) : type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY) {
-		buttons.emplace_back(25, 20, "Back", back);
-		buttons.emplace_back(1, 20, "\x1F", sizeY > 24);
+		elements.push_back(UIElement_ptr(new Button(25, 20, "Back", back)));
+		elements.push_back(UIElement_ptr(new Button(1, 20, "\x1F", sizeY > 24)));
 		switch (type) {
 			case MENU_BOOL:
-				buttons.emplace_back(9, 10, "Enabled", 12);
-				buttons.emplace_back(9, 15, "Disabled", 12);
+				elements.push_back(UIElement_ptr(new Button(9, 10, "Enabled", 12)));
+				elements.push_back(UIElement_ptr(new Button(9, 15, "Disabled", 12)));
 				break;
 			default:
 				break;
