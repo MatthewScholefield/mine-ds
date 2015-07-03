@@ -57,8 +57,8 @@ s16 volume(s16 orig,u16 factor)
 }
 mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 {
-  s16* d = (s16*)dest;	
-  int req = 0;
+  s16* d = (s16*)dest;
+	uint req = 0;
   while (req < length)
   {
     if (w.dataSize < w.blockAlign){
