@@ -32,8 +32,8 @@ public:
 
 	void addButton(int x, int y, const char * const label, int length = -1, bool isVisible = true, bool checkButton = false, bool initial = false, CheckSet checkSet = CHECK_SET_NONE);
 	void addButton(int x, int y, const char * const label, bool isVisible, bool checkButton = false, bool initial = false, CheckSet checkSet = CHECK_SET_NONE);
-
 	void addListItem(const char *label);
+	void addSlider(int x, int y, const char * const label, int initPos, int length = 30, bool isVisible = true);
 
 	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24, bool initial = false) : type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY) {
 		elements.push_back(UIElement_ptr(new Button(25, 20, "Back", back)));
