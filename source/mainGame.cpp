@@ -236,7 +236,7 @@ void startGame(void)
 				break;
 		}
 		oldKeys = keysHeld();
-		
+
 		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
 		updateFrame(); //Should be the only time called in the loop

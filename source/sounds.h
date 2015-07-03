@@ -3,8 +3,9 @@
 #include "soundbank.h"  // Soundbank definitions
 #include <maxmod9.h>
 
-enum Sound {
-	SOUND_NONE = -1,
+enum Sound
+{
+	SOUND_NONE = - 1,
 	SOUND_COW_HURT = SFX_COW_HURT,
 	SOUND_PIG_HURT = SFX_PIG_HURT,
 	SOUND_PLAYER_HURT = SFX_PLAYER_HURT,
@@ -13,13 +14,15 @@ enum Sound {
 	SOUND_POP = SFX_POP
 };
 
-enum SoundType {
+enum SoundType
+{
 	SOUND_TYPE_STEP = 0,
 	SOUND_TYPE_DESTROY = 1,
 	SOUND_TYPE_PLACE = 1
 };
 
-enum SoundAudio {
+enum SoundAudio
+{
 	SOUND_WOOD, //
 	SOUND_STONE, //
 	SOUND_SNOW, //
@@ -30,9 +33,10 @@ enum SoundAudio {
 	SOUND_CLOTH
 };
 
-enum Music {
-  MUSIC_STREAM = -2,
-	MUSIC_NONE = -1,
+enum Music
+{
+	MUSIC_STREAM = - 2,
+	MUSIC_NONE = - 1,
 	MUSIC_CALM = MOD_CALM,
 	MUSIC_HAL2 = MOD_HAL2
 };

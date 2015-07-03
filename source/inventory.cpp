@@ -153,12 +153,12 @@ bool addInventory(int blockID, int amount, bool direct) //adds the specified amo
 		mainPlayerInv.blocks[space].blockAmount = 1;
 	if (!direct)
 		updateInvGraphics();
-  return true;
+	return true;
 }
 
 bool addInventory(int blockID)
 {
-  return addInventory(blockID, 1);
+	return addInventory(blockID, 1);
 }
 
 bool subInventory(int blockID, int amount) //subtracts the specified amount to a blockvalue

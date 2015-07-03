@@ -16,13 +16,15 @@
 #define INDEX_BLOCK_ID 0
 #define INDEX_AMOUNT 1
 
-enum gamemode_t {
+enum gamemode_t
+{
 	GAMEMODE_CREATIVE = 1,
 	GAMEMODE_SURVIVAL = 2,
 	GAMEMODE_PREVIEW = 3
 };
 
-enum Biome {
+enum Biome
+{
 	BIOME_PLAINS = 1,
 	BIOME_SNOW = 2,
 	BIOME_DESERT = 3,
@@ -30,7 +32,8 @@ enum Biome {
 	BIOME_MUSHROOM = 5
 };
 
-class WorldObject {
+class WorldObject
+{
 public:
 	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int data[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
@@ -51,15 +54,18 @@ public:
 	int chests[MAX_CHESTS][CHEST_SLOTS][2];
 	Furnace *furnaces[MAX_FURNACES];
 
-	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
-	, camY(0), camX(0), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
-	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}, furnaces()
-	{
-	}
+	WorldObject() : blocks { }, data {}, brightness {}, lightemit {}, sun {}, bgblocks {}
 
-	~WorldObject() {
-		for (int i = 0; i < MAX_FURNACES; ++i)
-			if (furnaces[i]) {
+	, camY(0), camX(0), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
+	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse {}, chests {}
+
+	, furnaces() { }
+
+	~ WorldObject()
+	{
+		for (int i = 0; i < MAX_FURNACES; ++ i)
+			if (furnaces[i])
+			{
 				delete furnaces[i];
 				furnaces[i] = NULL;
 			}

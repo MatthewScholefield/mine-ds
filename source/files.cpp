@@ -21,7 +21,7 @@ void initFile()
 {
 #ifdef USE_NITRO
 	nitroFSInit(NULL);
-  chdir("nitro:/");
+	chdir("nitro:/");
 #endif
 #ifdef USE_FAT
 	fatInitDefault();
@@ -35,8 +35,8 @@ void initFile()
 
 bool saveWorld(WorldObject *world)
 {
-  if(!SHOULD_SAVE) return false;
-  stopMusic();
+	if (!SHOULD_SAVE) return false;
+	stopMusic();
 	FILE *worldFile;
 	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != NULL;
 
@@ -63,19 +63,19 @@ bool saveWorld(WorldObject *world)
 				fprintf(worldFile, "%d %d ", world->chests[i][j][INDEX_BLOCK_ID], world->chests[i][j][INDEX_AMOUNT]);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
-    playMusic(MUSIC_CALM);
+		playMusic(MUSIC_CALM);
 		return true;
 	}
 	if (openedWorld)
 		fclose(worldFile);
-  playMusic(MUSIC_CALM);
+	playMusic(MUSIC_CALM);
 	return false;
 }
 
 bool saveConfig(Config *controls)
 {
 	FILE *fp;
-  if(!SHOULD_SAVE) return false;
+	if (!SHOULD_SAVE) return false;
 	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != NULL)
 	{
 		fprintf(fp, "==Controls==\n");
@@ -94,8 +94,8 @@ bool saveConfig(Config *controls)
 		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
 		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
 		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
-    fprintf(fp, "Gradient: %s\n",controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
-    fprintf(fp, "Dithering: %s\n",controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
+		fprintf(fp, "Gradient: %s\n", controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
+		fprintf(fp, "Dithering: %s\n", controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
 		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
 		fclose(fp);
 		return true;
@@ -105,8 +105,8 @@ bool saveConfig(Config *controls)
 
 bool loadWorld(WorldObject *world)
 {
-  if (!SHOULD_LOAD) return false;
-  stopMusic();
+	if (!SHOULD_LOAD) return false;
+	stopMusic();
 	FILE *worldFile;
 
 	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "r")) != NULL;
@@ -163,18 +163,18 @@ bool loadWorld(WorldObject *world)
 				fscanf(worldFile, "%d %d ", &world->chests[i][j][INDEX_BLOCK_ID], &world->chests[i][j][INDEX_AMOUNT]);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
-    playMusic(MUSIC_CALM);
+		playMusic(MUSIC_CALM);
 		return true;
 	}
 	if (openedWorld)
 		fclose(worldFile);
-  playMusic(MUSIC_CALM);
+	playMusic(MUSIC_CALM);
 	return false;
 }
 
 bool loadConfig(Config *controls)
 {
-  if (!SHOULD_LOAD) return false;
+	if (!SHOULD_LOAD) return false;
 	FILE *fp;
 
 	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "r")) != NULL)
@@ -224,10 +224,11 @@ bool loadConfig(Config *controls)
 
 bool loadTexture(const char *fileName)
 {
-  if (!SHOULD_LOAD){
-    loadDefaultTexture();
-    updateTexture();
-  }
+	if (!SHOULD_LOAD)
+	{
+		loadDefaultTexture();
+		updateTexture();
+	}
 	std::string temp(fileName);
 	temp = MINE_DS_FOLDER TEXTURE_FOLDER + temp;
 	FILE *texFile = fopen(temp.c_str(), "rb");

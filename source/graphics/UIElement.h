@@ -5,7 +5,8 @@
 #define STATE_HOLD 2
 #define STATE_RELEASE 3
 
-class UIElement {
+class UIElement
+{
 protected:
 public:
 	void (*setData)(UIElement *element, int data, bool data2);
@@ -23,5 +24,5 @@ public:
 	UIElement(int x, int y, const char * const label, int length, bool isVisible, void (*setData)(UIElement *element, int data, bool data2)) :
 	setData(setData), x(x), y(y), label(label), length(length), isVisible(isVisible) { }
 
-	virtual ~UIElement() { }
+	virtual ~ UIElement() { }
 };

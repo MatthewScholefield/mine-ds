@@ -26,8 +26,8 @@ void timeUpdate(WorldObject* world)
 		if (world->timeInWorld > 120) world->timeInWorld = 0;
 		if (world->timeInWorld >= 80 && world->timeInWorld < 90) world->worldBrightness = world->timeInWorld - 79;
 		else if (world->timeInWorld > 110) world->worldBrightness = 10 - (world->timeInWorld - 110);
-    else if (world->timeInWorld>=90) world->worldBrightness = 10;
-    else world->worldBrightness = 0;
+		else if (world->timeInWorld >= 90) world->worldBrightness = 10;
+		else world->worldBrightness = 0;
 		setSkyColor(r[world->worldBrightness], g[world->worldBrightness], b[world->worldBrightness],
 				r2[world->worldBrightness], g2[world->worldBrightness], b2[world->worldBrightness]);
 		setSun(world->worldBrightness);

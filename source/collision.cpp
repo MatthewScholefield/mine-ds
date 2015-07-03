@@ -1,4 +1,5 @@
 #include "general.h"
+
 int spriteCol(int x1, int y1, int x2, int y2, int x1Size, int y1Size, int x2Size, int y2Size)
 {
 	--x1Size;
