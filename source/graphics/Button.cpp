@@ -5,9 +5,6 @@
 #include "subBgHandler.h"
 #include "../general.h"
 
-int Button::selectedCheck[] = {};
-int Button::currentID = 0;
-
 void Button::setColored(bool colored)
 {
 	if (!isVisible || colored == isColored)
@@ -50,40 +47,27 @@ void Button::draw(bool printLabels)
 
 bool Button::update(int state, int touchX, int touchY)
 {
-	if (state == STATE_TAP && isTouching(touchX, touchY))
+	switch (state)
 	{
-		if (checkButton)
-		{
-			if (checkSet != CHECK_SET_NONE)
-				selectedCheck[checkSet] = currentID;
-			else
-				setColored(!checkState);
-		}
-		else
-			setColored(true);
-	}
-	if (checkButton && isColored && checkSet != CHECK_SET_NONE && currentID != selectedCheck[checkSet])
-		setColored(false);
-	else if (state == STATE_RELEASE)
-	{
-		if (isTouching(touchX, touchY))
-		{
-			if (checkButton)
-				checkState = !checkState;
-			if (setData)
-			{
-				setData(this, sendData, checkState);
-				if (!checkButton)
-					setColored(false);
-			}
-			else if (!checkButton && isColored)
+		case STATE_TAP:
+			if (isTouching(touchX, touchY))
+				setColored(true);
+			break;
+		case STATE_RELEASE:
+			if (isColored)
 			{
 				setColored(false);
-				return true;
+				if (isTouching(touchX, touchY))
+				{
+					if (setData)
+						setData(this, sendData, false);
+					else
+						return true;
+				}
 			}
-		}
-		else
-			setColored(checkButton ? checkState : false);
+			break;
+		default:
+			break;
 	}
 	return false;
 }

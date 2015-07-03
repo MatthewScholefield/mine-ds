@@ -42,7 +42,7 @@ bool putChar(void* con, char c)
 		return true;
 	}
 
-	int offset = 0; //currentConsole->cursorY * 32;
+	int offset = 0;
 	if (currentConsole->cursorX < 32)
 		offset += currentConsole->cursorX;
 	else
