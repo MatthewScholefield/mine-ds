@@ -5,7 +5,7 @@
 #include "InvBlock.h"
 int getSelectedSlot();
 void setSelectedSpace(int a);
-void changeInvSelectedGraphic(int blockID = -1);
+void changeInvSelectedGraphic(int blockID = - 1);
 int getInventoryState();
 int spaceForItem(int blockID);
 bool addInventory(int blockID, int amount, bool direct = false);
@@ -24,7 +24,8 @@ void drawInvButtons(bool drawBack, bool survival = true);
 void openInventory();
 #define NUM_INV_SPACES 30
 
-typedef struct {
+typedef struct
+{
 	InvBlock blocks[32];
 	//	InvBlock armour[4];
 	int hand;

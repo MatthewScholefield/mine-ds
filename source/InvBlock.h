@@ -1,6 +1,7 @@
 #pragma once
 
-typedef struct {
+typedef struct
+{
 	int blockId = 0;
 	int blockAmount = 0;
 } InvBlock;

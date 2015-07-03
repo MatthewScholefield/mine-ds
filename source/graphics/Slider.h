@@ -1,7 +1,8 @@
 #pragma once
 #include "UIElement.h"
 
-class Slider : public UIElement {
+class Slider : public UIElement
+{
 private:
 	bool dragging;
 	int tilePos;

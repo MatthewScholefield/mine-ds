@@ -1,15 +1,18 @@
 #pragma once
 #include "InvBlock.h"
 
-class Furnace {
+class Furnace
+{
 public:
 	InvBlock source, fuel, result;
 
-	Furnace() {
+	Furnace()
+	{
 		source = fuel = result = InvBlock();
 	}
 
-	Furnace(InvBlock source, InvBlock fuel) : source(source), fuel(fuel) {
+	Furnace(InvBlock source, InvBlock fuel) : source(source), fuel(fuel)
+	{
 		result = InvBlock();
 	}
 };

@@ -7,7 +7,8 @@
 
 bool canZombieMobSpawnHere(WorldObject* world, int x, int y);
 
-class zombieMob : public baseMob {
+class zombieMob : public baseMob
+{
 public:
 	/*int x;
 	int y;
@@ -28,8 +29,7 @@ public:
 	zombieMob();
 	zombieMob(int x, int y);
 
-	~zombieMob() {
-	}
+	~ zombieMob() { }
 };
 void zombieMobInit();
 #endif
