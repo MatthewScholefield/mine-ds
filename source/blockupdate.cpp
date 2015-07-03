@@ -60,7 +60,7 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[numBlockUpdaters++] = new tallGrassUpdater;
 	blockUpdaters[numBlockUpdaters++] = new redFlowerUpdater;
 	blockUpdaters[numBlockUpdaters++] = new yellowFlowerUpdater;
-	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater; 
+	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater;
 	blockUpdaters[numBlockUpdaters++] = new brownMushroomUpdater;
 	blockUpdaters[numBlockUpdaters++] = new oakSaplingUpdater;
 	blockUpdaters[numBlockUpdaters++] = new jungleSaplingUpdater;

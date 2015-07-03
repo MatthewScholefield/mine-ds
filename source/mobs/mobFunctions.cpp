@@ -107,7 +107,7 @@ void calculateMiscData(WorldObject *world, baseMob* mob)
 		}
 		if (mob->x < mob->sx / 2) mob->x = mob->sx / 2;
 		if (mob->y < mob->sy / 2) mob->y = mob->sy / 2;
-		if (mob->x > WORLD_WIDTHPX- mob->sx / 2) mob->x = WORLD_WIDTHPX - mob->sx / 2;
+		if (mob->x > WORLD_WIDTHPX - mob->sx / 2) mob->x = WORLD_WIDTHPX - mob->sx / 2;
 	}
 }
 

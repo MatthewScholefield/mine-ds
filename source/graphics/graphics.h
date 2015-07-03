@@ -13,7 +13,8 @@
 #define MOB_TILES_ARRAY_LEN MOB_TILES_LEN/4
 #define MOB_PAL_ARRAY_LEN MOB_PAL_LEN/2
 
-enum GraphicType {
+enum GraphicType
+{
 	GRAPHIC_PARTICLE = 0,
 	GRAPHIC_MOB = 1,
 	GRAPHIC_SUB_FONT = 1,
@@ -28,7 +29,8 @@ enum GraphicType {
  */
 //! \breif Graphic Structure
 
-typedef struct {
+typedef struct
+{
 	//! \breif Pointer to loaded graphic in VRAM
 	u16* Gfx;
 	//! \breif Frame of animation
@@ -69,8 +71,8 @@ void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x = 8, int y = 
 
 //Textures
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
-		const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-		const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc);
+				 const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
+				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc);
 void updateTexture();
 void loadDefaultTexture();
 void setSkyColor(double, double, double, double, double, double);

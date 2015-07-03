@@ -2,13 +2,15 @@
 #include "baseMob.h"
 #include "../world.h"
 
-enum AnimalType {
+enum AnimalType
+{
 	ANIMAL_COW = 0,
 	ANIMAL_SHEEP = 1,
 	ANIMAL_PIG = 2
 };
 
-class animalMob : public baseMob {
+class animalMob : public baseMob
+{
 public:
 	int scaredTimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
@@ -27,7 +29,7 @@ public:
 
 	animalMob(int x, int y);
 
-	~animalMob() {}
+	~ animalMob() { }
 };
 void animalMobInit();
 bool canAnimalMobSpawnHere(WorldObject* world, int x, int y);

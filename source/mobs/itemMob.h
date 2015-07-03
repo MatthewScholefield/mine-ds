@@ -2,7 +2,8 @@
 #include "baseMob.h"
 #include "../graphics/graphics.h"
 
-class itemMob : public baseMob {
+class itemMob : public baseMob
+{
 public:
 	int blockID;
 	int displayID;
@@ -21,6 +22,5 @@ public:
 	virtual void killMob();
 	itemMob(int x, int y);
 
-	~itemMob() {
-	}
+	~ itemMob() { }
 };
