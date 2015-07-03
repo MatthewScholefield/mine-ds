@@ -1,6 +1,7 @@
 #pragma once
 
-typedef struct {
+typedef struct
+{
 	int graphicsID;
 	int x;
 	int y;
