@@ -138,9 +138,9 @@ void generateSmallWorld(WorldObject* world)//Generates one biome
 
 void generateWorld(WorldObject* world)
 {
-  //Generating a world is intensive on the cpu.
-  //If you don't stop the music, the whole sound engine will become stuffed up.
-  stopMusic();
+	//Generating a world is intensive on the cpu.
+	//If you don't stop the music, the whole sound engine will become stuffed up.
+	stopMusic();
 	if (world->gamemode == GAMEMODE_PREVIEW)
 		generateSmallWorld(world);
 	else
