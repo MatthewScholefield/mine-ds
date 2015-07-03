@@ -3,7 +3,8 @@
 #include "blockID.h"
 #include "InvBlock.h"
 
-typedef struct {
+typedef struct
+{
 	InvBlock createdblock;
 	InvBlock neededblocks[4];
 	int amountOfNeededBlocks;
