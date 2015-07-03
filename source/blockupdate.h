@@ -6,7 +6,9 @@
 #define LEAF_CHANCE_UPDATE 800
 #define LEAF_SQUARE_RADIUS 4
 #define CACTUS_CHANCE_UPDATE 1000
-class blockUpdater {
+
+class blockUpdater
+{
 public:
 	int blockID = 15;
 	blockUpdater();

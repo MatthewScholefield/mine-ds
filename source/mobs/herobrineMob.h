@@ -3,7 +3,8 @@
 #define HEROBRINE_MOB_H
 bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y);
 
-class herobrineMob : public baseMob {
+class herobrineMob : public baseMob
+{
 public:
 	int waitingCount;
 	int jump;
@@ -18,9 +19,7 @@ public:
 	herobrineMob();
 	herobrineMob(int x, int y);
 
-	~herobrineMob() {
-
-	}
+	~ herobrineMob() { }
 };
 void herobrineMobInit();
 #endif

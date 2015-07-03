@@ -29,6 +29,7 @@ int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
 int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE, CHEST};
 int foodItems[] = {PORKCHOP_RAW, BEEF_RAW, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED};
+
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
 	//va_list is fine to use and it shouldn't add any overhead as it is used in (i)printf to create infinite arguments.

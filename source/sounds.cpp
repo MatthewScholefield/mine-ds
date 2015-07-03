@@ -31,17 +31,17 @@ void stopStream()
 	mmStreamClose();
 	fclose(file);
 	streamOpen = false;
-  loadedMusic = MUSIC_NONE;
-  reqStreamClose = false;
+	loadedMusic = MUSIC_NONE;
+	reqStreamClose = false;
 }
 
 bool streamIsOpen()
 {
-  if (reqStreamClose)
-  {
-    reqStreamClose = false;
-    stopStream();
-  }
+	if (reqStreamClose)
+	{
+		reqStreamClose = false;
+		stopStream();
+	}
 	return streamOpen;
 }
 
@@ -49,25 +49,28 @@ bool songIsPlaying()
 {
 	return loadedMusic != MUSIC_NONE;
 }
-s16 volume(s16 orig,u16 factor)
+
+s16 volume(s16 orig, u16 factor)
 {
-  s32 n = (s32)orig * factor;
-  s16 r =  n / 100;
-  return r;
+	s32 n = (s32) orig * factor;
+	s16 r = n / 100;
+	return r;
 }
+
 mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 {
-  s16* d = (s16*)dest;
+	s16* d = (s16*) dest;
 	uint req = 0;
-  while (req < length)
-  {
-    if (w.dataSize < w.blockAlign){
-     stopStream();
-     return length;
-    }
-    *d++ = volume((s16)getADCM(file,&w),60);
-    req++;
-  }
+	while (req < length)
+	{
+		if (w.dataSize < w.blockAlign)
+		{
+			stopStream();
+			return length;
+		}
+		*d++ = volume((s16) getADCM(file, &w), 60);
+		req++;
+	}
 	return length;
 }
 
@@ -75,10 +78,10 @@ void playStreamSong()
 {
 	if (streamOpen)
 		return;
-  int ret =  parseWave(file,&w);
-  if (ret)
-    return;
-  ADCMReset();
+	int ret = parseWave(file, &w);
+	if (ret)
+		return;
+	ADCMReset();
 	mm_stream musicStream;
 	musicStream.buffer_length = 1024;
 	musicStream.callback = stream;
@@ -88,7 +91,7 @@ void playStreamSong()
 	musicStream.sampling_rate = w.sampleRate;
 	musicStream.format = MM_STREAM_16BIT_MONO;
 	mmStreamOpen(&musicStream);
-  mmStreamUpdate();
+	mmStreamUpdate();
 	mmStreamUpdate();
 	streamOpen = true;
 }
@@ -200,18 +203,19 @@ void playMusic(Music song)
 	if (song != loadedMusic)
 	{
 		stopMusic();
-    if (file!=NULL) fclose(file);
+		if (file != NULL) fclose(file);
 		bool canStream = (file = fopen(SOUNDTRACK_FILENAME, "rb")) != NULL;
 		if (!canStream)
 		{
 			mmLoad(song);
 			mmStart(song, MM_PLAY_LOOP); //Prevents music restarting
-  		loadedMusic = song;
+			loadedMusic = song;
 		}
-		else{
+		else
+		{
 			playStreamSong();
-      loadedMusic = MUSIC_STREAM;
-    }
+			loadedMusic = MUSIC_STREAM;
+		}
 	}
 }
 

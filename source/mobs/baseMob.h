@@ -10,7 +10,8 @@
 
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 
-class baseMob {
+class baseMob
+{
 public:
 	float x;
 	float y;
@@ -46,8 +47,7 @@ public:
 	baseMob();
 	baseMob(int x, int y);
 
-	virtual ~baseMob() {
-	}
+	virtual ~ baseMob() { }
 };
 void baseMobInit();
 bool jumpHurtType(int hurtType);

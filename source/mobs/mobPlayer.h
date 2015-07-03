@@ -2,7 +2,8 @@
 
 bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
 
-class playerMob : public baseMob {
+class playerMob : public baseMob
+{
 public:
 	/*int x;
 	int y;
@@ -23,7 +24,6 @@ public:
 	playerMob();
 	playerMob(int x, int y);
 
-	~playerMob() {
-	}
+	~ playerMob() { }
 };
 void playerMobInit();

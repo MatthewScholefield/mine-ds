@@ -25,16 +25,19 @@ size_t maxStringLength(std::vector<std::string> lines);
 void clearText(bool firstSection, int sizeY = 64);
 void clearText();
 
-inline void printXY(int x, int y, const char *output) {
+inline void printXY(int x, int y, const char *output)
+{
 	//if (y > 31 || x > 31) return;
 	printf("\x1b[%d;%dH%s", y, x, output);
 }
 
-inline void printXY(int x, int y, int output) {
+inline void printXY(int x, int y, int output)
+{
 	//if (y > 31 || x > 31) return;
 	printf("\x1b[%d;%dH%d", y, x, output);
 }
 
-template<typename T> inline const T abs(T const & x) {
+template<typename T> inline const T abs(T const & x)
+{
 	return ( x < 0) ? -x : x;
 }

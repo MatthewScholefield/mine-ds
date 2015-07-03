@@ -3,7 +3,8 @@
 #include "baseMob.h"
 bool canMplayerMobSpawnHere(WorldObject* world, int x, int y);
 
-class MplayerMob : public baseMob {
+class MplayerMob : public baseMob
+{
 public:
 	/*int x;
 	int y;
@@ -20,7 +21,6 @@ public:
 	MplayerMob();
 	MplayerMob(int x, int y);
 
-	~MplayerMob() {
-	}
+	~ MplayerMob() { }
 };
 void MplayerMobInit();

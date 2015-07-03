@@ -20,7 +20,8 @@
 #define PROPERTY_GRADIENT 4
 #define PROPERTY_DITHERING 5
 
-class Config {
+class Config
+{
 private:
 	KEYPAD_BITS left;
 	KEYPAD_BITS right;
@@ -50,13 +51,13 @@ public:
 	menu(KEY_START),
 	climb(KEY_UP),
 	dropItem(KEY_SELECT),
-	properties {
-		false, false, true, true, true, true
-	},
-	textureName("default")
+	properties
 	{
-
+		false, false, true, true, true, true
 	}
+
+	,
+	textureName("default") { }
 };
 
 Config *getGlobalSettings();
