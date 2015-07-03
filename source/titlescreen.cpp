@@ -22,6 +22,11 @@
 bool firstWorld = true;
 bool menuFirstSlot = true;
 
+void setPropertyAction(UIElement *element, int property, bool state)
+{
+	getGlobalSettings()->setProperty(property, state);
+}
+
 void setCurMenuSlot(bool first)
 {
 	menuFirstSlot = first;
@@ -327,55 +332,37 @@ void controlsScreen()
 
 void gameOptions()
 {
-	bool exit = false;
 	startTransition(true);
+	clearText(menuFirstSlot);
+	drawBackground(menuFirstSlot);
 
-	while (!exit)
-	{
-		clearText(menuFirstSlot);
-		drawBackground(menuFirstSlot);
+	Menu menu;
+	menu.addButton(8, 7, "Herobrine", 14, true, true, getGlobalSettings()->getProperty(PROPERTY_HEROBRINE));
+	menu.setAction(setPropertyAction, PROPERTY_HEROBRINE);
+	menu.addButton(8, 11, "Draw Mode", 14, true, true, getGlobalSettings()->getProperty(PROPERTY_DRAW));
+	menu.setAction(setPropertyAction, PROPERTY_DRAW);
+	menu.addButton(7, 15, "Creative Speed", 16, true, true, getGlobalSettings()->getProperty(PROPERTY_SPEED));
+	menu.setAction(setPropertyAction, PROPERTY_SPEED);
+	menu.addButton(7, 19, "Smooth camera", 16, true, true, getGlobalSettings()->getProperty(PROPERTY_SMOOTH));
+	menu.setAction(setPropertyAction, PROPERTY_SMOOTH);
 
-		Menu menu;
-		menu.addButton(8, 7, "Herobrine", 14);
-		menu.addButton(8, 11, "Draw Mode", 14);
-		menu.addButton(7, 15, "Creative Speed", 16);
-		menu.addButton(7, 19, "Smooth camera", 16);
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
 
-		menu.setFrame(menuFirstSlot ? 0 : 32);
-		menuFirstSlot = !menuFirstSlot;
+	Menu boolMenu(MENU_BOOL);
+	boolMenu.setFrame(menuFirstSlot ? 0 : 32);
+	menu.activate();
+}
 
-		Menu boolMenu(MENU_BOOL);
-		boolMenu.setFrame(menuFirstSlot ? 0 : 32);
-		int result = menu.activate();
-		if (result >= 1 && result <= 4)
-		{
-			startTransition(true);
-			clearText(menuFirstSlot);
-			drawBackground(menuFirstSlot);
-			menuFirstSlot = !menuFirstSlot;
-		}
+/*void enableDithering (UIElement *element, int property, bool state)
+{
 
-		switch (result)
-		{
-			case 1: // herobrine
-				getGlobalSettings()->setProperty(PROPERTY_HEROBRINE, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_HEROBRINE)));
-				break;
-			case 2: // draw mode
-				getGlobalSettings()->setProperty(PROPERTY_DRAW, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_DRAW)));
-				break;
-			case 3: // creative speed
-				getGlobalSettings()->setProperty(PROPERTY_SPEED, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_SPEED)));
-				break;
-			case 4: // Smooth camera
-				getGlobalSettings()->setProperty(PROPERTY_SMOOTH, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_SMOOTH)));
-				break;
-			default: // back button
-				exit = true;
-				break;
-		}
-		if (!exit)
-			startTransition(false);
-	}
+}*/
+
+void changeSkyProperty(UIElement *element, int property, bool state)
+{
+	setPropertyAction(element, property, state);
+	setSkyDay();
 }
 
 void settingsScreen()
@@ -388,29 +375,19 @@ void settingsScreen()
 		clearText(menuFirstSlot);
 		drawBackground(menuFirstSlot);
 
-		Menu menu(MENU_BUTTON, true, 24 + (getGlobalSettings()->getProperty(PROPERTY_GRADIENT) ? 8 : 4));
+		Menu menu(MENU_BUTTON, true, 24 + 8);
 		menu.addButton(8, 8, "Controls", 15);
 		menu.addButton(8, 13, "Game Options", 15);
 		menu.addButton(8, 18, "Texture Pack", 15);
-		menu.addButton(8, 23, "Sky Gradient", 15);
-		menu.addButton(8, 28, "Sky Dithering", 15, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
+		menu.addButton(8, 23, "Sky Gradient", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
+		menu.setAction(changeSkyProperty, PROPERTY_GRADIENT);
+		menu.addButton(8, 28, "Sky Dithering", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_DITHERING));
+		menu.setAction(changeSkyProperty, PROPERTY_DITHERING);
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);
 		menuFirstSlot = !menuFirstSlot;
 
-		Menu boolMenu(MENU_BOOL);
-		int result = menu.activate();
-
-		if (result == 4 || result == 5)
-		{
-			boolMenu.setFrame(menuFirstSlot ? 0 : 32);
-			drawBackground(menuFirstSlot);
-			clearText(menuFirstSlot);
-			startTransition(true);
-			menuFirstSlot = !menuFirstSlot;
-		}
-
-		switch (result)
+		switch (menu.activate())
 		{
 			case 1: // controls
 				controlsScreen();
@@ -421,14 +398,6 @@ void settingsScreen()
 			case 3: // Graphics options
 				texturePackScreen();
 				break;
-			case 4:
-				getGlobalSettings()->setProperty(PROPERTY_GRADIENT, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_GRADIENT)));
-				setSkyDay();
-				break;
-			case 5:
-				getGlobalSettings()->setProperty(PROPERTY_DITHERING, boolMenu.activate(getGlobalSettings()->getProperty(PROPERTY_DITHERING)));
-				setSkyDay();
-				break;
 			default: // back button
 				exit = true;
 				break;
@@ -436,7 +405,7 @@ void settingsScreen()
 		if (!exit)
 			startTransition(false);
 	}
-  saveConfig(getGlobalSettings());
+	saveConfig(getGlobalSettings());
 }
 
 void gameModeScreen()
