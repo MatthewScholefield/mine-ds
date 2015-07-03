@@ -65,5 +65,6 @@ int parseWave(FILE* f,waveInfo* w)
   dataSize |= fgetc(f)<<24;
   w->blockAlign = blockSize;  
   w->sampleRate = samplingRate;
-  w->dataSize = dataSize;
+	w->dataSize = dataSize;
+	return 0;
 }
