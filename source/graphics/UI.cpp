@@ -14,7 +14,7 @@ void startTransition(bool forward)
 static void drawBackOffset(int offX, int offY,bool mineDS = true)
 {
 	int i, j; //They are famous variables :P
-	for (i = 0; i < 32; ++i) //Draws dirt Background
+	for (i = 0; i < 64; ++i) //Draws dirt Background
 		for (j = 0; j < 32; ++j)
 			setSubBgTile(j + offX, i + offY, ((i % 2) ? 90 : 122) + j % 2);
   if (mineDS)

@@ -15,10 +15,10 @@ public:
 	int length; //Length of Element
 	bool isVisible;
 
-	virtual void setVisible(bool) = 0;
+	virtual void setVisible(bool visible) = 0;
 	virtual void draw(bool printLabel = true) = 0;
 	virtual bool update(int state, int touchX, int touchY) = 0; //Returns true to exit/move forward
-	virtual void move(int dx, int dy) = 0;
+	virtual void move(int dx, int dy);
 
 	UIElement(int x, int y, const char * const label, int length, bool isVisible, void (*setData)(UIElement *element, int data, bool data2)) :
 	setData(setData), x(x), y(y), label(label), length(length), isVisible(isVisible) { }
