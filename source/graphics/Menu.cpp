@@ -18,9 +18,9 @@ void Menu::draw(bool labels)
 			drawBox(frameX + listX, frameY + listY, maxStringLength(listItems) + 2, listItems.size() + 2);
 		case MENU_BOOL:
 		case MENU_BUTTON:
-			for (std::vector<Button>::size_type i = 0; i != elements.size(); ++i)
-				if (elements[i].isVisible)
-					elements[i].draw(labels);
+			for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
+				if (elements[i]->isVisible)
+					elements[i]->draw(labels);
 			break;
 	}
 }
@@ -33,25 +33,20 @@ void Menu::setListXY(int x, int y)
 
 void Menu::setFrame(int x, int y)
 {
-	for (uint i = 0; i < elements.size(); ++i)
-	{
-		elements[i].x += x - frameX;
-		elements[i].printX += x - frameX;
-		elements[i].y += y - frameY;
-		elements[i].printY += y - frameY;
-	}
+	for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
+		elements[i]->move(x - frameX, y - frameY);
 	frameX = x;
 	frameY = y;
 }
 
-void Menu::addButton(int x, int y, const char * const label, int length, bool isVisible)
+void Menu::addButton(int x, int y, const char * const label, int length, bool isVisible, bool checkButton, bool initial, CheckSet checkSet)
 {
-	elements.emplace_back(x + frameX, y + frameY, label, length, isVisible);
+	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, length, isVisible, checkButton, initial, checkSet)));
 }
 
-void Menu::addButton(int x, int y, const char * const label, bool isVisible)
+void Menu::addButton(int x, int y, const char * const label, bool isVisible, bool checkButton, bool initial, CheckSet checkSet)
 {
-	elements.emplace_back(x + frameX, y + frameY, label, isVisible);
+	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, isVisible, checkButton, initial, checkSet)));
 }
 
 void Menu::addListItem(const char* label)
@@ -59,100 +54,70 @@ void Menu::addListItem(const char* label)
 	listItems.emplace_back(label);
 }
 
+void slideButtonAction(UIElement *button, int sizeY, bool extra)
+{
+	if (strcmp(button->label, "\x1E") == 0) //Slide up
+	{
+		moveSubBg(0, -(sizeY - 24)*8);
+		button->label = "\x1F";
+	}
+	else //Slide down
+	{
+		moveSubBg(0, (sizeY - 24)*8);
+		button->label = "\x1E";
+	}
+	button->draw();
+}
+
+int getTouchState(touchPosition *touch)
+{
+	if (keysDown() & KEY_TOUCH)
+	{
+		touchRead(touch);
+		return STATE_TAP;
+	}
+	if (keysHeld() & KEY_TOUCH)
+	{
+		touchRead(touch);
+		return STATE_HOLD;
+	}
+	if (keysUp() & KEY_TOUCH)
+		return STATE_RELEASE;
+	return STATE_NONE;
+}
+
 int Menu::activate(bool initial)
 {
+	int returnVal = -2;
+	touchPosition touch;
 	swiWaitForVBlank();
 	draw(true);
 	switch (type)
 	{
 		case MENU_BOOL:
-			elements[2].setColored(initial);
-			elements[3].setColored(!initial);
 		case MENU_BUTTON:
 		{
-			touchPosition touch;
-			int selected = -1;
-			bool chosen = false;
-
-			while (!chosen)
+			while (returnVal == -2)
 			{
 				updateSubBG();
 				updateFrame();
 				updateTime(); //Used to ensure random world seed changes
 				scanKeys();
-				if (keysDown() & KEY_TOUCH)
-				{
-					touchRead(&touch);
-					for (uint i = 0; i < (type == MENU_BOOL ? 2 : elements.size()); ++i)
-						if (elements[i].isTouching(touch.px, touch.py))
-							elements[i].setColored(true);
-					if (type == MENU_BOOL)
-					{
-
-						if (elements[2].isTouching(touch.px, touch.py))
-							elements[2].setColored(true);
-						else if (elements[3].isTouching(touch.px, touch.py))
-							elements[2].setColored(false);
-						elements[3].setColored(!elements[2].isColored);
-						selected = elements[2].isColored;
-					}
-				}
-				else if (keysHeld() & KEY_TOUCH)
-					touchRead(&touch);
-				else if (keysUp() & KEY_TOUCH)
-				{
-					for (uint i = 0; i < elements.size(); ++i)
-					{
-						if (elements[i].isColored && elements[i].isTouching(touch.px, touch.py))
-						{
-							switch (i)
-							{
-								case 0: //Back
-									if (type != MENU_BOOL)
-										selected = 0;
-									chosen = true;
-									break;
-								case 1: //Scroll
-									if (getScrollY() / 8 < (sizeY - 24) / 2)
-									{
-										moveSubBg(0, (sizeY - 24)*8);
-										elements[1].label = "\x1E";
-									}
-									else
-									{
-										moveSubBg(0, -(sizeY - 24)*8);
-										elements[1].label = "\x1F";
-									}
-									elements[1].draw();
-									break;
-								default:
-									if (type == MENU_BOOL)
-										break;
-									selected = i - 1;
-									chosen = true;
-									break;
-							}
-						}
-					}
-					for (uint i = 0; i < (type == MENU_BOOL ? 2 : elements.size()); ++i)
-						elements[i].setColored(false);
-				}
+				int state = getTouchState(&touch);
+				if (state)
+					for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
+						if (elements[i]->update(state, touch.px, touch.py))
+							returnVal = i - 1;
 			}
-			moveSubBg(0, -64);
-			if (type == MENU_BOOL)
-				return elements[2].isColored;
-			else
-				return selected;
 		}
 		case MENU_LIST:
 		{
 			touchPosition touch;
 			int maxNameLength = maxStringLength(listItems);
-			scanKeys();
-			touchRead(&touch);
 			uint column = 0;
-			while (1)
+			while (returnVal == -2)
 			{
+				updateFrame();
 				updateSubBG();
 				scanKeys();
 				if (keysDown() & KEY_TOUCH) //New Press
@@ -162,27 +127,31 @@ int Menu::activate(bool initial)
 					if (column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
 						for (int i = 0; i < maxNameLength; ++i)
 							setSubBgTile(frameX + listX + 1 + i, frameY + listY + column, 60);
-					else if (elements[0].isTouching(touch.px, touch.py))
-						elements[0].setColored(true);
 				}
 				else if (keysHeld() & KEY_TOUCH)
 					touchRead(&touch);
 				else if (keysUp() & KEY_TOUCH)
 				{
 					uint newColumn = ((touch.py - 8) / 8) + 1 - (frameY + listY);
-					if (elements[0].isColored && elements[0].isTouching(touch.px, touch.py))
-						return 0;
-					else if (column == newColumn && column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
-						return column;
+					if (column == newColumn && column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
+						returnVal = column;
 					else //Remove any colored buttons, if any
-					{
 						drawBoxCenter(frameX + listX + 1, frameY + listY + 1, maxNameLength, listItems.size());
-						elements[0].setColored(false);
-					}
 				}
-				updateFrame();
+				int state = getTouchState(&touch);
+				if (state)
+					for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
+						if (elements[i]->update(state, touch.px, touch.py))
+							returnVal = i - 1;
 			}
 		}
 	}
-	return 0;
+	moveSubBg(0, -64);
+	return returnVal;
+}
+
+void Menu::setAction(void (*function)(UIElement *element, int data, bool data2), int sendData)
+{
+	elements.back()->setData = function;
+	elements.back()->sendData = sendData;
 }

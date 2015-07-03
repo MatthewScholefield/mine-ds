@@ -1,23 +1,26 @@
 #pragma once
 
-#define STATE_TAP 0
-#define STATE_HOLD 1
-#define STATE_RELEASE 2
+#define STATE_NONE 0
+#define STATE_TAP 1
+#define STATE_HOLD 2
+#define STATE_RELEASE 3
 
 class UIElement {
-private:
-	void (*setData)(int data);
+protected:
 public:
+	void (*setData)(UIElement *element, int data, bool data2);
+	int sendData;
 	int x, y;
 	const char *label;
 	int length; //Length of Element
 	bool isVisible;
 
 	virtual void setVisible(bool) = 0;
-	virtual void draw(bool printLabel) = 0;
+	virtual void draw(bool printLabel = true) = 0;
 	virtual bool update(int state, int touchX, int touchY) = 0; //Returns true to exit/move forward
+	virtual void move(int dx, int dy) = 0;
 
-	UIElement(int x, int y, const char * const label, int length, bool isVisible, void (*setData)(int data)) :
+	UIElement(int x, int y, const char * const label, int length, bool isVisible, void (*setData)(UIElement *element, int data, bool data2)) :
 	setData(setData), x(x), y(y), label(label), length(length), isVisible(isVisible) { }
 
 	virtual ~UIElement() { }
