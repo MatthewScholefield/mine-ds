@@ -80,8 +80,8 @@ void moveSubBg(int dX, int dY)
 {
 	subBgX += dX;
 	subBgY += dY;
-	if (subBgY + 192 > 256)
-		subBgY = 256 - 192;
+	if (subBgY + 192 > 512)
+		subBgY = 512 - 192;
 	else if (subBgY < 0)
 		subBgY = 0;
 }

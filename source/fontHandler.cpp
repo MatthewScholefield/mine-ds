@@ -42,11 +42,16 @@ bool putChar(void* con, char c)
 		return true;
 	}
 
-	int offset = currentConsole->cursorY * 32;
+	int offset = 0; //currentConsole->cursorY * 32;
 	if (currentConsole->cursorX < 32)
 		offset += currentConsole->cursorX;
 	else
 		offset += (currentConsole->cursorX - 32) + 32 * 32;
+
+	if (currentConsole->cursorY < 32)
+		offset += currentConsole->cursorY * 32;
+	else
+		offset += (currentConsole->cursorY - 32)*32 + 32 * 64;
 
 	currentConsole->fontBgMap[offset] = currentConsole->fontCurPal | (u16) (c + currentConsole->fontCharOffset - currentConsole->font.asciiOffset);
 	++currentConsole->cursorX;

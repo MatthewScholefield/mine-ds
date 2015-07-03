@@ -354,10 +354,39 @@ void gameOptions()
 	menu.activate();
 }
 
-/*void enableDithering (UIElement *element, int property, bool state)
-{
+void setSoundAction(UIElement *slider, int position, bool extra)
+{ //position is 0...25 (Inclusive)
+}
 
-}*/
+void setSfxAction(UIElement *slider, int position, bool extra)
+{ //position is 0...25 (Inclusive)
+}
+
+int getSoundVolume()
+{
+	return rand() % 25; //For testing TODO: Replace with actual value
+}
+
+int getSfxVolume()
+{
+	return rand() % 25; //For testing TODO: Replace with actual value
+}
+
+void audioScreen()
+{
+	startTransition(true);
+	clearText(menuFirstSlot);
+	drawBackground(menuFirstSlot);
+
+	Menu menu;
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
+	menu.addSlider(1, 8, "Sound Volume", getSoundVolume());
+	menu.setAction(setSoundAction, 0);
+	menu.addSlider(1, 13, "Sfx Volume", getSfxVolume());
+	menu.setAction(setSfxAction, 0);
+	menu.activate();
+}
 
 void changeSkyProperty(UIElement *element, int property, bool state)
 {
@@ -375,13 +404,14 @@ void settingsScreen()
 		clearText(menuFirstSlot);
 		drawBackground(menuFirstSlot);
 
-		Menu menu(MENU_BUTTON, true, 24 + 8);
+		Menu menu(MENU_BUTTON, true, 37);
 		menu.addButton(8, 8, "Controls", 15);
-		menu.addButton(8, 13, "Game Options", 15);
-		menu.addButton(8, 18, "Texture Pack", 15);
-		menu.addButton(8, 23, "Sky Gradient", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
+		menu.addButton(8, 13, "Audio", 15);
+		menu.addButton(8, 18, "Game Options", 15);
+		menu.addButton(8, 23, "Texture Pack", 15);
+		menu.addButton(8, 28, "Sky Gradient", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
 		menu.setAction(changeSkyProperty, PROPERTY_GRADIENT);
-		menu.addButton(8, 28, "Sky Dithering", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_DITHERING));
+		menu.addButton(8, 33, "Sky Dithering", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_DITHERING));
 		menu.setAction(changeSkyProperty, PROPERTY_DITHERING);
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);
@@ -392,10 +422,13 @@ void settingsScreen()
 			case 1: // controls
 				controlsScreen();
 				break;
-			case 2: // game options
+			case 2: //Audio
+				audioScreen();
+				break;
+			case 3: // game options
 				gameOptions();
 				break;
-			case 3: // Graphics options
+			case 4: // Graphics options
 				texturePackScreen();
 				break;
 			default: // back button

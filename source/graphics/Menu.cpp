@@ -2,6 +2,7 @@
 #include "Menu.h"
 #include "graphics.h"
 #include "UI.h"
+#include "Slider.h"
 #include <vector>
 #include <string>
 #include <nds.h>
@@ -52,6 +53,11 @@ void Menu::addButton(int x, int y, const char * const label, bool isVisible, boo
 void Menu::addListItem(const char* label)
 {
 	listItems.emplace_back(label);
+}
+
+void Menu::addSlider(int x, int y, const char * const label, int initPos, int length, bool visible)
+{
+	elements.push_back(UIElement_ptr(new Slider(x + frameX, y + frameY, label, initPos, length, visible)));
 }
 
 void slideButtonAction(UIElement *button, int sizeY, bool extra)
@@ -146,7 +152,7 @@ int Menu::activate(bool initial)
 			}
 		}
 	}
-	moveSubBg(0, -64);
+	moveSubBg(0, -512);
 	return returnVal;
 }
 
