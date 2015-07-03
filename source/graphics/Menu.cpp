@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include "UI.h"
 #include "Slider.h"
+#include "CheckButton.h"
 #include <vector>
 #include <string>
 #include <nds.h>
@@ -17,7 +18,6 @@ void Menu::draw(bool labels)
 					printXY(frameX + listX + 1, frameY + listY + 1 + i, listItems[i].c_str());
 
 			drawBox(frameX + listX, frameY + listY, maxStringLength(listItems) + 2, listItems.size() + 2);
-		case MENU_BOOL:
 		case MENU_BUTTON:
 			for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
 				if (elements[i]->isVisible)
@@ -40,14 +40,14 @@ void Menu::setFrame(int x, int y)
 	frameY = y;
 }
 
-void Menu::addButton(int x, int y, const char * const label, int length, bool isVisible, bool checkButton, bool initial, CheckSet checkSet)
+void Menu::addButton(int x, int y, const char * const label, int length, bool isVisible)
 {
-	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, length, isVisible, checkButton, initial, checkSet)));
+	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, length, isVisible)));
 }
 
-void Menu::addButton(int x, int y, const char * const label, bool isVisible, bool checkButton, bool initial, CheckSet checkSet)
+void Menu::addButton(int x, int y, const char * const label, bool isVisible)
 {
-	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, isVisible, checkButton, initial, checkSet)));
+	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, isVisible)));
 }
 
 void Menu::addListItem(const char* label)
@@ -58,6 +58,11 @@ void Menu::addListItem(const char* label)
 void Menu::addSlider(int x, int y, const char * const label, int initPos, int length, bool visible)
 {
 	elements.push_back(UIElement_ptr(new Slider(x + frameX, y + frameY, label, initPos, length, visible)));
+}
+
+void Menu::addCheckButton(int x, int y, const char* const label, bool enabled, int length, bool isVisible)
+{
+	elements.push_back(UIElement_ptr(new CheckButton(x + frameX, y + frameY, label, enabled, length, isVisible)));
 }
 
 void slideButtonAction(UIElement *button, int sizeY, bool extra)
@@ -100,7 +105,6 @@ int Menu::activate(bool initial)
 	draw(true);
 	switch (type)
 	{
-		case MENU_BOOL:
 		case MENU_BUTTON:
 		{
 			while (returnVal == -2)

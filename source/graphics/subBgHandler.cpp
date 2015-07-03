@@ -108,8 +108,8 @@ void updateSubBG()
 	subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;
 	/*if (abs(subBgCalcX - double(subBgX)) < 0.4)
 		subBgCalcX = subBgX;*/
-	bgSetScroll(6, subBgCalcX, subBgCalcY);
-	bgSetScroll(getConsoleID(), subBgCalcX, subBgCalcY);
+	bgSetScroll(6, int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
+	bgSetScroll(getConsoleID(), int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
 	bgUpdate();
 }
 

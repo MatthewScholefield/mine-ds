@@ -337,20 +337,18 @@ void gameOptions()
 	drawBackground(menuFirstSlot);
 
 	Menu menu;
-	menu.addButton(8, 7, "Herobrine", 14, true, true, getGlobalSettings()->getProperty(PROPERTY_HEROBRINE));
+	menu.addCheckButton(8, 7, "Herobrine", getGlobalSettings()->getProperty(PROPERTY_HEROBRINE));
 	menu.setAction(setPropertyAction, PROPERTY_HEROBRINE);
-	menu.addButton(8, 11, "Draw Mode", 14, true, true, getGlobalSettings()->getProperty(PROPERTY_DRAW));
+	menu.addCheckButton(8, 11, "Draw Mode", getGlobalSettings()->getProperty(PROPERTY_DRAW));
 	menu.setAction(setPropertyAction, PROPERTY_DRAW);
-	menu.addButton(7, 15, "Creative Speed", 16, true, true, getGlobalSettings()->getProperty(PROPERTY_SPEED));
+	menu.addCheckButton(7, 15, "Creative Speed", getGlobalSettings()->getProperty(PROPERTY_SPEED));
 	menu.setAction(setPropertyAction, PROPERTY_SPEED);
-	menu.addButton(7, 19, "Smooth camera", 16, true, true, getGlobalSettings()->getProperty(PROPERTY_SMOOTH));
+	menu.addCheckButton(7, 19, "Smooth camera", getGlobalSettings()->getProperty(PROPERTY_SMOOTH));
 	menu.setAction(setPropertyAction, PROPERTY_SMOOTH);
 
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
 
-	Menu boolMenu(MENU_BOOL);
-	boolMenu.setFrame(menuFirstSlot ? 0 : 32);
 	menu.activate();
 }
 
@@ -409,9 +407,9 @@ void settingsScreen()
 		menu.addButton(8, 13, "Audio", 15);
 		menu.addButton(8, 18, "Game Options", 15);
 		menu.addButton(8, 23, "Texture Pack", 15);
-		menu.addButton(8, 28, "Sky Gradient", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_GRADIENT));
+		menu.addCheckButton(7, 28, "Sky Gradient", getGlobalSettings()->getProperty(PROPERTY_GRADIENT), 18);
 		menu.setAction(changeSkyProperty, PROPERTY_GRADIENT);
-		menu.addButton(8, 33, "Sky Dithering", 15, true, true, getGlobalSettings()->getProperty(PROPERTY_DITHERING));
+		menu.addCheckButton(7, 33, "Sky Dithering", getGlobalSettings()->getProperty(PROPERTY_DITHERING));
 		menu.setAction(changeSkyProperty, PROPERTY_DITHERING);
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);
