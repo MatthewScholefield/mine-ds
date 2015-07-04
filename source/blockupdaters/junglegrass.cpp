@@ -7,13 +7,13 @@
 #include "../blocks.h"
 #include "junglegrass.h"
 
-junglegrassUpdater::junglegrassUpdater()
+JungleGrassUpdater::JungleGrassUpdater()
 {
 	blockID = GRASS_JUNGLE;
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void junglegrassUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void JungleGrassUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg)
 	{

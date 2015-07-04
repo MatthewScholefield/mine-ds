@@ -8,13 +8,13 @@
 #include "jungleLeaf.h"
 #include "leaf.h"
 
-jungleLeafUpdater::jungleLeafUpdater()
+JungleLeafUpdater::JungleLeafUpdater()
 {
 	blockID = LEAVES_JUNGLE;
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void jungleLeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void JungleLeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

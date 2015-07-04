@@ -32,13 +32,13 @@ void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 		createItemMob(x, y, genericBlock(leafID));
 }
 
-leafUpdater::leafUpdater()
+LeafUpdater::LeafUpdater()
 {
 	blockID = LEAVES_OAK;
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void leafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void LeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

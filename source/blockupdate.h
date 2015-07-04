@@ -7,11 +7,11 @@
 #define LEAF_SQUARE_RADIUS 4
 #define CACTUS_CHANCE_UPDATE 1000
 
-class blockUpdater
+class BlockUpdater
 {
 public:
 	int blockID = 15;
-	blockUpdater();
+	BlockUpdater();
 	int chance = NO_CHANCE;
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 	virtual void update(WorldObject* world, int x, int y, bool bg);

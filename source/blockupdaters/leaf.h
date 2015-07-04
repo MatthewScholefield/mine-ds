@@ -4,9 +4,9 @@
 
 void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg);
 
-class leafUpdater : public blockUpdater
+class LeafUpdater : public BlockUpdater
 {
 public:
-	leafUpdater();
+	LeafUpdater();
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 };

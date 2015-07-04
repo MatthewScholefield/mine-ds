@@ -2,10 +2,10 @@
 #include "../world.h"
 #include "../blockupdate.h"
 
-class cactusUpdater : public blockUpdater
+class CactusUpdater : public BlockUpdater
 {
 public:
-	cactusUpdater();
+	CactusUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 };

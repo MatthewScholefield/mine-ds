@@ -9,13 +9,13 @@
 #include "../mobs/hurt.h"
 #include "../mainGame.h"
 
-cactusUpdater::cactusUpdater()
+CactusUpdater::CactusUpdater()
 {
 	blockID = CACTUS;
 	chance = CACTUS_CHANCE_UPDATE;
 }
 
-void cactusUpdater::update(WorldObject* world, int x, int y, bool bg)
+void CactusUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
@@ -26,7 +26,7 @@ void cactusUpdater::update(WorldObject* world, int x, int y, bool bg)
 	}
 }
 
-void cactusUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void CactusUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];

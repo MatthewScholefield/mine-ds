@@ -6,13 +6,13 @@
 #include "../blockID.h"
 #include "air.h"
 
-airUpdater::airUpdater()
+AirUpdater::AirUpdater()
 {
 	blockID = AIR;
 	chance = NO_CHANCE;
 }
 
-void airUpdater::update(WorldObject* world, int x, int y, bool bg)
+void AirUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{

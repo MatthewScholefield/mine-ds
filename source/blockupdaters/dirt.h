@@ -2,9 +2,9 @@
 #include "../world.h"
 #include "../blockupdate.h"
 
-class dirtUpdater : public blockUpdater
+class DirtUpdater : public BlockUpdater
 {
 public:
-	dirtUpdater();
+	DirtUpdater();
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 };
