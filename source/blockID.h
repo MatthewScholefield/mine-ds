@@ -1,11 +1,4 @@
 #pragma once
-/* _____________________________________________
-  | 						|
-  |		     BlockID.h			|
-  |     Part of Mine DS , by CoolAs and Ray	|
-  |		Thanks to Dirbaio!		|
-  |_____________________________________________|
- */
 //Block Types
 #define SOIL 1 //Any type of block that destroys faster with a shovel
 #define WOOD 2
