@@ -13,7 +13,7 @@
 #include "../worldRender.h"
 #include "../files.h"
 #include "../fontHandler.h"
-#include "../daynight.h"
+#include "../dayNight.h"
 #include "subBgHandler.h"
 
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
