@@ -1,11 +1,3 @@
-/* _____________________________________________
-| 						|
-| WorldRender.cpp 				|
-| Part of Mine DS , by CoolAs and Ray		|
-| Thanks to Dirbaio! 				|
-|_______________________________________________|
- */
-
 #include <nds.h>
 #include <stdio.h>
 #include "world.h"

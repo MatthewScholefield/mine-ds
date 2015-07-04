@@ -1,3 +1,4 @@
+#pragma once
 #include "../world.h"
 #include "BaseMob.h"
 #include <fat.h>

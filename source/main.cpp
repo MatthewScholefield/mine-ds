@@ -1,11 +1,3 @@
-/* _____________________________________________
-| |
-| Main.cpp |
-| Part of Mine DS , by CoolAs and Ray |
-| Thanks to Dirbaio! |
-|_____________________________________________|
- */
-
 #include <nds.h>
 #include <stdio.h>
 #include "blocks.h"
