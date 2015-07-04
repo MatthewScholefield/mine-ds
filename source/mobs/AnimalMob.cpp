@@ -4,7 +4,7 @@
 #include "hurt.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "animalMob.h"
+#include "AnimalMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../general.h"
@@ -12,9 +12,9 @@
 #include "../collision.h"
 #include "../inventory.h"
 #include "../mainGame.h"
-Graphic animalGraphics[3][2];
+Graphic animalMobGraphics[3][2];
 
-animalMob::animalMob()
+AnimalMob::AnimalMob()
 {
 	target = NULL;
 	mov = 0;
@@ -33,7 +33,7 @@ animalMob::animalMob()
 	smallmob = true;
 }
 
-animalMob::animalMob(int a, int b)
+AnimalMob::AnimalMob(int a, int b)
 {
 	target = NULL;
 	mov = 0;
@@ -57,10 +57,10 @@ animalMob::animalMob(int a, int b)
 	animal = AnimalType(rand() % 3);
 }
 
-void animalMob::updateMob(WorldObject* world)
+void AnimalMob::updateMob(WorldObject* world)
 {
-	if (animation == 0) showGraphic(&animalGraphics[animal][0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
-	else if (animation == 1) showGraphic(&animalGraphics[animal][1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	if (animation == 0) showGraphic(&animalMobGraphics[animal][0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	else if (animation == 1) showGraphic(&animalMobGraphics[animal][1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
 
 	if (host == true)
 	{
@@ -129,20 +129,20 @@ void animalMob::updateMob(WorldObject* world)
 	}
 }
 
-void animalMob::sendWifiUpdate()
+void AnimalMob::sendWifiUpdate()
 {
 }
 
-void animalMob::saveToFile(FILE* pFile)
+void AnimalMob::saveToFile(FILE* pFile)
 {
 }
 
-void animalMob::loadFromFile(FILE* pFile)
+void AnimalMob::loadFromFile(FILE* pFile)
 {
 	killMob();
 }
 
-void animalMob::hurt(int amount, int type)
+void AnimalMob::hurt(int amount, int type)
 {
 
 	if (animation == 1)
@@ -192,7 +192,7 @@ void animalMob::hurt(int amount, int type)
 	animationClearFrames = 20;
 }
 
-bool animalMob::isMyPlayer()
+bool AnimalMob::isMyPlayer()
 {
 	return false;
 }
@@ -204,10 +204,10 @@ bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
 
 void animalMobInit()
 {
-	loadGraphic(&animalGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_PIG][1], GRAPHIC_MOB, 11, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_COW][0], GRAPHIC_MOB, 12, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_COW][1], GRAPHIC_MOB, 13, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_SHEEP][0], GRAPHIC_MOB, 14, 16, 16);
-	loadGraphic(&animalGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_PIG][1], GRAPHIC_MOB, 11, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_COW][0], GRAPHIC_MOB, 12, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_COW][1], GRAPHIC_MOB, 13, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][0], GRAPHIC_MOB, 14, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);
 }

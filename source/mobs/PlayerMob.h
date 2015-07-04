@@ -1,8 +1,8 @@
-#include "baseMob.h"
+#include "BaseMob.h"
 
 bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
 
-class playerMob : public baseMob
+class PlayerMob : public BaseMob
 {
 public:
 	/*int x;
@@ -21,9 +21,9 @@ public:
 	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
-	playerMob();
-	playerMob(int x, int y);
+	PlayerMob();
+	PlayerMob(int x, int y);
 
-	~ playerMob() { }
+	~ PlayerMob() { }
 };
 void playerMobInit();

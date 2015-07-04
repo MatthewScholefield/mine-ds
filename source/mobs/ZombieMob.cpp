@@ -4,7 +4,7 @@
 #include "hurt.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "zombieMob.h"
+#include "ZombieMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../general.h"
@@ -15,7 +15,7 @@
 #include "../mainGame.h"
 Graphic zombieMobGraphic[3];
 
-zombieMob::zombieMob()
+ZombieMob::ZombieMob()
 {
 	target = NULL;
 	jump = 0;
@@ -31,7 +31,7 @@ zombieMob::zombieMob()
 	noTarget = 0;
 }
 
-zombieMob::zombieMob(int a, int b)
+ZombieMob::ZombieMob(int a, int b)
 {
 	target = NULL;
 	jump = 0;
@@ -51,7 +51,7 @@ zombieMob::zombieMob(int a, int b)
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
 
-void zombieMob::hurt(int amount, int type)
+void ZombieMob::hurt(int amount, int type)
 {
 
 	if (animation == 1)
@@ -76,7 +76,7 @@ void zombieMob::hurt(int amount, int type)
 	}
 }
 
-void zombieMob::updateMob(WorldObject* world)
+void ZombieMob::updateMob(WorldObject* world)
 {
 	if (world->timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
 	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
@@ -114,15 +114,15 @@ void zombieMob::updateMob(WorldObject* world)
 	}
 }
 
-void zombieMob::sendWifiUpdate()
+void ZombieMob::sendWifiUpdate()
 {
 }
 
-void zombieMob::saveToFile(FILE* pFile)
+void ZombieMob::saveToFile(FILE* pFile)
 {
 }
 
-void zombieMob::loadFromFile(FILE* pFile)
+void ZombieMob::loadFromFile(FILE* pFile)
 {
 	killMob();
 }
@@ -144,7 +144,7 @@ void zombieMobInit()
 	loadGraphic(&zombieMobGraphic[1], GRAPHIC_MOB, 4);
 }
 
-bool zombieMob::isMyPlayer()
+bool ZombieMob::isMyPlayer()
 {
 	return false;
 }

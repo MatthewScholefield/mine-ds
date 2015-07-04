@@ -6,7 +6,7 @@
 #include "nifi.h"
 #include "world.h"
 #include "mobs/mobHandler.h"
-#include "mobs/baseMob.h"
+#include "mobs/BaseMob.h"
 #include "mining.h"
 #include "worldRender.h"
 #include "general.h"
@@ -229,7 +229,7 @@ void wifiHurtMob(int mobNum, int amount, int type)
 	Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 }
 
-void sendMobUpdater(baseMob* mob, int mobNum)
+void sendMobUpdater(BaseMob* mob, int mobNum)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();
