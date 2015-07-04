@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include "../world.h"
 #include "BaseMob.h"

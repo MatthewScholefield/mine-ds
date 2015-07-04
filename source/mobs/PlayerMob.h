@@ -1,3 +1,4 @@
+#pragma once
 #include "BaseMob.h"
 
 bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
