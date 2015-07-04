@@ -6,7 +6,7 @@
 #include "../worldRender.h"
 #include "../graphics/graphics.h"
 #include "../inventory.h"
-#include "mobPlayer.h"
+#include "PlayerMob.h"
 #include "../general.h"
 #include "../blockID.h"
 #include "../sounds.h"
@@ -25,7 +25,7 @@ int slow = 0;
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
 
-playerMob::playerMob()
+PlayerMob::PlayerMob()
 {
 	x = 0;
 	y = 0;
@@ -42,7 +42,7 @@ playerMob::playerMob()
 	deathScreen = false;
 }
 
-playerMob::playerMob(int a, int b)
+PlayerMob::PlayerMob(int a, int b)
 {
 	sx = 6;
 	sy = 32;
@@ -62,7 +62,7 @@ playerMob::playerMob(int a, int b)
 	deathScreen = false;
 }
 
-void playerMob::hurt(int amount, int type)
+void PlayerMob::hurt(int amount, int type)
 {
 	if (isSurvival() || type == VOID_HURT)
 	{
@@ -142,7 +142,7 @@ bool checkLadder(WorldObject *world, int x, int y)
 	return world->blocks[x / 16][y / 16] == LADDER || world->bgblocks[x / 16][y / 16] == LADDER;
 }
 
-void playerMob::updateMob(WorldObject* world)
+void PlayerMob::updateMob(WorldObject* world)
 {
 	if (host)
 	{
@@ -284,16 +284,16 @@ void playerMob::updateMob(WorldObject* world)
 	}
 }
 
-void playerMob::sendWifiUpdate()
+void PlayerMob::sendWifiUpdate()
 {
 }
 
-void playerMob::saveToFile(FILE* pFile)
+void PlayerMob::saveToFile(FILE* pFile)
 {
 	fprintf(pFile, "%d %d %d ", int(x), int(y), health);
 }
 
-void playerMob::loadFromFile(FILE* pFile)
+void PlayerMob::loadFromFile(FILE* pFile)
 {
 	int loadX, loadY;
 	fscanf(pFile, "%d %d %d ", &loadX, &loadY, &health);
@@ -301,7 +301,7 @@ void playerMob::loadFromFile(FILE* pFile)
 	y = loadY;
 }
 
-bool playerMob::isMyPlayer()
+bool PlayerMob::isMyPlayer()
 {
 	return true;
 }

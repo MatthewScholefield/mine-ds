@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include "../world.h"
-#include "baseMob.h"
-#ifndef ZOMBIE_MOB_H
-#define ZOMBIE_MOB_H
-#define ZOMBIE_SPEED 0.5
+#include "BaseMob.h"
+bool canMultiplayerMobSpawnHere(WorldObject* world, int x, int y);
 
-bool canZombieMobSpawnHere(WorldObject* world, int x, int y);
-
-class zombieMob : public baseMob
+class MultiplayerMob : public BaseMob
 {
 public:
 	/*int x;
@@ -17,19 +13,14 @@ public:
 	bool alive;
 	bool host; // Was this mob spawn'd by this nds?*/
 	//bool potioneffects[5];
-	int jump;
-	baseMob* target;
-	int noTarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
 	virtual void sendWifiUpdate();
 	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
-	virtual bool isMyPlayer();
-	zombieMob();
-	zombieMob(int x, int y);
+	MultiplayerMob();
+	MultiplayerMob(int x, int y);
 
-	~ zombieMob() { }
+	~ MultiplayerMob() { }
 };
-void zombieMobInit();
-#endif
+void multiplayerMobInit();

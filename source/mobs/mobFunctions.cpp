@@ -1,6 +1,6 @@
 #include <nds.h>
 #include <stdio.h>
-#include "baseMob.h"
+#include "BaseMob.h"
 #include "../collision.h"
 #include "../blocks.h"
 #include "mobCollisions.h"
@@ -8,7 +8,7 @@
 #include "mobFunctions.h"
 #include "hurt.h"
 
-void calculatePhysics(baseMob* mob)
+void calculatePhysics(BaseMob* mob)
 {
 	if (mob->collisions[SIDE_BOTTOM] && mob->vy > 0)
 	{
@@ -30,7 +30,7 @@ int blockAtPixel(WorldObject *world, int pixX, int pixY)
 	return world->blocks[pixX / 16][pixY / 16];
 }
 
-void calculateCollisions(WorldObject *world, baseMob *mob)
+void calculateCollisions(WorldObject *world, BaseMob *mob)
 {
 	mob->collisions[SIDE_BOTTOM] = !isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2) / 16])
 			|| !isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2) / 16]);
@@ -45,7 +45,7 @@ void calculateCollisions(WorldObject *world, baseMob *mob)
 	mob->collisions[COLLISION_STUCK] = false;
 }
 
-void calculateMiscData(WorldObject *world, baseMob* mob)
+void calculateMiscData(WorldObject *world, BaseMob* mob)
 {
 	if (mob->host)
 	{
@@ -111,7 +111,7 @@ void calculateMiscData(WorldObject *world, baseMob* mob)
 	}
 }
 
-void calculateMiscDataSmall(WorldObject* world, baseMob* mob)
+void calculateMiscDataSmall(WorldObject* world, BaseMob* mob)
 {
 	if (mob->host)
 	{

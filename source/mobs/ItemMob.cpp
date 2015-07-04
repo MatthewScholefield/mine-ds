@@ -5,7 +5,7 @@
 #include "hurt.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "itemMob.h"
+#include "ItemMob.h"
 #include "mobHandler.h"
 #include "../blockID.h"
 #include "../blocks.h"
@@ -17,7 +17,7 @@
 #include "../mining.h"
 #include "../worldRender.h"
 
-itemMob::itemMob(int a, int b)
+ItemMob::ItemMob(int a, int b)
 {
 	sx = 8;
 	sy = 8;
@@ -38,12 +38,12 @@ itemMob::itemMob(int a, int b)
 	itemGraphic = NULL;
 }
 
-bool itemMob::isMyPlayer()
+bool ItemMob::isMyPlayer()
 {
 	return false;
 }
 
-void itemMob::updateMob(WorldObject* world)
+void ItemMob::updateMob(WorldObject* world)
 {
 	if (!alive)
 		return;
@@ -83,7 +83,7 @@ void itemMob::updateMob(WorldObject* world)
 	++floatY;
 	if (floatY > 100)
 		floatY = 0;
-	baseMob* target;
+	BaseMob* target;
 	target = mobHandlerFindMob(8, 2, x, y - 8);
 	if (target == NULL)
 		target = mobHandlerFindMob(8, 2, x, y - 24);
@@ -104,15 +104,15 @@ void itemMob::updateMob(WorldObject* world)
 	}
 }
 
-void itemMob::sendWifiUpdate()
+void ItemMob::sendWifiUpdate()
 {
 }
 
-void itemMob::saveToFile(FILE* pFile)
+void ItemMob::saveToFile(FILE* pFile)
 {
 }
 
-void itemMob::killMob()
+void ItemMob::killMob()
 {
 	playSound(SOUND_POP, 155 + rand() % 100);
 	delete itemGraphic;
@@ -120,12 +120,12 @@ void itemMob::killMob()
 	alive = false;
 }
 
-void itemMob::loadFromFile(FILE* pFile)
+void ItemMob::loadFromFile(FILE* pFile)
 {
 	killMob();
 }
 
-void itemMob::hurt(int hamount, int type)
+void ItemMob::hurt(int hamount, int type)
 {
 	switch (type)
 	{

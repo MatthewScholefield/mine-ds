@@ -1,5 +1,5 @@
 #include "../world.h"
-#include "baseMob.h"
+#include "BaseMob.h"
 #include <fat.h>
 
 #define JUMP_VELOCITY -6.0
@@ -19,5 +19,5 @@ void mobsReset(bool playerSpawned = false);
 void mobHandlerHurtMob(int mobNum, int amount, int type);
 int isMobAt(int x, int y);
 void mobHandlerHurtMobWifi(int mobNum, int amount, int type);
-baseMob* mobHandlerFindMob(int range, int type, int x, int y);
+BaseMob* mobHandlerFindMob(int range, int type, int x, int y);
 int getPlayerX();
