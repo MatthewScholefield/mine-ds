@@ -1,11 +1,3 @@
-/* _____________________________________________
-  | 						|
-  |		worldgen.cpp			|
-  |     Part of Mine DS , by CoolAs and Ray	|
-  |		Thanks to Dirbaio!		|
-  |_____________________________________________|
- */
-
 #include "world.h"
 #include "blockID.h"
 #include "blocks.h"
