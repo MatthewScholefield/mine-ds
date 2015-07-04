@@ -2,10 +2,10 @@
 #include "../world.h"
 #include "../blockupdate.h"
 
-class airUpdater : public blockUpdater
+class AirUpdater : public BlockUpdater
 {
 public:
-	airUpdater();
+	AirUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 
 };
