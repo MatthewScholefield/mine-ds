@@ -1,0 +1,10 @@
+* text=auto
+*.txt text
+*.c text
+*.s text
+*.cpp text
+*.h text
+*.grit text
+*.it binary
+*.wav binary
+*.png binary

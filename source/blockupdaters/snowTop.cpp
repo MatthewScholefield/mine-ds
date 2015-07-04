@@ -7,12 +7,12 @@
 #include "../blocks.h"
 #include "snowTop.h"
 
-snowTopUpdater::snowTopUpdater()
+SnowTopUpdater::SnowTopUpdater()
 {
 	blockID = SNOW_TOP;
 }
 
-void snowTopUpdater::update(WorldObject* world, int x, int y, bool bg)
+void SnowTopUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg && isBlockWalkThrough(world->blocks[x][y + 1]))
 	{

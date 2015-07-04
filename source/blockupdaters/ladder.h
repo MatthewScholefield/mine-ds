@@ -2,9 +2,9 @@
 #include "../world.h"
 #include "../blockupdate.h"
 
-class ladderUpdater : public blockUpdater
+class LadderUpdater : public BlockUpdater
 {
 public:
-	ladderUpdater();
+	LadderUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };

@@ -26,46 +26,46 @@
 #include "blockupdaters/jungleSapling.h"
 #include "blockupdaters/ladder.h"
 
-blockUpdater* blockUpdaters[50];
+BlockUpdater* blockUpdaters[50];
 int numBlockUpdaters;
 
-blockUpdater::blockUpdater()
+BlockUpdater::BlockUpdater()
 {
 }
 
-void blockUpdater::update(WorldObject* world, int x, int y, bool bg)
+void BlockUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 }
 
-void blockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void BlockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 }
 
 void proceduralBlockUpdateInit()
 {
 	numBlockUpdaters = 0;
-	blockUpdaters[numBlockUpdaters++] = new furnaceUpdater;
-	blockUpdaters[numBlockUpdaters++] = new airUpdater;
-	blockUpdaters[numBlockUpdaters++] = new grassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new junglegrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new myceliumUpdater;
-	blockUpdaters[numBlockUpdaters++] = new dirtUpdater;
-	blockUpdaters[numBlockUpdaters++] = new leafUpdater;
-	blockUpdaters[numBlockUpdaters++] = new redwoodLeafUpdater;
-	blockUpdaters[numBlockUpdaters++] = new jungleLeafUpdater;
-	blockUpdaters[numBlockUpdaters++] = new snowTopUpdater;
-	blockUpdaters[numBlockUpdaters++] = new snowGrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new cactusUpdater;
-	blockUpdaters[numBlockUpdaters++] = new shrubUpdater;
-	blockUpdaters[numBlockUpdaters++] = new tallGrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new redFlowerUpdater;
-	blockUpdaters[numBlockUpdaters++] = new yellowFlowerUpdater;
-	blockUpdaters[numBlockUpdaters++] = new redMushroomUpdater;
-	blockUpdaters[numBlockUpdaters++] = new brownMushroomUpdater;
-	blockUpdaters[numBlockUpdaters++] = new oakSaplingUpdater;
-	blockUpdaters[numBlockUpdaters++] = new jungleSaplingUpdater;
-	blockUpdaters[numBlockUpdaters++] = new spruceSaplingUpdater;
-	blockUpdaters[numBlockUpdaters++] = new ladderUpdater;
+	blockUpdaters[numBlockUpdaters++] = new FurnaceUpdater;
+	blockUpdaters[numBlockUpdaters++] = new AirUpdater;
+	blockUpdaters[numBlockUpdaters++] = new GrassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new JungleGrassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new MyceliumUpdater;
+	blockUpdaters[numBlockUpdaters++] = new DirtUpdater;
+	blockUpdaters[numBlockUpdaters++] = new LeafUpdater;
+	blockUpdaters[numBlockUpdaters++] = new RedwoodLeafUpdater;
+	blockUpdaters[numBlockUpdaters++] = new JungleLeafUpdater;
+	blockUpdaters[numBlockUpdaters++] = new SnowTopUpdater;
+	blockUpdaters[numBlockUpdaters++] = new SnowGrassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new CactusUpdater;
+	blockUpdaters[numBlockUpdaters++] = new ShrubUpdater;
+	blockUpdaters[numBlockUpdaters++] = new TallGrassUpdater;
+	blockUpdaters[numBlockUpdaters++] = new RedFlowerUpdater;
+	blockUpdaters[numBlockUpdaters++] = new YellowFlowerUpdater;
+	blockUpdaters[numBlockUpdaters++] = new RedMushroomUpdater;
+	blockUpdaters[numBlockUpdaters++] = new BrownMushroomUpdater;
+	blockUpdaters[numBlockUpdaters++] = new OakSaplingUpdater;
+	blockUpdaters[numBlockUpdaters++] = new JungleSaplingUpdater;
+	blockUpdaters[numBlockUpdaters++] = new SpruceSaplingUpdater;
+	blockUpdaters[numBlockUpdaters++] = new LadderUpdater;
 }
 
 void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)

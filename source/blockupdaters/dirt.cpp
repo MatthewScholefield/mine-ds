@@ -23,7 +23,7 @@ const int scanCheck[][6] = {
 	{-1, -1, -2, -1, -1, -2}
 };
 
-dirtUpdater::dirtUpdater()
+DirtUpdater::DirtUpdater()
 {
 	blockID = DIRT;
 	chance = SOIL_CHANCE_UPDATE;
@@ -64,7 +64,7 @@ int getGrassSpreadID(WorldObject* world, int x, int y, bool bg, int scanIndex = 
 	}
 }
 
-void dirtUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void DirtUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg)
 	{
