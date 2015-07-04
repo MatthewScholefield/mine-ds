@@ -5,12 +5,12 @@
 #include "mobs.h"
 #include "particles.h"
 #include "fontHandler.h"
-#include "worldgen.h"
+#include "worldGen.h"
 #include "mining.h"
 #include "blockID.h"
 #include "blocks.h"
 #include "worldRender.h"
-#include "titlescreen.h"
+#include "titleScreen.h"
 #include "mainGame.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
@@ -20,7 +20,7 @@
 #include "sounds.h"
 #include "files.h"
 #include "general.h"
-#include "blockupdate.h"
+#include "blockUpdater.h"
 //#include <maxmod9.h>    // Maxmod definitions for ARM9
 //#include <string>
 
@@ -51,6 +51,6 @@ int main()
 	oamClear(&oamSub, 0, 127);
 	initSound();
 	clear_messages();
-	titlescreen();
+	titleScreen();
 	return 0;
 }

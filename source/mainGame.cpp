@@ -1,7 +1,7 @@
 #include <nds.h>
 #include <stdio.h>
 #include "world.h"
-#include "worldgen.h"
+#include "worldGen.h"
 #include "general.h"
 #include "mining.h"
 #include "blockID.h"
@@ -14,10 +14,10 @@
 #include "mobs/PlayerMob.h"
 #include "mobs/ItemMob.h"
 #include "deathScreen.h"
-#include "daynight.h"
+#include "dayNight.h"
 #include "graphics/inventoryGraphics.h"
 #include "inventory.h"
-#include "titlescreen.h"
+#include "titleScreen.h"
 #include "graphics/UI.h"
 #include "Config.h"
 #include "files.h"
@@ -25,7 +25,7 @@
 #include "sounds.h"
 #include "nifi.h"
 #include "communications.h"
-#include "blockupdate.h"
+#include "blockUpdater.h"
 #include "blockPages.h"
 #include <time.h>
 #include "blocks.h"
