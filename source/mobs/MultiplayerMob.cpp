@@ -3,13 +3,13 @@
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "mobMPlayer.h"
+#include "MultiplayeMob.h"
 #include "../blockID.h"
 #include <nds.h>
 //ASDF?
 Graphic MplayerMobGraphic[3];
 
-MplayerMob::MplayerMob()
+MultiplayerMob::MultiplayerMob()
 {
 	x = 0;
 	y = 0;
@@ -23,7 +23,7 @@ MplayerMob::MplayerMob()
 	ping = 0;
 }
 
-MplayerMob::MplayerMob(int a, int b)
+MultiplayerMob::MultiplayerMob(int a, int b)
 {
 	sx = 6;
 	sy = 32;
@@ -37,12 +37,12 @@ MplayerMob::MplayerMob(int a, int b)
 	ping = 0;
 }
 
-void MplayerMob::hurt(int amount, int type)
+void MultiplayerMob::hurt(int amount, int type)
 {
 	return; //Do nothing, if a Multiplayer mob is hurt then it should be realised on the server not client...
 }
 
-void MplayerMob::updateMob(WorldObject* world)
+void MultiplayerMob::updateMob(WorldObject* world)
 {
 	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
 	{
@@ -51,21 +51,21 @@ void MplayerMob::updateMob(WorldObject* world)
 	}
 }
 
-void MplayerMob::sendWifiUpdate()
+void MultiplayerMob::sendWifiUpdate()
 {
 
 }
 
-void MplayerMob::saveToFile(FILE* pFile)
+void MultiplayerMob::saveToFile(FILE* pFile)
 {
 }
 
-void MplayerMob::loadFromFile(FILE* pFile)
+void MultiplayerMob::loadFromFile(FILE* pFile)
 {
 	killMob();
 }
 
-bool canMplayerMobSpawnHere(WorldObject* world, int x, int y)
+bool canMultiplayerMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS)
@@ -73,7 +73,7 @@ bool canMplayerMobSpawnHere(WorldObject* world, int x, int y)
 	return false;
 }
 
-void MplayerMobInit()
+void multiplayerMobInit()
 {
 	loadGraphic(&MplayerMobGraphic[0], GRAPHIC_MOB, 0);
 	loadGraphic(&MplayerMobGraphic[1], GRAPHIC_MOB, 1);

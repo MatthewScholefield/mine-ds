@@ -1,12 +1,12 @@
 #include <nds.h>
 #include <fat.h>
-#include "baseMob.h" //Bad guys are nameMob
-#include "mobPlayer.h" //Good guys are mobName
-#include "mobMPlayer.h"
-#include "zombieMob.h"
-#include "herobrineMob.h"
-#include "animalMob.h"
-#include "itemMob.h"
+#include "BaseMob.h" //Bad guys are nameMob
+#include "PlayerMob.h" //Good guys are mobName
+#include "MultiplayeMob.h"
+#include "ZombieMob.h"
+#include "HerobrineMob.h"
+#include "AnimalMob.h"
+#include "ItemMob.h"
 #include "mobFunctions.h"
 #include "hurt.h"
 #include "../nifi.h"
@@ -19,7 +19,7 @@
 #include "../worldRender.h"
 #define PLAYER_ID 1
 
-baseMob* mobs[100];
+BaseMob* mobs[100];
 const int peacefulmobs[] = {4, 5, 6};
 bool hasSpawnPlayer;
 bool spawnPlayerAtPos;
@@ -34,7 +34,7 @@ int getDefaultSpawnX()
 	return mobs[PLAYER_ID]->x / 16 + (rand() % 5) - 2;
 }
 
-baseMob* mobHandlerFindMob(int range, int type, int x, int y)
+BaseMob* mobHandlerFindMob(int range, int type, int x, int y)
 {
 	int closest = range * range + 1;
 	int mobNum = -1;
@@ -105,7 +105,7 @@ void mobsReset(bool playerSpawned)
 	{
 		delete mobs[i];
 		mobs[i] = NULL;
-		mobs[i] = new baseMob();
+		mobs[i] = new BaseMob();
 		mobs[i] -> killMob();
 	}
 	hasSpawnPlayer = playerSpawned;
@@ -114,16 +114,16 @@ void mobsReset(bool playerSpawned)
 
 void mobHandlerInit()
 {
-	baseMobInit();
+	BaseMobInit();
 	playerMobInit();
-	MplayerMobInit();
+	multiplayerMobInit();
 	zombieMobInit();
 	herobrineMobInit();
 	animalMobInit();
 	int i;
 	for (i = 0; i < 100; ++i)
 	{
-		mobs[i] = new baseMob();
+		mobs[i] = new BaseMob();
 		mobs[i] -> killMob();
 	}
 	hasSpawnPlayer = false;
@@ -173,32 +173,32 @@ void newMob(int mobId, int mobNum, int x = 0, int y = 0)
 	switch (mobId)
 	{
 		case 0:
-			mobs[mobNum] = new baseMob(x, y);
+			mobs[mobNum] = new BaseMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 1:
-			mobs[mobNum] = new playerMob(x, y);
+			mobs[mobNum] = new PlayerMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 2:
-			mobs[mobNum] = new MplayerMob(x, y);
+			mobs[mobNum] = new MultiplayerMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 3:
-			mobs[mobNum] = new zombieMob(x, y);
+			mobs[mobNum] = new ZombieMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 5:
 
-			mobs[mobNum] = new animalMob(x, y);
+			mobs[mobNum] = new AnimalMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 7:
-			mobs[mobNum] = new herobrineMob(x, y);
+			mobs[mobNum] = new HerobrineMob(x, y);
 			mobs[mobNum]->unKillMob();
 			break;
 		case 8:
-			mobs[mobNum] = new itemMob(x, y);
+			mobs[mobNum] = new ItemMob(x, y);
 			mobs[mobNum]->unKillMob();
 		default:
 			break;

@@ -3,13 +3,13 @@
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "baseMob.h"
+#include "BaseMob.h"
 #include "../blockID.h"
 #include "hurt.h"
 //ASDF?
 Graphic baseMobGraphic[3];
 
-baseMob::baseMob()
+BaseMob::BaseMob()
 {
 	host = true;
 	facing = false;
@@ -34,7 +34,7 @@ baseMob::baseMob()
 
 }
 
-baseMob::baseMob(int a, int b)
+BaseMob::BaseMob(int a, int b)
 {
 	host = true;
 	for (int i = 0; i < 5; ++i)
@@ -58,13 +58,13 @@ baseMob::baseMob(int a, int b)
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
 
-/*void baseMob::resetVelocity()
+/*void BaseMob::resetVelocity()
 {
 	vy = 0;
 	vx = 0;
 }*/
 
-void baseMob::updateMob(WorldObject* world)
+void BaseMob::updateMob(WorldObject* world)
 {
 	if (animation == 0) showGraphic(&baseMobGraphic[0], x - world->camX, y - world->camY);
 	else if (animation == 1) showGraphic(&baseMobGraphic[1], x - world->camX, y - world->camY);
@@ -78,21 +78,21 @@ void baseMob::updateMob(WorldObject* world)
 	}
 }
 
-/*void baseMob::setXYPos(int a, int b)
+/*void BaseMob::setXYPos(int a, int b)
 {
 	x = a;
 	y = b;
 }*/
 
-void baseMob::sendWifiUpdate()
+void BaseMob::sendWifiUpdate()
 {
 }
 
-void baseMob::saveToFile(FILE* pFile)
+void BaseMob::saveToFile(FILE* pFile)
 {
 }
 
-void baseMob::loadFromFile(FILE* pFile)
+void BaseMob::loadFromFile(FILE* pFile)
 {
 	killMob();
 }
@@ -104,31 +104,31 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 	return false;
 }
 
-void baseMobInit()
+void BaseMobInit()
 {
 	loadGraphic(&baseMobGraphic[0], GRAPHIC_MOB, 0);
 	loadGraphic(&baseMobGraphic[1], GRAPHIC_MOB, 1);
 }
 
-void baseMob::hurt(int amount, int type)
+void BaseMob::hurt(int amount, int type)
 {
 	health -= amount;
 	animation = 1;
 	animationClearFrames = 20;
 }
 
-void baseMob::killMob()
+void BaseMob::killMob()
 {
 	timeTillWifiUpdate = 1;
 	alive = false;
 }
 
-void baseMob::unKillMob()
+void BaseMob::unKillMob()
 {
 	alive = true;
 }
 
-bool baseMob::isMyPlayer()
+bool BaseMob::isMyPlayer()
 {
 	return false;
 }
