@@ -1,8 +1,7 @@
+#pragma once
 #include <stdio.h>
 #include "../world.h"
 #include "BaseMob.h"
-#ifndef ZOMBIE_MOB_H
-#define ZOMBIE_MOB_H
 #define ZOMBIE_SPEED 0.5
 
 bool canZombieMobSpawnHere(WorldObject* world, int x, int y);
@@ -32,4 +31,3 @@ public:
 	~ ZombieMob() { }
 };
 void zombieMobInit();
-#endif

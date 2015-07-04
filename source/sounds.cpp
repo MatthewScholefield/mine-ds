@@ -22,7 +22,7 @@ bool reqStreamClose = false;
 std::map< std::pair< SoundAudio, SoundType >, std::pair< int, int > > sfxs;
 
 FILE *file;
-waveInfo w;
+WaveInfo w;
 
 void stopStream()
 {

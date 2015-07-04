@@ -1,6 +1,5 @@
+#pragma once
 #include "BaseMob.h"
-#ifndef HEROBRINE_MOB_H
-#define HEROBRINE_MOB_H
 bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y);
 
 class HerobrineMob : public BaseMob
@@ -22,4 +21,3 @@ public:
 	~ HerobrineMob() { }
 };
 void herobrineMobInit();
-#endif
