@@ -1,14 +1,14 @@
-#include "baseMob.h"
+#include "BaseMob.h"
 #ifndef HEROBRINE_MOB_H
 #define HEROBRINE_MOB_H
 bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y);
 
-class herobrineMob : public baseMob
+class HerobrineMob : public BaseMob
 {
 public:
 	int waitingCount;
 	int jump;
-	baseMob* target;
+	BaseMob* target;
 	int notarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
@@ -16,10 +16,10 @@ public:
 	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
-	herobrineMob();
-	herobrineMob(int x, int y);
+	HerobrineMob();
+	HerobrineMob(int x, int y);
 
-	~ herobrineMob() { }
+	~ HerobrineMob() { }
 };
 void herobrineMobInit();
 #endif

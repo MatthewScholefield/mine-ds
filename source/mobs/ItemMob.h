@@ -1,8 +1,8 @@
 #pragma once
-#include "baseMob.h"
+#include "BaseMob.h"
 #include "../graphics/graphics.h"
 
-class itemMob : public baseMob
+class ItemMob : public BaseMob
 {
 public:
 	int blockID;
@@ -20,7 +20,7 @@ public:
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	virtual void killMob();
-	itemMob(int x, int y);
+	ItemMob(int x, int y);
 
-	~ itemMob() { }
+	~ ItemMob() { }
 };

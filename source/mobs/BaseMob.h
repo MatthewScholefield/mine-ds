@@ -10,7 +10,7 @@
 
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 
-class baseMob
+class BaseMob
 {
 public:
 	float x;
@@ -44,10 +44,10 @@ public:
 	void setXYPos(int x, int y);
 	void resetVelocity();
 	virtual void updateMob(WorldObject* world);
-	baseMob();
-	baseMob(int x, int y);
+	BaseMob();
+	BaseMob(int x, int y);
 
-	virtual ~ baseMob() { }
+	virtual ~ BaseMob() { }
 };
-void baseMobInit();
+void BaseMobInit();
 bool jumpHurtType(int hurtType);

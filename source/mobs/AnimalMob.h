@@ -1,5 +1,5 @@
 #pragma once
-#include "baseMob.h"
+#include "BaseMob.h"
 #include "../world.h"
 
 enum AnimalType
@@ -9,13 +9,13 @@ enum AnimalType
 	ANIMAL_PIG = 2
 };
 
-class animalMob : public baseMob
+class AnimalMob : public BaseMob
 {
 public:
 	int scaredTimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
-	baseMob* target;
+	BaseMob* target;
 	int notarget;
 	AnimalType animal;
 
@@ -25,11 +25,11 @@ public:
 	virtual void updateMob(WorldObject* world);
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
-	animalMob();
+	AnimalMob();
 
-	animalMob(int x, int y);
+	AnimalMob(int x, int y);
 
-	~ animalMob() { }
+	~ AnimalMob() { }
 };
 void animalMobInit();
 bool canAnimalMobSpawnHere(WorldObject* world, int x, int y);
