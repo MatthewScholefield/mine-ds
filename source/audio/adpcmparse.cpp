@@ -22,7 +22,7 @@ int ima_index_table[16] = {
 bool get;
 char n;
 
-int getNibble(FILE* f, waveInfo* w)
+int getNibble(FILE* f, WaveInfo* w)
 {
 	if (get)
 	{
@@ -53,7 +53,7 @@ void ADCMReset()
 	n = 0;
 }
 
-s16 getADCM(FILE* f, waveInfo* w)
+s16 getADCM(FILE* f, WaveInfo* w)
 {
 	int nibble = 0;
 	if (reset == 0)
