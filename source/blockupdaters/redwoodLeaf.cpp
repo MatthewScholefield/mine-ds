@@ -8,13 +8,13 @@
 #include "redwoodLeaf.h"
 #include "leaf.h"
 
-redwoodLeafUpdater::redwoodLeafUpdater()
+RedwoodLeafUpdater::RedwoodLeafUpdater()
 {
 	blockID = LEAVES_SPRUCE;
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void redwoodLeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void RedwoodLeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

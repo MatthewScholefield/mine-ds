@@ -59,18 +59,18 @@ void saplingUpdate(WorldObject *world, int x, int y, bool bg)
 	}
 }
 
-oakSaplingUpdater::oakSaplingUpdater()
+OakSaplingUpdater::OakSaplingUpdater()
 {
 	blockID = SAPLING_OAK;
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-void oakSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
+void OakSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
 }
 
-void oakSaplingUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void OakSaplingUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	saplingChanceUpdate(world, x, y, bg);
 }

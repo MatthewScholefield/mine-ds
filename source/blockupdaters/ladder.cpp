@@ -7,13 +7,13 @@
 #include "ladder.h"
 #include "../mainGame.h"
 
-ladderUpdater::ladderUpdater()
+LadderUpdater::LadderUpdater()
 {
 	blockID = LADDER;
 	chance = NO_CHANCE;
 }
 
-void ladderUpdater::update(WorldObject* world, int x, int y, bool bg)
+void LadderUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];

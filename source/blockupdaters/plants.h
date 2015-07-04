@@ -2,44 +2,44 @@
 #include "../world.h"
 #include "../blockupdate.h"
 
-class shrubUpdater : public blockUpdater
+class ShrubUpdater : public BlockUpdater
 {
 public:
-	shrubUpdater();
+	ShrubUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
 
-class tallGrassUpdater : public blockUpdater
+class TallGrassUpdater : public BlockUpdater
 {
 public:
-	tallGrassUpdater();
+	TallGrassUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
 
-class redFlowerUpdater : public blockUpdater
+class RedFlowerUpdater : public BlockUpdater
 {
 public:
-	redFlowerUpdater();
+	RedFlowerUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
 
-class yellowFlowerUpdater : public blockUpdater
+class YellowFlowerUpdater : public BlockUpdater
 {
 public:
-	yellowFlowerUpdater();
+	YellowFlowerUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
 
-class redMushroomUpdater : public blockUpdater
+class RedMushroomUpdater : public BlockUpdater
 {
 public:
-	redMushroomUpdater();
+	RedMushroomUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
 
-class brownMushroomUpdater : public blockUpdater
+class BrownMushroomUpdater : public BlockUpdater
 {
 public:
-	brownMushroomUpdater();
+	BrownMushroomUpdater();
 	virtual void update(WorldObject* world, int x, int y, bool bg);
 };

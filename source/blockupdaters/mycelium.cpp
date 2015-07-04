@@ -7,13 +7,13 @@
 #include "../blocks.h"
 #include "mycelium.h"
 
-myceliumUpdater::myceliumUpdater()
+MyceliumUpdater::MyceliumUpdater()
 {
 	blockID = MYCELIUM;
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void myceliumUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void MyceliumUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg)
 	{

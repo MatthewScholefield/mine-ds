@@ -20,62 +20,62 @@ void plantUpdate(int beneathID, WorldObject* world, int x, int y, bool bg)
 	}
 }
 
-shrubUpdater::shrubUpdater()
+ShrubUpdater::ShrubUpdater()
 {
 	blockID = SHRUB;
 }
 
-void shrubUpdater::update(WorldObject* world, int x, int y, bool bg)
+void ShrubUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(SAND, world, x, y, bg);
 }
 
-tallGrassUpdater::tallGrassUpdater()
+TallGrassUpdater::TallGrassUpdater()
 {
 	blockID = TALL_GRASS;
 }
 
-void tallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
+void TallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 }
 
-redFlowerUpdater::redFlowerUpdater()
+RedFlowerUpdater::RedFlowerUpdater()
 {
 	blockID = FLOWER_RED;
 }
 
-void redFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
+void RedFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 }
 
-yellowFlowerUpdater::yellowFlowerUpdater()
+YellowFlowerUpdater::YellowFlowerUpdater()
 {
 	blockID = FLOWER_YELLOW;
 }
 
-void yellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
+void YellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 }
 
-redMushroomUpdater::redMushroomUpdater()
+RedMushroomUpdater::RedMushroomUpdater()
 {
 	blockID = MUSHROOM_RED;
 }
 
-void redMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
+void RedMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
 }
 
-brownMushroomUpdater::brownMushroomUpdater()
+BrownMushroomUpdater::BrownMushroomUpdater()
 {
 	blockID = MUSHROOM_BROWN;
 }
 
-void brownMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
+void BrownMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
 }

@@ -6,14 +6,14 @@
 #include "../blockID.h"
 #include "furnace.h"
 
-furnaceUpdater::furnaceUpdater()
+FurnaceUpdater::FurnaceUpdater()
 {
 	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
 	blockID = FURNACE_LIT;
 }
 
-void furnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
+void FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
