@@ -31,7 +31,7 @@ bool finddata(FILE* f)
 	return false;
 }
 
-int parseWave(FILE* f, waveInfo* w)
+int parseWave(FILE* f, WaveInfo* w)
 {
 	int i;
 	//Parse the .wav header
