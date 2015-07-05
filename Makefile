@@ -26,14 +26,14 @@ INCLUDES := include
 DATA     := data
 GRAPHICS := gfx
 AUDIO    := audio
-ICON     := icon.bmp
+ICON     := 
 
 # specify a directory which contains the nitro filesystem
 # this is relative to the Makefile
 NITRO    := nitro
 
 # These set the information text in the nds file
-GAME_TITLE     := Mine DS
+GAME_TITLE     := Mine DS v0.2.0
 GAME_SUBTITLE1 := A 2D Minecraft
 GAME_SUBTITLE2 := inspired homebrew
 
