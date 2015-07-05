@@ -1,6 +1,7 @@
 #include "Slider.h"
 #include "subBgHandler.h"
 #include "../general.h"
+#include "../sounds.h"
 
 bool Slider::isTouching(int touchX, int touchY)
 {
@@ -48,6 +49,7 @@ bool Slider::update(int state, int touchX, int touchY)
 		case STATE_TAP:
 			if (isTouching(touchX, touchY))
 			{
+				playSound(SOUND_CLICK);
 				dragging = true;
 				drawCenterStrip();
 			}
