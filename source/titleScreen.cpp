@@ -526,6 +526,15 @@ void titleScreen()
 	{
 		drawBackground(menuFirstSlot);
 		clearText(menuFirstSlot);
+#ifdef NITRO_AND_FAT
+  printXY(21,23,"v0.2.0 both");
+#endif
+#ifdef JUST_NITRO
+  printXY(20,23,"v0.2.0 nitro");
+#endif
+#ifdef JUST_FAT
+  printXY(22,23,"v0.2.0 fat");
+#endif
 		lcdMainOnTop();
 		clearInventory(true);
 
