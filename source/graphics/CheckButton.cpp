@@ -1,6 +1,7 @@
 #include "CheckButton.h"
 #include "subBgHandler.h"
 #include "../general.h"
+#include "../sounds.h"
 
 bool CheckButton::isTouching(int touchX, int touchY)
 {
@@ -47,6 +48,7 @@ bool CheckButton::update(int state, int touchX, int touchY)
 {
 	if (state == STATE_TAP && isTouching(touchX, touchY))
 	{
+		playSound(SOUND_CLICK);
 		enabled = !enabled;
 		drawCheck();
 		setData(this, sendData, enabled);

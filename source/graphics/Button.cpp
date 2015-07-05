@@ -4,6 +4,7 @@
 #include "Button.h"
 #include "subBgHandler.h"
 #include "../general.h"
+#include "../sounds.h"
 
 void Button::setColored(bool colored)
 {
@@ -51,7 +52,10 @@ bool Button::update(int state, int touchX, int touchY)
 	{
 		case STATE_TAP:
 			if (isTouching(touchX, touchY))
+			{
 				setColored(true);
+				playSound(SOUND_CLICK);
+			}
 			break;
 		case STATE_RELEASE:
 			if (isColored)
