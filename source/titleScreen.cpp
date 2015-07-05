@@ -357,7 +357,8 @@ void setSoundAction(UIElement *slider, int position, bool extra)
 }
 
 void setSfxAction(UIElement *slider, int position, bool extra)
-{ //position is 0...25 (Inclusive)
+{
+  getGlobalSettings()->sfxVolume = position;
 }
 
 int getSoundVolume()
@@ -367,7 +368,7 @@ int getSoundVolume()
 
 int getSfxVolume()
 {
-	return rand() % 25; //For testing TODO: Replace with actual value
+  return  getGlobalSettings()->sfxVolume;
 }
 
 void audioScreen()

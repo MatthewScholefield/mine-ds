@@ -6,6 +6,7 @@
 #include "blocks.h"
 #include "mining.h"
 #include "files.h"
+#include "Config.h"
 #include <stdio.h>
 #include <dswifi9.h>
 #include <map>
@@ -23,6 +24,7 @@ std::map< std::pair< SoundAudio, SoundType >, std::pair< int, int > > sfxs;
 
 FILE *file;
 WaveInfo w;
+int sfxVolume;
 
 void stopStream()
 {
@@ -53,7 +55,7 @@ bool songIsPlaying()
 s16 volume(s16 orig, u16 factor)
 {
 	s32 n = (s32) orig * factor;
-	s16 r = n / 100;
+	s16 r = n / 25;
 	return r;
 }
 
@@ -68,7 +70,7 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 			stopStream();
 			return length;
 		}
-		*d++ = volume((s16) getADCM(file, &w), 60);
+		*d++ = volume((s16) getADCM(file, &w), getGlobalSettings()->sfxVolume);
 		req++;
 	}
 	return length;
@@ -98,6 +100,7 @@ void playStreamSong()
 
 void initSound(void)
 {
+  sfxVolume = 20;
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 	mmInitDefault(SOUNDBANK_FILENAME);
 #pragma GCC diagnostic pop

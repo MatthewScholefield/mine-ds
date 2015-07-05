@@ -35,6 +35,8 @@ private:
 	KEYPAD_BITS dropItem;
 	bool properties[6];
 public:
+  int sfxVolume;
+  int soundVolume;
 	std::string textureName;
 	void setKey(int action, KEYPAD_BITS key);
 	bool getProperty(int property);
@@ -56,7 +58,7 @@ public:
 		false, false, true, true, true, true
 	}
 
-	,
+	,sfxVolume(20),soundVolume(25),
 	textureName("default") { }
 };
 
