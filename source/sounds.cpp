@@ -52,7 +52,7 @@ bool songIsPlaying()
 	return loadedMusic != MUSIC_NONE;
 }
 
-s16 volume(s16 orig, u16 factor)
+s16 volumeFunc(s16 orig, u16 factor)
 {
 	s32 n = (s32) orig * factor;
 	s16 r = n / 25;
@@ -70,7 +70,7 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 			stopStream();
 			return length;
 		}
-		*d++ = volume((s16) getADCM(file, &w), getGlobalSettings()->sfxVolume);
+		*d++ = volumeFunc((s16) getADCM(file, &w), getGlobalSettings()->sfxVolume);
 		req++;
 	}
 	return length;
@@ -159,7 +159,7 @@ void playSound(Sound sfx, mm_byte volume, mm_byte panning)
 		{(mm_word) sfx}, // id
 		1024,
 		0, // handle
-		volume, // volume
+		volumeFunc(volume,getGlobalSettings()->soundVolume), // volume
 		panning, // panning
 	};
 	loadSound(sfx);
@@ -185,7 +185,7 @@ void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning)
 		{(mm_word) sfxID}, // id
 		1024,
 		0, // handle
-		volume, // volume
+		volumeFunc(volume,getGlobalSettings()->soundVolume), // volume
 		panning, // panning
 	};
 	loadSound(sfxID);

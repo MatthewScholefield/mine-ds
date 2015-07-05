@@ -353,17 +353,20 @@ void gameOptions()
 }
 
 void setSoundAction(UIElement *slider, int position, bool extra)
-{ //position is 0...25 (Inclusive)
+{ 
+  //position is 0...25 (Inclusive)
+  getGlobalSettings()->soundVolume = position;
 }
 
 void setSfxAction(UIElement *slider, int position, bool extra)
 {
+  //position is 0...25 (Inclusive)
   getGlobalSettings()->sfxVolume = position;
 }
 
 int getSoundVolume()
 {
-	return rand() % 25; //For testing TODO: Replace with actual value
+	return getGlobalSettings()->soundVolume; //For testing TODO: Replace with actual value
 }
 
 int getSfxVolume()
