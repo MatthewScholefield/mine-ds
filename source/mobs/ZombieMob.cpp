@@ -26,8 +26,8 @@ ZombieMob::ZombieMob()
 	ping = 0;
 	alive = false;
 	health = 10;
-	mobType = 0;
-	animationClearFrames = 0;
+	mobType = MOB_ZOMBIE;
+	framesHurtSprite = 0;
 	noTarget = 0;
 }
 
@@ -43,10 +43,10 @@ ZombieMob::ZombieMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = 3;
+	mobType = MOB_ZOMBIE;
 	health = 20;
 	ping = 0;
-	animation = 0;
+	spriteState = 0;
 	noTarget = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 }
@@ -54,7 +54,7 @@ ZombieMob::ZombieMob(int a, int b)
 void ZombieMob::hurt(int amount, int type)
 {
 
-	if (animation == 1)
+	if (spriteState == 1)
 		return;
 	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
@@ -67,8 +67,8 @@ void ZombieMob::hurt(int amount, int type)
 		playSound(SOUND_ZOMBIE_HURT, volume, (x - playerX) / 2 + 127);
 	}
 	health -= amount;
-	animation = 1;
-	animationClearFrames = 20;
+	spriteState = 1;
+	framesHurtSprite = 20;
 	if (health <= 0)
 	{
 		createItemMob(x, y, FLESH, rand() % 2 + 1);
@@ -79,14 +79,14 @@ void ZombieMob::hurt(int amount, int type)
 void ZombieMob::updateMob(WorldObject* world)
 {
 	if (world->timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
-	if (animation == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
-	else if (animation == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	if (spriteState == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
-		target = mobHandlerFindMob(128, 2, x, y);
-		if (target->x < x && target->mobType == 2) facing = true;
-		else if (target->mobType == 2) facing = false;
-		if (target->mobType != 2)
+		target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
+		if (target->x < x && target->mobType == MOB_PLAYER) facing = true;
+		else if (target->mobType == MOB_PLAYER) facing = false;
+		if (target->mobType != MOB_PLAYER)
 			++noTarget;
 		else if (!collisions[SIDE_RIGHT] && facing == false && !collisions[SIDE_TOP])
 		{
@@ -100,17 +100,15 @@ void ZombieMob::updateMob(WorldObject* world)
 		}
 		else
 			vx = 0;
-		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && animation != 1)
+		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
 			vy = JUMP_VELOCITY;
-		if (target->mobType == 2) noTarget = 0;
+		if (target->mobType == MOB_PLAYER) noTarget = 0;
 		ping = 0;
 		if (noTarget > 1800) killMob();
-		if (animationClearFrames == 0) animation = 0;
-		else --animationClearFrames;
+		if (framesHurtSprite == 0) spriteState = 0;
+		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
-		target = mobHandlerFindMob(512, 2, x, y);
-		if (target->mobType == 2) noTarget = 0;
 	}
 }
 

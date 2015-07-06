@@ -20,8 +20,7 @@
 #define PLAYER_ID 1
 
 BaseMob* mobs[100];
-const int peacefulmobs[] = {4, 5, 6};
-bool hasSpawnPlayer;
+bool hasSpawnedPlayer;
 bool spawnPlayerAtPos;
 
 bool canMobSpawnHere(WorldObject *world, int x, int y)
@@ -34,10 +33,10 @@ int getDefaultSpawnX()
 	return mobs[PLAYER_ID]->x / 16 + (rand() % 5) - 2;
 }
 
-BaseMob* mobHandlerFindMob(int range, int type, int x, int y)
+BaseMob* mobHandlerFindMob(int range, MobType type, int x, int y)
 {
 	int closest = range * range + 1;
-	int mobNum = -1;
+	int index = -1;
 	int i;
 	for (i = 0; i < 100; ++i)
 	{
@@ -50,15 +49,15 @@ BaseMob* mobHandlerFindMob(int range, int type, int x, int y)
 					if (tmp < closest)
 					{
 						closest = tmp;
-						mobNum = i;
+						index = i;
 					}
 				}
 		}
 	}
-	if (mobNum != -1)
+	if (index != -1)
 	{
-		mobs[mobNum]->mobId = mobNum;
-		return mobs[mobNum];
+		mobs[index]->mobId = index;
+		return mobs[index];
 	}
 	return NULL;
 }
@@ -68,18 +67,18 @@ int getPlayerX()
 	return mobs[PLAYER_ID]->x;
 }
 
-void mobHandlerHurtMobWifi(int mobNum, int amount, int type)
+void mobHandlerHurtMobWifi(int index, int amount, int type)
 {
-	if (mobs[mobNum]->host == true)
-		mobs[mobNum]->hurt(amount, type);
+	if (mobs[index]->host == true)
+		mobs[index]->hurt(amount, type);
 }
 
-void mobHandlerHurtMob(int mobNum, int amount, int type)
+void mobHandlerHurtMob(int index, int amount, int type)
 {
-	if (mobs[mobNum]->host == true && mobs[mobNum]->health > 0)
-		mobs[mobNum]->hurt(amount, type);
+	if (mobs[index]->host == true && mobs[index]->health > 0)
+		mobs[index]->hurt(amount, type);
 	else if (isWifi())
-		wifiHurtMob(mobNum, amount, type);
+		wifiHurtMob(index, amount, type);
 }
 
 int isMobAt(int x, int y)
@@ -93,9 +92,9 @@ int isMobAt(int x, int y)
 	return -1;
 }
 
-void mobHandlerKillMob(int mobNum)
+void mobHandlerKillMob(int index)
 {
-	mobs[mobNum]->killMob();
+	mobs[index]->killMob();
 }
 
 void mobsReset(bool playerSpawned)
@@ -104,11 +103,10 @@ void mobsReset(bool playerSpawned)
 	for (i = 0; i < 100; ++i)
 	{
 		delete mobs[i];
-		mobs[i] = NULL;
-		mobs[i] = new BaseMob();
+		mobs[i] = new ItemMob(0, 0);
 		mobs[i] -> killMob();
 	}
-	hasSpawnPlayer = playerSpawned;
+	hasSpawnedPlayer = playerSpawned;
 	spawnPlayerAtPos = playerSpawned;
 }
 
@@ -123,10 +121,10 @@ void mobHandlerInit()
 	int i;
 	for (i = 0; i < 100; ++i)
 	{
-		mobs[i] = new BaseMob();
+		mobs[i] = new ItemMob(0, 0);
 		mobs[i] -> killMob();
 	}
-	hasSpawnPlayer = false;
+	hasSpawnedPlayer = false;
 	spawnPlayerAtPos = false;
 }
 
@@ -139,72 +137,57 @@ int findFreeMobSpawnNum()
 	return -1;
 }
 
-bool canMobSpawnHere(int mobId, WorldObject* world, int a, int b)
+static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
 {
-	switch (mobId)
+	switch (type)
 	{
-		case 0:
-			return canBaseMobSpawnHere(world, a, b);
-			break;
-		case 1:
+		case MOB_PLAYER:
 			return canPlayerMobSpawnHere(world, a, b);
-			break;
-		case 2:
-			return canPlayerMobSpawnHere(world, a, b);
-			break;
-		case 3:
+		case MOB_MULTIPLAYER:
+			return canMultiplayerMobSpawnHere(world, a, b);
+		case MOB_ZOMBIE:
 			return canZombieMobSpawnHere(world, a, b);
-			break;
-		case 5:
+		case MOB_ANIMAL:
 			return canAnimalMobSpawnHere(world, a, b);
-			break;
-		case 7:
+		case MOB_HEROBRINE:
 			return canHerobrineMobSpawnHere(world, a, b);
-			break;
 		default:
+			showError("Checking spawn for non-existent mob type");
 			break;
 	}
 	return false;
 }
 
-void newMob(int mobId, int mobNum, int x = 0, int y = 0)
+static void newMob(MobType type, int index, int x = 0, int y = 0)
 {
-	delete mobs[mobNum]; //Free Memory and Stop Crashes
-	switch (mobId)
+	delete mobs[index]; //Free Memory and Stop Crashes
+	switch (type)
 	{
-		case 0:
-			mobs[mobNum] = new BaseMob(x, y);
-			mobs[mobNum]->unKillMob();
+		case MOB_PLAYER:
+			mobs[index] = new PlayerMob(x, y);
 			break;
-		case 1:
-			mobs[mobNum] = new PlayerMob(x, y);
-			mobs[mobNum]->unKillMob();
+		case MOB_MULTIPLAYER:
+			mobs[index] = new MultiplayerMob(x, y);
 			break;
-		case 2:
-			mobs[mobNum] = new MultiplayerMob(x, y);
-			mobs[mobNum]->unKillMob();
+		case MOB_ZOMBIE:
+			mobs[index] = new ZombieMob(x, y);
 			break;
-		case 3:
-			mobs[mobNum] = new ZombieMob(x, y);
-			mobs[mobNum]->unKillMob();
+		case MOB_ANIMAL:
+			mobs[index] = new AnimalMob(x, y);
 			break;
-		case 5:
-
-			mobs[mobNum] = new AnimalMob(x, y);
-			mobs[mobNum]->unKillMob();
+		case MOB_HEROBRINE:
+			mobs[index] = new HerobrineMob(x, y);
 			break;
-		case 7:
-			mobs[mobNum] = new HerobrineMob(x, y);
-			mobs[mobNum]->unKillMob();
+		case MOB_ITEM:
+			mobs[index] = new ItemMob(x, y);
 			break;
-		case 8:
-			mobs[mobNum] = new ItemMob(x, y);
-			mobs[mobNum]->unKillMob();
 		default:
+			showError("Unknown Mob Spawned");
 			break;
 	}
-	mobs[mobNum]->x += mobs[mobNum]->sx / 2;
-	mobs[mobNum]->y += mobs[mobNum]->sy / 2;
+	mobs[index]->unKillMob();
+	mobs[index]->x += mobs[index]->sx / 2;
+	mobs[index]->y += mobs[index]->sy / 2;
 }
 
 void saveMobs(FILE* f)
@@ -214,35 +197,32 @@ void saveMobs(FILE* f)
 	{
 		if (mobs[i]->alive)
 		{
-			int mobType;
-			mobType = mobs[i]->mobType;
-			if (mobType == 2 && mobs[i]->isMyPlayer()) mobType = 1;
-			fprintf(f, "%d ", mobType);
+			fprintf(f, "%d ", mobs[i]->mobType);
 			mobs[i]->saveToFile(f);
 		}
 	}
 	fprintf(f, "-1 ");
 }
 
-void spawnMobOn(int mobId, WorldObject* world, int j, bool skipCheck = false)
+static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
 		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
-			int mobNum = findFreeMobSpawnNum();
-			if (mobNum != -1)
+			int index = findFreeMobSpawnNum();
+			if (index != -1)
 			{
-				newMob(mobId, mobNum, j * 16, i * 16);
-				mobs[mobNum]->host = true;
+				newMob(mobId, index, j * 16, i * 16);
+				mobs[index]->host = true;
 			}
-			else printf("Can't find number\n");
+			else showError("SpawnMobMob can't find number");
 			i = WORLD_HEIGHT + 1;
 			j = WORLD_WIDTH + 1;
 		}
 }
 
-int spawnMob(int mobId, WorldObject* world)
+static int spawnMob(MobType mobId, WorldObject* world)
 {
 	int i;
 	int j;
@@ -250,98 +230,68 @@ int spawnMob(int mobId, WorldObject* world)
 		for (i = 0; i <= WORLD_HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
-				int mobNum = findFreeMobSpawnNum();
-				if (mobNum >= 0)
+				int index = findFreeMobSpawnNum();
+				if (index >= 0)
 				{
-					newMob(mobId, mobNum, j * 16, i * 16);
-					mobs[mobNum]->host = true;
+					newMob(mobId, index, j * 16, i * 16);
+					mobs[index]->host = true;
 				}
-				else printf("Can't find number\n");
+				else showError("SpawnMob can't find number");
 				i = WORLD_HEIGHT + 1;
 				j = WORLD_WIDTH + 1;
 			}
 	return -1;
 }
 
-int spawnMobAt(int mobId, WorldObject* world, int x, int y)
+int spawnMobAt(MobType type, WorldObject* world, int x, int y)
 {
-	int mobNum = findFreeMobSpawnNum();
-	if (mobNum >= 0)
+	int index = findFreeMobSpawnNum();
+	if (index >= 0)
 	{
-		newMob(mobId, mobNum, x, y);
-		mobs[mobNum]->host = true;
+		newMob(type, index, x, y);
+		mobs[index]->host = true;
 	}
-	return mobNum;
+	return index;
 }
 
 void loadMobs(FILE* f)
 {
 	mobsReset(false);
-	int shouldContinue = true;
-	while (shouldContinue)
+	int index = fscanf(f, "%d ", &index);
+	while (index != -1)
 	{
-		int mobType;
-		fscanf(f, "%d ", &mobType);
-		if (mobType != -1)
-		{
-			int mobId;
-			mobId = spawnMobAt(mobType, NULL, 0, 0);
-			if (mobType == 1)
-			{
-				hasSpawnPlayer = true;
-			}
-			mobs[mobId]->loadFromFile(f);
-		}
-		else
-		{
-			shouldContinue = false;
-		}
+		if (index == MOB_PLAYER)
+			hasSpawnedPlayer = true;
+		mobs[spawnMobAt((MobType) index, NULL, 0, 0)]->loadFromFile(f);
+		fscanf(f, "%d ", &index);
 	}
 }
 
-void spawnMobNoCheck(int mobId, WorldObject* world, int mobNum)
+static void spawnMobNoCheck(MobType type, WorldObject* world, int index)
 {
-	if (mobNum >= 0)
+	if (index >= 0)
 	{
-		newMob(mobId, mobNum);
-		mobs[mobNum]->host = false;
+		newMob(type, index);
+		mobs[index]->host = false;
 	}
 }
 
-void spawnMob(int mobId, WorldObject* world, int mobNum)
+void mobHandlerReadWifiUpdate(int x, int y, int animation, MobType type, int index, WorldObject* world, bool facing)
 {
-	int i;
-	int j;
-	for (j = 0; j <= WORLD_WIDTH; ++j)
-		for (i = 0; i <= WORLD_HEIGHT; ++i)
-			if (canMobSpawnHere(mobId, world, j, i))
-			{
-				if (mobNum >= 0)
-				{
-					newMob(mobId, mobNum, j * 16, i * 16);
-					mobs[mobNum]->host = false;
-				}
-				i = WORLD_HEIGHT + 1;
-				j = WORLD_WIDTH + 1;
-			}
-}
-
-void mobHandlerReadWifiUpdate(int x, int y, int animation, int mobtype, int mobNum, WorldObject* world, bool facing)
-{
-	//printf("Recieved mob update! - %d, %d\n", mobNum,mobtype);
-	if (mobs[mobNum]->mobType != mobtype)
+	//printf("Recieved mob update! - %d, %d\n", index,mobtype);
+	if (mobs[index]->mobType != type)
 	{
-		if (mobs[mobNum]->mobType == 1)
-			spawnMobAt(1, world, mobs[mobNum]->x, mobs[mobNum]->y);
-		spawnMobNoCheck(mobtype, world, mobNum);
+		if (mobs[index]->mobType == MOB_PLAYER)
+			spawnMobAt(MOB_PLAYER, world, mobs[index]->x, mobs[index]->y);
+		spawnMobNoCheck(type, world, index);
 	}
-	mobs[mobNum]->unKillMob();
-	mobs[mobNum]->x = x;
-	mobs[mobNum]->y = y;
-	mobs[mobNum]->animation = animation;
-	mobs[mobNum]->host = false;
-	mobs[mobNum]->facing = facing;
-	mobs[mobNum]->ping = 0;
+	mobs[index]->unKillMob();
+	mobs[index]->x = x;
+	mobs[index]->y = y;
+	mobs[index]->spriteState = animation;
+	mobs[index]->host = false;
+	mobs[index]->facing = facing;
+	mobs[index]->ping = 0;
 	//:D
 }
 
@@ -349,10 +299,10 @@ void mobHandlerUpdate(WorldObject* world)
 {
 	int badMobs = 0;
 	int goodMobs = 0;
-	if (!hasSpawnPlayer)
+	if (!hasSpawnedPlayer)
 	{
-		spawnMob(1, world);
-		hasSpawnPlayer = true;
+		spawnMob(MOB_PLAYER, world);
+		hasSpawnedPlayer = true;
 	}
 	int i;
 	for (i = 1; i < 100; ++i)
@@ -360,11 +310,11 @@ void mobHandlerUpdate(WorldObject* world)
 
 		if (mobs[i]->alive == true)
 		{
-			if (mobs[i]->mobType == 3 || mobs[i]->mobType == 7)
+			if (mobs[i]->mobType == MOB_ZOMBIE || mobs[i]->mobType == MOB_HEROBRINE)
 				++badMobs;
-			if (mobs[i]->mobType == 4 || mobs[i]->mobType == 5 || mobs[i]->mobType == 6)
+			else if (mobs[i]->mobType == MOB_ANIMAL)
 				++goodMobs;
-			if (mobs[i]->smallmob == false && mobs[i]->mobType != 8) calculateMiscData(world, mobs[i]);
+			if (mobs[i]->smallmob == false && mobs[i]->mobType != MOB_ITEM) calculateMiscData(world, mobs[i]);
 			else if (mobs[i]->mobType != 8) calculateMiscDataSmall(world, mobs[i]);
 			mobs[i]->updateMob(world);
 			--mobs[i]->timeTillWifiUpdate;
@@ -394,16 +344,13 @@ void mobHandlerUpdate(WorldObject* world)
 		else if (mobs[i]->timeTillWifiUpdate == 0) mobs[i]->timeTillWifiUpdate = 255;
 	}
 	if (goodMobs <= 20 && canSpawnMob() && rand() % 30 == 0)
-	{
-		int mob = rand() % 3;
-		spawnMobOn(peacefulmobs[mob], world, rand() % WORLD_WIDTH);
-	}
+		spawnMobOn(MOB_ANIMAL, world, rand() % WORLD_WIDTH);
 	if (badMobs <= 5 && canSpawnMob())
 	{
 		int take = 0;
 		if (rand() % 2)
 			take = -16 - (rand() % 16);
 		else take = 16 + (rand() % 16);
-		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? 7 : 3, world, mobs[PLAYER_ID]->x / 16 + take);
+		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE, world, mobs[PLAYER_ID]->x / 16 + take);
 	}
 }

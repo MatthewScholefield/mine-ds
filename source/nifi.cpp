@@ -253,7 +253,7 @@ void Handler(int packetID, int readlength)
 		int test_id;
 		int a, b, c, d, e, f;
 		sscanf(message, "%d %d %d %d %d %d %d", &test_id, &a, &b, &c, &d, &e, &f);
-		if (test_id == server_id) recievedMobUpdate(b, c, d, e, a, f);
+		if (test_id == server_id) recievedMobUpdate(b, c, d, (MobType) e, a, f);
 		printmessage = false;
 	}
 	else if (!strcmp("[DIE:", msgtype))

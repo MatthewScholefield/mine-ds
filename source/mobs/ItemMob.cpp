@@ -24,7 +24,7 @@ ItemMob::ItemMob(int a, int b)
 	x = a;
 	y = b;
 	health = 1;
-	mobType = 8;
+	mobType = MOB_ITEM;
 	blockID = -1;
 	displayID = -1;
 	amount = -1;
@@ -84,9 +84,9 @@ void ItemMob::updateMob(WorldObject* world)
 	if (floatY > 100)
 		floatY = 0;
 	BaseMob* target;
-	target = mobHandlerFindMob(8, 2, x, y - 8);
+	target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == NULL)
-		target = mobHandlerFindMob(8, 2, x, y - 24);
+		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
 		showGraphic(itemGraphic, x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
 	else
