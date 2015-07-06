@@ -70,7 +70,7 @@ mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format)
 			stopStream();
 			return length;
 		}
-		*d++ = volumeFunc((s16) getADCM(file, &w), getGlobalSettings()->sfxVolume);
+		*d++ = volumeFunc((s16) getADCM(file, &w), getGlobalSettings()->musicVolume);
 		req++;
 	}
 	return length;
@@ -159,7 +159,7 @@ void playSound(Sound sfx, mm_byte volume, mm_byte panning)
 		{(mm_word) sfx}, // id
 		1024,
 		0, // handle
-		volumeFunc(volume,getGlobalSettings()->soundVolume), // volume
+		volumeFunc(volume,getGlobalSettings()->sfxVolume), // volume
 		panning, // panning
 	};
 	loadSound(sfx);
@@ -185,7 +185,7 @@ void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning)
 		{(mm_word) sfxID}, // id
 		1024,
 		0, // handle
-		volumeFunc(volume,getGlobalSettings()->soundVolume), // volume
+		volumeFunc(volume,getGlobalSettings()->sfxVolume), // volume
 		panning, // panning
 	};
 	loadSound(sfxID);
