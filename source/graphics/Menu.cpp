@@ -101,7 +101,7 @@ int Menu::activate(bool initial)
 {
 	int returnVal = -2;
 	touchPosition touch;
-	swiWaitForVBlank();
+	updateFrame();
 	draw(true);
 	switch (type)
 	{
