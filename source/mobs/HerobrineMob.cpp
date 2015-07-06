@@ -24,8 +24,7 @@ HerobrineMob::HerobrineMob()
 	ping = 0;
 	alive = false;
 	health = 7;
-	mobType = 0;
-	animationClearFrames = 0;
+	framesHurtSprite = 0;
 	notarget = 0;
 	waitingCount = -rand() % 4000;
 }
@@ -42,10 +41,10 @@ HerobrineMob::HerobrineMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = 3;
+	mobType = MOB_HEROBRINE;
 	health = 7;
 	ping = 0;
-	animation = 0;
+	spriteState = 0;
 	notarget = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 	waitingCount = -rand() % 4000;
@@ -54,21 +53,21 @@ HerobrineMob::HerobrineMob(int a, int b)
 void HerobrineMob::updateMob(WorldObject* world)
 {
 	++waitingCount;
-	if (animation == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
-	else if (animation == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	if (spriteState == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])
 			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
-		target = mobHandlerFindMob(128, 2, x, y);
-		if (target->x < x && target->mobType == 2) facing = true;
-		else if (target->mobType == 2) facing = false;
+		target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
+		if (target->x < x && target->mobType == MOB_PLAYER) facing = true;
+		else if (target->mobType == MOB_PLAYER) facing = false;
 		++jump;
 		int distance = target->x - x;
 		if (distance < 0)
 			distance *= -1;
-		if (target->mobType != 2)
+		if (target->mobType != MOB_PLAYER)
 		{
 			++notarget;
 			jump = 0;
@@ -89,17 +88,14 @@ void HerobrineMob::updateMob(WorldObject* world)
 				jump = 0;
 			}
 		}
-		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && animation != 1)
+		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
 			vy = JUMP_VELOCITY;
-		if (target->mobType == 2) notarget = 0;
 		ping = 0;
 		if (notarget > 1800) killMob();
-		if (animationClearFrames == 0) animation = 0;
-		else --animationClearFrames;
+		if (framesHurtSprite == 0) spriteState = 0;
+		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
-		target = mobHandlerFindMob(512, 2, x, y);
-		if (target->mobType == 2) notarget = 0;
 	}
 }
 
@@ -136,14 +132,14 @@ void herobrineMobInit()
 void HerobrineMob::hurt(int amount, int type)
 {
 
-	if (animation == 1)
+	if (spriteState == 1)
 		return;
 	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
 	//playSound(HEROBRINE_H);
 	health -= amount;
-	animation = 1;
-	animationClearFrames = 20;
+	spriteState = 1;
+	framesHurtSprite = 20;
 	if (health <= 0)
 	{
 		if (type == CACTUS_HURT)

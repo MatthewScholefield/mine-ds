@@ -16,10 +16,10 @@ MultiplayerMob::MultiplayerMob()
 	vy = 0;
 	vx = 0;
 	alive = false;
-	animation = 0;
+	spriteState = 0;
 	sx = 6;
 	sy = 32;
-	mobType = 2;
+	mobType = MOB_MULTIPLAYER;
 	ping = 0;
 }
 
@@ -32,8 +32,8 @@ MultiplayerMob::MultiplayerMob(int a, int b)
 	vy = 0;
 	vx = 0;
 	alive = false;
-	animation = 0;
-	mobType = 2;
+	spriteState = 0;
+	mobType = MOB_MULTIPLAYER;
 	ping = 0;
 }
 
@@ -46,8 +46,8 @@ void MultiplayerMob::updateMob(WorldObject* world)
 {
 	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
 	{
-		if (animation == 0) showGraphic(&MplayerMobGraphic[0], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
-		else if (animation == 1) showGraphic(&MplayerMobGraphic[1], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
+		if (spriteState == 0) showGraphic(&MplayerMobGraphic[0], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
+		else if (spriteState == 1) showGraphic(&MplayerMobGraphic[1], x - world->camX - (facing ? 10 : 0), y - world->camY, facing ? true : false);
 	}
 }
 
