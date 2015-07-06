@@ -42,7 +42,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		displayID = blockID;
 	if (world->gamemode == GAMEMODE_CREATIVE || blockID == AIR)
 		return;
-	int mobNum = spawnMobAt(8, world, x * 16 + 4, y * 16 - 4);
+	int mobNum = spawnMobAt(MOB_ITEM, world, x * 16 + 4, y * 16 - 4);
 	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
 	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);

@@ -27,8 +27,7 @@ AnimalMob::AnimalMob()
 	ping = 0;
 	alive = false;
 	health = 10;
-	mobType = 0;
-	animationClearFrames = 0;
+	framesHurtSprite = 0;
 	notarget = 0;
 	smallmob = true;
 }
@@ -47,10 +46,10 @@ AnimalMob::AnimalMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = 5;
+	mobType = MOB_ANIMAL;
 	health = 10;
 	ping = 0;
-	animation = 0;
+	spriteState = 0;
 	notarget = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 	smallmob = true;
@@ -59,12 +58,12 @@ AnimalMob::AnimalMob(int a, int b)
 
 void AnimalMob::updateMob(WorldObject* world)
 {
-	if (animation == 0) showGraphic(&animalMobGraphics[animal][0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
-	else if (animation == 1) showGraphic(&animalMobGraphics[animal][1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	if (spriteState == 0) showGraphic(&animalMobGraphics[animal][0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&animalMobGraphics[animal][1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
 
 	if (host == true)
 	{
-		target = mobHandlerFindMob(256, 2, x, y);
+		target = mobHandlerFindMob(256, MOB_PLAYER, x, y);
 
 		if (scaredTimer == 1)
 		{
@@ -72,7 +71,7 @@ void AnimalMob::updateMob(WorldObject* world)
 			scaredTimer = 0;
 		}
 
-		if (target->mobType != 2) //Out of range of player
+		if (target->mobType != MOB_PLAYER) //Out of range of player
 		{
 			scaredTimer = 0;
 			++notarget;
@@ -119,13 +118,13 @@ void AnimalMob::updateMob(WorldObject* world)
 				vy = JUMP_VELOCITY;
 			--scaredTimer;
 		}
-		if (mobType == 2) notarget = 0;
+		if (mobType == MOB_PLAYER) notarget = 0;
 		ping = 0;
 		if (health <= 0)
 			killMob();
 		//if (notarget > 1800) killMob();
-		if (animationClearFrames == 0) animation = 0;
-		else --animationClearFrames;
+		if (framesHurtSprite == 0) spriteState = 0;
+		else --framesHurtSprite;
 	}
 }
 
@@ -145,7 +144,7 @@ void AnimalMob::loadFromFile(FILE* pFile)
 void AnimalMob::hurt(int amount, int type)
 {
 
-	if (animation == 1)
+	if (spriteState == 1)
 		return;
 	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
@@ -188,8 +187,8 @@ void AnimalMob::hurt(int amount, int type)
 				break;
 		}
 	}
-	animation = 1;
-	animationClearFrames = 20;
+	spriteState = 1;
+	framesHurtSprite = 20;
 }
 
 bool AnimalMob::isMyPlayer()
