@@ -352,26 +352,16 @@ void gameOptions()
 	menu.activate();
 }
 
-void setSoundAction(UIElement *slider, int position, bool extra)
+void setSfxAction(UIElement *slider, int position, bool extra)
 { 
   //position is 0...25 (Inclusive)
-  getGlobalSettings()->soundVolume = position;
+	getGlobalSettings()->sfxVolume = position;
 }
 
-void setSfxAction(UIElement *slider, int position, bool extra)
+void setMusicAction(UIElement *slider, int position, bool extra)
 {
   //position is 0...25 (Inclusive)
-  getGlobalSettings()->sfxVolume = position;
-}
-
-int getSoundVolume()
-{
-	return getGlobalSettings()->soundVolume; //For testing TODO: Replace with actual value
-}
-
-int getSfxVolume()
-{
-  return  getGlobalSettings()->sfxVolume;
+	getGlobalSettings()->musicVolume = position;
 }
 
 void audioScreen()
@@ -383,9 +373,9 @@ void audioScreen()
 	Menu menu;
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
-	menu.addSlider(1, 8, "Sound Volume", getSoundVolume());
-	menu.setAction(setSoundAction, 0);
-	menu.addSlider(1, 13, "Sfx Volume", getSfxVolume());
+	menu.addSlider(1, 8, "Music Volume", getGlobalSettings()->musicVolume);
+	menu.setAction(setMusicAction, 0);
+	menu.addSlider(1, 13, "Sfx Volume", getGlobalSettings()->sfxVolume);
 	menu.setAction(setSfxAction, 0);
 	menu.activate();
 }
