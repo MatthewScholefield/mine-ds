@@ -8,6 +8,16 @@
 #define SIDE_TOP 3
 #define COLLISION_STUCK 4
 
+enum MobType
+{
+	MOB_ANIMAL = 0,
+	MOB_HEROBRINE = 1,
+	MOB_ITEM = 2,
+	MOB_MULTIPLAYER = 3,
+	MOB_PLAYER = 4,
+	MOB_ZOMBIE = 5,
+};
+
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 
 class BaseMob
@@ -21,9 +31,9 @@ public:
 	int sy;
 	bool smallmob = false;
 	bool alive;
-	int animation;
-	int animationClearFrames;
-	int mobType;
+	int spriteState;
+	int framesHurtSprite;
+	MobType mobType;
 	int timeOnCactus;
 	bool onCactus;
 	int health; //Health of the mob, 0 is dead ;)
@@ -33,9 +43,8 @@ public:
 	bool host; // Was this mob spawn'd by this nds?
 	bool collisions[5];
 	//bool potioneffects[5];
-	virtual void saveToFile(FILE* sFile);
-	virtual void loadFromFile(FILE* sFile);
-	virtual void sendWifiUpdate();
+	virtual void saveToFile(FILE* sFile) = 0;
+	virtual void loadFromFile(FILE* sFile) = 0;
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
 	bool facing;

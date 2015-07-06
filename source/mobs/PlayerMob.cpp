@@ -33,8 +33,8 @@ PlayerMob::PlayerMob()
 	vx = 0;
 	alive = false;
 	facing = 0;
-	animation = 0;
-	mobType = 2;
+	spriteState = 0;
+	mobType = MOB_PLAYER;
 	health = PLAYER_FULL_HEALTH;
 	ping = 0;
 	reheal = 0;
@@ -52,10 +52,10 @@ PlayerMob::PlayerMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = 2;
+	mobType = MOB_PLAYER;
 	health = PLAYER_FULL_HEALTH;
 	ping = 0;
-	animation = 0;
+	spriteState = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 	reheal = 0;
 	tillBrightness = 0;
@@ -66,14 +66,14 @@ void PlayerMob::hurt(int amount, int type)
 {
 	if (isSurvival() || type == VOID_HURT)
 	{
-		if (animation == 1)
+		if (spriteState == 1)
 			return;
 		if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 			vy = JUMP_VELOCITY;
 		playSound(SOUND_PLAYER_HURT);
 		health -= amount;
-		animation = 1;
-		animationClearFrames = 20;
+		spriteState = 1;
+		framesHurtSprite = 20;
 		if (health <= 0)
 		{
 			std::string message;
@@ -224,8 +224,8 @@ void PlayerMob::updateMob(WorldObject* world)
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
-			if (animationClearFrames == 0) animation = 0;
-			else --animationClearFrames;
+			if (framesHurtSprite == 0) spriteState = 0;
+			else --framesHurtSprite;
 			if (reheal > 300)
 			{
 				if (health < 20)
@@ -259,7 +259,7 @@ void PlayerMob::updateMob(WorldObject* world)
 							health = PLAYER_FULL_HEALTH;
 							i = WORLD_WIDTH + 1;
 							j = WORLD_HEIGHT + 1;
-							animation = 0;
+							spriteState = 0;
 						}
 					}
 			}
@@ -269,7 +269,7 @@ void PlayerMob::updateMob(WorldObject* world)
 	}
 	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
 	{
-		if (animation == 0)
+		if (spriteState == 0)
 			if (keysHeld() & KEY_TOUCH && canMine() && playerMobGraphic[PLAYER_SPRITE_WALK].anim_frame == 0)
 			{
 				if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT]))
@@ -280,7 +280,7 @@ void PlayerMob::updateMob(WorldObject* world)
 			}
 			else
 				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
-		else if (animation == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+		else if (spriteState == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
 	}
 }
 

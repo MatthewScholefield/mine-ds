@@ -1,7 +1,10 @@
 #pragma once
 #include <stdio.h>
+#include <nds.h>
 #include <vector>
 #include <string>
+
+#define DEBUG
 
 #define FPS		(60)
 #define SEC_TO_FPS(S)	((S) * FPS)
@@ -40,4 +43,14 @@ inline void printXY(int x, int y, int output)
 template<typename T> inline const T abs(T const & x)
 {
 	return ( x < 0) ? -x : x;
+}
+
+inline void showError(const char* error)
+{
+#ifdef DEBUG
+	for (int i = 0; i < 24; ++ i)
+		printXY(0, i, error);
+	while (1)
+		swiWaitForVBlank();
+#endif
 }
