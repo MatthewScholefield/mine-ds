@@ -115,11 +115,6 @@ void mobHandlerInit()
 	spawnPlayerAtPos = false;
 }
 
-int findFreeMobSpawnNum()
-{
-	return mobs.size();
-}
-
 static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
 {
 	switch (type)
@@ -141,7 +136,7 @@ static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
 	return false;
 }
 
-static void newMob(MobType type, int index, int x = 0, int y = 0)
+static void newMob(MobType type, int x = 0, int y = 0)
 {
 	switch (type)
 	{
@@ -167,9 +162,9 @@ static void newMob(MobType type, int index, int x = 0, int y = 0)
 			showError("Unknown Mob Spawned");
 			break;
 	}
-	mobs[index]->unKillMob();
-	mobs[index]->x += mobs[index]->sx / 2;
-	mobs[index]->y += mobs[index]->sy / 2;
+	mobs.back()->unKillMob();
+	mobs.back()->x += mobs.back()->sx / 2;
+	mobs.back()->y += mobs.back()->sy / 2;
 }
 
 void saveMobs(FILE* f)
@@ -191,13 +186,8 @@ static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck 
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
 		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
-			int index = findFreeMobSpawnNum();
-			if (index != -1)
-			{
-				newMob(mobId, index, j * 16, i * 16);
-				mobs[index]->host = true;
-			}
-			else showError("SpawnMobMob can't find number");
+			newMob(mobId, j * 16, i * 16);
+			mobs.back()->host = true;
 			i = WORLD_HEIGHT + 1;
 			j = WORLD_WIDTH + 1;
 		}
@@ -211,13 +201,8 @@ static int spawnMob(MobType mobId, WorldObject* world)
 		for (i = 0; i <= WORLD_HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
-				int index = findFreeMobSpawnNum();
-				if (index >= 0)
-				{
-					newMob(mobId, index, j * 16, i * 16);
-					mobs[index]->host = true;
-				}
-				else showError("SpawnMob can't find number");
+				newMob(mobId, j * 16, i * 16);
+				mobs.back()->host = true;
 				i = WORLD_HEIGHT + 1;
 				j = WORLD_WIDTH + 1;
 			}
@@ -226,13 +211,9 @@ static int spawnMob(MobType mobId, WorldObject* world)
 
 int spawnMobAt(MobType type, WorldObject* world, int x, int y)
 {
-	int index = findFreeMobSpawnNum();
-	if (index >= 0)
-	{
-		newMob(type, index, x, y);
-		mobs[index]->host = true;
-	}
-	return index;
+	newMob(type, x, y);
+	mobs.back()->host = true;
+	return mobs.size()-1;
 }
 
 void loadMobs(FILE* f)
@@ -248,13 +229,10 @@ void loadMobs(FILE* f)
 	}
 }
 
-static void spawnMobNoCheck(MobType type, WorldObject* world, int index)
+static void spawnMobNoCheck(MobType type, WorldObject* world)
 {
-	if (index >= 0)
-	{
-		newMob(type, index);
-		mobs[index]->host = false;
-	}
+	newMob(type);
+	mobs.back()->host = false;
 }
 
 void mobHandlerReadWifiUpdate(int x, int y, int animation, MobType type, int index, WorldObject* world, bool facing)
@@ -264,7 +242,7 @@ void mobHandlerReadWifiUpdate(int x, int y, int animation, MobType type, int ind
 	{
 		if (mobs[index]->mobType == MOB_PLAYER)
 			spawnMobAt(MOB_PLAYER, world, mobs[index]->x, mobs[index]->y);
-		spawnMobNoCheck(type, world, index);
+		spawnMobNoCheck(type, world);
 	}
 	mobs[index]->unKillMob();
 	mobs[index]->x = x;
