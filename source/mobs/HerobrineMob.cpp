@@ -15,7 +15,6 @@ Graphic herobrineMobGraphic[3];
 
 HerobrineMob::HerobrineMob()
 {
-	target = NULL;
 	jump = 0;
 	x = 0;
 	y = 0;
@@ -31,7 +30,6 @@ HerobrineMob::HerobrineMob()
 
 HerobrineMob::HerobrineMob(int a, int b)
 {
-	target = NULL;
 	jump = 0;
 	sx = 6;
 	sy = 32;
@@ -60,7 +58,7 @@ void HerobrineMob::updateMob(WorldObject* world)
 		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])
 			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
-		target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
+		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->mobType == MOB_PLAYER) facing = true;
 		else if (target->mobType == MOB_PLAYER) facing = false;
 		++jump;
