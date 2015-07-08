@@ -1,6 +1,8 @@
 #pragma once
 #include <stdio.h>
 #include <memory>
+#  include <bits/shared_ptr.h>
+#include <bits/shared_ptr_base.h>
 #include "../world.h"
 
 #define SIDE_BOTTOM 0
