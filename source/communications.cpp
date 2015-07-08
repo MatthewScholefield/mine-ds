@@ -229,7 +229,7 @@ void wifiHurtMob(int mobNum, int amount, int type)
 	Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 }
 
-void sendMobUpdater(BaseMob* mob, int mobNum)
+void sendMobUpdater(BaseMob_ptr mob, int mobNum)
 {
 	unsigned short buffer[100];
 	int server_id = getServerID();

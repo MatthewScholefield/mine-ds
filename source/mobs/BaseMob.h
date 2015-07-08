@@ -1,5 +1,6 @@
 #pragma once
 #include <stdio.h>
+#include <memory>
 #include "../world.h"
 
 #define SIDE_BOTTOM 0
@@ -58,5 +59,6 @@ public:
 
 	virtual ~ BaseMob() { }
 };
+typedef std::shared_ptr<BaseMob> BaseMob_ptr;
 void BaseMobInit();
 bool jumpHurtType(int hurtType);

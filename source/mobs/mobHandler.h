@@ -20,5 +20,5 @@ void mobsReset(bool playerSpawned = false);
 void mobHandlerHurtMob(int index, int amount, int type);
 int isMobAt(int x, int y);
 void mobHandlerHurtMobWifi(int index, int amount, int type);
-BaseMob* mobHandlerFindMob(int range, MobType type, int x, int y);
+BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y);
 int getPlayerX();
