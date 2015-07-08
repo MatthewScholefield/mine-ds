@@ -16,7 +16,6 @@ Graphic animalMobGraphics[3][2];
 
 AnimalMob::AnimalMob()
 {
-	target = NULL;
 	mov = 0;
 	dir = true;
 	scaredTimer = 0;
@@ -34,7 +33,6 @@ AnimalMob::AnimalMob()
 
 AnimalMob::AnimalMob(int a, int b)
 {
-	target = NULL;
 	mov = 0;
 	dir = true;
 	scaredTimer = 0;
@@ -63,7 +61,7 @@ void AnimalMob::updateMob(WorldObject* world)
 
 	if (host == true)
 	{
-		target = mobHandlerFindMob(256, MOB_PLAYER, x, y);
+		BaseMob_ptr target = mobHandlerFindMob(256, MOB_PLAYER, x, y);
 
 		if (scaredTimer == 1)
 		{

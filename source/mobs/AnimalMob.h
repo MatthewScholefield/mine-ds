@@ -15,7 +15,6 @@ public:
 	int scaredTimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
-	BaseMob* target;
 	int notarget;
 	AnimalType animal;
 

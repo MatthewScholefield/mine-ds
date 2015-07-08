@@ -17,7 +17,6 @@ Graphic zombieMobGraphic[3];
 
 ZombieMob::ZombieMob()
 {
-	target = NULL;
 	jump = 0;
 	x = 0;
 	y = 0;
@@ -33,7 +32,6 @@ ZombieMob::ZombieMob()
 
 ZombieMob::ZombieMob(int a, int b)
 {
-	target = NULL;
 	jump = 0;
 	sx = 6;
 	sy = 32;
@@ -83,7 +81,7 @@ void ZombieMob::updateMob(WorldObject* world)
 	else if (spriteState == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
-		target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
+		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->mobType == MOB_PLAYER) facing = true;
 		else if (target->mobType == MOB_PLAYER) facing = false;
 		if (target->mobType != MOB_PLAYER)

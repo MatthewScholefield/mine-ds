@@ -1,5 +1,7 @@
 #include <nds.h>
 #include <fat.h>
+#include <vector>
+#include <memory>
 #include "BaseMob.h" //Bad guys are nameMob
 #include "PlayerMob.h" //Good guys are mobName
 #include "MultiplayeMob.h"
@@ -19,7 +21,8 @@
 #include "../worldRender.h"
 #define PLAYER_ID 1
 
-BaseMob* mobs[100];
+std::vector<BaseMob_ptr> mobs;
+//BaseMob* mobs[100];
 bool hasSpawnedPlayer;
 bool spawnPlayerAtPos;
 
@@ -33,12 +36,11 @@ int getDefaultSpawnX()
 	return mobs[PLAYER_ID]->x / 16 + (rand() % 5) - 2;
 }
 
-BaseMob* mobHandlerFindMob(int range, MobType type, int x, int y)
+BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
 {
 	int closest = range * range + 1;
 	int index = -1;
-	int i;
-	for (i = 0; i < 100; ++i)
+	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
 	{
 		if (mobs[i]->mobType == type)
 		{
@@ -83,12 +85,9 @@ void mobHandlerHurtMob(int index, int amount, int type)
 
 int isMobAt(int x, int y)
 {
-	int i;
-	for (i = 0; i < 100; ++i)
-	{
+	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
 		if (spriteCol(mobs[i]->x - mobs[i]->sx / 2 + 1, mobs[i]->y - mobs[i]->sy / 2 + 1, x - 1, y - 1, mobs[i]->sx, mobs[i]->sy, 1, 1) && mobs[i]->alive == true)
 			return i;
-	}
 	return -1;
 }
 
@@ -99,13 +98,7 @@ void mobHandlerKillMob(int index)
 
 void mobsReset(bool playerSpawned)
 {
-	int i;
-	for (i = 0; i < 100; ++i)
-	{
-		delete mobs[i];
-		mobs[i] = new ItemMob(0, 0);
-		mobs[i] -> killMob();
-	}
+	mobs.clear();
 	hasSpawnedPlayer = playerSpawned;
 	spawnPlayerAtPos = playerSpawned;
 }
@@ -118,23 +111,13 @@ void mobHandlerInit()
 	zombieMobInit();
 	herobrineMobInit();
 	animalMobInit();
-	int i;
-	for (i = 0; i < 100; ++i)
-	{
-		mobs[i] = new ItemMob(0, 0);
-		mobs[i] -> killMob();
-	}
 	hasSpawnedPlayer = false;
 	spawnPlayerAtPos = false;
 }
 
 int findFreeMobSpawnNum()
 {
-	int i;
-	for (i = 1; i < 100; ++i)
-		if (mobs[i]->alive == false && mobs[i]->isMyPlayer() == false)
-			return i;
-	return -1;
+	return mobs.size();
 }
 
 static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
@@ -160,26 +143,25 @@ static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
 
 static void newMob(MobType type, int index, int x = 0, int y = 0)
 {
-	delete mobs[index]; //Free Memory and Stop Crashes
 	switch (type)
 	{
 		case MOB_PLAYER:
-			mobs[index] = new PlayerMob(x, y);
+			mobs.push_back(BaseMob_ptr(new PlayerMob(x, y)));
 			break;
 		case MOB_MULTIPLAYER:
-			mobs[index] = new MultiplayerMob(x, y);
+			mobs.push_back(BaseMob_ptr(new MultiplayerMob(x, y)));
 			break;
 		case MOB_ZOMBIE:
-			mobs[index] = new ZombieMob(x, y);
+			mobs.push_back(BaseMob_ptr(new ZombieMob(x, y)));
 			break;
 		case MOB_ANIMAL:
-			mobs[index] = new AnimalMob(x, y);
+			mobs.push_back(BaseMob_ptr(new AnimalMob(x, y)));
 			break;
 		case MOB_HEROBRINE:
-			mobs[index] = new HerobrineMob(x, y);
+			mobs.push_back(BaseMob_ptr(new HerobrineMob(x, y)));
 			break;
 		case MOB_ITEM:
-			mobs[index] = new ItemMob(x, y);
+			mobs.push_back(BaseMob_ptr(new ItemMob(x, y)));
 			break;
 		default:
 			showError("Unknown Mob Spawned");
@@ -192,8 +174,7 @@ static void newMob(MobType type, int index, int x = 0, int y = 0)
 
 void saveMobs(FILE* f)
 {
-	int i;
-	for (i = 0; i < 100; ++i)
+	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
 	{
 		if (mobs[i]->alive)
 		{
@@ -304,8 +285,7 @@ void mobHandlerUpdate(WorldObject* world)
 		spawnMob(MOB_PLAYER, world);
 		hasSpawnedPlayer = true;
 	}
-	int i;
-	for (i = 1; i < 100; ++i)
+	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
 	{
 
 		if (mobs[i]->alive == true)
@@ -325,8 +305,7 @@ void mobHandlerUpdate(WorldObject* world)
 				{
 					mobs[i]->ping = 0;
 					mobs[i]->alive = false;
-					delete mobs[i];
-					mobs[i] = NULL;
+					mobs.erase(mobs.begin() + i);
 				}
 			}
 		}
