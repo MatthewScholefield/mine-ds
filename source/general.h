@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#define DEBUG
+#define SHOW_ERRORS
 
 #define FPS		(60)
 #define SEC_TO_FPS(S)	((S) * FPS)
@@ -47,7 +47,7 @@ template<typename T> inline const T abs(T const & x)
 
 inline void showError(const char* error)
 {
-#ifdef DEBUG
+#ifdef SHOW_ERRORS
 	for (int i = 0; i < 24; ++ i)
 		printXY(0, i, error);
 	while (1)

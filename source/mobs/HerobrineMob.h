@@ -7,7 +7,6 @@ class HerobrineMob : public BaseMob
 public:
 	int waitingCount;
 	int jump;
-	BaseMob* target;
 	int notarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);

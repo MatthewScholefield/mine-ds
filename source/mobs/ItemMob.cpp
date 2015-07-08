@@ -83,8 +83,7 @@ void ItemMob::updateMob(WorldObject* world)
 	++floatY;
 	if (floatY > 100)
 		floatY = 0;
-	BaseMob* target;
-	target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
+	BaseMob_ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == NULL)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())

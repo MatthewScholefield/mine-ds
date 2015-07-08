@@ -17,7 +17,6 @@ public:
 	bool host; // Was this mob spawn'd by this nds?*/
 	//bool potioneffects[5];
 	int jump;
-	BaseMob* target;
 	int noTarget;
 	virtual void saveToFile(FILE* sFile);
 	virtual void loadFromFile(FILE* sFile);
