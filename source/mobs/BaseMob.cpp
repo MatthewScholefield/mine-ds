@@ -6,16 +6,13 @@
 #include "BaseMob.h"
 #include "../blockID.h"
 #include "hurt.h"
-//ASDF?
-Graphic baseMobGraphic[3];
 
-BaseMob::BaseMob()
+/*BaseMob::BaseMob()
 {
 	host = true;
 	facing = false;
 	for (int i = 0; i < 5; ++i)
 		collisions[i] = false;
-	mobId = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
 	spriteState = 0;
 	sx = 6;
@@ -38,7 +35,6 @@ BaseMob::BaseMob(int a, int b)
 	host = true;
 	for (int i = 0; i < 5; ++i)
 		collisions[i] = false;
-	mobId = 0;
 	spriteState = 0;
 	onCactus = false;
 	timeOnCactus = 30;
@@ -54,27 +50,7 @@ BaseMob::BaseMob(int a, int b)
 	health = 10;
 	framesHurtSprite = 0;
 	timeTillWifiUpdate = rand() % 4 + 4;
-}
-
-/*void BaseMob::resetVelocity()
-{
-	vy = 0;
-	vx = 0;
 }*/
-
-void BaseMob::updateMob(WorldObject* world)
-{
-	if (spriteState == 0) showGraphic(&baseMobGraphic[0], x - world->camX, y - world->camY);
-	else if (spriteState == 1) showGraphic(&baseMobGraphic[1], x - world->camX, y - world->camY);
-	if (host == true)
-	{
-		ping = 0;
-		if (health <= 0)
-			killMob();
-		if (framesHurtSprite == 0) spriteState = 0;
-		else --framesHurtSprite;
-	}
-}
 
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 {
@@ -83,26 +59,22 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 	return false;
 }
 
-void BaseMobInit()
-{
-	loadGraphic(&baseMobGraphic[0], GRAPHIC_MOB, 0);
-	loadGraphic(&baseMobGraphic[1], GRAPHIC_MOB, 1);
-}
-
 void BaseMob::hurt(int amount, int type)
 {
+	if (!host || health < 0)
+		return;
 	health -= amount;
 	spriteState = 1;
 	framesHurtSprite = 20;
 }
 
-void BaseMob::killMob()
+void BaseMob::kill()
 {
 	timeTillWifiUpdate = 1;
 	alive = false;
 }
 
-void BaseMob::unKillMob()
+void BaseMob::revive()
 {
 	alive = true;
 }

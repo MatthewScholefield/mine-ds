@@ -7,7 +7,7 @@
 #include "../blocks.h"
 #include "../mobs/hurt.h"
 #include "leaf.h"
-#include "../mainGame.h"
+#include "../mobs/mobHandler.h"
 
 void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 {

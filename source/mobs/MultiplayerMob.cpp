@@ -19,7 +19,7 @@ MultiplayerMob::MultiplayerMob()
 	spriteState = 0;
 	sx = 6;
 	sy = 32;
-	mobType = MOB_MULTIPLAYER;
+	type = MOB_MULTIPLAYER;
 	ping = 0;
 }
 
@@ -33,7 +33,7 @@ MultiplayerMob::MultiplayerMob(int a, int b)
 	vx = 0;
 	alive = false;
 	spriteState = 0;
-	mobType = MOB_MULTIPLAYER;
+	type = MOB_MULTIPLAYER;
 	ping = 0;
 }
 
@@ -62,7 +62,7 @@ void MultiplayerMob::saveToFile(FILE* pFile)
 
 void MultiplayerMob::loadFromFile(FILE* pFile)
 {
-	killMob();
+	kill();
 }
 
 bool canMultiplayerMobSpawnHere(WorldObject* world, int x, int y)
