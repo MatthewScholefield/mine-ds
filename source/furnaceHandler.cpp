@@ -1,6 +1,6 @@
 #include "world.h"
 #include "blockID.h"
-#include "mainGame.h"
+#include "mobs/mobHandler.h"
 #include "inventory.h"
 #include "general.h"
 #include <cstdlib>

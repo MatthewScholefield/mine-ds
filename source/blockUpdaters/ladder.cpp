@@ -5,7 +5,7 @@
 #include "../blockID.h"
 #include "../blocks.h"
 #include "ladder.h"
-#include "../mainGame.h"
+#include "../mobs/mobHandler.h"
 
 LadderUpdater::LadderUpdater()
 {
