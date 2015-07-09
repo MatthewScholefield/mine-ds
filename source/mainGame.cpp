@@ -34,23 +34,6 @@
 bool shouldQuitGame = false;
 WorldObject *world;
 
-void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
-{
-	if (amount < 1)
-		return;
-	if (displayID == -1)
-		displayID = blockID;
-	if (world->gamemode == GAMEMODE_CREATIVE || blockID == AIR)
-		return;
-	int mobNum = spawnMobAt(MOB_ITEM, world, x * 16 + 4, y * 16 - 4);
-	mobHandlerHurtMob(mobNum, blockID, PROPERTY_HURT);
-	mobHandlerHurtMob(mobNum, amount, PROPERTY_HURT);
-	mobHandlerHurtMob(mobNum, displayBlock(displayID), PROPERTY_HURT);
-	mobHandlerHurtMob(mobNum, getBrightness(world, x, y), PROPERTY_HURT);
-	if (initVX != 54321) //Default value
-		mobHandlerHurtMob(mobNum, initVX * 100.00, PROPERTY_HURT);
-}
-
 static void redrawGameUI(void)
 {
 	lcdMainOnBottom();
@@ -106,11 +89,6 @@ static int inGameMenu()
 	redrawGameUI();
 	return 0;
 }
-
-/*bool isCreative(void)
-{
-	return (world->gamemode == GAMEMODE_CREATIVE);
-}*/
 
 bool isSurvival(void)
 {

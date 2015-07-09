@@ -44,7 +44,7 @@ AnimalMob::AnimalMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = MOB_ANIMAL;
+	type = MOB_ANIMAL;
 	health = 10;
 	ping = 0;
 	spriteState = 0;
@@ -69,7 +69,7 @@ void AnimalMob::updateMob(WorldObject* world)
 			scaredTimer = 0;
 		}
 
-		if (target->mobType != MOB_PLAYER) //Out of range of player
+		if (target->type != MOB_PLAYER) //Out of range of player
 		{
 			scaredTimer = 0;
 			++notarget;
@@ -116,11 +116,8 @@ void AnimalMob::updateMob(WorldObject* world)
 				vy = JUMP_VELOCITY;
 			--scaredTimer;
 		}
-		if (mobType == MOB_PLAYER) notarget = 0;
+		if (type == MOB_PLAYER) notarget = 0;
 		ping = 0;
-		if (health <= 0)
-			killMob();
-		//if (notarget > 1800) killMob();
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 	}
@@ -136,7 +133,7 @@ void AnimalMob::saveToFile(FILE* pFile)
 
 void AnimalMob::loadFromFile(FILE* pFile)
 {
-	killMob();
+	kill();
 }
 
 void AnimalMob::hurt(int amount, int type)

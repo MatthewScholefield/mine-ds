@@ -8,7 +8,7 @@
 #include "oakSapling.h"
 #include "../trees.h"
 #include "../worldRender.h"
-#include "../mainGame.h"
+#include "../mobs/mobHandler.h"
 
 void saplingChanceUpdate(WorldObject *world, int x, int y, bool bg)
 {

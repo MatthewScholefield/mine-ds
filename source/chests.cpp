@@ -3,6 +3,7 @@
 #include "blockID.h"
 #include "inventory.h"
 #include "mainGame.h"
+#include "mobs/mobHandler.h"
 #include "communications.h"
 
 void createChest(WorldObject *world, int x, int y, bool bg)

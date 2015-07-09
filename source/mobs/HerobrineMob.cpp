@@ -39,7 +39,7 @@ HerobrineMob::HerobrineMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = MOB_HEROBRINE;
+	type = MOB_HEROBRINE;
 	health = 7;
 	ping = 0;
 	spriteState = 0;
@@ -59,13 +59,13 @@ void HerobrineMob::updateMob(WorldObject* world)
 			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
-		if (target->x < x && target->mobType == MOB_PLAYER) facing = true;
-		else if (target->mobType == MOB_PLAYER) facing = false;
+		if (target->x < x && target->type == MOB_PLAYER) facing = true;
+		else if (target->type == MOB_PLAYER) facing = false;
 		++jump;
 		int distance = target->x - x;
 		if (distance < 0)
 			distance *= -1;
-		if (target->mobType != MOB_PLAYER)
+		if (target->type != MOB_PLAYER)
 		{
 			++notarget;
 			jump = 0;
@@ -89,11 +89,10 @@ void HerobrineMob::updateMob(WorldObject* world)
 		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
 			vy = JUMP_VELOCITY;
 		ping = 0;
-		if (notarget > 1800) killMob();
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
-			mobHandlerHurtMob(target->mobId, 3, HEROBRINE_HURT);
+			target->hurt(3, HEROBRINE_HURT);
 	}
 }
 
@@ -107,7 +106,7 @@ void HerobrineMob::saveToFile(FILE* pFile)
 
 void HerobrineMob::loadFromFile(FILE* pFile)
 {
-	killMob();
+	kill();
 }
 
 bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
@@ -143,7 +142,7 @@ void HerobrineMob::hurt(int amount, int type)
 		if (type == CACTUS_HURT)
 		{
 			addInventory(rand() % (NUM_BLOCKS - 2) + 2, rand() % 4 + 1);
-			killMob();
+			health = 0;
 		}
 		else
 		{

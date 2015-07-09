@@ -145,8 +145,8 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 
 bool attackMob(WorldObject *world, int px, int py)
 {
-	int mobNum = isMobAt(px + world->camX, py + world->camY);
-	if (mobNum != -1)
+	BaseMob_ptr targetMob = isMobAt(px + world->camX, py + world->camY);
+	if (targetMob != NULL)
 	{
 		int damage;
 		switch (getBlockID(getSelectedSlot()))
@@ -170,7 +170,7 @@ bool attackMob(WorldObject *world, int px, int py)
 				damage = 1;
 				break;
 		}
-		mobHandlerHurtMob(mobNum, damage, PLAYER_HURT);
+		targetMob->hurt(damage, PLAYER_HURT);
 		return true;
 	}
 	else

@@ -7,7 +7,7 @@
 #include "../blocks.h"
 #include "cactus.h"
 #include "../mobs/hurt.h"
-#include "../mainGame.h"
+#include "../mobs/mobHandler.h"
 
 CactusUpdater::CactusUpdater()
 {
