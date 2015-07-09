@@ -261,7 +261,7 @@ void Handler(int packetID, int readlength)
 		int test_id;
 		int a;
 		sscanf(message, "%d %d", &test_id, &a);
-		if (test_id == server_id) killMob(a);
+		//if (test_id == server_id) killMob(a);
 	}
 	if (printmessage) printf("\x1b[0;0Hmsgtype %s message %s                                        \n", msgtype, message);
 }

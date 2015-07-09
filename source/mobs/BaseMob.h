@@ -1,8 +1,6 @@
 #pragma once
 #include <stdio.h>
 #include <memory>
-#  include <bits/shared_ptr.h>
-#include <bits/shared_ptr_base.h>
 #include "../world.h"
 
 #define SIDE_BOTTOM 0
@@ -26,39 +24,45 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 class BaseMob
 {
 public:
-	float x;
-	float y;
-	float vy;
-	float vx;
-	int sx;
-	int sy;
-	bool smallmob = false;
-	bool alive;
-	int spriteState;
-	int framesHurtSprite;
-	MobType mobType;
+	float x, y;
+	float vy, vx;
+	int sx, sy;
+	bool smallmob, alive;
+	int spriteState, framesHurtSprite;
+	MobType type;
 	int timeOnCactus;
-	bool onCactus;
-	int health; //Health of the mob, 0 is dead ;)
+	bool onCactus, facing;
+	int health; //0 = Dead
+
+	//Multiplayer
 	int timeTillWifiUpdate;
 	int ping;
-	int mobId; // Needed for chasing mobs
-	bool host; // Was this mob spawn'd by this nds?
+	bool host;
 	bool collisions[5];
-	//bool potioneffects[5];
+
+	virtual void updateMob(WorldObject* world) = 0;
 	virtual void saveToFile(FILE* sFile) = 0;
 	virtual void loadFromFile(FILE* sFile) = 0;
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
-	bool facing;
-	void killMob();
-	void unKillMob();
-	void setXYPos(int x, int y);
-	void resetVelocity();
-	virtual void updateMob(WorldObject* world);
-	BaseMob();
-	BaseMob(int x, int y);
+	virtual void kill();
+	virtual void revive();
 
+	BaseMob()
+	{
+		host = true;
+		facing = false;
+		for (int i = 0; i < 5; ++ i)
+			collisions[i] = false;
+		timeTillWifiUpdate = 0;
+		spriteState = 0;
+		timeOnCactus = 30;
+		onCactus = false;
+		ping = 0;
+		alive = true;
+		health = 10;
+		framesHurtSprite = 0;
+	}
 	virtual ~ BaseMob() { }
 };
 typedef std::shared_ptr<BaseMob> BaseMob_ptr;

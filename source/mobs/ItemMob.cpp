@@ -17,27 +17,6 @@
 #include "../mining.h"
 #include "../worldRender.h"
 
-ItemMob::ItemMob(int a, int b)
-{
-	sx = 8;
-	sy = 8;
-	x = a;
-	y = b;
-	health = 1;
-	mobType = MOB_ITEM;
-	blockID = -1;
-	displayID = -1;
-	amount = -1;
-	floatY = 0;
-	//Set initial velocity
-	vx = double((rand() % 10) + 40) / 100.0;
-	//Set direction
-	vx *= (rand() % 2) ? -1 : 1;
-	vy = 0;
-	hurtStage = 0;
-	itemGraphic = NULL;
-}
-
 bool ItemMob::isMyPlayer()
 {
 	return false;
@@ -45,13 +24,20 @@ bool ItemMob::isMyPlayer()
 
 void ItemMob::updateMob(WorldObject* world)
 {
-	if (!alive)
+	if (world->gamemode == GAMEMODE_CREATIVE)
+	{
+		timeTillWifiUpdate = 1;
+		health = 0;
 		return;
+	}
 	if (!itemGraphic)
 	{
 		itemGraphic = new Graphic();
+		itemGraphic->paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
 		loadGraphic(itemGraphic, GRAPHIC_BLOCK_MINI, displayID, 8, 8, 3 + (12 * brightness) / 15);
 	}
+	if (health<1)
+		return;
 	if (vx != 0)
 	{
 		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
@@ -88,19 +74,10 @@ void ItemMob::updateMob(WorldObject* world)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
 		showGraphic(itemGraphic, x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
-	else
-	{
-		if (addInventory(blockID, amount))
-		{
-			alive = false;
-			killMob();
-		}
-	}
+	else if (addInventory(blockID, amount))
+		health = 0;
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
-	{
-		alive = false;
-		killMob();
-	}
+		health = 0;
 }
 
 void ItemMob::sendWifiUpdate()
@@ -111,52 +88,26 @@ void ItemMob::saveToFile(FILE* pFile)
 {
 }
 
-void ItemMob::killMob()
+void ItemMob::kill()
 {
 	playSound(SOUND_POP, 155 + rand() % 100);
 	unloadGraphic(itemGraphic);
 	delete itemGraphic;
 	timeTillWifiUpdate = 1;
-	alive = false;
 }
 
 void ItemMob::loadFromFile(FILE* pFile)
 {
-	killMob();
+	kill();
 }
 
 void ItemMob::hurt(int hamount, int type)
 {
 	switch (type)
 	{
-		case PROPERTY_HURT:
-		{
-			switch (hurtStage)
-			{
-				case 0:
-					displayID = blockID = hamount;
-					break;
-				case 1:
-					amount = hamount;
-					break;
-				case 2:
-					displayID = hamount > 0 ? hamount : displayID;
-					break;
-				case 3:
-					brightness = hamount;
-					break;
-				case 4:
-					vx = hamount / 100.0;
-					break;
-				default:
-					return;
-			}
-			++hurtStage;
-			break;
-		}
 		case CACTUS_HURT:
 			if (rand() % 10 == 1)
-				killMob();
+				health = 0;;
 			break;
 		default:
 			break;

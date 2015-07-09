@@ -7,7 +7,7 @@
 #include "../blocks.h"
 #include "plants.h"
 #include "../mobs/hurt.h"
-#include "../mainGame.h"
+#include "../mobs/mobHandler.h"
 
 void plantUpdate(int beneathID, WorldObject* world, int x, int y, bool bg)
 {

@@ -25,7 +25,7 @@ ZombieMob::ZombieMob()
 	ping = 0;
 	alive = false;
 	health = 10;
-	mobType = MOB_ZOMBIE;
+	type = MOB_ZOMBIE;
 	framesHurtSprite = 0;
 	noTarget = 0;
 }
@@ -41,7 +41,7 @@ ZombieMob::ZombieMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = MOB_ZOMBIE;
+	type = MOB_ZOMBIE;
 	health = 20;
 	ping = 0;
 	spriteState = 0;
@@ -70,7 +70,7 @@ void ZombieMob::hurt(int amount, int type)
 	if (health <= 0)
 	{
 		createItemMob(x, y, FLESH, rand() % 2 + 1);
-		killMob();
+		health = 0;
 	}
 }
 
@@ -82,9 +82,9 @@ void ZombieMob::updateMob(WorldObject* world)
 	if (host == true)
 	{
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
-		if (target->x < x && target->mobType == MOB_PLAYER) facing = true;
-		else if (target->mobType == MOB_PLAYER) facing = false;
-		if (target->mobType != MOB_PLAYER)
+		if (target->x < x && target->type == MOB_PLAYER) facing = true;
+		else if (target->type == MOB_PLAYER) facing = false;
+		if (target->type != MOB_PLAYER)
 			++noTarget;
 		else if (!collisions[SIDE_RIGHT] && facing == false && !collisions[SIDE_TOP])
 		{
@@ -100,13 +100,13 @@ void ZombieMob::updateMob(WorldObject* world)
 			vx = 0;
 		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
 			vy = JUMP_VELOCITY;
-		if (target->mobType == MOB_PLAYER) noTarget = 0;
+		if (target->type == MOB_PLAYER) noTarget = 0;
 		ping = 0;
-		if (noTarget > 1800) killMob();
+		if (noTarget > 1800) health = 0;;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
-			mobHandlerHurtMob(target->mobId, 1, ZOMBIE_HURT);
+			target->hurt(1, ZOMBIE_HURT);
 	}
 }
 
@@ -120,7 +120,7 @@ void ZombieMob::saveToFile(FILE* pFile)
 
 void ZombieMob::loadFromFile(FILE* pFile)
 {
-	killMob();
+	kill();
 }
 
 bool canZombieMobSpawnHere(WorldObject* world, int x, int y)

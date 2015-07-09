@@ -34,7 +34,7 @@ PlayerMob::PlayerMob()
 	alive = false;
 	facing = 0;
 	spriteState = 0;
-	mobType = MOB_PLAYER;
+	type = MOB_PLAYER;
 	health = PLAYER_FULL_HEALTH;
 	ping = 0;
 	reheal = 0;
@@ -52,7 +52,7 @@ PlayerMob::PlayerMob(int a, int b)
 	vx = 0;
 	alive = false;
 	facing = false;
-	mobType = MOB_PLAYER;
+	type = MOB_PLAYER;
 	health = PLAYER_FULL_HEALTH;
 	ping = 0;
 	spriteState = 0;
