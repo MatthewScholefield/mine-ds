@@ -3,6 +3,7 @@
 #include "../graphics/graphics.h"
 #include "HerobrineMob.h"
 #include "mobHandler.h"
+#include "mobFunctions.h"
 #include "../blockID.h"
 #include "../collision.h"
 #include "../worldRender.h"
@@ -13,39 +14,9 @@
 
 Graphic herobrineMobGraphic[3];
 
-HerobrineMob::HerobrineMob()
+void HerobrineMob::calcMiscData(WorldObject* world)
 {
-	jump = 0;
-	x = 0;
-	y = 0;
-	vy = 0;
-	vx = 0;
-	ping = 0;
-	alive = false;
-	health = 7;
-	framesHurtSprite = 0;
-	notarget = 0;
-	waitingCount = -rand() % 4000;
-}
-
-HerobrineMob::HerobrineMob(int a, int b)
-{
-	jump = 0;
-	sx = 6;
-	sy = 32;
-	x = a;
-	y = b;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	facing = false;
-	type = MOB_HEROBRINE;
-	health = 7;
-	ping = 0;
-	spriteState = 0;
-	notarget = 0;
-	timeTillWifiUpdate = rand() % 4 + 4;
-	waitingCount = -rand() % 4000;
+	calculateMiscData(world, this);
 }
 
 void HerobrineMob::updateMob(WorldObject* world)
@@ -61,21 +32,15 @@ void HerobrineMob::updateMob(WorldObject* world)
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->type == MOB_PLAYER) facing = true;
 		else if (target->type == MOB_PLAYER) facing = false;
-		++jump;
 		int distance = target->x - x;
 		if (distance < 0)
 			distance *= -1;
-		if (target->type != MOB_PLAYER)
-		{
-			++notarget;
-			jump = 0;
-		}
-		else if (!collisions[SIDE_RIGHT] && !collisions[SIDE_TOP] && jump > 1)
+		else if (!collisions[SIDE_RIGHT] && !collisions[SIDE_TOP])
 		{
 			if (waitingCount > 1000)
 			{
 				waitingCount = 1100;
-				vx = ((facing ? -1 : 1) * rand() % (distance < 40 && rand() % 2 ? 2 : 3));
+				vx = ((facing ? -1 : 1) * rand() % (distance < 40 && rand() % 2 ? 5 : 7));
 			}
 			else
 			{
@@ -83,12 +48,10 @@ void HerobrineMob::updateMob(WorldObject* world)
 					x += ((facing ? -1 : 1)*(distance > 60 ? 1 : -1) * rand() % 5);
 				else if (rand() % 10 == 1)
 					x += ((rand() % 2) ? -1 : 1)*(rand() % 15);
-				jump = 0;
 			}
 		}
 		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
 			vy = JUMP_VELOCITY;
-		ping = 0;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
@@ -106,17 +69,14 @@ void HerobrineMob::saveToFile(FILE* pFile)
 
 void HerobrineMob::loadFromFile(FILE* pFile)
 {
-	kill();
+	health = 0;
 }
 
 bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
-	{
-		/*if (getBrightness(world, x, y + 1) > 7)*/
 		return true;
-	}
 	return false;
 }
 
@@ -133,7 +93,7 @@ void HerobrineMob::hurt(int amount, int type)
 		return;
 	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
 		vy = JUMP_VELOCITY;
-	//playSound(HEROBRINE_H);
+	playSound(SOUND_PLAYER_HURT);
 	health -= amount;
 	spriteState = 1;
 	framesHurtSprite = 20;
@@ -141,7 +101,7 @@ void HerobrineMob::hurt(int amount, int type)
 	{
 		if (type == CACTUS_HURT)
 		{
-			addInventory(rand() % (NUM_BLOCKS - 2) + 2, rand() % 4 + 1);
+			createItemMob(x/16, y/16, rand() % (NUM_BLOCKS - 2) + 2, rand() % 4 + 1);
 			health = 0;
 		}
 		else

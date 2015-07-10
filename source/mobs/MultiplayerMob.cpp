@@ -9,32 +9,9 @@
 //ASDF?
 Graphic MplayerMobGraphic[3];
 
-MultiplayerMob::MultiplayerMob()
+void MultiplayerMob::calcMiscData(WorldObject* world)
 {
-	x = 0;
-	y = 0;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	spriteState = 0;
-	sx = 6;
-	sy = 32;
-	type = MOB_MULTIPLAYER;
-	ping = 0;
-}
-
-MultiplayerMob::MultiplayerMob(int a, int b)
-{
-	sx = 6;
-	sy = 32;
-	x = a;
-	y = b;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	spriteState = 0;
-	type = MOB_MULTIPLAYER;
-	ping = 0;
+	
 }
 
 void MultiplayerMob::hurt(int amount, int type)
@@ -62,7 +39,7 @@ void MultiplayerMob::saveToFile(FILE* pFile)
 
 void MultiplayerMob::loadFromFile(FILE* pFile)
 {
-	kill();
+	health = 0;
 }
 
 bool canMultiplayerMobSpawnHere(WorldObject* world, int x, int y)

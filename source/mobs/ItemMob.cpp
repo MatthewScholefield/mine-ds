@@ -22,11 +22,15 @@ bool ItemMob::isMyPlayer()
 	return false;
 }
 
+void ItemMob::calcMiscData(WorldObject* world)
+{
+	
+}
+
 void ItemMob::updateMob(WorldObject* world)
 {
 	if (world->gamemode == GAMEMODE_CREATIVE)
 	{
-		timeTillWifiUpdate = 1;
 		health = 0;
 		return;
 	}
@@ -78,6 +82,8 @@ void ItemMob::updateMob(WorldObject* world)
 		health = 0;
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
 		health = 0;
+	if (health<1)
+		playSound(SOUND_POP, 155 + rand() % 100);
 }
 
 void ItemMob::sendWifiUpdate()
@@ -88,17 +94,9 @@ void ItemMob::saveToFile(FILE* pFile)
 {
 }
 
-void ItemMob::kill()
-{
-	playSound(SOUND_POP, 155 + rand() % 100);
-	unloadGraphic(itemGraphic);
-	delete itemGraphic;
-	timeTillWifiUpdate = 1;
-}
-
 void ItemMob::loadFromFile(FILE* pFile)
 {
-	kill();
+	health = 0;
 }
 
 void ItemMob::hurt(int hamount, int type)

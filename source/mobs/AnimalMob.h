@@ -1,4 +1,5 @@
 #pragma once
+#include <stdlib.h>
 #include "BaseMob.h"
 #include "../world.h"
 
@@ -12,22 +13,21 @@ enum AnimalType
 class AnimalMob : public BaseMob
 {
 public:
+	AnimalType animal;
 	int scaredTimer; //Limits how long the cow is scared
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
-	int notarget;
-	AnimalType animal;
 
-	virtual void saveToFile(FILE* sFile);
-	virtual void loadFromFile(FILE* sFile);
-	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
-	virtual void hurt(int amount, int type);
-	virtual bool isMyPlayer();
-	AnimalMob();
+	void calcMiscData(WorldObject *world);
+	void saveToFile(FILE* sFile);
+	void loadFromFile(FILE* sFile);
+	void sendWifiUpdate();
+	void updateMob(WorldObject* world);
+	void hurt(int amount, int type);
+	bool isMyPlayer();
 
-	AnimalMob(int x, int y);
-
+	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16),
+	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0) { }
 	~ AnimalMob() { }
 };
 void animalMobInit();
