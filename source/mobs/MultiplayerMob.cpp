@@ -3,7 +3,7 @@
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
-#include "MultiplayeMob.h"
+#include "MultiplayerMob.h"
 #include "../blockID.h"
 #include <nds.h>
 //ASDF?
