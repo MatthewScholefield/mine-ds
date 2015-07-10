@@ -22,9 +22,7 @@
 #define PLAYER_ID 1
 
 std::vector<BaseMob_ptr> mobs;
-//BaseMob* mobs[100];
 bool hasSpawnedPlayer;
-bool spawnPlayerAtPos;
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
 {
@@ -32,7 +30,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		return;
 	if (displayID == -1)
 		displayID = blockID;
-	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 4, y * 16,blockID, amount, displayID, initVX)));
+	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 4, y * 16-4,blockID, amount, displayID, initVX)));
 }
 
 bool canMobSpawnHere(WorldObject *world, int x, int y)
@@ -75,12 +73,6 @@ int getPlayerX()
 	return mobs[PLAYER_ID]->x;
 }
 
-void mobHandlerHurtMobWifi(int index, int amount, int type)
-{
-	if (mobs[index]->host == true)
-		mobs[index]->hurt(amount, type);
-}
-
 BaseMob_ptr isMobAt(int x, int y)
 {
 	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
@@ -93,7 +85,6 @@ void mobsReset(bool playerSpawned)
 {
 	mobs.clear();
 	hasSpawnedPlayer = playerSpawned;
-	spawnPlayerAtPos = playerSpawned;
 }
 
 void mobHandlerInit()
@@ -104,7 +95,6 @@ void mobHandlerInit()
 	herobrineMobInit();
 	animalMobInit();
 	hasSpawnedPlayer = false;
-	spawnPlayerAtPos = false;
 }
 
 static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
@@ -151,9 +141,6 @@ static void newMob(MobType type, int x = 0, int y = 0)
 			showError("Unknown Mob Spawned");
 			break;
 	}
-	mobs.back()->revive();
-	mobs.back()->x += mobs.back()->sx / 2;
-	mobs.back()->y += mobs.back()->sy / 2;
 }
 
 void saveMobs(FILE* f)
@@ -218,31 +205,6 @@ void loadMobs(FILE* f)
 	}
 }
 
-static void spawnMobNoCheck(MobType type, WorldObject* world)
-{
-	newMob(type);
-	mobs.back()->host = false;
-}
-
-void mobHandlerReadWifiUpdate(int x, int y, int animation, MobType type, int index, WorldObject* world, bool facing)
-{
-	//printf("Recieved mob update! - %d, %d\n", index,mobtype);
-	if (mobs[index]->type != type)
-	{
-		if (mobs[index]->type == MOB_PLAYER)
-			spawnMobAt(MOB_PLAYER, mobs[index]->x, mobs[index]->y);
-		spawnMobNoCheck(type, world);
-	}
-	mobs[index]->revive();
-	mobs[index]->x = x;
-	mobs[index]->y = y;
-	mobs[index]->spriteState = animation;
-	mobs[index]->host = false;
-	mobs[index]->facing = facing;
-	mobs[index]->ping = 0;
-	//:D
-}
-
 void mobHandlerUpdate(WorldObject* world)
 {
 	int badMobs = 0;
@@ -261,48 +223,20 @@ void mobHandlerUpdate(WorldObject* world)
 				++badMobs;
 			else if (mobs[i]->type == MOB_ANIMAL)
 				++goodMobs;
-			if (mobs[i]->smallmob == false && mobs[i]->type != MOB_ITEM) calculateMiscData(world, mobs[i]);
-			else if (mobs[i]->type != MOB_ITEM) calculateMiscDataSmall(world, mobs[i]);
+			//mobs[i]
+			mobs[i]->calcMiscData(world);
 			mobs[i]->updateMob(world);
-			--mobs[i]->timeTillWifiUpdate;
-			if (isWifi())
-			{
-				++mobs[i]->ping;
-				if (mobs[i]->ping > 80)
-				{
-					mobs[i]->ping = 0;
-					mobs[i]->alive = false;
-					mobs.erase(mobs.begin() + i);
-				}
-			}
 		}
 		else
 		{
-			mobs[i]->kill();
-			mobs.erase(mobs.begin()+i);
+			mobs.erase(mobs.begin() + i);
 			continue;
 		}
-		if (mobs[i]->timeTillWifiUpdate == 0 && isWifi())
-		{
-
-			if (mobs[i]->host == true)
-			{
-				sendMobUpdater(mobs[i], i);
-				mobs[i]->timeTillWifiUpdate = rand() % 3 + 3;
-
-			}
-
-		}
-		else if (mobs[i]->timeTillWifiUpdate == 0) mobs[i]->timeTillWifiUpdate = 255;
 	}
 	if (goodMobs <= 20 && canSpawnMob() && rand() % 30 == 0)
 		spawnMobOn(MOB_ANIMAL, world, rand() % WORLD_WIDTH);
 	if (badMobs <= 5 && canSpawnMob())
-	{
-		int take = 0;
-		if (rand() % 2)
-			take = -16 - (rand() % 16);
-		else take = 16 + (rand() % 16);
-		spawnMobOn((rand() % 10) != 1 && getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE, world, mobs[PLAYER_ID]->x / 16 + take);
-	}
+		spawnMobOn((rand() % 10) != 1
+				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
+				world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*(rand()%2?-1:1));
 }

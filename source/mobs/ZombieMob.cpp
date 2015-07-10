@@ -6,6 +6,7 @@
 #include "../debugflag.h"
 #include "ZombieMob.h"
 #include "mobHandler.h"
+#include "mobFunctions.h"
 #include "../blockID.h"
 #include "../general.h"
 #include "../collision.h"
@@ -15,38 +16,9 @@
 #include "../mainGame.h"
 Graphic zombieMobGraphic[3];
 
-ZombieMob::ZombieMob()
+void ZombieMob::calcMiscData(WorldObject* world)
 {
-	jump = 0;
-	x = 0;
-	y = 0;
-	vy = 0;
-	vx = 0;
-	ping = 0;
-	alive = false;
-	health = 10;
-	type = MOB_ZOMBIE;
-	framesHurtSprite = 0;
-	noTarget = 0;
-}
-
-ZombieMob::ZombieMob(int a, int b)
-{
-	jump = 0;
-	sx = 6;
-	sy = 32;
-	x = a;
-	y = b;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	facing = false;
-	type = MOB_ZOMBIE;
-	health = 20;
-	ping = 0;
-	spriteState = 0;
-	noTarget = 0;
-	timeTillWifiUpdate = rand() % 4 + 4;
+	calculateMiscData(world, this);
 }
 
 void ZombieMob::hurt(int amount, int type)
@@ -84,9 +56,7 @@ void ZombieMob::updateMob(WorldObject* world)
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->type == MOB_PLAYER) facing = true;
 		else if (target->type == MOB_PLAYER) facing = false;
-		if (target->type != MOB_PLAYER)
-			++noTarget;
-		else if (!collisions[SIDE_RIGHT] && facing == false && !collisions[SIDE_TOP])
+		if (!collisions[SIDE_RIGHT] && facing == false && !collisions[SIDE_TOP])
 		{
 			if (vx <= 0)
 				vx = double(rand() % 15) / 10.0 + ZOMBIE_SPEED;
@@ -100,9 +70,6 @@ void ZombieMob::updateMob(WorldObject* world)
 			vx = 0;
 		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
 			vy = JUMP_VELOCITY;
-		if (target->type == MOB_PLAYER) noTarget = 0;
-		ping = 0;
-		if (noTarget > 1800) health = 0;;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
@@ -120,7 +87,7 @@ void ZombieMob::saveToFile(FILE* pFile)
 
 void ZombieMob::loadFromFile(FILE* pFile)
 {
-	kill();
+	health = 0;
 }
 
 bool canZombieMobSpawnHere(WorldObject* world, int x, int y)

@@ -5,26 +5,25 @@ bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
 
 class PlayerMob : public BaseMob
 {
+private:
+	virtual int getMaxHealth()
+	{
+		return 20;
+	}
 public:
-	/*int x;
-	int y;
-	int vy;
-	int vx;
-	bool alive;
-	bool host; // Was this mob spawn'd by this nds?*/
-	//bool potioneffects[5];
 	bool deathScreen;
-	int reheal;
 	int tillBrightness;
-	virtual void saveToFile(FILE* sFile);
-	virtual void loadFromFile(FILE* sFile);
-	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
-	virtual void hurt(int amount, int type);
-	virtual bool isMyPlayer();
-	PlayerMob();
-	PlayerMob(int x, int y);
 
+	void calcMiscData(WorldObject* world);
+	void saveToFile(FILE* sFile);
+	void loadFromFile(FILE* sFile);
+	void sendWifiUpdate();
+	void updateMob(WorldObject* world);
+	void hurt(int amount, int type);
+	bool isMyPlayer();
+
+	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
+	, deathScreen(false), tillBrightness(0) { }
 	~ PlayerMob() { }
 };
 void playerMobInit();
