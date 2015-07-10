@@ -6,22 +6,20 @@ bool canMultiplayerMobSpawnHere(WorldObject* world, int x, int y);
 
 class MultiplayerMob : public BaseMob
 {
+private:
+	virtual int getMaxHealth()
+	{
+		return 20;
+	}
 public:
-	/*int x;
-	int y;
-	int vy;
-	int vx;
-	bool alive;
-	bool host; // Was this mob spawn'd by this nds?*/
-	//bool potioneffects[5];
-	virtual void saveToFile(FILE* sFile);
-	virtual void loadFromFile(FILE* sFile);
-	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
-	virtual void hurt(int amount, int type);
-	MultiplayerMob();
-	MultiplayerMob(int x, int y);
+	void calcMiscData(WorldObject *world);
+	void saveToFile(FILE* sFile);
+	void loadFromFile(FILE* sFile);
+	void sendWifiUpdate();
+	void updateMob(WorldObject* world);
+	void hurt(int amount, int type);
 
+	MultiplayerMob(int x, int y) : BaseMob(MOB_MULTIPLAYER, x, y, 6, 32) { }
 	~ MultiplayerMob() { }
 };
 void multiplayerMobInit();

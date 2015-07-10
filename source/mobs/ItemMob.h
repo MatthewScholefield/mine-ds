@@ -12,37 +12,31 @@ public:
 	int floatY;
 	int brightness;
 	Graphic *itemGraphic;
-	//bool loadedBlockGfx;
-	virtual void saveToFile(FILE* sFile);
-	virtual void loadFromFile(FILE* sFile);
-	virtual void sendWifiUpdate();
-	virtual void updateMob(WorldObject* world);
-	virtual void hurt(int amount, int type);
-	virtual bool isMyPlayer();
-	virtual void kill();
 
-	ItemMob(int x, int y, int blockID, int amount, int displayID, float vx) : BaseMob(), blockID(blockID), displayID(displayID), amount(amount)
+	void calcMiscData(WorldObject* world);
+	void saveToFile(FILE* sFile);
+	void loadFromFile(FILE* sFile);
+	void sendWifiUpdate();
+	void updateMob(WorldObject* world);
+	void hurt(int amount, int type);
+	bool isMyPlayer();
+
+	ItemMob(int x, int y, int blockID, int amount, int displayID, float vx) :
+	BaseMob(MOB_ITEM, x, y, 8, 8), blockID(blockID), displayID(displayID)
+	, amount(amount), floatY(0), brightness(0), itemGraphic(nullptr)
 	{
-		this->x = x;
-		this->y = y;
-
-		sx = 8;
-		sy = 8;
-		health = 1;
-		type = MOB_ITEM;
-		floatY = 0;
-		if (vx == 54321.0)
-		{
-			//Set initial velocity
-			vx = double((rand() % 10) + 40) / 100.0;
-			//Set direction
-			vx *= (rand() % 2) ? - 1 : 1;
-		}
-		this->vx = vx;
-		vy = 0;
-		itemGraphic = NULL;
-		brightness = 0;
+		if (vx == 54321.f)
+			this->vx = (float((rand() % 10) + 40) / 100.f) * (rand() % 2 ? - 1.f : 1.f);
+		else
+			this->vx = vx;
 	}
 
-	~ ItemMob() { }
+	~ ItemMob()
+	{
+		if (itemGraphic)
+		{
+			unloadGraphic(itemGraphic);
+			delete itemGraphic;
+		}
+	}
 };

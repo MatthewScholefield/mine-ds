@@ -6,6 +6,7 @@
 #include "../debugflag.h"
 #include "AnimalMob.h"
 #include "mobHandler.h"
+#include "mobFunctions.h"
 #include "../blockID.h"
 #include "../general.h"
 #include "../sounds.h"
@@ -14,44 +15,9 @@
 #include "../mainGame.h"
 Graphic animalMobGraphics[3][2];
 
-AnimalMob::AnimalMob()
+void AnimalMob::calcMiscData(WorldObject* world)
 {
-	mov = 0;
-	dir = true;
-	scaredTimer = 0;
-	x = 0;
-	y = 0;
-	vy = 0;
-	vx = 0;
-	ping = 0;
-	alive = false;
-	health = 10;
-	framesHurtSprite = 0;
-	notarget = 0;
-	smallmob = true;
-}
-
-AnimalMob::AnimalMob(int a, int b)
-{
-	mov = 0;
-	dir = true;
-	scaredTimer = 0;
-	sx = 10;
-	sy = 16;
-	x = a;
-	y = b;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	facing = false;
-	type = MOB_ANIMAL;
-	health = 10;
-	ping = 0;
-	spriteState = 0;
-	notarget = 0;
-	timeTillWifiUpdate = rand() % 4 + 4;
-	smallmob = true;
-	animal = AnimalType(rand() % 3);
+	calculateMiscDataSmall(world, this);
 }
 
 void AnimalMob::updateMob(WorldObject* world)
@@ -70,10 +36,7 @@ void AnimalMob::updateMob(WorldObject* world)
 		}
 
 		if (target->type != MOB_PLAYER) //Out of range of player
-		{
 			scaredTimer = 0;
-			++notarget;
-		}
 		else if (scaredTimer == 0)
 		{
 			if (mov > 1)
@@ -116,8 +79,6 @@ void AnimalMob::updateMob(WorldObject* world)
 				vy = JUMP_VELOCITY;
 			--scaredTimer;
 		}
-		if (type == MOB_PLAYER) notarget = 0;
-		ping = 0;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 	}
@@ -133,7 +94,7 @@ void AnimalMob::saveToFile(FILE* pFile)
 
 void AnimalMob::loadFromFile(FILE* pFile)
 {
-	kill();
+	health = 0;
 }
 
 void AnimalMob::hurt(int amount, int type)

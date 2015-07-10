@@ -1,6 +1,7 @@
 #include <string>
 #include "hurt.h"
 #include "mobHandler.h"
+#include "mobFunctions.h"
 #include "../nifi.h"
 #include "../blocks.h"
 #include "../worldRender.h"
@@ -25,41 +26,9 @@ int slow = 0;
 Graphic playerMobGraphic[3];
 Graphic hearts[2];
 
-PlayerMob::PlayerMob()
+void PlayerMob::calcMiscData(WorldObject* world)
 {
-	x = 0;
-	y = 0;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	facing = 0;
-	spriteState = 0;
-	type = MOB_PLAYER;
-	health = PLAYER_FULL_HEALTH;
-	ping = 0;
-	reheal = 0;
-	tillBrightness = 0;
-	deathScreen = false;
-}
-
-PlayerMob::PlayerMob(int a, int b)
-{
-	sx = 6;
-	sy = 32;
-	x = a;
-	y = b;
-	vy = 0;
-	vx = 0;
-	alive = false;
-	facing = false;
-	type = MOB_PLAYER;
-	health = PLAYER_FULL_HEALTH;
-	ping = 0;
-	spriteState = 0;
-	timeTillWifiUpdate = rand() % 4 + 4;
-	reheal = 0;
-	tillBrightness = 0;
-	deathScreen = false;
+	calculateMiscData(world, this);
 }
 
 void PlayerMob::hurt(int amount, int type)
@@ -156,8 +125,6 @@ void PlayerMob::updateMob(WorldObject* world)
 				tillBrightness = 0;
 				updateBrightnessAround(world, x / 16, y / 16);
 			}
-			++reheal;
-			ping = 0;
 
 			if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
 			{
@@ -226,12 +193,8 @@ void PlayerMob::updateMob(WorldObject* world)
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (framesHurtSprite == 0) spriteState = 0;
 			else --framesHurtSprite;
-			if (reheal > 300)
-			{
-				if (health < 20)
-					++health;
-				reheal = 0;
-			}
+			if (health < 20 && getTime()%256==1)
+				++health;
 			showHealth(health);
 		}
 		else if (deathScreen == false)

@@ -23,45 +23,35 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
 
 class BaseMob
 {
+private:
+	virtual int getMaxHealth()
+	{
+		return 10;
+	}
 public:
-	float x, y;
-	float vy, vx;
-	int sx, sy;
-	bool smallmob, alive;
-	int spriteState, framesHurtSprite;
 	MobType type;
-	int timeOnCactus;
-	bool onCactus, facing;
 	int health; //0 = Dead
+	float x, y, vx, vy;
+	int sx, sy;
+	bool smallMob, alive, onCactus, facing, collisions[5];
+	int spriteState, framesHurtSprite, timeOnCactus;
 
 	//Multiplayer
-	int timeTillWifiUpdate;
-	int ping;
 	bool host;
-	bool collisions[5];
 
 	virtual void updateMob(WorldObject* world) = 0;
+	virtual void calcMiscData(WorldObject *world) = 0;
 	virtual void saveToFile(FILE* sFile) = 0;
 	virtual void loadFromFile(FILE* sFile) = 0;
 	virtual void hurt(int amount, int type);
 	virtual bool isMyPlayer();
-	virtual void kill();
-	virtual void revive();
 
-	BaseMob()
+	BaseMob(MobType type, int x, int y, int sx, int sy) :
+	type(type), x(x + sx / 2), y(y + sy / 2), vx(0), vy(0), sx(sx), sy(sy),
+	onCactus(false), facing(true), collisions { }, spriteState(0), framesHurtSprite(0),
+	timeOnCactus(30), host(true)
 	{
-		host = true;
-		facing = false;
-		for (int i = 0; i < 5; ++ i)
-			collisions[i] = false;
-		timeTillWifiUpdate = 0;
-		spriteState = 0;
-		timeOnCactus = 30;
-		onCactus = false;
-		ping = 0;
-		alive = true;
-		health = 10;
-		framesHurtSprite = 0;
+		health = getMaxHealth();
 	}
 	virtual ~ BaseMob() { }
 };

@@ -68,17 +68,6 @@ void BaseMob::hurt(int amount, int type)
 	framesHurtSprite = 20;
 }
 
-void BaseMob::kill()
-{
-	timeTillWifiUpdate = 1;
-	alive = false;
-}
-
-void BaseMob::revive()
-{
-	alive = true;
-}
-
 bool BaseMob::isMyPlayer()
 {
 	return false;

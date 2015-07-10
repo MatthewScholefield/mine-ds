@@ -238,11 +238,6 @@ void sendMobUpdater(BaseMob_ptr mob, int mobNum)
 	Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 }
 
-void recievedMobUpdate(int x, int y, int animation, MobType mobtype, int mobNum, bool facing)
-{
-	mobHandlerReadWifiUpdate(x, y, animation, mobtype, mobNum, worldptr, facing);
-}
-
 void recievePlaceBlock(int x, int y, int block, int block2)
 {
 	worldptr->blocks[x][y] = block;
