@@ -3,7 +3,7 @@
 #define INV_SLOTS 20;
 void updateInvGraphics();
 void drawSlots(int selectedSlot, int startX, int startY, int xCount = 15, int yCount = 2, int xSpace = 2, int ySpace = 3);
-void drawInv();
+void updateInv(bool forceDraw = false);
 void disableInvGraphics();
 void enableInvGraphics();
 void openChest(WorldObject *world, int x, int y, bool bg);

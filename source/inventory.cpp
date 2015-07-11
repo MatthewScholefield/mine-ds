@@ -152,7 +152,7 @@ bool addInventory(int blockID, int amount, bool direct) //adds the specified amo
 	else
 		mainPlayerInv.blocks[space].blockAmount = 1;
 	if (!direct)
-		updateInvGraphics();
+		updateInv(true);
 	return true;
 }
 
@@ -187,7 +187,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
 		mainPlayerInv.blocks[space].blockId = AIR;
-	updateInvGraphics();
+	updateInv(true);
 	return true;
 }
 
@@ -246,7 +246,7 @@ void clearInventory(bool direct) //clears inventory
 		mainPlayerInv.blocks[i].blockId = 0;
 	}
 	if (!direct)
-		updateInvGraphics();
+		updateInv(true);
 	showingInventory = 0;
 }
 
@@ -279,7 +279,7 @@ void closeInventory()
 	clearText();
 	drawBackground();
 	drawInvButtons(false, isSurvival());
-	updateInvGraphics();
+	updateInv(true);
 	updatePageName();
 }
 
@@ -409,8 +409,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 						setSelectedSpace(space);
 						changeInvSelectedGraphic(mainPlayerInv.blocks[space].blockId);
 					}
-					updateChestItems();
-					updateInvGraphics();
+					updateInv(true);
 				}
 				else if (getOpenedChestID() != -1 && oldX > 1 * 8 && oldY > 1 * 8 && oldY < 6 * 8 && oldX < 31 * 8)
 				{
@@ -458,8 +457,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 						setSelectedSpace(-space - 2);
 						changeInvSelectedGraphic(world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID]);
 					}
-					updateChestItems();
-					updateInvGraphics();
+					updateInv(true);
 				}
 				else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 					closeInventory();
@@ -527,7 +525,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			}
 			break;
 	}
-	drawInv();
+	updateInv();
 }
 
 void loadInventory(FILE* data)

@@ -41,7 +41,7 @@ static void redrawGameUI(void)
 	drawBackground();
 	drawInvButtons(false, isSurvival());
 	updatePageName();
-	updateInvGraphics();
+	updateInv(true);
 }
 
 static int inGameMenu()
@@ -194,7 +194,7 @@ void startGame(void)
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 	enableInvGraphics();
-	updateInvGraphics();
+	updateInv(true);
 	shouldQuitGame = false;
 
 	while (!shouldQuitGame)
@@ -220,8 +220,7 @@ void startGame(void)
 		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
-		oamUpdate(&oamSub);
-		graphicFrame();
+		clearMainGraphics();
 		timeUpdate(world);
 	}
 }
@@ -279,7 +278,7 @@ void startMultiplayerGame(bool host)
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
-		graphicFrame();
+		clearMainGraphics();
 		if (host)
 			timeUpdate(world);
 	}

@@ -103,11 +103,15 @@ void setSkyColor(double red1, double green1, double blue1, double red2, double g
 	\breif Resets the SpriteID counters and clears the OAM.
 	Should be called once per frame.
  */
-void graphicFrame()
+void clearMainGraphics()
 {
 	MainSpr = -1;
-	SubSpr = -1;
 	oamClear(&oamMain, 0, 0);
+}
+
+void clearSubGraphics()
+{
+	SubSpr = -1;
 	oamClear(&oamSub, 0, 0);
 }
 
@@ -245,7 +249,7 @@ void graphicsInit()
 	worldRender_Init();
 	setSkyDay();
 
-	graphicFrame();
+	clearMainGraphics();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 
 	//Set the bank for our Graphics.
