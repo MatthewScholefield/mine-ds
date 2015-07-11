@@ -5,6 +5,8 @@
 
 class ItemMob : public BaseMob
 {
+private:
+	static const int floatVal[];
 public:
 	int blockID;
 	int displayID;

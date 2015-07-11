@@ -17,6 +17,8 @@
 #include "../mining.h"
 #include "../worldRender.h"
 
+const int ItemMob::floatVal[] = {0,0,1,1,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,2,2,2,2,1,1,1,1,1,0,0,0,-1,-1,-1,-1,-1,-2,-2,-2,-2,-3,-3,-3,-3,-3,-3,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-3,-3,-3,-3,-3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,0,0};
+
 bool ItemMob::isMyPlayer()
 {
 	return false;
@@ -77,7 +79,7 @@ void ItemMob::updateMob(WorldObject* world)
 	if (target == NULL)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
-		showGraphic(itemGraphic, x - world->camX - 3, (y - 8 - world->camY + int((4.0 * sin(double(floatY)*6.28 / 100.0)))), false);
+		showGraphic(itemGraphic, x - world->camX - 3, (y - 9 - world->camY + floatVal[floatY]), false);
 	else if (addInventory(blockID, amount))
 		health = 0;
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
