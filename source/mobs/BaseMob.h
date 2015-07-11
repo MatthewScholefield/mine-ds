@@ -34,7 +34,7 @@ public:
 	float x, y, vx, vy;
 	int sx, sy;
 	bool smallMob, alive, onCactus, facing, collisions[5];
-	int spriteState, framesHurtSprite, timeOnCactus;
+	int spriteState, framesHurtSprite, timeOnCactus, framesFarAway;
 
 	//Multiplayer
 	bool host;
