@@ -47,7 +47,7 @@ int main()
 	worldRender_LoadSprites();
 	craftingInit();
 	proceduralBlockUpdateInit();
-	graphicFrame();
+	clearMainGraphics();
 	oamClear(&oamSub, 0, 127);
 	initSound();
 	clear_messages();
