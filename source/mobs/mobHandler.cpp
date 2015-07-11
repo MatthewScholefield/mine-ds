@@ -30,7 +30,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		return;
 	if (displayID == -1)
 		displayID = blockID;
-	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 4, y * 16-4,blockID, amount, displayID, initVX)));
+	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 4, y * 16 - 4, blockID, amount, displayID, initVX)));
 }
 
 bool canMobSpawnHere(WorldObject *world, int x, int y)
@@ -189,7 +189,7 @@ int spawnMobAt(MobType type, int x, int y)
 {
 	newMob(type, x, y);
 	mobs.back()->host = true;
-	return mobs.size()-1;
+	return mobs.size() - 1;
 }
 
 void loadMobs(FILE* f)
@@ -216,16 +216,31 @@ void mobHandlerUpdate(WorldObject* world)
 	}
 	for (std::vector<BaseMob_ptr>::size_type i = 0; i < mobs.size(); ++i)
 	{
-
-		if (mobs[i]->health>0)
+		if (mobs[i]->health > 0)
 		{
-			if (mobs[i]->type == MOB_ZOMBIE || mobs[i]->type == MOB_HEROBRINE)
-				++badMobs;
-			else if (mobs[i]->type == MOB_ANIMAL)
-				++goodMobs;
-			//mobs[i]
-			mobs[i]->calcMiscData(world);
-			mobs[i]->updateMob(world);
+			const int EXTRA = 128;
+			bool closeToPlayer = !(mobs[i]->x < world->camX - EXTRA || mobs[i]->x > world->camX + 256 + EXTRA
+					|| mobs[i]->y < world->camY - EXTRA || mobs[i]->y > world->camY + 192 + EXTRA);
+			if (closeToPlayer || mobs[i]->type == MOB_PLAYER)
+			{
+				mobs[i]->framesFarAway = 0;
+				if (mobs[i]->type == MOB_ZOMBIE || mobs[i]->type == MOB_HEROBRINE)
+					++badMobs;
+				else if (mobs[i]->type == MOB_ANIMAL)
+					++goodMobs;
+				mobs[i]->calcMiscData(world);
+				mobs[i]->updateMob(world);
+			}
+			else if (!closeToPlayer)
+			{
+				if (mobs[i]->framesFarAway > SEC_TO_FPS(6))
+				{
+					mobs.erase(mobs.begin() + i);
+					continue;
+				}
+				else
+					++mobs[i]->framesFarAway;
+			}
 		}
 		else
 		{
@@ -233,10 +248,10 @@ void mobHandlerUpdate(WorldObject* world)
 			continue;
 		}
 	}
-	if (goodMobs <= 20 && canSpawnMob() && rand() % 30 == 0)
+	if (goodMobs <= 20 && canSpawnMob())// && rand() % 30 == 0)
 		spawnMobOn(MOB_ANIMAL, world, rand() % WORLD_WIDTH);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
-				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
-				world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*(rand()%2?-1:1));
+			&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
+			world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*(rand() % 2 ? -1 : 1));
 }
