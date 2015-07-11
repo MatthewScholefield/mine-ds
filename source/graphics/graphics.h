@@ -57,7 +57,8 @@ typedef struct
 
 //Misc
 void graphicsInit();
-void graphicFrame();
+void clearMainGraphics();
+void clearSubGraphics();
 void unloadGraphic(Graphic* g);
 void animateMob(Graphic* g, int mobSlot);
 void setAnimFrame(Graphic* g, int mobSlot, int frame);
