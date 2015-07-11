@@ -164,8 +164,7 @@ static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck 
 		{
 			newMob(mobId, j * 16, i * 16);
 			mobs.back()->host = true;
-			i = WORLD_HEIGHT + 1;
-			j = WORLD_WIDTH + 1;
+			return;
 		}
 }
 
@@ -207,6 +206,7 @@ void loadMobs(FILE* f)
 
 void mobHandlerUpdate(WorldObject* world)
 {
+	const int EXTRA = 128;
 	int badMobs = 0;
 	int goodMobs = 0;
 	if (!hasSpawnedPlayer)
@@ -218,7 +218,6 @@ void mobHandlerUpdate(WorldObject* world)
 	{
 		if (mobs[i]->health > 0)
 		{
-			const int EXTRA = 128;
 			bool closeToPlayer = !(mobs[i]->x < world->camX - EXTRA || mobs[i]->x > world->camX + 256 + EXTRA
 					|| mobs[i]->y < world->camY - EXTRA || mobs[i]->y > world->camY + 192 + EXTRA);
 			if (closeToPlayer || mobs[i]->type == MOB_PLAYER)
@@ -248,8 +247,8 @@ void mobHandlerUpdate(WorldObject* world)
 			continue;
 		}
 	}
-	if (goodMobs <= 20 && canSpawnMob())// && rand() % 30 == 0)
-		spawnMobOn(MOB_ANIMAL, world, rand() % WORLD_WIDTH);
+	if (goodMobs <= 20)// && rand() % 30 == 0)
+		spawnMobOn(MOB_ANIMAL, world, world->camX/16+rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
 			&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
