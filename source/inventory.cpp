@@ -504,7 +504,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			oldY = touch.py;
 			break;
 		case 2:
-			if ((isSurvival() && craftingMenuUpdate(&touch, &oldX, &oldY, &oldKeys)) || (!isSurvival() && pageMenuUpdate(&touch, &oldX, &oldY, &oldKeys)))
+			if ((isSurvival() && craftingMenuUpdate(&touch)) || (!isSurvival() && pageMenuUpdate(&touch)))
 			{ //Leaving crafting/page menu
 				showingInventory = 1;
 				setMiningDisabled(true);

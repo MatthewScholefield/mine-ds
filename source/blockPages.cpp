@@ -91,19 +91,19 @@ void pageMenuInit()
 	printXY(13, 11, getPageName(getBlockPage()));
 }
 
-int pageMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY, unsigned int* oldKeys)
+int pageMenuUpdate(touchPosition* touch)
 {
 	//scanKeys();
-	if (keysHeld() & KEY_TOUCH && !(*oldKeys & KEY_TOUCH))
+	if (keysDown() & KEY_TOUCH)
 	{
 		touchRead(touch);
 		leftButtonPageScreen.setColored(leftButtonPageScreen.isTouching(touch->px, touch->py));
 		rightButtonPageScreen.setColored(rightButtonPageScreen.isTouching(touch->px, touch->py));
 		backButtonPageScreen.setColored(backButtonPageScreen.isTouching(touch->px, touch->py));
 	}
-	else if (!(keysHeld() & KEY_TOUCH) && *oldKeys & KEY_TOUCH)
+	else if (keysUp() & KEY_TOUCH)
 	{
-		if (rightButtonPageScreen.isTouching(*oldX, *oldY) && rightButtonPageScreen.isColored)
+		if (rightButtonPageScreen.isTouching(touch->px, touch->py) && rightButtonPageScreen.isColored)
 		{
 			++blockPage;
 			if (blockPage >= NUM_BLOCK_PAGES)
@@ -111,7 +111,7 @@ int pageMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* old
 			iprintf("\x1b[11;13H            ");
 			printXY(13, 11, getPageName(getBlockPage()));
 		}
-		else if (leftButtonPageScreen.isTouching(*oldX, *oldY) && leftButtonPageScreen.isColored)
+		else if (leftButtonPageScreen.isTouching(touch->px, touch->py) && leftButtonPageScreen.isColored)
 		{
 			--blockPage;
 			if (blockPage < 0)
@@ -119,7 +119,7 @@ int pageMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* old
 			iprintf("\x1b[11;13H            ");
 			printXY(13, 11, getPageName(getBlockPage()));
 		}
-		else if (backButtonPageScreen.isTouching(*oldX, *oldY) && backButtonPageScreen.isColored)
+		else if (backButtonPageScreen.isTouching(touch->px, touch->py) && backButtonPageScreen.isColored)
 		{
 			backButtonPageScreen.setVisible(false);
 			leftButtonPageScreen.setVisible(false);
