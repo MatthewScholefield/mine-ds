@@ -140,10 +140,9 @@ void craftItem()
 	}
 }
 
-int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char* oldY, unsigned int* oldKeys)
+int craftingMenuUpdate(touchPosition* touch)
 {
-	
-	if (keysHeld() & KEY_TOUCH && !(*oldKeys & KEY_TOUCH))
+	if (keysDown() & KEY_TOUCH)
 	{
 		touchRead(touch);
 		leftButtonCraftScreen.setColored(leftButtonCraftScreen.isTouching(touch->px, touch->py));
@@ -151,9 +150,9 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 		backButtonCraftScreen.setColored(backButtonCraftScreen.isTouching(touch->px, touch->py));
 		craftButtonCraftScreen.setColored(craftButtonCraftScreen.isTouching(touch->px, touch->py));
 	}
-	else if (!(keysHeld() & KEY_TOUCH) && *oldKeys & KEY_TOUCH)
+	else if (keysUp() & KEY_TOUCH)
 	{
-		if (rightButtonCraftScreen.isTouching(*oldX, *oldY) && rightButtonCraftScreen.isColored)
+		if (rightButtonCraftScreen.isTouching(touch->px, touch->py) && rightButtonCraftScreen.isColored)
 		{
 			int initialRecipe = currentViewingRecipe;
 			if (!canCraftRecipe(currentViewingRecipe))
@@ -174,7 +173,7 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 				currentViewingRecipe = 0;
 			updateCraftingGraphics();
 		}
-		else if (leftButtonCraftScreen.isTouching(*oldX, *oldY) && leftButtonCraftScreen.isColored)
+		else if (leftButtonCraftScreen.isTouching(touch->px, touch->py) && leftButtonCraftScreen.isColored)
 		{
 			int initialRecipe = currentViewingRecipe;
 			if (!canCraftRecipe(currentViewingRecipe))
@@ -195,7 +194,7 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 				currentViewingRecipe = nextCraftingRecipe - 1;
 			updateCraftingGraphics();
 		}
-		else if (backButtonCraftScreen.isTouching(*oldX, *oldY) && backButtonCraftScreen.isColored)
+		else if (backButtonCraftScreen.isTouching(touch->px, touch->py) && backButtonCraftScreen.isColored)
 		{
 			backButtonCraftScreen.setVisible(false);
 			craftButtonCraftScreen.setVisible(false);
@@ -203,7 +202,7 @@ int craftingMenuUpdate(touchPosition* touch, unsigned char* oldX, unsigned char*
 			rightButtonCraftScreen.setVisible(false);
 			return 1;
 		}
-		else if (craftButtonCraftScreen.isTouching(*oldX, *oldY) && craftButtonCraftScreen.isColored)
+		else if (craftButtonCraftScreen.isTouching(touch->px, touch->py) && craftButtonCraftScreen.isColored)
 			craftItem();
 		leftButtonCraftScreen.setColored(false);
 		rightButtonCraftScreen.setColored(false);
