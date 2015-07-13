@@ -22,8 +22,7 @@ void AnimalMob::calcMiscData(WorldObject* world)
 
 void AnimalMob::updateMob(WorldObject* world)
 {
-	if (spriteState == 0) showGraphic(&animalMobGraphics[animal][0], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&animalMobGraphics[animal][1], x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	showGraphic(spriteState==0?&normalSprite:&hurtSprite, x - world->camX - 7, y - world->camY - 7, facing ? true : false);
 
 	if (host == true)
 	{
@@ -159,10 +158,10 @@ bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
 
 void animalMobInit()
 {
-	loadGraphic(&animalMobGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
+	/*loadGraphic(&animalMobGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_PIG][1], GRAPHIC_MOB, 11, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_COW][0], GRAPHIC_MOB, 12, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_COW][1], GRAPHIC_MOB, 13, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][0], GRAPHIC_MOB, 14, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);
+	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);*/
 }
