@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <memory>
 #include "../world.h"
+#include "../graphics/graphics.h"
 
 #define SIDE_BOTTOM 0
 #define SIDE_RIGHT 1
@@ -28,6 +29,9 @@ private:
 	{
 		return 10;
 	}
+protected:
+	Graphic normalSprite, hurtSprite;
+	bool used = false;
 public:
 	MobType type;
 	int health; //0 = Dead
@@ -53,7 +57,15 @@ public:
 	{
 		health = getMaxHealth();
 	}
-	virtual ~ BaseMob() { }
+
+	virtual ~ BaseMob()
+	{
+		if (used)
+		{
+			unloadGraphic(&normalSprite);
+			unloadGraphic(&hurtSprite);
+		}
+	}
 };
 typedef std::shared_ptr<BaseMob> BaseMob_ptr;
 void BaseMobInit();

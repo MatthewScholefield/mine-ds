@@ -36,11 +36,11 @@ void ItemMob::updateMob(WorldObject* world)
 		health = 0;
 		return;
 	}
-	if (!itemGraphic)
+	if (!loaded)
 	{
-		itemGraphic = new Graphic();
-		itemGraphic->paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
-		loadGraphic(itemGraphic, GRAPHIC_BLOCK_MINI, displayID, 8, 8, 3 + (12 * brightness) / 15);
+		loaded = true;
+		normalSprite.paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
+		loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, 3 + (12 * brightness) / 15);
 	}
 	if (health<1)
 		return;
@@ -71,7 +71,7 @@ void ItemMob::updateMob(WorldObject* world)
 		vy = 0;
 	}
 	if (world->blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
-		itemGraphic->paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
+		normalSprite.paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
 	++floatY;
 	if (floatY > 100)
 		floatY = 0;
@@ -79,7 +79,7 @@ void ItemMob::updateMob(WorldObject* world)
 	if (target == NULL)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == NULL || !target->isMyPlayer())
-		showGraphic(itemGraphic, x - world->camX - 3, (y - 9 - world->camY + floatVal[floatY]), false);
+		showGraphic(&normalSprite, x - world->camX - 3, (y - 9 - world->camY + floatVal[floatY]), false);
 	else if (addInventory(blockID, amount))
 		health = 0;
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)

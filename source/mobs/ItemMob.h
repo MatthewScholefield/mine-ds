@@ -13,7 +13,7 @@ public:
 	int amount;
 	int floatY;
 	int brightness;
-	Graphic *itemGraphic;
+	bool loaded;
 
 	void calcMiscData(WorldObject* world);
 	void saveToFile(FILE* sFile);
@@ -25,7 +25,7 @@ public:
 
 	ItemMob(int x, int y, int blockID, int amount, int displayID, float vx) :
 	BaseMob(MOB_ITEM, x, y, 8, 8), blockID(blockID), displayID(displayID)
-	, amount(amount), floatY(0), brightness(0), itemGraphic(nullptr)
+	, amount(amount), floatY(0), brightness(0), loaded(false)
 	{
 		if (vx == 54321.f)
 			this->vx = (float((rand() % 10) + 40) / 100.f) * (rand() % 2 ? - 1.f : 1.f);
@@ -35,10 +35,5 @@ public:
 
 	~ ItemMob()
 	{
-		if (itemGraphic)
-		{
-			unloadGraphic(itemGraphic);
-			delete itemGraphic;
-		}
 	}
 };
