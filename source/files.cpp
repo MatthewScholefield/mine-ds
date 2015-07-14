@@ -253,7 +253,7 @@ bool loadTexture(const char *fileName)
 
 	unsigned int *mobTilesMem = new unsigned int[TILES_ARRAY_LEN];
 	unsigned short *mobPalMem = new unsigned short[PAL_ARRAY_LEN];
-	if (fread(mobTilesMem, sizeof (uint32_t), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN || fread(mobPalMem, sizeof (unsigned short), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN)
+	if (fread(mobTilesMem, sizeof (uint32_t), MOB_TILES_ARRAY_LEN, texFile) != MOB_TILES_ARRAY_LEN || fread(mobPalMem, sizeof (unsigned short), MOB_PAL_ARRAY_LEN, texFile) != MOB_PAL_ARRAY_LEN)
 	{
 		delete[] mobTilesMem;
 		delete[] mobPalMem;
