@@ -237,6 +237,7 @@ void updateTexture()
 
 	//=== Main Block Gfx ===
 	vramSetBankF(VRAM_F_LCD);
+	setBlockPalette(0, 2, false);
 	for (int i = 3; i < 16; ++i)
 		setBlockPalette((15 * (i - 3)) / 12, i, false);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
@@ -254,6 +255,11 @@ void updateTexture()
 	dmaCopy(subBgTiles.data(), bgGetGfxPtr(getSubBgID()), sub_bgTilesLen);
 	refreshFont();
 	updateSubBG();
+	
+	//=== Mobs === (Tiles are reassigned when showGraphic is called)
+	vramSetBankF(VRAM_F_LCD);
+	dmaCopy(mobPal.data(), VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
+	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 	swiWaitForVBlank(); //Prevents sub screen flicker
 }
 
@@ -287,11 +293,7 @@ void graphicsInit()
 
 	//Start copying palettes
 	vramSetBankF(VRAM_F_LCD);
-	setBlockPalette(0, 2, false);
-	dmaCopy(mobsPal, VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
 	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[1], particlesPalLen);
-	for (int i = 3; i < 16; ++i)
-		setBlockPalette((15 * (i - 3)) / 12, i, false);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
