@@ -1,7 +1,7 @@
-texConvert:
-	g++ -std=c++11 -Wall -o texConvert texConvert.cpp
+texCompiler:
+	g++ -std=c++11 -Wall -o texCompiler texCompiler.cpp
 
 clean:
-	mv texConvert.cpp tmp
-	rm -f texConver*
-	mv tmp texConvert.cpp
+	mv texCompiler.cpp tmp
+	rm -f texCompile*
+	mv tmp texCompiler.cpp
