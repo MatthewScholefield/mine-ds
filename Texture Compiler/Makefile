@@ -1,4 +1,4 @@
-encoder:
+texConvert:
 	g++ -std=c++11 -Wall -o texConvert texConvert.cpp
 
 clean:
