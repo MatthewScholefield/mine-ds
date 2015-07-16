@@ -1,2 +1,19 @@
-*.cpp~
-*.h~
+*
+
+# source
+!*.cpp
+!*.h
+
+# gfx
+!*.png
+!*.grit
+
+# audio
+!*.wav
+!*.it
+
+# Other Files
+!Makefile
+!LICENCE
+!README.md
+!icon.bmp
