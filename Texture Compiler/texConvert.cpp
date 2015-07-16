@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    if (!doesFileExists("blocks.png") || !doesFileExists("mobs.png") || !doesFileExists("background.png")) {
+    if (!doesFileExists("blocks.png") || !doesFileExists("mobs.png") || !doesFileExists("UI.png")) {
         printf("Error, the folder should contain the following:\n"
                 " - blocks.png\n"
                 " - mobs.png\n"
@@ -27,9 +27,9 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    system("grit blocks.png -ftbin -gB8 -gt -gT FF00FF -m! -fh!");
+    system("grit blocks.png -ftbin -gB8 -gt -th 16 -gT FF00FF -m! -fh!");
     system("grit mobs.png -ftbin -gB8 -gt -Mh4 -Mw2 -gT FF00FF -m! -fh!");
-    system("grit background.png -ftbin -gB8 -gt -gT FF00FF -m! -fh!");
+    system("grit UI.png -ftbin -gB8 -gt -gT FF00FF -m! -fh!");
 
     vector<string> names;
     vector<ifstream> files;
@@ -37,8 +37,8 @@ int main(int argc, char *argv[]) {
     names.emplace_back("blocks.pal.bin");
     names.emplace_back("mobs.img.bin");
     names.emplace_back("mobs.pal.bin");
-    names.emplace_back("background.img.bin");
-    names.emplace_back("background.pal.bin");
+    names.emplace_back("UI.img.bin");
+    names.emplace_back("UI.pal.bin");
 
     string outName(argv[1]);
     outName += ".tex";
