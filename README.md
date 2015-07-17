@@ -4,7 +4,7 @@ A 2D survival NDS game inspired by Minecraft. The current version incorporates a
 - Crafting
 - Zombies
 
-![Cover Art][CA]
+![Screenshot][SS]
 
 # How to get involved
 - Look at the issues page to see some items that need to get added
@@ -29,4 +29,4 @@ Contact me with any questions at [matthew3311999@gmail.com][2]
 
 [1]:http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/
 [2]:mailto://matthew3311999@gmail.com
-[CA]:http://www.mediafire.com/convkey/19cc/85ftrcfh4s15fj7zg.jpg "Cover Art"
+[SS]: "Screenshot"
