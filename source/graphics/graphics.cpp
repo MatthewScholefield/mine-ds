@@ -255,7 +255,7 @@ void updateTexture()
 	dmaCopy(subBgTiles.data(), bgGetGfxPtr(getSubBgID()), sub_bgTilesLen);
 	refreshFont();
 	updateSubBG();
-	
+
 	//=== Mobs === (Tiles are reassigned when showGraphic is called)
 	vramSetBankF(VRAM_F_LCD);
 	dmaCopy(mobPal.data(), VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);

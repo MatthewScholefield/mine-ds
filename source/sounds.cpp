@@ -100,7 +100,7 @@ void playStreamSong()
 
 void initSound(void)
 {
-  sfxVolume = 20;
+	sfxVolume = 20;
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 	mmInitDefault(SOUNDBANK_FILENAME);
 #pragma GCC diagnostic pop
@@ -142,6 +142,11 @@ static void loadSound(int sfx)
 	mmLoadEffect(sfx);
 }
 
+int getBlockPanning(int x, int camX)
+{
+	return 16 * (x - (camX / 16)) + camX % 16;
+}
+
 void playSound(Sound sfx, mm_byte volume, mm_byte panning)
 {
 	if (sfx == SOUND_NONE)
@@ -159,7 +164,7 @@ void playSound(Sound sfx, mm_byte volume, mm_byte panning)
 		{(mm_word) sfx}, // id
 		1024,
 		0, // handle
-		volumeFunc(volume,getGlobalSettings()->sfxVolume), // volume
+		(mm_byte) volumeFunc(volume, getGlobalSettings()->sfxVolume), // volume
 		panning, // panning
 	};
 	loadSound(sfx);
@@ -185,7 +190,7 @@ void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning)
 		{(mm_word) sfxID}, // id
 		1024,
 		0, // handle
-		volumeFunc(volume,getGlobalSettings()->sfxVolume), // volume
+		(mm_byte) volumeFunc(volume, getGlobalSettings()->sfxVolume), // volume
 		panning, // panning
 	};
 	loadSound(sfxID);

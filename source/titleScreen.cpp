@@ -353,14 +353,14 @@ void gameOptions()
 }
 
 void setSfxAction(UIElement *slider, int position, bool extra)
-{ 
-  //position is 0...25 (Inclusive)
+{
+	//position is 0...25 (Inclusive)
 	getGlobalSettings()->sfxVolume = position;
 }
 
 void setMusicAction(UIElement *slider, int position, bool extra)
 {
-  //position is 0...25 (Inclusive)
+	//position is 0...25 (Inclusive)
 	getGlobalSettings()->musicVolume = position;
 }
 
@@ -517,13 +517,13 @@ void titleScreen()
 		drawBackground(menuFirstSlot);
 		clearText(menuFirstSlot);
 #ifdef NITRO_AND_FAT
-  printXY(21,23,"v0.2.0 both");
+		printXY(21, 23, "v0.2.0 both");
 #endif
 #ifdef JUST_NITRO
-  printXY(20,23,"v0.2.0 nitro");
+		printXY(20, 23, "v0.2.0 nitro");
 #endif
 #ifdef JUST_FAT
-  printXY(22,23,"v0.2.0 fat");
+		printXY(22, 23, "v0.2.0 fat");
 #endif
 		lcdMainOnTop();
 		clearInventory(true);

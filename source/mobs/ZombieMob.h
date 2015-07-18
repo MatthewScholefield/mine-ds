@@ -18,6 +18,7 @@ public:
 	bool isMyPlayer();
 
 	ZombieMob(int x, int y) : BaseMob(MOB_ZOMBIE, x, y, 6, 32) { }
+
 	~ ZombieMob() { }
 };
 void zombieMobInit();

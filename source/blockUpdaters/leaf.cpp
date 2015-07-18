@@ -29,7 +29,7 @@ void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 	else if (!nearWood)
 		world->blocks[x][y] = AIR;
 	if (!nearWood)
-		createItemMob(x, y, genericBlock(leafID));
+		createItemMob(x, y, getSurvivalItem(leafID));
 }
 
 LeafUpdater::LeafUpdater()

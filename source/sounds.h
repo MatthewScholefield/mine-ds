@@ -12,7 +12,9 @@ enum Sound
 	SOUND_SHEEP_HURT = SFX_SHEEP_HURT,
 	SOUND_ZOMBIE_HURT = SFX_ZOMBIE_HURT,
 	SOUND_POP = SFX_POP,
-	SOUND_CLICK = SFX_CLICK
+	SOUND_CLICK = SFX_CLICK,
+	SOUND_DOOR_CLOSE = SFX_DOOR_CLOSE,
+	SOUND_DOOR_OPEN = SFX_DOOR_OPEN
 };
 
 enum SoundType
@@ -43,6 +45,7 @@ enum Music
 };
 
 void initSound(void);
+int getBlockPanning(int x, int camX);
 void playSound(Sound sfx, mm_byte volume = 255, mm_byte panning = 127);
 void playBlockSfx(int blockID, SoundType type, mm_byte volume, mm_byte panning = 127);
 void playSoundNifi(Sound sfx);

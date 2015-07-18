@@ -11,7 +11,7 @@ Graphic MplayerMobGraphic[3];
 
 void MultiplayerMob::calcMiscData(WorldObject* world)
 {
-	
+
 }
 
 void MultiplayerMob::hurt(int amount, int type)

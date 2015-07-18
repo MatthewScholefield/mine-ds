@@ -12,25 +12,28 @@ public:
 
 class DoorTopOpenUpdater : public BlockUpdater
 {
-  public:
-   DoorTopOpenUpdater();
-   virtual void update(WorldObject* world, int x, int y, bool bg);
+public:
+	DoorTopOpenUpdater();
+	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
+
 class DoorTopClosedUpdater : public BlockUpdater
 {
-  public:
-   DoorTopClosedUpdater();
-   virtual void update(WorldObject* world, int x, int y, bool bg);
+public:
+	DoorTopClosedUpdater();
+	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
+
 class DoorBottomOpenUpdater : public BlockUpdater
 {
-  public:
-   DoorBottomOpenUpdater();
-   virtual void update(WorldObject* world, int x, int y, bool bg);
+public:
+	DoorBottomOpenUpdater();
+	virtual void update(WorldObject* world, int x, int y, bool bg);
 };
+
 class DoorBottomClosedUpdater : public BlockUpdater
 {
-  public:
-   DoorBottomClosedUpdater();
-   virtual void update(WorldObject* world, int x, int y, bool bg);
+public:
+	DoorBottomClosedUpdater();
+	virtual void update(WorldObject* world, int x, int y, bool bg);
 };

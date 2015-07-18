@@ -6,6 +6,7 @@ bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
 class PlayerMob : public BaseMob
 {
 private:
+
 	virtual int getMaxHealth()
 	{
 		return 20;
@@ -24,6 +25,7 @@ public:
 
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
 	, deathScreen(false), tillBrightness(0) { }
+
 	~ PlayerMob() { }
 };
 void playerMobInit();
