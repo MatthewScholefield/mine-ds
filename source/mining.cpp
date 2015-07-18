@@ -15,6 +15,7 @@
 #include "general.h"
 #include "mobs/mobHandler.h"
 #include "mobs/hurt.h"
+#include "blockPages.h"
 
 bool miningDisabled = false;
 int framesOnBlock;
@@ -49,7 +50,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg)
 			if (canBreak(*blockXY))
 			{
 				if (canDropItem(*blockXY))
-					createItemMob(x, y, genericBlock(*blockXY));
+					createItemMob(x, y, getSurvivalItem(*blockXY));
 				else if (!isSurvival())
 					addInventory(*blockXY);
 				*blockXY = AIR;
@@ -129,7 +130,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		case AIR:
 		{
 			placeBlock(world, x, y, bg);
-			playBlockSfx(bg ? world->bgblocks[x][y] : world->blocks[x][y], SOUND_TYPE_PLACE, 255, 16 * (x - (world->camX / 16)) + world->camX % 16);
+			playBlockSfx(bg ? world->bgblocks[x][y] : world->blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world->camX));
 			break;
 		}
 		case CHEST:
@@ -138,26 +139,28 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		case FURNACE:
 			//openFurnace(world,x,y,bg);
 			break;
-	case DOOR_OPEN_BOTTOM:
-		--y;
-    case DOOR_OPEN_TOP:
-    {
-    	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-    	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
-      blockXY = DOOR_CLOSED_TOP;
-      blockBelowXY = DOOR_CLOSED_BOTTOM;
-      break;
-    }
-	case DOOR_CLOSED_BOTTOM:
-		--y;
-    case DOOR_CLOSED_TOP:
-    {
-    	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-    	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
-      blockXY = DOOR_OPEN_TOP;
-      blockBelowXY = DOOR_OPEN_BOTTOM;
-      break;
-    }
+		case DOOR_OPEN_BOTTOM:
+			--y;
+		case DOOR_OPEN_TOP:
+		{
+			int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+			int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+			blockXY = DOOR_CLOSED_TOP;
+			blockBelowXY = DOOR_CLOSED_BOTTOM;
+			playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world->camX));
+			break;
+		}
+		case DOOR_CLOSED_BOTTOM:
+			--y;
+		case DOOR_CLOSED_TOP:
+		{
+			int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+			int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+			blockXY = DOOR_OPEN_TOP;
+			blockBelowXY = DOOR_OPEN_BOTTOM;
+			playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world->camX));
+			break;
+		}
 		default:
 			if (!isSurvival())
 				destroyBlock(world, x, y, bg);

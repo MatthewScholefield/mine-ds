@@ -33,7 +33,5 @@ public:
 			this->vx = vx;
 	}
 
-	~ ItemMob()
-	{
-	}
+	~ ItemMob() { }
 };

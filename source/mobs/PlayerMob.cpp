@@ -193,7 +193,7 @@ void PlayerMob::updateMob(WorldObject* world)
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (framesHurtSprite == 0) spriteState = 0;
 			else --framesHurtSprite;
-			if (health < 20 && getTime()%256==1)
+			if (health < 20 && getTime() % 256 == 1)
 				++health;
 			showHealth(health);
 		}
