@@ -171,6 +171,8 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
       break;
     }
 		default:
+			if (!isSurvival())
+				destroyBlock(world, x, y, bg);
 			break;
 	}
 }
@@ -246,7 +248,7 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 		else
 			changeTarget(x + y, touchedBlock);
 	}
-	if (touchedBlock != AIR && framesOnBlock >= framesTillBreak && !finishedTask)
+	if (touchedBlock != AIR && framesOnBlock >= framesTillBreak && !finishedTask && framesOnBlock >= ACTIVATE_DELAY)
 	{
 		destroyBlock(world, x, y, world->blocks[x][y] == AIR || keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
 		changeTarget(x + y, AIR);
