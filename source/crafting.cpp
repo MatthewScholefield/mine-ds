@@ -49,7 +49,7 @@ void craftingInit()
 	addCraftingRecipe(CRAFTING_TABLE, 1, PLANKS_WOOD, 4);
 	addCraftingRecipe(LADDER, 2, STICK, 8);
 	addCraftingRecipe(CHEST, 1, PLANKS_WOOD, 8);
-
+  addCraftingRecipe(DOOR_ITEM,1,PLANKS_WOOD,6);
 	//Furnace Recipes
 	addFurnaceRecipe(GLASS, 1, SAND, 1);
 	addFurnaceRecipe(BEEF_COOKED, 1, BEEF_RAW, 1);
