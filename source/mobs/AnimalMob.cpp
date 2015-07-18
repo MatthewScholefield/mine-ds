@@ -22,7 +22,7 @@ void AnimalMob::calcMiscData(WorldObject* world)
 
 void AnimalMob::updateMob(WorldObject* world)
 {
-	showGraphic(spriteState==0?&normalSprite:&hurtSprite, x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	showGraphic(spriteState == 0 ? &normalSprite : &hurtSprite, x - world->camX - 7, y - world->camY - 7, facing ? true : false);
 
 	if (host == true)
 	{

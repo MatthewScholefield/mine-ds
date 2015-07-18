@@ -101,7 +101,7 @@ void HerobrineMob::hurt(int amount, int type)
 	{
 		if (type == CACTUS_HURT)
 		{
-			createItemMob(x/16, y/16, rand() % (NUM_BLOCKS - 2) + 2, rand() % 4 + 1);
+			createItemMob(x / 16, y / 16, rand() % (NUM_BLOCKS - 2) + 2, rand() % 4 + 1);
 			health = 0;
 		}
 		else

@@ -15,7 +15,7 @@ void plantUpdate(int beneathID, WorldObject* world, int x, int y, bool bg)
 	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
 	if (blockBelowXY != beneathID)
 	{
-		createItemMob(x, y, genericBlock(blockXY));
+		createItemMob(x, y, getSurvivalItem(blockXY));
 		blockXY = AIR;
 	}
 }

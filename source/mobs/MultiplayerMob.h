@@ -7,6 +7,7 @@ bool canMultiplayerMobSpawnHere(WorldObject* world, int x, int y);
 class MultiplayerMob : public BaseMob
 {
 private:
+
 	virtual int getMaxHealth()
 	{
 		return 20;
@@ -20,6 +21,7 @@ public:
 	void hurt(int amount, int type);
 
 	MultiplayerMob(int x, int y) : BaseMob(MOB_MULTIPLAYER, x, y, 6, 32) { }
+
 	~ MultiplayerMob() { }
 };
 void multiplayerMobInit();

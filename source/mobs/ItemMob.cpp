@@ -17,7 +17,7 @@
 #include "../mining.h"
 #include "../worldRender.h"
 
-const int ItemMob::floatVal[] = {0,0,1,1,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,2,2,2,2,1,1,1,1,1,0,0,0,-1,-1,-1,-1,-1,-2,-2,-2,-2,-3,-3,-3,-3,-3,-3,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-3,-3,-3,-3,-3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,0,0};
+const int ItemMob::floatVal[] = {0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, -1, -1, -1, -1, -1, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -2, -2, -2, -2, -1, -1, -1, -1, -1, 0, 0};
 
 bool ItemMob::isMyPlayer()
 {
@@ -26,7 +26,7 @@ bool ItemMob::isMyPlayer()
 
 void ItemMob::calcMiscData(WorldObject* world)
 {
-	
+
 }
 
 void ItemMob::updateMob(WorldObject* world)
@@ -42,7 +42,7 @@ void ItemMob::updateMob(WorldObject* world)
 		normalSprite.paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
 		loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, 3 + (12 * brightness) / 15);
 	}
-	if (health<1)
+	if (health < 1)
 		return;
 	if (vx != 0)
 	{
@@ -84,7 +84,7 @@ void ItemMob::updateMob(WorldObject* world)
 		health = 0;
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
 		health = 0;
-	if (health<1)
+	if (health < 1)
 		playSound(SOUND_POP, 155 + rand() % 100);
 }
 
@@ -107,7 +107,8 @@ void ItemMob::hurt(int hamount, int type)
 	{
 		case CACTUS_HURT:
 			if (rand() % 10 == 1)
-				health = 0;;
+				health = 0;
+			;
 			break;
 		default:
 			break;
