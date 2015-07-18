@@ -138,6 +138,8 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		case FURNACE:
 			//openFurnace(world,x,y,bg);
 			break;
+	case DOOR_OPEN_BOTTOM:
+		--y;
     case DOOR_OPEN_TOP:
     {
     	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
@@ -146,28 +148,14 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
       blockBelowXY = DOOR_CLOSED_BOTTOM;
       break;
     }
-    case DOOR_OPEN_BOTTOM:
-    {
-    	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];
-    	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-      blockXY = DOOR_CLOSED_BOTTOM;
-      blockAboveXY = DOOR_CLOSED_TOP;
-      break;
-    }
+	case DOOR_CLOSED_BOTTOM:
+		--y;
     case DOOR_CLOSED_TOP:
     {
     	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
     	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
       blockXY = DOOR_OPEN_TOP;
       blockBelowXY = DOOR_OPEN_BOTTOM;
-      break;
-    }
-    case DOOR_CLOSED_BOTTOM:
-    {
-    	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];
-    	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-      blockXY = DOOR_OPEN_BOTTOM;
-      blockAboveXY = DOOR_OPEN_TOP;
       break;
     }
 		default:
