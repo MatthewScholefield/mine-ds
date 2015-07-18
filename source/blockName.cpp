@@ -318,6 +318,9 @@ const char *getName(int blockID)
 		case SAPLING_JUNGLE:
 			name = "Jungle Sapling";
 			break;
+    case DOOR_ITEM:
+      name = "Door";
+      break;
 	}
 	return name;
 }

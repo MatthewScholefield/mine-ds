@@ -15,7 +15,7 @@
 #include <stdarg.h>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 
-int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
+int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE,DOOR_OPEN_TOP,DOOR_OPEN_BOTTOM};
 int renderBright[] = {AIR, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LEAVES_OAK, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, LEAVES_SPRUCE, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
 int lightSourceBlocks[] = {TORCH, PUMPKIN_LIGHT, GLOWSTONE, FURNACE_LIT};
 int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
@@ -29,6 +29,8 @@ int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
 int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE, CHEST};
 int foodItems[] = {PORKCHOP_RAW, BEEF_RAW, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED};
+int blockItems[] = {DOOR_ITEM};
+
 
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
@@ -194,6 +196,14 @@ bool item(int blockID)
 	for (i = 0; (unsigned) i < sizeOfArray(items); ++i)
 		if (items[i] == blockID) return true;
 	return false;
+}
+
+bool blockItem(int blockID)
+{
+  int i;
+  for (i = 0; (unsigned) i < sizeOfArray(blockItems); ++i)
+    if (blockItems[i] == blockID) return true;
+  return false;
 }
 
 bool alwaysRenderBright(int blockID)
@@ -403,6 +413,12 @@ int genericBlock(int blockID)
 		case DIAMOND_ORE:
 			return DIAMOND;
 			break;
+    case DOOR_OPEN_TOP:
+    case DOOR_OPEN_BOTTOM:
+    case DOOR_CLOSED_TOP:
+    case DOOR_CLOSED_BOTTOM:
+      return DOOR_ITEM;
+      break;
 	}
 	return blockID;
 }

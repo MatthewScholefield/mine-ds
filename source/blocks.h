@@ -23,3 +23,4 @@ bool isSpriteBlock(int block);
 int getSpriteIndex(int block);
 bool isGrassBlock(int blockID);
 SoundAudio getBlockAudio(int blockID);
+bool blockItem(int blockID);
