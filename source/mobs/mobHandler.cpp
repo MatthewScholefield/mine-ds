@@ -247,8 +247,8 @@ void mobHandlerUpdate(WorldObject* world)
 			continue;
 		}
 	}
-	if (goodMobs <= 20)// && rand() % 30 == 0)
-		spawnMobOn(MOB_ANIMAL, world, world->camX/16+rand() % 16);
+	if (goodMobs <= -1)// && rand() % 30 == 0)
+		spawnMobOn(MOB_ANIMAL, world, world->camX / 16 + rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
 			&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,

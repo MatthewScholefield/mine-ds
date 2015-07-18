@@ -6,6 +6,7 @@ bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y);
 class HerobrineMob : public BaseMob
 {
 private:
+
 	virtual int getMaxHealth()
 	{
 		return 7;

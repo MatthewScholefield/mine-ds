@@ -47,6 +47,7 @@ public:
 		loadGraphic(&hurtSprite, GRAPHIC_MOB, frame + 1, 16, 16);
 		used = true;
 	}
+
 	~ AnimalMob() { }
 };
 void animalMobInit();
