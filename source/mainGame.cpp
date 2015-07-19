@@ -203,7 +203,7 @@ void startGame(void)
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH)
 			touchRead(&touch);
-		mobHandlerUpdate(world);
+		mobHandlerUpdate(world, &touch);
 		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
@@ -214,12 +214,12 @@ void startGame(void)
 				break;
 		}
 		oldKeys = keysHeld();
-
 		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
 		updateFrame(); //Should be the only time called in the loop
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
+		updateSubBG();
 		clearMainGraphics();
 		timeUpdate(world);
 	}

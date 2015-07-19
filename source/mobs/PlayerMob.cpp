@@ -93,6 +93,7 @@ void PlayerMob::hurt(int amount, int type)
 				}
 			}
 			clearInventory(true);
+			setupDeathScreen();
 		}
 	}
 }
@@ -196,38 +197,6 @@ void PlayerMob::updateMob(WorldObject* world)
 			if (health < 20 && getTime() % 256 == 1)
 				++health;
 			showHealth(health);
-		}
-		else if (deathScreen == false)
-		{
-			deathScreenSetup();
-			deathScreen = true;
-			health = -50;
-		}
-		else
-		{
-			x = 1024;
-			y = 1024;
-			int result = deathScreenUpdate();
-			if (result == 0)
-			{
-				int i, j;
-				for (i = 0; i <= WORLD_WIDTH; ++i)
-					for (j = 0; j <= WORLD_HEIGHT; ++j)
-					{
-						if (canPlayerMobSpawnHere(world, i, j))
-						{
-							x = i * 16 + 8;
-							y = j * 16;
-							deathScreen = false;
-							health = PLAYER_FULL_HEALTH;
-							i = WORLD_WIDTH + 1;
-							j = WORLD_HEIGHT + 1;
-							spriteState = 0;
-						}
-					}
-			}
-			else if (result == 1)
-				quitGame();
 		}
 	}
 	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)

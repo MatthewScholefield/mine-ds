@@ -9,6 +9,7 @@ void drawBoxFrame(int x, int y, int lx, int ly);
 void drawBoxCenter(int x, int y, int lx, int ly);
 void moveSubBg(int dX, int dY);
 void setSubBg(int x, int y);
+void triggerSubBGUpdate();
 void updateSubBG();
 int getScrollX();
 int getScrollY();
