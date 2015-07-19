@@ -14,7 +14,7 @@ void saveMobs(FILE* f);
 void loadMobs(FILE* f);
 int spawnMobAt(MobType type, int x, int y);
 void mobHandlerInit();
-void mobHandlerUpdate(WorldObject* world);
+void mobHandlerUpdate(WorldObject* world, touchPosition *touch = NULL);
 void mobsReset(bool playerSpawned = false);
 BaseMob_ptr isMobAt(int x, int y);
 BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y);

@@ -16,6 +16,7 @@ double subBgCalcX = 0;
 double subBgCalcY = 0;
 int subBgX = 0;
 int subBgY = 0;
+bool mustUpdate = false;
 
 inline void setSubTileXY(int x, int y, uint16 tile, int palette, int flip)
 {
@@ -88,8 +89,10 @@ void moveSubBg(int dX, int dY)
 
 void setSubBg(int x, int y)
 {
-	subBgCalcX = subBgX = x;
-	subBgCalcY = subBgY = y;
+	bgSetScroll(getConsoleID(), subBgCalcX = subBgX = x, subBgCalcY = subBgY = y);
+	bgSetScroll(6, subBgX, subBgY);
+	bgUpdate();
+	mustUpdate = true;
 }
 
 int getScrollX()
@@ -102,15 +105,29 @@ int getScrollY()
 	return int(subBgCalcY + 0.5);
 }
 
+void triggerSubBGUpdate()
+{
+	mustUpdate = true;
+}
+
 void updateSubBG()
 {
-	subBgCalcX += (double(subBgX) - subBgCalcX)*0.08;
-	subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;
-	/*if (abs(subBgCalcX - double(subBgX)) < 0.4)
-		subBgCalcX = subBgX;*/
-	bgSetScroll(6, int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
-	bgSetScroll(getConsoleID(), int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
+	if (int(subBgCalcX + 0.5) != subBgX)
+	{
+		subBgCalcX += (double(subBgX) - subBgCalcX)*0.08;
+		subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;
+		bgSetScroll(6, int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
+		bgSetScroll(getConsoleID(), int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
+		bgUpdate();
+		oamUpdate(&oamSub);
+	}
+	else if (mustUpdate)
+	{
+		
+		mustUpdate=false;
+	}
 	bgUpdate();
+		oamUpdate(&oamSub);
 }
 
 void drawButton(int x, int y, int sizex)

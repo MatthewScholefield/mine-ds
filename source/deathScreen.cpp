@@ -10,78 +10,57 @@
 #include "general.h"
 #include "inventory.h"
 #include "mainGame.h"
-bool mustPrintDeathScreen = true;
-bool died = false; //Used to show whether exitted to titlescreen after dying
-touchPosition *touch;
-touchPosition *oldTouch;
-uint32 oldKeys;
+bool showingDeathScreen = false;
 
-Button *respawnButton;
-Button *deathToTitleScreenButton;
+Button respawnButton(8, 10, "Respawn", 14);
+Button deathToTitleScreenButton(8, 15, "TitleScreen", 14);
 
-/*bool getDied()
+void setupDeathScreen()
 {
-	return died;
-}*/
-
-void deathScreenSetup()
-{
-	if (mustPrintDeathScreen == true)
-	{
-		oamClear(&oamSub, 0, 0);
-		oamUpdate(&oamSub);
-		disableInvGraphics();
-		clearText();
-		lcdMainOnTop();
-		drawBackground();
-		printf("\x1b[8;11HYou Died!");
-		mustPrintDeathScreen = false;
-		oldKeys = keysHeld();
-		setMiningDisabled(true);
-		delete respawnButton;
-		delete deathToTitleScreenButton;
-		delete touch;
-		respawnButton = new Button(8, 10, "Respawn", 14);
-		deathToTitleScreenButton = new Button(8, 15, "TitleScreen", 14);
-		touch = new touchPosition;
-		respawnButton->draw();
-		deathToTitleScreenButton->draw();
-	}
+	oamClear(&oamSub, 0, 0); //Clear sprites
+	showingDeathScreen = true;
+	disableInvGraphics();
+	clearText();
+	lcdMainOnTop();
+	drawBackground();
+	iprintf("\x1b[8;11HYou Died!");
+	setMiningDisabled(true);
+	respawnButton.draw();
+	deathToTitleScreenButton.draw();
 }
 
-int deathScreenUpdate()
+int deathScreenUpdate(touchPosition *touch)
 {
-	if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
+	if (!showingDeathScreen)
+		return 2;
+	int returnVal = 2;
+	if (keysDown()&KEY_TOUCH)
 	{
 		touchRead(touch);
-		respawnButton->setColored(respawnButton->isTouching(touch->px, touch->py));
-		deathToTitleScreenButton->setColored(deathToTitleScreenButton->isTouching(touch->px, touch->py));
+		respawnButton.setColored(respawnButton.isTouching(touch->px, touch->py));
+		deathToTitleScreenButton.setColored(deathToTitleScreenButton.isTouching(touch->px, touch->py));
 	}
-	else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH)
+	else if (keysUp()&KEY_TOUCH)
 	{
-		if (respawnButton->isTouching(touch->px, touch->py) && respawnButton->isColored)
+		if (respawnButton.isTouching(touch->px, touch->py) && respawnButton.isColored)
 		{
+			showingDeathScreen = false;
 			drawBackground();
-			mustPrintDeathScreen = true;
 			clearText();
 			enableInvGraphics();
 			lcdMainOnBottom();
 			setMiningDisabled(false);
 			drawInvButtons(false, isSurvival());
-			died = false;
-			return 0;
+			returnVal = 0;
 		}
-		else if (deathToTitleScreenButton->isTouching(touch->px, touch->py) && deathToTitleScreenButton->isColored)
+		else if (deathToTitleScreenButton.isTouching(touch->px, touch->py) && deathToTitleScreenButton.isColored)
 		{
-			mustPrintDeathScreen = true;
+			showingDeathScreen = false;
 			setMiningDisabled(false);
-			died = true;
-			return 1;
+			returnVal = 1;
 		}
-		respawnButton->setColored(false);
-		deathToTitleScreenButton->setColored(false);
+		respawnButton.setColored(false);
+		deathToTitleScreenButton.setColored(false);
 	}
-	oldKeys = keysHeld();
-	touchRead(touch);
-	return 2;
+	return returnVal;
 }

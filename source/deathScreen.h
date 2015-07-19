@@ -1,4 +1,4 @@
 #pragma once
-bool getDied();
-void deathScreenSetup();
-int deathScreenUpdate();
+#include <nds.h>
+void setupDeathScreen();
+int deathScreenUpdate(touchPosition *touch);
