@@ -24,7 +24,7 @@ public:
 	bool isMyPlayer();
 
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
-	, deathScreen(false), tillBrightness(0) { }
+	, tillBrightness(0) { }
 
 	~ PlayerMob() { }
 };
