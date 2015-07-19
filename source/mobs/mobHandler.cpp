@@ -19,6 +19,8 @@
 #include "../blockID.h"
 #include "../blocks.h"
 #include "../worldRender.h"
+#include "../deathScreen.h"
+#include "../mainGame.h"
 #define PLAYER_ID 1
 
 std::vector<BaseMob_ptr> mobs;
@@ -204,11 +206,28 @@ void loadMobs(FILE* f)
 	}
 }
 
-void mobHandlerUpdate(WorldObject* world)
+void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 {
+	bool delTouch = false;
+	if (!touch)
+	{
+		delTouch = true;
+		touch=new touchPosition();
+	}
 	const int EXTRA = 128;
 	int badMobs = 0;
 	int goodMobs = 0;
+	switch (deathScreenUpdate(touch))
+	{
+		case 0: //Respawn
+			spawnMob(MOB_PLAYER, world);
+			break;
+		case 1: //Titlescreen
+			quitGame();
+			break;
+		default: //Nothing
+			break;
+	}
 	if (!hasSpawnedPlayer)
 	{
 		spawnMob(MOB_PLAYER, world);
@@ -253,4 +272,6 @@ void mobHandlerUpdate(WorldObject* world)
 		spawnMobOn((rand() % 10) != 1
 			&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
 			world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*(rand() % 2 ? -1 : 1));
+	if (delTouch)
+		delete touch;
 }

@@ -10,11 +10,8 @@ void Button::setColored(bool colored)
 {
 	if (!isVisible || colored == isColored)
 		return;
-	if (colored)
-		drawButtonColored(x, y, length);
-	else
-		drawButton(x, y, length);
 	isColored = colored;
+	draw(false);
 }
 
 void Button::setVisible(bool setVisible)
@@ -44,6 +41,7 @@ void Button::draw(bool printLabels)
 		drawButtonColored(x, y, length);
 	else
 		drawButton(x, y, length);
+	triggerSubBGUpdate();
 }
 
 bool Button::update(int state, int touchX, int touchY)
