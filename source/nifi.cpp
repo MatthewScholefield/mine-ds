@@ -225,8 +225,8 @@ void Handler(int packetID, int readlength)
 			int test_id;
 			int test2_id;
 			int x, y;
-			client_id = test2_id;
 			sscanf(message, "%d %d %d %d", &test_id, &test2_id, &x, &y);
+			client_id = test2_id;
 			if (test_id == server_id)
 			{
 				//Respond, we are that server.

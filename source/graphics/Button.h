@@ -10,7 +10,6 @@ class Button : public UIElement
 public:
 	int printX, printY;
 	bool isColored;
-	int checkID;
 
 	bool isTouching(int xVal, int yVal);
 	void setVisible(bool);

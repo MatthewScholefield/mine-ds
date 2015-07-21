@@ -73,7 +73,7 @@ void AnimalMob::updateMob(WorldObject* world)
 		}
 		else //Scared
 		{
-			vx = (facing = target->x > x) ? -RUN_VELOCITY : RUN_VELOCITY;
+			vx = (facing = (target->x > x)) ? -RUN_VELOCITY : RUN_VELOCITY;
 			if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP])
 				vy = JUMP_VELOCITY;
 			--scaredTimer;

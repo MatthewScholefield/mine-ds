@@ -37,7 +37,8 @@ public:
 	void addSlider(int x, int y, const char * const label, int initPos, int length = 30, bool isVisible = true);
 	void addCheckButton(int x, int y, const char * const label, bool enabled, int length = - 1, bool isVisible = true);
 
-	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24, bool initial = false) : type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY)
+	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24, bool initial = false) :
+	type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY), listX(0), listY(0)
 	{
 		elements.push_back(UIElement_ptr(new Button(25, 20, "Back", back)));
 		elements.push_back(UIElement_ptr(new Button(1, 20, "\x1F", sizeY > 24)));

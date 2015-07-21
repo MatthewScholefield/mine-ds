@@ -17,9 +17,9 @@ void FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
-		int databyte = world->data[x][y];
+		unsigned int databyte = world->data[x][y];
 		//Increment time part of data
-		char t = world->data[x][y] & 0xFF;
+		unsigned char t = world->data[x][y] & 0xFF;
 		t++;
 		if (t == 120)
 		{

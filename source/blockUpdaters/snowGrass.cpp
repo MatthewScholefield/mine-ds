@@ -15,7 +15,9 @@ SnowGrassUpdater::SnowGrassUpdater()
 
 void SnowGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
-	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	if (world->blocks[x][y - 1] != SNOW_TOP)
+	{
+		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 		blockXY = bg && world->bgblocks[x][y - 1] == SNOW_TOP ? SNOW_GRASS : GRASS;
+	}
 }
