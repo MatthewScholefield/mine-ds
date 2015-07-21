@@ -1,6 +1,5 @@
 #pragma once
 #include <nds.h>
-#include "mobs.h"
 #define FRAMES_PER_ANIMATION 6
 
 #define TILES_LEN 65536
