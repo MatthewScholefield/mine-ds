@@ -55,7 +55,6 @@ void ADCMReset()
 
 s16 getADCM(FILE* f, WaveInfo* w)
 {
-	int nibble = 0;
 	if (reset == 0)
 	{
 		reset = w->blockAlign * 2;
@@ -69,7 +68,7 @@ s16 getADCM(FILE* f, WaveInfo* w)
 	}
 	else
 	{
-		nibble = getNibble(f, w);
+		int nibble = getNibble(f, w);
 		step = ima_step_table[step_index];
 		int diff = step >> 3;
 		if (nibble & 4)

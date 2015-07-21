@@ -87,8 +87,8 @@ int graphicNextSub()
 void gradientHandler()
 {
 	int r = REG_VCOUNT + 1;
-	if (r < 0) r = 192;
-	if (r > 192) r = 0;
+	if (r < 0) r = 191;
+	if (r >= 192) r = 0;
 	BG_PALETTE[0] = backdropColor[r];
 }
 

@@ -271,7 +271,7 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
 			&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
-			world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*(rand() % 2 ? -1 : 1));
+			world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
 	if (delTouch)
 		delete touch;
 }

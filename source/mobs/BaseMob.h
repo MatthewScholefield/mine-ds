@@ -52,11 +52,11 @@ public:
 	virtual bool isMyPlayer();
 
 	BaseMob(MobType type, int x, int y, int sx, int sy) :
-	type(type), x(x + sx / 2), y(y + sy / 2), vx(0), vy(0), sx(sx), sy(sy),
-	onCactus(false), facing(true), collisions { }
-
-	, spriteState(0), framesHurtSprite(0),
-	timeOnCactus(30), host(true)
+	normalSprite(), hurtSprite(), type(type), x(x + sx / 2),
+	y(y + sy / 2), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
+	alive(true), onCactus(false), facing(true), collisions { },
+	spriteState(0), framesHurtSprite(0),
+	timeOnCactus(30), framesFarAway(0), host(true)
 	{
 		health = getMaxHealth();
 	}
