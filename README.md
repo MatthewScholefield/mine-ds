@@ -29,4 +29,4 @@ Contact me with any questions at [matthew3311999@gmail.com][2]
 
 [1]:http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/
 [2]:mailto://matthew3311999@gmail.com
-[SS]: "Screenshot"
+[SS]:http://i.imgbox.com/ntnI7Sek.png "Screenshot"
