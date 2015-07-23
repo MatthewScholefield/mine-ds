@@ -1,19 +1,29 @@
-*
+*/*/*/*/*.*
+*/*/*/*.*
+*/*/*.*
+*/*.*
+*.*
 
-# source
-!*.cpp
-!*.h
+# Source Files
+!/**/*.cpp
+!/**/*.h
 
-# gfx
-!*.png
-!*.grit
+# Graphics Files
+!/**/*.png
+!/**/*.grit
 
-# audio
-!*.wav
-!*.it
+# Audio Files
+!/**/*.wav
+!/**/*.it
 
 # Other Files
-!Makefile
-!LICENCE
 !README.md
 !icon.bmp
+
+# Exclude Build Folder
+build/
+
+# ================== Caveats ================== #
+# - It only works with up to 32 subdirectories  #
+# - It only excludes files with extensions      #
+# ============================================= #
