@@ -65,25 +65,25 @@ static int inGameMenu()
 
 		switch (menu.activate())
 		{
-			case 1: // save game
-				printXY(1, 22, "Saving game");
-				if (!saveWorld(world))
-				{
-					printXY(1, 22, "Failed to save game");
-					sleepThread(1);
-				}
-				break;
-			case 2: // quit game
-				return -1;
-			case 3: // settings
-				settingsScreen();
-				startTransition(false);
-				break;
-			default: // back button
-				exit = true;
-				setSubBg(0, 0);
-				updateSubBG();
-				break;
+		case 1: // save game
+			printXY(1, 22, "Saving game");
+			if (!saveWorld(world))
+			{
+				printXY(1, 22, "Failed to save game");
+				sleepThread(1);
+			}
+			break;
+		case 2: // quit game
+			return -1;
+		case 3: // settings
+			settingsScreen();
+			startTransition(false);
+			break;
+		default: // back button
+			exit = true;
+			setSubBg(0, 0);
+			updateSubBG();
+			break;
 		}
 	}
 	redrawGameUI();

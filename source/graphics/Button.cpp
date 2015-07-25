@@ -48,28 +48,28 @@ bool Button::update(int state, int touchX, int touchY)
 {
 	switch (state)
 	{
-		case STATE_TAP:
+	case STATE_TAP:
+		if (isTouching(touchX, touchY))
+		{
+			setColored(true);
+			playSound(SOUND_CLICK);
+		}
+		break;
+	case STATE_RELEASE:
+		if (isColored)
+		{
+			setColored(false);
 			if (isTouching(touchX, touchY))
 			{
-				setColored(true);
-				playSound(SOUND_CLICK);
+				if (setData)
+					setData(this, sendData, false);
+				else
+					return true;
 			}
-			break;
-		case STATE_RELEASE:
-			if (isColored)
-			{
-				setColored(false);
-				if (isTouching(touchX, touchY))
-				{
-					if (setData)
-						setData(this, sendData, false);
-					else
-						return true;
-				}
-			}
-			break;
-		default:
-			break;
+		}
+		break;
+	default:
+		break;
 	}
 	return false;
 }

@@ -169,8 +169,8 @@ void setBlockPalette(int darkness, int index, bool isolated)
 }
 
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
-		const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-		const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc)
+				 const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
+				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc)
 {
 	if (!blockTilesSrc || !blockPalSrc)
 	{
@@ -399,20 +399,20 @@ void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 	g->spriteID = g->type != GRAPHIC_BLOCK ? graphicLastMain() : graphicNextMain();
 	switch (type)
 	{
-		case GRAPHIC_PARTICLE:
-			loadGraphicParticle(g, frame, x, y);
-			break;
-		case GRAPHIC_MOB:
-			loadGraphicMob(g, frame, x, y);
-			break;
-		case GRAPHIC_BLOCK:
-			loadGraphicBlock(g, frame, x, y);
-			break;
-		case GRAPHIC_MOB_ANIM:
-			loadGraphicAnim(g, (u8*) mobTiles.data(), frame);
-			break;
-		case GRAPHIC_BLOCK_MINI:
-			loadGraphicMiniBlock(g, frame, x, y, pID);
+	case GRAPHIC_PARTICLE:
+		loadGraphicParticle(g, frame, x, y);
+		break;
+	case GRAPHIC_MOB:
+		loadGraphicMob(g, frame, x, y);
+		break;
+	case GRAPHIC_BLOCK:
+		loadGraphicBlock(g, frame, x, y);
+		break;
+	case GRAPHIC_MOB_ANIM:
+		loadGraphicAnim(g, (u8*) mobTiles.data(), frame);
+		break;
+	case GRAPHIC_BLOCK_MINI:
+		loadGraphicMiniBlock(g, frame, x, y, pID);
 	}
 	g->type = type;
 	g->main = true;
@@ -500,17 +500,17 @@ void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x, int y)
 {
 	switch (type)
 	{
-		case GRAPHIC_SUB_FONT:
-			loadGraphicSubFont(g, frame, x, y);
-			break;
-		case GRAPHIC_BLOCK:
-			loadGraphicSubBlock(g, frame, x, y);
-			break;
-		case GRAPHIC_PARTICLE:
-			loadGraphicSubParticle(g, frame, x, y);
-			break;
-		default:
-			break;
+	case GRAPHIC_SUB_FONT:
+		loadGraphicSubFont(g, frame, x, y);
+		break;
+	case GRAPHIC_BLOCK:
+		loadGraphicSubBlock(g, frame, x, y);
+		break;
+	case GRAPHIC_PARTICLE:
+		loadGraphicSubParticle(g, frame, x, y);
+		break;
+	default:
+		break;
 	}
 	g->main = false;
 	g->frame = frame;
@@ -546,42 +546,42 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 		{
 			switch (g->type)
 			{
-				case GRAPHIC_PARTICLE://1
-					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				case GRAPHIC_MOB://0
-					if (g->sy == 32)
-						oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					else
-						oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				case GRAPHIC_BLOCK://2
-					oamSet(&oamMain, g->spriteID, x, y, 1, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				case GRAPHIC_MOB_ANIM://0
+			case GRAPHIC_PARTICLE://1
+				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case GRAPHIC_MOB://0
+				if (g->sy == 32)
 					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				case GRAPHIC_BLOCK_MINI://miniBlock
-					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
+				else
+					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case GRAPHIC_BLOCK://2
+				oamSet(&oamMain, g->spriteID, x, y, 1, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case GRAPHIC_MOB_ANIM://0
+				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case GRAPHIC_BLOCK_MINI://miniBlock
+				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
 			}
 		}
 		else
 		{
 			switch (g->type)
 			{
-				case 0:
-					if (g->sx == 8 && g->sy == 8)
-						oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				case 1:
+			case 0:
+				if (g->sx == 8 && g->sy == 8)
 					oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				case 2:
-					oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-					break;
-				default:
-					break;
+				break;
+			case 1:
+				oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			case 2:
+				oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				break;
+			default:
+				break;
 			}
 		}
 	}

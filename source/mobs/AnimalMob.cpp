@@ -83,13 +83,9 @@ void AnimalMob::updateMob(WorldObject* world)
 	}
 }
 
-void AnimalMob::sendWifiUpdate()
-{
-}
+void AnimalMob::sendWifiUpdate() { }
 
-void AnimalMob::saveToFile(FILE* pFile)
-{
-}
+void AnimalMob::saveToFile(FILE* pFile) { }
 
 void AnimalMob::loadFromFile(FILE* pFile)
 {
@@ -113,15 +109,15 @@ void AnimalMob::hurt(int amount, int type)
 		int panning = (x - playerX) / 2 + 127;
 		switch (animal)
 		{
-			case ANIMAL_COW:
-				playSound(SOUND_COW_HURT, volume, panning);
-				break;
-			case ANIMAL_SHEEP:
-				playSound(SOUND_SHEEP_HURT, volume, panning);
-				break;
-			case ANIMAL_PIG:
-				playSound(SOUND_PIG_HURT, volume, panning);
-				break;
+		case ANIMAL_COW:
+			playSound(SOUND_COW_HURT, volume, panning);
+			break;
+		case ANIMAL_SHEEP:
+			playSound(SOUND_SHEEP_HURT, volume, panning);
+			break;
+		case ANIMAL_PIG:
+			playSound(SOUND_PIG_HURT, volume, panning);
+			break;
 		}
 	}
 	if (type == PLAYER_HURT)
@@ -130,16 +126,16 @@ void AnimalMob::hurt(int amount, int type)
 	{
 		switch (animal)
 		{
-			case ANIMAL_COW:
-				createItemMob(x / 16, y / 16, BEEF_RAW, rand() % 4);
-				createItemMob(x / 16, y / 16, LEATHER, rand() % 3);
-				break;
-			case ANIMAL_SHEEP:
-				createItemMob(x / 16, y / 16, WHITE_WOOL, rand() % 4);
-				break;
-			case ANIMAL_PIG:
-				createItemMob(x / 16, y / 16, PORKCHOP_RAW, rand() % 3);
-				break;
+		case ANIMAL_COW:
+			createItemMob(x / 16, y / 16, BEEF_RAW, rand() % 4);
+			createItemMob(x / 16, y / 16, LEATHER, rand() % 3);
+			break;
+		case ANIMAL_SHEEP:
+			createItemMob(x / 16, y / 16, WHITE_WOOL, rand() % 4);
+			break;
+		case ANIMAL_PIG:
+			createItemMob(x / 16, y / 16, PORKCHOP_RAW, rand() % 3);
+			break;
 		}
 	}
 	spriteState = 1;
@@ -156,12 +152,10 @@ bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
 	return canMobSpawnHere(world, x, y);
 }
 
-void animalMobInit()
-{
+void animalMobInit() {
 	/*loadGraphic(&animalMobGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_PIG][1], GRAPHIC_MOB, 11, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_COW][0], GRAPHIC_MOB, 12, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_COW][1], GRAPHIC_MOB, 13, 16, 16);
 	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][0], GRAPHIC_MOB, 14, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);*/
-}
+	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);*/ }

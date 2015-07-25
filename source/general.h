@@ -48,7 +48,7 @@ template<typename T> inline const T abs(T const & x)
 inline void showError(const char* error)
 {
 #ifdef SHOW_ERRORS
-	for (int i = 0; i < 24; ++ i)
+	for (int i = 0; i < 24; ++i)
 		printXY(0, i, error);
 	while (1)
 		swiWaitForVBlank();

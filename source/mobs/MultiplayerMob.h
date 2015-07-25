@@ -22,6 +22,6 @@ public:
 
 	MultiplayerMob(int x, int y) : BaseMob(MOB_MULTIPLAYER, x, y, 6, 32) { }
 
-	~ MultiplayerMob() { }
+	~MultiplayerMob() { }
 };
 void multiplayerMobInit();
