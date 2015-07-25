@@ -31,11 +31,11 @@ public:
 	void setFrame(int x, int y = 0);
 	void setAction(void (*function)(UIElement *element, int data, bool data2), int sendData);
 
-	void addButton(int x, int y, const char * const label, int length = - 1, bool isVisible = true);
+	void addButton(int x, int y, const char * const label, int length = -1, bool isVisible = true);
 	void addButton(int x, int y, const char * const label, bool isVisible);
 	void addListItem(const char *label);
 	void addSlider(int x, int y, const char * const label, int initPos, int length = 30, bool isVisible = true);
-	void addCheckButton(int x, int y, const char * const label, bool enabled, int length = - 1, bool isVisible = true);
+	void addCheckButton(int x, int y, const char * const label, bool enabled, int length = -1, bool isVisible = true);
 
 	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24, bool initial = false) :
 	type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY), listX(0), listY(0)

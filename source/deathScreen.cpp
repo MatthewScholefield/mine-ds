@@ -34,13 +34,13 @@ int deathScreenUpdate(touchPosition *touch)
 	if (!showingDeathScreen)
 		return 2;
 	int returnVal = 2;
-	if (keysDown()&KEY_TOUCH)
+	if (keysDown() & KEY_TOUCH)
 	{
 		touchRead(touch);
 		respawnButton.setColored(respawnButton.isTouching(touch->px, touch->py));
 		deathToTitleScreenButton.setColored(deathToTitleScreenButton.isTouching(touch->px, touch->py));
 	}
-	else if (keysUp()&KEY_TOUCH)
+	else if (keysUp() & KEY_TOUCH)
 	{
 		if (respawnButton.isTouching(touch->px, touch->py) && respawnButton.isColored)
 		{

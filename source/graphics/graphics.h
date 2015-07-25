@@ -23,8 +23,8 @@ enum GraphicType
 };
 
 /**
-	\file graphics.h
-	\breif A file used to define the Graphic structure.
+		\file graphics.h
+		\breif A file used to define the Graphic structure.
  */
 //! \breif Graphic Structure
 

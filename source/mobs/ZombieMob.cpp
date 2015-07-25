@@ -77,13 +77,9 @@ void ZombieMob::updateMob(WorldObject* world)
 	}
 }
 
-void ZombieMob::sendWifiUpdate()
-{
-}
+void ZombieMob::sendWifiUpdate() { }
 
-void ZombieMob::saveToFile(FILE* pFile)
-{
-}
+void ZombieMob::saveToFile(FILE* pFile) { }
 
 void ZombieMob::loadFromFile(FILE* pFile)
 {

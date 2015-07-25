@@ -60,26 +60,26 @@ void PlayerMob::hurt(int amount, int type)
 				message = "Steve";
 			switch (type)
 			{
-				case CACTUS_HURT:
-					message += " was pricked to death";
-					break;
-				case VOID_HURT:
-					message += " fell out of the world";
-					break;
-				case PLAYER_HURT:
-					message += " was killed by a player";
-					break;
-				case ZOMBIE_HURT:
-					message += " was eaten by a zombie";
-					break;
-				case HEROBRINE_HURT:
-					message += " was murdered by a Herobrine";
-					break;
-				case FALL_HURT:
-					message += " hit the ground too hard";
-					break;
-				default:
-					message += " died";
+			case CACTUS_HURT:
+				message += " was pricked to death";
+				break;
+			case VOID_HURT:
+				message += " fell out of the world";
+				break;
+			case PLAYER_HURT:
+				message += " was killed by a player";
+				break;
+			case ZOMBIE_HURT:
+				message += " was eaten by a zombie";
+				break;
+			case HEROBRINE_HURT:
+				message += " was murdered by a Herobrine";
+				break;
+			case FALL_HURT:
+				message += " hit the ground too hard";
+				break;
+			default:
+				message += " died";
 			}
 			message += "\n";
 			printGlobalMessage((char*) message.c_str());
@@ -216,9 +216,7 @@ void PlayerMob::updateMob(WorldObject* world)
 	}
 }
 
-void PlayerMob::sendWifiUpdate()
-{
-}
+void PlayerMob::sendWifiUpdate() { }
 
 void PlayerMob::saveToFile(FILE* pFile)
 {

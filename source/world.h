@@ -54,16 +54,16 @@ public:
 	int chests[MAX_CHESTS][CHEST_SLOTS][2];
 	Furnace *furnaces[MAX_FURNACES];
 
-	WorldObject() : blocks { }, data {}, brightness {}, lightemit {}, sun {}, bgblocks {}
+	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
 	, camY(0), camX(0), timeInWorld(1), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
-	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse {}, chests {}
+	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}
 
 	, furnaces() { }
 
-	~ WorldObject()
+	~WorldObject()
 	{
-		for (int i = 0; i < MAX_FURNACES; ++ i)
+		for (int i = 0; i < MAX_FURNACES; ++i)
 			if (furnaces[i])
 			{
 				delete furnaces[i];

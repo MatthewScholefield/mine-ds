@@ -103,19 +103,19 @@ static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
 {
 	switch (type)
 	{
-		case MOB_PLAYER:
-			return canPlayerMobSpawnHere(world, a, b);
-		case MOB_MULTIPLAYER:
-			return canMultiplayerMobSpawnHere(world, a, b);
-		case MOB_ZOMBIE:
-			return canZombieMobSpawnHere(world, a, b);
-		case MOB_ANIMAL:
-			return canAnimalMobSpawnHere(world, a, b);
-		case MOB_HEROBRINE:
-			return canHerobrineMobSpawnHere(world, a, b);
-		default:
-			showError("Checking spawn for non-existent mob type");
-			break;
+	case MOB_PLAYER:
+		return canPlayerMobSpawnHere(world, a, b);
+	case MOB_MULTIPLAYER:
+		return canMultiplayerMobSpawnHere(world, a, b);
+	case MOB_ZOMBIE:
+		return canZombieMobSpawnHere(world, a, b);
+	case MOB_ANIMAL:
+		return canAnimalMobSpawnHere(world, a, b);
+	case MOB_HEROBRINE:
+		return canHerobrineMobSpawnHere(world, a, b);
+	default:
+		showError("Checking spawn for non-existent mob type");
+		break;
 	}
 	return false;
 }
@@ -124,24 +124,24 @@ static void newMob(MobType type, int x = 0, int y = 0)
 {
 	switch (type)
 	{
-		case MOB_PLAYER:
-			mobs.push_back(BaseMob_ptr(new PlayerMob(x, y)));
-			break;
-		case MOB_MULTIPLAYER:
-			mobs.push_back(BaseMob_ptr(new MultiplayerMob(x, y)));
-			break;
-		case MOB_ZOMBIE:
-			mobs.push_back(BaseMob_ptr(new ZombieMob(x, y)));
-			break;
-		case MOB_ANIMAL:
-			mobs.push_back(BaseMob_ptr(new AnimalMob(x, y)));
-			break;
-		case MOB_HEROBRINE:
-			mobs.push_back(BaseMob_ptr(new HerobrineMob(x, y)));
-			break;
-		default:
-			showError("Unknown Mob Spawned");
-			break;
+	case MOB_PLAYER:
+		mobs.push_back(BaseMob_ptr(new PlayerMob(x, y)));
+		break;
+	case MOB_MULTIPLAYER:
+		mobs.push_back(BaseMob_ptr(new MultiplayerMob(x, y)));
+		break;
+	case MOB_ZOMBIE:
+		mobs.push_back(BaseMob_ptr(new ZombieMob(x, y)));
+		break;
+	case MOB_ANIMAL:
+		mobs.push_back(BaseMob_ptr(new AnimalMob(x, y)));
+		break;
+	case MOB_HEROBRINE:
+		mobs.push_back(BaseMob_ptr(new HerobrineMob(x, y)));
+		break;
+	default:
+		showError("Unknown Mob Spawned");
+		break;
 	}
 }
 
@@ -212,21 +212,21 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 	if (!touch)
 	{
 		delTouch = true;
-		touch=new touchPosition();
+		touch = new touchPosition();
 	}
 	const int EXTRA = 128;
 	int badMobs = 0;
 	int goodMobs = 0;
 	switch (deathScreenUpdate(touch))
 	{
-		case 0: //Respawn
-			spawnMob(MOB_PLAYER, world);
-			break;
-		case 1: //Titlescreen
-			quitGame();
-			break;
-		default: //Nothing
-			break;
+	case 0: //Respawn
+		spawnMob(MOB_PLAYER, world);
+		break;
+	case 1: //Titlescreen
+		quitGame();
+		break;
+	default: //Nothing
+		break;
 	}
 	if (!hasSpawnedPlayer)
 	{
@@ -270,8 +270,8 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 		spawnMobOn(MOB_ANIMAL, world, world->camX / 16 + rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
-			&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
-			world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
+				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
+				world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
 	if (delTouch)
 		delete touch;
 }

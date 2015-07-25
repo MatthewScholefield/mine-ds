@@ -26,6 +26,6 @@ public:
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
 	, deathScreen(false), tillBrightness(0) { }
 
-	~ PlayerMob() { }
+	~PlayerMob() { }
 };
 void playerMobInit();

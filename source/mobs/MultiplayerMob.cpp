@@ -9,10 +9,7 @@
 //ASDF?
 Graphic MplayerMobGraphic[3];
 
-void MultiplayerMob::calcMiscData(WorldObject* world)
-{
-
-}
+void MultiplayerMob::calcMiscData(WorldObject* world) { }
 
 void MultiplayerMob::hurt(int amount, int type)
 {
@@ -28,14 +25,9 @@ void MultiplayerMob::updateMob(WorldObject* world)
 	}
 }
 
-void MultiplayerMob::sendWifiUpdate()
-{
+void MultiplayerMob::sendWifiUpdate() { }
 
-}
-
-void MultiplayerMob::saveToFile(FILE* pFile)
-{
-}
+void MultiplayerMob::saveToFile(FILE* pFile) { }
 
 void MultiplayerMob::loadFromFile(FILE* pFile)
 {

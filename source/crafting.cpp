@@ -135,7 +135,7 @@ void craftItem()
 		for (InvBlock i : craftingRecipes[currentViewingRecipe].neededblocks)
 			subInventory(i.blockId, i.blockAmount);
 		addInventory(craftingRecipes[currentViewingRecipe].createdblock.blockId,
-				craftingRecipes[currentViewingRecipe].createdblock.blockAmount, true);
+					craftingRecipes[currentViewingRecipe].createdblock.blockAmount, true);
 	}
 }
 

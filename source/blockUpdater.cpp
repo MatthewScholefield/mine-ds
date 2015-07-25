@@ -30,17 +30,11 @@
 BlockUpdater* blockUpdaters[50];
 int numBlockUpdaters;
 
-BlockUpdater::BlockUpdater()
-{
-}
+BlockUpdater::BlockUpdater() { }
 
-void BlockUpdater::update(WorldObject* world, int x, int y, bool bg)
-{
-}
+void BlockUpdater::update(WorldObject* world, int x, int y, bool bg) { }
 
-void BlockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
-{
-}
+void BlockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
 
 void proceduralBlockUpdateInit()
 {

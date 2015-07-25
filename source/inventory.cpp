@@ -338,192 +338,192 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 
 	switch (showingInventory)
 	{
-		case 0:
-			if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
-				openInventory();
-			break;
-		case 1:
-			if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
+	case 0:
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
+			openInventory();
+		break;
+	case 1:
+		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
+		{
+			touchRead(&touch);
+			backButton.setColored(backButton.isTouching(touch.px, touch.py));
+			saveButton.setColored(saveButton.isTouching(touch.px, touch.py));
+			craftButton.setColored(craftButton.isTouching(touch.px, touch.py));
+			pageButton.setColored(pageButton.isTouching(touch.px, touch.py));
+		}
+		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH) //Release
+		{
+			if (oldX > 1 * 8 && oldY > (8 + 1)*8 && oldY < (8 + 6)*8 && oldX < 31 * 8)
 			{
-				touchRead(&touch);
-				backButton.setColored(backButton.isTouching(touch.px, touch.py));
-				saveButton.setColored(saveButton.isTouching(touch.px, touch.py));
-				craftButton.setColored(craftButton.isTouching(touch.px, touch.py));
-				pageButton.setColored(pageButton.isTouching(touch.px, touch.py));
-			}
-			else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH) //Release
-			{
-				if (oldX > 1 * 8 && oldY > (8 + 1)*8 && oldY < (8 + 6)*8 && oldX < 31 * 8)
-				{
-					int space = 0;
-					space += 15 * ((oldY - (8 + 1)*8) / (3 * 8));
-					space += (oldX - 8) / 16;
-					if (getOpenedChestID() != -1 && invSlot<-1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
-					{ //Source: Chest, Destination: Inventory
-						int tmpId, tmpAmount = 0;
-						tmpId = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID];
-						tmpAmount = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT];
-						world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
-						world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
-						mainPlayerInv.blocks[space].blockId = tmpId;
-						mainPlayerInv.blocks[space].blockAmount = tmpAmount;
-						invSlot = -1;
-						setSelectedSpace(-1);
-						changeInvSelectedGraphic(AIR);
-					}
-					else if (invSlot > -1 && !(mainPlayerInv.blocks[invSlot].blockId == AIR))
-					{ //Source: Inventory, Destination:Inventory
-						int tmpId, tmpAmount = 0;
-						tmpId = mainPlayerInv.blocks[invSlot].blockId;
-						tmpAmount = mainPlayerInv.blocks[invSlot].blockAmount;
-						mainPlayerInv.blocks[invSlot].blockId = mainPlayerInv.blocks[space].blockId;
-						mainPlayerInv.blocks[invSlot].blockAmount = mainPlayerInv.blocks[space].blockAmount;
-						mainPlayerInv.blocks[space].blockId = tmpId;
-						mainPlayerInv.blocks[space].blockAmount = tmpAmount;
-						invSlot = -1;
-						setSelectedSpace(-1);
-						changeInvSelectedGraphic(AIR);
-					}
-					else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH) && getOpenedChestID() != -1)
-					{
-						int chestID = getOpenedChestID();
-						for (int i = 0; i < CHEST_SLOTS; ++i)
-							if (world->chests[chestID][i][INDEX_BLOCK_ID] == AIR || world->chests[chestID][i][INDEX_AMOUNT] == AIR)
-							{
-								int tmpId, tmpAmount = 0;
-								tmpId = mainPlayerInv.blocks[space].blockId;
-								tmpAmount = mainPlayerInv.blocks[space].blockAmount;
-								mainPlayerInv.blocks[space].blockId = world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID];
-								mainPlayerInv.blocks[space].blockAmount = world->chests[getOpenedChestID()][i][INDEX_AMOUNT];
-								world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID] = tmpId;
-								world->chests[getOpenedChestID()][i][INDEX_AMOUNT] = tmpAmount;
-								invSlot = -1;
-								setSelectedSpace(getInventorySlot(-1));
-								changeInvSelectedGraphic(AIR);
-								break;
-							}
-					}
-					else
-					{
-						invSlot = space;
-						setSelectedSpace(space);
-						changeInvSelectedGraphic(mainPlayerInv.blocks[space].blockId);
-					}
-					updateInv(true);
-				}
-				else if (getOpenedChestID() != -1 && oldX > 1 * 8 && oldY > 1 * 8 && oldY < 6 * 8 && oldX < 31 * 8)
-				{
-					int space = 0;
-					space += 15 * ((oldY - 1 * 8) / (3 * 8));
-					space += (oldX - 8) / 16;
-					if (invSlot > -1 && mainPlayerInv.blocks[invSlot].blockId != AIR)
-					{ //Source: Inventory, Destination: Chest
-						int tmpId, tmpAmount = 0;
-						tmpId = mainPlayerInv.blocks[invSlot].blockId;
-						tmpAmount = mainPlayerInv.blocks[invSlot].blockAmount;
-						mainPlayerInv.blocks[invSlot].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-						mainPlayerInv.blocks[invSlot].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
-						world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
-						world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-						invSlot = -1;
-						setSelectedSpace(getInventorySlot(-1));
-						changeInvSelectedGraphic(AIR);
-					}
-					else if (invSlot < -1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
-					{ //Source: Chest, Destination: Chest
-						int tmpId, tmpAmount = 0;
-						tmpId = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID];
-						tmpAmount = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT];
-						world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-						world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
-						world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
-						world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-						invSlot = -1;
-						setSelectedSpace(-1);
-						changeInvSelectedGraphic(AIR);
-					}
-					else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
-					{
-						addInventory(world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID], world->chests[getOpenedChestID()][space][INDEX_AMOUNT], true);
-						world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = AIR;
-						world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = 0;
-						invSlot = -1;
-						setSelectedSpace(-1);
-						changeInvSelectedGraphic(AIR);
-					}
-					else
-					{
-						invSlot = -space - 2;
-						setSelectedSpace(-space - 2);
-						changeInvSelectedGraphic(world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID]);
-					}
-					updateInv(true);
-				}
-				else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
-					closeInventory();
-				else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))
-				{ //Crafting Menu
-					backButton.setVisible(false);
-					saveButton.setVisible(false);
-					craftButton.setVisible(false);
-					pageButton.setVisible(false);
-					craftingMenuInit();
-					showingInventory = 2;
-				}
-				else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))
-				{ //Save Game
-					if (saveWorld(world))
-						printLocalMessage("Saved Game\n");
-					else
-						printLocalMessage("Failed to Save Game\n");
-					saveButton.setColored(false);
-				}
-				else if (pageButton.isColored && pageButton.isTouching(oldX, oldY))
-				{ //Page Menu
-					backButton.setVisible(false);
-					saveButton.setVisible(false);
-					craftButton.setVisible(false);
-					pageButton.setVisible(false);
-					pageMenuInit();
-					showingInventory = 2;
-				}
-				else
-				{
+				int space = 0;
+				space += 15 * ((oldY - (8 + 1)*8) / (3 * 8));
+				space += (oldX - 8) / 16;
+				if (getOpenedChestID() != -1 && invSlot<-1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
+				{ //Source: Chest, Destination: Inventory
+					int tmpId, tmpAmount = 0;
+					tmpId = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID];
+					tmpAmount = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
+					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
+					mainPlayerInv.blocks[space].blockId = tmpId;
+					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					invSlot = -1;
 					setSelectedSpace(-1);
 					changeInvSelectedGraphic(AIR);
-					backButton.setColored(false);
-					saveButton.setColored(false);
-					craftButton.setColored(false);
-					pageButton.setColored(false);
 				}
+				else if (invSlot > -1 && !(mainPlayerInv.blocks[invSlot].blockId == AIR))
+				{ //Source: Inventory, Destination:Inventory
+					int tmpId, tmpAmount = 0;
+					tmpId = mainPlayerInv.blocks[invSlot].blockId;
+					tmpAmount = mainPlayerInv.blocks[invSlot].blockAmount;
+					mainPlayerInv.blocks[invSlot].blockId = mainPlayerInv.blocks[space].blockId;
+					mainPlayerInv.blocks[invSlot].blockAmount = mainPlayerInv.blocks[space].blockAmount;
+					mainPlayerInv.blocks[space].blockId = tmpId;
+					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
+					invSlot = -1;
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
+				}
+				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH) && getOpenedChestID() != -1)
+				{
+					int chestID = getOpenedChestID();
+					for (int i = 0; i < CHEST_SLOTS; ++i)
+						if (world->chests[chestID][i][INDEX_BLOCK_ID] == AIR || world->chests[chestID][i][INDEX_AMOUNT] == AIR)
+						{
+							int tmpId, tmpAmount = 0;
+							tmpId = mainPlayerInv.blocks[space].blockId;
+							tmpAmount = mainPlayerInv.blocks[space].blockAmount;
+							mainPlayerInv.blocks[space].blockId = world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID];
+							mainPlayerInv.blocks[space].blockAmount = world->chests[getOpenedChestID()][i][INDEX_AMOUNT];
+							world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID] = tmpId;
+							world->chests[getOpenedChestID()][i][INDEX_AMOUNT] = tmpAmount;
+							invSlot = -1;
+							setSelectedSpace(getInventorySlot(-1));
+							changeInvSelectedGraphic(AIR);
+							break;
+						}
+				}
+				else
+				{
+					invSlot = space;
+					setSelectedSpace(space);
+					changeInvSelectedGraphic(mainPlayerInv.blocks[space].blockId);
+				}
+				updateInv(true);
 			}
-			if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
+			else if (getOpenedChestID() != -1 && oldX > 1 * 8 && oldY > 1 * 8 && oldY < 6 * 8 && oldX < 31 * 8)
+			{
+				int space = 0;
+				space += 15 * ((oldY - 1 * 8) / (3 * 8));
+				space += (oldX - 8) / 16;
+				if (invSlot > -1 && mainPlayerInv.blocks[invSlot].blockId != AIR)
+				{ //Source: Inventory, Destination: Chest
+					int tmpId, tmpAmount = 0;
+					tmpId = mainPlayerInv.blocks[invSlot].blockId;
+					tmpAmount = mainPlayerInv.blocks[invSlot].blockAmount;
+					mainPlayerInv.blocks[invSlot].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
+					mainPlayerInv.blocks[invSlot].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
+					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
+					invSlot = -1;
+					setSelectedSpace(getInventorySlot(-1));
+					changeInvSelectedGraphic(AIR);
+				}
+				else if (invSlot < -1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
+				{ //Source: Chest, Destination: Chest
+					int tmpId, tmpAmount = 0;
+					tmpId = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID];
+					tmpAmount = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
+					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
+					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
+					invSlot = -1;
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
+				}
+				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
+				{
+					addInventory(world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID], world->chests[getOpenedChestID()][space][INDEX_AMOUNT], true);
+					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = AIR;
+					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = 0;
+					invSlot = -1;
+					setSelectedSpace(-1);
+					changeInvSelectedGraphic(AIR);
+				}
+				else
+				{
+					invSlot = -space - 2;
+					setSelectedSpace(-space - 2);
+					changeInvSelectedGraphic(world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID]);
+				}
+				updateInv(true);
+			}
+			else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
 				closeInventory();
-			oldX = touch.px;
-			oldY = touch.py;
-			break;
-		case 2:
-			if ((isSurvival() && craftingMenuUpdate(&touch)) || (!isSurvival() && pageMenuUpdate(&touch)))
-			{ //Leaving crafting/page menu
-				showingInventory = 1;
-				setMiningDisabled(true);
-				drawBackground();
-				clearText();
-				changeInvSelectedGraphic(AIR);
-				backButton.setVisible(true);
-				saveButton.setVisible(true);
-				craftButton.setVisible(isSurvival());
-				pageButton.setVisible(!isSurvival());
-				enableInvGraphics();
-				updatePageName();
+			else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))
+			{ //Crafting Menu
+				backButton.setVisible(false);
+				saveButton.setVisible(false);
+				craftButton.setVisible(false);
+				pageButton.setVisible(false);
+				craftingMenuInit();
+				showingInventory = 2;
+			}
+			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))
+			{ //Save Game
+				if (saveWorld(world))
+					printLocalMessage("Saved Game\n");
+				else
+					printLocalMessage("Failed to Save Game\n");
+				saveButton.setColored(false);
+			}
+			else if (pageButton.isColored && pageButton.isTouching(oldX, oldY))
+			{ //Page Menu
+				backButton.setVisible(false);
+				saveButton.setVisible(false);
+				craftButton.setVisible(false);
+				pageButton.setVisible(false);
+				pageMenuInit();
+				showingInventory = 2;
 			}
 			else
 			{
-				oldX = touch.px;
-				oldY = touch.py;
+				invSlot = -1;
+				setSelectedSpace(-1);
+				changeInvSelectedGraphic(AIR);
+				backButton.setColored(false);
+				saveButton.setColored(false);
+				craftButton.setColored(false);
+				pageButton.setColored(false);
 			}
-			break;
+		}
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
+			closeInventory();
+		oldX = touch.px;
+		oldY = touch.py;
+		break;
+	case 2:
+		if ((isSurvival() && craftingMenuUpdate(&touch)) || (!isSurvival() && pageMenuUpdate(&touch)))
+		{ //Leaving crafting/page menu
+			showingInventory = 1;
+			setMiningDisabled(true);
+			drawBackground();
+			clearText();
+			changeInvSelectedGraphic(AIR);
+			backButton.setVisible(true);
+			saveButton.setVisible(true);
+			craftButton.setVisible(isSurvival());
+			pageButton.setVisible(!isSurvival());
+			enableInvGraphics();
+			updatePageName();
+		}
+		else
+		{
+			oldX = touch.px;
+			oldY = touch.py;
+		}
+		break;
 	}
 	updateInv();
 }

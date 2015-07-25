@@ -29,7 +29,7 @@ void timeUpdate(WorldObject* world)
 		else if (world->timeInWorld >= 90) world->worldBrightness = 10;
 		else world->worldBrightness = 0;
 		setSkyColor(r[world->worldBrightness], g[world->worldBrightness], b[world->worldBrightness],
-				r2[world->worldBrightness], g2[world->worldBrightness], b2[world->worldBrightness]);
+					r2[world->worldBrightness], g2[world->worldBrightness], b2[world->worldBrightness]);
 		setSun(world->worldBrightness);
 		setBlockPalette(world->worldBrightness);
 		if (isWifi())

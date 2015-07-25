@@ -59,13 +59,9 @@ void HerobrineMob::updateMob(WorldObject* world)
 	}
 }
 
-void HerobrineMob::sendWifiUpdate()
-{
-}
+void HerobrineMob::sendWifiUpdate() { }
 
-void HerobrineMob::saveToFile(FILE* pFile)
-{
-}
+void HerobrineMob::saveToFile(FILE* pFile) { }
 
 void HerobrineMob::loadFromFile(FILE* pFile)
 {
