@@ -178,5 +178,5 @@ bool parsePropertyChar(const char *input)
 		return true;
 	if (strcmp(upperCase.c_str(), "DISABLED") == 0)
 		return false;
-	return NULL;
+	return nullptr;
 }

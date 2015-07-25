@@ -109,7 +109,7 @@ void newGame(gamemode_t mode, int seed)
 	world = new WorldObject();
 	// Zero for a random seed
 	if (seed == 0)
-		world->seed = time(NULL);
+		world->seed = time(nullptr);
 	else
 		world->seed = seed;
 	srand(world->seed);

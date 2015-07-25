@@ -57,7 +57,7 @@ void Handler(int packetID, int readlength)
 	Wifi_RxRawReadPacket(packetID, readlength, (unsigned short *) data);
 	msgtype = &data[32]; // Start of real data
 	message = strchr(msgtype, ' ');
-	if (message == NULL) return; // Invalid message (no space)
+	if (message == nullptr) return; // Invalid message (no space)
 	*message++ = '\0';
 	// msgtype contains everything before the first space
 	// and message contains everything after it

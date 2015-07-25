@@ -67,7 +67,7 @@ public:
 			if (furnaces[i])
 			{
 				delete furnaces[i];
-				furnaces[i] = NULL;
+				furnaces[i] = nullptr;
 			}
 	}
 };

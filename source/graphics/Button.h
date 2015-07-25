@@ -19,12 +19,12 @@ public:
 	void move(int dx, int dy);
 
 	Button(int x, int y, const char * const label, int length = -1, bool isVisible = true) :
-	UIElement(x, y, label, (length > 0 ? length : strlen(label) + 2), isVisible, NULL),
+	UIElement(x, y, label, (length > 0 ? length : strlen(label) + 2), isVisible, nullptr),
 	printX(length > 0 ? x + round(double(length) / 2.0 - double(strlen(label)) / 2.0) : x + 1),
 	printY(y + 1), isColored(false) { }
 
 	Button(int x, int y, const char * const label, bool isVisible) :
-	UIElement(x, y, label, strlen(label) + 2, isVisible, NULL),
+	UIElement(x, y, label, strlen(label) + 2, isVisible, nullptr),
 	printX(length > 0 ? x + round(double(length) / 2.0 - double(strlen(label)) / 2.0) : x + 1),
 	printY(y + 1), isColored(false) { }
 
