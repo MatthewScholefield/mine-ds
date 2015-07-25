@@ -67,7 +67,7 @@ BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
 	}
 	if (index != -1)
 		return mobs[index];
-	return NULL;
+	return nullptr;
 }
 
 int getPlayerX()
@@ -80,7 +80,7 @@ BaseMob_ptr isMobAt(int x, int y)
 	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
 		if (spriteCol(mobs[i]->x - mobs[i]->sx / 2 + 1, mobs[i]->y - mobs[i]->sy / 2 + 1, x - 1, y - 1, mobs[i]->sx, mobs[i]->sy, 1, 1) && mobs[i]->alive == true)
 			return mobs[i];
-	return NULL;
+	return nullptr;
 }
 
 void mobsReset(bool playerSpawned)
