@@ -108,14 +108,14 @@ int sapling(int leafID)
 {
 	switch (leafID)
 	{
-		case LEAVES_OAK:
-			return SAPLING_OAK;
-		case LEAVES_JUNGLE:
-			return SAPLING_JUNGLE;
-		case LEAVES_SPRUCE:
-			return SAPLING_SPRUCE;
-		default:
-			return BLOCK_DEBUG; //Random block
+	case LEAVES_OAK:
+		return SAPLING_OAK;
+	case LEAVES_JUNGLE:
+		return SAPLING_JUNGLE;
+	case LEAVES_SPRUCE:
+		return SAPLING_SPRUCE;
+	default:
+		return BLOCK_DEBUG; //Random block
 	}
 }
 
@@ -128,14 +128,14 @@ int leaf(int saplingID)
 {
 	switch (saplingID)
 	{
-		case SAPLING_OAK:
-			return LEAVES_OAK;
-		case SAPLING_JUNGLE:
-			return LEAVES_JUNGLE;
-		case SAPLING_SPRUCE:
-			return LEAVES_SPRUCE;
-		default:
-			return BLOCK_DEBUG; //Random block
+	case SAPLING_OAK:
+		return LEAVES_OAK;
+	case SAPLING_JUNGLE:
+		return LEAVES_JUNGLE;
+	case SAPLING_SPRUCE:
+		return LEAVES_SPRUCE;
+	default:
+		return BLOCK_DEBUG; //Random block
 	}
 }
 
@@ -143,49 +143,49 @@ SoundAudio getBlockAudio(int blockID)
 {
 	switch (blockID)
 	{
-		case SAND:
-			return SOUND_SAND;
-		case SNOW_GRASS:
-			return SOUND_SNOW;
-		case GRAVEL:
-			return SOUND_GRAVEL;
-		case BLACK_WOOL:
-		case RED_WOOL:
-		case GREEN_WOOL:
-		case BROWN_WOOL:
-		case BlUE_WOOL:
-		case PURPLE_WOOL:
-		case CYAN_WOOL:
-		case GRAY_WOOL:
-		case WHITE_WOOL:
-		case DARK_GRAY_WOOL:
-		case PINK_WOOL:
-		case LIME_WOOL:
-		case YELLOW_WOOL:
-		case LIGHT_BLUE_WOOL:
-		case MAGENTA_WOOL:
-		case ORANGE_WOOL:
-			return SOUND_CLOTH;
-		case LEAVES_JUNGLE:
-		case LEAVES_OAK:
-		case LEAVES_SPRUCE:
-		case SAPLING_JUNGLE:
-		case SAPLING_OAK:
-		case SAPLING_SPRUCE:
-			return SOUND_GRASS;
-		default:
-			break;
+	case SAND:
+		return SOUND_SAND;
+	case SNOW_GRASS:
+		return SOUND_SNOW;
+	case GRAVEL:
+		return SOUND_GRAVEL;
+	case BLACK_WOOL:
+	case RED_WOOL:
+	case GREEN_WOOL:
+	case BROWN_WOOL:
+	case BlUE_WOOL:
+	case PURPLE_WOOL:
+	case CYAN_WOOL:
+	case GRAY_WOOL:
+	case WHITE_WOOL:
+	case DARK_GRAY_WOOL:
+	case PINK_WOOL:
+	case LIME_WOOL:
+	case YELLOW_WOOL:
+	case LIGHT_BLUE_WOOL:
+	case MAGENTA_WOOL:
+	case ORANGE_WOOL:
+		return SOUND_CLOTH;
+	case LEAVES_JUNGLE:
+	case LEAVES_OAK:
+	case LEAVES_SPRUCE:
+	case SAPLING_JUNGLE:
+	case SAPLING_OAK:
+	case SAPLING_SPRUCE:
+		return SOUND_GRASS;
+	default:
+		break;
 	}
 	switch (blockType[blockID])
 	{
-		case SOIL:
-			return SOUND_GRASS;
-		case WOOD:
-			return SOUND_WOOD;
-		case STONEBLOCK:
-			return SOUND_STONE;
-		default:
-			return SOUND_STONE;
+	case SOIL:
+		return SOUND_GRASS;
+	case WOOD:
+		return SOUND_WOOD;
+	case STONEBLOCK:
+		return SOUND_STONE;
+	default:
+		return SOUND_STONE;
 	}
 }
 
@@ -227,13 +227,13 @@ bool isGrassBlock(int blockID)
 {
 	switch (blockID)
 	{
-		case SNOW_GRASS:
-		case GRASS:
-		case MYCELIUM:
-		case GRASS_JUNGLE:
-			return true;
-		default:
-			return false;
+	case SNOW_GRASS:
+	case GRASS:
+	case MYCELIUM:
+	case GRASS_JUNGLE:
+		return true;
+	default:
+		return false;
 	}
 }
 
@@ -271,12 +271,12 @@ void initBlockProperties()
 	{
 		switch (blockType[i])
 		{
-			case WOOD:
-				hardness[i] = 5;
-				break; //Wood hardness is 5
-			default:
-				hardness[i] = 1;
-				break; //Default hardness is 1
+		case WOOD:
+			hardness[i] = 5;
+			break; //Wood hardness is 5
+		default:
+			hardness[i] = 1;
+			break; //Default hardness is 1
 		}
 		if (item(i))
 			hardness[i] = -1;
@@ -306,9 +306,9 @@ bool canBreak(int blockID) //checks a blockvalue
 		return true;
 	switch (blockID)
 	{
-		case BEDROCK:
-		case AIR:
-			return false;
+	case BEDROCK:
+	case AIR:
+		return false;
 	}
 	return true;
 }
@@ -325,37 +325,37 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 		{
 			switch (blockID)
 			{
-				case COAL_ORE:
-					blockID = COAL;
-					break; //Any pickaxe can break coal
-				case STONE:
-					blockID = COBBLESTONE;
-					break;
-				case IRON_ORE:
-					if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return false;
-					break;
-				case GOLD_ORE:
-					if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return false;
-					break;
-				case DIAMOND_ORE:
-					if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return false;
-					break;
+			case COAL_ORE:
+				blockID = COAL;
+				break; //Any pickaxe can break coal
+			case STONE:
+				blockID = COBBLESTONE;
+				break;
+			case IRON_ORE:
+				if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return false;
+				break;
+			case GOLD_ORE:
+				if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return false;
+				break;
+			case DIAMOND_ORE:
+				if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return false;
+				break;
 			}
 		}
 	}
 
 	switch (blockID)
 	{
-		case SNOW_TOP:
-			return false;
-			break; //Can break snow tops, just they won't be added to the inventory
-		case AIR:
-			return false;
-			break;
-		case MUSHROOM_STEM:
-		case MUSHROOM_TOP:
-			return false;
-			break;
+	case SNOW_TOP:
+		return false;
+		break; //Can break snow tops, just they won't be added to the inventory
+	case AIR:
+		return false;
+		break;
+	case MUSHROOM_STEM:
+	case MUSHROOM_TOP:
+		return false;
+		break;
 	}
 
 	return true;
@@ -365,11 +365,11 @@ int getGenericBlock(int blockID)
 {
 	switch (blockID)
 	{
-		case DOOR_OPEN_TOP:
-		case DOOR_OPEN_BOTTOM:
-		case DOOR_CLOSED_TOP:
-		case DOOR_CLOSED_BOTTOM:
-			return DOOR_ITEM;
+	case DOOR_OPEN_TOP:
+	case DOOR_OPEN_BOTTOM:
+	case DOOR_CLOSED_TOP:
+	case DOOR_CLOSED_BOTTOM:
+		return DOOR_ITEM;
 	}
 	return blockID;
 }
@@ -380,53 +380,53 @@ int getSurvivalItem(int blockID)
 		return blockID;
 	switch (blockID)
 	{
-		case GRASS:
-		case GRASS_JUNGLE:
-		case SNOW_GRASS:
-		case MYCELIUM:
-			return DIRT;
-			break;
-		case TALL_GRASS:
-			return rand() % 3 == 1 ? SEEDS_WHEAT : AIR;
-			break;
-		case LEAVES_OAK:
-		case LEAVES_SPRUCE:
-			if (rand() % 3 != 0)
-				return AIR;
-			else
-				return sapling(blockID);
-		case LEAVES_JUNGLE:
-			if (rand() % 5 != 0)
-				return AIR;
-			else
-				return sapling(blockID);
-		case BEDROCK:
-			return false;
-			break; //Cannot break bedrock
-		case SNOW_TOP:
+	case GRASS:
+	case GRASS_JUNGLE:
+	case SNOW_GRASS:
+	case MYCELIUM:
+		return DIRT;
+		break;
+	case TALL_GRASS:
+		return rand() % 3 == 1 ? SEEDS_WHEAT : AIR;
+		break;
+	case LEAVES_OAK:
+	case LEAVES_SPRUCE:
+		if (rand() % 3 != 0)
 			return AIR;
-			break; //Can break snow tops, just they won't be added to the inventory
-		case MUSHROOM_STEM:
-		case MUSHROOM_TOP:
+		else
+			return sapling(blockID);
+	case LEAVES_JUNGLE:
+		if (rand() % 5 != 0)
 			return AIR;
-			break;
-		case COAL_ORE:
-			return COAL;
-			break; //Any pickaxe can break coal
-		case STONE:
-			return COBBLESTONE;
-			break;
-		case IRON_ORE:
-			return INGOT_IRON;
-			break;
-		case GOLD_ORE:
-			return INGOT_GOLD;
-			break;
-		case DIAMOND_ORE:
-			return DIAMOND;
-			break;
-		default:
-			break;
+		else
+			return sapling(blockID);
+	case BEDROCK:
+		return false;
+		break; //Cannot break bedrock
+	case SNOW_TOP:
+		return AIR;
+		break; //Can break snow tops, just they won't be added to the inventory
+	case MUSHROOM_STEM:
+	case MUSHROOM_TOP:
+		return AIR;
+		break;
+	case COAL_ORE:
+		return COAL;
+		break; //Any pickaxe can break coal
+	case STONE:
+		return COBBLESTONE;
+		break;
+	case IRON_ORE:
+		return INGOT_IRON;
+		break;
+	case GOLD_ORE:
+		return INGOT_GOLD;
+		break;
+	case DIAMOND_ORE:
+		return DIAMOND;
+		break;
+	default:
+		break;
 	}
 	return getGenericBlock(blockID);
 }

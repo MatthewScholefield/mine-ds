@@ -28,10 +28,10 @@ public:
 	, amount(amount), floatY(0), brightness(0), loaded(false)
 	{
 		if (vx == 54321.f)
-			this->vx = (float((rand() % 10) + 40) / 100.f) * ((rand() % 2) ? - 1.f : 1.f);
+			this->vx = (float((rand() % 10) + 40) / 100.f) * ((rand() % 2) ? -1.f : 1.f);
 		else
 			this->vx = vx;
 	}
 
-	~ ItemMob() { }
+	~ItemMob() { }
 };

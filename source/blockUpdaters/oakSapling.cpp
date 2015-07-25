@@ -17,15 +17,15 @@ void saplingChanceUpdate(WorldObject *world, int x, int y, bool bg)
 		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 		switch (blockXY)
 		{
-			case SAPLING_OAK:
-				growOakTree(world, x, y);
-				break;
-			case SAPLING_JUNGLE:
-				growJungleTree(world, x, y);
-				break;
-			case SAPLING_SPRUCE:
-				growSpruceTree(world, x, y);
-				break;
+		case SAPLING_OAK:
+			growOakTree(world, x, y);
+			break;
+		case SAPLING_JUNGLE:
+			growJungleTree(world, x, y);
+			break;
+		case SAPLING_SPRUCE:
+			growSpruceTree(world, x, y);
+			break;
 		}
 		blockXY = AIR;
 	}
@@ -39,15 +39,15 @@ void saplingUpdate(WorldObject *world, int x, int y, bool bg)
 	int requiredBlock = AIR;
 	switch (blockXY)
 	{
-		case SAPLING_OAK:
-			requiredBlock = GRASS;
-			break;
-		case SAPLING_JUNGLE:
-			requiredBlock = GRASS_JUNGLE;
-			break;
-		case SAPLING_SPRUCE:
-			requiredBlock = GRASS;
-			break;
+	case SAPLING_OAK:
+		requiredBlock = GRASS;
+		break;
+	case SAPLING_JUNGLE:
+		requiredBlock = GRASS_JUNGLE;
+		break;
+	case SAPLING_SPRUCE:
+		requiredBlock = GRASS;
+		break;
 	}
 
 	if (blockBelowXY != requiredBlock || isBlockWalkThrough(blockBelowXY))

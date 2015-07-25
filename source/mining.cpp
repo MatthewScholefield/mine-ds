@@ -40,22 +40,22 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg)
 	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
 	switch (*blockXY)
 	{
-		case CHEST:
-			destroyChest(world, x, y, bg);
-			break;
-		case FURNACE:
-			destroyFurnace(world, x, y, bg);
-			break;
-		default:
-			if (canBreak(*blockXY))
-			{
-				if (canDropItem(*blockXY))
-					createItemMob(x, y, getSurvivalItem(*blockXY));
-				else if (!isSurvival())
-					addInventory(*blockXY);
-				*blockXY = AIR;
-			}
-			break;
+	case CHEST:
+		destroyChest(world, x, y, bg);
+		break;
+	case FURNACE:
+		destroyFurnace(world, x, y, bg);
+		break;
+	default:
+		if (canBreak(*blockXY))
+		{
+			if (canDropItem(*blockXY))
+				createItemMob(x, y, getSurvivalItem(*blockXY));
+			else if (!isSurvival())
+				addInventory(*blockXY);
+			*blockXY = AIR;
+		}
+		break;
 	}
 	updateBrightnessAround(world, x, y);
 }
@@ -69,21 +69,21 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 	{
 		switch (blockID)
 		{
-			case CHEST:
-				createChest(world, x, y, bg);
-				break;
-			case FURNACE:
-				createFurnace(world, x, y, bg);
-				break;
-			default:
-				if (!item(blockID))
-				{
-					if (bg)
-						world->bgblocks[x][y] = blockID;
-					else
-						world->blocks[x][y] = blockID;
-				}
-				break;
+		case CHEST:
+			createChest(world, x, y, bg);
+			break;
+		case FURNACE:
+			createFurnace(world, x, y, bg);
+			break;
+		default:
+			if (!item(blockID))
+			{
+				if (bg)
+					world->bgblocks[x][y] = blockID;
+				else
+					world->blocks[x][y] = blockID;
+			}
+			break;
 		}
 	}
 	updateBrightnessAround(world, x, y);
@@ -97,15 +97,15 @@ int destroyTime(int blockID, int selectedBlock) //Calculated the required frames
 	int blockTypeXY = getType(blockID);
 	switch (getType(selectedBlock)) //Ensures tools only work for correct material
 	{
-		case AXE:
-			if (blockTypeXY != WOOD) handHardness = 1;
-			break;
-		case PICKAXE:
-			if (blockTypeXY != STONEBLOCK) handHardness = 1;
-			break;
-		case SHOVEL:
-			if (blockTypeXY != SOIL) handHardness = 1;
-			break;
+	case AXE:
+		if (blockTypeXY != WOOD) handHardness = 1;
+		break;
+	case PICKAXE:
+		if (blockTypeXY != STONEBLOCK) handHardness = 1;
+		break;
+	case SHOVEL:
+		if (blockTypeXY != SOIL) handHardness = 1;
+		break;
 	}
 	int val = getHardness(blockID)*10 / handHardness;
 	if (val > ACTIVATE_DELAY)
@@ -127,44 +127,44 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 {
 	switch (bg ? world->bgblocks[x][y] : world->blocks[x][y])
 	{
-		case AIR:
-		{
-			placeBlock(world, x, y, bg);
-			playBlockSfx(bg ? world->bgblocks[x][y] : world->blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world->camX));
-			break;
-		}
-		case CHEST:
-			openChest(world, x, y, bg);
-			break;
-		case FURNACE:
-			//openFurnace(world,x,y,bg);
-			break;
-		case DOOR_OPEN_BOTTOM:
-			--y;
-		case DOOR_OPEN_TOP:
-		{
-			int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-			int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
-			blockXY = DOOR_CLOSED_TOP;
-			blockBelowXY = DOOR_CLOSED_BOTTOM;
-			playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world->camX));
-			break;
-		}
-		case DOOR_CLOSED_BOTTOM:
-			--y;
-		case DOOR_CLOSED_TOP:
-		{
-			int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-			int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
-			blockXY = DOOR_OPEN_TOP;
-			blockBelowXY = DOOR_OPEN_BOTTOM;
-			playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world->camX));
-			break;
-		}
-		default:
-			if (!isSurvival())
-				destroyBlock(world, x, y, bg);
-			break;
+	case AIR:
+	{
+		placeBlock(world, x, y, bg);
+		playBlockSfx(bg ? world->bgblocks[x][y] : world->blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world->camX));
+		break;
+	}
+	case CHEST:
+		openChest(world, x, y, bg);
+		break;
+	case FURNACE:
+		//openFurnace(world,x,y,bg);
+		break;
+	case DOOR_OPEN_BOTTOM:
+		--y;
+	case DOOR_OPEN_TOP:
+	{
+		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+		int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+		blockXY = DOOR_CLOSED_TOP;
+		blockBelowXY = DOOR_CLOSED_BOTTOM;
+		playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world->camX));
+		break;
+	}
+	case DOOR_CLOSED_BOTTOM:
+		--y;
+	case DOOR_CLOSED_TOP:
+	{
+		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+		int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+		blockXY = DOOR_OPEN_TOP;
+		blockBelowXY = DOOR_OPEN_BOTTOM;
+		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world->camX));
+		break;
+	}
+	default:
+		if (!isSurvival())
+			destroyBlock(world, x, y, bg);
+		break;
 	}
 }
 
@@ -176,24 +176,24 @@ bool attackMob(WorldObject *world, int px, int py)
 		int damage;
 		switch (getBlockID(getSelectedSlot()))
 		{
-			case SWORD_DIAMOND:
-				damage = 6;
-				break;
-			case SWORD_IRON:
-				damage = 4;
-				break;
-			case SWORD_GOLD:
-				damage = 3;
-				break;
-			case SWORD_STONE:
-				damage = 3;
-				break;
-			case SWORD_WOOD:
-				damage = 2;
-				break;
-			default:
-				damage = 1;
-				break;
+		case SWORD_DIAMOND:
+			damage = 6;
+			break;
+		case SWORD_IRON:
+			damage = 4;
+			break;
+		case SWORD_GOLD:
+			damage = 3;
+			break;
+		case SWORD_STONE:
+			damage = 3;
+			break;
+		case SWORD_WOOD:
+			damage = 2;
+			break;
+		default:
+			damage = 1;
+			break;
 		}
 		targetMob->hurt(damage, PLAYER_HURT);
 		return true;

@@ -216,7 +216,7 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 			{
 				if (isSpriteBlock(world->blocks[i][j]) && world->bgblocks[i][j] != AIR
 						&& showGraphic(&blockGraphics[getSpriteIndex(world->blocks[i][j])]
-						, (i * 16) - screen_x, (j * 16) - screen_y))
+									, (i * 16) - screen_x, (j * 16) - screen_y))
 					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
 				else if (world->blocks[i][j] != AIR)
 					renderBlock(world, i, j, world->blocks[i][j]);

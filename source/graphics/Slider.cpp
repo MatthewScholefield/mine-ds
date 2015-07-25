@@ -46,38 +46,38 @@ bool Slider::update(int state, int touchX, int touchY)
 {
 	switch (state)
 	{
-		case STATE_TAP:
-			if (isTouching(touchX, touchY))
+	case STATE_TAP:
+		if (isTouching(touchX, touchY))
+		{
+			playSound(SOUND_CLICK);
+			dragging = true;
+			drawCenterStrip();
+		}
+		break;
+	case STATE_HOLD:
+		if (dragging)
+		{
+			int rawX = touchX / 8 - x - 2;
+			if (rawX > length - 5)
+				rawX = length - 5;
+			else if (rawX < 0)
+				rawX = 0;
+			if (tilePos != rawX)
 			{
-				playSound(SOUND_CLICK);
-				dragging = true;
+				tilePos = rawX;
 				drawCenterStrip();
 			}
-			break;
-		case STATE_HOLD:
-			if (dragging)
-			{
-				int rawX = touchX / 8 - x - 2;
-				if (rawX > length - 5)
-					rawX = length - 5;
-				else if (rawX < 0)
-					rawX = 0;
-				if (tilePos != rawX)
-				{
-					tilePos = rawX;
-					drawCenterStrip();
-				}
-			}
-			break;
-		case STATE_RELEASE:
-			if (dragging)
-			{
-				dragging = false;
-				if (setData)
-					setData(this, tilePos, false);
-				drawCenterStrip();
-			}
-			break;
+		}
+		break;
+	case STATE_RELEASE:
+		if (dragging)
+		{
+			dragging = false;
+			if (setData)
+				setData(this, tilePos, false);
+			drawCenterStrip();
+		}
+		break;
 	}
 	return false;
 }

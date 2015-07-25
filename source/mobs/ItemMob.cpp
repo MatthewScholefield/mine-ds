@@ -24,10 +24,7 @@ bool ItemMob::isMyPlayer()
 	return false;
 }
 
-void ItemMob::calcMiscData(WorldObject* world)
-{
-
-}
+void ItemMob::calcMiscData(WorldObject* world) { }
 
 void ItemMob::updateMob(WorldObject* world)
 {
@@ -88,13 +85,9 @@ void ItemMob::updateMob(WorldObject* world)
 		playSound(SOUND_POP, 155 + rand() % 100);
 }
 
-void ItemMob::sendWifiUpdate()
-{
-}
+void ItemMob::sendWifiUpdate() { }
 
-void ItemMob::saveToFile(FILE* pFile)
-{
-}
+void ItemMob::saveToFile(FILE* pFile) { }
 
 void ItemMob::loadFromFile(FILE* pFile)
 {
@@ -105,12 +98,12 @@ void ItemMob::hurt(int hamount, int type)
 {
 	switch (type)
 	{
-		case CACTUS_HURT:
-			if (rand() % 10 == 1)
-				health = 0;
-			;
-			break;
-		default:
-			break;
+	case CACTUS_HURT:
+		if (rand() % 10 == 1)
+			health = 0;
+		;
+		break;
+	default:
+		break;
 	}
 }
