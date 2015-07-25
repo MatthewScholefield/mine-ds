@@ -63,42 +63,42 @@ KEYPAD_BITS askForKeyScreen()
 
 	switch (listMenu(X, Y, 12, 6))
 	{
-		case 1:
-			key = KEY_UP;
-			break;
-		case 2:
-			key = KEY_DOWN;
-			break;
-		case 3:
-			key = KEY_LEFT;
-			break;
-		case 4:
-			key = KEY_RIGHT;
-			break;
-		case 5:
-			key = KEY_A;
-			break;
-		case 6:
-			key = KEY_B;
-			break;
-		case 7:
-			key = KEY_X;
-			break;
-		case 8:
-			key = KEY_Y;
-			break;
-		case 9:
-			key = KEY_L;
-			break;
-		case 10:
-			key = KEY_R;
-			break;
-		case 11:
-			key = KEY_START;
-			break;
-		case 12:
-			key = KEY_SELECT;
-			break;
+	case 1:
+		key = KEY_UP;
+		break;
+	case 2:
+		key = KEY_DOWN;
+		break;
+	case 3:
+		key = KEY_LEFT;
+		break;
+	case 4:
+		key = KEY_RIGHT;
+		break;
+	case 5:
+		key = KEY_A;
+		break;
+	case 6:
+		key = KEY_B;
+		break;
+	case 7:
+		key = KEY_X;
+		break;
+	case 8:
+		key = KEY_Y;
+		break;
+	case 9:
+		key = KEY_L;
+		break;
+	case 10:
+		key = KEY_R;
+		break;
+	case 11:
+		key = KEY_START;
+		break;
+	case 12:
+		key = KEY_SELECT;
+		break;
 	}
 	return key;
 }
@@ -110,38 +110,38 @@ int getTappedAction(int column) //A dirty way of finding which action was tapped
 	//Replace: case \2: return \1; break;
 	switch (column)
 	{
-		case 1:
-			return ACTION_MOVE_LEFT;
-			break;
-		case 2:
-			return ACTION_MOVE_RIGHT;
-			break;
-		case 3:
-			return ACTION_JUMP;
-			break;
-		case 4:
-			return ACTION_CROUCH;
-			break;
-		case 5:
-			return ACTION_ITEM_LEFT;
-			break;
-		case 6:
-			return ACTION_ITEM_RIGHT;
-			break;
-		case 7:
-			return ACTION_SWITCH_SCREEN;
-			break;
-		case 8:
-			return ACTION_MENU;
-			break;
-		case 9:
-			return ACTION_CLIMB;
-			break;
-		case 10:
-			return ACTION_DROP;
-			break;
-		default:
-			return -1;
+	case 1:
+		return ACTION_MOVE_LEFT;
+		break;
+	case 2:
+		return ACTION_MOVE_RIGHT;
+		break;
+	case 3:
+		return ACTION_JUMP;
+		break;
+	case 4:
+		return ACTION_CROUCH;
+		break;
+	case 5:
+		return ACTION_ITEM_LEFT;
+		break;
+	case 6:
+		return ACTION_ITEM_RIGHT;
+		break;
+	case 7:
+		return ACTION_SWITCH_SCREEN;
+		break;
+	case 8:
+		return ACTION_MENU;
+		break;
+	case 9:
+		return ACTION_CLIMB;
+		break;
+	case 10:
+		return ACTION_DROP;
+		break;
+	default:
+		return -1;
 	}
 }
 
@@ -182,17 +182,17 @@ void texturePackScreen()
 		int fileNum = menu.activate();
 		switch (fileNum)
 		{
-			case 0:
-				return;
-			case 1: //Default texture
-				loadDefaultTexture();
-				updateTexture();
-				drawWorld();
-				drawBackground(!menuFirstSlot);
-				menu.draw();
-				return;
-			default:
-				break;
+		case 0:
+			return;
+		case 1: //Default texture
+			loadDefaultTexture();
+			updateTexture();
+			drawWorld();
+			drawBackground(!menuFirstSlot);
+			menu.draw();
+			return;
+		default:
+			break;
 		}
 		++fileNum; //To remove the /..
 		textureDir = opendir(MINE_DS_FOLDER TEXTURE_FOLDER);
@@ -314,15 +314,15 @@ void controlsScreen()
 
 		switch (menu.activate())
 		{
-			case 1: //View controls
-				viewControls();
-				break;
-			case 2: //Edit controls
-				setControlsScreen();
-				break;
-			default: //Back
-				exit = true;
-				break;
+		case 1: //View controls
+			viewControls();
+			break;
+		case 2: //Edit controls
+			setControlsScreen();
+			break;
+		default: //Back
+			exit = true;
+			break;
 		}
 		if (!exit)
 			startTransition(false);
@@ -411,21 +411,21 @@ void settingsScreen()
 
 		switch (menu.activate())
 		{
-			case 1: // controls
-				controlsScreen();
-				break;
-			case 2: //Audio
-				audioScreen();
-				break;
-			case 3: // game options
-				gameOptions();
-				break;
-			case 4: // Graphics options
-				texturePackScreen();
-				break;
-			default: // back button
-				exit = true;
-				break;
+		case 1: // controls
+			controlsScreen();
+			break;
+		case 2: //Audio
+			audioScreen();
+			break;
+		case 3: // game options
+			gameOptions();
+			break;
+		case 4: // Graphics options
+			texturePackScreen();
+			break;
+		default: // back button
+			exit = true;
+			break;
 		}
 		if (!exit)
 			startTransition(false);
@@ -449,27 +449,27 @@ void gameModeScreen()
 
 	switch (menu.activate())
 	{
-		case 1: // creative mode
-			// TODO: Add menu to set game seed
-			printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Generating creative game");
-			newGame(GAMEMODE_CREATIVE, 0);
-			break;
-		case 2: // survival mode
-			// TODO: Add menu to set game seed
-			printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Generating survival game");
-			newGame(GAMEMODE_SURVIVAL, 0);
-			break;
-		case 3: // load game
-			printXY(1, 22, "Loading game");
-			if (!loadGame())
-			{
-				printXY(1, 22, "Failed to load game");
-				sleepThread(1);
-				return;
-			}
-			break;
-		default: // back button
+	case 1: // creative mode
+		// TODO: Add menu to set game seed
+		printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Generating creative game");
+		newGame(GAMEMODE_CREATIVE, 0);
+		break;
+	case 2: // survival mode
+		// TODO: Add menu to set game seed
+		printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Generating survival game");
+		newGame(GAMEMODE_SURVIVAL, 0);
+		break;
+	case 3: // load game
+		printXY(1, 22, "Loading game");
+		if (!loadGame())
+		{
+			printXY(1, 22, "Failed to load game");
+			sleepThread(1);
 			return;
+		}
+		break;
+	default: // back button
+		return;
 	}
 	startGame();
 	menuFirstSlot = false;
@@ -493,17 +493,17 @@ void multiplayerScreen()
 
 	switch (menu.activate())
 	{
-		case 1: // create game
-			startMultiplayerGame(true);
-			break;
-		case 2: // TODO: load game
-			startMultiplayerGame(true);
-			break;
-		case 3: // join game
-			joinGame();
-			break;
-		default: // back button
-			return;
+	case 1: // create game
+		startMultiplayerGame(true);
+		break;
+	case 2: // TODO: load game
+		startMultiplayerGame(true);
+		break;
+	case 3: // join game
+		joinGame();
+		break;
+	default: // back button
+		return;
 	}
 }
 
@@ -539,18 +539,18 @@ void titleScreen()
 
 		switch (menu.activate())
 		{
-			case 1: // single player
-				gameModeScreen();
-				break;
-			case 2: // settings
-				settingsScreen();
-				break;
-			case 3: //Credits
-				creditsScreen();
-				break;
-			case 4: //Power
-				poweroff = true;
-				break;
+		case 1: // single player
+			gameModeScreen();
+			break;
+		case 2: // settings
+			settingsScreen();
+			break;
+		case 3: //Credits
+			creditsScreen();
+			break;
+		case 4: //Power
+			poweroff = true;
+			break;
 		}
 		startTransition(false);
 	}

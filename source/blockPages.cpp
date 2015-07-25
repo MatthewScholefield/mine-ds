@@ -27,14 +27,14 @@ const char *getPageName(int page)
 {
 	switch (page)
 	{
-		case PAGE_WOOL: return "Wool";
-		case PAGE_BLOCKS: return "Blocks";
-		case PAGE_CRAFTING: return "Crafting";
-		case PAGE_PLANTS: return "Plants";
-		case PAGE_ORES: return "Ores";
-		case PAGE_TOOLS: return "Tools";
-		default:
-			return "Error";
+	case PAGE_WOOL: return "Wool";
+	case PAGE_BLOCKS: return "Blocks";
+	case PAGE_CRAFTING: return "Crafting";
+	case PAGE_PLANTS: return "Plants";
+	case PAGE_ORES: return "Ores";
+	case PAGE_TOOLS: return "Tools";
+	default:
+		return "Error";
 	}
 }
 

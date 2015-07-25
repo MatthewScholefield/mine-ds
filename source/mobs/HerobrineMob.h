@@ -23,8 +23,8 @@ public:
 	bool isMyPlayer();
 
 	HerobrineMob(int x, int y) : BaseMob(MOB_HEROBRINE, x, y, 6, 32),
-	waitingCount(- rand() % 4000) { }
+	waitingCount(-rand() % 4000) { }
 
-	~ HerobrineMob() { }
+	~HerobrineMob() { }
 };
 void herobrineMobInit();

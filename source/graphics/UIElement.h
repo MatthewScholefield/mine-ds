@@ -24,5 +24,5 @@ public:
 	UIElement(int x, int y, const char * const label, int length, bool isVisible, void (*setData)(UIElement *element, int data, bool data2)) :
 	setData(setData), sendData(0), x(x), y(y), label(label), length(length), isVisible(isVisible) { }
 
-	virtual ~ UIElement() { }
+	virtual ~UIElement() { }
 };

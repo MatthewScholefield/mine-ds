@@ -77,10 +77,10 @@ bool jumpHurtType(int hurtType)
 {
 	switch (hurtType)
 	{
-		case VOID_HURT:
-		case FALL_HURT:
-			return false;
-		default:
-			return true;
+	case VOID_HURT:
+	case FALL_HURT:
+		return false;
+	default:
+		return true;
 	}
 }

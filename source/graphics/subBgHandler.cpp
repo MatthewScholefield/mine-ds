@@ -123,11 +123,11 @@ void updateSubBG()
 	}
 	else if (mustUpdate)
 	{
-		
-		mustUpdate=false;
+
+		mustUpdate = false;
 	}
 	bgUpdate();
-		oamUpdate(&oamSub);
+	oamUpdate(&oamSub);
 }
 
 void drawButton(int x, int y, int sizex)

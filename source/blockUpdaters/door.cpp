@@ -32,10 +32,7 @@ void DoorUpdater::update(WorldObject* world, int x, int y, bool bg)
 	}
 }
 
-void DoorUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
-{
-
-}
+void DoorUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
 
 DoorTopOpenUpdater::DoorTopOpenUpdater()
 {
