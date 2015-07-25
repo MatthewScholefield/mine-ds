@@ -171,7 +171,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 bool attackMob(WorldObject *world, int px, int py)
 {
 	BaseMob_ptr targetMob = isMobAt(px + world->camX, py + world->camY);
-	if (targetMob != NULL)
+	if (targetMob != nullptr)
 	{
 		int damage;
 		switch (getBlockID(getSelectedSlot()))

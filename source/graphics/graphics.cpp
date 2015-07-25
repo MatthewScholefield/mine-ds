@@ -34,18 +34,6 @@ bool subSpriteUsed[128] = {};
 //We need to have support for 8x8, 16x16, 64x64, 32x32 particles!
 //We also need to have support for mob images.
 
-/** \brief Main OAM Sprite ID counter.
-	Don't modify values during runtime other than by using graphicNextMain() and graphicFrame().
- */
-
-
-
-int MainSpr;
-/** \brief Sub OAM Sprite ID counter.
- *	Don't modify values during runtime other than by using graphicNextSub() and graphicFrame().
- */
-int SubSpr;
-
 /**
 	\breif Returns the next SpriteID for the Main OAM.
 	\return The next SpriteID for the Main OAM.
@@ -265,7 +253,7 @@ void updateTexture()
 
 void loadDefaultTexture()
 {
-	loadTexture(NULL, NULL, NULL, NULL, NULL, NULL);
+	loadTexture(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 }
 
 /**

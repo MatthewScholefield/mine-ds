@@ -20,7 +20,7 @@
 void initFile()
 {
 #ifdef USE_NITRO
-	nitroFSInit(NULL);
+	nitroFSInit(nullptr);
 	chdir("nitro:/");
 #endif
 #ifdef USE_FAT
@@ -38,7 +38,7 @@ bool saveWorld(WorldObject *world)
 	if (!SHOULD_SAVE) return false;
 	stopMusic();
 	FILE *worldFile;
-	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != NULL;
+	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != nullptr;
 
 	if (openedWorld)
 	{
@@ -76,7 +76,7 @@ bool saveConfig(Config *controls)
 {
 	FILE *fp;
 	if (!SHOULD_SAVE) return false;
-	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != NULL)
+	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != nullptr)
 	{
 		fprintf(fp, "==Controls==\n");
 		fprintf(fp, "Move Left: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_LEFT)));
@@ -109,7 +109,7 @@ bool loadWorld(WorldObject *world)
 	stopMusic();
 	FILE *worldFile;
 
-	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "r")) != NULL;
+	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "r")) != nullptr;
 
 	if (openedWorld)
 	{
@@ -177,7 +177,7 @@ bool loadConfig(Config *controls)
 	if (!SHOULD_LOAD) return false;
 	FILE *fp;
 
-	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "r")) != NULL)
+	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "r")) != nullptr)
 	{
 		char parseChar;
 		fscanf(fp, "==Controls==\n");
@@ -247,8 +247,8 @@ bool loadTexture(const char *fileName)
 	{
 		delete[] blockTilesMem;
 		delete[] blockPalMem;
-		blockTilesMem = NULL;
-		blockPalMem = NULL;
+		blockTilesMem = nullptr;
+		blockPalMem = nullptr;
 	}
 
 	unsigned int *mobTilesMem = new unsigned int[TILES_ARRAY_LEN];
@@ -257,8 +257,8 @@ bool loadTexture(const char *fileName)
 	{
 		delete[] mobTilesMem;
 		delete[] mobPalMem;
-		mobTilesMem = NULL;
-		mobPalMem = NULL;
+		mobTilesMem = nullptr;
+		mobPalMem = nullptr;
 	}
 
 	unsigned int *subBgTilesMem = new unsigned int[TILES_ARRAY_LEN];
@@ -267,8 +267,8 @@ bool loadTexture(const char *fileName)
 	{
 		delete[] subBgTilesMem;
 		delete[] subBgPalMem;
-		subBgTilesMem = NULL;
-		subBgPalMem = NULL;
+		subBgTilesMem = nullptr;
+		subBgPalMem = nullptr;
 	}
 
 	fclose(texFile);

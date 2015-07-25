@@ -52,5 +52,5 @@ void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 	disperseItems(x, y, world->furnaces[id]->fuel);
 	disperseItems(x, y, world->furnaces[id]->result);
 	delete world->furnaces[id];
-	world->furnaces[id] = NULL;
+	world->furnaces[id] = nullptr;
 }
