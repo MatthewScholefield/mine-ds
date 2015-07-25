@@ -62,7 +62,7 @@ void setupFont()
 {
 	const int tile_base = 1;
 	const int map_base = 0;
-	console = consoleInit(NULL, 0, BgType_Text8bpp, BgSize_T_512x512, map_base, tile_base, false, false);
+	console = consoleInit(nullptr, 0, BgType_Text8bpp, BgSize_T_512x512, map_base, tile_base, false, false);
 	consoleSetWindow(console, 0, 0, 64, 64);
 	console->PrintChar = putChar;
 	font.gfx = (u16*) fontTiles;
@@ -82,5 +82,5 @@ int getConsoleID()
 
 void refreshFont()
 {
-	consoleSetFont(NULL, &font); //The NULL parameter is understood as the current console
+	consoleSetFont(nullptr, &font); //The nullptr parameter is understood as the current console
 }

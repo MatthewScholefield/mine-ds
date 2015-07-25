@@ -163,7 +163,7 @@ void texturePackScreen()
 		menu.addListItem("Max Pack (Default)");
 		if (textureDir)
 		{
-			while ((dirContents = readdir(textureDir)) != NULL)
+			while ((dirContents = readdir(textureDir)) != nullptr)
 			{
 				if (numItems > 1) //Removes the /. and /..
 				{
@@ -199,7 +199,7 @@ void texturePackScreen()
 		numItems = 1;
 		if (textureDir)
 		{
-			while (fileNum > numItems && readdir(textureDir) != NULL)
+			while (fileNum > numItems && readdir(textureDir) != nullptr)
 				++numItems;
 			dirContents = readdir(textureDir);
 			getGlobalSettings()->textureName = dirContents->d_name;

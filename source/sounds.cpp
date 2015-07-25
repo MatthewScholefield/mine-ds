@@ -211,8 +211,8 @@ void playMusic(Music song)
 	if (song != loadedMusic)
 	{
 		stopMusic();
-		if (file != NULL) fclose(file);
-		bool canStream = (file = fopen(SOUNDTRACK_FILENAME, "rb")) != NULL;
+		if (file != nullptr) fclose(file);
+		bool canStream = (file = fopen(SOUNDTRACK_FILENAME, "rb")) != nullptr;
 		if (!canStream)
 		{
 			mmLoad(song);
