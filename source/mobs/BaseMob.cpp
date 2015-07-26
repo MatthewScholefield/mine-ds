@@ -6,6 +6,7 @@
 #include "BaseMob.h"
 #include "../blockID.h"
 #include "hurt.h"
+#include "../general.h"
 
 /*BaseMob::BaseMob()
 {
@@ -57,6 +58,15 @@ bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 	++y;
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
 	return false;
+}
+
+void BaseMob::calcHealth()
+{
+	if (health>getMaxHealth())
+		health=getMaxHealth();
+	else if (health<getMaxHealth() && getTime()%256==0)
+		++health;
+		
 }
 
 void BaseMob::hurt(int amount, int type)

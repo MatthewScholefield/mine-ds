@@ -49,19 +49,17 @@ public:
 	virtual void saveToFile(FILE* sFile) = 0;
 	virtual void loadFromFile(FILE* sFile) = 0;
 	virtual void hurt(int amount, int type);
+	virtual void calcHealth();
 	virtual bool isMyPlayer();
 
 	BaseMob(MobType type, int x, int y, int sx, int sy) :
-	normalSprite(), hurtSprite(), type(type), x(x + sx / 2),
+	normalSprite(), hurtSprite(), type(type), health(256), x(x + sx / 2),
 	y(y + sy / 2), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
 	alive(true), onCactus(false), facing(true), collisions { }
 
 	,
 	spriteState(0), framesHurtSprite(0),
-	timeOnCactus(30), framesFarAway(0), host(true)
-	{
-		health = getMaxHealth();
-	}
+	timeOnCactus(30), framesFarAway(0), host(true) { }
 
 	virtual ~BaseMob()
 	{

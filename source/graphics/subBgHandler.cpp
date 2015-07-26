@@ -92,7 +92,6 @@ void setSubBg(int x, int y)
 	bgSetScroll(getConsoleID(), subBgCalcX = subBgX = x, subBgCalcY = subBgY = y);
 	bgSetScroll(6, subBgX, subBgY);
 	bgUpdate();
-	mustUpdate = true;
 }
 
 int getScrollX()
@@ -105,11 +104,6 @@ int getScrollY()
 	return int(subBgCalcY + 0.5);
 }
 
-void triggerSubBGUpdate()
-{
-	mustUpdate = true;
-}
-
 void updateSubBG()
 {
 	if (int(subBgCalcX + 0.5) != subBgX)
@@ -119,15 +113,9 @@ void updateSubBG()
 		bgSetScroll(6, int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
 		bgSetScroll(getConsoleID(), int(subBgCalcX + 0.5), int(subBgCalcY + 0.5));
 		bgUpdate();
-		oamUpdate(&oamSub);
 	}
-	else if (mustUpdate)
-	{
-
-		mustUpdate = false;
-	}
-	bgUpdate();
 	oamUpdate(&oamSub);
+	clearSubGraphics();
 }
 
 void drawButton(int x, int y, int sizex)

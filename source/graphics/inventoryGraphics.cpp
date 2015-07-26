@@ -198,11 +198,10 @@ void updateInv(bool forceDraw) //Draws the items in the inventory (called by the
 		updateInvGraphics();
 		oldEnabled = true;
 		clearSubGraphics();
-		if (chestOpened)
-			drawGraphics(true, 1, 1, 15, 2, 2, 3);
-		drawGraphics(false, 1, 9, 15, 2, 2, 3);
-		oamUpdate(&oamSub);
 	}
+	if (chestOpened)
+		drawGraphics(true, 1, 1, 15, 2, 2, 3);
+	drawGraphics(false, 1, 9, 15, 2, 2, 3);
 }
 
 void openChest(WorldObject *world, int x, int y, bool bg)

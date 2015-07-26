@@ -54,6 +54,7 @@ typedef struct
 	int loadIter;
 	bool drawn = false;
 	int spriteID;
+	bool ownsGfx = true;
 } Graphic;
 
 //Misc
@@ -79,3 +80,5 @@ void updateTexture();
 void loadDefaultTexture();
 void setSkyColor(double, double, double, double, double, double);
 void gradientHandler();
+
+void setCloneGraphic(Graphic *source, Graphic *clone);
