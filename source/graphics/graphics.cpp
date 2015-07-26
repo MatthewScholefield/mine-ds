@@ -433,12 +433,14 @@ void unloadGraphic(Graphic* g)
 		return;
 	if (g->main)
 	{
-		oamFreeGfx(&oamMain, g->Gfx);
+		if (g->ownsGfx)
+			oamFreeGfx(&oamMain, g->Gfx);
 		mainSpriteUsed[g->spriteID] = false;
 	}
 	else
 	{
-		oamFreeGfx(&oamSub, g->Gfx);
+		if (g->ownsGfx)
+			oamFreeGfx(&oamSub, g->Gfx);
 		subSpriteUsed[g->spriteID] = false;
 	}
 }
@@ -519,7 +521,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 {
 	if (x<-g->sx || x > 256 || y<-g->sy || y > 192) return false;
 	OamState *oam = g->main ? &oamMain : &oamSub;
-	oam->oamMemory[g->spriteID].isHidden = false;
+	SpriteEntry &entry = oam->oamMemory[g->spriteID];
 	if (g->loadIter != textureID) //Must reload texture
 	{
 		unloadGraphic(g);
@@ -575,11 +577,29 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	}
 	else
 	{
-		oam->oamMemory[g->spriteID].x = x;
-		oam->oamMemory[g->spriteID].y = y;
-		oam->oamMemory[g->spriteID].hFlip = flip;
+		entry.x = x;
+		entry.y = y;
+		entry.hFlip = flip;
 	}
-	if (g->type)
-		g->drawn = true;
+	entry.isHidden = false;
 	return true;
+}
+
+void setCloneGraphic(Graphic *source, Graphic *clone)
+{
+	clone->Gfx = source->Gfx;
+	clone->frame_gfx = source->frame_gfx;
+	clone->state = source->state;
+	clone->anim_frame = source->anim_frame;
+	clone->sx = source->sx;
+	clone->sy = source->sy;
+	clone->type = source->type;
+	clone->main = source->main;
+	clone->paletteID = source->paletteID;
+	clone->frame = source->frame;
+	clone->loadIter = source->loadIter;
+	clone->drawn = source->drawn;
+
+	clone->ownsGfx = false;
+	clone->spriteID = clone->main ? graphicNextMain() : graphicNextSub();
 }

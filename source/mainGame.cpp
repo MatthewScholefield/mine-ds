@@ -129,7 +129,6 @@ void newGame(gamemode_t mode, int seed)
 
 void drawWorld()
 {
-	mobHandlerUpdate(world);
 	worldRender_Render(world, world->camX, world->camY);
 }
 
