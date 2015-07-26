@@ -24,6 +24,8 @@
 #define PLAYER_SPRITE_MINE 2
 int slow = 0;
 Graphic playerMobGraphic[3];
+Graphic fullHearts[PLAYER_FULL_HEALTH/2];
+Graphic halfHeart;
 Graphic hearts[2];
 
 void PlayerMob::calcMiscData(WorldObject* world)
@@ -101,10 +103,10 @@ void PlayerMob::hurt(int amount, int type)
 void showHealth(int health)
 {
 	int i;
-	for (i = 44; i < (health + 44) - 1; i += 2)
-		showGraphic(&hearts[0], i * 4, 56);
-	if (health % 2)
-		showGraphic(&hearts[1], i * 4, 56);
+	for (i = 0; i < health/2; ++i)
+		showGraphic(&fullHearts[i], 256-8*PLAYER_FULL_HEALTH/2+i * 8, 56);
+	if (health%2==1)
+		showGraphic(&halfHeart, 256-8*PLAYER_FULL_HEALTH/2+(health-1)*4, 56);
 }
 
 bool checkLadder(WorldObject *world, int x, int y)
@@ -248,7 +250,12 @@ void playerMobInit()
 	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], GRAPHIC_MOB_ANIM, 0); //Walk Animation
 	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], GRAPHIC_MOB, 1); //Hurt Graphic
 	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], GRAPHIC_MOB_ANIM, 2); //Mine Animation
-	loadGraphicSub(&hearts[0], GRAPHIC_PARTICLE, 0);
-	loadGraphicSub(&hearts[1], GRAPHIC_PARTICLE, 1);
+	loadGraphicSub(&fullHearts[0], GRAPHIC_PARTICLE, 0);
+	for (int i=1;i<PLAYER_FULL_HEALTH/2;++i)
+	{
+		//fullHearts[i] = Graphic(fullHearts[0]);
+		setCloneGraphic(&fullHearts[0], &fullHearts[i]);
+	}
+	loadGraphicSub(&halfHeart, GRAPHIC_PARTICLE, 1);
 }
 
