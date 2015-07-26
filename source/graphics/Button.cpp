@@ -41,7 +41,6 @@ void Button::draw(bool printLabels)
 		drawButtonColored(x, y, length);
 	else
 		drawButton(x, y, length);
-	triggerSubBGUpdate();
 }
 
 bool Button::update(int state, int touchX, int touchY)

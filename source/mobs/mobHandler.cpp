@@ -237,6 +237,7 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 	{
 		if (mobs[i]->health > 0)
 		{
+			mobs[i]->calcHealth();
 			bool closeToPlayer = !(mobs[i]->x < world->camX - EXTRA || mobs[i]->x > world->camX + 256 + EXTRA
 					|| mobs[i]->y < world->camY - EXTRA || mobs[i]->y > world->camY + 192 + EXTRA);
 			if (closeToPlayer || mobs[i]->type == MOB_PLAYER)
