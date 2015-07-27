@@ -33,12 +33,8 @@ void ItemMob::updateMob(WorldObject* world)
 		health = 0;
 		return;
 	}
-	if (!loaded)
-	{
-		loaded = true;
-		normalSprite.paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
-		loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, 3 + (12 * brightness) / 15);
-	}
+	if (brightness<0)
+		loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15);
 	if (health < 1)
 		return;
 	if (vx != 0)
@@ -68,7 +64,7 @@ void ItemMob::updateMob(WorldObject* world)
 		vy = 0;
 	}
 	if (world->blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
-		normalSprite.paletteID = 3 + (12 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
+		normalSprite.paletteID = (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
 	++floatY;
 	if (floatY > 100)
 		floatY = 0;
