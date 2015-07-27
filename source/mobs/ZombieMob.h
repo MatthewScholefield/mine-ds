@@ -21,4 +21,3 @@ public:
 
 	~ZombieMob() { }
 };
-void zombieMobInit();

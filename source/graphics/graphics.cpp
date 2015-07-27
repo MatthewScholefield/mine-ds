@@ -116,15 +116,13 @@ void clearSubGraphics()
 		oamSub.oamMemory[i].isHidden = true;
 }
 
-void setBlockPalette(int darkness, int index, bool isolated)
+void setBlockPalette(bool blocks, int darkness, int index)
 {
 	darkness = 15 - darkness;
-	if (isolated)
-		vramSetBankF(VRAM_F_LCD);
-	unsigned short *palette = new unsigned short[256];
-	for (int i = 0; i < 256; ++i)
+	unsigned short *palette = new unsigned short[PAL_LEN/2];
+	for (int i = 0; i < PAL_LEN/2; ++i)
 	{
-		unsigned short slot = blockPal.data()[i];
+		unsigned short slot = blocks?blockPal.data()[i]:mobPal.data()[i];
 		unsigned short blue = slot & 0x1F;
 		slot >>= 5;
 		unsigned short green = slot & 0x1F;
@@ -142,8 +140,6 @@ void setBlockPalette(int darkness, int index, bool isolated)
 	}
 	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], PAL_LEN);
 	delete[] palette;
-	if (isolated)
-		vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
@@ -215,9 +211,12 @@ void updateTexture()
 
 	//=== Main Block Gfx ===
 	vramSetBankF(VRAM_F_LCD);
-	setBlockPalette(0, 2, false);
-	for (int i = 3; i < 16; ++i)
-		setBlockPalette((15 * (i - 3)) / 12, i, false);
+	for (int i = 0; i < 8; ++i)
+		setBlockPalette(true, (15 * (i)) / 7, i);
+	
+	//=== Mob Sprite Gfx ===
+	for (int i = 8; i < 15; ++i)
+		setBlockPalette(false, (15 * (i-8)) / 6, i);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	//=== Sub Block ===
@@ -233,11 +232,7 @@ void updateTexture()
 	dmaCopy(subBgTiles.data(), bgGetGfxPtr(getSubBgID()), sub_bgTilesLen);
 	refreshFont();
 	updateSubBG();
-
-	//=== Mobs === (Tiles are reassigned when showGraphic is called)
-	vramSetBankF(VRAM_F_LCD);
-	dmaCopy(mobPal.data(), VRAM_F_EXT_SPR_PALETTE[0], mobsPalLen);
-	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+	
 	swiWaitForVBlank(); //Prevents sub screen flicker
 }
 
@@ -271,11 +266,11 @@ void graphicsInit()
 
 	//Start copying palettes
 	vramSetBankF(VRAM_F_LCD);
-	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[1], particlesPalLen);
+	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[15], particlesPalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
-void loadGraphicMob(Graphic* g, int frame, int x, int y)
+void loadGraphicMob(Graphic* g, int frame, int x, int y, int pID)
 {
 	if (y == 32)
 	{
@@ -283,7 +278,7 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) mobTiles.data();
 		Tiles += frame * FRAMES_PER_ANIMATION * (16 * 32);
 		dmaCopy(Tiles, graphics, 16 * 32);
-		g->paletteID = 0;
+		g->paletteID = pID;
 		g->Gfx = graphics;
 	}
 	else //Small mob
@@ -292,7 +287,7 @@ void loadGraphicMob(Graphic* g, int frame, int x, int y)
 		u8* Tiles = (u8*) mobTiles.data();
 		Tiles += frame * FRAMES_PER_ANIMATION * (16 * 16);
 		dmaCopy(Tiles, graphics, 16 * 16);
-		g->paletteID = 0;
+		g->paletteID = pID;
 		g->Gfx = graphics;
 	}
 }
@@ -303,11 +298,11 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 	u8* Tiles = (u8*) & particlesTiles;
 	Tiles += frame * (8 * 8);
 	dmaCopy(Tiles, graphics, 8 * 8);
-	g->paletteID = 1;
+	g->paletteID = 15;
 	g->Gfx = graphics;
 }
 
-void loadGraphicBlock(Graphic* g, int frame, int x, int y)
+void loadGraphicBlock(Graphic* g, int frame, int x, int y, int paletteID)
 {
 	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	u8* Tiles = (u8*) blockTiles.data();
@@ -316,7 +311,7 @@ void loadGraphicBlock(Graphic* g, int frame, int x, int y)
 	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
 	dmaCopy(Tiles + 8 * 8, graphics + 8 * 4 * 2, 8 * 8);
 	dmaCopy(Tiles + 8 * 8 * 3, graphics + 8 * 4 * 3, 8 * 8);
-	g->paletteID = 2;
+	g->paletteID = paletteID;
 	g->Gfx = graphics;
 }
 
@@ -331,10 +326,10 @@ void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID)
 	g->main = true;
 }
 
-void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame)
+void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame, int pID)
 {
 	gfx += frame * FRAMES_PER_ANIMATION * (16 * 32);
-	sprite->paletteID = 0;
+	sprite->paletteID = pID;
 	sprite->sx = 16;
 	sprite->sy = 32;
 	sprite->Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
@@ -381,13 +376,13 @@ void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 		loadGraphicParticle(g, frame, x, y);
 		break;
 	case GRAPHIC_MOB:
-		loadGraphicMob(g, frame, x, y);
+		loadGraphicMob(g, frame, x, y, pID);
 		break;
 	case GRAPHIC_BLOCK:
-		loadGraphicBlock(g, frame, x, y);
+		loadGraphicBlock(g, frame, x, y, pID);
 		break;
 	case GRAPHIC_MOB_ANIM:
-		loadGraphicAnim(g, (u8*) mobTiles.data(), frame);
+		loadGraphicAnim(g, (u8*) mobTiles.data(), frame, pID);
 		break;
 	case GRAPHIC_BLOCK_MINI:
 		loadGraphicMiniBlock(g, frame, x, y, pID);
@@ -573,6 +568,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	}
 	entry.isHidden = false;
 	return true;
+	
 }
 
 void setCloneGraphic(Graphic *source, Graphic *clone)

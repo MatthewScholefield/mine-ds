@@ -13,7 +13,8 @@
 #include "../collision.h"
 #include "../inventory.h"
 #include "../mainGame.h"
-Graphic animalMobGraphics[3][2];
+#include "../worldRender.h"
+const int AnimalMob::FRAME[3] = {10, 12, 14}; 
 
 void AnimalMob::calcMiscData(WorldObject* world)
 {
@@ -22,6 +23,12 @@ void AnimalMob::calcMiscData(WorldObject* world)
 
 void AnimalMob::updateMob(WorldObject* world)
 {
+	if (brightness<0)
+	{
+		loadGraphic(&normalSprite, GRAPHIC_MOB, FRAME[type], 16, 16, 8+(6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15);
+		loadGraphic(&hurtSprite, GRAPHIC_MOB, FRAME[type] + 1, 16, 16, normalSprite.paletteID);
+	}
+	
 	showGraphic(spriteState == 0 ? &normalSprite : &hurtSprite, x - world->camX - 7, y - world->camY - 7, facing ? true : false);
 
 	if (host == true)
@@ -81,6 +88,8 @@ void AnimalMob::updateMob(WorldObject* world)
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 	}
+	if (world->blocks[int(x) / 16][(int(y)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y) / 16 + 1) != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15;
 }
 
 void AnimalMob::sendWifiUpdate() { }
@@ -151,11 +160,3 @@ bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
 {
 	return canMobSpawnHere(world, x, y);
 }
-
-void animalMobInit() {
-	/*loadGraphic(&animalMobGraphics[ANIMAL_PIG][0], GRAPHIC_MOB, 10, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_PIG][1], GRAPHIC_MOB, 11, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_COW][0], GRAPHIC_MOB, 12, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_COW][1], GRAPHIC_MOB, 13, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][0], GRAPHIC_MOB, 14, 16, 16);
-	loadGraphic(&animalMobGraphics[ANIMAL_SHEEP][1], GRAPHIC_MOB, 15, 16, 16);*/ }

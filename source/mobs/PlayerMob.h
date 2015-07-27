@@ -6,7 +6,7 @@ bool canPlayerMobSpawnHere(WorldObject* world, int x, int y);
 class PlayerMob : public BaseMob
 {
 private:
-
+	Graphic mineSprite;
 	virtual int getMaxHealth()
 	{
 		return 20;
@@ -24,8 +24,11 @@ public:
 	bool isMyPlayer();
 
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
-	, deathScreen(false), tillBrightness(0) { }
+	, mineSprite(), deathScreen(false), tillBrightness(0) { }
 
-	~PlayerMob() { }
+	~PlayerMob()
+	{
+		unloadGraphic(&mineSprite);
+	}
 };
 void playerMobInit();

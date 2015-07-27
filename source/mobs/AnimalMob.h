@@ -13,6 +13,8 @@ enum AnimalType
 
 class AnimalMob : public BaseMob
 {
+private:
+	static const int FRAME[3];
 public:
 	AnimalType animal;
 	int scaredTimer; //Limits how long the cow is scared
@@ -28,27 +30,8 @@ public:
 	bool isMyPlayer();
 
 	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16),
-	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0)
-	{
-		int frame = 0;
-		switch (animal)
-		{
-		case ANIMAL_PIG:
-			frame = 10;
-			break;
-		case ANIMAL_COW:
-			frame = 12;
-			break;
-		case ANIMAL_SHEEP:
-			frame = 14;
-			break;
-		}
-		loadGraphic(&normalSprite, GRAPHIC_MOB, frame, 16, 16);
-		loadGraphic(&hurtSprite, GRAPHIC_MOB, frame + 1, 16, 16);
-		used = true;
-	}
+	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0) { }
 
 	~AnimalMob() { }
 };
-void animalMobInit();
 bool canAnimalMobSpawnHere(WorldObject* world, int x, int y);

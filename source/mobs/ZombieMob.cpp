@@ -14,7 +14,6 @@
 #include "../sounds.h"
 #include "../inventory.h"
 #include "../mainGame.h"
-Graphic zombieMobGraphic[3];
 
 void ZombieMob::calcMiscData(WorldObject* world)
 {
@@ -48,9 +47,14 @@ void ZombieMob::hurt(int amount, int type)
 
 void ZombieMob::updateMob(WorldObject* world)
 {
+	if (brightness<0)
+	{
+		loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15);
+		loadGraphic(&hurtSprite, GRAPHIC_MOB, 4, 16, 32, normalSprite.paletteID);
+	}
 	if (world->timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
-	if (spriteState == 0) showGraphic(&zombieMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&zombieMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	if (spriteState == 0) showGraphic(&normalSprite, x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&hurtSprite, x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
@@ -75,6 +79,8 @@ void ZombieMob::updateMob(WorldObject* world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			target->hurt(1, ZOMBIE_HURT);
 	}
+	if (world->blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y+8) / 16 + 1) != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15;
 }
 
 void ZombieMob::sendWifiUpdate() { }
@@ -95,12 +101,6 @@ bool canZombieMobSpawnHere(WorldObject* world, int x, int y)
 			return true;
 	}
 	return false;
-}
-
-void zombieMobInit()
-{
-	loadGraphic(&zombieMobGraphic[0], GRAPHIC_MOB, 3);
-	loadGraphic(&zombieMobGraphic[1], GRAPHIC_MOB, 4);
 }
 
 bool ZombieMob::isMyPlayer()
