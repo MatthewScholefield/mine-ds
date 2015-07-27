@@ -531,7 +531,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_BLOCK://2
-				oamSet(&oamMain, g->spriteID, x, y, 1, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_MOB_ANIM://0
 				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
