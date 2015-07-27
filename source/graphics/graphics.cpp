@@ -48,16 +48,6 @@ int graphicNextMain()
 	return i;
 }
 
-int graphicLastMain() //Gets id from back of sprites
-{
-	int i;
-	for (i = 127; i >= 0 && mainSpriteUsed[i]; --i);
-	if (i <= -1)
-		return -1;
-	mainSpriteUsed[i] = true;
-	return i;
-}
-
 /**
 	\breif Returns the next SpriteID for the Sub OAM.
 	\return The next SpriteID for the Sub OAM.
@@ -384,7 +374,7 @@ void setAnimFrame(Graphic* g, int mobSlot, int frame)
  */
 void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 {
-	g->spriteID = g->type != GRAPHIC_BLOCK ? graphicLastMain() : graphicNextMain();
+	g->spriteID = graphicNextMain();
 	switch (type)
 	{
 	case GRAPHIC_PARTICLE:
