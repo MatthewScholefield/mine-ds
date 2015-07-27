@@ -32,14 +32,13 @@ private:
 	}
 protected:
 	Graphic normalSprite, hurtSprite;
-	bool used = false;
 public:
 	MobType type;
 	int health; //0 = Dead
 	float x, y, vx, vy;
 	int sx, sy;
 	bool smallMob, alive, onCactus, facing, collisions[5];
-	int spriteState, framesHurtSprite, timeOnCactus, framesFarAway;
+	int spriteState, framesHurtSprite, timeOnCactus, framesFarAway, brightness;
 
 	//Multiplayer
 	bool host;
@@ -59,17 +58,13 @@ public:
 
 	,
 	spriteState(0), framesHurtSprite(0),
-	timeOnCactus(30), framesFarAway(0), host(true) { }
+	timeOnCactus(30), framesFarAway(0), brightness(-1), host(true) { }
 
 	virtual ~BaseMob()
 	{
-		if (used)
-		{
-			unloadGraphic(&normalSprite);
-			unloadGraphic(&hurtSprite);
-		}
+		unloadGraphic(&normalSprite);
+		unloadGraphic(&hurtSprite);
 	}
 };
 typedef std::shared_ptr<BaseMob> BaseMob_ptr;
-void BaseMobInit();
 bool jumpHurtType(int hurtType);

@@ -64,7 +64,7 @@ void clearSubGraphics();
 void unloadGraphic(Graphic* g);
 void animateMob(Graphic* g, int mobSlot);
 void setAnimFrame(Graphic* g, int mobSlot, int frame);
-void setBlockPalette(int brightness, int index = 2, bool isolated = true);
+void setBlockPalette(bool block, int brightness, int index = 2);
 bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
 
 //Loading

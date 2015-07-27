@@ -19,14 +19,8 @@
 #include <time.h>
 
 #define PLAYER_FULL_HEALTH 20
-#define PLAYER_SPRITE_WALK 0
-#define PLAYER_SPRITE_HURT 1
-#define PLAYER_SPRITE_MINE 2
-int slow = 0;
-Graphic playerMobGraphic[3];
-Graphic fullHearts[PLAYER_FULL_HEALTH/2];
+Graphic fullHearts[PLAYER_FULL_HEALTH / 2];
 Graphic halfHeart;
-Graphic hearts[2];
 
 void PlayerMob::calcMiscData(WorldObject* world)
 {
@@ -103,10 +97,10 @@ void PlayerMob::hurt(int amount, int type)
 void showHealth(int health)
 {
 	int i;
-	for (i = 0; i < health/2; ++i)
-		showGraphic(&fullHearts[i], 256-8*PLAYER_FULL_HEALTH/2+i * 8, 56);
-	if (health%2==1)
-		showGraphic(&halfHeart, 256-8*PLAYER_FULL_HEALTH/2+(health-1)*4, 56);
+	for (i = 0; i < health / 2; ++i)
+		showGraphic(&fullHearts[i], 256 - 8 * PLAYER_FULL_HEALTH / 2 + i * 8, 56);
+	if (health % 2 == 1)
+		showGraphic(&halfHeart, 256 - 8 * PLAYER_FULL_HEALTH / 2 + (health - 1)*4, 56);
 }
 
 bool checkLadder(WorldObject *world, int x, int y)
@@ -150,7 +144,7 @@ void PlayerMob::updateMob(WorldObject* world)
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
 			{
 				closeChest(); //Close a chest, if open
-				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
+				animateMob(&normalSprite, 0);
 				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 				facing = false;
 				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
@@ -159,7 +153,7 @@ void PlayerMob::updateMob(WorldObject* world)
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
 			{
 				closeChest();
-				animateMob(&playerMobGraphic[PLAYER_SPRITE_WALK], 0);
+				animateMob(&normalSprite, 0);
 				vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
 				facing = true;
 				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
@@ -167,7 +161,7 @@ void PlayerMob::updateMob(WorldObject* world)
 			}
 			else
 			{
-				setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_WALK], 0, 0);
+				setAnimFrame(&normalSprite, 0, 0);
 				vx = 0;
 			}
 
@@ -201,21 +195,26 @@ void PlayerMob::updateMob(WorldObject* world)
 			showHealth(health);
 		}
 	}
-	if (x - world->camX>-16 && x - world->camX < 256 + 16 && y - world->camY>-32 && y - world->camY < 256)
+	if (brightness < 0)
 	{
-		if (spriteState == 0)
-			if (keysHeld() & KEY_TOUCH && canMine() && playerMobGraphic[PLAYER_SPRITE_WALK].anim_frame == 0)
-			{
-				if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT]))
-					setAnimFrame(&playerMobGraphic[PLAYER_SPRITE_MINE], 0, 1);
-				else if (getTime() % 3 == 1)
-					animateMob(&playerMobGraphic[PLAYER_SPRITE_MINE], 0);
-				showGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
-			}
-			else
-				showGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
-		else if (spriteState == 1) showGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+		loadGraphic(&normalSprite, GRAPHIC_MOB_ANIM, 0, 16, 32, 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15); //Walk Animation
+		loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID); //Hurt Graphic
+		loadGraphic(&mineSprite, GRAPHIC_MOB_ANIM, 2, 16, 32, normalSprite.paletteID); //Mine Animation
 	}
+	if (world->blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y + 8) / 16 + 1) != brightness)
+		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15;
+	if (spriteState == 0)
+		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.anim_frame == 0)
+		{
+			if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT]))
+				setAnimFrame(&mineSprite, 0, 1);
+			else if (getTime() % 3 == 1)
+				animateMob(&mineSprite, 0);
+			showGraphic(&mineSprite, x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+		}
+		else
+			showGraphic(&normalSprite, x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&hurtSprite, x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
 }
 
 void PlayerMob::sendWifiUpdate() { }
@@ -247,11 +246,8 @@ bool canPlayerMobSpawnHere(WorldObject* world, int x, int y)
 
 void playerMobInit()
 {
-	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_WALK], GRAPHIC_MOB_ANIM, 0); //Walk Animation
-	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_HURT], GRAPHIC_MOB, 1); //Hurt Graphic
-	loadGraphic(&playerMobGraphic[PLAYER_SPRITE_MINE], GRAPHIC_MOB_ANIM, 2); //Mine Animation
 	loadGraphicSub(&fullHearts[0], GRAPHIC_PARTICLE, 0);
-	for (int i=1;i<PLAYER_FULL_HEALTH/2;++i)
+	for (int i = 1; i < PLAYER_FULL_HEALTH / 2; ++i)
 	{
 		//fullHearts[i] = Graphic(fullHearts[0]);
 		setCloneGraphic(&fullHearts[0], &fullHearts[i]);
