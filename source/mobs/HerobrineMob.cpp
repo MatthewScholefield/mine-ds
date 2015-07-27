@@ -10,9 +10,6 @@
 #include "../inventory.h"
 #include "../mining.h"
 #include "../general.h"
-//#include "../sounds.h"
-
-Graphic herobrineMobGraphic[3];
 
 void HerobrineMob::calcMiscData(WorldObject* world)
 {
@@ -21,9 +18,14 @@ void HerobrineMob::calcMiscData(WorldObject* world)
 
 void HerobrineMob::updateMob(WorldObject* world)
 {
+	if (brightness<0)
+	{
+		loadGraphic(&normalSprite, GRAPHIC_MOB, 8, 16, 32, 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15);
+		loadGraphic(&hurtSprite, GRAPHIC_MOB, 9, 16, 32, normalSprite.paletteID);
+	}
 	++waitingCount;
-	if (spriteState == 0) showGraphic(&herobrineMobGraphic[0], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&herobrineMobGraphic[1], x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	if (spriteState == 0) showGraphic(&normalSprite, x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&hurtSprite, x - world->camX - 7, y - world->camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])
@@ -57,6 +59,8 @@ void HerobrineMob::updateMob(WorldObject* world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			target->hurt(3, HEROBRINE_HURT);
 	}
+	if (world->blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y+8) / 16 + 1) != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15;
 }
 
 void HerobrineMob::sendWifiUpdate() { }
@@ -74,12 +78,6 @@ bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
 	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
 		return true;
 	return false;
-}
-
-void herobrineMobInit()
-{
-	loadGraphic(&herobrineMobGraphic[0], GRAPHIC_MOB, 8);
-	loadGraphic(&herobrineMobGraphic[1], GRAPHIC_MOB, 9);
 }
 
 void HerobrineMob::hurt(int amount, int type)

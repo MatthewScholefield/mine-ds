@@ -24,4 +24,3 @@ public:
 
 	~MultiplayerMob() { }
 };
-void multiplayerMobInit();

@@ -31,7 +31,6 @@ void timeUpdate(WorldObject* world)
 		setSkyColor(r[world->worldBrightness], g[world->worldBrightness], b[world->worldBrightness],
 					r2[world->worldBrightness], g2[world->worldBrightness], b2[world->worldBrightness]);
 		setSun(world->worldBrightness);
-		setBlockPalette(world->worldBrightness);
 		if (isWifi())
 		{
 			unsigned short buffer[100];
