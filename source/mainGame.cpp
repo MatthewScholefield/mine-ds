@@ -220,6 +220,7 @@ void startGame(void)
 		oamUpdate(&oamMain);
 		updateSubBG();
 		clearMainGraphics();
+		clearUnusedBlockSprites();
 		timeUpdate(world);
 	}
 }
@@ -278,6 +279,7 @@ void startMultiplayerGame(bool host)
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		clearMainGraphics();
+		clearUnusedBlockSprites();
 		if (host)
 			timeUpdate(world);
 	}
