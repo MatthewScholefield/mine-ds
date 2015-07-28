@@ -2,6 +2,7 @@
 #include "world.h"
 #include "block_small.h"
 #include "graphics/graphics.h"
+#include "general.h"
 
 void worldRender_Init();
 void worldRender_Render(WorldObject* world, int screen_x, int screen_y);
@@ -27,7 +28,7 @@ public:
 	BlockSpriteContainer():sprite(),blockID(0),hasBeenRendered(false){}
 	BlockSpriteContainer(int blockID, int paletteID):sprite(),blockID(blockID),hasBeenRendered(false)
 	{
-		loadGraphic(&sprite, GRAPHIC_BLOCK,blockID,16,16,paletteID);
+		loadGraphic(&sprite, GRAPHIC_BLOCK, blockID, 16, 16, paletteID);
 	}
 	~BlockSpriteContainer()
 	{
