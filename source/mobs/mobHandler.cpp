@@ -236,13 +236,13 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 			mobs[i]->calcHealth();
 			bool closeToPlayer = !(mobs[i]->x < world->camX - EXTRA || mobs[i]->x > world->camX + 256 + EXTRA
 					|| mobs[i]->y < world->camY - EXTRA || mobs[i]->y > world->camY + 192 + EXTRA);
+			if (mobs[i]->type == MOB_ZOMBIE || mobs[i]->type == MOB_HEROBRINE)
+				++badMobs;
+			else if (mobs[i]->type == MOB_ANIMAL)
+				++goodMobs;
 			if (closeToPlayer || mobs[i]->type == MOB_PLAYER)
 			{
 				mobs[i]->framesFarAway = 0;
-				if (mobs[i]->type == MOB_ZOMBIE || mobs[i]->type == MOB_HEROBRINE)
-					++badMobs;
-				else if (mobs[i]->type == MOB_ANIMAL)
-					++goodMobs;
 				mobs[i]->calcMiscData(world);
 				mobs[i]->updateMob(world);
 			}
@@ -263,7 +263,7 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 			continue;
 		}
 	}
-	if (goodMobs <= 6)// && rand() % 30 == 0)
+	if (goodMobs < 3)// && rand() % 30 == 0)
 		spawnMobOn(MOB_ANIMAL, world, world->camX / 16 + rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
