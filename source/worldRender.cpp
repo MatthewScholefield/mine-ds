@@ -25,34 +25,18 @@ static void drawBlockGraphic(WorldObject *world, int x, int y)
 	y *= 16;
 	x -= world->camX;
 	y -= world->camY;
-	int renderedIndex = -1;
 	std::vector<BlockSpriteContainer>::size_type i;
 	for (i=0; i<blockSprites.size();++i)
-	{
-		if (blockID==blockSprites[i].blockID && paletteID==blockSprites[i].sprite.paletteID)
+		if (blockID == blockSprites[i].blockID && paletteID == blockSprites[i].sprite.paletteID && !blockSprites[i].hasBeenRendered)
 		{
-			if (blockSprites[i].hasBeenRendered)
-				renderedIndex = i;
-			else
-			{
-				blockSprites[i].draw(x, y);
-				break;
-			}
+			blockSprites[i].draw(x, y);
+			break;
 		}
-	}
 	if (i==blockSprites.size())
 	{
-		if (renderedIndex==-1)
-			blockSprites.emplace_back(blockID, paletteID);
-		else
-		{
-			blockSprites.emplace_back();
-			blockSprites.back().blockID = blockID;
-			setCloneGraphic(&blockSprites[renderedIndex].sprite, &blockSprites.back().sprite);
-		}
+		blockSprites.emplace_back(blockID, paletteID);
 		blockSprites.back().draw(x, y);
 	}
-	printXY(1, 4, blockSprites.size());
 }
 
 int getBrightness(WorldObject* world, int x, int y)
