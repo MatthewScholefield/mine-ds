@@ -38,12 +38,15 @@ bool subSpriteUsed[128] = {};
 	\breif Returns the next SpriteID for the Main OAM.
 	\return The next SpriteID for the Main OAM.
  */
-int graphicNextMain()
+static int graphicNextMain()
 {
 	int i;
 	for (i = 0; i < 128 && mainSpriteUsed[i]; ++i);
 	if (i >= 128)
+	{
+		showError("Over sprites");
 		return -1;
+	}
 	mainSpriteUsed[i] = true;
 	return i;
 }
@@ -52,7 +55,7 @@ int graphicNextMain()
 	\breif Returns the next SpriteID for the Sub OAM.
 	\return The next SpriteID for the Sub OAM.
  */
-int graphicNextSub()
+static int graphicNextSub()
 {
 	int i;
 	for (i = 0; i < 128 && subSpriteUsed[i]; ++i);
@@ -531,7 +534,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_BLOCK://2
-				oamSet(&oamMain, g->spriteID, x, y, 1, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_MOB_ANIM://0
 				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
