@@ -263,7 +263,7 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 			continue;
 		}
 	}
-	if (goodMobs < 3)// && rand() % 30 == 0)
+	if (goodMobs < 24)// && rand() % 30 == 0)
 		spawnMobOn(MOB_ANIMAL, world, world->camX / 16 + rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
