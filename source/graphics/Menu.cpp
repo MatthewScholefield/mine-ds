@@ -120,6 +120,7 @@ int Menu::activate(bool initial)
 						returnVal = i - 1;
 		}
 	}
+		break;
 	case MENU_LIST:
 	{
 		touchPosition touch;
@@ -155,6 +156,7 @@ int Menu::activate(bool initial)
 						returnVal = i - 1;
 		}
 	}
+		break;
 	}
 	moveSubBg(0, -512);
 	return returnVal;

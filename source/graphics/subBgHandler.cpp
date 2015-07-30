@@ -106,7 +106,7 @@ int getScrollY()
 
 void updateSubBG()
 {
-	if (int(subBgCalcX + 0.5) != subBgX)
+	if (int(subBgCalcX + 0.5) != subBgX || int(subBgCalcY + 0.5) != subBgY)
 	{
 		subBgCalcX += (double(subBgX) - subBgCalcX)*0.08;
 		subBgCalcY += (double(subBgY) - subBgCalcY)*0.08;

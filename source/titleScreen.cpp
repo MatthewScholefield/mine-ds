@@ -44,24 +44,26 @@ KEYPAD_BITS askForKeyScreen()
 	startTransition(true);
 	drawBackground(menuFirstSlot);
 	clearText(menuFirstSlot);
-	const short X = 10 + (menuFirstSlot ? 0 : 32), Y = 8;
-	printXY(X + 1, Y + 1, "Up");
-	printXY(X + 1, Y + 2, "Down");
-	printXY(X + 1, Y + 3, "Left");
-	printXY(X + 1, Y + 4, "Right");
-	printXY(X + 1, Y + 5, "A");
-	printXY(X + 1, Y + 6, "B");
-	printXY(X + 1, Y + 7, "X");
-	printXY(X + 1, Y + 8, "Y");
-	printXY(X + 1, Y + 9, "L");
-	printXY(X + 1, Y + 10, "R");
-	printXY(X + 1, Y + 11, "Start");
-	printXY(X + 1, Y + 12, "Select");
+	Menu menu(MENU_LIST);
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menu.setListXY(10, 8);
+	menu.addListItem("Up");
+	menu.addListItem("Down");
+	menu.addListItem("Left");
+	menu.addListItem("Right");
+	menu.addListItem("A");
+	menu.addListItem("B");
+	menu.addListItem("X");
+	menu.addListItem("Y");
+	menu.addListItem("L");
+	menu.addListItem("R");
+	menu.addListItem("Start");
+	menu.addListItem("Select");
 	KEYPAD_BITS key = KEY_LID;
 
 	menuFirstSlot = !menuFirstSlot;
 
-	switch (listMenu(X, Y, 12, 6))
+	switch (menu.activate())
 	{
 	case 1:
 		key = KEY_UP;
