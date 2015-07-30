@@ -40,8 +40,8 @@ public:
 	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24, bool initial = false) :
 	type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY), listX(0), listY(0)
 	{
-		elements.push_back(UIElement_ptr(new Button(25, 20, "Back", back)));
 		elements.push_back(UIElement_ptr(new Button(1, 20, "\x1F", sizeY > 24)));
 		setAction(slideButtonAction, sizeY);
+		elements.push_back(UIElement_ptr(new Button(25, 20, "Back", back)));
 	}
 };
