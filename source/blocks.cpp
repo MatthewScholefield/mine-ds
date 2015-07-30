@@ -15,21 +15,9 @@
 #include <stdarg.h>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 
-int walkThroughBlocks[] = {AIR, YELLOW_FLOWER, RED_FLOWER, SNOW_TOP, TORCH, LADDER, SHRUB, TALL_GRASS, MUSHROOM_BROWN, MUSHROOM_RED, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE, DOOR_OPEN_TOP, DOOR_OPEN_BOTTOM};
-int renderBright[] = {AIR, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LEAVES_OAK, YELLOW_FLOWER, RED_FLOWER, CACTUS, TORCH, LEAVES_SPRUCE, GLASS, SHRUB, TALL_GRASS, MUSHROOM_RED, MUSHROOM_BROWN, PUMPKIN, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE};
-int lightSourceBlocks[] = {TORCH, PUMPKIN_LIGHT, GLOWSTONE, FURNACE_LIT};
-int lightSourceBlocksAmmount[sizeOfArray(lightSourceBlocks)] = {1, 0, 0, 0}; // The Number is equal to 15 - minecraftlightemitvalue
-int items[] = {PORKCHOP_RAW, BEEF_RAW, LEATHER, PICKAXE_WOOD, PICKAXE_STONE,
-	PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_DIAMOND, COAL, INGOT_IRON, INGOT_GOLD, DIAMOND,
-	STICK, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED, SHOVEL_DIAMOND,
-	SHOVEL_WOOD, SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, AXE_DIAMOND, AXE_WOOD, AXE_STONE,
-	AXE_IRON, AXE_GOLD, SWORD_DIAMOND, SWORD_WOOD, SWORD_STONE, SWORD_IRON, SWORD_GOLD,
-	SEEDS_PUMPKIN, SEEDS_WHEAT};
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
-int spriteBlocks[NUM_SPRITE_BLOCKS] = {TORCH, GLASS, SNOW_TOP, LADDER, MUSHROOM_BROWN, MUSHROOM_RED, SHRUB, TALL_GRASS, FLOWER_RED, FLOWER_YELLOW, SAPLING_JUNGLE, SAPLING_OAK, SAPLING_SPRUCE, CHEST};
-int foodItems[] = {PORKCHOP_RAW, BEEF_RAW, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED};
-int blockItems[] = {DOOR_ITEM};
+//int foodItems[] = {PORKCHOP_RAW, BEEF_RAW, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED};
 
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
@@ -71,37 +59,55 @@ otherwise values could overlap
 ----------------
  */
 
-int getSpriteBlock(int index)
-{
-	return spriteBlocks[index];
-}
-
-int getSpriteIndex(int block)
-{
-	int returnVal = -1;
-	for (int i = 0; i < NUM_SPRITE_BLOCKS; ++i)
-		if (spriteBlocks[i] == block)
-		{
-			returnVal = i;
-			break;
-		}
-	return returnVal;
-}
-
 bool isSpriteBlock(int block)
 {
-	for (int i = 0; i < NUM_SPRITE_BLOCKS; ++i)
-		if (block == spriteBlocks[i])
-			return true;
-	return false;
+	switch (block)
+	{
+	case TORCH:
+	case GLASS:
+	case SNOW_TOP:
+	case LADDER:
+	case MUSHROOM_BROWN:
+	case MUSHROOM_RED:
+	case SHRUB:
+	case TALL_GRASS:
+	case FLOWER_RED:
+	case FLOWER_YELLOW:
+	case SAPLING_JUNGLE:
+	case SAPLING_OAK:
+	case SAPLING_SPRUCE:
+	case CHEST:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 bool isBlockWalkThrough(int blockID)
 {
-	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(walkThroughBlocks); ++i)
-		if (walkThroughBlocks[i] == blockID) return true;
-	return false;
+	switch (blockID)
+	{
+	case AIR:
+	case YELLOW_FLOWER:
+	case RED_FLOWER:
+	case SNOW_TOP:
+	case TORCH:
+	case LADDER:
+	case SHRUB:
+	case TALL_GRASS:
+	case MUSHROOM_BROWN:
+	case MUSHROOM_RED:
+	case SAPLING_JUNGLE:
+	case SAPLING_OAK:
+	case SAPLING_SPRUCE:
+	case DOOR_OPEN_TOP:
+	case DOOR_OPEN_BOTTOM:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 int sapling(int leafID)
@@ -191,37 +197,96 @@ SoundAudio getBlockAudio(int blockID)
 
 bool item(int blockID)
 {
-	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(items); ++i)
-		if (items[i] == blockID) return true;
-	return false;
+	switch (blockID)
+	{
+	case PORKCHOP_RAW:
+	case BEEF_RAW:
+	case LEATHER:
+	case PICKAXE_WOOD:
+	case PICKAXE_STONE:
+	case PICKAXE_IRON:
+	case PICKAXE_GOLD:
+	case PICKAXE_DIAMOND:
+	case COAL:
+	case INGOT_IRON:
+	case INGOT_GOLD:
+	case DIAMOND:
+	case STICK:
+	case FLESH:
+	case BEEF_COOKED:
+	case PORKCHOP_COOKED:
+	case CHICKEN_RAW:
+	case CHICKEN_COOKED:
+	case SHOVEL_DIAMOND:
+	case SHOVEL_WOOD:
+	case SHOVEL_STONE:
+	case SHOVEL_IRON:
+	case SHOVEL_GOLD:
+	case AXE_DIAMOND:
+	case AXE_WOOD:
+	case AXE_STONE:
+	case AXE_IRON:
+	case AXE_GOLD:
+	case SWORD_DIAMOND:
+	case SWORD_WOOD:
+	case SWORD_STONE:
+	case SWORD_IRON:
+	case SWORD_GOLD:
+	case SEEDS_PUMPKIN:
+	case SEEDS_WHEAT:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 bool blockItem(int blockID)
 {
-	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(blockItems); ++i)
-		if (blockItems[i] == blockID) return true;
-	return false;
+	switch (blockID)
+	{
+	case DOOR_ITEM:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 bool alwaysRenderBright(int blockID)
 {
-	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(renderBright); ++i)
-		if (renderBright[i] == blockID) return true;
-	return false;
+	switch (blockID)
+	{
+	case AIR:
+	case LOG_OAK:
+	case LOG_SPRUCE:
+	case LOG_BIRCH:
+	case LEAVES_OAK:
+	case YELLOW_FLOWER:
+	case RED_FLOWER:
+	case CACTUS:
+	case TORCH:
+	case LEAVES_SPRUCE:
+	case GLASS:
+	case SHRUB:
+	case TALL_GRASS:
+	case MUSHROOM_RED:
+	case MUSHROOM_BROWN:
+	case PUMPKIN:
+	case SAPLING_JUNGLE:
+	case SAPLING_OAK:
+	case SAPLING_SPRUCE:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 bool blockCastsShadow(int blockID)
 {
 	return !isBlockWalkThrough(blockID) && !isSpriteBlock(blockID);
 }
-
-/*bool isAGroundBlock(int blockID)
-{
-	return false;
-}*/
 
 bool isGrassBlock(int blockID)
 {
@@ -239,18 +304,35 @@ bool isGrassBlock(int blockID)
 
 bool isBlockALightSource(int blockID)
 {
-	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); ++i)
-		if (lightSourceBlocks[i] == blockID) return true;
-	return false;
+	switch (blockID)
+	{
+	case TORCH:
+	case PUMPKIN_LIGHT:
+	case GLOWSTONE:
+	case FURNACE_LIT:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 int getLightAmount(int blockID)
-{
-	int i;
-	for (i = 0; (unsigned) i < sizeOfArray(lightSourceBlocks); ++i)
-		if (lightSourceBlocks[i] == blockID) return lightSourceBlocksAmmount[i];
-	return -1;
+{ //15 - value
+	switch (blockID)
+	{
+	case TORCH:
+		return 1;
+	case PUMPKIN_LIGHT:
+		return 0;
+	case GLOWSTONE:
+		return 0;
+	case FURNACE_LIT:
+		return 0;
+
+	default:
+		return -1;
+	}
 }
 
 void initBlockProperties()
