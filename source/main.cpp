@@ -40,11 +40,9 @@ int main()
 	subBgInit();
 	setupFont();
 	graphicsInit();
-	//irqInit();
 	irqSet(IRQ_HBLANK, gradientHandler);
 	irqEnable(IRQ_HBLANK);
 	mobHandlerInit();
-	worldRender_LoadSprites();
 	craftingInit();
 	proceduralBlockUpdateInit();
 	clearMainGraphics();

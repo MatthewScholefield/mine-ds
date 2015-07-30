@@ -9,12 +9,12 @@
 #include <math.h>
 #include <vector>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
-//int execptions[]={AIR};
+#define MAX_BLOCK_SPRITES 100
+
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
-Graphic blockGraphics[NUM_SPRITE_BLOCKS];
-std::vector<BlockSpriteContainer> blockSprites;
+BlockSpriteContainer *blockSprites[MAX_BLOCK_SPRITES] = {};
 int sunbrightness;
 
 static void drawBlockGraphic(WorldObject *world, int x, int y)
@@ -26,16 +26,18 @@ static void drawBlockGraphic(WorldObject *world, int x, int y)
 	x -= world->camX;
 	y -= world->camY;
 	std::vector<BlockSpriteContainer>::size_type i;
-	for (i=0; i<blockSprites.size();++i)
-		if (blockID == blockSprites[i].blockID && paletteID == blockSprites[i].sprite.paletteID && !blockSprites[i].hasBeenRendered)
+	for (i=0; i<MAX_BLOCK_SPRITES && blockSprites[i];++i)
+		if (blockID == blockSprites[i]->blockID && paletteID == blockSprites[i]->sprite.paletteID && !blockSprites[i]->hasBeenRendered)
 		{
-			blockSprites[i].draw(x, y);
-			break;
+			blockSprites[i]->draw(x, y);
+			return;
 		}
-	if (i==blockSprites.size())
+	if (i==MAX_BLOCK_SPRITES)
+		showError("Too many block sprites");
+	else if (!blockSprites[i])
 	{
-		blockSprites.emplace_back(blockID, paletteID);
-		blockSprites.back().draw(x, y);
+		blockSprites[i] = new BlockSpriteContainer(blockID, paletteID);
+		blockSprites[i]->draw(x, y);
 	}
 }
 
@@ -159,12 +161,6 @@ void Calculate_Brightness(WorldObject* world)
 }
 void renderTile16(int a, int b, int c, int d); //HAX
 
-void worldRender_LoadSprites()
-{
-	for (int i = 0; i < NUM_SPRITE_BLOCKS; ++i)
-		loadGraphic(&blockGraphics[i], GRAPHIC_BLOCK, getSpriteBlock(i));
-}
-
 void worldRender_Init()
 {
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
@@ -264,20 +260,19 @@ void worldRender_Render(WorldObject* world, int screen_x, int screen_y)
 
 void clearUnusedBlockSprites()
 {
-	for (std::vector<BlockSpriteContainer>::size_type i=0; i<blockSprites.size();++i)
-		if (!blockSprites[i].hasBeenRendered)
+	for (int i=0; i<MAX_BLOCK_SPRITES && blockSprites[i];++i)
+		if (!blockSprites[i]->hasBeenRendered)
 		{
-			blockSprites.erase(blockSprites.begin() + i);
+			delete blockSprites[i];
+			blockSprites[i] = nullptr;
 			--i;
 		}
 		else
-			blockSprites[i].hasBeenRendered = false;
-	printXY(1, 1, blockSprites.size());
+			blockSprites[i]->hasBeenRendered = false;
 }
 
 void BlockSpriteContainer::draw(int x, int y)
 {
 	showGraphic(&sprite, x, y, false, 1);
-	printXY(1, 3, x / 16);
 	hasBeenRendered = true;
 }
