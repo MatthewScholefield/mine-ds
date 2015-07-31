@@ -56,7 +56,7 @@ void ItemMob::updateMob(WorldObject* world)
 	if (isBlockWalkThrough(world->blocks[int(x - sx / 2 + 1) / 16][int(y + sy / 2) / 16]) && isBlockWalkThrough(world->blocks[int(x + sx / 2) / 16][int(y + sy / 2) / 16]))
 	{
 		y += (16 * vy) / FPS;
-		vy += (18.0 / 60.0);
+		vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
 	}
 	if (vy != 0 && !isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2 - 1) / 16]))
 	{
