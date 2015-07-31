@@ -14,7 +14,7 @@
 #include "../inventory.h"
 #include "../mainGame.h"
 #include "../worldRender.h"
-const int AnimalMob::FRAME[3] = {10, 12, 14}; 
+const int AnimalMob::FRAME[3] = {10, 12, 14};
 
 void AnimalMob::calcMiscData(WorldObject* world)
 {
@@ -25,8 +25,8 @@ void AnimalMob::updateMob(WorldObject* world)
 {
 	if (brightness<0)
 	{
-		loadGraphic(&normalSprite, GRAPHIC_MOB, FRAME[type], 16, 16, 8+(6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15);
-		loadGraphic(&hurtSprite, GRAPHIC_MOB, FRAME[type] + 1, 16, 16, normalSprite.paletteID);
+		loadGraphic(&normalSprite, GRAPHIC_MOB, FRAME[animal], 16, 16, 8 + (6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15);
+		loadGraphic(&hurtSprite, GRAPHIC_MOB, FRAME[animal] + 1, 16, 16, normalSprite.paletteID);
 	}
 	
 	showGraphic(spriteState == 0 ? &normalSprite : &hurtSprite, x - world->camX - 7, y - world->camY - 7, facing ? true : false);
