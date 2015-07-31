@@ -6,9 +6,9 @@
 
 enum AnimalType
 {
-	ANIMAL_COW = 0,
-	ANIMAL_SHEEP = 1,
-	ANIMAL_PIG = 2
+	ANIMAL_PIG = 0,
+	ANIMAL_COW = 1,
+	ANIMAL_SHEEP = 2
 };
 
 class AnimalMob : public BaseMob
