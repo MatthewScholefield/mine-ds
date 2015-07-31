@@ -99,9 +99,7 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 		if ((!mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (!mob->collisions[SIDE_TOP] && mob->vy < 0))
 			mob->y += (16 * mob->vy) / FPS; //Main statement Positive velocity=down
 		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
-		{
 			mob->x += (16 * mob->vx) / FPS;
-		}
 		if (mob->x < mob->sx / 2) mob->x = mob->sx / 2;
 		if (mob->y < mob->sy / 2) mob->y = mob->sy / 2;
 		if (mob->x > WORLD_WIDTHPX - mob->sx / 2) mob->x = WORLD_WIDTHPX - mob->sx / 2;
@@ -158,9 +156,7 @@ void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
 		if ((!mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (!mob->collisions[SIDE_TOP] && mob->vy < 0))
 			mob->y += (16 * mob->vy) / FPS; //Main statement Positive velocity=down
 		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
-		{
 			mob->x += (16 * mob->vx) / FPS;
-		}
 	}
 }
 
