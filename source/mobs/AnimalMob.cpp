@@ -112,7 +112,7 @@ void AnimalMob::hurt(int amount, int type)
 	int playerX = getPlayerX();
 	if (abs(x - playerX) < 256)
 	{
-		int volume = 280 - abs(x - playerX);
+		int volume = -abs(x - playerX) + 280;
 		if (volume > 255)
 			volume = 255;
 		int panning = (x - playerX) / 2 + 127;

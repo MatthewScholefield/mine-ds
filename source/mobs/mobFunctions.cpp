@@ -19,7 +19,7 @@ void calculatePhysics(BaseMob *mob)
 	else if (mob->collisions[SIDE_TOP] && mob->vy < 0)
 		mob->vy = 0;
 	else
-		mob->vy += (18.0 / float(FPS)); //Gravity Acceleration = +18.0 m/s^2
+		mob->vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
 
 	//Velocity Cap
 	if (mob->vy > 25) mob->vy = 25;
@@ -97,13 +97,10 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 
 		calculateCollisions(world, mob);
 		if ((!mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (!mob->collisions[SIDE_TOP] && mob->vy < 0))
-			mob->y += 16.0 * mob->vy / float(FPS); //Main statement Positive velocity=down
+			mob->y += (16 * mob->vy) / FPS; //Main statement Positive velocity=down
 		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
 		{
-			if (mob->isMyPlayer())
-				mob->x += int(16.0 * mob->vx / float(FPS));
-			else
-				mob->x += 16.0 * mob->vx / float(FPS);
+			mob->x += (16 * mob->vx) / FPS;
 		}
 		if (mob->x < mob->sx / 2) mob->x = mob->sx / 2;
 		if (mob->y < mob->sy / 2) mob->y = mob->sy / 2;
@@ -159,13 +156,10 @@ void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
 
 		calculateCollisions(world, mob);
 		if ((!mob->collisions[SIDE_BOTTOM] && mob->vy > 0) || (!mob->collisions[SIDE_TOP] && mob->vy < 0))
-			mob->y += 16.0 * mob->vy / float(FPS); //Main statement Positive velocity=down
+			mob->y += (16 * mob->vy) / FPS; //Main statement Positive velocity=down
 		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
 		{
-			if (mob->isMyPlayer())
-				mob->x += int(16.0 * mob->vx / float(FPS));
-			else
-				mob->x += 16.0 * mob->vx / float(FPS);
+			mob->x += (16 * mob->vx) / FPS;
 		}
 	}
 }
