@@ -3,6 +3,7 @@
 #include <memory>
 #include "../world.h"
 #include "../graphics/graphics.h"
+#include "../FixedPoint.h"
 
 #define SIDE_BOTTOM 0
 #define SIDE_RIGHT 1
@@ -35,7 +36,7 @@ protected:
 public:
 	MobType type;
 	int health; //0 = Dead
-	float x, y, vx, vy;
+	FixedPoint x, y, vx, vy;
 	int sx, sy;
 	bool smallMob, alive, onCactus, facing, collisions[5];
 	int spriteState, framesHurtSprite, timeOnCactus, framesFarAway, brightness;
