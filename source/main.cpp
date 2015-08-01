@@ -24,7 +24,7 @@
 //#include <maxmod9.h>    // Maxmod definitions for ARM9
 //#include <string>
 
-#include "FixedPoint.h"
+#include "water.h"
 
 
 int screen_x, screen_y;
@@ -51,16 +51,7 @@ int main()
 	oamClear(&oamSub, 0, 127);
 	initSound();
 	clear_messages();
-
-	/*FixedPoint10 num = 230;
-	printXY(1, 0, num);
-	num *= 2;
-	printXY(1, 1, num);
-	num /= 4;
-	printXY(1, 2, num);
-	num *= 2;
-	printXY(1, 3, num);
-	sleepThread(10);*/
+	init3D();
 
 	titleScreen();
 	return 0;
