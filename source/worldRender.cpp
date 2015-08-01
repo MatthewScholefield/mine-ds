@@ -164,7 +164,7 @@ void renderTile16(int a, int b, int c, int d); //HAX
 void worldRender_Init()
 {
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
-	REG_DISPCNT = MODE_5_2D | DISPLAY_BG_EXT_PALETTE;
+	REG_DISPCNT = MODE_5_3D | DISPLAY_BG_EXT_PALETTE;
 	bgInit(2, BgType_ExRotation, BgSize_ER_512x512, 0x10, 0);
 	bgShow(2);
 	bgSetPriority(2, 1);
