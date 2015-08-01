@@ -30,6 +30,7 @@
 #include <time.h>
 #include "blocks.h"
 #include "graphics/Menu.h"
+#include "water.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
@@ -216,6 +217,7 @@ void startGame(void)
 		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
 		updateFrame(); //Should be the only time called in the loop
+		update3D();
 		worldRender_Render(world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		updateSubBG();
