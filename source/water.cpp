@@ -6,7 +6,7 @@ float rotateY = 0.0;
 void init3D()
 {
 	//set mode 0, enable BG0 and set it to 3D
-	videoSetMode(MODE_0_3D);
+	//videoSetMode(MODE_0_3D);
 
 	// initialize gl
 	glInit();
