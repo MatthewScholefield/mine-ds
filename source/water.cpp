@@ -25,7 +25,7 @@ void init3D()
 	//any floating point gl call is being converted to fixed prior to being implemented
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-  glOrtho(0.0,0.25,0.1875,0.0,0.0,1.0);
+  glOrtho(0.0,0.0625,0.046875,0.0,0.0,1.0);
 	/*gluPerspective(70, 256.0 / 192.0, 0.1, 40);
 
 	gluLookAt(0.0, 0.0, 1.0, //camera possition
@@ -62,10 +62,10 @@ void update3D()
 	glVertex3v16(0, 0, 0);
 
 	glColor3b(0, 255, 0);
-	glVertex3v16(0, 768, 0);
+	glVertex3v16(0, 192, 0);
 
 	glColor3b(0, 0, 255);
-	glVertex3v16(1024,384, 0);
+	glVertex3v16(256,96, 0);
 
 	glEnd();
 
