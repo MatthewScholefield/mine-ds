@@ -18,42 +18,21 @@ void init3D()
 	glClearColor(0, 0, 0, 0); // BG must be opaque for AA to work
   glClearPolyID(3);
 	glClearDepth(0x7FFF);
-
 	//this should work the same as the normal gl call
 	glViewport(0, 0, 255, 191);
-
 	//any floating point gl call is being converted to fixed prior to being implemented
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
   glOrtho(0.0,0.0625,0.046875,0.0,0.0,1.0);
-	/*gluPerspective(70, 256.0 / 192.0, 0.1, 40);
-
-	gluLookAt(0.0, 0.0, 1.0, //camera possition
-			0.0, 0.0, 0.0, //look at
-			0.0, 1.0, 0.0); //up*/
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2)); //*/
 }
 
 void update3D()
 {
 	glPushMatrix();
-
-
 	glMatrixMode(GL_MODELVIEW);
-
-
-
 	//not a real gl function and will likely change
 	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE | POLY_ID(4));
-
-
-	u16 keys = keysHeld();
-
-	if ((keys & KEY_UP)) rotateX += 3;
-	if ((keys & KEY_DOWN)) rotateX -= 3;
-	if ((keys & KEY_LEFT)) rotateY += 3;
-	if ((keys & KEY_RIGHT)) rotateY -= 3;
-
 
 	//draw the obj
 	glBegin(GL_TRIANGLE);
