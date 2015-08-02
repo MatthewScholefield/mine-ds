@@ -56,7 +56,7 @@ public:
 
 	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
-	, camY(0), camX(0), timeInWorld(79), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
+	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, chests{}
 
 	, furnaces() { }
