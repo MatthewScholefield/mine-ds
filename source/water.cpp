@@ -13,23 +13,24 @@ void init3D()
  
 	// setup the rear plane
 	glClearColor(0, 0, 0, 0); // BG must be opaque for AA to work
-  glClearPolyID(3);
+  glClearPolyID(0);
 	glClearDepth(0x7FFF);
 	//this should work the same as the normal gl call
 	glViewport(0, 0, 255, 191);
 	//any floating point gl call is being converted to fixed prior to being implemented
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-  glOrthof32(0,256,192,0,0,512);
-	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2)); //*/
+  glOrthof32(0,256,192,0,-100000,100000);
+	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE ); //*/
 }
 
 void update3D()
 {
 	glPushMatrix();
 	glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 	//not a real gl function and will likely change
-	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE | POLY_ID(4));
+	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE);
 
 	//draw the obj
 	glBegin(GL_TRIANGLE);
