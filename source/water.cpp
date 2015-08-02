@@ -25,23 +25,18 @@ void init3D()
 	//any floating point gl call is being converted to fixed prior to being implemented
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(70, 256.0 / 192.0, 0.1, 40);
+  glOrtho(0.0,0.25,0.1875,0.0,0.0,1.0);
+	/*gluPerspective(70, 256.0 / 192.0, 0.1, 40);
 
 	gluLookAt(0.0, 0.0, 1.0, //camera possition
 			0.0, 0.0, 0.0, //look at
-			0.0, 1.0, 0.0); //up
+			0.0, 1.0, 0.0); //up*/
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2)); //*/
 }
 
 void update3D()
 {
 	glPushMatrix();
-
-	//move it away from the camera
-	glTranslatef32(0, 0, floattof32(-1));
-
-	glRotateX(rotateX);
-	glRotateY(rotateY);
 
 
 	glMatrixMode(GL_MODELVIEW);
@@ -64,13 +59,13 @@ void update3D()
 	glBegin(GL_TRIANGLE);
 
 	glColor3b(255, 0, 0);
-	glVertex3v16(inttov16(-1), inttov16(-1), 0);
+	glVertex3v16(0, 0, 0);
 
 	glColor3b(0, 255, 0);
-	glVertex3v16(inttov16(1), inttov16(-1), 0);
+	glVertex3v16(0, 768, 0);
 
 	glColor3b(0, 0, 255);
-	glVertex3v16(inttov16(0), inttov16(1), 0);
+	glVertex3v16(1024,384, 0);
 
 	glEnd();
 
