@@ -2,9 +2,6 @@
 #define 	BLEND_CR   (*(vuint16*)0x04000050)
 #define 	BLEND_AB   (*(vuint16*)0x04000052)
 #define 	BLEND_Y   (*(vuint16*)0x04000054)
-float rotateX = 0.0;
-float rotateY = 0.0;
-
 void init3D()
 {
 	// initialize gl
@@ -23,7 +20,7 @@ void init3D()
 	//any floating point gl call is being converted to fixed prior to being implemented
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-  glOrtho(0.0,0.0625,0.046875,0.0,0.0,1.0);
+  glOrthof32(0,256,192,0,0,512);
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_ID(2)); //*/
 }
 
