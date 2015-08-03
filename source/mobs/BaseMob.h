@@ -51,6 +51,7 @@ public:
 	virtual void hurt(int amount, int type);
 	virtual void calcHealth();
 	virtual bool isMyPlayer();
+	bool canJump(WorldObject *world = nullptr);
 
 	BaseMob(MobType type, int x, int y, int sx, int sy) :
 	normalSprite(), hurtSprite(), type(type), health(256), x(x + sx / 2),

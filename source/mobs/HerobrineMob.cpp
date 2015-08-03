@@ -52,7 +52,7 @@ void HerobrineMob::updateMob(WorldObject* world)
 					x += ((rand() % 2) ? -1 : 1)*(rand() % 15);
 			}
 		}
-		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
+		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
 			vy = JUMP_VELOCITY;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
@@ -85,7 +85,7 @@ void HerobrineMob::hurt(int amount, int type)
 
 	if (spriteState == 1)
 		return;
-	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
+	if (jumpHurtType(type) && canJump())
 		vy = JUMP_VELOCITY;
 	playSound(SOUND_PLAYER_HURT);
 	health -= amount;

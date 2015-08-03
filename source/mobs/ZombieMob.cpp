@@ -25,7 +25,7 @@ void ZombieMob::hurt(int amount, int type)
 
 	if (spriteState == 1)
 		return;
-	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
+	if (jumpHurtType(type) && canJump())
 		vy = JUMP_VELOCITY;
 	int playerX = getPlayerX();
 	if (abs(x - playerX) < 256)
@@ -72,7 +72,7 @@ void ZombieMob::updateMob(WorldObject* world)
 		}
 		else
 			vx = 0;
-		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP] && spriteState != 1)
+		if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
 			vy = JUMP_VELOCITY;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
