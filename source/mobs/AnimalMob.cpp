@@ -47,11 +47,11 @@ void AnimalMob::updateMob(WorldObject* world)
 		{
 			if (mov > 1)
 			{
-				if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP])
+				if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
 					vy = JUMP_VELOCITY;
 				else if (!(collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]))
 					--mov;
-				if (!collisions[SIDE_BOTTOM] && ((collisions[SIDE_RIGHT] && dir) || (collisions[SIDE_LEFT]&&!dir)) && vy > 0)
+				if (!canJump(world) && ((collisions[SIDE_RIGHT] && dir) || (collisions[SIDE_LEFT]&&!dir)) && vy > 0)
 				{
 					mov = 50;
 					dir = !(facing = dir); //Change Direction
@@ -81,7 +81,7 @@ void AnimalMob::updateMob(WorldObject* world)
 		else //Scared
 		{
 			vx = (facing = (target->x > x)) ? -RUN_VELOCITY : RUN_VELOCITY;
-			if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && collisions[SIDE_BOTTOM] && !collisions[SIDE_TOP])
+			if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
 				vy = JUMP_VELOCITY;
 			--scaredTimer;
 		}
@@ -106,7 +106,7 @@ void AnimalMob::hurt(int amount, int type)
 
 	if (spriteState == 1)
 		return;
-	if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
+	if (jumpHurtType(type) && canJump())
 		vy = JUMP_VELOCITY;
 	health -= amount;
 	int playerX = getPlayerX();
