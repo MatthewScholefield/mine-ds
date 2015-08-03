@@ -240,9 +240,9 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 					drawBlockGraphic(world, i, j);
 					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
 				}
-				else if (world->blocks[i][j] != AIR)
+				else if (shouldRender(world->blocks[i][j]) && world->blocks[i][j] != AIR)
 					renderBlock(world, i, j, world->blocks[i][j]);
-				else if (world->bgblocks[i][j] != AIR)
+				else if (shouldRender(world->bgblocks[i][j]) && world->bgblocks[i][j] != AIR)
 					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
 				else
 					renderBlock(world, i, j, AIR);
