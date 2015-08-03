@@ -2,6 +2,8 @@
 #include "../world.h"
 #include "../blockUpdater.h"
 
+int getWaterLevel(WorldObject *world, int x, int y);
+
 class WaterUpdater : public BlockUpdater
 {
 public:
