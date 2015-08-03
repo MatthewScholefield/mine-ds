@@ -21,10 +21,16 @@
 #include "../worldRender.h"
 #include "../deathScreen.h"
 #include "../mainGame.h"
+#include "WaterMob.h"
 #define PLAYER_ID 1
 
 std::vector<BaseMob_ptr> mobs;
 bool hasSpawnedPlayer;
+
+void createWaterMob(int x, int y)
+{
+	mobs.push_back(BaseMob_ptr(new WaterMob(x * 16, y * 16)));
+}
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
 {

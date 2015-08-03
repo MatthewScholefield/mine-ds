@@ -19,6 +19,7 @@ enum MobType
 	MOB_MULTIPLAYER = 3,
 	MOB_PLAYER = 4,
 	MOB_ZOMBIE = 5,
+	MOB_WATER = 6
 };
 
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
@@ -46,8 +47,13 @@ public:
 
 	virtual void updateMob(WorldObject* world) = 0;
 	virtual void calcMiscData(WorldObject *world) = 0;
-	virtual void saveToFile(FILE* sFile) = 0;
-	virtual void loadFromFile(FILE* sFile) = 0;
+
+	virtual void saveToFile(FILE* sFile) { }
+
+	virtual void loadFromFile(FILE* sFile)
+	{
+		health = 0;
+	}
 	virtual void hurt(int amount, int type);
 	virtual void calcHealth();
 	virtual bool isMyPlayer();
