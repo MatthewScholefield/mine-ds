@@ -536,7 +536,7 @@ bool shouldRender(int blockID)
 	switch (blockID)
 	{
 	case WATER:
-		return true; // Rendering for debugging purposes, until I have a proper 3D rendering system in place...
+		return false; 
 	default:
 		return true;
 	}
