@@ -23,7 +23,7 @@ void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
   bool rightDownSolid = false;
   bool leftDownSolid = false;
   bool downClear = false;
-  if (x > 1)
+  if (x > 0)
   {
     leftClear = world->blocks[x-1][y] == AIR;
     if (y < WORLD_HEIGHT-1)
@@ -140,4 +140,6 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
   int waterLevel = world->data[x][y] & 0x0F;
   if (waterLevel == 12) waterLevel = 16;
   drawRect(x*16 - world->camX,y*16 - world->camY + 16,16, -waterLevel);
+  if (waterLevel == 0)
+    world->blocks[x][y]=AIR;
 }
