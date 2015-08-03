@@ -164,7 +164,7 @@ void renderTile16(int a, int b, int c, int d); //HAX
 void worldRender_Init()
 {
 	vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
-	REG_DISPCNT = MODE_5_2D | DISPLAY_BG_EXT_PALETTE;
+	REG_DISPCNT = MODE_5_3D | DISPLAY_BG_EXT_PALETTE;
 	bgInit(2, BgType_ExRotation, BgSize_ER_512x512, 0x10, 0);
 	bgShow(2);
 	bgSetPriority(2, 1);
@@ -240,9 +240,9 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 					drawBlockGraphic(world, i, j);
 					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
 				}
-				else if (world->blocks[i][j] != AIR)
+				else if (shouldRender(world->blocks[i][j]) && world->blocks[i][j] != AIR)
 					renderBlock(world, i, j, world->blocks[i][j]);
-				else if (world->bgblocks[i][j] != AIR)
+				else if (shouldRender(world->bgblocks[i][j]) && world->bgblocks[i][j] != AIR)
 					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
 				else
 					renderBlock(world, i, j, AIR);
