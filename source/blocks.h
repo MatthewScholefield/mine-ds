@@ -23,3 +23,4 @@ bool isGrassBlock(int blockID);
 SoundAudio getBlockAudio(int blockID);
 bool blockItem(int blockID);
 int getGenericBlock(int blockID);
+bool shouldRender(int blockID);

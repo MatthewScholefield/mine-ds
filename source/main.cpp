@@ -24,7 +24,7 @@
 //#include <maxmod9.h>    // Maxmod definitions for ARM9
 //#include <string>
 
-#include "water.h"
+#include "graphics/3DHandler.h"
 
 
 int screen_x, screen_y;
