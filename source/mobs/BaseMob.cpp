@@ -7,6 +7,7 @@
 #include "../blockID.h"
 #include "hurt.h"
 #include "../general.h"
+#include "../blockUpdaters/water.h"
 
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
 {
@@ -48,4 +49,9 @@ bool jumpHurtType(int hurtType)
 	default:
 		return true;
 	}
+}
+
+bool BaseMob::canJump(WorldObject *world)
+{
+	return !collisions[SIDE_TOP] && (collisions[SIDE_BOTTOM] || (world && (isWaterAt(world, x, y + sy - 1) || isWaterAt(world, x, y - sy + 1))));
 }
