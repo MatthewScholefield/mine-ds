@@ -103,6 +103,7 @@ bool isBlockWalkThrough(int blockID)
 	case SAPLING_SPRUCE:
 	case DOOR_OPEN_TOP:
 	case DOOR_OPEN_BOTTOM:
+  case WATER:
 		return true;
 
 	default:
@@ -535,7 +536,7 @@ bool shouldRender(int blockID)
 	switch (blockID)
 	{
 	case WATER:
-		return false;
+		return true; // Rendering for debugging purposes, until I have a proper 3D rendering system in place...
 	default:
 		return true;
 	}
