@@ -7,8 +7,6 @@
 #include "../blocks.h"
 #include "water.h"
 #include "../mobs/mobHandler.h"
-//	createItemMob(x, y, getSurvivalItem(leafID));
-//    ^^ Used as reference when writing this file
 WaterUpdater::WaterUpdater()
 {
 	blockID = WATER;
@@ -81,13 +79,40 @@ void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
   }
   if (spreadRight)
   {
-    createItemMob(x+1, y, getSurvivalItem(world->blocks[x][y]));
+    createItemMob(x+1, y, getSurvivalItem(world->blocks[x+1][y]));
     world->blocks[x+1][y] = WATER;
     world->data[x+1][y] = (world->data[x-1][y]&0xFFFF0000) | otherLevels;
   }
   //Update this water blocks water level
   world->data[x][y]&= 0xFFFF0000;
   world->data[x][y]|=middleLevel;
+}
+void WaterUpdater::attemptSharing(WorldObject* world, int x, int y)
+{
+  int waterLevel = world->data[x][y] & 0xF;
+  if (waterLevel > 12) waterLevel = 12;
+  bool rightWater = false;
+  bool leftWater = false;
+  if (x > 0 && world->blocks[x-1][y]==WATER && world->data[x-1][y]&0xF)
+  {
+    leftWater = true;
+  }
+  if (x < WORLD_WIDTH && world->blocks[x+1][y]==WATER && world->data[x+1][y]&0xF)
+    rightWater = true;
+  if (rightWater) 
+    waterLevel += world->data[x+1][y] & 0xF;
+  if (leftWater) 
+    waterLevel += world->data[x-1][y] & 0xF;
+  int reqDiv = 1;
+  if (rightWater) ++reqDiv;
+  if (leftWater) ++reqDiv;
+  int middleLevel = (waterLevel / reqDiv) + (waterLevel % reqDiv);
+  int otherLevels = (waterLevel / reqDiv);
+  world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | middleLevel;
+  if (rightWater)
+    world->data[x+1][y] = (world->data[x+1][y] & 0xFFFF0000) | otherLevels;
+  if (leftWater)
+    world->data[x-1][y] = (world->data[x-1][y] & 0xFFFF0000) | otherLevels;
 }
 void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
@@ -106,6 +131,8 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
     {
       if (world->blocks[x][y+1]!=WATER)
       {
+
+        createItemMob(x, y, getSurvivalItem(world->blocks[x][y+1]));
         world->blocks[x][y+1]=WATER;
         world->data[x][y+1] = (world->data[x][y] & 0xFFFF) | (world->data[x][y+1] & 0xFFFF0000);
         world->blocks[x][y]=AIR;
@@ -115,7 +142,11 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
         int belowWaterLevel = world->data[x][y+1] & 0xF;
         if (belowWaterLevel > 12 ) belowWaterLevel = 12;
         int neededWater = 12 - belowWaterLevel;
-        if (neededWater == 0) attemptSpreading(world,x,y);
+        if (neededWater == 0)
+        {
+          attemptSpreading(world,x,y);
+          attemptSharing(world,x,y);
+        }
         int waterLevel = world->data[x][y] & 0x0F;
         if (waterLevel >= neededWater)
         {
@@ -127,7 +158,7 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
         {
             world->data[x][y] = world->data[x][y] & 0xFFFF0000;
             world->blocks[x][y] = AIR;
-            belowWaterLevel -= waterLevel;
+            belowWaterLevel += waterLevel;
             world->data[x][y+1] = (world->data[x][y+1] & 0xFFFF0000) | belowWaterLevel;
         } 
       }
@@ -135,6 +166,7 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
     else
     {
       attemptSpreading(world,x,y);
+      attemptSharing(world,x,y);
     }
   }
   int waterLevel = world->data[x][y] & 0x0F;
