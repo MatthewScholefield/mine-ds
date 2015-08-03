@@ -8,6 +8,11 @@
 #include "water.h"
 #include "../mobs/mobHandler.h"
 
+int getWaterLevel(WorldObject *world, int x, int y)
+{
+	return world->data[x][y]&0x0F;
+}
+
 WaterUpdater::WaterUpdater()
 {
 	blockID = WATER;
@@ -65,10 +70,7 @@ void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
 	if (spreadRight) ++reqDiv;
 	//If there isn't enough water to spread, don't
 	if (waterLevel < reqDiv)
-	{
-		printLocalMessage("Not enough water to spread");
 		return;
-	}
 
 	//Otherwise, split at will
 	int middleLevel = (waterLevel / reqDiv) + (waterLevel % reqDiv);
@@ -131,6 +133,8 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	}
 	else
 	{
+		if (rand() % 32)
+			return;
 		if (y < (WORLD_HEIGHT - 1) && isBlockWalkThrough(world->blocks[x][y + 1]))
 		{
 			if (world->blocks[x][y + 1] != WATER)
@@ -173,9 +177,6 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 			attemptSharing(world, x, y);
 		}
 	}
-	int waterLevel = world->data[x][y] & 0x0F;
-	if (waterLevel == 12) waterLevel = 16;
-	drawRect(x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
-	if (waterLevel == 0)
+	if ((world->data[x][y] & 0x0F) == 0)
 		world->blocks[x][y] = AIR;
 }
