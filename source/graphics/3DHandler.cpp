@@ -5,17 +5,18 @@
 #define 	BLEND_AB   (*(vuint16*)0x04000052)
 #define 	BLEND_Y   (*(vuint16*)0x04000054)
 
-std::vector<Pair3<std::pair<int, int> > > triangles;
+// Vector of (Color R,G,B) and (3 Coords X,Y,Z)
+std::vector<std::pair<Pair3<int>, Pair3<std::pair<int, int> > > > triangles;
 
-void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
+void drawTriangle(Pair3<int> color, int x1, int y1, int x2, int y2, int x3, int y3)
 {
-	triangles.emplace_back(Pair3<std::pair<int, int> >(std::pair<int, int>(x1, y1), std::pair<int, int>(x2, y2), std::pair<int, int>(x3, y3)));
+	triangles.emplace_back(color, Pair3 <std::pair<int, int> >(std::pair<int, int>(x1, y1), std::pair<int, int>(x2, y2), std::pair<int, int>(x3, y3)));
 }
 
-void drawRect(int x, int y, int sx, int sy)
+void drawRect(Pair3<int> color, int x, int y, int sx, int sy)
 {
-	drawTriangle(x, y, x + sx, y, x + sx, y + sy);
-	drawTriangle(x, y, x + sx, y + sy, x, y + sy);
+	drawTriangle(color, x, y, x + sx, y, x + sx, y + sy);
+	drawTriangle(color, x, y, x + sx, y + sy, x, y + sy);
 }
 
 void init3D()
@@ -51,8 +52,8 @@ void update3D()
 	for (auto &i : triangles)
 	{
 		glBegin(GL_TRIANGLE);
-		glColor3b(0, 192, 255);
-		for (auto &j : i.elements)
+		glColor3b(i.first.elements[0], i.first.elements[1], i.first.elements[2]);
+		for (auto &j : i.second.elements)
 			glVertex3v16(j.first, j.second, 0);
 	}
 

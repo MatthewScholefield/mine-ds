@@ -7,8 +7,9 @@
 #include "../general.h"
 #include "mobFunctions.h"
 #include "hurt.h"
+#include "../blockUpdaters/water.h"
 
-void calculatePhysics(BaseMob *mob)
+void calculatePhysics(BaseMob *mob, bool inWater)
 {
 	if (mob->collisions[SIDE_BOTTOM] && mob->vy > 0)
 	{
@@ -22,7 +23,7 @@ void calculatePhysics(BaseMob *mob)
 		mob->vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
 
 	//Velocity Cap
-	if (mob->vy > 25) mob->vy = 25;
+	if (mob->vy > (inWater ? 2 : 25)) mob->vy = inWater ? 2 : 25;
 }
 
 int blockAtPixel(WorldObject *world, int pixX, int pixY)
@@ -49,7 +50,7 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		calculatePhysics(mob);
+		calculatePhysics(mob, isWaterAt(world, mob->x + mob->sx - 1, mob->y) || isWaterAt(world, mob->x - mob->sx + 1, mob->y));
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
@@ -112,7 +113,7 @@ void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
 	{
 		if (mob->x < 1) mob->x = 1;
 		if (mob->y < 1) mob->y = 1;
-		calculatePhysics(mob);
+		calculatePhysics(mob, isWaterAt(world, mob->x + mob->sx - 1, mob->y) || isWaterAt(world, mob->x - mob->sx + 1, mob->y));
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
