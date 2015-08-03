@@ -30,7 +30,7 @@
 #include <time.h>
 #include "blocks.h"
 #include "graphics/Menu.h"
-#include "water.h"
+#include "graphics/3DHandler.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
