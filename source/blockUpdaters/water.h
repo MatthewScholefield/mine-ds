@@ -3,6 +3,7 @@
 #include "../blockUpdater.h"
 
 int getWaterLevel(WorldObject *world, int x, int y);
+bool isWaterAt(WorldObject *world, int px, int py);
 
 class WaterUpdater : public BlockUpdater
 {
