@@ -1,6 +1,7 @@
 #include "../world.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
+#include "../graphics/3DHandler.h"
 #include "../blockUpdater.h"
 #include "../blockID.h"
 #include "../blocks.h"
@@ -42,13 +43,13 @@ void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
   }
   if (y < WORLD_HEIGHT-1)
   {
-    downClear = isBlockWalkThrough(world->blocks[x][y+1]) && world->blocks[x][y+1]!=WATER;
+    downClear = isBlockWalkThrough(world->blocks[x][y+1]);
   }
   
   //With that out of the way we can check to see if we _can_ spread
   bool spreadRight = false;
   bool spreadLeft = false;
-  if (!downClear)
+  if (!downClear || world->blocks[x][y+1]==WATER)
   {
     if (rightClear)
       spreadRight = true;
@@ -101,15 +102,42 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
   }
   else
   {
-    if (y < (WORLD_HEIGHT - 1) && isBlockWalkThrough(world->blocks[x][y+1]) && world->blocks[x][y+1]!=WATER)
+    if (y < (WORLD_HEIGHT - 1) && isBlockWalkThrough(world->blocks[x][y+1]))
     {
-      world->blocks[x][y+1]=WATER;
-      world->data[x][y+1] = (world->data[x][y] & 0xFFFF) | (world->data[x][y+1] & 0xFFFF0000);
-      world->blocks[x][y]=AIR;
+      if (world->blocks[x][y+1]!=WATER)
+      {
+        world->blocks[x][y+1]=WATER;
+        world->data[x][y+1] = (world->data[x][y] & 0xFFFF) | (world->data[x][y+1] & 0xFFFF0000);
+        world->blocks[x][y]=AIR;
+      }
+      else if (world->blocks[x][y+1]==WATER)
+      {
+        int belowWaterLevel = world->data[x][y+1] & 0xF;
+        if (belowWaterLevel > 12 ) belowWaterLevel = 12;
+        int neededWater = 12 - belowWaterLevel;
+        if (neededWater == 0) attemptSpreading(world,x,y);
+        int waterLevel = world->data[x][y] & 0x0F;
+        if (waterLevel >= neededWater)
+        {
+          waterLevel -= neededWater;
+          world->data[x][y+1] = (world->data[x][y+1] & 0xFFFF0000) | 12;
+          world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | waterLevel;
+        }
+        else if (waterLevel < neededWater)
+        {
+            world->data[x][y] = world->data[x][y] & 0xFFFF0000;
+            world->blocks[x][y] = AIR;
+            belowWaterLevel -= waterLevel;
+            world->data[x][y+1] = (world->data[x][y+1] & 0xFFFF0000) | belowWaterLevel;
+        } 
+      }
     }
     else
     {
       attemptSpreading(world,x,y);
     }
   }
+  int waterLevel = world->data[x][y] & 0x0F;
+  if (waterLevel == 12) waterLevel = 16;
+  drawRect(x*16 - world->camX,y*16 - world->camY + 16,16, -waterLevel);
 }
