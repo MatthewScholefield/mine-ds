@@ -140,7 +140,7 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	}
 	else
 	{
-		if (rand() % 32)
+		if (rand() % 4)
 			return;
 		if (y < (WORLD_HEIGHT - 1) && isBlockWalkThrough(world->blocks[x][y + 1]))
 		{

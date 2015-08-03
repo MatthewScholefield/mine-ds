@@ -76,11 +76,7 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 			createFurnace(world, x, y, bg);
 			break;
 		case BUCKET_WATER:
-			if (bg)
-				world->bgblocks[x][y] = WATER;
-			else
-				world->blocks[x][y] = WATER;
-        world->data[x][y] |= 12;
+			createWaterMob(x, y);
 			break;
 		default:
 			if (!item(blockID))
