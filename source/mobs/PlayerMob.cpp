@@ -33,7 +33,7 @@ void PlayerMob::hurt(int amount, int type)
 	{
 		if (spriteState == 1)
 			return;
-		if (jumpHurtType(type) && collisions[SIDE_BOTTOM])
+		if (jumpHurtType(type) && canJump())
 			vy = JUMP_VELOCITY;
 		playSound(SOUND_PLAYER_HURT);
 		health -= amount;
@@ -184,7 +184,7 @@ void PlayerMob::updateMob(WorldObject* world)
 				vy = -3;
 			else if (onLadder)
 				vy = 2;
-			if ((!onLadder || !checkLadder(world, x, y + 15)) && (collisions[SIDE_BOTTOM] || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+			if ((!onLadder || !checkLadder(world, x, y + 15)) && (canJump(world) || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);

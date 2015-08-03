@@ -20,10 +20,16 @@ void calculatePhysics(BaseMob *mob, bool inWater)
 	else if (mob->collisions[SIDE_TOP] && mob->vy < 0)
 		mob->vy = 0;
 	else
-		mob->vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
+		mob->vy += FixedPoint(true, ((inWater ? 6 : 18) * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
 
-	//Velocity Cap
-	if (mob->vy > (inWater ? 2 : 25)) mob->vy = inWater ? 2 : 25;
+	int velocityCap = 25;
+	if (inWater)
+	{
+		velocityCap = 2;
+		if (mob->vy<-2) mob->vy = -2;
+		if (abs(mob->vx) > 2) mob->vx = 2 * (mob->vx > 0 ? 1 : -1);
+	}
+	if (mob->vy > velocityCap) mob->vy = velocityCap;
 }
 
 int blockAtPixel(WorldObject *world, int pixX, int pixY)
@@ -50,7 +56,7 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		calculatePhysics(mob, isWaterAt(world, mob->x + mob->sx - 1, mob->y) || isWaterAt(world, mob->x - mob->sx + 1, mob->y));
+		calculatePhysics(mob, isWaterAt(world, mob->x, mob->y + mob->sy - 1) || isWaterAt(world, mob->x, mob->y - mob->sy + 1));
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
@@ -113,7 +119,7 @@ void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
 	{
 		if (mob->x < 1) mob->x = 1;
 		if (mob->y < 1) mob->y = 1;
-		calculatePhysics(mob, isWaterAt(world, mob->x + mob->sx - 1, mob->y) || isWaterAt(world, mob->x - mob->sx + 1, mob->y));
+		calculatePhysics(mob, isWaterAt(world, mob->x, mob->y + mob->sy - 1) || isWaterAt(world, mob->x, mob->y - mob->sy + 1));
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
