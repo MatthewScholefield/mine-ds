@@ -75,6 +75,12 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 		case FURNACE:
 			createFurnace(world, x, y, bg);
 			break;
+		case BUCKET_WATER:
+			if (bg)
+				world->bgblocks[x][y] = WATER;
+			else
+				world->blocks[x][y] = WATER;
+			break;
 		default:
 			if (!item(blockID))
 			{

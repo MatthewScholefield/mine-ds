@@ -529,3 +529,14 @@ int getHardness(int blockID)
 {
 	return hardness[blockID];
 }
+
+bool shouldRender(int blockID)
+{
+	switch (blockID)
+	{
+	case WATER:
+		return false;
+	default:
+		return true;
+	}
+}
