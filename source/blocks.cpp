@@ -103,6 +103,7 @@ bool isBlockWalkThrough(int blockID)
 	case SAPLING_SPRUCE:
 	case DOOR_OPEN_TOP:
 	case DOOR_OPEN_BOTTOM:
+  case WATER:
 		return true;
 
 	default:
@@ -528,4 +529,15 @@ int getType(int blockID)
 int getHardness(int blockID)
 {
 	return hardness[blockID];
+}
+
+bool shouldRender(int blockID)
+{
+	switch (blockID)
+	{
+	case WATER:
+		return false; 
+	default:
+		return true;
+	}
 }
