@@ -6,8 +6,9 @@
 #include "blocks.h"
 #include "graphics/graphics.h"
 #include "general.h"
+#include "blockUpdaters/water.h"
+#include "graphics/3DHandler.h"
 #include <math.h>
-#include <vector>
 #define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 #define MAX_BLOCK_SPRITES 100
 
@@ -239,6 +240,13 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 				{
 					drawBlockGraphic(world, i, j);
 					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+				}
+				else if (world->blocks[i][j] == WATER)
+				{
+					renderBlock(world, i, j, AIR);
+					int waterLevel = getWaterLevel(world, i, j);
+					waterLevel = (waterLevel * 16) / 12;
+					drawRect(i * 16 - world->camX, j * 16 - world->camY + 16, 16, -waterLevel);
 				}
 				else if (shouldRender(world->blocks[i][j]) && world->blocks[i][j] != AIR)
 					renderBlock(world, i, j, world->blocks[i][j]);
