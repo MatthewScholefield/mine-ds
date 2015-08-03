@@ -243,10 +243,19 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 				}
 				else if (world->blocks[i][j] == WATER)
 				{
-					renderBlock(world, i, j, AIR);
 					int waterLevel = getWaterLevel(world, i, j);
 					waterLevel = (waterLevel * 16) / 12;
-					drawRect(i * 16 - world->camX, j * 16 - world->camY + 16, 16, -waterLevel);
+					int r = 0, g = 192, b = 255;
+					if (shouldRender(world->bgblocks[i][j]) && world->bgblocks[i][j] != AIR)
+					{
+						renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+					}
+					else
+					{
+						g /= 2;
+						b /= 2;
+					}
+					drawRect(Pair3<int>(r, g, b), i * 16 - world->camX, j * 16 - world->camY + 16, 16, -waterLevel);
 				}
 				else if (shouldRender(world->blocks[i][j]) && world->blocks[i][j] != AIR)
 					renderBlock(world, i, j, world->blocks[i][j]);

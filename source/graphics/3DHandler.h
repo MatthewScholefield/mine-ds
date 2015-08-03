@@ -1,8 +1,4 @@
 #pragma once
-void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3);
-void drawRect(int x, int y, int sx, int sy);
-void init3D();
-void update3D();
 
 template <class T>
 class Pair3
@@ -17,3 +13,8 @@ public:
 		elements[2] = c;
 	}
 };
+
+void drawTriangle(Pair3<int> color, int x1, int y1, int x2, int y2, int x3, int y3);
+void drawRect(Pair3<int> color, int x, int y, int sx, int sy);
+void init3D();
+void update3D();
