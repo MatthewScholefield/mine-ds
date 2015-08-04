@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "blockUpdater.h"
 #include "world.h"
 #include "blocks.h"
@@ -95,13 +97,8 @@ void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)
 
 void proceduralBlockUpdate(WorldObject* world)
 {
-	int sx = world->camX / 16;
-	int sy = world->camY / 16;
-	for (int x = sx; x < (sx + 16); ++x)
-	{
-		for (int y = sy; y < (sy + 12); ++y)
-		{
+	const int EXTRA_FRAME = 1;
+	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
+		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16); ++y)
 			proceduralBlockUpdateCheck(world, x, y);
-		}
-	}
 }
