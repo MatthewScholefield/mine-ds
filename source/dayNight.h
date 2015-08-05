@@ -1,5 +1,5 @@
 #pragma once
 #include "world.h"
-void timeUpdate(WorldObject* world);
+void dayNightUpdate(WorldObject* world);
 bool isDay(WorldObject* world);
 void setSkyDay();
