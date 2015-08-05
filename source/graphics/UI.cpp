@@ -43,8 +43,8 @@ int createMenu(Button buttons[], int size, bool showBack, int scrollLength)
 	while (!chosen)
 	{
 		updateSubBG();
-		updateFrame();
-		updateTime(); //Used to ensure random world seed changes
+		vBlank();
+		timeUpdate(); //Used to ensure random world seed changes
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH))
 		{
@@ -119,7 +119,7 @@ bool enableDisableMenu(bool initial)
 	scanKeys();
 	touchRead(&touch);
 	oldKeys = keysHeld();
-	updateFrame();
+	vBlank();
 	bool returnVal = initial;
 	while (1)
 	{
@@ -149,7 +149,7 @@ bool enableDisableMenu(bool initial)
 		}
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		updateFrame();
+		vBlank();
 	}
 }
 
@@ -194,7 +194,7 @@ int listMenu(int x, int y, int numItems, int maxNameLength)
 				back.setColored(false);
 			}
 		}
-		updateFrame();
+		vBlank();
 	}
 }
 

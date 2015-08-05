@@ -24,7 +24,7 @@ void clearText()
 	clearTextRegion(0, 0, 32, 24);
 }
 
-void updateFrame()
+void vBlank()
 {
 	if (streamIsOpen())
 		mmStreamUpdate();
@@ -43,7 +43,7 @@ size_t maxStringLength(std::vector<std::string> lines)
 void sleepThread(unsigned int seconds)
 {
 	for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i)
-		updateFrame(); // sleeps for one frame
+		vBlank(); // sleeps for one frame
 }
 
 int getOldestMessageIndex()
@@ -97,7 +97,7 @@ void clear_messages()
 // TODO: Make updateTime() and getTime() less misleading,
 //       since they don't actually get the time ( gettimeofday() )
 
-void updateTime()
+void timeUpdate()
 {
 	++currentTime;
 	if (currentTime > 100000)
