@@ -101,7 +101,7 @@ int Menu::activate(bool initial)
 {
 	int returnVal = -2;
 	touchPosition touch;
-	updateFrame();
+	vBlank();
 	draw(true);
 	switch (type)
 	{
@@ -110,8 +110,8 @@ int Menu::activate(bool initial)
 		while (returnVal == -2)
 		{
 			updateSubBG();
-			updateFrame();
-			updateTime(); //Used to ensure random world seed changes
+			vBlank();
+			timeUpdate(); //Used to ensure random world seed changes
 			scanKeys();
 			int state = getTouchState(&touch);
 			if (state)
@@ -128,7 +128,7 @@ int Menu::activate(bool initial)
 		uint column = 0;
 		while (returnVal == -2)
 		{
-			updateFrame();
+			vBlank();
 			updateSubBG();
 			scanKeys();
 			if (keysDown() & KEY_TOUCH) //New Press

@@ -226,12 +226,12 @@ void renderBlock(WorldObject* world, int i, int j, int blockId, bool add = false
 		renderTile16(i, j, blockId, world->brightness[i][j] + (add ? 6 : 0));
 }
 
-void renderWorld(WorldObject* world, int screen_x, int screen_y)
+void renderWorld(WorldObject* world)
 {
 	int i, j;
-	for (i = screen_x / 16 - 2; i <= screen_x / 16 + 20; ++i)
+	for (i = world->camX / 16 - 2; i <= world->camX / 16 + 20; ++i)
 	{
-		for (j = screen_y / 16 - 2; j <= screen_y / 16 + 20; ++j)
+		for (j = world->camY / 16 - 2; j <= world->camY / 16 + 20; ++j)
 		{
 			//Check The Block is on screen
 			if (onScreen(16, i, j, 1, 1))
@@ -269,10 +269,10 @@ void renderWorld(WorldObject* world, int screen_x, int screen_y)
 	}
 }
 
-void worldRender_Render(WorldObject* world, int screen_x, int screen_y)
+void worldRender_Render(WorldObject* world)
 {
-	beginRender(screen_x, screen_y);
-	renderWorld(world, screen_x, screen_y);
+	beginRender(world->camX, world->camY);
+	renderWorld(world);
 }
 
 

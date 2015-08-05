@@ -4,7 +4,7 @@
 #include "graphics/graphics.h"
 
 void worldRender_Init();
-void worldRender_Render(WorldObject* world, int screen_x, int screen_y);
+void worldRender_Render(WorldObject* world);
 void Calculate_Brightness(WorldObject* world);
 extern "C"
 {

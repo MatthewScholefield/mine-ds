@@ -35,19 +35,15 @@ void init3D()
 	//this should work the same as the normal gl call
 	glViewport(0, 0, 255, 191);
 	//any floating point gl call is being converted to fixed prior to being implemented
-	glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glOrthof32(0, 256, 192, 0, -100000, 100000);
-	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE); //*/
+	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE); //*/
 }
 
 void update3D()
 {
 	glPushMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//not a real gl function and will likely change
-	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE);
 
 	for (auto &i : triangles)
 	{
@@ -56,9 +52,8 @@ void update3D()
 		for (auto &j : i.second.elements)
 			glVertex3v16(j.first, j.second, 0);
 	}
+	triangles.clear();
 
 	glPopMatrix(1);
-
 	glFlush(0);
-	triangles.clear();
 }

@@ -343,7 +343,7 @@ bool clientNifiInit()
 		touchPosition touch;
 		while (something)
 		{
-			updateFrame();
+			vBlank();
 			scanKeys();
 			touchRead(&touch);
 			if (keysDown() & KEY_TOUCH && touch.px < 100)
