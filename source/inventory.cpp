@@ -34,7 +34,6 @@ Button backButton(1, 16, "Back", false);
 Button saveButton(8, 16, "Save World", false);
 Button craftButton(21, 16, "Crafting", false);
 Button pageButton(21, 16, "Pages", 9, false);
-unsigned char oldX, oldY;
 
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
@@ -315,7 +314,7 @@ void moveSelectedSlot(bool right)
 	changeInvSelectedGraphic();
 }
 
-void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
+void updateInventory(touchPosition touch, WorldObject* world)
 {
 	if (showingInventory != 2) //Not in crafting menu
 	{
@@ -343,7 +342,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			openInventory();
 		break;
 	case 1:
-		if (keysHeld() & KEY_TOUCH && !(oldKeys & KEY_TOUCH)) //New Press
+		if (keysDown() & KEY_TOUCH) //New Press
 		{
 			touchRead(&touch);
 			backButton.setColored(backButton.isTouching(touch.px, touch.py));
@@ -351,13 +350,13 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			craftButton.setColored(craftButton.isTouching(touch.px, touch.py));
 			pageButton.setColored(pageButton.isTouching(touch.px, touch.py));
 		}
-		else if (!(keysHeld() & KEY_TOUCH) && oldKeys & KEY_TOUCH) //Release
+		else if (keysUp() & KEY_TOUCH) //Release
 		{
-			if (oldX > 1 * 8 && oldY > (8 + 1)*8 && oldY < (8 + 6)*8 && oldX < 31 * 8)
+			if (touch.px > 1 * 8 && touch.py > (8 + 1)*8 && touch.py < (8 + 6)*8 && touch.px < 31 * 8)
 			{
 				int space = 0;
-				space += 15 * ((oldY - (8 + 1)*8) / (3 * 8));
-				space += (oldX - 8) / 16;
+				space += 15 * ((touch.py - (8 + 1)*8) / (3 * 8));
+				space += (touch.px - 8) / 16;
 				if (getOpenedChestID() != -1 && invSlot<-1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Inventory
 					int tmpId, tmpAmount = 0;
@@ -411,11 +410,11 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				}
 				updateInv(true);
 			}
-			else if (getOpenedChestID() != -1 && oldX > 1 * 8 && oldY > 1 * 8 && oldY < 6 * 8 && oldX < 31 * 8)
+			else if (getOpenedChestID() != -1 && touch.px > 1 * 8 && touch.py > 1 * 8 && touch.py < 6 * 8 && touch.px < 31 * 8)
 			{
 				int space = 0;
-				space += 15 * ((oldY - 1 * 8) / (3 * 8));
-				space += (oldX - 8) / 16;
+				space += 15 * ((touch.py - 1 * 8) / (3 * 8));
+				space += (touch.px - 8) / 16;
 				if (invSlot > -1 && mainPlayerInv.blocks[invSlot].blockId != AIR)
 				{ //Source: Inventory, Destination: Chest
 					int tmpId, tmpAmount = 0;
@@ -459,9 +458,9 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				}
 				updateInv(true);
 			}
-			else if (backButton.isColored && backButton.isTouching(oldX, oldY))//(touch. px > (2 - 1)*8 && oldX < (2 + 5)*8 && oldY > (17 - 1)*8 && oldY < (17 + 2)*8)
+			else if (backButton.isColored && backButton.isTouching(touch.px, touch.py))//(touch. px > (2 - 1)*8 && touch.px < (2 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8)
 				closeInventory();
-			else if (craftButton.isColored && craftButton.isTouching(oldX, oldY))
+			else if (craftButton.isColored && craftButton.isTouching(touch.px, touch.py))
 			{ //Crafting Menu
 				backButton.setVisible(false);
 				saveButton.setVisible(false);
@@ -470,7 +469,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 				craftingMenuInit();
 				showingInventory = 2;
 			}
-			else if (saveButton.isColored && saveButton.isTouching(oldX, oldY))
+			else if (saveButton.isColored && saveButton.isTouching(touch.px, touch.py))
 			{ //Save Game
 				if (saveWorld(world))
 					printLocalMessage("Saved Game\n");
@@ -478,7 +477,7 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 					printLocalMessage("Failed to Save Game\n");
 				saveButton.setColored(false);
 			}
-			else if (pageButton.isColored && pageButton.isTouching(oldX, oldY))
+			else if (pageButton.isColored && pageButton.isTouching(touch.px, touch.py))
 			{ //Page Menu
 				backButton.setVisible(false);
 				saveButton.setVisible(false);
@@ -500,8 +499,6 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 		}
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
 			closeInventory();
-		oldX = touch.px;
-		oldY = touch.py;
 		break;
 	case 2:
 		if ((isSurvival() && craftingMenuUpdate(&touch)) || (!isSurvival() && pageMenuUpdate(&touch)))
@@ -517,11 +514,6 @@ void updateInventory(touchPosition touch, WorldObject* world, uint oldKeys)
 			pageButton.setVisible(!isSurvival());
 			enableInvGraphics();
 			updatePageName();
-		}
-		else
-		{
-			oldX = touch.px;
-			oldY = touch.py;
 		}
 		break;
 	}

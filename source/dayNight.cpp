@@ -16,7 +16,7 @@ u8 r2[15] = {16, 16, 15, 14, 13, 12, 11, 8, 8, 7, 6};
 u8 g2[15] = {24, 22, 22, 18, 16, 13, 12, 8, 7, 5, 8};
 u8 b2[15] = {31, 31, 30, 29, 28, 27, 26, 26, 24, 23, 22};
 
-void timeUpdate(WorldObject* world)
+void dayNightUpdate(WorldObject* world)
 {
 	++timeTillChange;
 	if (timeTillChange >= SEC_TO_FPS(5))

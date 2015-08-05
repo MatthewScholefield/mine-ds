@@ -45,7 +45,7 @@ static void redrawGameUI(void)
 	updateInv(true);
 }
 
-static int inGameMenu()
+static bool inGameMenu()
 {
 	bool exit = false;
 	oamClear(&oamSub, 0, 0);
@@ -75,7 +75,7 @@ static int inGameMenu()
 			}
 			break;
 		case 2: // quit game
-			return -1;
+			return true;
 		case 3: // settings
 			settingsScreen();
 			startTransition(false);
@@ -88,7 +88,7 @@ static int inGameMenu()
 		}
 	}
 	redrawGameUI();
-	return 0;
+	return false;
 }
 
 bool isSurvival(void)
@@ -130,7 +130,7 @@ void newGame(gamemode_t mode, int seed)
 
 void drawWorld()
 {
-	worldRender_Render(world, world->camX, world->camY);
+	worldRender_Render(world);
 }
 
 void previewGame(void)
@@ -162,7 +162,7 @@ void joinGame(void)
 	printXY(1, 10, "Looking for servers");
 	// TODO: Rename clientNifiInit() to something that makes more sense
 	while (!clientNifiInit()) // Looks for servers, sets up Nifi, and Asks the player to join a server.
-		updateFrame();
+		vBlank();
 	printXY(1, 11, "Joining Server!");
 	if (!doHandshake())
 	{
@@ -183,7 +183,6 @@ void startGame(void)
 {
 	setSubBg(0, 0);
 	updateSubBG();
-	int oldKeys = keysHeld();
 	touchPosition touch;
 
 	clearText();
@@ -199,32 +198,32 @@ void startGame(void)
 
 	while (!shouldQuitGame)
 	{
-		updateTime();
+		clearMainGraphics();
+		clearUnusedBlockSprites();
+		dayNightUpdate(world);
+		timeUpdate();
+
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH)
 			touchRead(&touch);
+		
 		mobHandlerUpdate(world, &touch);
-		updateInventory(touch, world, oldKeys);
+		updateInventory(touch, world);
 		update_message();
-		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
-			clear_messages();
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)
 		{
 			if (inGameMenu() != 0)
 				break;
 		}
-		oldKeys = keysHeld();
 		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
-		update3D();
-		updateFrame(); //Should be the only time called in the loop
-
-		worldRender_Render(world, world->camX, world->camY);
-		oamUpdate(&oamMain);
-		updateSubBG();
-		clearMainGraphics();
-		clearUnusedBlockSprites();
-		timeUpdate(world);
+		vBlank();
+		{
+			worldRender_Render(world);
+			update3D();
+			oamUpdate(&oamMain);
+			updateSubBG();
+		}
 	}
 }
 
@@ -232,7 +231,7 @@ void startGame(void)
 
 void startMultiplayerGame(bool host)
 {
-	int oldKeys = keysHeld();
+	/*int oldKeys = keysHeld();
 	touchPosition touch;
 
 	nifiEnable();
@@ -286,7 +285,7 @@ void startMultiplayerGame(bool host)
 		if (host)
 			timeUpdate(world);
 	}
-	nifiDisable();
+	nifiDisable();*/
 }
 /*void setSeed(int seed)
 {

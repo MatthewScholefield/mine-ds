@@ -235,7 +235,7 @@ void updateTexture()
 	dmaCopy(subBgTiles.data(), bgGetGfxPtr(getSubBgID()), sub_bgTilesLen);
 	refreshFont();
 	updateSubBG();
-	
+
 	swiWaitForVBlank(); //Prevents sub screen flicker
 }
 

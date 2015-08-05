@@ -42,7 +42,7 @@ int doHandshake()
 	while (timer > 0 && code == 0)
 	{
 		--timer;
-		updateFrame();
+		vBlank();
 	}
 	if (code == 1)
 	{
@@ -88,7 +88,7 @@ void recieveWorld(WorldObject* world2)
 					Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 					framecounter = 0;
 				}
-				updateFrame();
+				vBlank();
 			}
 			j += addamount;
 		}
