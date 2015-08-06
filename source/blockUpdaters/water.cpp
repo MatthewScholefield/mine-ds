@@ -7,6 +7,7 @@
 #include "../blocks.h"
 #include "water.h"
 #include "../mobs/mobHandler.h"
+#include "../mining.h"
 
 int getWaterLevel(WorldObject *world, int x, int y)
 {
@@ -33,28 +34,17 @@ void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
 	bool leftClear = false;
 	bool rightDownSolid = false;
 	bool leftDownSolid = false;
-	bool downClear = false;
+	bool downClear = y < WORLD_HEIGHT - 1 && isBlockWalkThrough(world->blocks[x][y + 1]);
+	;
 	if (x > 0)
 	{
-		leftClear = world->blocks[x - 1][y] == AIR;
-		if (y < WORLD_HEIGHT - 1)
-		{
-			if (world->blocks[x - 1][y + 1] == WATER || !isBlockWalkThrough(world->blocks[x - 1][y + 1]))
-				leftDownSolid = true;
-		}
+		leftClear = isBlockWalkThrough(world->blocks[x - 1][y]) && world->blocks[x - 1][y] != WATER;
+		leftDownSolid = y < WORLD_HEIGHT - 1 && (world->blocks[x - 1][y + 1] == WATER || !isBlockWalkThrough(world->blocks[x - 1][y + 1]));
 	}
 	if (x < WORLD_WIDTH - 1)
 	{
-		rightClear = world->blocks[x + 1][y] == AIR;
-		if (y < WORLD_HEIGHT - 1)
-		{
-			if (world->blocks[x + 1][y + 1] == WATER || !isBlockWalkThrough(world->blocks[x + 1][y + 1]))
-				rightDownSolid = true;
-		}
-	}
-	if (y < WORLD_HEIGHT - 1)
-	{
-		downClear = isBlockWalkThrough(world->blocks[x][y + 1]);
+		rightClear = isBlockWalkThrough(world->blocks[x + 1][y]) && world->blocks[x + 1][y] != WATER;
+		rightDownSolid = y < WORLD_HEIGHT - 1 && (world->blocks[x + 1][y + 1] == WATER || !isBlockWalkThrough(world->blocks[x + 1][y + 1]));
 	}
 
 	//With that out of the way we can check to see if we _can_ spread
@@ -83,13 +73,13 @@ void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
 	int otherLevels = (waterLevel / reqDiv);
 	if (spreadLeft)
 	{
-		createItemMob(x - 1, y, getSurvivalItem(world->blocks[x][y]));
+		destroyBlock(world, x - 1, y, false, false);
 		world->blocks[x - 1][y] = WATER;
 		world->data[x - 1][y] = (world->data[x - 1][y]&0xFFFF0000) | otherLevels;
 	}
 	if (spreadRight)
 	{
-		createItemMob(x + 1, y, getSurvivalItem(world->blocks[x + 1][y]));
+		destroyBlock(world, x + 1, y, false, false);
 		world->blocks[x + 1][y] = WATER;
 		world->data[x + 1][y] = (world->data[x - 1][y]&0xFFFF0000) | otherLevels;
 	}
@@ -146,7 +136,7 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 			if (world->blocks[x][y + 1] != WATER)
 			{
 
-				createItemMob(x, y, getSurvivalItem(world->blocks[x][y + 1]));
+				destroyBlock(world, x, y + 1, false, false);
 				world->blocks[x][y + 1] = WATER;
 				world->data[x][y + 1] = (world->data[x][y] & 0xFFFF) | (world->data[x][y + 1] & 0xFFFF0000);
 				world->blocks[x][y] = AIR;
