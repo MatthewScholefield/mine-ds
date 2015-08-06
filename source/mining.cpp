@@ -35,9 +35,11 @@ bool canMine() //Returns whether touch input can destroy blocks
 	return !miningDisabled;
 }
 
-void destroyBlock(WorldObject *world, int x, int y, bool bg)
+void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 {
 	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
+	if (blockXY == AIR)
+		return;
 	switch (*blockXY)
 	{
 	case CHEST:
@@ -47,9 +49,9 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg)
 		destroyFurnace(world, x, y, bg);
 		break;
 	default:
-		if (canBreak(*blockXY))
+		if (!byHand || canBreak(*blockXY))
 		{
-			if (canDropItem(*blockXY))
+			if (!byHand || canDropItem(*blockXY))
 				createItemMob(x, y, getSurvivalItem(*blockXY));
 			else if (!isSurvival())
 				addInventory(*blockXY);

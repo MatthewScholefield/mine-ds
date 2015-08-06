@@ -8,3 +8,4 @@ void miningUpdate(WorldObject* world, touchPosition touch);
 void enableMining();
 void setMiningDisabled(bool a);
 bool canMine();
+void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand = true);
