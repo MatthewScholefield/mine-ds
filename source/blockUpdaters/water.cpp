@@ -140,16 +140,6 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	}
 	else
 	{
-		int waterLevel = getWaterLevel(world, x, y);
-		waterLevel = (waterLevel * 16) / 12;
-		int r = 0, g = 192, b = 255;
-		if (world->bgblocks[x][y] == AIR)
-		{
-			g /= 2;
-			b /= 2;
-		}
-		drawRect(Pair3<int>(r, g, b), x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
-		
 		if (getTime() % 8)
 			return;
 		if (y < (WORLD_HEIGHT - 1) && isBlockWalkThrough(world->blocks[x][y + 1]))

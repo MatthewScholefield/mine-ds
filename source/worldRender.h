@@ -5,6 +5,7 @@
 
 void worldRender_Init();
 void worldRender_Render(WorldObject* world);
+void worldRender_RenderWater(WorldObject *world);
 void Calculate_Brightness(WorldObject* world);
 extern "C"
 {

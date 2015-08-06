@@ -217,6 +217,7 @@ void startGame(void)
 		}
 		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
+		worldRender_RenderWater(world);
 		update3D();
 		vBlank();
 		{
