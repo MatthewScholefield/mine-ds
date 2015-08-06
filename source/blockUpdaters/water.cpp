@@ -15,7 +15,6 @@ int getWaterLevel(WorldObject *world, int x, int y)
 
 bool isWaterAt(WorldObject *world, int px, int py)
 {
-	py -= 16;
 	return world->blocks[px / 16][py / 16] == WATER
 			&& py % 16 >= 16 - (getWaterLevel(world, px / 16, py / 16)*16) / 12;
 }
