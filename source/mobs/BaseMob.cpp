@@ -53,5 +53,5 @@ bool jumpHurtType(int hurtType)
 
 bool BaseMob::canJump(WorldObject *world)
 {
-	return !collisions[SIDE_TOP] && (collisions[SIDE_BOTTOM] || (world && (isWaterAt(world, x, y + sy - 1) || isWaterAt(world, x, y - sy + 1))));
+	return !collisions[SIDE_TOP] && (collisions[SIDE_BOTTOM] || (world && (isWaterAt(world, x, y + sy / 2 - 1) || isWaterAt(world, x, y - sy / 2 + 1))));
 }
