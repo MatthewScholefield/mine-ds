@@ -284,3 +284,24 @@ void BlockSpriteContainer::draw(int x, int y)
 	showGraphic(&sprite, x, y, false, 1);
 	hasBeenRendered = true;
 }
+
+static void renderWater(WorldObject *world, int x, int y)
+{
+	int waterLevel = getWaterLevel(world, x, y);
+	waterLevel = (waterLevel * 16) / 12;
+	int r = 0, g = 192, b = 255;
+	if (world->bgblocks[x][y] == AIR)
+	{
+		g /= 2;
+		b /= 2;
+	}
+	drawRect(Pair3<int>(r, g, b), x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
+}
+
+void worldRender_RenderWater(WorldObject *world)
+{
+	for (int i = world->camX / 16 - 2; i <= world->camX / 16 + 20; ++i)
+		for (int j = world->camY / 16 - 2; j <= world->camY / 16 + 20; ++j)
+			if (onScreen(16, i, j, 1, 1) && world->blocks[i][j] == WATER)
+				renderWater(world, i, j);
+}
