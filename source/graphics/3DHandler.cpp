@@ -41,7 +41,7 @@ void update3D()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE);
+	glPolyFmt(POLY_ALPHA(10) | POLY_CULL_NONE);
 
 	for (auto &i : triangles)
 	{
