@@ -5,6 +5,7 @@
 #include "../graphics/3DHandler.h"
 #include "../general.h"
 #include "../FixedPoint.h"
+#include "../blockUpdaters/water.h"
 
 void WaterMob::calcMiscData(WorldObject* world)
 {
@@ -14,20 +15,49 @@ void WaterMob::calcMiscData(WorldObject* world)
 
 void WaterMob::updateMob(WorldObject* world)
 {
-	if (world->blocks[(x) / 16][(y + sy / 2) / 16] != AIR)
+	int blockX = (x) / 16;
+	int blockY = (y + sy / 2) / 16;
+	switch (world->blocks[blockX][blockY])
 	{
-		int x = (this->x) / 16;
-		int y = (this->y + sy / 2) / 16;
-		while (y >= 0 && world->blocks[x][y] != AIR)
-			--y;
-		if (y >= 0)
+	case WATER:
+	{
+		if (isWaterAt(world, x, y + 8))
 		{
-			world->blocks[x][y] = WATER;
-			world->data[x][y] |= 12;
+			world->blocks[blockX][(y - 8) / 16] = WATER;
+			world->data[blockX][(y - 8) / 16] &= 0xFFFF0000;
+			world->data[blockX][(y - 8) / 16] |= world->data[blockX][(y + 8) / 16]&0xFFFF;
+			world->data[blockX][(y + 8) / 16] &= 0xFFFF0000;
+			world->data[blockX][(y + 8) / 16] |= 0x1100;
+			health = 0;
+			break;
+		}
+	}
+	case AIR:
+	{
+		Pair3<int>color(0, 255, 255);
+		if ((world->bgblocks[blockX][blockY - 1] == AIR) == (world->bgblocks[blockX][blockY] == AIR))
+			drawRect(color / (world->bgblocks[blockX][blockY - 1] == AIR ? 2 : 1), x - 8 - world->camX, y - 8 - world->camY, 16, 16);
+		else
+		{
+			int topSize = 16 - ((y + 8) % 16);
+			drawRect(color / (world->bgblocks[blockX][blockY - 1] == AIR ? 2 : 1), x - 8 - world->camX, y - 8 - world->camY, 16, topSize);
+			drawRect(color / (world->bgblocks[blockX][blockY] == AIR ? 2 : 1), x - 8 - world->camX, topSize + y - 8 - world->camY, 16, 16 - topSize);
+		}
+		break;
+	}
+	default:
+	{
+		while (blockY >= 0 && world->blocks[blockX][blockY] != AIR)
+			--blockY;
+		if (blockY >= 0)
+		{
+			world->blocks[blockX][blockY] = WATER;
+			world->data[blockX][blockY] |= 12;
 		}
 		else
-			createItemMob(x, this->y, BUCKET_WATER);
+			createItemMob(blockX, blockY, BUCKET_WATER);
 		health = 0;
+		break;
 	}
-	drawRect(Pair3<int>(0, 192, 255), x - 7 - world->camX, y - 7 - world->camY, 16, 16);
+	}
 }
