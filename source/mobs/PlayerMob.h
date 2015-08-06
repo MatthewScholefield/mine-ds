@@ -14,7 +14,7 @@ private:
 public:
 	bool deathScreen;
 	int tillBrightness;
-  bool initGraphics;
+
 	void calcMiscData(WorldObject* world);
 	void saveToFile(FILE* sFile);
 	void loadFromFile(FILE* sFile);
@@ -24,7 +24,7 @@ public:
 	bool isMyPlayer();
 
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
-	, mineSprite(), deathScreen(false), tillBrightness(0), initGraphics(false)  { }
+	, mineSprite(), deathScreen(false), tillBrightness(0) { }
 
 	~PlayerMob()
 	{
