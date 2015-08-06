@@ -21,13 +21,13 @@ void WaterMob::updateMob(WorldObject* world)
 	{
 	case WATER:
 	{
-		if (isWaterAt(world, x, y + 8))
+		if (isWaterAt(world, x, y + 9))
 		{
-			world->blocks[blockX][(y - 8) / 16] = WATER;
-			world->data[blockX][(y - 8) / 16] &= 0xFFFF0000;
-			world->data[blockX][(y - 8) / 16] |= world->data[blockX][(y + 8) / 16]&0xFFFF;
-			world->data[blockX][(y + 8) / 16] &= 0xFFFF0000;
-			world->data[blockX][(y + 8) / 16] |= 0x1100;
+			int bottomY = (y + 9) / 16;
+			world->blocks[blockX][bottomY - 1] = WATER;
+			world->data[blockX][bottomY - 1] |= getWaterLevel(world, blockX, blockY);
+			world->blocks[blockX][bottomY] = WATER;
+			world->data[blockX][bottomY] |= 12;
 			health = 0;
 			break;
 		}
