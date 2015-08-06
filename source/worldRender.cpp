@@ -289,7 +289,7 @@ static void renderWater(WorldObject *world, int x, int y)
 {
 	int waterLevel = getWaterLevel(world, x, y);
 	waterLevel = (waterLevel * 16) / 12;
-	int r = 0, g = 192, b = 255;
+	int r = 0, g = 255, b = 255;
 	if (world->bgblocks[x][y] == AIR)
 	{
 		g /= 2;
