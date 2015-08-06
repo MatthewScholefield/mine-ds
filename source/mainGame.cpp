@@ -217,10 +217,10 @@ void startGame(void)
 		}
 		miningUpdate(world, touch);
 		proceduralBlockUpdate(world);
+		update3D();
 		vBlank();
 		{
 			worldRender_Render(world);
-			update3D();
 			oamUpdate(&oamMain);
 			updateSubBG();
 		}

@@ -1,9 +1,6 @@
 #include <nds.h>
 #include <vector>
 #include "3DHandler.h"
-#define 	BLEND_CR   (*(vuint16*)0x04000050)
-#define 	BLEND_AB   (*(vuint16*)0x04000052)
-#define 	BLEND_Y   (*(vuint16*)0x04000054)
 
 // Vector of (Color R,G,B) and (3 Coords X,Y,Z)
 std::vector<std::pair<Pair3<int>, Pair3<std::pair<int, int> > > > triangles;
@@ -21,29 +18,30 @@ void drawRect(Pair3<int> color, int x, int y, int sx, int sy)
 
 void init3D()
 {
-	// initialize gl
 	glInit();
-	BLEND_AB = 0x1010;
-	BLEND_CR = BLEND_ALPHA | BLEND_SRC_BG0 | BLEND_DST_BG2;
-	// enable antialiasing
+	REG_BLDALPHA = 0x1010;
+	REG_BLDCNT = BLEND_ALPHA | BLEND_SRC_BG0 | BLEND_DST_BG2;
+
 	glEnable(GL_BLEND); //DISP3DCNT_ENUM
 
-	// setup the rear plane
-	glClearColor(0, 0, 0, 0); // BG must be opaque for AA to work
+	glClearColor(0, 0, 0, 0);
 	glClearPolyID(0);
 	glClearDepth(0x7FFF);
-	//this should work the same as the normal gl call
 	glViewport(0, 0, 255, 191);
-	//any floating point gl call is being converted to fixed prior to being implemented
-	glMatrixMode(GL_MODELVIEW);
+
+	//Any floating point gl call is being converted to fixed prior to being implemented
+	glMatrixMode(GL_PROJECTION); //GL_MATRIX_MODE_ENUM
 	glLoadIdentity();
 	glOrthof32(0, 256, 192, 0, -100000, 100000);
-	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE); //*/
 }
 
 void update3D()
 {
 	glPushMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glPolyFmt(POLY_ALPHA(7) | POLY_CULL_NONE);
 
 	for (auto &i : triangles)
 	{
@@ -55,5 +53,6 @@ void update3D()
 	triangles.clear();
 
 	glPopMatrix(1);
+
 	glFlush(0);
 }
