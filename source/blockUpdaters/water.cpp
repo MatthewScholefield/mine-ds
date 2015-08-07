@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "../world.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
@@ -8,11 +10,6 @@
 #include "water.h"
 #include "../mobs/mobHandler.h"
 #include "../mining.h"
-
-int getWaterLevel(WorldObject *world, int x, int y)
-{
-	return world->data[x][y]&0x0F;
-}
 
 bool isWaterAt(WorldObject *world, int px, int py)
 {
@@ -26,94 +23,51 @@ WaterUpdater::WaterUpdater()
 	chance = NO_CHANCE;
 }
 
-void WaterUpdater::attemptSpreading(WorldObject* world, int x, int y)
+static void setWater(WorldObject *world, int x, int y, int amount)
 {
-	int waterLevel = world->data[x][y] & 0xF;
-	if (waterLevel > 12) waterLevel = 12;
-	bool rightClear = false;
-	bool leftClear = false;
-	bool rightDownSolid = false;
-	bool leftDownSolid = false;
-	bool downClear = y < WORLD_HEIGHT - 1 && isBlockWalkThrough(world->blocks[x][y + 1]);
-	;
-	if (x > 0)
+	if (world->blocks[x][y] != WATER)
 	{
-		leftClear = isBlockWalkThrough(world->blocks[x - 1][y]) && world->blocks[x - 1][y] != WATER;
-		leftDownSolid = y < WORLD_HEIGHT - 1 && (world->blocks[x - 1][y + 1] == WATER || !isBlockWalkThrough(world->blocks[x - 1][y + 1]));
+		destroyBlock(world, x, y, false, false);
+		world->blocks[x][y] = WATER;
 	}
-	if (x < WORLD_WIDTH - 1)
-	{
-		rightClear = isBlockWalkThrough(world->blocks[x + 1][y]) && world->blocks[x + 1][y] != WATER;
-		rightDownSolid = y < WORLD_HEIGHT - 1 && (world->blocks[x + 1][y + 1] == WATER || !isBlockWalkThrough(world->blocks[x + 1][y + 1]));
-	}
-
-	//With that out of the way we can check to see if we _can_ spread
-	bool spreadRight = false;
-	bool spreadLeft = false;
-	if (!downClear || world->blocks[x][y + 1] == WATER)
-	{
-		if (rightClear)
-			spreadRight = true;
-		if (leftClear)
-			spreadLeft = true;
-	}
-	if (rightClear && rightDownSolid) spreadRight = true;
-	if (leftClear && leftDownSolid) spreadLeft = true;
-
-	//Now check that we have enough water for that spreading
-	int reqDiv = 1;
-	if (spreadLeft) ++reqDiv;
-	if (spreadRight) ++reqDiv;
-	//If there isn't enough water to spread, don't
-	if (waterLevel < reqDiv)
-		return;
-
-	//Otherwise, split at will
-	int middleLevel = (waterLevel / reqDiv) + (waterLevel % reqDiv);
-	int otherLevels = (waterLevel / reqDiv);
-	if (spreadLeft)
-	{
-		destroyBlock(world, x - 1, y, false, false);
-		world->blocks[x - 1][y] = WATER;
-		world->data[x - 1][y] = (world->data[x - 1][y]&0xFFFF0000) | otherLevels;
-	}
-	if (spreadRight)
-	{
-		destroyBlock(world, x + 1, y, false, false);
-		world->blocks[x + 1][y] = WATER;
-		world->data[x + 1][y] = (world->data[x - 1][y]&0xFFFF0000) | otherLevels;
-	}
-	//Update this water blocks water level
-	world->data[x][y] &= 0xFFFF0000;
-	world->data[x][y] |= middleLevel;
+	setWaterLevel(world, x, y, amount);
 }
 
-void WaterUpdater::attemptSharing(WorldObject* world, int x, int y)
+static bool flowDown(WorldObject *world, int x, int y)
 {
-	int waterLevel = world->data[x][y] & 0xF;
-	if (waterLevel > 12) waterLevel = 12;
-	bool rightWater = false;
-	bool leftWater = false;
-	if (x > 0 && world->blocks[x - 1][y] == WATER && world->data[x - 1][y]&0xF)
+	if (y + 1 > WORLD_WIDTH || !isBlockWalkThrough(world->blocks[x][y + 1]))
+		return false;
+	int level = getWaterLevel(world, x, y);
+	switch (world->blocks[x][y + 1])
 	{
-		leftWater = true;
+	case AIR:
+		world->blocks[x][y] = AIR;
+		world->blocks[x][y + 1] = WATER;
+		setWaterLevel(world, x, y + 1, level);
+		return true;
+	case WATER:
+	{
+		if (getWaterLevel(world, x, y + 1) == 12)
+			return false;
+		int newLevel = getWaterLevel(world, x, y + 1) + level;
+		if (newLevel > 12)
+		{
+			setWaterLevel(world, x, y, newLevel - 12);
+			setWaterLevel(world, x, y + 1, 12);
+			return false;
+		}
+		else
+		{
+			world->blocks[x][y] = AIR;
+			setWaterLevel(world, x, y + 1, newLevel);
+			return true;
+		}
 	}
-	if (x < WORLD_WIDTH && world->blocks[x + 1][y] == WATER && world->data[x + 1][y]&0xF)
-		rightWater = true;
-	if (rightWater)
-		waterLevel += world->data[x + 1][y] & 0xF;
-	if (leftWater)
-		waterLevel += world->data[x - 1][y] & 0xF;
-	int reqDiv = 1;
-	if (rightWater) ++reqDiv;
-	if (leftWater) ++reqDiv;
-	int middleLevel = (waterLevel / reqDiv) + (waterLevel % reqDiv);
-	int otherLevels = (waterLevel / reqDiv);
-	world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | middleLevel;
-	if (rightWater)
-		world->data[x + 1][y] = (world->data[x + 1][y] & 0xFFFF0000) | otherLevels;
-	if (leftWater)
-		world->data[x - 1][y] = (world->data[x - 1][y] & 0xFFFF0000) | otherLevels;
+	default:
+		destroyBlock(world, x, y + 1, false, false);
+		world->blocks[x][y + 1] = WATER;
+		return false;
+	}
 }
 
 void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
@@ -124,55 +78,39 @@ void WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 		if (world->blocks[x][y] == AIR)
 		{
 			world->blocks[x][y] = WATER;
+			world->bgblocks[x][y] = AIR;
 		}
-		world->bgblocks[x][y] = AIR;
+		return;
 	}
-	else
-	{
-		if (getTime() % 8)
-			return;
-		if (y < (WORLD_HEIGHT - 1) && isBlockWalkThrough(world->blocks[x][y + 1]))
-		{
-			if (world->blocks[x][y + 1] != WATER)
-			{
 
-				destroyBlock(world, x, y + 1, false, false);
-				world->blocks[x][y + 1] = WATER;
-				world->data[x][y + 1] = (world->data[x][y] & 0xFFFF) | (world->data[x][y + 1] & 0xFFFF0000);
-				world->blocks[x][y] = AIR;
-			}
-			else if (world->blocks[x][y + 1] == WATER)
-			{
-				int belowWaterLevel = world->data[x][y + 1] & 0xF;
-				if (belowWaterLevel > 12) belowWaterLevel = 12;
-				int neededWater = 12 - belowWaterLevel;
-				if (neededWater == 0)
-				{
-					attemptSpreading(world, x, y);
-					attemptSharing(world, x, y);
-				}
-				int waterLevel = world->data[x][y] & 0x0F;
-				if (waterLevel >= neededWater)
-				{
-					waterLevel -= neededWater;
-					world->data[x][y + 1] = (world->data[x][y + 1] & 0xFFFF0000) | 12;
-					world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | waterLevel;
-				}
-				else if (waterLevel < neededWater)
-				{
-					world->data[x][y] = world->data[x][y] & 0xFFFF0000;
-					world->blocks[x][y] = AIR;
-					belowWaterLevel += waterLevel;
-					world->data[x][y + 1] = (world->data[x][y + 1] & 0xFFFF0000) | belowWaterLevel;
-				}
-			}
-		}
-		else
-		{
-			attemptSpreading(world, x, y);
-			attemptSharing(world, x, y);
-		}
-	}
-	if ((world->data[x][y] & 0x0F) == 0)
+	if (getWaterLevel(world, x, y) == 0)
+	{
 		world->blocks[x][y] = AIR;
+		return;
+	}
+
+	if (getTime() % 8 != 0)
+		return;
+
+	if (flowDown(world, x, y))
+		return;
+
+	bool leftBound = x - 1 > 0, rightBound = x + 1 <= WORLD_WIDTH;
+	bool canMixLeft = leftBound && isBlockWalkThrough(world->blocks[x - 1][y]);
+	bool canMixRight = rightBound && isBlockWalkThrough(world->blocks[x + 1][y]);
+
+	int total = getWaterLevel(world, x, y)
+			+ (leftBound && world->blocks[x - 1][y] == WATER ? getWaterLevel(world, x - 1, y) : 0)
+			+ (rightBound && world->blocks[x + 1][y] == WATER ? getWaterLevel(world, x + 1, y) : 0);
+
+	int div = 1 + canMixLeft + canMixRight;
+	if (total < div)
+		return;
+
+	int addAmount = total / div;
+	if (canMixLeft)
+		setWater(world, x - 1, y, addAmount);
+	if (canMixRight)
+		setWater(world, x + 1, y, addAmount);
+	setWaterLevel(world, x, y, addAmount + (total % div));
 }

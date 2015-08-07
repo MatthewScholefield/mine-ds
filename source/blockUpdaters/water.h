@@ -1,5 +1,6 @@
 #pragma once
 #include "../world.h"
+#include "../blockID.h"
 #include "../blockUpdater.h"
 
 int getWaterLevel(WorldObject *world, int x, int y);
@@ -13,3 +14,13 @@ public:
 	void attemptSpreading(WorldObject* world, int x, int y);
 	void attemptSharing(WorldObject* world, int x, int y);
 };
+
+inline int getWaterLevel(WorldObject *world, int x, int y)
+{
+	return world->data[x][y]&0xF;
+}
+
+inline void setWaterLevel(WorldObject *world, int x, int y, int level)
+{
+	world->data[x][y] = (world->data[x][y]&0xFFFF0000) | level;
+}
