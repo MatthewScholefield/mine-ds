@@ -7,7 +7,7 @@
 #define WALK_VELOCITY 2.0
 #define RUN_VELOCITY 3.0
 
-void createWaterMob(int x, int y);
+void createWaterMob(int x, int y, int level = 12);
 void createItemMob(int x, int y, int blockID, int amount = 1, int displayID = -1, float initVX = 54321.f);
 bool canMobSpawnHere(WorldObject *world, int x, int y);
 int getDefaultSpawnX();
