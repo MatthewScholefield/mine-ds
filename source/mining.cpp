@@ -38,7 +38,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 {
 	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
-	if (blockXY == AIR)
+	if (*blockXY == AIR)
 		return;
 	switch (*blockXY)
 	{
@@ -47,6 +47,8 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		break;
 	case FURNACE:
 		destroyFurnace(world, x, y, bg);
+		break;
+	case WATER:
 		break;
 	default:
 		if (!byHand || canBreak(*blockXY))
