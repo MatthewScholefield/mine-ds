@@ -27,9 +27,9 @@
 std::vector<BaseMob_ptr> mobs;
 bool hasSpawnedPlayer;
 
-void createWaterMob(int x, int y)
+void createWaterMob(int x, int y, int level)
 {
-	mobs.push_back(BaseMob_ptr(new WaterMob(x * 16, y * 16)));
+	mobs.push_back(BaseMob_ptr(new WaterMob(x * 16 - 8, y * 16 + 8, level)));
 }
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
