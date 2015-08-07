@@ -306,7 +306,7 @@ void worldRender_RenderWater(WorldObject *world)
 			if (onScreen(16, i, j, 1, 1) && world->blocks[i][j] == WATER)
 			{
 				renderWater(world, i, j);
-				if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && getWaterLevel(world, i, j + 1) < 12 - 1)))
+				if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 11))))
 				{
 					createWaterMob(i, j, world->data[i][j]);
 					world->blocks[i][j] = AIR;

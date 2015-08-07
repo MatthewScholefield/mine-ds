@@ -42,7 +42,7 @@ void ItemMob::updateMob(WorldObject* world)
 		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
 		{
 			bool positive = vx > 0;
-			vx -= positive ? 1.0 / 120.0 : -1.0 / 120.0;
+			vx -= FixedPoint(true, FixedPoint::SCALER * 120)*(positive ? 1 : -1);
 			if ((positive && vx < 0) || (!positive && vx > 0))
 				vx = 0;
 			x += vx;

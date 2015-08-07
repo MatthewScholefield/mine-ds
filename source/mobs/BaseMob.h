@@ -60,8 +60,8 @@ public:
 	bool canJump(WorldObject *world = nullptr);
 
 	BaseMob(MobType type, int x, int y, int sx, int sy) :
-	normalSprite(), hurtSprite(), type(type), health(256), x(x + sx / 2),
-	y(y + sy / 2), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
+	normalSprite(), hurtSprite(), type(type), health(256), x(x),
+	y(y), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
 	alive(true), onCactus(false), facing(true), collisions { }
 
 	,
