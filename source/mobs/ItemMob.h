@@ -26,9 +26,9 @@ public:
 	, amount(amount), floatY(0)
 	{
 		if (vx == 54321.f)
-			this->vx = (float((rand() % 10) + 40) / 100.f) * ((rand() % 2) ? -1.f : 1.f);
+			this->vx = FixedPoint(true, (float((rand() % 10) + 40) / 100.f) * ((rand() % 2) ? -1.f : 1.f) * FixedPoint::SCALER);
 		else
-			this->vx = vx;
+			this->vx = FixedPoint(true, vx * 10);
 	}
 
 	~ItemMob() { }

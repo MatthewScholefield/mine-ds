@@ -13,6 +13,19 @@ void WaterMob::calcMiscData(WorldObject* world)
 	y += (16 * vy) / FPS;
 }
 
+void addWater(WorldObject *world, int x, int y, int amount)
+{
+	int totalWater = amount + getWaterLevel(world, x, y);
+	if (totalWater <= 12)
+		setWaterLevel(world, x, y, totalWater);
+	else
+	{
+		world->blocks[x][y - 1] = WATER;
+		setWaterLevel(world, x, y - 1, totalWater - 12);
+		setWaterLevel(world, x, y, 12);
+	}
+}
+
 void WaterMob::updateMob(WorldObject* world)
 {
 	int blockX = (x + sx / 2) / 16;
@@ -23,15 +36,7 @@ void WaterMob::updateMob(WorldObject* world)
 	{
 		if (isWaterAt(world, x + sx / 2, y + 1))
 		{
-			int totalWater = level + getWaterLevel(world, blockX, blockY);
-			if (totalWater <= 12)
-				world->data[blockX][blockY] |= totalWater;
-			else
-			{
-				world->blocks[blockX][blockY - 1] = WATER;
-				world->data[blockX][blockY - 1] |= totalWater - 12;
-				world->data[blockX][blockY] |= 12;
-			}
+			addWater(world, blockX, blockY, level);
 			health = 0;
 			break;
 		}
@@ -39,23 +44,28 @@ void WaterMob::updateMob(WorldObject* world)
 	case AIR:
 	{
 		Pair3<int>color(0, 255, 255);
-		if ((world->bgblocks[blockX][blockY - 1] == AIR) == (world->bgblocks[blockX][y / 16] == AIR))
-			drawRect(color / (world->bgblocks[blockX][blockY - 1] == AIR ? 2 : 1), x - world->camX, y - sy - world->camY, sx, sy);
+		if ((world->bgblocks[blockX][(y - sy) / 16] == AIR) == (world->bgblocks[blockX][y / 16] == AIR))
+			drawRect(color / (world->bgblocks[blockX][(y - sy) / 16] == AIR ? 2 : 1), x - world->camX, y - sy - world->camY, sx, sy);
 		else
 		{
-			int topSize = 16 - (y % 16);
-			drawRect(color / (world->bgblocks[blockX][blockY - 1] == AIR ? 2 : 1), x - world->camX, y - sy - world->camY, sx, topSize);
-			drawRect(color / (world->bgblocks[blockX][blockY] == AIR ? 2 : 1), x - world->camX, topSize + y - sy - world->camY, sx, sy - topSize);
+			int topSize = 16 - ((y - sy) % 16);
+			drawRect(color / (world->bgblocks[blockX][(y - sy) / 16] == AIR ? 2 : 1), x - world->camX, 16 - y - (16 - sy) - world->camY, sx, topSize);
+			drawRect(color / (world->bgblocks[blockX][y / 16] == AIR ? 2 : 1), x - world->camX, 16 - topSize + y - (16 - sy) - world->camY, sx, sy - topSize);
 		}
 		break;
 	}
 	default:
 	{
-		while (--blockY >= 0 && world->blocks[blockX][blockY] != AIR);
+		while (--blockY >= 0 && world->blocks[blockX][blockY] != AIR && world->blocks[blockX][blockY] != WATER);
 		if (blockY >= 0)
 		{
-			world->blocks[blockX][blockY] = WATER;
-			world->data[blockX][blockY] |= level;
+			if (world->blocks[blockX][blockY] == WATER)
+				addWater(world, blockX, blockY, level);
+			else
+			{
+				world->blocks[blockX][blockY] = WATER;
+				setWaterLevel(world, blockX, blockY, level);
+			}
 		}
 		else
 			createItemMob(blockX, blockY, BUCKET_WATER);
