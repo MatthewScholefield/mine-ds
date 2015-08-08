@@ -296,7 +296,8 @@ static void renderWater(WorldObject *world, int x, int y)
 		g /= 2;
 		b /= 2;
 	}
-	drawRect(Pair3<int>(r, g, b), x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
+	drawRect(Color{
+		{r, g, b}}, x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
 }
 
 void worldRender_RenderWater(WorldObject *world)
@@ -306,10 +307,10 @@ void worldRender_RenderWater(WorldObject *world)
 			if (onScreen(16, i, j, 1, 1) && world->blocks[i][j] == WATER)
 			{
 				renderWater(world, i, j);
-				if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 11))))
+				if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 12))))
 				{
 					createWaterMob(i, j, world->data[i][j]);
 					world->blocks[i][j] = AIR;
-				}//*/
+				}
 			}
 }
