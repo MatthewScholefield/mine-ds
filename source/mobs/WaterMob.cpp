@@ -43,14 +43,14 @@ void WaterMob::updateMob(WorldObject* world)
 	}
 	case AIR:
 	{
-		Pair3<int>color(0, 255, 255);
-		if ((world->bgblocks[blockX][(y - sy) / 16] == AIR) == (world->bgblocks[blockX][y / 16] == AIR))
+		Color color{0, 255, 255};
+		if ((world->bgblocks[blockX][(y - sy) / 16] == AIR) && (world->bgblocks[blockX][y / 16] == AIR))
 			drawRect(color / (world->bgblocks[blockX][(y - sy) / 16] == AIR ? 2 : 1), x - world->camX, y - sy - world->camY, sx, sy);
 		else
 		{
 			int topSize = 16 - ((y - sy) % 16);
-			drawRect(color / (world->bgblocks[blockX][(y - sy) / 16] == AIR ? 2 : 1), x - world->camX, 16 - y - (16 - sy) - world->camY, sx, topSize);
-			drawRect(color / (world->bgblocks[blockX][y / 16] == AIR ? 2 : 1), x - world->camX, 16 - topSize + y - (16 - sy) - world->camY, sx, sy - topSize);
+			drawRect(color / (world->bgblocks[blockX][(y - sy) / 16] == AIR ? 2 : 1), x - world->camX, y - sy - world->camY, sx, topSize);
+			drawRect(color / (world->bgblocks[blockX][y / 16] == AIR ? 2 : 1), x - world->camX, topSize + y  - sy- world->camY, sx, sy - topSize);
 		}
 		break;
 	}

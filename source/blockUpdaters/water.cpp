@@ -37,19 +37,20 @@ static bool flowDown(WorldObject *world, int x, int y)
 {
 	if (y + 1 > WORLD_WIDTH || !isBlockWalkThrough(world->blocks[x][y + 1]))
 		return false;
-	int level = getWaterLevel(world, x, y);
+	//int level = getWaterLevel(world, x, y);
 	switch (world->blocks[x][y + 1])
 	{
 	case AIR:
-		world->blocks[x][y] = AIR;
-		world->blocks[x][y + 1] = WATER;
-		setWaterLevel(world, x, y + 1, level);
+		/*world->blocks[x][y] = AIR;
+				world->blocks[x][y + 1] = WATER;
+				setWaterLevel(world, x, y + 1, level);*/
 		return true;
 	case WATER:
 	{
 		if (getWaterLevel(world, x, y + 1) == 12)
 			return false;
-		int newLevel = getWaterLevel(world, x, y + 1) + level;
+		return true;
+		/*int newLevel = getWaterLevel(world, x, y + 1) + level;
 		if (newLevel > 12)
 		{
 			setWaterLevel(world, x, y, newLevel - 12);
@@ -61,12 +62,12 @@ static bool flowDown(WorldObject *world, int x, int y)
 			world->blocks[x][y] = AIR;
 			setWaterLevel(world, x, y + 1, newLevel);
 			return true;
-		}
+		}*/
 	}
 	default:
 		destroyBlock(world, x, y + 1, false, false);
-		world->blocks[x][y + 1] = WATER;
-		return false;
+		//world->blocks[x][y + 1] = WATER;
+		return true;
 	}
 }
 
