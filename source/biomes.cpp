@@ -160,3 +160,38 @@ void mushroomBiome(WorldObject* world, int startx, int endx)
 		++x;
 	}
 }
+void oceanBiome(WorldObject* world, int startx, int endx)
+{
+	int x = startx;
+	int starty = findFirstBlock(world, startx);
+	int endy = findFirstBlock(world, endx);
+	//Check that it is possible to properly build a water biome
+	int ydiff = abs(starty - endy);
+	if (ydiff > 8 ) return plainsBiome(world,startx,endx);
+	int midx = (startx + endx) / 2 + ((starty < endy) ? -ydiff/2 : ydiff/2);
+	int olowery = starty < endy ? endy : starty;
+	int lowery = olowery + rand() % 4 + 5;
+	for (int i=startx; i < endx; i++)
+		for (int j=0; j<WORLD_HEIGHT;j++)
+			world->blocks[i][j] = AIR;
+	drawLineThing(world,startx, starty,midx-2,lowery);
+	drawLineThing(world,midx-2,lowery,midx+2,lowery);
+	drawLineThing(world,midx+2,lowery,endx,endy);
+	while (x <= endx)
+	{
+		int y = findFirstBlock(world, x); // Get the first block that is not AIR...
+		if ( y > (olowery + 2) )
+		{
+			int j=olowery + 2;
+			while (world->blocks[x][j]==AIR)
+			{
+				world->blocks[x][j]=WATER;
+				world->data[x][j]=12;
+				++j;
+			}
+		}
+		int endy = y + (rand() % 2) + 2;
+		for (int j = y; j < endy; ++j) world->blocks[x][j] = SAND;
+		++x;
+	}
+}
