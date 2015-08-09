@@ -29,7 +29,8 @@ enum Biome
 	BIOME_SNOW = 2,
 	BIOME_DESERT = 3,
 	BIOME_JUNGLE = 4,
-	BIOME_MUSHROOM = 5
+	BIOME_MUSHROOM = 5,
+	BIOME_OCEAN = 6
 };
 
 class WorldObject
@@ -75,3 +76,4 @@ public:
 int findFirstBlock(WorldObject* world, int x);
 int findFirstBiomeBlock(WorldObject* world, int x);
 void drawLineDown(WorldObject* world, int x, int y);
+void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2);
