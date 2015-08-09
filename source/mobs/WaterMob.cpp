@@ -20,8 +20,12 @@ void addWater(WorldObject *world, int x, int y, int amount)
 		setWaterLevel(world, x, y, totalWater);
 	else
 	{
-		world->blocks[x][y - 1] = WATER;
-		setWaterLevel(world, x, y - 1, totalWater - 12);
+		if (world->blocks[x][y - 1] !=WATER)
+		{
+			world->blocks[x][y - 1] = WATER;
+			setWaterLevel(world, x, y - 1, totalWater - 12);
+		}
+		else addWater(world,x,y-1,totalWater-12);
 		setWaterLevel(world, x, y, 12);
 	}
 }
