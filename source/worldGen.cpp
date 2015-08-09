@@ -10,7 +10,7 @@
 #include "sounds.h"
 #include <string>
 //#include <tr1/regex>
-void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2);
+
 
 void fillWorld(WorldObject* world, int blockType)
 {
@@ -121,6 +121,9 @@ void generateSmallWorld(WorldObject* world)//Generates one biome
 	case BIOME_MUSHROOM:
 		mushroomBiome(world, i, i + sizex);
 		break;
+	case BIOME_OCEAN:
+		oceanBiome(world, i, i + sizex);
+		break;
 	}
 
 	updateBrightnessAround(world, i, j);
@@ -148,7 +151,7 @@ void generateWorld(WorldObject* world)
 			sizex = rand() % 16 + 16;
 			if (i + sizex >= WORLD_WIDTH) sizex = WORLD_WIDTH - 1 - i;
 			j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
-			switch (rand() % 5 + 1)
+			switch (rand() % 6 + 1)
 			{
 			case BIOME_PLAINS:
 				plainsBiome(world, i, i + sizex);
@@ -164,6 +167,9 @@ void generateWorld(WorldObject* world)
 				break;
 			case BIOME_MUSHROOM:
 				mushroomBiome(world, i, i + sizex);
+				break;
+			case BIOME_OCEAN:	
+				oceanBiome(world, i, i + sizex);
 				break;
 			}
 			updateBrightnessAround(world, i, j);
