@@ -5,7 +5,7 @@
 #include <string>
 
 void slideButtonAction(UIElement *button, int sizeY, bool extra);
-typedef std::shared_ptr<UIElement> UIElement_ptr;
+using UIElement_ptr = std::shared_ptr<UIElement>;
 
 enum MenuType
 {
@@ -26,7 +26,8 @@ private:
 
 public:
 	void draw(bool labels = true);
-	int activate(bool init = true);
+	int activate();
+	int update(const touchPosition &touch);
 	void setListXY(int x, int y);
 	void setFrame(int x, int y = 0);
 	void setAction(void (*function)(UIElement *element, int data, bool data2), int sendData);
@@ -37,7 +38,7 @@ public:
 	void addSlider(int x, int y, const char * const label, int initPos, int length = 30, bool isVisible = true);
 	void addCheckButton(int x, int y, const char * const label, bool enabled, int length = -1, bool isVisible = true);
 
-	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24, bool initial = false) :
+	Menu(MenuType type = MENU_BUTTON, bool back = true, int sizeY = 24) :
 	type(type), frameX(0), frameY(0), sizeX(32), sizeY(sizeY), listX(0), listY(0)
 	{
 		elements.push_back(UIElement_ptr(new Button(1, 20, "\x1F", sizeY > 24)));
