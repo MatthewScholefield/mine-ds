@@ -97,7 +97,7 @@ int getTouchState(touchPosition *touch)
 	return STATE_NONE;
 }
 
-int Menu::activate(bool initial)
+int Menu::activate()
 {
 	int returnVal = -2;
 	touchPosition touch;
@@ -159,6 +159,57 @@ int Menu::activate(bool initial)
 		break;
 	}
 	moveSubBg(0, -512);
+	return returnVal;
+}
+
+int Menu::update(const touchPosition &touch)
+{
+	int returnVal = -1;
+	switch (type)
+	{
+	case MENU_BUTTON:
+	{
+		int state = getTouchState(&touch);
+		if (state)
+			for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
+				if (elements[i]->update(state, touch.px, touch.py))
+					returnVal = i - 1;
+		break;
+	}
+	case MENU_LIST:
+	{
+		touchPosition touch;
+		int maxNameLength = maxStringLength(listItems);
+		uint column = 0;
+
+		int state = getTouchState(&touch);
+		switch (state)
+		{
+		case STATE_TAP:
+		{
+			touchRead(&touch);
+			column = ((touch.py - 8) / 8) + 1 - (frameY + listY);
+			if (column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
+				for (int i = 0; i < maxNameLength; ++i)
+					setSubBgTile(frameX + listX + 1 + i, frameY + listY + column, 60);
+			break;
+		}
+		case STATE_RELEASE:
+		{
+			uint newColumn = ((touch.py - 8) / 8) + 1 - (frameY + listY);
+			if (column == newColumn && column <= listItems.size() && column >= 1 && (touch.px + getScrollX()) % 512 >= (frameX + listX + 1) * 8 && (touch.px + getScrollX()) % 512 < (frameX + listX + maxNameLength + 1) * 8)
+				returnVal = column;
+			else //Remove any colored buttons, if any
+				drawBoxCenter(frameX + listX + 1, frameY + listY + 1, maxNameLength, listItems.size());
+		}
+		}
+		if (state != STATE_NONE)
+			for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
+				if (elements[i]->update(state, touch.px, touch.py))
+					returnVal = i - 1;
+		break;
+	}
+	}
 	return returnVal;
 }
 
