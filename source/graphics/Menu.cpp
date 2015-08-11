@@ -97,6 +97,17 @@ int getTouchState(touchPosition *touch)
 	return STATE_NONE;
 }
 
+int getTouchState()
+{
+	if (keysDown() & KEY_TOUCH)
+		return STATE_TAP;
+	if (keysHeld() & KEY_TOUCH)
+		return STATE_HOLD;
+	if (keysUp() & KEY_TOUCH)
+		return STATE_RELEASE;
+	return STATE_NONE;
+}
+
 int Menu::activate()
 {
 	int returnVal = -2;
@@ -169,7 +180,7 @@ int Menu::update(const touchPosition &touch)
 	{
 	case MENU_BUTTON:
 	{
-		int state = getTouchState(&touch);
+		int state = getTouchState();
 		if (state)
 			for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
 				if (elements[i]->update(state, touch.px, touch.py))
@@ -182,7 +193,7 @@ int Menu::update(const touchPosition &touch)
 		int maxNameLength = maxStringLength(listItems);
 		uint column = 0;
 
-		int state = getTouchState(&touch);
+		int state = getTouchState();
 		switch (state)
 		{
 		case STATE_TAP:
