@@ -1,6 +1,9 @@
 #include "CraftingInterface.h"
+#include "../crafting.h"
+#include "../inventory.h"
+#include "../graphics/UI.h"
 
-const Recipe CraftingInterface::recipes = {
+const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 	{PLANKS_WOOD, 4, LOG_OAK, 1},
 	{PLANKS_WOOD, 4, JUNGLE_WOOD, 1},
 	{PLANKS_WOOD, 4, LOG_BIRCH, 1},
@@ -45,9 +48,9 @@ void CraftingInterface::updateCraftingGraphics()
 	}
 }
 
-static bool CraftingInterface::canCraftRecipe(int recipe)
+bool CraftingInterface::canCraftRecipe(int recipe)
 {
-	for (InvBlock &i : recipes[recipe].neededblocks)
+	for (const InvBlock &i : recipes[recipe].neededblocks)
 		if (checkInventory(i.blockId) < i.blockAmount)
 			return false;
 	return true;
@@ -107,7 +110,7 @@ void CraftingInterface::update(WorldObject *world, touchPosition *touch)
 		craftItem();
 		break;
 	case BACK:
-		setInterface(INTERFACE_INVENTORY); //Not yet written
+		//setInterface(INTERFACE_INVENTORY); //Not yet written
 		break;
 	default:
 		break;

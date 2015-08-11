@@ -24,5 +24,6 @@ public:
 	virtual void draw() = 0;
 
 	Interface(InterfaceType type) : type(type) { }
-	virtual ~Interface();
+
+	virtual ~Interface() { }
 };

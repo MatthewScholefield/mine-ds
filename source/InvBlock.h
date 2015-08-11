@@ -1,7 +1,10 @@
 #pragma once
 
-typedef struct
+class InvBlock
 {
+public:
 	int blockId = 0;
 	int blockAmount = 0;
-} InvBlock;
+
+	InvBlock(int blockId = 0, int blockAmount = 0) : blockId(blockId), blockAmount(blockAmount) { }
+};
