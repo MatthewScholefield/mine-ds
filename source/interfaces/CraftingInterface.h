@@ -1,6 +1,7 @@
 #include "Interface.h"
 #include "../graphics/Menu.h"
 #include "../crafting.h"
+#include "../graphics/graphics.h"
 
 #pragma once
 
@@ -21,7 +22,7 @@ class CraftingInterface : public Interface
 	Graphic neededblocks[4];
 
 	void updateCraftingGraphics();
-	void moveCraftingPage(int dir);
+	void moveCraftingPage(bool right);
 	void craftItem();
 	static bool canCraftRecipe(int recipe);
 protected:

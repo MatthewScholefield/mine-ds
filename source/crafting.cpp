@@ -12,7 +12,7 @@
 #include "crafting.h"
 #include "Config.h"
 #include "graphics/Button.h"
-recipe craftingRecipes[128];
+Recipe craftingRecipes[128];
 int nextCraftingRecipe = 0;
 Graphic resultBlock;
 Graphic neededblocks[4];
