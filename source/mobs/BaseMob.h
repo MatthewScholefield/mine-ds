@@ -74,5 +74,5 @@ public:
 		unloadGraphic(&hurtSprite);
 	}
 };
-typedef std::shared_ptr<BaseMob> BaseMob_ptr;
+using BaseMob_ptr = std::shared_ptr<BaseMob>;
 bool jumpHurtType(int hurtType);
