@@ -1,5 +1,6 @@
 #pragma once
 #include <nds.h>
+#include <memory>
 #include "../world.h"
 
 enum InterfaceType
@@ -27,3 +28,5 @@ public:
 
 	virtual ~Interface() { }
 };
+
+using Interface_ptr = std::shared_ptr<Interface>;
