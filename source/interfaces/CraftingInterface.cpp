@@ -2,6 +2,7 @@
 #include "../crafting.h"
 #include "../inventory.h"
 #include "../graphics/UI.h"
+#include "interfaceHandler.h"
 
 const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 	{PLANKS_WOOD, 4, LOG_OAK, 1},
@@ -82,6 +83,8 @@ void CraftingInterface::moveCraftingPage(bool right)
 		page += change;
 	if (page >= NUM_RECIPES)
 		page = 0;
+	else if (page < 0)
+		page = NUM_RECIPES - 1;
 	updateCraftingGraphics();
 }
 
@@ -98,6 +101,9 @@ void CraftingInterface::craftItem()
 
 void CraftingInterface::update(WorldObject *world, touchPosition *touch)
 {
+	showGraphic(&resultBlock, 19 * 8 + 4, 10 * 8 + 4);
+	for (int i = 0; i <= 3; ++i)
+		showGraphic(&neededblocks[i], 60, ((i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
 	switch (menu.update(*touch))
 	{
 	case LEFT:
@@ -110,7 +116,7 @@ void CraftingInterface::update(WorldObject *world, touchPosition *touch)
 		craftItem();
 		break;
 	case BACK:
-		//setInterface(INTERFACE_INVENTORY); //Not yet written
+		setInterface(INTERFACE_INVENTORY); //Not yet written
 		break;
 	default:
 		break;
@@ -124,4 +130,11 @@ void CraftingInterface::draw()
 	drawBox(5, 8, 22, 7);
 	menu.draw();
 	updateCraftingGraphics();
+}
+
+CraftingInterface::~CraftingInterface()
+{
+	consoleClear();
+	drawBackground();
+	openInventory();
 }
