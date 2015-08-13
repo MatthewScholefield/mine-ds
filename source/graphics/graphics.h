@@ -31,7 +31,7 @@ enum GraphicType
 typedef struct
 {
 	//! \breif Pointer to loaded graphic in VRAM
-	u16* Gfx;
+	u16* Gfx = nullptr;
 	//! \breif Frame of animation
 	u8* frame_gfx;
 	//! \breif animation state

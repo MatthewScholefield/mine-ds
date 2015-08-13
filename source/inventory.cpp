@@ -25,6 +25,7 @@
 #include "blockPages.h"
 #include "blockName.h"
 #include "chests.h"
+#include "interfaces/interfaceHandler.h"
 bool loadedTopGraphic = false;
 int invSlot = -1;
 int oldInvSlot;
@@ -261,6 +262,7 @@ void openInventory()
 	saveButton.setVisible(true);
 	craftButton.setVisible(isSurvival());
 	pageButton.setVisible(!isSurvival());
+	enableInvGraphics();
 }
 
 void closeInventory()
@@ -466,7 +468,8 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
 				pageButton.setVisible(false);
-				craftingMenuInit();
+				disableInvGraphics();
+				setInterface(INTERFACE_CRAFTING);
 				showingInventory = 2;
 			}
 			else if (saveButton.isColored && saveButton.isTouching(touch.px, touch.py))
@@ -501,20 +504,8 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			closeInventory();
 		break;
 	case 2:
-		if ((isSurvival() && craftingMenuUpdate(&touch)) || (!isSurvival() && pageMenuUpdate(&touch)))
-		{ //Leaving crafting/page menu
-			showingInventory = 1;
-			setMiningDisabled(true);
-			drawBackground();
-			clearText();
-			changeInvSelectedGraphic(AIR);
-			backButton.setVisible(true);
-			saveButton.setVisible(true);
-			craftButton.setVisible(isSurvival());
-			pageButton.setVisible(!isSurvival());
-			enableInvGraphics();
-			updatePageName();
-		}
+		if (!isSurvival() && pageMenuUpdate(&touch))
+			openInventory();
 		break;
 	}
 	updateInv();

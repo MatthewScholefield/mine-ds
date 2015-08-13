@@ -31,6 +31,7 @@
 #include "blocks.h"
 #include "graphics/Menu.h"
 #include "graphics/3DHandler.h"
+#include "interfaces/interfaceHandler.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;
@@ -209,6 +210,7 @@ void startGame(void)
 		
 		mobHandlerUpdate(world, &touch);
 		updateInventory(touch, world);
+		updateInterface(world, &touch);
 		update_message();
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)
 		{
