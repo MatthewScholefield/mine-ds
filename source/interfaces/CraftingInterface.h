@@ -36,12 +36,17 @@ public:
 	void update(WorldObject *world, touchPosition *touch);
 	void draw();
 
-	CraftingInterface() : Interface(INTERFACE_CRAFTING)
+	CraftingInterface() : Interface(INTERFACE_CRAFTING), menu(MENU_BUTTON, false)
 	{
 		for (page = 0; !canCraftRecipe(page) && page < NUM_RECIPES; ++page);
 		if (page == NUM_RECIPES)
 			page = 0;
+		updateCraftingGraphics();
+		menu.addButton(0, 10, "\x011");
+		menu.addButton(29, 10, "\x010");
+		menu.addButton(22, 16, "Craft");
+		menu.addButton(3, 16, "Back");
 	}
 
-	~CraftingInterface() { }
+	~CraftingInterface();
 };
