@@ -15,8 +15,6 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
-#include "crafting.h"
-//#include "nifi.h"
 #include "sounds.h"
 #include "files.h"
 #include "general.h"
@@ -45,7 +43,6 @@ int main()
 	irqSet(IRQ_HBLANK, gradientHandler);
 	irqEnable(IRQ_HBLANK);
 	mobHandlerInit();
-	craftingInit();
 	proceduralBlockUpdateInit();
 	clearMainGraphics();
 	oamClear(&oamSub, 0, 127);
