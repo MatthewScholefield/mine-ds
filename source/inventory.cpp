@@ -11,7 +11,6 @@
 #include "graphics/subBgHandler.h"
 #include "graphics/Button.h"
 #include "graphics/UI.h"
-#include "crafting.h"
 #include "inventory.h"
 #include "blockID.h"
 #include "blocks.h"

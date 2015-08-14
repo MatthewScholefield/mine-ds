@@ -1,6 +1,6 @@
 #include "Interface.h"
 #include "../graphics/Menu.h"
-#include "../crafting.h"
+#include "../Recipe.h"
 #include "../graphics/graphics.h"
 
 #pragma once
