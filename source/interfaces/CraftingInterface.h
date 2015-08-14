@@ -16,7 +16,7 @@ class CraftingInterface : public Interface
 	static const int CRAFT = 3;
 	static const int BACK = 4;
 
-	static const int NUM_RECIPES = 26;
+	static const int NUM_RECIPES = 27;
 	static const Recipe recipes[NUM_RECIPES];
 	Graphic resultBlock;
 	Graphic neededblocks[4];

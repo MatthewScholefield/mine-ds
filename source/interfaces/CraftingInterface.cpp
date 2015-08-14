@@ -30,7 +30,8 @@ const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 	{CRAFTING_TABLE, 1, PLANKS_WOOD, 4},
 	{LADDER, 2, STICK, 8},
 	{CHEST, 1, PLANKS_WOOD, 8},
-	{DOOR_ITEM, 1, PLANKS_WOOD, 6}
+	{DOOR_ITEM, 1, PLANKS_WOOD, 6},
+	{BUCKET_EMPTY,1,INGOT_IRON,3}
 };
 
 void CraftingInterface::updateCraftingGraphics()

@@ -103,7 +103,7 @@ bool isBlockWalkThrough(int blockID)
 	case SAPLING_SPRUCE:
 	case DOOR_OPEN_TOP:
 	case DOOR_OPEN_BOTTOM:
-  case WATER:
+	case WATER:
 		return true;
 
 	default:
@@ -235,6 +235,7 @@ bool item(int blockID)
 	case SWORD_GOLD:
 	case SEEDS_PUMPKIN:
 	case SEEDS_WHEAT:
+	case BUCKET_EMPTY:
 		return true;
 
 	default:
