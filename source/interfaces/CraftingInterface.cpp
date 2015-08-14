@@ -1,5 +1,5 @@
 #include "CraftingInterface.h"
-#include "../crafting.h"
+#include "../Recipe.h"
 #include "../inventory.h"
 #include "../graphics/UI.h"
 #include "interfaceHandler.h"
