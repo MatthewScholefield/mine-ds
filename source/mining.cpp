@@ -37,6 +37,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 
 void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 {
+	int blockID = getBlockID(getSelectedSlot());
 	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
 	if (*blockXY == AIR)
 		return;
@@ -49,6 +50,12 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		destroyFurnace(world, x, y, bg);
 		break;
 	case WATER:
+		if (blockID == BUCKET_EMPTY)
+		{
+			*blockXY = AIR;
+			subInventory(blockID,1);
+			addInventory(BUCKET_WATER);
+		}
 		break;
 	default:
 		if (!byHand || canBreak(*blockXY))
@@ -81,6 +88,7 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 			break;
 		case BUCKET_WATER:
 			createWaterMob(x, y);
+			addInventory(BUCKET_EMPTY);
 			break;
 		default:
 			if (!item(blockID))
