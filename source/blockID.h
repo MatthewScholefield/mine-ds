@@ -147,3 +147,4 @@
 #define DOOR_ITEM 107
 #define WATER 108
 #define BUCKET_WATER 109
+#define BUCKET_EMPTY 110

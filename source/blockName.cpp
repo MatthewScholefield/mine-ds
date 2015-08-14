@@ -321,9 +321,12 @@ const char *getName(int blockID)
 	case DOOR_ITEM:
 		name = "Door";
 		break;
-  case BUCKET_WATER:
-    name = "Water Bucket";
-    break;
+	case BUCKET_WATER:
+		name = "Water Bucket";
+		break;
+	case BUCKET_EMPTY:
+		name = "Bucket";
+		break;
 	}
 	return name;
 }
