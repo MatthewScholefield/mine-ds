@@ -16,6 +16,7 @@
 #include "mobs/mobHandler.h"
 #include "mobs/hurt.h"
 #include "blockPages.h"
+#include "blockUpdaters/water.h"
 
 bool miningDisabled = false;
 int framesOnBlock;
@@ -50,7 +51,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		destroyFurnace(world, x, y, bg);
 		break;
 	case WATER:
-		if (blockID == BUCKET_EMPTY)
+		if (blockID == BUCKET_EMPTY && getWaterLevel(world, x, y)==12)
 		{
 			*blockXY = AIR;
 			subInventory(blockID,1);
