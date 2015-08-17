@@ -70,7 +70,6 @@ void changeBlockPage(bool forward)
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
 		addInventory(BLOCK_PAGES[blockPage][i], 1, true);
 	updatePageName();
-	changeInvSelectedGraphic();
 }
 
 int getBlockPage()

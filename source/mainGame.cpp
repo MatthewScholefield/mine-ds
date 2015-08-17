@@ -43,7 +43,6 @@ static void redrawGameUI(void)
 	drawBackground();
 	drawInvButtons(false, isSurvival());
 	updatePageName();
-	updateInv(true);
 }
 
 static bool inGameMenu()
@@ -194,7 +193,6 @@ void startGame(void)
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 	enableInvGraphics();
-	updateInv(true);
 	shouldQuitGame = false;
 
 	while (!shouldQuitGame)
