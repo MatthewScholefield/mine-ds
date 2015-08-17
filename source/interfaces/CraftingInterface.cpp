@@ -118,7 +118,7 @@ void CraftingInterface::update(WorldObject *world, touchPosition *touch)
 		craftItem();
 		break;
 	case BACK:
-		setInterface(INTERFACE_INVENTORY); //Not yet written
+		setInterface(INTERFACE_INVENTORY, true);
 		break;
 	default:
 		break;
@@ -132,11 +132,4 @@ void CraftingInterface::draw()
 	drawBox(5, 8, 22, 7);
 	menu.draw();
 	updateCraftingGraphics();
-}
-
-CraftingInterface::~CraftingInterface()
-{
-	consoleClear();
-	drawBackground();
-	openInventory();
 }

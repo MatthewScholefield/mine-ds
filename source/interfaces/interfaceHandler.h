@@ -3,5 +3,6 @@
 
 #pragma once
 
-void setInterface(InterfaceType type);
+void drawInterface();
+void setInterface(InterfaceType type, bool open = false);
 void updateInterface(WorldObject *world, touchPosition *touch);

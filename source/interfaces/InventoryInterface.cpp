@@ -9,22 +9,25 @@
 #include "../graphics/UI.h"
 #include "../files.h"
 
-void InventoryInterface::changeInvSelectedGraphic()
+bool InventoryInterface::shouldUpdate = false;
+
+void InventoryInterface::triggerUpdate()
+{
+	shouldUpdate = true;
+}
+
+void InventoryInterface::staticUpdate()
+{
+	shouldUpdate = false;
+}
+
+void InventoryInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
 	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = invSlot < 0 ? AIR : getBlockID(invSlot));
 	drawSlots(invSlot, 1, 9);
-	updateTopName(getBlockID(invSlot));
-}
-
-void InventoryInterface::updateInvGraphics()
-{
-	drawBoxFrame(0, 8, 32, 7);
-	drawBoxCenter(1, 11, 30, 1);
-	drawSelectedFrame();
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
 	updateTopName(getBlockID(invSlot));
-	changeInvSelectedGraphic();
 }
 
 void InventoryInterface::checkLimits(int &value)
@@ -40,7 +43,7 @@ void InventoryInterface::moveSlot(bool right)
 	int change = right ? 1 : -1;
 	int initialSlot = invSlot;
 
-	if (checkInventorySlot(invSlot) != AIR)
+	if (getBlockID(invSlot) != AIR)
 	{
 		invSlot += change;
 		checkLimits(invSlot);
@@ -49,14 +52,14 @@ void InventoryInterface::moveSlot(bool right)
 	{
 		do
 			checkLimits(invSlot += change);
-		while (checkInventorySlot(invSlot) == AIR && initialSlot != invSlot);
+		while (getBlockID(invSlot) == AIR && initialSlot != invSlot);
 		if (initialSlot == invSlot)
 		{
 			invSlot += change;
 			checkLimits(invSlot);
 		}
 	}
-	updateInvGraphics();
+	updateInv();
 }
 
 void InventoryInterface::parseKeyInput()
@@ -81,9 +84,10 @@ void InventoryInterface::openInventory()
 {
 	oldInvSlot = invSlot;
 	invSlot = -1;
-	updateInvGraphics();
 	lcdMainOnTop();
 	setMiningDisabled(true);
+	backButton->setVisible(true);
+	backButton->draw();
 	open = true;
 }
 
@@ -93,8 +97,17 @@ void InventoryInterface::closeInventory()
 		invSlot = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
-	clearText();
-	drawBackground();
+	backButton->setVisible(false);
+	open = false;
+	draw();
+}
+
+void InventoryInterface::switchInvState()
+{
+	if (open)
+		closeInventory();
+	else
+		openInventory();
 }
 
 void InventoryInterface::update(WorldObject *world, touchPosition *touch)
@@ -126,14 +139,19 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 			break;
 		}
 	}
-	else
-	{
-		if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
-			openInventory();
-	}
+	if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
+		switchInvState();
+	if (shouldUpdate)
+		updateInv();
 }
 
 void InventoryInterface::draw()
 {
+	consoleClear();
+	drawBackground();
 	menu.draw();
+	drawBoxFrame(0, 8, 32, 7);
+	drawBoxCenter(1, 11, 30, 1);
+	drawSelectedFrame();
+	updateInv();
 }
