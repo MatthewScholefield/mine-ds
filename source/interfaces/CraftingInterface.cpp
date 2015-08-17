@@ -97,6 +97,7 @@ void CraftingInterface::craftItem()
 			subInventory(i.blockId, i.blockAmount);
 		addInventory(recipes[page].createdblock.blockId,
 					recipes[page].createdblock.blockAmount, true);
+		updateCraftingGraphics();
 	}
 }
 

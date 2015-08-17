@@ -38,7 +38,6 @@ Button pageButton(21, 16, "Pages", 9, false);
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
  */
-
 void changeInvSelectedGraphic(int blockID)
 {
 	if (loadedTopGraphic)
@@ -150,8 +149,6 @@ bool addInventory(int blockID, int amount, bool direct) //adds the specified amo
 		mainPlayerInv.blocks[space].blockAmount += amount;
 	else
 		mainPlayerInv.blocks[space].blockAmount = 1;
-	if (!direct)
-		updateInv(true);
 	return true;
 }
 
@@ -186,7 +183,6 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
 		mainPlayerInv.blocks[space].blockId = AIR;
-	updateInv(true);
 	return true;
 }
 
@@ -244,8 +240,6 @@ void clearInventory(bool direct) //clears inventory
 		mainPlayerInv.blocks[i].blockAmount = 0;
 		mainPlayerInv.blocks[i].blockId = 0;
 	}
-	if (!direct)
-		updateInv(true);
 	showingInventory = 0;
 }
 
@@ -279,7 +273,6 @@ void closeInventory()
 	clearText();
 	drawBackground();
 	drawInvButtons(false, isSurvival());
-	updateInv(true);
 	updatePageName();
 }
 
@@ -369,7 +362,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					invSlot = -1;
 					setSelectedSpace(-1);
-					changeInvSelectedGraphic(AIR);
 				}
 				else if (invSlot > -1 && !(mainPlayerInv.blocks[invSlot].blockId == AIR))
 				{ //Source: Inventory, Destination:Inventory
@@ -382,7 +374,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					invSlot = -1;
 					setSelectedSpace(-1);
-					changeInvSelectedGraphic(AIR);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH) && getOpenedChestID() != -1)
 				{
@@ -398,8 +389,7 @@ void updateInventory(touchPosition touch, WorldObject* world)
 							world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID] = tmpId;
 							world->chests[getOpenedChestID()][i][INDEX_AMOUNT] = tmpAmount;
 							invSlot = -1;
-							setSelectedSpace(getInventorySlot(-1));
-							changeInvSelectedGraphic(AIR);
+							setSelectedSpace(-1);
 							break;
 						}
 				}
@@ -409,7 +399,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					setSelectedSpace(space);
 					changeInvSelectedGraphic(mainPlayerInv.blocks[space].blockId);
 				}
-				updateInv(true);
 			}
 			else if (getOpenedChestID() != -1 && touch.px > 1 * 8 && touch.py > 1 * 8 && touch.py < 6 * 8 && touch.px < 31 * 8)
 			{
@@ -427,7 +416,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
 					invSlot = -1;
 					setSelectedSpace(getInventorySlot(-1));
-					changeInvSelectedGraphic(AIR);
 				}
 				else if (invSlot < -1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Chest
@@ -440,7 +428,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
 					invSlot = -1;
 					setSelectedSpace(-1);
-					changeInvSelectedGraphic(AIR);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
 				{
@@ -449,7 +436,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = 0;
 					invSlot = -1;
 					setSelectedSpace(-1);
-					changeInvSelectedGraphic(AIR);
 				}
 				else
 				{
@@ -457,7 +443,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					setSelectedSpace(-space - 2);
 					changeInvSelectedGraphic(world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID]);
 				}
-				updateInv(true);
 			}
 			else if (backButton.isColored && backButton.isTouching(touch.px, touch.py))//(touch. px > (2 - 1)*8 && touch.px < (2 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8)
 				closeInventory();
@@ -492,7 +477,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			{
 				invSlot = -1;
 				setSelectedSpace(-1);
-				changeInvSelectedGraphic(AIR);
 				backButton.setColored(false);
 				saveButton.setColored(false);
 				craftButton.setColored(false);
@@ -507,7 +491,7 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			openInventory();
 		break;
 	}
-	updateInv();
+	drawInvGraphics();
 }
 
 void loadInventory(FILE* data)
