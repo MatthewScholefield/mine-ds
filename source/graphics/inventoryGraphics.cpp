@@ -184,23 +184,8 @@ void drawGraphics(bool chest, int startX, int startY, int amountPerRow, int numR
 		}
 }
 
-void updateInv(bool forceDraw) //Draws the items in the inventory (called by the mainPlayer->update if in survival mode)
+void drawInvGraphics() //Draws the items in the inventory (called by the mainPlayer->update if in survival mode)
 {
-	if (!enabled && !forceDraw)
-	{
-		oldEnabled = false;
-		return;
-	}
-	if (!oldEnabled || forceDraw)
-	{
-		if (chestOpened)
-			updateChestItems();
-		updateInvGraphics();
-		oldEnabled = true;
-		clearSubGraphics();
-	}
-	if (chestOpened)
-		drawGraphics(true, 1, 1, 15, 2, 2, 3);
 	drawGraphics(false, 1, 9, 15, 2, 2, 3);
 }
 
@@ -213,7 +198,6 @@ void openChest(WorldObject *world, int x, int y, bool bg)
 	openedChestPtr = &world->chests[openedChestID];
 	for (int i = 0; i < CHEST_SLOTS; ++i)
 		loadedChestGfx[i] = false;
-	updateInv(true);
 	openInventory();
 }
 
@@ -232,7 +216,6 @@ void closeChest()
 	if (getInventoryState() != 2)
 	{
 		drawBackground();
-		updateInv(true);
 		drawInvButtons(true, isSurvival());
 	}
 }
