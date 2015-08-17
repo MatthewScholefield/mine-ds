@@ -32,6 +32,7 @@ public:
 	void setFrame(int x, int y = 0);
 	void setAction(void (*function)(UIElement *element, int data, bool data2), int sendData);
 
+	UIElement_ptr getBack();
 	void addButton(int x, int y, const char * const label, int length = -1, bool isVisible = true);
 	void addButton(int x, int y, const char * const label, bool isVisible);
 	void addListItem(const char *label);

@@ -40,6 +40,11 @@ void Menu::setFrame(int x, int y)
 	frameY = y;
 }
 
+UIElement_ptr Menu::getBack()
+{
+	return elements.back();
+}
+
 void Menu::addButton(int x, int y, const char * const label, int length, bool isVisible)
 {
 	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, length, isVisible)));

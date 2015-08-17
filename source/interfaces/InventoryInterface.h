@@ -17,31 +17,37 @@ class InventoryInterface : public Interface
 	static const int CRAFT_MENU = 3;
 	static const int PAGE_MENU = 4;
 
+	static bool shouldUpdate;
+
 	bool open;
 	int invSlot = -1;
 	int oldInvSlot;
 	Graphic selectedGraphic;
 	int loadedGraphic;
 	Inventory mainPlayerInv;
+	UIElement_ptr backButton;
 
-	void changeInvSelectedGraphic();
-	void updateInvGraphics();
+	void updateInv();
 	static void checkLimits(int &value);
 	void moveSlot(bool right);
 	void parseKeyInput();
 	void openInventory();
 	void closeInventory();
+	void switchInvState();
 
 public:
-
+	static void triggerUpdate();
+	static void staticUpdate();
+	
 	void update(WorldObject *world, touchPosition *touch);
 
 	void draw();
 
-	InventoryInterface() : Interface(INTERFACE_INVENTORY), open(true), loadedGraphic(AIR), mainPlayerInv { }
+	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY), menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR), mainPlayerInv { }
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
+		backButton = menu.getBack();
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());

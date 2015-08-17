@@ -4,14 +4,14 @@
 #include "InventoryInterface.h"
 #include <memory>
 
-Interface_ptr currentInterface = Interface_ptr(new InventoryInterface());
+Interface_ptr currentInterface = Interface_ptr(new InventoryInterface(false));
 
-void setInterface(InterfaceType type)
+void setInterface(InterfaceType type, bool open)
 {
 	switch (type)
 	{
 	case INTERFACE_INVENTORY:
-		currentInterface = Interface_ptr(new InventoryInterface());
+		currentInterface = Interface_ptr(new InventoryInterface(open));
 		break;
 	case INTERFACE_CRAFTING:
 		currentInterface = Interface_ptr(new CraftingInterface());
@@ -27,4 +27,10 @@ void setInterface(InterfaceType type)
 void updateInterface(WorldObject *world, touchPosition *touch)
 {
 	currentInterface->update(world, touch);
+	InventoryInterface::staticUpdate();
+}
+
+void drawInterface()
+{
+	currentInterface->draw();
 }
