@@ -48,5 +48,5 @@ public:
 		menu.addButton(3, 16, "Back");
 	}
 
-	~CraftingInterface();
+	~CraftingInterface() { }
 };

@@ -25,6 +25,7 @@
 #include "blockName.h"
 #include "chests.h"
 #include "interfaces/interfaceHandler.h"
+#include "interfaces/InventoryInterface.h"
 bool loadedTopGraphic = false;
 int invSlot = -1;
 int oldInvSlot;
@@ -149,6 +150,7 @@ bool addInventory(int blockID, int amount, bool direct) //adds the specified amo
 		mainPlayerInv.blocks[space].blockAmount += amount;
 	else
 		mainPlayerInv.blocks[space].blockAmount = 1;
+	InventoryInterface::triggerUpdate();
 	return true;
 }
 
@@ -183,6 +185,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
 		mainPlayerInv.blocks[space].blockId = AIR;
+	InventoryInterface::triggerUpdate();
 	return true;
 }
 
@@ -213,18 +216,12 @@ int checkInventory(int blockID) //returns quantity of blockid in inventory
 
 int checkInventorySlot(int slot)
 {
-	return mainPlayerInv.blocks[slot].blockAmount;
+	return invSlot < 0 ? 0 : mainPlayerInv.blocks[slot].blockAmount;
 }
 
 int getBlockID(int invSlot)
 {
-	if (invSlot>-1)
-		return mainPlayerInv.blocks[invSlot].blockId;
-	else if (invSlot<-1 && getOpenedChestID() != -1)
-		return getChestBlockID(-invSlot - 2);
-	else
-		return AIR;
-
+	return invSlot < 0 ? AIR : mainPlayerInv.blocks[invSlot].blockId;
 }
 
 int getBlockAmount(int invSlot)

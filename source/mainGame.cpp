@@ -36,15 +36,6 @@
 bool shouldQuitGame = false;
 WorldObject *world;
 
-static void redrawGameUI(void)
-{
-	lcdMainOnBottom();
-	clearText();
-	drawBackground();
-	drawInvButtons(false, isSurvival());
-	updatePageName();
-}
-
 static bool inGameMenu()
 {
 	bool exit = false;
@@ -87,7 +78,8 @@ static bool inGameMenu()
 			break;
 		}
 	}
-	redrawGameUI();
+	drawInterface();
+	lcdMainOnBottom();
 	return false;
 }
 
@@ -188,12 +180,12 @@ void startGame(void)
 	clearText();
 	clear_messages();
 
-	redrawGameUI();
 	playMusic(MUSIC_CALM);
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
-	enableInvGraphics();
 	shouldQuitGame = false;
+	setInterface(INTERFACE_INVENTORY);
+	lcdMainOnBottom();
 
 	while (!shouldQuitGame)
 	{
@@ -207,7 +199,6 @@ void startGame(void)
 			touchRead(&touch);
 		
 		mobHandlerUpdate(world, &touch);
-		updateInventory(touch, world);
 		updateInterface(world, &touch);
 		update_message();
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)
