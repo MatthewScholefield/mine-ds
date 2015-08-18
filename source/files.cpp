@@ -38,7 +38,7 @@ bool saveWorld(WorldObject *world)
 	if (!SHOULD_SAVE) return false;
 	stopMusic();
 	FILE *worldFile;
-	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w+")) != nullptr;
+	bool openedWorld = (worldFile = fopen(MINE_DS_FOLDER WORLD_FILENAME, "w")) != nullptr;
 
 	if (openedWorld)
 	{
@@ -64,6 +64,7 @@ bool saveWorld(WorldObject *world)
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
+		fclose(worldFile);
 		return true;
 	}
 	if (openedWorld)
@@ -164,6 +165,7 @@ bool loadWorld(WorldObject *world)
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
+		fclose(worldFile);
 		return true;
 	}
 	if (openedWorld)
