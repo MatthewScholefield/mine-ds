@@ -27,7 +27,6 @@
 #include "interfaces/interfaceHandler.h"
 #include "interfaces/InventoryInterface.h"
 bool loadedTopGraphic = false;
-int invSlot = -1;
 int oldInvSlot;
 Graphic selectedGraphic;
 int loadedGraphic;
@@ -35,6 +34,9 @@ Button backButton(1, 16, "Back", false);
 Button saveButton(8, 16, "Save World", false);
 Button craftButton(21, 16, "Crafting", false);
 Button pageButton(21, 16, "Pages", 9, false);
+
+int showingInventory;
+Inventory mainPlayerInv;
 
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
@@ -45,20 +47,20 @@ void changeInvSelectedGraphic(int blockID)
 		unloadGraphic(&selectedGraphic);
 	if (blockID == -1)
 	{
-		if (invSlot<-1 && getOpenedChestID() != -1)
+		if (mainPlayerInv.hand<-1 && getOpenedChestID() != -1)
 		{
-			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, getChestBlockID(-invSlot - 2));
-			drawSlots(-invSlot - 2, 1, 1);
-			drawSlots(invSlot, 1, 9);
-			loadedGraphic = getChestBlockID(-invSlot - 2);
+			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, getChestBlockID(-mainPlayerInv.hand - 2));
+			drawSlots(-mainPlayerInv.hand - 2, 1, 1);
+			drawSlots(mainPlayerInv.hand, 1, 9);
+			loadedGraphic = getChestBlockID(-mainPlayerInv.hand - 2);
 		}
-		else if (invSlot >= 0)
+		else if (mainPlayerInv.hand >= 0)
 		{
-			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, getBlockID(invSlot));
-			drawSlots(invSlot, 1, 9);
+			loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, getBlockID(mainPlayerInv.hand));
+			drawSlots(mainPlayerInv.hand, 1, 9);
 			if (getOpenedChestID() != -1)
 				drawSlots(-1, 1, 1);
-			loadedGraphic = getBlockID(invSlot);
+			loadedGraphic = getBlockID(mainPlayerInv.hand);
 		}
 		else
 		{
@@ -68,7 +70,7 @@ void changeInvSelectedGraphic(int blockID)
 				drawSlots(-1, 1, 1);
 			loadedGraphic = AIR;
 		}
-		updateTopName(getBlockID(invSlot));
+		updateTopName(getBlockID(mainPlayerInv.hand));
 	}
 	else
 	{
@@ -79,19 +81,15 @@ void changeInvSelectedGraphic(int blockID)
 	loadedTopGraphic = true;
 }
 
-int getSelectedSlot()
+int getHand()
 {
-	return invSlot;
+	return mainPlayerInv.hand;
 }
 
-void setSelectedSpace(int space)
+void setHand(int hand)
 {
-	invSlot = space;
-	changeInvSelectedGraphic();
+	mainPlayerInv.hand = hand;
 }
-
-int showingInventory;
-Inventory mainPlayerInv;
 
 void drawInvButtons(bool drawBack, bool survival)
 {
@@ -214,14 +212,14 @@ int checkInventory(int blockID) //returns quantity of blockid in inventory
 	return mainPlayerInv.blocks[space].blockAmount;
 }
 
-int getBlockID(int invSlot)
+int getBlockID(int slot)
 {
-	return invSlot < 0 ? AIR : mainPlayerInv.blocks[invSlot].blockId;
+	return slot < 0 ? AIR : mainPlayerInv.blocks[slot].blockId;
 }
 
-int getBlockAmount(int invSlot)
+int getBlockAmount(int slot)
 {
-	return invSlot < 0 ? 0 : mainPlayerInv.blocks[invSlot].blockAmount;
+	return slot < 0 ? 0 : mainPlayerInv.blocks[slot].blockAmount;
 }
 
 void setBlockID(int slot, int ID)
@@ -251,8 +249,8 @@ void clearInventory(bool direct) //clears inventory
 
 void openInventory()
 {
-	oldInvSlot = invSlot;
-	invSlot = -1;
+	oldInvSlot = mainPlayerInv.hand;
+	mainPlayerInv.hand = -1;
 	changeInvSelectedGraphic();
 	lcdMainOnTop();
 	showingInventory = 1;
@@ -266,8 +264,8 @@ void openInventory()
 
 void closeInventory()
 {
-	if (invSlot == -1)
-		invSlot = oldInvSlot;
+	if (mainPlayerInv.hand == -1)
+		mainPlayerInv.hand = oldInvSlot;
 	closeChest();
 	lcdMainOnBottom();
 	showingInventory = 0;
@@ -284,24 +282,24 @@ void closeInventory()
 
 void moveSlotRecursive(bool right, int origSlot, bool first)
 {
-	bool *startOnBlock = new bool(getBlockID(invSlot) != AIR);
-	if (invSlot == -1 || (invSlot<-1 && getOpenedChestID() == -1))
-		invSlot = right ? (getOpenedChestID() == -1 ? 0 : -2) : (NUM_INV_SPACES - 1);
-	else if (invSlot<-1)
+	bool *startOnBlock = new bool(getBlockID(mainPlayerInv.hand) != AIR);
+	if (mainPlayerInv.hand == -1 || (mainPlayerInv.hand<-1 && getOpenedChestID() == -1))
+		mainPlayerInv.hand = right ? (getOpenedChestID() == -1 ? 0 : -2) : (NUM_INV_SPACES - 1);
+	else if (mainPlayerInv.hand<-1)
 	{
-		invSlot += right ? -1 : 1;
-		if (invSlot>-2)
-			invSlot = -1;
-		else if (invSlot < -CHEST_SLOTS - 1)
-			invSlot = 0;
+		mainPlayerInv.hand += right ? -1 : 1;
+		if (mainPlayerInv.hand>-2)
+			mainPlayerInv.hand = -1;
+		else if (mainPlayerInv.hand < -CHEST_SLOTS - 1)
+			mainPlayerInv.hand = 0;
 	}
 	else
 	{
-		invSlot += right ? 1 : -1;
-		if (invSlot >= NUM_INV_SPACES) invSlot = -1;
-		else if (invSlot < 0) invSlot = getOpenedChestID() == -1 ? (-1) : (-CHEST_SLOTS - 1);
+		mainPlayerInv.hand += right ? 1 : -1;
+		if (mainPlayerInv.hand >= NUM_INV_SPACES) mainPlayerInv.hand = -1;
+		else if (mainPlayerInv.hand < 0) mainPlayerInv.hand = getOpenedChestID() == -1 ? (-1) : (-CHEST_SLOTS - 1);
 	}
-	if (getBlockID(invSlot) == AIR&&!*startOnBlock && (invSlot != origSlot || first))
+	if (getBlockID(mainPlayerInv.hand) == AIR&&!*startOnBlock && (mainPlayerInv.hand != origSlot || first))
 	{
 		delete startOnBlock;
 		moveSlotRecursive(right, origSlot, false);
@@ -310,7 +308,7 @@ void moveSlotRecursive(bool right, int origSlot, bool first)
 
 void moveSelectedSlot(bool right)
 {
-	moveSlotRecursive(right, invSlot, true);
+	moveSlotRecursive(right, mainPlayerInv.hand, true);
 	changeInvSelectedGraphic();
 }
 
@@ -357,29 +355,29 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				int space = 0;
 				space += 15 * ((touch.py - (8 + 1)*8) / (3 * 8));
 				space += (touch.px - 8) / 16;
-				if (getOpenedChestID() != -1 && invSlot<-1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
+				if (getOpenedChestID() != -1 && mainPlayerInv.hand<-1 && world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Inventory
 					int tmpId, tmpAmount = 0;
-					tmpId = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID];
-					tmpAmount = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
-					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
+					tmpId = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID];
+					tmpAmount = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
+					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
-					invSlot = -1;
-					setSelectedSpace(-1);
+					mainPlayerInv.hand = -1;
+					setHand(-1);
 				}
-				else if (invSlot > -1 && !(mainPlayerInv.blocks[invSlot].blockId == AIR))
+				else if (mainPlayerInv.hand > -1 && !(mainPlayerInv.blocks[mainPlayerInv.hand].blockId == AIR))
 				{ //Source: Inventory, Destination:Inventory
 					int tmpId, tmpAmount = 0;
-					tmpId = mainPlayerInv.blocks[invSlot].blockId;
-					tmpAmount = mainPlayerInv.blocks[invSlot].blockAmount;
-					mainPlayerInv.blocks[invSlot].blockId = mainPlayerInv.blocks[space].blockId;
-					mainPlayerInv.blocks[invSlot].blockAmount = mainPlayerInv.blocks[space].blockAmount;
+					tmpId = mainPlayerInv.blocks[mainPlayerInv.hand].blockId;
+					tmpAmount = mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount;
+					mainPlayerInv.blocks[mainPlayerInv.hand].blockId = mainPlayerInv.blocks[space].blockId;
+					mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount = mainPlayerInv.blocks[space].blockAmount;
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
-					invSlot = -1;
-					setSelectedSpace(-1);
+					mainPlayerInv.hand = -1;
+					setHand(-1);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH) && getOpenedChestID() != -1)
 				{
@@ -394,15 +392,15 @@ void updateInventory(touchPosition touch, WorldObject* world)
 							mainPlayerInv.blocks[space].blockAmount = world->chests[getOpenedChestID()][i][INDEX_AMOUNT];
 							world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID] = tmpId;
 							world->chests[getOpenedChestID()][i][INDEX_AMOUNT] = tmpAmount;
-							invSlot = -1;
-							setSelectedSpace(-1);
+							mainPlayerInv.hand = -1;
+							setHand(-1);
 							break;
 						}
 				}
 				else
 				{
-					invSlot = space;
-					setSelectedSpace(space);
+					mainPlayerInv.hand = space;
+					setHand(space);
 					changeInvSelectedGraphic(mainPlayerInv.blocks[space].blockId);
 				}
 			}
@@ -411,43 +409,43 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				int space = 0;
 				space += 15 * ((touch.py - 1 * 8) / (3 * 8));
 				space += (touch.px - 8) / 16;
-				if (invSlot > -1 && mainPlayerInv.blocks[invSlot].blockId != AIR)
+				if (mainPlayerInv.hand > -1 && mainPlayerInv.blocks[mainPlayerInv.hand].blockId != AIR)
 				{ //Source: Inventory, Destination: Chest
 					int tmpId, tmpAmount = 0;
-					tmpId = mainPlayerInv.blocks[invSlot].blockId;
-					tmpAmount = mainPlayerInv.blocks[invSlot].blockAmount;
-					mainPlayerInv.blocks[invSlot].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-					mainPlayerInv.blocks[invSlot].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
+					tmpId = mainPlayerInv.blocks[mainPlayerInv.hand].blockId;
+					tmpAmount = mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount;
+					mainPlayerInv.blocks[mainPlayerInv.hand].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
+					mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-					invSlot = -1;
-					setSelectedSpace(getInventorySlot(-1));
+					mainPlayerInv.hand = -1;
+					setHand(getInventorySlot(-1));
 				}
-				else if (invSlot < -1 && world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] != AIR)
+				else if (mainPlayerInv.hand < -1 && world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] != AIR)
 				{ //Source: Chest, Destination: Chest
 					int tmpId, tmpAmount = 0;
-					tmpId = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID];
-					tmpAmount = world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-					world->chests[getOpenedChestID()][-invSlot - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
+					tmpId = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID];
+					tmpAmount = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT];
+					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
+					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
-					invSlot = -1;
-					setSelectedSpace(-1);
+					mainPlayerInv.hand = -1;
+					setHand(-1);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
 				{
 					addInventory(world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID], world->chests[getOpenedChestID()][space][INDEX_AMOUNT], true);
 					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = AIR;
 					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = 0;
-					invSlot = -1;
-					setSelectedSpace(-1);
+					mainPlayerInv.hand = -1;
+					setHand(-1);
 				}
 				else
 				{
-					invSlot = -space - 2;
-					setSelectedSpace(-space - 2);
-					changeInvSelectedGraphic(world->chests[getOpenedChestID()][-invSlot - 2][INDEX_BLOCK_ID]);
+					mainPlayerInv.hand = -space - 2;
+					setHand(-space - 2);
+					changeInvSelectedGraphic(world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID]);
 				}
 			}
 			else if (backButton.isColored && backButton.isTouching(touch.px, touch.py))//(touch. px > (2 - 1)*8 && touch.px < (2 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8)
@@ -481,8 +479,8 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			}
 			else
 			{
-				invSlot = -1;
-				setSelectedSpace(-1);
+				mainPlayerInv.hand = -1;
+				setHand(-1);
 				backButton.setColored(false);
 				saveButton.setColored(false);
 				craftButton.setColored(false);

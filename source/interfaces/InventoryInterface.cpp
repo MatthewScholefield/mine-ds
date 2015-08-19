@@ -24,10 +24,10 @@ void InventoryInterface::staticUpdate()
 void InventoryInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = invSlot < 0 ? AIR : getBlockID(invSlot));
-	drawSlots(invSlot, 1, 9);
+	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = getHand() < 0 ? AIR : getBlockID(getHand()));
+	drawSlots(getHand(), 1, 9);
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
-	updateTopName(getBlockID(invSlot));
+	updateTopName(getBlockID(getHand()));
 }
 
 void InventoryInterface::checkLimits(int &value)
@@ -41,6 +41,7 @@ void InventoryInterface::checkLimits(int &value)
 void InventoryInterface::moveSlot(bool right)
 {
 	int change = right ? 1 : -1;
+	int invSlot = getHand();
 	int initialSlot = invSlot;
 
 	if (getBlockID(invSlot) != AIR)
@@ -59,6 +60,7 @@ void InventoryInterface::moveSlot(bool right)
 			checkLimits(invSlot);
 		}
 	}
+	setHand(invSlot);
 	updateInv();
 }
 
@@ -82,8 +84,8 @@ void InventoryInterface::parseKeyInput()
 
 void InventoryInterface::openInventory()
 {
-	oldInvSlot = invSlot;
-	invSlot = -1;
+	oldInvSlot = getHand();
+	setHand(-1);
 	lcdMainOnTop();
 	setMiningDisabled(true);
 	backButton->setVisible(true);
@@ -94,8 +96,8 @@ void InventoryInterface::openInventory()
 
 void InventoryInterface::closeInventory()
 {
-	if (invSlot == -1)
-		invSlot = oldInvSlot;
+	if (getHand() == -1)
+		setHand(oldInvSlot);
 	lcdMainOnBottom();
 	setMiningDisabled(false);
 	backButton->setVisible(false);
@@ -129,17 +131,17 @@ void InventoryInterface::parseTouchInput(const touchPosition &touch)
 
 	int touched = touchedSlot(touch);
 
-	if (invSlot == -1)
-		invSlot = touched;
+	if (getHand() == -1)
+		setHand(touched);
 	else
 	{
-		int tmpId = getBlockID(invSlot);
-		int tmpAmount = getBlockAmount(invSlot);
-		setBlockID(invSlot, getBlockID(touched));
-		setBlockAmount(invSlot, getBlockAmount(touched));
+		int tmpId = getBlockID(getHand());
+		int tmpAmount = getBlockAmount(getHand());
+		setBlockID(getHand(), getBlockID(touched));
+		setBlockAmount(getHand(), getBlockAmount(touched));
 		setBlockID(touched, tmpId);
 		setBlockAmount(touched, tmpAmount);
-		invSlot = -1;
+		setHand(-1);
 	}
 	updateInv();
 }

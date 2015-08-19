@@ -403,7 +403,7 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 		return false;
 	if (getType(blockID) == STONEBLOCK)
 	{
-		if (getType(getBlockID(getSelectedSlot())) != PICKAXE)
+		if (getType(getBlockID(getHand())) != PICKAXE)
 			return false;
 		else
 		{
@@ -416,13 +416,13 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 				blockID = COBBLESTONE;
 				break;
 			case IRON_ORE:
-				if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD) return false;
+				if (getBlockID(getHand()) == PICKAXE_WOOD) return false;
 				break;
 			case GOLD_ORE:
-				if (getBlockID(getSelectedSlot()) == PICKAXE_WOOD || getBlockID(getSelectedSlot()) == PICKAXE_STONE)return false;
+				if (getBlockID(getHand()) == PICKAXE_WOOD || getBlockID(getHand()) == PICKAXE_STONE)return false;
 				break;
 			case DIAMOND_ORE:
-				if (getBlockID(getSelectedSlot()) != PICKAXE_DIAMOND && getBlockID(getSelectedSlot()) != PICKAXE_IRON) return false;
+				if (getBlockID(getHand()) != PICKAXE_DIAMOND && getBlockID(getHand()) != PICKAXE_IRON) return false;
 				break;
 			}
 		}

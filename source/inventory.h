@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include "world.h"
 #include "InvBlock.h"
-int getSelectedSlot();
-void setSelectedSpace(int a);
+int getHand();
+void setHand(int a);
 void changeInvSelectedGraphic(int blockID = -1);
 int getInventoryState();
 int spaceForItem(int blockID);
