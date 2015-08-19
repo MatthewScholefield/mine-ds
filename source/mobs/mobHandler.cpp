@@ -198,13 +198,14 @@ int spawnMobAt(MobType type, int x, int y)
 void loadMobs(FILE* f)
 {
 	mobsReset(false);
-	int index = fscanf(f, "%d ", &index);
+	int index = 0;
 	while (index != -1)
 	{
 		if (index == MOB_PLAYER)
 			hasSpawnedPlayer = true;
-		mobs[spawnMobAt((MobType) index, 0, 0)]->loadFromFile(f);
 		fscanf(f, "%d ", &index);
+		if (index!=-1)
+			mobs[spawnMobAt((MobType) index, 0, 0)]->loadFromFile(f);
 	}
 }
 
