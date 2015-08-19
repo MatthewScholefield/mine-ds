@@ -89,6 +89,7 @@ void InventoryInterface::openInventory()
 	backButton->setVisible(true);
 	backButton->draw();
 	open = true;
+	updateInv();
 }
 
 void InventoryInterface::closeInventory()
