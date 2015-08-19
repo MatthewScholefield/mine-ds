@@ -24,7 +24,6 @@ class InventoryInterface : public Interface
 	int oldInvSlot;
 	Graphic selectedGraphic;
 	int loadedGraphic;
-	Inventory mainPlayerInv;
 	UIElement_ptr backButton;
 
 	void updateInv();
@@ -34,6 +33,9 @@ class InventoryInterface : public Interface
 	void openInventory();
 	void closeInventory();
 	void switchInvState();
+	static bool touchesInvSlot(const touchPosition &touch);
+	static int touchedSlot(const touchPosition &touch);
+	void parseTouchInput(const touchPosition &touch);
 
 public:
 	static void triggerUpdate();
@@ -43,7 +45,7 @@ public:
 
 	void draw();
 
-	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY), menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR), mainPlayerInv { }
+	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY), menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
