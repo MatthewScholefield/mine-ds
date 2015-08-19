@@ -84,8 +84,8 @@ void PlayerMob::hurt(int amount, int type)
 				for (int j = 0; j < NUM_INV_SPACES; ++j)
 				{
 					for (int i = 0; i < 3; ++i)
-						createItemMob(x / 16, (y - 24) / 16, getBlockID(j), checkInventorySlot(j) / 4, getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
-					createItemMob(x / 16, (y - 24) / 16, getBlockID(j), checkInventorySlot(j) - 3 * (checkInventorySlot(j) / 4), getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+						createItemMob(x / 16, (y - 24) / 16, getBlockID(j), getBlockAmount(j) / 4, getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+					createItemMob(x / 16, (y - 24) / 16, getBlockID(j), getBlockAmount(j) - 3 * (getBlockAmount(j) / 4), getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
 				}
 			}
 			clearInventory(true);

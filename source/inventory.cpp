@@ -214,11 +214,6 @@ int checkInventory(int blockID) //returns quantity of blockid in inventory
 	return mainPlayerInv.blocks[space].blockAmount;
 }
 
-int checkInventorySlot(int slot)
-{
-	return invSlot < 0 ? 0 : mainPlayerInv.blocks[slot].blockAmount;
-}
-
 int getBlockID(int invSlot)
 {
 	return invSlot < 0 ? AIR : mainPlayerInv.blocks[invSlot].blockId;
@@ -226,7 +221,21 @@ int getBlockID(int invSlot)
 
 int getBlockAmount(int invSlot)
 {
-	return mainPlayerInv.blocks[invSlot].blockAmount;
+	return invSlot < 0 ? 0 : mainPlayerInv.blocks[invSlot].blockAmount;
+}
+
+void setBlockID(int slot, int ID)
+{
+	if (slot < 0)
+		return;
+	mainPlayerInv.blocks[slot].blockId = ID;
+}
+
+void setBlockAmount(int slot, int amount)
+{
+	if (slot < 0)
+		return;
+	mainPlayerInv.blocks[slot].blockAmount = amount;
 }
 
 void clearInventory(bool direct) //clears inventory
