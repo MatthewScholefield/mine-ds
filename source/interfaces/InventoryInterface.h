@@ -20,7 +20,6 @@ class InventoryInterface : public Interface
 	static bool shouldUpdate;
 
 	bool open;
-	int invSlot = -1;
 	int oldInvSlot;
 	Graphic selectedGraphic;
 	int loadedGraphic;
