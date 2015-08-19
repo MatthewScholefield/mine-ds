@@ -120,7 +120,7 @@ void updateInvGraphics()
 		return;
 	drawBoxFrame(0, 8, 32, 7);
 	drawBoxCenter(1, 11, 30, 1);
-	drawSlots(getSelectedSlot(), 1, 9);
+	drawSlots(getHand(), 1, 9);
 	if (getOpenedChestID() == -1)
 		drawSelectedFrame();
 	else
@@ -134,7 +134,7 @@ void updateInvGraphics()
 		drawBoxCenter(1, 6, 2, 3);
 	}
 	drawQuantity(false, 1, 10, 15, 2, 2, 3);
-	updateTopName(getBlockID(getSelectedSlot()));
+	updateTopName(getBlockID(getHand()));
 	changeInvSelectedGraphic();
 }
 
@@ -230,8 +230,8 @@ void updateChestItems() //Changes graphics and text
 		return;
 	drawBoxFrame(0, 0, 32, 7);
 	drawBoxCenter(1, 3, 30, 1);
-	if (getSelectedSlot()<-1)
-		drawSlots(-getSelectedSlot() - 2, 1, 1);
+	if (getHand()<-1)
+		drawSlots(-getHand() - 2, 1, 1);
 	else
 		drawSlots(-1, 1, 1);
 	drawQuantity(true, 1, 2, 15, 2, 2, 3);
