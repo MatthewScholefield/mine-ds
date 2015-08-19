@@ -38,7 +38,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 
 void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 {
-	int blockID = getBlockID(getSelectedSlot());
+	int blockID = getBlockID(getHand());
 	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
 	if (*blockXY == AIR)
 		return;
@@ -74,7 +74,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 
 void placeBlock(WorldObject *world, int x, int y, bool bg)
 {
-	int blockID = getBlockID(getSelectedSlot());
+	int blockID = getBlockID(getHand());
 	if (item(blockID) && !blockItem(blockID))
 		return;
 	if (subInventory(blockID, 1))
@@ -133,7 +133,7 @@ int destroyTime(int blockID, int selectedBlock) //Calculated the required frames
 void changeTarget(int newSum, int newBlock)
 {
 	targetSum = newSum;
-	framesTillBreak = destroyTime(newBlock, getBlockID(getSelectedSlot()));
+	framesTillBreak = destroyTime(newBlock, getBlockID(getHand()));
 	framesOnBlock = 0;
 	finishedTask = false;
 	soundOffset = getTime() % HIT_SOUND_DELAY;
@@ -190,7 +190,7 @@ bool attackMob(WorldObject *world, int px, int py)
 	if (targetMob != nullptr)
 	{
 		int damage;
-		switch (getBlockID(getSelectedSlot()))
+		switch (getBlockID(getHand()))
 		{
 		case SWORD_DIAMOND:
 			damage = 6;
