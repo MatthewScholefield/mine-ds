@@ -102,6 +102,47 @@ void InventoryInterface::closeInventory()
 	draw();
 }
 
+static bool touchesTileBox(const touchPosition &touch, int x, int y, int sx, int sy)
+{
+	return touch.px >= x * 8 && touch.px < x * 8 + sx * 8 && touch.py >= y * 8 && touch.py < y * 8 + sy * 8;
+}
+
+bool InventoryInterface::touchesInvSlot(const touchPosition &touch)
+{
+	return (touchesTileBox(touch, 1, 9, 15 * 2, 1 * 2) || touchesTileBox(touch, 1, 12, 15 * 2, 1 * 2));
+}
+
+int InventoryInterface::touchedSlot(const touchPosition& touch)
+{
+	const int OFF_X = 8;
+	const int OFF_Y = 9 * 8;
+	int row = (touch.px - OFF_X) / 16; //0..14
+	int column = (touch.py - OFF_Y) / (3 * 8); //0..1
+	return row + column * 15;
+}
+
+void InventoryInterface::parseTouchInput(const touchPosition &touch)
+{
+	if (!(keysDown() & KEY_TOUCH) || !touchesInvSlot(touch))
+		return;
+
+	int touched = touchedSlot(touch);
+
+	if (invSlot == -1)
+		invSlot = touched;
+	else
+	{
+		int tmpId = getBlockID(invSlot);
+		int tmpAmount = getBlockAmount(invSlot);
+		setBlockID(invSlot, getBlockID(touched));
+		setBlockAmount(invSlot, getBlockAmount(touched));
+		setBlockID(touched, tmpId);
+		setBlockAmount(touched, tmpAmount);
+		invSlot = -1;
+	}
+	updateInv();
+}
+
 void InventoryInterface::switchInvState()
 {
 	if (open)
@@ -119,6 +160,7 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 
 	if (open)
 	{
+		parseTouchInput(*touch);
 		switch (menu.update(*touch))
 		{
 		case BACK:
