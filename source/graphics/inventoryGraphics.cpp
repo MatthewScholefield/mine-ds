@@ -66,11 +66,13 @@ void drawSlots(int selectedSlot, int startX, int startY, int xCount, int yCount,
 
 void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numRows, int xDist, int yDist)
 {
+	if (!isSurvival())
+		return;
 	for (int i = 0; i < amountPerRow; ++i)
 		for (int j = 0; j < numRows; ++j)
 			if (chest)
 			{
-				if (isSurvival() && (*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT] != 0 && (*openedChestPtr)[j * amountPerRow + i][INDEX_BLOCK_ID] != 0)
+				if ((*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT] != 0 && (*openedChestPtr)[j * amountPerRow + i][INDEX_BLOCK_ID] != 0)
 				{
 					printXY(startX + i * xDist, startY + j * yDist, (*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT]);
 					if ((*openedChestPtr)[j * amountPerRow + i][INDEX_AMOUNT] < 10)
@@ -79,12 +81,14 @@ void drawQuantity(bool chest, int startX, int startY, int amountPerRow, int numR
 			}
 			else if (!chest)
 			{
-				if (isSurvival() && getBlockAmount(j * amountPerRow + i) != 0 && getBlockID(j * amountPerRow + i) != 0)
+				if (getBlockAmount(j * amountPerRow + i) != 0 && getBlockID(j * amountPerRow + i) != 0)
 				{
 					printXY(startX + i * xDist, startY + j * yDist, getBlockAmount(j * amountPerRow + i));
 					if (getBlockAmount(j * amountPerRow + i) < 10)
 						printXY(startX + i * xDist + 1, startY + j * yDist, " ");
 				}
+				else
+					printXY(startX + i * xDist, startY + j * yDist, "  ");
 			}
 }
 
