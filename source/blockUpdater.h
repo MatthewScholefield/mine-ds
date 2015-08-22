@@ -1,5 +1,6 @@
 #pragma once
 #include "world.h"
+#define NUM_UPDATERS 28
 #define NO_CHANCE 99999
 #define SOIL_CHANCE_UPDATE 1000
 #define SAPLING_CHANCE_UPDATE 2000
@@ -15,6 +16,7 @@ public:
 	int chance = NO_CHANCE;
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 	virtual void update(WorldObject* world, int x, int y, bool bg);
+	int timer = 0;
 };
 void proceduralBlockUpdateInit();
 void proceduralBlockUpdate(WorldObject* world);

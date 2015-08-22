@@ -30,8 +30,7 @@
 #include "blockUpdaters/door.h"
 #include "blockUpdaters/water.h"
 
-BlockUpdater* blockUpdaters[50];
-int numBlockUpdaters;
+BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
 BlockUpdater::BlockUpdater() { }
 
@@ -41,58 +40,91 @@ void BlockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
 
 void proceduralBlockUpdateInit()
 {
-	numBlockUpdaters = 0;
-	blockUpdaters[numBlockUpdaters++] = new FurnaceUpdater;
-	blockUpdaters[numBlockUpdaters++] = new AirUpdater;
-	blockUpdaters[numBlockUpdaters++] = new GrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new JungleGrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new MyceliumUpdater;
-	blockUpdaters[numBlockUpdaters++] = new DirtUpdater;
-	blockUpdaters[numBlockUpdaters++] = new LeafUpdater;
-	blockUpdaters[numBlockUpdaters++] = new RedwoodLeafUpdater;
-	blockUpdaters[numBlockUpdaters++] = new JungleLeafUpdater;
-	blockUpdaters[numBlockUpdaters++] = new SnowTopUpdater;
-	blockUpdaters[numBlockUpdaters++] = new SnowGrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new CactusUpdater;
-	blockUpdaters[numBlockUpdaters++] = new ShrubUpdater;
-	blockUpdaters[numBlockUpdaters++] = new TallGrassUpdater;
-	blockUpdaters[numBlockUpdaters++] = new RedFlowerUpdater;
-	blockUpdaters[numBlockUpdaters++] = new YellowFlowerUpdater;
-	blockUpdaters[numBlockUpdaters++] = new RedMushroomUpdater;
-	blockUpdaters[numBlockUpdaters++] = new BrownMushroomUpdater;
-	blockUpdaters[numBlockUpdaters++] = new OakSaplingUpdater;
-	blockUpdaters[numBlockUpdaters++] = new JungleSaplingUpdater;
-	blockUpdaters[numBlockUpdaters++] = new SpruceSaplingUpdater;
-	blockUpdaters[numBlockUpdaters++] = new LadderUpdater;
-	blockUpdaters[numBlockUpdaters++] = new DoorUpdater;
-	blockUpdaters[numBlockUpdaters++] = new DoorTopClosedUpdater;
-	blockUpdaters[numBlockUpdaters++] = new DoorTopOpenUpdater;
-	blockUpdaters[numBlockUpdaters++] = new DoorBottomClosedUpdater;
-	blockUpdaters[numBlockUpdaters++] = new DoorBottomOpenUpdater;
-	blockUpdaters[numBlockUpdaters++] = new WaterUpdater;
+	blockUpdaters[0] = new FurnaceUpdater;
+	blockUpdaters[1] = new AirUpdater;
+	blockUpdaters[2] = new GrassUpdater;
+	blockUpdaters[3] = new JungleGrassUpdater;
+	blockUpdaters[4] = new MyceliumUpdater;
+	blockUpdaters[5] = new DirtUpdater;
+	blockUpdaters[6] = new LeafUpdater;
+	blockUpdaters[7] = new RedwoodLeafUpdater;
+	blockUpdaters[8] = new JungleLeafUpdater;
+	blockUpdaters[9] = new SnowTopUpdater;
+	blockUpdaters[10] = new SnowGrassUpdater;
+	blockUpdaters[11] = new CactusUpdater;
+	blockUpdaters[12] = new ShrubUpdater;
+	blockUpdaters[13] = new TallGrassUpdater;
+	blockUpdaters[14] = new RedFlowerUpdater;
+	blockUpdaters[15] = new YellowFlowerUpdater;
+	blockUpdaters[16] = new RedMushroomUpdater;
+	blockUpdaters[17] = new BrownMushroomUpdater;
+	blockUpdaters[18] = new OakSaplingUpdater;
+	blockUpdaters[19] = new JungleSaplingUpdater;
+	blockUpdaters[20] = new SpruceSaplingUpdater;
+	blockUpdaters[21] = new LadderUpdater;
+	blockUpdaters[22] = new DoorUpdater;
+	blockUpdaters[23] = new DoorTopClosedUpdater;
+	blockUpdaters[24] = new DoorTopOpenUpdater;
+	blockUpdaters[25] = new DoorBottomClosedUpdater;
+	blockUpdaters[26] = new DoorBottomOpenUpdater;
+	blockUpdaters[27] = new WaterUpdater;
+}
+
+static int updaterIndex(int blockID, int index = 0)
+{
+	switch (blockID)
+	{
+	case FURNACE: return 0;
+	case AIR: return 1;
+	case GRASS: return 2;
+	case GRASS_JUNGLE: return 3;
+	case MYCELIUM: return 4;
+	case DIRT: return 5;
+	case LEAVES_OAK: return 6;
+	case LEAVES_SPRUCE: return 7;
+	case LEAVES_JUNGLE: return 8;
+	case SNOW_TOP: return 9;
+	case GRASS_SNOW: return 10;
+	case CACTUS: return 11;
+	case SHRUB: return 12;
+	case TALL_GRASS: return 13;
+	case FLOWER_RED: return 14;
+	case FLOWER_YELLOW: return 15;
+	case MUSHROOM_RED: return 16;
+	case MUSHROOM_BROWN: return 17;
+	case SAPLING_OAK: return 18;
+	case SAPLING_JUNGLE: return 19;
+	case SAPLING_SPRUCE: return 20;
+	case LADDER: return 21;
+	case DOOR_ITEM: return 22;
+	case DOOR_CLOSED_TOP: return 23;
+	case DOOR_OPEN_TOP: return 24;
+	case DOOR_CLOSED_BOTTOM: return 25;
+	case DOOR_OPEN_BOTTOM: return 26;
+	case WATER: return 27;
+	default:
+		return -1;
+	}
+}
+
+static void updateBlock(WorldObject *world, int x, int y, bool bg)
+{
+	int i = updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]);
+	if (i >= 0)
+	{
+		blockUpdaters[i]->update(world, x, y, false);
+		if (--blockUpdaters[i]->timer < 0)
+		{
+			blockUpdaters[i]->timer = rand() % blockUpdaters[i]->chance;
+			blockUpdaters[i]->chanceUpdate(world, x, y, false);
+		}
+	}
 }
 
 void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)
 {
-	for (int i = 0; i < numBlockUpdaters; ++i)
-	{
-		if (world->bgblocks[x][y] == blockUpdaters[i]->blockID)
-		{
-			blockUpdaters[i]->update(world, x, y, true);
-			if (!(rand() % blockUpdaters[i]->chance))
-			{
-				blockUpdaters[i]->chanceUpdate(world, x, y, true);
-			}
-		}
-		if (world->blocks[x][y] == blockUpdaters[i]->blockID)
-		{
-			blockUpdaters[i]->update(world, x, y, false);
-			if (!(rand() % blockUpdaters[i]->chance))
-			{
-				blockUpdaters[i]->chanceUpdate(world, x, y, false);
-			}
-		}
-	}
+	updateBlock(world, x, y, true);
+	updateBlock(world, x, y, false);
 }
 
 void proceduralBlockUpdate(WorldObject* world)
