@@ -9,6 +9,16 @@
 #define FPS		(60)
 #define SEC_TO_FPS(S)	((S) * FPS)
 #define PI 3.14159265
+#define PROFILE_TIME(a)         \
+if (keysDown() & KEY_B)         \
+{                               \
+	cpuStartTiming(0);          \
+	a;                          \
+	int time = cpuEndTiming();  \
+	printXY(1,1,time);          \
+}                               \
+else                            \
+	a;
 
 void sleepThread(unsigned int seconds);
 void printGlobalMessage(const char* s);
