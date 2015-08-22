@@ -112,11 +112,11 @@ static void updateBlock(WorldObject *world, int x, int y, bool bg)
 	int i = updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]);
 	if (i >= 0)
 	{
-		blockUpdaters[i]->update(world, x, y, false);
+		blockUpdaters[i]->update(world, x, y, bg);
 		if (--blockUpdaters[i]->timer < 0)
 		{
 			blockUpdaters[i]->timer = rand() % blockUpdaters[i]->chance;
-			blockUpdaters[i]->chanceUpdate(world, x, y, false);
+			blockUpdaters[i]->chanceUpdate(world, x, y, bg);
 		}
 	}
 }
