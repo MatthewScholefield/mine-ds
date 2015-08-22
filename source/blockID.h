@@ -33,6 +33,7 @@
 #define BEDROCK 17
 #define SNOW_TOP 18
 #define SNOW 18
+#define GRASS_SNOW 19
 #define SNOW_GRASS 19
 #define COAL_ORE 20
 #define ORE_COAL 20
