@@ -207,7 +207,7 @@ void startGame(void)
 				break;
 		}
 		miningUpdate(world, touch);
-		proceduralBlockUpdate(world);
+		PROFILE_TIME(proceduralBlockUpdate(world));
 		worldRender_RenderWater(world);
 		update3D();
 		vBlank();
