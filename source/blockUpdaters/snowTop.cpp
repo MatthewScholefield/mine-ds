@@ -9,7 +9,6 @@
 
 SnowTopUpdater::SnowTopUpdater()
 {
-	blockID = SNOW_TOP;
 }
 
 void SnowTopUpdater::update(WorldObject* world, int x, int y, bool bg)

@@ -9,7 +9,6 @@
 
 JungleGrassUpdater::JungleGrassUpdater()
 {
-	blockID = GRASS_JUNGLE;
 	chance = SOIL_CHANCE_UPDATE;
 }
 

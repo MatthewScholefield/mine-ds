@@ -10,7 +10,6 @@ FurnaceUpdater::FurnaceUpdater()
 {
 	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
-	blockID = FURNACE_LIT;
 }
 
 void FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)

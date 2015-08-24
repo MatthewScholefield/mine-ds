@@ -22,7 +22,6 @@ void plantUpdate(int beneathID, WorldObject* world, int x, int y, bool bg)
 
 ShrubUpdater::ShrubUpdater()
 {
-	blockID = SHRUB;
 }
 
 void ShrubUpdater::update(WorldObject* world, int x, int y, bool bg)
@@ -32,7 +31,6 @@ void ShrubUpdater::update(WorldObject* world, int x, int y, bool bg)
 
 TallGrassUpdater::TallGrassUpdater()
 {
-	blockID = TALL_GRASS;
 }
 
 void TallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
@@ -42,7 +40,6 @@ void TallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
 
 RedFlowerUpdater::RedFlowerUpdater()
 {
-	blockID = FLOWER_RED;
 }
 
 void RedFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
@@ -52,7 +49,6 @@ void RedFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 
 YellowFlowerUpdater::YellowFlowerUpdater()
 {
-	blockID = FLOWER_YELLOW;
 }
 
 void YellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
@@ -62,7 +58,6 @@ void YellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 
 RedMushroomUpdater::RedMushroomUpdater()
 {
-	blockID = MUSHROOM_RED;
 }
 
 void RedMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
@@ -72,7 +67,6 @@ void RedMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 
 BrownMushroomUpdater::BrownMushroomUpdater()
 {
-	blockID = MUSHROOM_BROWN;
 }
 
 void BrownMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)

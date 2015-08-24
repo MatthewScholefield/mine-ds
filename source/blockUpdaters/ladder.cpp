@@ -9,7 +9,6 @@
 
 LadderUpdater::LadderUpdater()
 {
-	blockID = LADDER;
 	chance = NO_CHANCE;
 }
 
