@@ -34,7 +34,6 @@ void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 
 LeafUpdater::LeafUpdater()
 {
-	blockID = LEAVES_OAK;
 	chance = LEAF_CHANCE_UPDATE;
 }
 

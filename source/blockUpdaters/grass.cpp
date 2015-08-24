@@ -11,7 +11,6 @@
 
 GrassUpdater::GrassUpdater()
 {
-	blockID = GRASS;
 	chance = SOIL_CHANCE_UPDATE;
 }
 

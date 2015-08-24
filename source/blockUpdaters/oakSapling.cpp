@@ -60,7 +60,6 @@ void saplingUpdate(WorldObject *world, int x, int y, bool bg)
 
 OakSaplingUpdater::OakSaplingUpdater()
 {
-	blockID = SAPLING_OAK;
 	chance = SAPLING_CHANCE_UPDATE;
 }
 

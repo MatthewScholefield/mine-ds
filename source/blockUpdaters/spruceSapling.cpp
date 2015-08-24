@@ -6,7 +6,6 @@
 
 SpruceSaplingUpdater::SpruceSaplingUpdater()
 {
-	blockID = SAPLING_SPRUCE;
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
