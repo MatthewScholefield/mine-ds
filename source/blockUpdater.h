@@ -11,7 +11,6 @@
 class BlockUpdater
 {
 public:
-	int blockID = 15;
 	BlockUpdater();
 	int chance = NO_CHANCE;
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);

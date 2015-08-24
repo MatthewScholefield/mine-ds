@@ -9,7 +9,6 @@
 
 SnowGrassUpdater::SnowGrassUpdater()
 {
-	blockID = SNOW_GRASS;
 	chance = SOIL_CHANCE_UPDATE;
 }
 

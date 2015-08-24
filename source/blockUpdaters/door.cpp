@@ -11,7 +11,6 @@
 
 DoorUpdater::DoorUpdater()
 {
-	blockID = DOOR_ITEM;
 	chance = NO_CHANCE;
 }
 
@@ -36,25 +35,21 @@ void DoorUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
 
 DoorTopOpenUpdater::DoorTopOpenUpdater()
 {
-	blockID = DOOR_OPEN_TOP;
 	chance = NO_CHANCE;
 }
 
 DoorTopClosedUpdater::DoorTopClosedUpdater()
 {
-	blockID = DOOR_CLOSED_TOP;
 	chance = NO_CHANCE;
 }
 
 DoorBottomOpenUpdater::DoorBottomOpenUpdater()
 {
-	blockID = DOOR_OPEN_BOTTOM;
 	chance = NO_CHANCE;
 }
 
 DoorBottomClosedUpdater::DoorBottomClosedUpdater()
 {
-	blockID = DOOR_CLOSED_BOTTOM;
 	chance = NO_CHANCE;
 }
 

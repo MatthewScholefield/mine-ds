@@ -19,7 +19,6 @@ bool isWaterAt(WorldObject *world, int px, int py)
 
 WaterUpdater::WaterUpdater()
 {
-	blockID = WATER;
 	chance = NO_CHANCE;
 }
 

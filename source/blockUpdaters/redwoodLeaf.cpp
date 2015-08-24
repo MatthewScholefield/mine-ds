@@ -10,7 +10,6 @@
 
 RedwoodLeafUpdater::RedwoodLeafUpdater()
 {
-	blockID = LEAVES_SPRUCE;
 	chance = LEAF_CHANCE_UPDATE;
 }
 

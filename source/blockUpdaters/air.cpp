@@ -8,7 +8,6 @@
 
 AirUpdater::AirUpdater()
 {
-	blockID = AIR;
 	chance = NO_CHANCE;
 }
 

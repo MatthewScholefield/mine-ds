@@ -9,7 +9,6 @@
 
 MyceliumUpdater::MyceliumUpdater()
 {
-	blockID = MYCELIUM;
 	chance = SOIL_CHANCE_UPDATE;
 }
 

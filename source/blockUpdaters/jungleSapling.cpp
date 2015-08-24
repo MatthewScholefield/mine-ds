@@ -6,7 +6,6 @@
 
 JungleSaplingUpdater::JungleSaplingUpdater()
 {
-	blockID = SAPLING_JUNGLE;
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
