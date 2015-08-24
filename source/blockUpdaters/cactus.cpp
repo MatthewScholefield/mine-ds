@@ -11,7 +11,6 @@
 
 CactusUpdater::CactusUpdater()
 {
-	blockID = CACTUS;
 	chance = CACTUS_CHANCE_UPDATE;
 }
 

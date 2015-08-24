@@ -25,7 +25,6 @@ const int scanCheck[][6] = {
 
 DirtUpdater::DirtUpdater()
 {
-	blockID = DIRT;
 	chance = SOIL_CHANCE_UPDATE;
 }
 
