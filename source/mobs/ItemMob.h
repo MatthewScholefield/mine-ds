@@ -21,14 +21,14 @@ public:
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
-	ItemMob(int x, int y, int blockID, int amount, int displayID, float vx) :
+	ItemMob(int x, int y, int blockID, int amount, int displayID, float ax) :
 	BaseMob(MOB_ITEM, x, y, 8, 8), blockID(blockID), displayID(displayID)
 	, amount(amount), floatY(0)
 	{
-		if (vx == 54321.f)
+		if (ax > 54320.f)
 			this->vx = FixedPoint(true, (float((rand() % 10) + 40) / 100.f) * ((rand() % 2) ? -1.f : 1.f) * FixedPoint::SCALER);
 		else
-			this->vx = FixedPoint(true, vx * 10);
+			this->vx = FixedPoint(true, ax * FixedPoint::SCALER);
 	}
 
 	~ItemMob() { }

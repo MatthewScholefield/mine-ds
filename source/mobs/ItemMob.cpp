@@ -37,12 +37,12 @@ void ItemMob::updateMob(WorldObject* world)
 		loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15);
 	if (health < 1)
 		return;
-	if (vx != 0)
+	if (vx < 0 || vx > 0)
 	{
 		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
 		{
 			bool positive = vx > 0;
-			vx -= FixedPoint(true, FixedPoint::SCALER * 120)*(positive ? 1 : -1);
+			vx -= FixedPoint(true, 1)*(positive ? 1 : -1);
 			if ((positive && vx < 0) || (!positive && vx > 0))
 				vx = 0;
 			x += vx;
