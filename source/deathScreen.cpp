@@ -19,7 +19,6 @@ void setupDeathScreen()
 {
 	oamClear(&oamSub, 0, 0); //Clear sprites
 	showingDeathScreen = true;
-	disableInvGraphics();
 	clearText();
 	lcdMainOnTop();
 	drawBackground();

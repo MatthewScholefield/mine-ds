@@ -1,5 +1,5 @@
 #include "interfaceHandler.h"
-#include "InventoryInterface.h"
+#include "ChestInterface.h"
 #include "../Config.h"
 #include "../blockPages.h"
 #include "../blockID.h"
@@ -9,19 +9,19 @@
 #include "../graphics/UI.h"
 #include "../files.h"
 
-bool InventoryInterface::shouldUpdate = false;
+bool ChestInterface::shouldUpdate = false;
 
-void InventoryInterface::triggerUpdate()
+void ChestInterface::triggerUpdate()
 {
 	shouldUpdate = true;
 }
 
-void InventoryInterface::staticUpdate()
+void ChestInterface::staticUpdate()
 {
 	shouldUpdate = false;
 }
 
-void InventoryInterface::updateInv()
+void ChestInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
 	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = getHand() < 0 ? AIR : getBlockID(getHand()));
@@ -43,7 +43,7 @@ void InventoryInterface::updateInv()
 	}
 }
 
-void InventoryInterface::checkLimits(int &value)
+void ChestInterface::checkLimits(int &value)
 {
 	if (value > NUM_INV_SPACES - 1)
 		value = -1;
@@ -51,7 +51,7 @@ void InventoryInterface::checkLimits(int &value)
 		value = NUM_INV_SPACES - 1;
 }
 
-void InventoryInterface::moveSlot(bool right)
+void ChestInterface::moveSlot(bool right)
 {
 	int change = right ? 1 : -1;
 	int invSlot = getHand();
@@ -77,7 +77,7 @@ void InventoryInterface::moveSlot(bool right)
 	updateInv();
 }
 
-void InventoryInterface::parseKeyInput()
+void ChestInterface::parseKeyInput()
 {
 	if (keysDown() & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
@@ -95,7 +95,7 @@ void InventoryInterface::parseKeyInput()
 	}
 }
 
-void InventoryInterface::openInventory()
+void ChestInterface::openInventory()
 {
 	oldInvSlot = getHand();
 	setHand(-1);
@@ -103,18 +103,16 @@ void InventoryInterface::openInventory()
 	setMiningDisabled(true);
 	backButton->setVisible(true);
 	backButton->draw();
-	open = true;
 	updateInv();
 }
 
-void InventoryInterface::closeInventory()
+void ChestInterface::closeInventory()
 {
 	if (getHand() == -1)
 		setHand(oldInvSlot);
 	lcdMainOnBottom();
 	setMiningDisabled(false);
 	backButton->setVisible(false);
-	open = false;
 	draw();
 }
 
@@ -123,12 +121,12 @@ static bool touchesTileBox(const touchPosition &touch, int x, int y, int sx, int
 	return touch.px >= x * 8 && touch.px < x * 8 + sx * 8 && touch.py >= y * 8 && touch.py < y * 8 + sy * 8;
 }
 
-bool InventoryInterface::touchesInvSlot(const touchPosition &touch)
+bool ChestInterface::touchesInvSlot(const touchPosition &touch)
 {
 	return (touchesTileBox(touch, 1, 9, 15 * 2, 1 * 2) || touchesTileBox(touch, 1, 12, 15 * 2, 1 * 2));
 }
 
-int InventoryInterface::touchedSlot(const touchPosition& touch)
+int ChestInterface::touchedSlot(const touchPosition& touch)
 {
 	const int OFF_X = 8;
 	const int OFF_Y = 9 * 8;
@@ -137,7 +135,7 @@ int InventoryInterface::touchedSlot(const touchPosition& touch)
 	return row + column * 15;
 }
 
-void InventoryInterface::parseTouchInput(const touchPosition &touch)
+void ChestInterface::parseTouchInput(const touchPosition &touch)
 {
 	if (!(keysDown() & KEY_TOUCH) || !touchesInvSlot(touch))
 		return;
@@ -159,51 +157,40 @@ void InventoryInterface::parseTouchInput(const touchPosition &touch)
 	updateInv();
 }
 
-void InventoryInterface::switchInvState()
-{
-	if (open)
-		closeInventory();
-	else
-		openInventory();
-}
-
-void InventoryInterface::update(WorldObject *world, touchPosition *touch)
+void ChestInterface::update(WorldObject *world, touchPosition *touch)
 {
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
 	drawInvGraphics();
 
 	parseKeyInput();
 
-	if (open)
+	parseTouchInput(*touch);
+	switch (menu.update(*touch))
 	{
-		parseTouchInput(*touch);
-		switch (menu.update(*touch))
-		{
-		case BACK:
-			closeInventory();
-			break;
-		case SAVE:
-			if (saveWorld(world))
-				printLocalMessage("Saved Game\n");
-			else
-				printLocalMessage("Failed to Save Game\n");
-			break;
-		case CRAFT_MENU:
-			setInterface(INTERFACE_CRAFTING);
-			break;
-		case PAGE_MENU:
-			break;
-		default:
-			break;
-		}
+	case BACK:
+		closeInventory();
+		break;
+	case SAVE:
+		if (saveWorld(world))
+			printLocalMessage("Saved Game\n");
+		else
+			printLocalMessage("Failed to Save Game\n");
+		break;
+	case CRAFT_MENU:
+		setInterface(INTERFACE_CRAFTING);
+		break;
+	case PAGE_MENU:
+		break;
+	default:
+		break;
 	}
 	if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
-		switchInvState();
+		closeInventory();
 	if (shouldUpdate)
 		updateInv();
 }
 
-void InventoryInterface::draw()
+void ChestInterface::draw()
 {
 	consoleClear();
 	drawBackground();

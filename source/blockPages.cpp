@@ -79,7 +79,6 @@ int getBlockPage()
 
 void pageMenuInit()
 {
-	disableInvGraphics();
 	lcdMainOnTop();
 	clearText();
 	drawBackground();
