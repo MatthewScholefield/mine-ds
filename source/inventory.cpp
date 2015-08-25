@@ -456,7 +456,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
 				pageButton.setVisible(false);
-				disableInvGraphics();
 				setInterface(INTERFACE_CRAFTING);
 				showingInventory = 2;
 			}
@@ -495,7 +494,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			openInventory();
 		break;
 	}
-	drawInvGraphics();
 }
 
 void loadInventory(FILE* data)
