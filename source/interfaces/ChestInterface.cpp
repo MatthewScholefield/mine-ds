@@ -1,5 +1,5 @@
-#include "interfaceHandler.h"
-#include "InventoryInterface.h"
+/*#include "interfaceHandler.h"
+#include "ChestInterface.h"
 #include "../Config.h"
 #include "../blockPages.h"
 #include "../blockID.h"
@@ -9,33 +9,33 @@
 #include "../graphics/UI.h"
 #include "../files.h"
 
-bool InventoryInterface::shouldUpdate = false;
+bool ChestInterface::shouldUpdate = false;
 
-void InventoryInterface::triggerUpdate()
+void ChestInterface::triggerUpdate()
 {
 	shouldUpdate = true;
 }
 
-void InventoryInterface::staticUpdate()
+void ChestInterface::staticUpdate()
 {
 	shouldUpdate = false;
 }
 
-void InventoryInterface::updateInv()
+void ChestInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
-	drawSlots(inv.hand, 1, 9);
-	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
+	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = getHand() < 0 ? AIR : getBlockID(getHand()));
+	drawSlots(getHand(), 1, 9);
+	updateTopName(getBlockID(getHand()));
 
 	if (isSurvival())
 	{
 		for (int i = 0; i < 15; ++i)
 			for (int j = 0; j < 2; ++j)
-				if (inv.blocks[j * 15 + i].blockAmount != 0 && inv.blocks[j * 15 + i].blockId != 0)
+				if (getBlockAmount(j * 15 + i) != 0 && getBlockID(j * 15 + i) != 0)
 				{
-					printXY(1 + i * 2, 10 + j * 3, inv.blocks[j * 15 + i].blockAmount);
-					if (inv.blocks[j * 15 + i].blockAmount < 10)
+					printXY(1 + i * 2, 10 + j * 3, getBlockAmount(j * 15 + i));
+					if (getBlockAmount(j * 15 + i) < 10)
 						printXY(1 + i * 2 + 1, 10 + j * 3, " ");
 				}
 				else
@@ -43,7 +43,7 @@ void InventoryInterface::updateInv()
 	}
 }
 
-void InventoryInterface::checkLimits(int &value)
+void ChestInterface::checkLimits(int &value)
 {
 	if (value > NUM_INV_SPACES - 1)
 		value = -1;
@@ -51,13 +51,13 @@ void InventoryInterface::checkLimits(int &value)
 		value = NUM_INV_SPACES - 1;
 }
 
-void InventoryInterface::moveSlot(bool right)
+void ChestInterface::moveSlot(bool right)
 {
 	int change = right ? 1 : -1;
-	int invSlot = inv.hand;
+	int invSlot = getHand();
 	int initialSlot = invSlot;
 
-	if (inv.blocks[invSlot].blockId != AIR)
+	if (getBlockID(invSlot) != AIR)
 	{
 		invSlot += change;
 		checkLimits(invSlot);
@@ -66,18 +66,18 @@ void InventoryInterface::moveSlot(bool right)
 	{
 		do
 			checkLimits(invSlot += change);
-		while (inv.blocks[invSlot].blockId == AIR && initialSlot != invSlot);
+		while (getBlockID(invSlot) == AIR && initialSlot != invSlot);
 		if (initialSlot == invSlot)
 		{
 			invSlot += change;
 			checkLimits(invSlot);
 		}
 	}
-	inv.hand = invSlot;
+	setHand(invSlot);
 	updateInv();
 }
 
-void InventoryInterface::parseKeyInput()
+void ChestInterface::parseKeyInput()
 {
 	if (keysDown() & getGlobalSettings()->getKey(ACTION_ITEM_LEFT))
 	{
@@ -95,26 +95,24 @@ void InventoryInterface::parseKeyInput()
 	}
 }
 
-void InventoryInterface::openInventory()
+void ChestInterface::openInventory()
 {
-	oldInvSlot = inv.hand;
-	inv.hand = -1;
+	oldInvSlot = getHand();
+	setHand(-1);
 	lcdMainOnTop();
 	setMiningDisabled(true);
 	backButton->setVisible(true);
 	backButton->draw();
-	open = true;
 	updateInv();
 }
 
-void InventoryInterface::closeInventory()
+void ChestInterface::closeInventory()
 {
-	if (inv.hand == -1)
-		inv.hand = oldInvSlot;
+	if (getHand() == -1)
+		setHand(oldInvSlot);
 	lcdMainOnBottom();
 	setMiningDisabled(false);
 	backButton->setVisible(false);
-	open = false;
 	draw();
 }
 
@@ -123,12 +121,12 @@ static bool touchesTileBox(const touchPosition &touch, int x, int y, int sx, int
 	return touch.px >= x * 8 && touch.px < x * 8 + sx * 8 && touch.py >= y * 8 && touch.py < y * 8 + sy * 8;
 }
 
-bool InventoryInterface::touchesInvSlot(const touchPosition &touch)
+bool ChestInterface::touchesInvSlot(const touchPosition &touch)
 {
 	return (touchesTileBox(touch, 1, 9, 15 * 2, 1 * 2) || touchesTileBox(touch, 1, 12, 15 * 2, 1 * 2));
 }
 
-int InventoryInterface::touchedSlot(const touchPosition& touch)
+int ChestInterface::touchedSlot(const touchPosition& touch)
 {
 	const int OFF_X = 8;
 	const int OFF_Y = 9 * 8;
@@ -137,73 +135,62 @@ int InventoryInterface::touchedSlot(const touchPosition& touch)
 	return row + column * 15;
 }
 
-void InventoryInterface::parseTouchInput(const touchPosition &touch)
+void ChestInterface::parseTouchInput(const touchPosition &touch)
 {
 	if (!(keysDown() & KEY_TOUCH) || !touchesInvSlot(touch))
 		return;
 
 	int touched = touchedSlot(touch);
 
-	if (inv.hand < 0)
-		inv.hand = touched;
+	if (getHand() == -1)
+		setHand(touched);
 	else
 	{
-		int tmpId = inv.blocks[inv.hand].blockId;
-		int tmpAmount = inv.blocks[inv.hand].blockAmount;
-		inv.blocks[inv.hand].blockId = inv.blocks[touched].blockId;
-		inv.blocks[inv.hand].blockAmount = inv.blocks[touched].blockAmount;
-		inv.blocks[touched].blockId = tmpId;
-		inv.blocks[touched].blockAmount = tmpAmount;
-		inv.hand = -1;
+		int tmpId = getBlockID(getHand());
+		int tmpAmount = getBlockAmount(getHand());
+		setBlockID(getHand(), getBlockID(touched));
+		setBlockAmount(getHand(), getBlockAmount(touched));
+		setBlockID(touched, tmpId);
+		setBlockAmount(touched, tmpAmount);
+		setHand(-1);
 	}
 	updateInv();
 }
 
-void InventoryInterface::switchInvState()
-{
-	if (open)
-		closeInventory();
-	else
-		openInventory();
-}
-
-void InventoryInterface::update(WorldObject *world, touchPosition *touch)
+void ChestInterface::update(WorldObject *world, touchPosition *touch)
 {
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
 	drawInvGraphics();
 
 	parseKeyInput();
 
-	if (open)
+	parseTouchInput(*touch);
+	switch (menu.update(*touch))
 	{
-		parseTouchInput(*touch);
-		switch (menu.update(*touch))
-		{
-		case BACK:
-			closeInventory();
-			break;
-		case SAVE:
-			if (saveWorld(world))
-				printLocalMessage("Saved Game\n");
-			else
-				printLocalMessage("Failed to Save Game\n");
-			break;
-		case CRAFT_MENU:
-			setInterface(INTERFACE_CRAFTING);
-			break;
-		case PAGE_MENU:
-			break;
-		default:
-			break;
-		}
+	case BACK:
+		closeInventory();
+		break;
+	case SAVE:
+		if (saveWorld(world))
+			printLocalMessage("Saved Game\n");
+		else
+			printLocalMessage("Failed to Save Game\n");
+		break;
+	case CRAFT_MENU:
+		setInterface(INTERFACE_CRAFTING);
+		break;
+	case PAGE_MENU:
+		break;
+	default:
+		break;
 	}
 	if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
-		switchInvState();
+		closeInventory();
 	if (shouldUpdate)
 		updateInv();
 }
 
-void InventoryInterface::draw()
+void ChestInterface::draw()
 {
 	consoleClear();
 	drawBackground();
@@ -212,4 +199,4 @@ void InventoryInterface::draw()
 	drawBoxCenter(1, 11, 30, 1);
 	drawSelectedFrame();
 	updateInv();
-}
+}*/

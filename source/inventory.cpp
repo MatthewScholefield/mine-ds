@@ -41,6 +41,11 @@ Inventory mainPlayerInv;
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
  */
+Inventory &getInventoryRef()
+{
+	return mainPlayerInv;
+}
+
 void changeInvSelectedGraphic(int blockID)
 {
 	if (loadedTopGraphic)
@@ -456,7 +461,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
 				pageButton.setVisible(false);
-				disableInvGraphics();
 				setInterface(INTERFACE_CRAFTING);
 				showingInventory = 2;
 			}
@@ -495,7 +499,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			openInventory();
 		break;
 	}
-	drawInvGraphics();
 }
 
 void loadInventory(FILE* data)

@@ -1,5 +1,5 @@
-#include <nds.h>
-#include "inventoryGraphics.h"
+/*#include <nds.h>
+#include "chestGraphics.h"
 #include "subBgHandler.h"
 #include "graphics.h"
 #include "../mining.h"
@@ -12,15 +12,8 @@
 #include "../chests.h"
 #include "../blockName.h"
 
-Graphic invBlockGfx[NUM_INV_SPACES];
 Graphic chestBlockGfx[CHEST_SLOTS];
-
-bool empty = false; //Whether the inventory is empty
-bool loadedInvGfx[NUM_INV_SPACES];
-bool loadedChestGfx[NUM_INV_SPACES];
-int loadedInvID[NUM_INV_SPACES] = {};
-int loadedChestID[NUM_INV_SPACES] = {};
-bool enabled = false, oldEnabled = true;
+int loadedChestID[CHEST_SLOTS] = {};
 bool chestOpened = false;
 int openedChestID;
 
@@ -235,3 +228,4 @@ void updateChestItems() //Changes graphics and text
 		drawSlots(-1, 1, 1);
 	drawQuantity(true, 1, 2, 15, 2, 2, 3);
 }
+*/
