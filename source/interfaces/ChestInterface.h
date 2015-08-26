@@ -1,4 +1,4 @@
-#include "Interface.h"
+/*#include "Interface.h"
 #include "../inventory.h"
 #include "../mainGame.h"
 #include "../graphics/Menu.h"
@@ -53,4 +53,4 @@ public:
 	}
 
 	~ChestInterface() { }
-};
+};*/

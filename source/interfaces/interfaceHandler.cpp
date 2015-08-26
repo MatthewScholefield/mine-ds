@@ -18,7 +18,7 @@ void setInterface(InterfaceType type, int parameter)
 		currentInterface = Interface_ptr(new CraftingInterface());
 		break;
 	case INTERFACE_CHEST:
-		currentInterface = Interface_ptr(new ChestInterface());
+		currentInterface = Interface_ptr(new InventoryInterface(parameter)); //new ChestInterface());
 		break;
 	default:
 		showError("Unknown interface set");

@@ -24,6 +24,7 @@ class InventoryInterface : public Interface
 	Graphic selectedGraphic;
 	int loadedGraphic;
 	UIElement_ptr backButton;
+	Inventory &inv;
 
 	void updateInv();
 	static void checkLimits(int &value);
@@ -44,7 +45,8 @@ public:
 
 	void draw();
 
-	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY), menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR)
+	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY)
+	, menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR), inv(getInventoryRef())
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");

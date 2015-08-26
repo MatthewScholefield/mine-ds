@@ -1,4 +1,4 @@
-#include "interfaceHandler.h"
+/*#include "interfaceHandler.h"
 #include "ChestInterface.h"
 #include "../Config.h"
 #include "../blockPages.h"
@@ -199,4 +199,4 @@ void ChestInterface::draw()
 	drawBoxCenter(1, 11, 30, 1);
 	drawSelectedFrame();
 	updateInv();
-}
+}*/
