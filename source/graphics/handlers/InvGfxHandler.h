@@ -7,15 +7,26 @@
 
 class InvGfxHandler
 {
+	Inventory const &inv;
 	Graphic gfx[NUM_INV_SPACES];
 	bool loadedGfx[NUM_INV_SPACES];
 	int loadedID[NUM_INV_SPACES];
+	int startX;
+	int startY;
+	int xCount;
+	int yCount;
+	int xDist;
+	int yDist;
 
-	static void drawSlots(int selectedSlot, int startX, int startY, int xCount, int yCount, int xSpace, int ySpace);
+	static void drawSlots(int selectedSlot, int startX, int startY, int xCount = 15,
+						int yCount = 2, int xSpace = 2, int ySpace = 3);
+
 	void update();
 public:
 
-	InvGfxHandler() : gfx { }, loadedGfx{}, loadedID{}
+	InvGfxHandler(Inventory const &inv, int startX, int startY, int xCount = 15, int yCount = 2, int xDist = 2, int yDist = 3)
+	: inv(inv), gfx { }, loadedGfx{}, loadedID{}, startX(startX), startY(startY)
+	, xCount(xCount), yCount(yCount), xDist(xDist), yDist(yDist)
 	{
 		for (auto &i : gfx)
 			loadGraphicSub(&i, GRAPHIC_BLOCK, AIR);
