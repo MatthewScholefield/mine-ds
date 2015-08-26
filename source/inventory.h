@@ -31,3 +31,5 @@ typedef struct
 	//	InvBlock armour[4];
 	int hand;
 } Inventory;
+
+Inventory &getInventoryRef();

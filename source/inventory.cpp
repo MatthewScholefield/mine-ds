@@ -41,6 +41,11 @@ Inventory mainPlayerInv;
 /*					A reminder:
  * INVENTORY STRUCT USES blockId, not blockID, for what ever reason!!!!!
  */
+Inventory &getInventoryRef()
+{
+	return mainPlayerInv;
+}
+
 void changeInvSelectedGraphic(int blockID)
 {
 	if (loadedTopGraphic)
