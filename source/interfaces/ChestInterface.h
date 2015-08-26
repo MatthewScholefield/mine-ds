@@ -1,4 +1,4 @@
-#include "Interface.h"
+/*#include "Interface.h"
 #include "../inventory.h"
 #include "../mainGame.h"
 #include "../graphics/Menu.h"
@@ -7,7 +7,7 @@
 
 #pragma once
 
-class InventoryInterface : public Interface
+class ChestInterface : public Interface
 {
 	Menu menu;
 
@@ -19,12 +19,10 @@ class InventoryInterface : public Interface
 
 	static bool shouldUpdate;
 
-	bool open;
 	int oldInvSlot;
 	Graphic selectedGraphic;
 	int loadedGraphic;
 	UIElement_ptr backButton;
-	Inventory &inv;
 
 	void updateInv();
 	static void checkLimits(int &value);
@@ -32,7 +30,6 @@ class InventoryInterface : public Interface
 	void parseKeyInput();
 	void openInventory();
 	void closeInventory();
-	void switchInvState();
 	static bool touchesInvSlot(const touchPosition &touch);
 	static int touchedSlot(const touchPosition &touch);
 	void parseTouchInput(const touchPosition &touch);
@@ -40,13 +37,12 @@ class InventoryInterface : public Interface
 public:
 	static void triggerUpdate();
 	static void staticUpdate();
-	
+
 	void update(WorldObject *world, touchPosition *touch);
 
 	void draw();
 
-	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY)
-	, menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR), inv(getInventoryRef())
+	ChestInterface() : Interface(INTERFACE_CHEST), menu(MENU_BUTTON, false), loadedGraphic(AIR)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
@@ -56,5 +52,5 @@ public:
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
 	}
 
-	~InventoryInterface() { }
-};
+	~ChestInterface() { }
+};*/
