@@ -4,6 +4,7 @@
 #include "../graphics/Menu.h"
 #include "../graphics/graphics.h"
 #include "../blockID.h"
+#include "../graphics/handlers/InvGfxHandler.h"
 
 #pragma once
 
@@ -25,6 +26,7 @@ class InventoryInterface : public Interface
 	int loadedGraphic;
 	UIElement_ptr backButton;
 	Inventory &inv;
+	InvGfxHandler gfxHandler;
 
 	void updateInv();
 	static void checkLimits(int &value);
@@ -46,7 +48,8 @@ public:
 	void draw();
 
 	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY)
-	, menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR), inv(getInventoryRef())
+	, menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR)
+	, inv(getInventoryRef()), gfxHandler(getInventoryRef(), 1, 9)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
