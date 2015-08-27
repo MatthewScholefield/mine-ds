@@ -1,7 +1,6 @@
 #pragma once
 #include <nds.h>
 #include <stdio.h>
-#include "world.h"
 #include "InvBlock.h"
 int getHand();
 void setHand(int a);
@@ -20,7 +19,6 @@ void setBlockID(int slot, int ID);
 void setBlockAmount(int slot, int amount);
 void saveInventory(FILE* data);
 void loadInventory(FILE* data);
-void updateInventory(touchPosition touch, WorldObject* world);
 void drawInvButtons(bool drawBack, bool survival = true);
 void openInventory();
 #define NUM_INV_SPACES 30
