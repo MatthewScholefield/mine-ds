@@ -17,20 +17,15 @@ class InvGfxHandler
 	int yCount;
 	int xDist;
 	int yDist;
-
-	static void drawSlots(int selectedSlot, int startX, int startY, int xCount = 15,
-						int yCount = 2, int xSpace = 2, int ySpace = 3);
-
-	void update();
 public:
 
+	void drawSlots(int selectedSlot);
+	void update();
+	void drawQuantities();
+	
 	InvGfxHandler(Inventory const &inv, int startX, int startY, int xCount = 15, int yCount = 2, int xDist = 2, int yDist = 3)
 	: inv(inv), gfx { }, loadedGfx{}, loadedID{}, startX(startX), startY(startY)
-	, xCount(xCount), yCount(yCount), xDist(xDist), yDist(yDist)
-	{
-		for (auto &i : gfx)
-			loadGraphicSub(&i, GRAPHIC_BLOCK, AIR);
-	}
+	, xCount(xCount), yCount(yCount), xDist(xDist), yDist(yDist) { }
 
 	~InvGfxHandler() { }
 };
