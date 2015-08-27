@@ -198,7 +198,7 @@ void openChest(WorldObject *world, int x, int y, bool bg)
 		return;
 	chestOpened = true;
 	openedChestID = getChestID(world, x, y, bg);
-	openedChestPtr = &world->chests[openedChestID];
+	openedChestPtr = &world->obsoleteChests[openedChestID];
 	for (int i = 0; i < CHEST_SLOTS; ++i)
 		loadedChestGfx[i] = false;
 	openInventory();
