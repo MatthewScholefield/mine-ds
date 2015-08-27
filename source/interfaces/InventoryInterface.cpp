@@ -25,22 +25,10 @@ void InventoryInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
 	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
-	drawSlots(inv.hand, 1, 9);
-	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
-
+	gfxHandler.drawSlots(inv.hand);
 	if (isSurvival())
-	{
-		for (int i = 0; i < 15; ++i)
-			for (int j = 0; j < 2; ++j)
-				if (inv.blocks[j * 15 + i].blockAmount != 0 && inv.blocks[j * 15 + i].blockId != 0)
-				{
-					printXY(1 + i * 2, 10 + j * 3, inv.blocks[j * 15 + i].blockAmount);
-					if (inv.blocks[j * 15 + i].blockAmount < 10)
-						printXY(1 + i * 2 + 1, 10 + j * 3, " ");
-				}
-				else
-					printXY(1 + i * 2, 10 + j * 3, "  ");
-	}
+		gfxHandler.drawQuantities();
+	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
 }
 
 void InventoryInterface::checkLimits(int &value)
@@ -170,7 +158,8 @@ void InventoryInterface::switchInvState()
 void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 {
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
-	drawInvGraphics();
+	//drawInvGraphics();
+	gfxHandler.update();
 
 	parseKeyInput();
 
