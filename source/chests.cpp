@@ -74,10 +74,10 @@ void destroyChest(WorldObject *world, int x, int y, bool bg)
 		if (isSurvival())
 		{
 			for (int i = 0; i < 3; ++i)
-				createItemMob(x, y, world->chests[blockID][j][INDEX_BLOCK_ID], world->chests[blockID][j][INDEX_AMOUNT] / 4, world->chests[blockID][j][INDEX_BLOCK_ID], ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
-			createItemMob(x, y, world->chests[blockID][j][INDEX_BLOCK_ID], world->chests[blockID][j][INDEX_AMOUNT] - 3 * (world->chests[blockID][j][INDEX_AMOUNT] / 4), world->chests[blockID][j][INDEX_BLOCK_ID], ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+				createItemMob(x, y, world->chests[blockID].blocks[j].blockId, world->chests[blockID].blocks[j].blockAmount / 4, world->chests[blockID].blocks[j].blockId, ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
+			createItemMob(x, y, world->chests[blockID].blocks[j].blockId, world->chests[blockID].blocks[j].blockAmount - 3 * (world->chests[blockID].blocks[j].blockAmount / 4), world->chests[blockID].blocks[j].blockId, ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
 		}
-		world->chests[blockID][j][INDEX_BLOCK_ID] = world->chests[blockID][j][INDEX_AMOUNT] = 0;
+		world->chests[blockID].blocks[j].blockId = world->chests[blockID].blocks[j].blockAmount = 0;
 	}
 	if (isSurvival())
 		createItemMob(x, y, CHEST);

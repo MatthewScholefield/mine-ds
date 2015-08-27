@@ -360,13 +360,13 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				int space = 0;
 				space += 15 * ((touch.py - (8 + 1)*8) / (3 * 8));
 				space += (touch.px - 8) / 16;
-				if (getOpenedChestID() != -1 && mainPlayerInv.hand<-1 && world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] != AIR)
+				if (getOpenedChestID() != -1 && mainPlayerInv.hand<-1 && world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId != AIR)
 				{ //Source: Chest, Destination: Inventory
 					int tmpId, tmpAmount = 0;
-					tmpId = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID];
-					tmpAmount = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] = mainPlayerInv.blocks[space].blockId;
-					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT] = mainPlayerInv.blocks[space].blockAmount;
+					tmpId = world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId;
+					tmpAmount = world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockAmount;
+					world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId = mainPlayerInv.blocks[space].blockId;
+					world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockAmount = mainPlayerInv.blocks[space].blockAmount;
 					mainPlayerInv.blocks[space].blockId = tmpId;
 					mainPlayerInv.blocks[space].blockAmount = tmpAmount;
 					mainPlayerInv.hand = -1;
@@ -388,15 +388,15 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				{
 					int chestID = getOpenedChestID();
 					for (int i = 0; i < CHEST_SLOTS; ++i)
-						if (world->chests[chestID][i][INDEX_BLOCK_ID] == AIR || world->chests[chestID][i][INDEX_AMOUNT] == AIR)
+						if (world->chests[chestID].blocks[i].blockId == AIR || world->chests[chestID].blocks[i].blockAmount == AIR)
 						{
 							int tmpId, tmpAmount = 0;
 							tmpId = mainPlayerInv.blocks[space].blockId;
 							tmpAmount = mainPlayerInv.blocks[space].blockAmount;
-							mainPlayerInv.blocks[space].blockId = world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID];
-							mainPlayerInv.blocks[space].blockAmount = world->chests[getOpenedChestID()][i][INDEX_AMOUNT];
-							world->chests[getOpenedChestID()][i][INDEX_BLOCK_ID] = tmpId;
-							world->chests[getOpenedChestID()][i][INDEX_AMOUNT] = tmpAmount;
+							mainPlayerInv.blocks[space].blockId = world->chests[getOpenedChestID()].blocks[i].blockId;
+							mainPlayerInv.blocks[space].blockAmount = world->chests[getOpenedChestID()].blocks[i].blockAmount;
+							world->chests[getOpenedChestID()].blocks[i].blockId = tmpId;
+							world->chests[getOpenedChestID()].blocks[i].blockAmount = tmpAmount;
 							mainPlayerInv.hand = -1;
 							setHand(-1);
 							break;
@@ -419,30 +419,30 @@ void updateInventory(touchPosition touch, WorldObject* world)
 					int tmpId, tmpAmount = 0;
 					tmpId = mainPlayerInv.blocks[mainPlayerInv.hand].blockId;
 					tmpAmount = mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount;
-					mainPlayerInv.blocks[mainPlayerInv.hand].blockId = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-					mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
-					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
+					mainPlayerInv.blocks[mainPlayerInv.hand].blockId = world->chests[getOpenedChestID()].blocks[space].blockId;
+					mainPlayerInv.blocks[mainPlayerInv.hand].blockAmount = world->chests[getOpenedChestID()].blocks[space].blockAmount;
+					world->chests[getOpenedChestID()].blocks[space].blockId = tmpId;
+					world->chests[getOpenedChestID()].blocks[space].blockAmount = tmpAmount;
 					mainPlayerInv.hand = -1;
 					setHand(getInventorySlot(-1));
 				}
-				else if (mainPlayerInv.hand < -1 && world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] != AIR)
+				else if (mainPlayerInv.hand < -1 && world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId != AIR)
 				{ //Source: Chest, Destination: Chest
 					int tmpId, tmpAmount = 0;
-					tmpId = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID];
-					tmpAmount = world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID] = world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID];
-					world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_AMOUNT] = world->chests[getOpenedChestID()][space][INDEX_AMOUNT];
-					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = tmpId;
-					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = tmpAmount;
+					tmpId = world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId;
+					tmpAmount = world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockAmount;
+					world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId = world->chests[getOpenedChestID()].blocks[space].blockId;
+					world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockAmount = world->chests[getOpenedChestID()].blocks[space].blockAmount;
+					world->chests[getOpenedChestID()].blocks[space].blockId = tmpId;
+					world->chests[getOpenedChestID()].blocks[space].blockAmount = tmpAmount;
 					mainPlayerInv.hand = -1;
 					setHand(-1);
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH))
 				{
-					addInventory(world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID], world->chests[getOpenedChestID()][space][INDEX_AMOUNT], true);
-					world->chests[getOpenedChestID()][space][INDEX_BLOCK_ID] = AIR;
-					world->chests[getOpenedChestID()][space][INDEX_AMOUNT] = 0;
+					addInventory(world->chests[getOpenedChestID()].blocks[space].blockId, world->chests[getOpenedChestID()].blocks[space].blockAmount, true);
+					world->chests[getOpenedChestID()].blocks[space].blockId = AIR;
+					world->chests[getOpenedChestID()].blocks[space].blockAmount = 0;
 					mainPlayerInv.hand = -1;
 					setHand(-1);
 				}
@@ -450,7 +450,7 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				{
 					mainPlayerInv.hand = -space - 2;
 					setHand(-space - 2);
-					changeInvSelectedGraphic(world->chests[getOpenedChestID()][-mainPlayerInv.hand - 2][INDEX_BLOCK_ID]);
+					changeInvSelectedGraphic(world->chests[getOpenedChestID()].blocks[-mainPlayerInv.hand - 2].blockId);
 				}
 			}
 			else if (backButton.isColored && backButton.isTouching(touch.px, touch.py))//(touch. px > (2 - 1)*8 && touch.px < (2 + 5)*8 && touch.py > (17 - 1)*8 && touch.py < (17 + 2)*8)
