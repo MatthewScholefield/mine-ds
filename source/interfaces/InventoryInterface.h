@@ -18,8 +18,6 @@ class InventoryInterface : public Interface
 	static const int CRAFT_MENU = 3;
 	static const int PAGE_MENU = 4;
 
-	static bool shouldUpdate;
-
 	bool open;
 	int oldInvSlot;
 	Graphic selectedGraphic;
@@ -40,8 +38,6 @@ class InventoryInterface : public Interface
 	void parseTouchInput(const touchPosition &touch);
 
 public:
-	static void triggerUpdate();
-	static void staticUpdate();
 	
 	void update(WorldObject *world, touchPosition *touch);
 

@@ -5,8 +5,5 @@ void drawSlots(int selectedSlot, int startX, int startY, int xCount = 15, int yC
 void drawInvGraphics();
 void drawSelectedFrame();
 void enableInvGraphics();
-void openChest(WorldObject *world, int x, int y, bool bg);
-void closeChest();
 void updateChestItems();
-int getOpenedChestID();
 int getChestBlockID(int slot);

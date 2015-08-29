@@ -9,18 +9,6 @@
 #include "../graphics/UI.h"
 #include "../files.h"
 
-bool InventoryInterface::shouldUpdate = false;
-
-void InventoryInterface::triggerUpdate()
-{
-	shouldUpdate = true;
-}
-
-void InventoryInterface::staticUpdate()
-{
-	shouldUpdate = false;
-}
-
 void InventoryInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
