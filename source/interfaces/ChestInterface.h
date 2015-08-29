@@ -1,9 +1,11 @@
-/*#include "Interface.h"
+#include "Interface.h"
 #include "../inventory.h"
 #include "../mainGame.h"
 #include "../graphics/Menu.h"
 #include "../graphics/graphics.h"
 #include "../blockID.h"
+#include "../graphics/handlers/InvGfxHandler.h"
+#include "../mining.h"
 
 #pragma once
 
@@ -17,12 +19,14 @@ class ChestInterface : public Interface
 	static const int CRAFT_MENU = 3;
 	static const int PAGE_MENU = 4;
 
-	static bool shouldUpdate;
-
+	bool firstRun;
 	int oldInvSlot;
 	Graphic selectedGraphic;
 	int loadedGraphic;
 	UIElement_ptr backButton;
+	Inventory &inv;
+	InvGfxHandler invHandler, chestHandler;
+	bool selectedChest;
 
 	void updateInv();
 	static void checkLimits(int &value);
@@ -42,7 +46,9 @@ public:
 
 	void draw();
 
-	ChestInterface() : Interface(INTERFACE_CHEST), menu(MENU_BUTTON, false), loadedGraphic(AIR)
+	ChestInterface(bool open) : Interface(INTERFACE_INVENTORY)
+	, menu(MENU_BUTTON, false), firstRun(true), loadedGraphic(AIR)
+	, inv(getInventoryRef()), invHandler(getInventoryRef(), 1, 9)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
@@ -50,7 +56,9 @@ public:
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
+		lcdMainOnTop();
+		setMiningDisabled(true);
 	}
 
 	~ChestInterface() { }
-};*/
+};

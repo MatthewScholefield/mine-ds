@@ -31,7 +31,7 @@ void setInterface(InterfaceType type, int parameter)
 void updateInterface(WorldObject *world, touchPosition *touch)
 {
 	currentInterface->update(world, touch);
-	InventoryInterface::staticUpdate();
+	Interface::staticUpdate();
 }
 
 void drawInterface()

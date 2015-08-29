@@ -14,7 +14,7 @@ enum InterfaceType
 class Interface
 {
 protected:
-
+	static bool shouldUpdate;
 	virtual bool closeOnMovement()
 	{
 		return true;
@@ -23,6 +23,17 @@ public:
 	InterfaceType type;
 	virtual void update(WorldObject *world, touchPosition *touch) = 0;
 	virtual void draw() = 0;
+
+	static void triggerUpdate()
+	{
+		shouldUpdate = true;
+	}
+
+	static void staticUpdate()
+	{
+		shouldUpdate = false;
+	}
+
 
 	Interface(InterfaceType type) : type(type) { }
 

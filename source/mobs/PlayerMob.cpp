@@ -143,7 +143,6 @@ void PlayerMob::updateMob(WorldObject* world)
 
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
 			{
-				closeChest(); //Close a chest, if open
 				animateMob(&normalSprite, 0);
 				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 				facing = false;
@@ -152,7 +151,6 @@ void PlayerMob::updateMob(WorldObject* world)
 			}
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
 			{
-				closeChest();
 				animateMob(&normalSprite, 0);
 				vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
 				facing = true;
