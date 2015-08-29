@@ -27,5 +27,24 @@ public:
 	: inv(inv), gfx { }, loadedGfx{}, loadedID{}, startX(startX), startY(startY)
 	, xCount(xCount), yCount(yCount), xDist(xDist), yDist(yDist) { }
 
+	InvGfxHandler() : inv(getInventoryRef()) { }
+
+	InvGfxHandler& operator=(const InvGfxHandler &clone)
+	{
+		for (int i = 0; i < NUM_INV_SPACES; ++i)
+		{
+			gfx[i] = clone.gfx[i];
+			loadedGfx[i] = clone.loadedGfx[i];
+			loadedID[i] = clone.loadedID[i];
+		}
+		startX = clone.startX;
+		startY = clone.startY;
+		xCount = clone.xCount;
+		yCount = clone.yCount;
+		xDist = clone.xDist;
+		yDist = clone.yDist;
+		return *this;
+	}
+
 	~InvGfxHandler() { }
 };

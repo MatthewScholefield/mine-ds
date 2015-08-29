@@ -153,7 +153,7 @@ bool addInventory(int blockID, int amount, bool direct) //adds the specified amo
 		mainPlayerInv.blocks[space].blockAmount += amount;
 	else
 		mainPlayerInv.blocks[space].blockAmount = 1;
-	InventoryInterface::triggerUpdate();
+	Interface::triggerUpdate();
 	return true;
 }
 
@@ -188,7 +188,7 @@ bool subInventory(int blockID, int amount) //subtracts the specified amount to a
 	}
 	else if (mainPlayerInv.blocks[space].blockAmount == 0)
 		mainPlayerInv.blocks[space].blockId = AIR;
-	InventoryInterface::triggerUpdate();
+	Interface::triggerUpdate();
 	return true;
 }
 
@@ -271,7 +271,6 @@ void closeInventory()
 {
 	if (mainPlayerInv.hand == -1)
 		mainPlayerInv.hand = oldInvSlot;
-	closeChest();
 	lcdMainOnBottom();
 	showingInventory = 0;
 	setMiningDisabled(false);

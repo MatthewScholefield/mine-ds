@@ -36,11 +36,6 @@ void disableInvGraphics()
 	enabled = false;
 }
 
-int getOpenedChestID()
-{
-	return chestOpened ? openedChestID : -1;
-}
-
 int getChestBlockID(int slot)
 {
 	return (*openedChestPtr)[slot][INDEX_BLOCK_ID];
@@ -192,7 +187,7 @@ void drawInvGraphics() //Draws the items in the inventory (called by the mainPla
 	drawGraphics(false, 1, 9, 15, 2, 2, 3);
 }
 
-void openChest(WorldObject *world, int x, int y, bool bg)
+/*void openChest(WorldObject *world, int x, int y, bool bg)
 {
 	if (chestOpened) //Another chest is already opened
 		return;
@@ -221,7 +216,7 @@ void closeChest()
 		drawBackground();
 		drawInvButtons(true, isSurvival());
 	}
-}
+}*/
 
 void updateChestItems() //Changes graphics and text
 {

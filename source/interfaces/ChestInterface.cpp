@@ -1,4 +1,4 @@
-/*#include "interfaceHandler.h"
+#include "interfaceHandler.h"
 #include "ChestInterface.h"
 #include "../Config.h"
 #include "../blockPages.h"
@@ -8,39 +8,20 @@
 #include "../mining.h"
 #include "../graphics/UI.h"
 #include "../files.h"
-
-bool ChestInterface::shouldUpdate = false;
-
-void ChestInterface::triggerUpdate()
-{
-	shouldUpdate = true;
-}
-
-void ChestInterface::staticUpdate()
-{
-	shouldUpdate = false;
-}
+#include "../chests.h"
 
 void ChestInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = getHand() < 0 ? AIR : getBlockID(getHand()));
-	drawSlots(getHand(), 1, 9);
-	updateTopName(getBlockID(getHand()));
-
+	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
+	invHandler.drawSlots(inv.hand);
+	chestHandler.drawSlots(inv.hand);
 	if (isSurvival())
 	{
-		for (int i = 0; i < 15; ++i)
-			for (int j = 0; j < 2; ++j)
-				if (getBlockAmount(j * 15 + i) != 0 && getBlockID(j * 15 + i) != 0)
-				{
-					printXY(1 + i * 2, 10 + j * 3, getBlockAmount(j * 15 + i));
-					if (getBlockAmount(j * 15 + i) < 10)
-						printXY(1 + i * 2 + 1, 10 + j * 3, " ");
-				}
-				else
-					printXY(1 + i * 2, 10 + j * 3, "  ");
+		invHandler.drawQuantities();
+		chestHandler.drawQuantities();
 	}
+	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
 }
 
 void ChestInterface::checkLimits(int &value)
@@ -54,10 +35,10 @@ void ChestInterface::checkLimits(int &value)
 void ChestInterface::moveSlot(bool right)
 {
 	int change = right ? 1 : -1;
-	int invSlot = getHand();
+	int invSlot = inv.hand;
 	int initialSlot = invSlot;
 
-	if (getBlockID(invSlot) != AIR)
+	if (inv.blocks[invSlot].blockId != AIR)
 	{
 		invSlot += change;
 		checkLimits(invSlot);
@@ -66,14 +47,14 @@ void ChestInterface::moveSlot(bool right)
 	{
 		do
 			checkLimits(invSlot += change);
-		while (getBlockID(invSlot) == AIR && initialSlot != invSlot);
+		while (inv.blocks[invSlot].blockId == AIR && initialSlot != invSlot);
 		if (initialSlot == invSlot)
 		{
 			invSlot += change;
 			checkLimits(invSlot);
 		}
 	}
-	setHand(invSlot);
+	inv.hand = invSlot;
 	updateInv();
 }
 
@@ -95,25 +76,13 @@ void ChestInterface::parseKeyInput()
 	}
 }
 
-void ChestInterface::openInventory()
-{
-	oldInvSlot = getHand();
-	setHand(-1);
-	lcdMainOnTop();
-	setMiningDisabled(true);
-	backButton->setVisible(true);
-	backButton->draw();
-	updateInv();
-}
-
 void ChestInterface::closeInventory()
 {
-	if (getHand() == -1)
-		setHand(oldInvSlot);
+	if (inv.hand == -1)
+		inv.hand = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
-	backButton->setVisible(false);
-	draw();
+	setInterface(INTERFACE_INVENTORY);
 }
 
 static bool touchesTileBox(const touchPosition &touch, int x, int y, int sx, int sy)
@@ -142,28 +111,33 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 
 	int touched = touchedSlot(touch);
 
-	if (getHand() == -1)
-		setHand(touched);
+	if (inv.hand < 0)
+		inv.hand = touched;
 	else
 	{
-		int tmpId = getBlockID(getHand());
-		int tmpAmount = getBlockAmount(getHand());
-		setBlockID(getHand(), getBlockID(touched));
-		setBlockAmount(getHand(), getBlockAmount(touched));
-		setBlockID(touched, tmpId);
-		setBlockAmount(touched, tmpAmount);
-		setHand(-1);
+		int tmpId = inv.blocks[inv.hand].blockId;
+		int tmpAmount = inv.blocks[inv.hand].blockAmount;
+		inv.blocks[inv.hand].blockId = inv.blocks[touched].blockId;
+		inv.blocks[inv.hand].blockAmount = inv.blocks[touched].blockAmount;
+		inv.blocks[touched].blockId = tmpId;
+		inv.blocks[touched].blockAmount = tmpAmount;
+		inv.hand = -1;
 	}
 	updateInv();
 }
 
 void ChestInterface::update(WorldObject *world, touchPosition *touch)
 {
+	if (firstRun)
+	{
+		firstRun = false;
+		chestHandler = InvGfxHandler(world->chests[getOpenedChestID()], 1, 1);
+	}
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
-	drawInvGraphics();
+	invHandler.update();
+	chestHandler.update();
 
 	parseKeyInput();
-
 	parseTouchInput(*touch);
 	switch (menu.update(*touch))
 	{
@@ -199,4 +173,4 @@ void ChestInterface::draw()
 	drawBoxCenter(1, 11, 30, 1);
 	drawSelectedFrame();
 	updateInv();
-}*/
+}
