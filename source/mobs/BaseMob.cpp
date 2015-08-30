@@ -7,6 +7,7 @@
 #include "../blockID.h"
 #include "hurt.h"
 #include "../general.h"
+#include "../Config.h"
 #include "../blockUpdaters/water.h"
 
 bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
@@ -20,7 +21,7 @@ void BaseMob::calcHealth()
 {
 	if (health>getMaxHealth())
 		health=getMaxHealth();
-	else if (health<getMaxHealth() && getTime()%256==0)
+	else if (getGlobalSettings()->getProperty(PROPERTY_REGEN) && health<getMaxHealth() && getTime()%256==0)
 		++health;
 		
 }
