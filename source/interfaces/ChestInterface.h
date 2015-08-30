@@ -19,24 +19,25 @@ class ChestInterface : public Interface
 	static const int CRAFT_MENU = 3;
 	static const int PAGE_MENU = 4;
 
-	bool firstRun;
 	int oldInvSlot;
 	Graphic selectedGraphic;
 	int loadedGraphic;
 	UIElement_ptr backButton;
-	Inventory &inv;
-	InvGfxHandler invHandler, chestHandler;
+	Inventory &inv, *chest;
+	InvGfxHandler invHandler, *chestHandler;
 	bool selectedChest;
 
 	void updateInv();
-	static void checkLimits(int &value);
+	int correctValue(int value);
 	void moveSlot(bool right);
 	void parseKeyInput();
 	void openInventory();
 	void closeInventory();
+	Inventory &getSelectedInv();
 	static bool touchesInvSlot(const touchPosition &touch);
 	static int touchedSlot(const touchPosition &touch);
 	void parseTouchInput(const touchPosition &touch);
+	static void drawHandFrame();
 
 public:
 	static void triggerUpdate();
@@ -47,8 +48,8 @@ public:
 	void draw();
 
 	ChestInterface(bool open) : Interface(INTERFACE_INVENTORY)
-	, menu(MENU_BUTTON, false), firstRun(true), loadedGraphic(AIR)
-	, inv(getInventoryRef()), invHandler(getInventoryRef(), 1, 9)
+	, menu(MENU_BUTTON, false), loadedGraphic(AIR), inv(getInventoryRef())
+	, chest(nullptr), invHandler(getInventoryRef(), 1, 9), chestHandler(nullptr)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
@@ -58,7 +59,12 @@ public:
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
 		lcdMainOnTop();
 		setMiningDisabled(true);
+		oldInvSlot = inv.hand;
 	}
 
-	~ChestInterface() { }
+	~ChestInterface()
+	{
+		if (chestHandler)
+			delete chestHandler;
+	}
 };

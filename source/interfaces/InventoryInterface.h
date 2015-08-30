@@ -36,6 +36,7 @@ class InventoryInterface : public Interface
 	static bool touchesInvSlot(const touchPosition &touch);
 	static int touchedSlot(const touchPosition &touch);
 	void parseTouchInput(const touchPosition &touch);
+	static void drawHandFrame();
 
 public:
 	

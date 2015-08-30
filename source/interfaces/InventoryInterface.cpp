@@ -33,7 +33,7 @@ void InventoryInterface::moveSlot(bool right)
 	int invSlot = inv.hand;
 	int initialSlot = invSlot;
 
-	if (inv.blocks[invSlot].blockId != AIR)
+	if (invSlot != -1 && inv.blocks[invSlot].blockId != AIR)
 	{
 		invSlot += change;
 		checkLimits(invSlot);
@@ -42,7 +42,7 @@ void InventoryInterface::moveSlot(bool right)
 	{
 		do
 			checkLimits(invSlot += change);
-		while (inv.blocks[invSlot].blockId == AIR && initialSlot != invSlot);
+		while ((invSlot == -1 || inv.blocks[invSlot].blockId == AIR) && initialSlot != invSlot);
 		if (initialSlot == invSlot)
 		{
 			invSlot += change;
@@ -180,6 +180,27 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 		updateInv();
 }
 
+void InventoryInterface::drawHandFrame()
+{
+	setSubBgTile(0, 7, 27);
+	setSubBgTile(3, 7, 27, H_FLIP);
+	setSubBgTile(0, 6, 27);
+	setSubBgTile(3, 6, 27, H_FLIP);
+	setSubBgTile(0, 5, 26);
+	setSubBgTile(3, 5, 26, H_FLIP);
+	setSubBgTile(1, 5, 30);
+	setSubBgTile(2, 5, 30);
+	setSubBgTile(0, 8, 27);
+	setSubBgTile(0, 8, 27);
+	setSubBgTile(3, 8, 27, H_FLIP);
+	setSubBgTile(3, 8, 28);
+	setSubBgTile(1, 8, 28);
+	setSubBgTile(2, 8, 29);
+	for (int i = 6; i < 8; ++i)
+		for (int j = 1; j < 3; ++j)
+			setSubBgTile(j, i, ((i % 2) ? 90 : 122) + j % 2);
+}
+
 void InventoryInterface::draw()
 {
 	consoleClear();
@@ -187,6 +208,6 @@ void InventoryInterface::draw()
 	menu.draw();
 	drawBoxFrame(0, 8, 32, 7);
 	drawBoxCenter(1, 11, 30, 1);
-	drawSelectedFrame();
+	drawHandFrame();
 	updateInv();
 }
