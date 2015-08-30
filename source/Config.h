@@ -19,6 +19,7 @@
 #define PROPERTY_SMOOTH 3
 #define PROPERTY_GRADIENT 4
 #define PROPERTY_DITHERING 5
+#define PROPERTY_REGEN 6
 
 class Config
 {
@@ -33,7 +34,7 @@ private:
 	KEYPAD_BITS menu;
 	KEYPAD_BITS climb;
 	KEYPAD_BITS dropItem;
-	bool properties[6];
+	bool properties[7];
 public:
 	int musicVolume;
 	int sfxVolume;
@@ -55,7 +56,7 @@ public:
 	dropItem(KEY_SELECT),
 	properties
 	{
-		false, false, true, true, true, true
+		false, false, true, true, true, true, true
 	}
 
 	, musicVolume(0), sfxVolume(25),
