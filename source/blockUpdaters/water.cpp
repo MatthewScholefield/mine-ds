@@ -34,7 +34,7 @@ static void setWater(WorldObject *world, int x, int y, int amount)
 
 static bool flowDown(WorldObject *world, int x, int y)
 {
-	if (y + 1 > WORLD_WIDTH || !isBlockWalkThrough(world->blocks[x][y + 1]))
+	if (y + 1 > WORLD_HEIGHT || !isBlockWalkThrough(world->blocks[x][y + 1]))
 		return false;
 	//int level = getWaterLevel(world, x, y);
 	switch (world->blocks[x][y + 1])
