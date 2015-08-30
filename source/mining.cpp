@@ -115,6 +115,7 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 		}
 	}
 	updateBrightnessAround(world, x, y);
+	updateAround(world, x, y);
 }
 
 int destroyTime(int blockID, int selectedBlock) //Calculated the required frames to destroy a block
