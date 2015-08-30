@@ -12,11 +12,12 @@ SnowGrassUpdater::SnowGrassUpdater()
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void SnowGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool SnowGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (world->blocks[x][y - 1] != SNOW_TOP)
 	{
 		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 		blockXY = bg && world->bgblocks[x][y - 1] == SNOW_TOP ? SNOW_GRASS : GRASS;
 	}
+	return false;
 }

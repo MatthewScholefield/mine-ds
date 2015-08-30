@@ -70,6 +70,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		break;
 	}
 	updateBrightnessAround(world, x, y);
+	updateAround(world, x, y);
 }
 
 void placeBlock(WorldObject *world, int x, int y, bool bg)

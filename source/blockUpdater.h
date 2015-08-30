@@ -14,8 +14,9 @@ public:
 	BlockUpdater();
 	int chance = NO_CHANCE;
 	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
-	virtual void update(WorldObject* world, int x, int y, bool bg);
+	virtual bool update(WorldObject* world, int x, int y, bool bg);
 	int timer = 0;
 };
 void proceduralBlockUpdateInit();
 void proceduralBlockUpdate(WorldObject* world);
+void updateAround(WorldObject *world, int x, int y);
