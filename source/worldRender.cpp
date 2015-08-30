@@ -296,6 +296,10 @@ static void renderWater(WorldObject *world, int x, int y)
 		g /= 2;
 		b /= 2;
 	}
+	if (y > 0 && world->blocks[x][y-1]==WATER)
+	{
+		waterLevel = 16;
+	}
 	drawRect(Color{
 		{r, g, b}}, x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
 }
