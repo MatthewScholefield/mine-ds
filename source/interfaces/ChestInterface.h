@@ -35,7 +35,8 @@ class ChestInterface : public Interface
 	void closeInventory();
 	Inventory &getSelectedInv();
 	static bool touchesInvSlot(const touchPosition &touch);
-	static int touchedSlot(const touchPosition &touch);
+	static bool touchesChestSlot(const touchPosition &touch);
+	static int touchedSlot(const touchPosition &touch, int yOffset);
 	void parseTouchInput(const touchPosition &touch);
 	static void drawHandFrame();
 
@@ -50,6 +51,7 @@ public:
 	ChestInterface(bool open) : Interface(INTERFACE_INVENTORY)
 	, menu(MENU_BUTTON, false), loadedGraphic(AIR), inv(getInventoryRef())
 	, chest(nullptr), invHandler(getInventoryRef(), 1, 9), chestHandler(nullptr)
+	, selectedChest(false)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
@@ -60,6 +62,7 @@ public:
 		lcdMainOnTop();
 		setMiningDisabled(true);
 		oldInvSlot = inv.hand;
+		inv.hand = -1;
 	}
 
 	~ChestInterface()
