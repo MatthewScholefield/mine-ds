@@ -17,7 +17,7 @@
 
 int hardness[NUM_BLOCKS]; //Slot is ID number, negative number means tool
 int blockType[NUM_BLOCKS]; //Type of block/tool
-//int foodItems[] = {PORKCHOP_RAW, BEEF_RAW, FLESH, BEEF_COOKED, PORKCHOP_COOKED, CHICKEN_RAW, CHICKEN_COOKED};
+int foodItems[] = {PORKCHOP_RAW, 3, BEEF_RAW, 3, FLESH, 4, BEEF_COOKED, 8, PORKCHOP_COOKED, 8, CHICKEN_RAW, 2, CHICKEN_COOKED, 6};
 
 void setArray(int * array, int setValue, int numOfItems, ...)
 {
@@ -541,4 +541,29 @@ bool shouldRender(int blockID)
 	default:
 		return true;
 	}
+}
+int getFoodValue(int blockID)
+{
+	for (int i = 0; i < sizeOfArray(foodItems); i+=2)
+	{
+		if (foodItems[i] == blockID)
+			return foodItems[i+1];
+	}
+	return 0;
+}
+bool isFoodStuff(int blockID)
+{
+	switch(blockID)
+	{
+		case PORKCHOP_RAW:
+		case BEEF_RAW: 
+		case FLESH:
+		case BEEF_COOKED:
+		case PORKCHOP_COOKED:
+		case CHICKEN_RAW:
+		case CHICKEN_COOKED:
+			return true;
+			break;	
+	}
+	return false;
 }
