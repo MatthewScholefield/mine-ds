@@ -12,8 +12,9 @@
 
 void ChestInterface::updateInv()
 {
+	Inventory curInv = getSelectedInv();
 	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
+	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].blockId);
 	invHandler.drawSlots(!selectedChest);
 	chestHandler->drawSlots(selectedChest);
 	if (isSurvival())
@@ -21,7 +22,7 @@ void ChestInterface::updateInv()
 		invHandler.drawQuantities();
 		chestHandler->drawQuantities();
 	}
-	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
+	updateTopName(curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].blockId);
 }
 
 int ChestInterface::correctValue(int value)
@@ -95,7 +96,7 @@ void ChestInterface::parseKeyInput()
 
 void ChestInterface::closeInventory()
 {
-	if (selectedChest || inv.hand == -1)
+	if (selectedChest || getSelectedInv().hand == -1)
 		inv.hand = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
@@ -112,33 +113,59 @@ bool ChestInterface::touchesInvSlot(const touchPosition &touch)
 	return (touchesTileBox(touch, 1, 9, 15 * 2, 1 * 2) || touchesTileBox(touch, 1, 12, 15 * 2, 1 * 2));
 }
 
-int ChestInterface::touchedSlot(const touchPosition& touch)
+bool ChestInterface::touchesChestSlot(const touchPosition &touch)
+{
+	return (touchesTileBox(touch, 1, 1, 15 * 2, 1 * 2) || touchesTileBox(touch, 1, 4, 15 * 2, 1 * 2));
+}
+
+int ChestInterface::touchedSlot(const touchPosition& touch, int yOffset)
 {
 	const int OFF_X = 8;
-	const int OFF_Y = 9 * 8;
 	int row = (touch.px - OFF_X) / 16; //0..14
-	int column = (touch.py - OFF_Y) / (3 * 8); //0..1
+	int column = (touch.py - yOffset) / (3 * 8); //0..1
 	return row + column * 15;
 }
 
 void ChestInterface::parseTouchInput(const touchPosition &touch)
 {
-	if (!(keysDown() & KEY_TOUCH) || !touchesInvSlot(touch))
+	if (!(keysDown() & KEY_TOUCH) || (!touchesInvSlot(touch)&&!touchesChestSlot(touch)))
 		return;
 
-	int touched = touchedSlot(touch);
+	bool touchedChest = touchesChestSlot(touch);
+	int touched = touchedSlot(touch, touchedChest ? 1 : 9 * 8);
+	bool jumpTransfer = keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH);
 
-	if (inv.hand < 0)
-		inv.hand = touched;
+	if (getSelectedInv().hand < 0 && !jumpTransfer)
+	{
+		selectedChest = touchedChest;
+		getSelectedInv().hand = touched;
+	}
 	else
 	{
-		int tmpId = inv.blocks[inv.hand].blockId;
-		int tmpAmount = inv.blocks[inv.hand].blockAmount;
-		inv.blocks[inv.hand].blockId = inv.blocks[touched].blockId;
-		inv.blocks[inv.hand].blockAmount = inv.blocks[touched].blockAmount;
-		inv.blocks[touched].blockId = tmpId;
-		inv.blocks[touched].blockAmount = tmpAmount;
-		inv.hand = -1;
+		if (jumpTransfer)
+		{
+			selectedChest = !touchedChest;
+			int i = 0;
+			for (; i < NUM_INV_SPACES && getSelectedInv().blocks[i].blockId != AIR; ++i);
+			if (i == NUM_INV_SPACES)
+			{
+				getSelectedInv().hand = -1;
+				updateInv();
+				return;
+			}
+			getSelectedInv().hand = i;
+
+		}
+		Inventory &src = getSelectedInv();
+		selectedChest = touchedChest;
+		Inventory &dest = getSelectedInv();
+		int tmpId = src.blocks[src.hand].blockId;
+		int tmpAmount = src.blocks[src.hand].blockAmount;
+		src.blocks[src.hand].blockId = dest.blocks[touched].blockId;
+		src.blocks[src.hand].blockAmount = dest.blocks[touched].blockAmount;
+		dest.blocks[touched].blockId = tmpId;
+		dest.blocks[touched].blockAmount = tmpAmount;
+		dest.hand = -1;
 	}
 	updateInv();
 }
