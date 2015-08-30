@@ -315,11 +315,11 @@ void worldRender_RenderWater(WorldObject *world)
 				{
 					renderWater(world, i, j);
 				}
-				if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 12))))
+				/*if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 12))))
 				{
 					createWaterMob(i, j, world->data[i][j]);
 					world->blocks[i][j] = AIR;
-				}
+				}*/
 			}
 		}
 }

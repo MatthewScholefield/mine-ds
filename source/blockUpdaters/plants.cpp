@@ -24,52 +24,58 @@ ShrubUpdater::ShrubUpdater()
 {
 }
 
-void ShrubUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool ShrubUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(SAND, world, x, y, bg);
+	return false;
 }
 
 TallGrassUpdater::TallGrassUpdater()
 {
 }
 
-void TallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool TallGrassUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
+	return false;
 }
 
 RedFlowerUpdater::RedFlowerUpdater()
 {
 }
 
-void RedFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool RedFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
+	return false;
 }
 
 YellowFlowerUpdater::YellowFlowerUpdater()
 {
 }
 
-void YellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool YellowFlowerUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
+	return false;
 }
 
 RedMushroomUpdater::RedMushroomUpdater()
 {
 }
 
-void RedMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool RedMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
+	return false;
 }
 
 BrownMushroomUpdater::BrownMushroomUpdater()
 {
 }
 
-void BrownMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool BrownMushroomUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
+	return false;
 }

@@ -11,7 +11,7 @@ AirUpdater::AirUpdater()
 	chance = NO_CHANCE;
 }
 
-void AirUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool AirUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
@@ -23,4 +23,5 @@ void AirUpdater::update(WorldObject* world, int x, int y, bool bg)
 		//Remove the background data (x&0 = 0)
 		world->data[x][y] &= 0x0000FFFF;
 	}
+	return false;
 }

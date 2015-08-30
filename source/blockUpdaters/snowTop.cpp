@@ -11,7 +11,7 @@ SnowTopUpdater::SnowTopUpdater()
 {
 }
 
-void SnowTopUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool SnowTopUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (!bg && isBlockWalkThrough(world->blocks[x][y + 1]))
 	{
@@ -21,4 +21,5 @@ void SnowTopUpdater::update(WorldObject* world, int x, int y, bool bg)
 	}
 	else if (bg && (!isBlockWalkThrough(world->blocks[x][y + 1]) || isBlockWalkThrough(world->bgblocks[x][y + 1])))
 		world->bgblocks[x][y] = AIR;
+	return false;
 }

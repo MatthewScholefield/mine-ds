@@ -9,9 +9,10 @@ JungleSaplingUpdater::JungleSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-void JungleSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool JungleSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
+	return false;
 }
 
 void JungleSaplingUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)

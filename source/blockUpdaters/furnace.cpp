@@ -12,7 +12,7 @@ FurnaceUpdater::FurnaceUpdater()
 	chance = NO_CHANCE;
 }
 
-void FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
@@ -37,4 +37,5 @@ void FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 		showGraphic(&fireParticle, x * 16 - world->camX + (world->data[x][y]&0xF00) / 256, y * 16 - world->camY - (world->data[x][y]&0xFF) / 32 + 6);
 
 	}
+	return false;
 }
