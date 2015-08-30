@@ -3,14 +3,14 @@
 #include "../graphics.h"
 #include "../../general.h"
 
-void InvGfxHandler::drawSlots(int selectedSlot)
+void InvGfxHandler::drawSlots(bool drawSelected)
 {
 	int slot = 0;
 	for (int j = 0; j < yCount; ++j)
 		for (int i = 0; i < xCount; ++i)
 		{
 			int tile = 154;
-			if (slot == selectedSlot)
+			if (slot == inv.hand && drawSelected)
 				tile = 155;
 			setSubBgTile(startX + i*xDist, startY + j*yDist, tile);
 			setSubBgTile(startX + i*xDist, startY + j * yDist + 1, tile, V_FLIP);

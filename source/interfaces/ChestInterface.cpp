@@ -14,47 +14,64 @@ void ChestInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
 	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
-	invHandler.drawSlots(inv.hand);
-	chestHandler.drawSlots(inv.hand);
+	invHandler.drawSlots(!selectedChest);
+	chestHandler->drawSlots(selectedChest);
 	if (isSurvival())
 	{
 		invHandler.drawQuantities();
-		chestHandler.drawQuantities();
+		chestHandler->drawQuantities();
 	}
 	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
 }
 
-void ChestInterface::checkLimits(int &value)
+int ChestInterface::correctValue(int value)
 {
 	if (value > NUM_INV_SPACES - 1)
-		value = -1;
-	else if (value<-1)
-		value = NUM_INV_SPACES - 1;
+	{
+		selectedChest = !selectedChest;
+		return -1;
+	}
+	else if (value < -1)
+	{
+		selectedChest = !selectedChest;
+		return NUM_INV_SPACES - 1;
+	}
+	return value;
+}
+
+Inventory &ChestInterface::getSelectedInv()
+{
+	return selectedChest ? *chest : inv;
 }
 
 void ChestInterface::moveSlot(bool right)
 {
+	Inventory *currentInv = &getSelectedInv();
 	int change = right ? 1 : -1;
-	int invSlot = inv.hand;
-	int initialSlot = invSlot;
+	int initialSlot = currentInv->hand;
+	bool initialChest = selectedChest;
 
-	if (inv.blocks[invSlot].blockId != AIR)
+	if (currentInv->hand != -1 && currentInv->blocks[currentInv->hand].blockId != AIR)
 	{
-		invSlot += change;
-		checkLimits(invSlot);
+		currentInv->hand += change;
+		int val = correctValue(currentInv->hand);
+		(currentInv = &getSelectedInv())->hand = val;
 	}
 	else
 	{
 		do
-			checkLimits(invSlot += change);
-		while (inv.blocks[invSlot].blockId == AIR && initialSlot != invSlot);
-		if (initialSlot == invSlot)
 		{
-			invSlot += change;
-			checkLimits(invSlot);
+			int val = correctValue(currentInv->hand += change);
+			(currentInv = &getSelectedInv())->hand = val;
+		}
+		while ((currentInv->hand == -1 || currentInv->blocks[currentInv->hand].blockId == AIR)
+				&& (initialSlot != currentInv->hand || initialChest != selectedChest));
+		if (initialSlot == currentInv->hand && initialChest == selectedChest)
+		{
+			currentInv->hand += change;
+			getSelectedInv().hand = correctValue(currentInv->hand);
 		}
 	}
-	inv.hand = invSlot;
 	updateInv();
 }
 
@@ -78,7 +95,7 @@ void ChestInterface::parseKeyInput()
 
 void ChestInterface::closeInventory()
 {
-	if (inv.hand == -1)
+	if (selectedChest || inv.hand == -1)
 		inv.hand = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
@@ -128,14 +145,14 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 
 void ChestInterface::update(WorldObject *world, touchPosition *touch)
 {
-	if (firstRun)
+	if (!chest)
 	{
-		firstRun = false;
-		chestHandler = InvGfxHandler(world->chests[getOpenedChestID()], 1, 1);
+		chestHandler = new InvGfxHandler(*(chest = &world->chests[getOpenedChestID()]), 1, 1);
+		updateInv();
 	}
-	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
+	showGraphic(&selectedGraphic, 1 * 8, 6 * 8 + 4, false, 0);
 	invHandler.update();
-	chestHandler.update();
+	chestHandler->update();
 
 	parseKeyInput();
 	parseTouchInput(*touch);
@@ -164,6 +181,17 @@ void ChestInterface::update(WorldObject *world, touchPosition *touch)
 		updateInv();
 }
 
+void ChestInterface::drawHandFrame()
+{
+	setSubBgTile(0, 6, 27);
+	setSubBgTile(0, 7, 27);
+	setSubBgTile(0, 8, 27);
+	setSubBgTile(3, 6, 28);
+	setSubBgTile(3, 7, 27, H_FLIP);
+	setSubBgTile(3, 8, 28);
+	drawBoxCenter(1, 6, 2, 3);
+}
+
 void ChestInterface::draw()
 {
 	consoleClear();
@@ -171,6 +199,10 @@ void ChestInterface::draw()
 	menu.draw();
 	drawBoxFrame(0, 8, 32, 7);
 	drawBoxCenter(1, 11, 30, 1);
-	drawSelectedFrame();
+
+	drawBoxFrame(0, 0, 32, 7);
+	drawBoxCenter(1, 3, 30, 1);
+
+	drawHandFrame();
 	updateInv();
 }
