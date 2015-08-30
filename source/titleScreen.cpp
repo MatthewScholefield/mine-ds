@@ -338,7 +338,7 @@ void gameOptions()
 	clearText(menuFirstSlot);
 	drawBackground(menuFirstSlot);
 
-	Menu menu;
+	Menu menu(MENU_BUTTON, true, 27);
 	menu.addCheckButton(8, 7, "Herobrine", getGlobalSettings()->getProperty(PROPERTY_HEROBRINE));
 	menu.setAction(setPropertyAction, PROPERTY_HEROBRINE);
 	menu.addCheckButton(8, 11, "Draw Mode", getGlobalSettings()->getProperty(PROPERTY_DRAW));
@@ -347,7 +347,8 @@ void gameOptions()
 	menu.setAction(setPropertyAction, PROPERTY_SPEED);
 	menu.addCheckButton(7, 19, "Smooth camera", getGlobalSettings()->getProperty(PROPERTY_SMOOTH));
 	menu.setAction(setPropertyAction, PROPERTY_SMOOTH);
-
+	menu.addCheckButton(7, 23, "Regeneration", getGlobalSettings()->getProperty(PROPERTY_REGEN));
+	menu.setAction(setPropertyAction, PROPERTY_REGEN);
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
 

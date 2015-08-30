@@ -114,9 +114,6 @@ void PlayerMob::updateMob(WorldObject* world)
 	{
 		if (health > 0)
 		{
-			// Every second, update the brightness of visible blocks
-			// TODO: This should be in worldRender_Render
-			// I would argue not, the player causes the light update, and updating the light levels is not a rendering job ~CoolAs
 			if (++tillBrightness > SEC_TO_FPS(1))
 			{
 				tillBrightness = 0;
@@ -188,8 +185,6 @@ void PlayerMob::updateMob(WorldObject* world)
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (framesHurtSprite == 0) spriteState = 0;
 			else --framesHurtSprite;
-			if (health < 20 && getTime() % 256 == 1)
-				++health;
 			showHealth(health);
 		}
 	}

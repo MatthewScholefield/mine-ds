@@ -97,6 +97,7 @@ bool saveConfig(Config *controls)
 		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
 		fprintf(fp, "Gradient: %s\n", controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
 		fprintf(fp, "Dithering: %s\n", controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
+		fprintf(fp, "Regeneration: %s\n", controls->getProperty(PROPERTY_REGEN) ? "Enabled" : "Disabled");
 		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
 		fclose(fp);
 		return true;
@@ -216,6 +217,8 @@ bool loadConfig(Config *controls)
 		controls->setProperty(PROPERTY_GRADIENT, parsePropertyChar(&parseChar));
 		fscanf(fp, "Dithering: %s\n", &parseChar);
 		controls->setProperty(PROPERTY_DITHERING, parsePropertyChar(&parseChar));
+		fscanf(fp, "Regeneration: %s\n", &parseChar);
+		controls->setProperty(PROPERTY_REGEN, parsePropertyChar(&parseChar));
 		fscanf(fp, "\nTexture Pack: %s\n", &parseChar);
 		controls->textureName = &parseChar;
 		fclose(fp);
