@@ -75,6 +75,17 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 void placeBlock(WorldObject *world, int x, int y, bool bg)
 {
 	int blockID = getBlockID(getHand());
+	if (isFoodStuff(blockID))
+	{
+		BaseMob_ptr m;
+		m = mobHandlerFindMob(2000,MOB_PLAYER,x*16,y*16);
+		if (m!=nullptr)
+		{
+			m->health+=getFoodValue(blockID);
+			subInventory(blockID,1);
+		}
+		return;
+	}
 	if (item(blockID) && !blockItem(blockID))
 		return;
 	if (subInventory(blockID, 1))
