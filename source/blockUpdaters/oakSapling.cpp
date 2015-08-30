@@ -63,9 +63,10 @@ OakSaplingUpdater::OakSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-void OakSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool OakSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
+	return false;
 }
 
 void OakSaplingUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)

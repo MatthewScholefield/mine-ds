@@ -14,7 +14,7 @@ DoorUpdater::DoorUpdater()
 	chance = NO_CHANCE;
 }
 
-void DoorUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool DoorUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
@@ -29,6 +29,7 @@ void DoorUpdater::update(WorldObject* world, int x, int y, bool bg)
 		blockXY = DOOR_OPEN_BOTTOM;
 		blockAboveXY = DOOR_OPEN_TOP;
 	}
+	return false;
 }
 
 void DoorUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
@@ -73,22 +74,26 @@ void DoorBottomUpdate(WorldObject* world, int x, int y, bool bg)
 	}
 }
 
-void DoorTopOpenUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool DoorTopOpenUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	DoorTopUpdate(world, x, y, bg);
+	return false;
 }
 
-void DoorTopClosedUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool DoorTopClosedUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	DoorTopUpdate(world, x, y, bg);
+	return false;
 }
 
-void DoorBottomOpenUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool DoorBottomOpenUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	DoorBottomUpdate(world, x, y, bg);
+	return false;
 }
 
-void DoorBottomClosedUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool DoorBottomClosedUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	DoorBottomUpdate(world, x, y, bg);
+	return false;
 }
