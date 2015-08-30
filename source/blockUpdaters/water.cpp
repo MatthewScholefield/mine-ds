@@ -83,6 +83,7 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 		return false;
 	}
 
+	int previous = getWaterLevel(world, x, y);
 	if (getWaterLevel(world, x, y) == 0)
 	{
 		world->blocks[x][y] = AIR;
@@ -108,6 +109,7 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 		setWater(world, x - 1, y, addAmount);
 	if (canMixRight)
 		setWater(world, x + 1, y, addAmount);
-	setWaterLevel(world, x, y, addAmount + (total % div));
-	return canMixLeft || canMixRight;
+	int newLevel = addAmount + (total % div);
+	setWaterLevel(world, x, y, newLevel);
+	return previous != newLevel;
 }
