@@ -28,7 +28,7 @@ void InvGfxHandler::drawQuantities()
 			{
 				printXY(startX + i * xDist, startY + 1 + j * yDist, inv.blocks[j * xCount + i].blockAmount);
 				if (inv.blocks[j * 15 + i].blockAmount < 10)
-					printXY(startX + i * xDist + 1, startY + j * yDist, " ");
+					printXY(startX + i * xDist + 1, startY + 1 + j * yDist, " ");
 			}
 			else
 				printXY(startX + i * xDist, startY + 1 + j * yDist, "  ");
