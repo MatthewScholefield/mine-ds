@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <vector>
 
 #include "blockUpdater.h"
 #include "world.h"
@@ -30,7 +31,12 @@
 #include "blockUpdaters/door.h"
 #include "blockUpdaters/water.h"
 #include "mobs/mobFunctions.h"
+#include "graphics/3DHandler.h"
 
+int numRecursions, triggerX, triggerY;
+std::vector<std::vector<bool>> hasUpdated;
+std::vector<std::vector<bool>> hasToUpdate(WORLD_WIDTH + 1, std::vector<bool>(WORLD_HEIGHT + 1, false));
+std::vector <std::vector<bool>> temp(WORLD_WIDTH + 1, std::vector<bool>(WORLD_HEIGHT + 1, false));
 BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
 BlockUpdater::BlockUpdater() { }
@@ -111,6 +117,65 @@ static int updaterIndex(int blockID, int index = 0)
 	}
 }
 
+static void recursiveUpdate(WorldObject *world, int x, int y, bool bg);
+
+static void updateDir(WorldObject *world, int x, int y, bool bg, int dir)
+{
+	switch (dir)
+	{
+	case 0:
+		recursiveUpdate(world, x + 1, y, bg);
+		break;
+	case 1:
+		recursiveUpdate(world, x, y - 1, bg);
+		break;
+	case 2:
+		recursiveUpdate(world, x - 1, y, bg);
+		break;
+	case 3:
+		recursiveUpdate(world, x, y + 1, bg);
+		break;
+	default:
+		break;
+	}
+}
+
+static void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
+{
+	recursiveUpdate(world, x + 1, y, bg);
+	recursiveUpdate(world, x, y - 1, bg);
+	recursiveUpdate(world, x - 1, y, bg);
+	recursiveUpdate(world, x, y + 1, bg);
+}
+
+static void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
+{
+	if (hasUpdated[x][y])
+	{
+		hasToUpdate[x][y] = true;
+		return;
+	}
+	hasUpdated[x][y] = true;
+	if (!onScreen(x * 16, y * 16, world->camX, world->camY))
+		return;
+	drawRect(Color({255, 0, 0}), x * 16 + 4 - world->camX, y * 16 + 4 - world->camY, 8, 8);
+	if (updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg))
+		updateBlocksAround(world, x, y, bg);
+}
+
+void startUpdate(WorldObject *world, int x, int y, bool bg)
+{
+	hasUpdated.assign(WORLD_WIDTH + 1, std::vector<bool>(WORLD_HEIGHT + 1, false));
+	updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg);
+	updateBlocksAround(world, x, y, bg);
+}
+
+void updateAround(WorldObject *world, int x, int y)
+{
+	startUpdate(world, x, y, true);
+	startUpdate(world, x, y, false);
+}
+
 static void updateBlock(WorldObject *world, int x, int y, bool bg)
 {
 	int i = updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]);
@@ -130,41 +195,23 @@ void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)
 void proceduralBlockUpdate(WorldObject* world)
 {
 	const int EXTRA_FRAME = 1;
+	bool startedUpdating = false;
 	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
 		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16 + EXTRA_FRAME); ++y)
+		{
+			temp[x][y] = hasToUpdate[x][y];
+			hasToUpdate[x][y] = false;
+		}
+	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
+		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16 + EXTRA_FRAME); ++y)
+		{
+			if (temp[x][y])
+			{
+				if (!startedUpdating)
+					startUpdate(world, x, y, false);
+				else
+					recursiveUpdate(world, x, y, false);
+			}
 			proceduralBlockUpdateCheck(world, x, y);
-}
-
-static void recursiveUpdate(WorldObject *world, int x, int y, bool bg);
-
-static inline void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
-{
-	recursiveUpdate(world, x + 1, y, bg);
-	recursiveUpdate(world, x, y - 1, bg);
-	recursiveUpdate(world, x - 1, y, bg);
-	recursiveUpdate(world, x, y + 1, bg);
-}
-
-static void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
-{
-	if (!onScreen(x * 16, y * 16, world->camX, world->camY))
-		return;
-	if (updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg))
-	{
-		printLocalMessage("true");
-		updateBlocksAround(world, x, y, bg);
-	}
-}
-
-void startUpdate(WorldObject *world, int x, int y, bool bg)
-{
-	updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg);
-	printLocalMessage("Begin");
-	updateBlocksAround(world, x, y, bg);
-}
-
-void updateAround(WorldObject *world, int x, int y)
-{
-	startUpdate(world, x, y, true);
-	startUpdate(world, x, y, false);
+		}
 }
