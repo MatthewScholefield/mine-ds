@@ -28,6 +28,7 @@ void addWater(WorldObject *world, int x, int y, int amount)
 		else addWater(world,x,y-1,totalWater-12);
 		setWaterLevel(world, x, y, 12);
 	}
+	updateAround(world, x, y);
 }
 
 void WaterMob::updateMob(WorldObject* world)
@@ -69,6 +70,7 @@ void WaterMob::updateMob(WorldObject* world)
 			{
 				world->blocks[blockX][blockY] = WATER;
 				setWaterLevel(world, blockX, blockY, level);
+				updateAround(world, blockX, blockY);
 			}
 		}
 		else
