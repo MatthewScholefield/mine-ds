@@ -48,7 +48,6 @@ static bool flowDown(WorldObject *world, int x, int y)
 	{
 		if (getWaterLevel(world, x, y + 1) == 12)
 			return false;
-		return true;
 		int newLevel = getWaterLevel(world, x, y + 1) + level;
 		if (newLevel > 12)
 		{
@@ -83,13 +82,13 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 		return false;
 	}
 
-	int previous = getWaterLevel(world, x, y);
 	if (getWaterLevel(world, x, y) == 0)
 	{
 		world->blocks[x][y] = AIR;
 		return true;
 	}
 
+	int previous = getWaterLevel(world, x, y);
 	if (flowDown(world, x, y))
 		return true;
 

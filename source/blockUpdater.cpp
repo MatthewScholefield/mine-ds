@@ -156,8 +156,15 @@ static void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 	}
 }
 
+void startUpdate(WorldObject *world, int x, int y, bool bg)
+{
+	updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg);
+	printLocalMessage("Begin");
+	updateBlocksAround(world, x, y, bg);
+}
+
 void updateAround(WorldObject *world, int x, int y)
 {
-	updateBlocksAround(world, x, y, true);
-	updateBlocksAround(world, x, y, false);
+	startUpdate(world, x, y, true);
+	startUpdate(world, x, y, false);
 }
