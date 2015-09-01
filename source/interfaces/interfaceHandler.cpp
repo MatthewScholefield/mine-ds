@@ -3,6 +3,7 @@
 #include "interfaceHandler.h"
 #include "InventoryInterface.h"
 #include "ChestInterface.h"
+#include "PageInterface.h"
 #include <memory>
 
 Interface_ptr currentInterface = Interface_ptr(new InventoryInterface(false));
@@ -19,6 +20,9 @@ void setInterface(InterfaceType type, int parameter)
 		break;
 	case INTERFACE_CHEST:
 		currentInterface = Interface_ptr(new ChestInterface(parameter));
+		break;
+	case INTERFACE_PAGE:
+		currentInterface = Interface_ptr(new PageInterface());
 		break;
 	default:
 		showError("Unknown interface set");

@@ -198,6 +198,7 @@ void ChestInterface::update(WorldObject *world, touchPosition *touch)
 		setInterface(INTERFACE_CRAFTING);
 		break;
 	case PAGE_MENU:
+		setInterface(INTERFACE_PAGE);
 		break;
 	default:
 		break;
