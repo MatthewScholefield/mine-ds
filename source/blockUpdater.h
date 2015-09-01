@@ -17,6 +17,17 @@ public:
 	virtual bool update(WorldObject* world, int x, int y, bool bg);
 	int timer = 0;
 };
+
+typedef struct
+{
+	int x;
+	int y;
+	bool bg;
+	int TimeToLive;
+}BlockUpdateInfo;
+
+
+
 void proceduralBlockUpdateInit();
 void proceduralBlockUpdate(WorldObject* world);
 void updateAround(WorldObject *world, int x, int y);
