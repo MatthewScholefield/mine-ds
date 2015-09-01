@@ -33,10 +33,8 @@
 #include "mobs/mobFunctions.h"
 #include "graphics/3DHandler.h"
 
-int numRecursions, triggerX, triggerY;
-std::vector<std::vector<bool>> hasUpdated;
-std::vector<std::vector<bool>> hasToUpdate(WORLD_WIDTH + 1, std::vector<bool>(WORLD_HEIGHT + 1, false));
-std::vector <std::vector<bool>> temp(WORLD_WIDTH + 1, std::vector<bool>(WORLD_HEIGHT + 1, false));
+//Todo: Profile to find out which of std::vector, std::list or std::forward_list is the quickest.
+std::vector<BlockUpdateInfo> UpdaterList;
 BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
 BlockUpdater::BlockUpdater() { }
@@ -150,68 +148,17 @@ static void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
 
 static void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 {
-	if (hasUpdated[x][y])
-	{
-		hasToUpdate[x][y] = true;
-		return;
-	}
-	hasUpdated[x][y] = true;
-	if (!onScreen(x * 16, y * 16, world->camX, world->camY))
-		return;
-	drawRect(Color({255, 0, 0}), x * 16 + 4 - world->camX, y * 16 + 4 - world->camY, 8, 8);
-	if (updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg))
-		updateBlocksAround(world, x, y, bg);
+	UpdaterList.push_back(BlockUpdateInfo{x,y,bg,1});
 }
 
-void startUpdate(WorldObject *world, int x, int y, bool bg)
-{
-	hasUpdated.assign(WORLD_WIDTH + 1, std::vector<bool>(WORLD_HEIGHT + 1, false));
-	updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]) != -1 && blockUpdaters[updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y])]->update(world, x, y, bg);
-	updateBlocksAround(world, x, y, bg);
-}
 
 void updateAround(WorldObject *world, int x, int y)
 {
-	startUpdate(world, x, y, true);
-	startUpdate(world, x, y, false);
-}
-
-static void updateBlock(WorldObject *world, int x, int y, bool bg)
-{
-	int i = updaterIndex(bg ? world->bgblocks[x][y] : world->blocks[x][y]);
-	if (i >= 0 && --blockUpdaters[i]->timer < 0)
-	{
-		blockUpdaters[i]->timer = rand() % blockUpdaters[i]->chance;
-		blockUpdaters[i]->chanceUpdate(world, x, y, bg);
-	}
-}
-
-void proceduralBlockUpdateCheck(WorldObject* world, int x, int y)
-{
-	updateBlock(world, x, y, true);
-	updateBlock(world, x, y, false);
+	updateBlocksAround(world,x,y,false);
+	updateBlocksAround(world,x,y,true);
 }
 
 void proceduralBlockUpdate(WorldObject* world)
 {
-	const int EXTRA_FRAME = 1;
-	bool startedUpdating = false;
-	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
-		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16 + EXTRA_FRAME); ++y)
-		{
-			temp[x][y] = hasToUpdate[x][y];
-			hasToUpdate[x][y] = false;
-		}
-	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
-		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16 + EXTRA_FRAME); ++y)
-		{
-			if (temp[x][y])
-			{
-				if (!startedUpdating)
-					startUpdate(world, x, y, false);
-				else
-					recursiveUpdate(world, x, y, false);
-			}
-			proceduralBlockUpdateCheck(world, x, y);
-		}
+
 }
