@@ -19,13 +19,9 @@ const int BLOCK_PAGES [NUM_BLOCK_PAGES][NUM_INV_SPACES] = {
 };
 int blockPage = 0;
 
-Button leftButtonPageScreen(0, 10, "\x011", false);
-Button rightButtonPageScreen(29, 10, "\x010", false);
-Button backButtonPageScreen(1, 16, "Back", false);
-
-const char *getPageName(int page)
+const char *getPageName()
 {
-	switch (page)
+	switch (blockPage)
 	{
 	case PAGE_WOOL: return "Wool";
 	case PAGE_BLOCKS: return "Blocks";
@@ -43,7 +39,7 @@ void updatePageName()
 	if (isSurvival())
 		return;
 	printXY(1, 15, "        ");
-	printXY(1, 15, getPageName(blockPage));
+	printXY(1, 15, getPageName());
 }
 
 void setBlockPage(int page)
@@ -59,7 +55,7 @@ void setBlockPage(int page)
 	updatePageName();
 }
 
-void changeBlockPage(bool forward)
+void changeBlockPage(bool forward, bool skipUpdate)
 {
 	blockPage += forward ? 1 : -1;
 	if (blockPage < 0)
@@ -69,65 +65,6 @@ void changeBlockPage(bool forward)
 	clearInventory(true);
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
 		addInventory(BLOCK_PAGES[blockPage][i], 1, true);
-	updatePageName();
-}
-
-int getBlockPage()
-{
-	return blockPage;
-}
-
-void pageMenuInit()
-{
-	lcdMainOnTop();
-	clearText();
-	drawBackground();
-	setMiningDisabled(true);
-	rightButtonPageScreen.setVisible(true);
-	leftButtonPageScreen.setVisible(true);
-	backButtonPageScreen.setVisible(true);
-	printXY(13, 11, getPageName(getBlockPage()));
-}
-
-int pageMenuUpdate(touchPosition* touch)
-{
-	//scanKeys();
-	if (keysDown() & KEY_TOUCH)
-	{
-		touchRead(touch);
-		leftButtonPageScreen.setColored(leftButtonPageScreen.isTouching(touch->px, touch->py));
-		rightButtonPageScreen.setColored(rightButtonPageScreen.isTouching(touch->px, touch->py));
-		backButtonPageScreen.setColored(backButtonPageScreen.isTouching(touch->px, touch->py));
-	}
-	else if (keysUp() & KEY_TOUCH)
-	{
-		if (rightButtonPageScreen.isTouching(touch->px, touch->py) && rightButtonPageScreen.isColored)
-		{
-			++blockPage;
-			if (blockPage >= NUM_BLOCK_PAGES)
-				blockPage = 0;
-			iprintf("\x1b[11;13H            ");
-			printXY(13, 11, getPageName(getBlockPage()));
-		}
-		else if (leftButtonPageScreen.isTouching(touch->px, touch->py) && leftButtonPageScreen.isColored)
-		{
-			--blockPage;
-			if (blockPage < 0)
-				blockPage = NUM_BLOCK_PAGES - 1;
-			iprintf("\x1b[11;13H            ");
-			printXY(13, 11, getPageName(getBlockPage()));
-		}
-		else if (backButtonPageScreen.isTouching(touch->px, touch->py) && backButtonPageScreen.isColored)
-		{
-			backButtonPageScreen.setVisible(false);
-			leftButtonPageScreen.setVisible(false);
-			rightButtonPageScreen.setVisible(false);
-			setBlockPage(blockPage);
-			return 1;
-		}
-		leftButtonPageScreen.setColored(false);
-		rightButtonPageScreen.setColored(false);
-		backButtonPageScreen.setColored(false);
-	}
-	return 0;
+	if (!skipUpdate)
+		updatePageName();
 }
