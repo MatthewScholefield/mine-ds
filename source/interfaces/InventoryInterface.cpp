@@ -146,7 +146,6 @@ void InventoryInterface::switchInvState()
 void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 {
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
-	//drawInvGraphics();
 	gfxHandler.update();
 
 	parseKeyInput();
@@ -169,6 +168,7 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 			setInterface(INTERFACE_CRAFTING);
 			break;
 		case PAGE_MENU:
+			setInterface(INTERFACE_PAGE);
 			break;
 		default:
 			break;

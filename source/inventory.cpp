@@ -477,7 +477,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 				saveButton.setVisible(false);
 				craftButton.setVisible(false);
 				pageButton.setVisible(false);
-				pageMenuInit();
 				showingInventory = 2;
 			}
 			else
@@ -494,8 +493,6 @@ void updateInventory(touchPosition touch, WorldObject* world)
 			closeInventory();
 		break;
 	case 2:
-		if (!isSurvival() && pageMenuUpdate(&touch))
-			openInventory();
 		break;
 	}
 }
