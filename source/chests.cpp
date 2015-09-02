@@ -7,7 +7,7 @@
 #include "communications.h"
 #include "interfaces/interfaceHandler.h"
 
-bool opened = false;
+bool chestOpened = false;
 int chestID = -1;
 
 void createChest(WorldObject *world, int x, int y, bool bg)
@@ -90,16 +90,16 @@ void destroyChest(WorldObject *world, int x, int y, bool bg)
 
 void openChest(WorldObject *world, int x, int y, bool bg)
 {
-	if (opened) //Another chest is already opened
+	if (chestOpened) //Another chest is already opened
 		return;
-	opened = true;
+	chestOpened = true;
 	chestID = getChestID(world, x, y, bg);
 	setInterface(INTERFACE_CHEST);
 }
 
 void closeChest()
 {
-	opened = false;
+	chestOpened = false;
 	chestID = -1;
 }
 

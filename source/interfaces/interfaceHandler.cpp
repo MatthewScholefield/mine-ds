@@ -4,6 +4,7 @@
 #include "InventoryInterface.h"
 #include "ChestInterface.h"
 #include "PageInterface.h"
+#include "FurnaceInterface.h"
 #include <memory>
 
 Interface_ptr currentInterface = Interface_ptr(new InventoryInterface(false));
@@ -20,6 +21,9 @@ void setInterface(InterfaceType type, int parameter)
 		break;
 	case INTERFACE_CHEST:
 		currentInterface = Interface_ptr(new ChestInterface(parameter));
+		break;
+	case INTERFACE_FURNACE:
+		currentInterface = Interface_ptr(new FurnaceInterface());
 		break;
 	case INTERFACE_PAGE:
 		currentInterface = Interface_ptr(new PageInterface());
