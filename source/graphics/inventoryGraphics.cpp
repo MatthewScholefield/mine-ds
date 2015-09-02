@@ -21,7 +21,6 @@ bool loadedChestGfx[NUM_INV_SPACES];
 int loadedInvID[NUM_INV_SPACES] = {};
 int loadedChestID[NUM_INV_SPACES] = {};
 bool enabled = false, oldEnabled = true;
-bool chestOpened = false;
 int openedChestID;
 
 int (*openedChestPtr)[CHEST_SLOTS][2];
@@ -220,8 +219,6 @@ void closeChest()
 
 void updateChestItems() //Changes graphics and text
 {
-	if (!chestOpened)
-		return;
 	drawBoxFrame(0, 0, 32, 7);
 	drawBoxCenter(1, 3, 30, 1);
 	if (getHand()<-1)
