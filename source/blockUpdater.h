@@ -24,6 +24,7 @@ typedef struct
 	int y;
 	bool bg;
 	int TimeToLive;
+	bool chance;
 }BlockUpdateInfo;
 
 
