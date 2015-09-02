@@ -166,7 +166,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		openChest(world, x, y, bg);
 		break;
 	case FURNACE:
-		//openFurnace(world,x,y,bg);
+		openFurnace(world, x, y, bg);
 		break;
 	case DOOR_OPEN_BOTTOM:
 		--y;
