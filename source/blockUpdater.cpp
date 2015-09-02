@@ -78,7 +78,7 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[27] = new WaterUpdater;
 }
 
-static int updaterIndex(int blockID, int index = 0)
+int updaterIndex(int blockID, int index = 0)
 {
 	switch (blockID)
 	{
@@ -117,7 +117,7 @@ static int updaterIndex(int blockID, int index = 0)
 
 static void recursiveUpdate(WorldObject *world, int x, int y, bool bg);
 
-static void updateDir(WorldObject *world, int x, int y, bool bg, int dir)
+void updateDir(WorldObject *world, int x, int y, bool bg, int dir)
 {
 	switch (dir)
 	{
@@ -138,17 +138,26 @@ static void updateDir(WorldObject *world, int x, int y, bool bg, int dir)
 	}
 }
 
-static void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
+void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
 {
 	recursiveUpdate(world, x + 1, y, bg);
 	recursiveUpdate(world, x, y - 1, bg);
 	recursiveUpdate(world, x - 1, y, bg);
 	recursiveUpdate(world, x, y + 1, bg);
+	recursiveUpdate(world, x, y, bg);
 }
 
-static void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
+void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 {
-	UpdaterList.push_back(BlockUpdateInfo{x,y,bg,1});
+	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int index = updaterIndex(blockXY);
+	if (index!=-1)
+	{
+		UpdaterList.push_back(BlockUpdateInfo{x,y,bg,2,false});
+		int chance = blockUpdaters[index]->chance;
+		if(chance!=NO_CHANCE)
+			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % chance+2,true});
+	}
 }
 
 
@@ -160,5 +169,40 @@ void updateAround(WorldObject *world, int x, int y)
 
 void proceduralBlockUpdate(WorldObject* world)
 {
+	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
+	//If TTL is not 1, decrement the TTL value.
+	std::vector<BlockUpdateInfo>::iterator it;
+	for (it = UpdaterList.begin(); it != UpdaterList.end();)
+	{
+		if (it->TimeToLive<2)
+		{
+			if (it->x > 0 && it->x < WORLD_WIDTH && it->y > 0 && it->y < WORLD_HEIGHT)
+			{
+				int &blockXY = it->bg ? world->bgblocks[it->x][it->y] : world->blocks[it->x][it->y];
+				int index = updaterIndex(blockXY);
+				if (index!=-1)
+				{
+					if (it->chance)
+					{
+						blockUpdaters[index]->chanceUpdate(world,it->x,it->y,it->bg);
+						int chance = blockUpdaters[index]->chance;
+						if(chance!=NO_CHANCE)
+							UpdaterList.push_back(BlockUpdateInfo{it->x,it->y,it->bg,rand() % chance+2,true});
+					}
+					else
+					{
+						if(blockUpdaters[index]->update(world,it->x,it->y,it->bg))
+							updateBlocksAround(world,it->x,it->y,it->bg);
+					}
+				}
+			}
+			it = UpdaterList.erase(it);
+		}
+		else
+		{
+			it->TimeToLive -= 1;
+			++it;
+		}
+	}
 
 }
