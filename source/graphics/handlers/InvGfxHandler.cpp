@@ -2,6 +2,7 @@
 #include "../subBgHandler.h"
 #include "../graphics.h"
 #include "../../general.h"
+#include "../UI.h"
 
 void InvGfxHandler::drawSlots(bool drawSelected)
 {
@@ -12,10 +13,7 @@ void InvGfxHandler::drawSlots(bool drawSelected)
 			int tile = 154;
 			if (slot == inv.hand && drawSelected)
 				tile = 155;
-			setSubBgTile(startX + i*xDist, startY + j*yDist, tile);
-			setSubBgTile(startX + i*xDist, startY + j * yDist + 1, tile, V_FLIP);
-			setSubBgTile(startX + i * xDist + 1, startY + j*yDist, tile, H_FLIP);
-			setSubBgTile(startX + i * xDist + 1, startY + j * yDist + 1, tile, BOTH_FLIP);
+			drawInvSlot(startX + i*xDist, startY + j*yDist, tile);
 			++slot;
 		}
 }
