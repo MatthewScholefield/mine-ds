@@ -3,7 +3,14 @@
 #include "mobs/mobHandler.h"
 #include "inventory.h"
 #include "general.h"
-#include <cstdlib>
+#include "interfaces/interfaceHandler.h"
+
+int furnaceID = -1;
+
+int getFurnaceID(WorldObject *world, int x, int y, bool bg)
+{
+	return (world->data[x][y] & (bg ? 0xFFFF0000 : 0x0000FFFF)) >> (bg ? 16 : 0);
+}
 
 void createFurnace(WorldObject *world, int x, int y, bool bg)
 {
@@ -14,7 +21,7 @@ void createFurnace(WorldObject *world, int x, int y, bool bg)
 			furnaceID = i;
 			break;
 		}
-	if (furnaceID == -1)
+	if (furnaceID < 0)
 	{
 		printLocalMessage("No more furnaces available");
 		addInventory(FURNACE);
@@ -47,10 +54,37 @@ void disperseItems(int x, int y, InvBlock block)
 
 void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 {
-	int id = (world->data[x][y] & (bg ? 0xFFFF0000 : 0x0000FFFF)) >> (bg ? 16 : 0);
+	int id = getFurnaceID(world, x, y, bg);
+	if (id < 0)
+	{
+		showError("Destroying non-existent furnace");
+		return;
+	}
 	disperseItems(x, y, world->furnaces[id]->source);
 	disperseItems(x, y, world->furnaces[id]->fuel);
 	disperseItems(x, y, world->furnaces[id]->result);
 	delete world->furnaces[id];
 	world->furnaces[id] = nullptr;
+	if (bg)
+		world->bgblocks[x][y] = AIR;
+	else
+		world->blocks[x][y] = AIR;
+}
+
+void openFurnace(WorldObject *world, int x, int y, bool bg)
+{
+	if (furnaceID >= 0) //Another furnace is already opened
+		return;
+	furnaceID = getFurnaceID(world, x, y, bg);
+	setInterface(INTERFACE_FURNACE);
+}
+
+void closeFurnace()
+{
+	furnaceID = -1;
+}
+
+int getOpenedFurnaceID()
+{
+	return furnaceID;
 }
