@@ -18,8 +18,8 @@ public:
 
 	FurnaceInterface() : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
 	{
-		menu.addButton(24, 16, "Smelt");
-		menu.addButton(1, 16, "Back");
+		menu.addButton(24, 17, "Smelt");
+		menu.addButton(1, 17, "Back");
 		lcdMainOnTop();
 		setMiningDisabled(true);
 	}
