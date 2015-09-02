@@ -6,6 +6,7 @@
 #include "../blockID.h"
 #include "../graphics/handlers/InvGfxHandler.h"
 #include "../mining.h"
+#include "../chests.h"
 
 #pragma once
 
@@ -68,5 +69,6 @@ public:
 	{
 		if (chestHandler)
 			delete chestHandler;
+		closeChest();
 	}
 };
