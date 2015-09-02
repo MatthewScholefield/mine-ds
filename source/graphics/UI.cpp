@@ -268,3 +268,11 @@ bool createDialog(std::string message, bool cancel, bool firstHalf, bool mineDS)
 		return true;
 	return false;
 }
+
+void drawInvSlot(int x, int y, int tile)
+{
+	setSubBgTile(x, y, tile);
+	setSubBgTile(x, y + 1, tile, V_FLIP);
+	setSubBgTile(x + 1, y, tile, H_FLIP);
+	setSubBgTile(x + 1, y + 1, tile, BOTH_FLIP);
+}
