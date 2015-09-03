@@ -276,3 +276,8 @@ void drawInvSlot(int x, int y, int tile)
 	setSubBgTile(x + 1, y, tile, H_FLIP);
 	setSubBgTile(x + 1, y + 1, tile, BOTH_FLIP);
 }
+
+bool touchesTileBox(const touchPosition &touch, int x, int y, int sx, int sy)
+{
+	return touch.px >= x * 8 && touch.px < x * 8 + sx * 8 && touch.py >= y * 8 && touch.py < y * 8 + sy * 8;
+}

@@ -33,12 +33,12 @@ class InventoryInterface : public Interface
 	void openInventory();
 	void closeInventory();
 	void switchInvState();
-	static bool touchesInvSlot(const touchPosition &touch);
-	static int touchedSlot(const touchPosition &touch);
 	void parseTouchInput(const touchPosition &touch);
 	static void drawHandFrame();
 
 public:
+	static bool touchesInvSlot(const touchPosition &touch);
+	static int touchedSlot(const touchPosition &touch);
 	
 	void update(WorldObject *world, touchPosition *touch);
 
