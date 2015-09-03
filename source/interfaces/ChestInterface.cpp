@@ -103,11 +103,6 @@ void ChestInterface::closeInventory()
 	setInterface(INTERFACE_INVENTORY);
 }
 
-static bool touchesTileBox(const touchPosition &touch, int x, int y, int sx, int sy)
-{
-	return touch.px >= x * 8 && touch.px < x * 8 + sx * 8 && touch.py >= y * 8 && touch.py < y * 8 + sy * 8;
-}
-
 bool ChestInterface::touchesInvSlot(const touchPosition &touch)
 {
 	return (touchesTileBox(touch, 1, 9, 15 * 2, 1 * 2) || touchesTileBox(touch, 1, 12, 15 * 2, 1 * 2));
