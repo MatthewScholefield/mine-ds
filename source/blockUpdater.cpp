@@ -35,7 +35,7 @@
 
 //Todo: Profile to find out which of std::vector, std::list or std::forward_list is the quickest.
 std::vector<BlockUpdateInfo> UpdaterList;
-BlockUpdater* blockUpdaters[NUM_UPDATERS];
+BlockUpdater* blockUpdaters[50];
 
 BlockUpdater::BlockUpdater() { }
 
@@ -146,17 +146,28 @@ void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
 	recursiveUpdate(world, x, y + 1, bg);
 	recursiveUpdate(world, x, y, bg);
 }
-
+bool findUpdateInfo(int x,int y, int bg)
+{
+	std::vector<BlockUpdateInfo>::iterator it;
+	for (it = UpdaterList.begin(); it != UpdaterList.end(); it++)
+	{
+		if (it->x == x && it->y == y)
+			return true;
+	}
+	return false;
+}
 void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 {
+	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT ) return;
 	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
-		UpdaterList.push_back(BlockUpdateInfo{x,y,bg,2,false});
+		if (!findUpdateInfo(x,y,bg))
+			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,2,false});
 		int chance = blockUpdaters[index]->chance;
-		if(chance!=NO_CHANCE)
-			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % chance+2,true});
+	//	if(chance!=NO_CHANCE)
+	//		UpdaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % chance+2,true});
 	}
 }
 
@@ -164,7 +175,7 @@ void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 void updateAround(WorldObject *world, int x, int y)
 {
 	updateBlocksAround(world,x,y,false);
-	updateBlocksAround(world,x,y,true);
+//	updateBlocksAround(world,x,y,true);
 }
 
 void proceduralBlockUpdate(WorldObject* world)
@@ -172,36 +183,32 @@ void proceduralBlockUpdate(WorldObject* world)
 	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
 	//If TTL is not 1, decrement the TTL value.
 	std::vector<BlockUpdateInfo>::iterator it;
+	bool shouldEnd = false;
 	for (it = UpdaterList.begin(); it != UpdaterList.end();)
 	{
+		drawRect(Color({it->TimeToLive*4, 255 - it->TimeToLive*4, 0}), it->x * 16 + 4 - world->camX, it->y * 16 + 4 - world->camY, 8, 8);
 		if (it->TimeToLive<2)
 		{
-			if (it->x > 0 && it->x < WORLD_WIDTH && it->y > 0 && it->y < WORLD_HEIGHT)
+			int x = it->x;
+ 			int y = it->y;
+			it = UpdaterList.erase(it);
+			if (it == UpdaterList.end()) shouldEnd = true;
+			if (x > 0 && x < WORLD_WIDTH && y > 0 && y < WORLD_HEIGHT)
 			{
-				int &blockXY = it->bg ? world->bgblocks[it->x][it->y] : world->blocks[it->x][it->y];
+				int &blockXY = world->blocks[x][y];
 				int index = updaterIndex(blockXY);
 				if (index!=-1)
 				{
-					if (it->chance)
-					{
-						blockUpdaters[index]->chanceUpdate(world,it->x,it->y,it->bg);
-						int chance = blockUpdaters[index]->chance;
-						if(chance!=NO_CHANCE)
-							UpdaterList.push_back(BlockUpdateInfo{it->x,it->y,it->bg,rand() % chance+2,true});
-					}
-					else
-					{
-						if(blockUpdaters[index]->update(world,it->x,it->y,it->bg))
-							updateBlocksAround(world,it->x,it->y,it->bg);
-					}
+					if(blockUpdaters[index]->update(world,x,y,false))
+						updateBlocksAround(world,x,y,false);
 				}
 			}
-			it = UpdaterList.erase(it);
+			break;
 		}
 		else
 		{
 			it->TimeToLive -= 1;
-			++it;
+			it++;
 		}
 	}
 
