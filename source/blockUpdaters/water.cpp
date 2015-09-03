@@ -42,7 +42,7 @@ static bool flowDown(WorldObject *world, int x, int y)
 	case AIR:
 		world->blocks[x][y] = AIR;
 		world->blocks[x][y + 1] = WATER;
-		setWaterLevel(world, x, y + 1, level);
+		setWater(world, x, y + 1, level);
 		return true;
 	case WATER:
 	{
@@ -51,14 +51,14 @@ static bool flowDown(WorldObject *world, int x, int y)
 		int newLevel = getWaterLevel(world, x, y + 1) + level;
 		if (newLevel > 12)
 		{
-			setWaterLevel(world, x, y, newLevel - 12);
-			setWaterLevel(world, x, y + 1, 12);
+			setWater(world, x, y, newLevel - 12);
+			setWater(world, x, y + 1, 12);
 			return true;
 		}
 		else
 		{
 			world->blocks[x][y] = AIR;
-			setWaterLevel(world, x, y + 1, newLevel);
+			setWater(world, x, y + 1, newLevel);
 			return true;
 		}
 	}
@@ -92,7 +92,8 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	if (flowDown(world, x, y))
 		return true;
 
-	bool leftBound = x - 1 > 0, rightBound = x + 1 <= WORLD_WIDTH;
+	bool leftBound = (x - 1) > 0;
+	bool rightBound = (x + 1) < WORLD_WIDTH;
 	bool canMixLeft = leftBound && isBlockWalkThrough(world->blocks[x - 1][y]);
 	bool canMixRight = rightBound && isBlockWalkThrough(world->blocks[x + 1][y]);
 
@@ -100,8 +101,8 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	int rightLevel = canMixRight ? getWaterLevel(world, x + 1, y) : origLevel;
 
 	int total = getWaterLevel(world, x, y)
-			+ (leftBound && world->blocks[x - 1][y] == WATER ? getWaterLevel(world, x - 1, y) : 0)
-			+ (rightBound && world->blocks[x + 1][y] == WATER ? getWaterLevel(world, x + 1, y) : 0);
+			+ ((leftBound && world->blocks[x - 1][y] == WATER) ? getWaterLevel(world, x - 1, y) : 0)
+			+ ((rightBound && world->blocks[x + 1][y] == WATER) ? getWaterLevel(world, x + 1, y) : 0);
 
 	int div = 1 + canMixLeft + canMixRight;
 	if (total < div || div < 2 || abs(leftLevel - origLevel) + abs(rightLevel - origLevel) < 2)
