@@ -8,7 +8,7 @@ void leafVirus(WorldObject* world, int x, int y, int amount, bool down, int bloc
 {
 	if (amount <= 0) return;
 	if (x >= 0 && x < WORLD_WIDTH)
-		world->bgblocks[x][y] = blockID;
+		world->bgblocks[x][y] = (world->bgblocks[x][y] == AIR ? blockID : 0);
 	else
 		return;
 	leafVirus(world, x + 1, y, amount - 1, down, blockID);
@@ -24,9 +24,7 @@ void growTree(WorldObject* world, int x, int y, bool birch)
 	int height = 2 + rand() % 2;
 	int i;
 	for (i = y; i >= y - height; i--)
-	{
-		world->bgblocks[x][i] = blockID; // Draw the trunk.
-	}
+		world->bgblocks[x][i] = (world->bgblocks[x][i] == AIR ? blockID : 0); // Draw the trunk.
 	//Now for the leaves...
 	leafVirus(world, x, i, 2 + (rand() % 2), false, LEAVES_OAK);
 }
