@@ -35,7 +35,7 @@
 
 //Todo: Profile to find out which of std::vector, std::list or std::forward_list is the quickest.
 std::vector<BlockUpdateInfo> UpdaterList;
-BlockUpdater* blockUpdaters[50];
+BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
 BlockUpdater::BlockUpdater() { }
 
@@ -144,14 +144,22 @@ void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
 	recursiveUpdate(world, x, y - 1, bg);
 	recursiveUpdate(world, x - 1, y, bg);
 	recursiveUpdate(world, x, y + 1, bg);
+	recursiveUpdate(world, x + 1, y + 1, bg);
+	recursiveUpdate(world, x - 1, y - 1, bg);
+	recursiveUpdate(world, x - 1, y + 1, bg);
+	recursiveUpdate(world, x + 1, y - 1, bg);
+	recursiveUpdate(world, x + 2, y, bg);
+	recursiveUpdate(world, x, y - 2, bg);
+	recursiveUpdate(world, x - 2, y, bg);
+	recursiveUpdate(world, x, y + 2, bg);
 	recursiveUpdate(world, x, y, bg);
 }
-bool findUpdateInfo(int x,int y, int bg)
+bool findUpdateInfo(int x,int y, bool bg,bool chance)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
 	for (it = UpdaterList.begin(); it != UpdaterList.end(); it++)
 	{
-		if (it->x == x && it->y == y)
+		if (it->x == x && it->y == y && it->bg == bg && it->chance == chance)
 			return true;
 	}
 	return false;
@@ -163,8 +171,11 @@ void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
-		if (!findUpdateInfo(x,y,bg))
-			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,1,bg});
+		if (!findUpdateInfo(x,y,bg,false))
+			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,1,false});
+		if (blockUpdaters[index]->chance!=NO_CHANCE && !findUpdateInfo(x,y,bg,true))
+			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % blockUpdaters[index]->chance,true});
+			
 	}
 }
 
@@ -202,15 +213,23 @@ std::vector<BlockUpdateInfo>::iterator it;
 			int x = it->x;
  			int y = it->y;
 			bool bg = it->bg;
+			bool chance = it->chance;
 			it = UpdaterList.erase(it);
 			if (x > 0 && x < WORLD_WIDTH && y > 0 && y < WORLD_HEIGHT)
 			{
-				int &blockXY = world->blocks[x][y];
+				int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 				int index = updaterIndex(blockXY);
 				if (index!=-1)
 				{
-					if(blockUpdaters[index]->update(world,x,y,bg))
-						updateAround(world,x,y);
+					if(!chance)
+					{
+						if(blockUpdaters[index]->update(world,x,y,bg))
+							updateAround(world,x,y);
+					}
+					else
+					{
+						blockUpdaters[index]->chanceUpdate(world,x,y,bg);
+					}
 				}
 			}
 			break;
@@ -219,6 +238,7 @@ std::vector<BlockUpdateInfo>::iterator it;
 }
 void proceduralBlockUpdate(WorldObject* world)
 {
+	if (UpdaterList.size()==0) return;
 	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
 	//If TTL is not 1, decrement the TTL value.
 	int amount = processTTL(world);

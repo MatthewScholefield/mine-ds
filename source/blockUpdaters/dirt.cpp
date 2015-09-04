@@ -91,4 +91,6 @@ void DirtUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
 		if (world->bgblocks[x][y] == SNOW_GRASS && isBlockWalkThrough(world->blocks[x][y]))
 			world->bgblocks[x][y - 1] = SNOW_TOP;
 	}
+	//If we can't spread we will have already returned
+	updateAround(world,x,y);
 }
