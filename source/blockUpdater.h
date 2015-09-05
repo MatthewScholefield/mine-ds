@@ -20,10 +20,7 @@ public:
 	{
 		return false;
 	}
-
-	virtual void alwaysUpdate(WorldObject* world, int x, int y, bool bg) { }
 	int timer = 0;
-
 	virtual ~BlockUpdater() { }
 };
 
