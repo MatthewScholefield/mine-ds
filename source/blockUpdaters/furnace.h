@@ -5,10 +5,11 @@
 
 class FurnaceUpdater : public BlockUpdater
 {
+private:
 	int bufferIndex = 0;
 public:
 	FurnaceUpdater();
-	void alwaysUpdate(WorldObject* world, int x, int y, bool bg);
+	bool update(WorldObject* world, int x, int y, bool bg);
 	Graphic fireParticle;
 	Graphic clones[16];
 };
