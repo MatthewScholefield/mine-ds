@@ -26,3 +26,4 @@ int getGenericBlock(int blockID);
 bool shouldRender(int blockID);
 bool isFoodStuff(int blockID);
 int getFoodValue(int blockID);
+int fuelAmount(int blockID);
