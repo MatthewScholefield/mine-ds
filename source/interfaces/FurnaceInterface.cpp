@@ -98,13 +98,7 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 	{
 	case SMELT:
 	{
-		int newFuel = fuelAmount(openFurnace->fuelBlock.blockId);
-		if (newFuel > 0 && openFurnace->fuel < 1)
-		{
-			openFurnace->fuel = newFuel;
-			if (--openFurnace->fuelBlock.blockAmount < 1)
-				openFurnace->fuelBlock.blockId = AIR;
-		}
+		convertItemToFuel(*openFurnace);
 		break;
 	}
 	case BACK:

@@ -4,12 +4,22 @@
 #include "inventory.h"
 #include "general.h"
 #include "interfaces/interfaceHandler.h"
+#include "furnaceHandler.h"
+#include "blocks.h"
 
 int furnaceID = -1;
 
-int getFurnaceID(WorldObject *world, int x, int y, bool bg)
+void convertItemToFuel(Furnace &furnace)
 {
-	return (world->data[x][y] & (bg ? 0x000F0000 : 0x0000000F)) >> (bg ? 4 * 4 : 0);
+	int newFuel = fuelAmount(furnace.fuelBlock.blockId);
+	if (newFuel > 0 && furnace.fuel < 1)
+	{
+		furnace.fuel = newFuel;
+		if (--furnace.fuelBlock.blockAmount < 1)
+			furnace.fuelBlock.blockId = AIR;
+	}
+	else
+		printXY(1, rand() % 10, furnace.fuelBlock.blockId);
 }
 
 void createFurnace(WorldObject *world, int x, int y, bool bg)
