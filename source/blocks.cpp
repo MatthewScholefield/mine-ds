@@ -576,7 +576,7 @@ int fuelAmount(int blockID)
 		return 24;
 	case STICK:
 		return 1;
-	case WOOD:
+	case PLANKS_WOOD:
 		return 4;
 	case LOG_BIRCH:
 	case LOG_OAK:

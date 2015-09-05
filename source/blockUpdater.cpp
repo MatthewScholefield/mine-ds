@@ -9,6 +9,8 @@
 #include "communications.h"
 #include "inventory.h"
 #include "general.h"
+#include "mobs/mobFunctions.h"
+#include "graphics/3DHandler.h"
 
 //Include blockUpdaters
 #include "blockUpdaters/litFurnace.h"
@@ -30,8 +32,7 @@
 #include "blockUpdaters/ladder.h"
 #include "blockUpdaters/door.h"
 #include "blockUpdaters/water.h"
-#include "mobs/mobFunctions.h"
-#include "graphics/3DHandler.h"
+#include "blockUpdaters/furnace.h"
 
 //Todo: Profile to find out which of std::vector, std::list or std::forward_list is the quickest.
 std::vector<BlockUpdateInfo> updaterList;
@@ -67,6 +68,7 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[25] = new DoorBottomClosedUpdater;
 	blockUpdaters[26] = new DoorBottomOpenUpdater;
 	blockUpdaters[27] = new WaterUpdater;
+	blockUpdaters[28] = new FurnaceUpdater;
 }
 
 int updaterIndex(int blockID, int index = 0)
@@ -101,6 +103,7 @@ int updaterIndex(int blockID, int index = 0)
 	case DOOR_CLOSED_BOTTOM: return 25;
 	case DOOR_OPEN_BOTTOM: return 26;
 	case WATER: return 27;
+	case FURNACE: return 28;
 	default:
 		return -1;
 	}

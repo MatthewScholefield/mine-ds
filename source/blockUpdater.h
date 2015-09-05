@@ -1,6 +1,6 @@
 #pragma once
 #include "world.h"
-#define NUM_UPDATERS 28
+#define NUM_UPDATERS 29
 #define NO_CHANCE 99999
 #define SOIL_CHANCE_UPDATE 1000
 #define SAPLING_CHANCE_UPDATE 2000
