@@ -14,7 +14,7 @@ FurnaceUpdater::FurnaceUpdater()
 		setCloneGraphic(&fireParticle, &i);
 }
 
-void FurnaceUpdater::alwaysUpdate(WorldObject* world, int x, int y, bool bg)
+bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
@@ -39,5 +39,7 @@ void FurnaceUpdater::alwaysUpdate(WorldObject* world, int x, int y, bool bg)
 		showGraphic(&clones[bufferIndex++], x * 16 - world->camX + ((world->data[x][y]&0xF00) >> 8), y * 16 - world->camY - (world->data[x][y]&0xFF) / 32 + 6);
 		if (bufferIndex > 15)
 			bufferIndex = 0;
+		updateSingleBlock(world,x,y,bg);
 	}
+	return false;
 }
