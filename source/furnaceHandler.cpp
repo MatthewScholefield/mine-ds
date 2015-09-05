@@ -9,7 +9,7 @@ int furnaceID = -1;
 
 int getFurnaceID(WorldObject *world, int x, int y, bool bg)
 {
-	return (world->data[x][y] & (bg ? 0xFFFF0000 : 0x0000FFFF)) >> (bg ? 16 : 0);
+	return (world->data[x][y] & (bg ? 0xF0000000 : 0x0000F000)) >> (bg ? 19 : 3);
 }
 
 void createFurnace(WorldObject *world, int x, int y, bool bg)
@@ -31,12 +31,12 @@ void createFurnace(WorldObject *world, int x, int y, bool bg)
 	if (bg)
 	{
 		world->bgblocks[x][y] = FURNACE;
-		world->data[x][y] = (world->data[x][y] & 0x0000FFFF) | (furnaceID << 16);
+		world->data[x][y] = (world->data[x][y] & 0x0000FFFF) | (furnaceID << 19);
 	}
 	else
 	{
 		world->blocks[x][y] = FURNACE;
-		world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | (furnaceID);
+		world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | (furnaceID << 3);
 	}
 }
 
@@ -60,9 +60,9 @@ void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 		showError("Destroying non-existent furnace");
 		return;
 	}
-	disperseItems(x, y, world->furnaces[id]->source);
-	disperseItems(x, y, world->furnaces[id]->fuel);
-	disperseItems(x, y, world->furnaces[id]->result);
+	disperseItems(x, y, world->furnaces[id]->sourceBlock);
+	disperseItems(x, y, world->furnaces[id]->fuelBlock);
+	disperseItems(x, y, world->furnaces[id]->resultBlock);
 	delete world->furnaces[id];
 	world->furnaces[id] = nullptr;
 	if (bg)
