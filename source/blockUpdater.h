@@ -11,20 +11,11 @@
 class BlockUpdater
 {
 public:
-
-	BlockUpdater() { }
+	BlockUpdater();
 	int chance = NO_CHANCE;
-
-	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
-	virtual bool update(WorldObject* world, int x, int y, bool bg)
-	{
-		return false;
-	}
-
-	virtual void alwaysUpdate(WorldObject* world, int x, int y, bool bg) { }
+	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
+	virtual bool update(WorldObject* world, int x, int y, bool bg);
 	int timer = 0;
-
-	virtual ~BlockUpdater() { }
 };
 
 typedef struct
