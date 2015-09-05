@@ -34,7 +34,7 @@
 #include "graphics/3DHandler.h"
 
 //Todo: Profile to find out which of std::vector, std::list or std::forward_list is the quickest.
-std::vector<BlockUpdateInfo> UpdaterList;
+std::vector<BlockUpdateInfo> updaterList;
 BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
 void proceduralBlockUpdateInit()
@@ -148,7 +148,7 @@ void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
 bool findUpdateInfo(int x,int y, bool bg,bool chance)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
-	for (it = UpdaterList.begin(); it != UpdaterList.end(); it++)
+	for (it = updaterList.begin(); it != updaterList.end(); it++)
 	{
 		if (it->x == x && it->y == y && it->bg == bg && it->chance == chance)
 			return true;
@@ -163,9 +163,9 @@ void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 	if (index!=-1)
 	{
 		if (!findUpdateInfo(x,y,bg,false))
-			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,1,false});
+			updaterList.push_back(BlockUpdateInfo{x,y,bg,1,false});
 		if (blockUpdaters[index]->chance!=NO_CHANCE && !findUpdateInfo(x,y,bg,true))
-			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % blockUpdaters[index]->chance,true});
+			updaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % blockUpdaters[index]->chance,true});
 			
 	}
 }
@@ -184,7 +184,7 @@ void updateSingleBlock(WorldObject* world, int x, int y, bool bg, int timeToUpda
 	{
 		if (!findUpdateInfo(x,y,bg,false))
 		{
-			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,timeToUpdate,false});
+			updaterList.push_back(BlockUpdateInfo{x,y,bg,timeToUpdate,false});
 		}
 	}
 }
@@ -192,7 +192,7 @@ int processTTL(WorldObject* world)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
 	int numReadyToUpdate = 0;
-	for (it = UpdaterList.begin(); it != UpdaterList.end(); ++it)
+	for (it = updaterList.begin(); it != updaterList.end(); ++it)
 	{
 
 		Color a = Color({255,0,0});
@@ -208,7 +208,7 @@ int processTTL(WorldObject* world)
 void processOneBlock(WorldObject* world)
 {
 std::vector<BlockUpdateInfo>::iterator it;
-	for (it = UpdaterList.begin(); it != UpdaterList.end(); ++it)
+	for (it = updaterList.begin(); it != updaterList.end(); ++it)
 	{
 
 		if (it->TimeToLive<2)
@@ -217,7 +217,7 @@ std::vector<BlockUpdateInfo>::iterator it;
  			int y = it->y;
 			bool bg = it->bg;
 			bool chance = it->chance;
-			it = UpdaterList.erase(it);
+			it = updaterList.erase(it);
 			if (x > 0 && x < WORLD_WIDTH && y > 0 && y < WORLD_HEIGHT)
 			{
 				int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
@@ -241,7 +241,7 @@ std::vector<BlockUpdateInfo>::iterator it;
 }
 void proceduralBlockUpdate(WorldObject* world)
 {
-	if (UpdaterList.size()==0) return;
+	if (updaterList.size()==0) return;
 	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
 	//If TTL is not 1, decrement the TTL value.
 	int amount = processTTL(world);
