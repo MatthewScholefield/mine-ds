@@ -13,7 +13,7 @@
 
 #define CHEST_SLOTS 30
 #define MAX_CHESTS 30
-#define MAX_FURNACES 30
+#define MAX_FURNACES 16
 #define INDEX_BLOCK_ID 0
 #define INDEX_AMOUNT 1
 

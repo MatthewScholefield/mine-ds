@@ -567,3 +567,22 @@ bool isFoodStuff(int blockID)
 	}
 	return false;
 }
+
+int fuelAmount(int blockID)
+{
+	switch (blockID)
+	{
+	case COAL:
+		return 24;
+	case STICK:
+		return 1;
+	case WOOD:
+		return 4;
+	case LOG_BIRCH:
+	case LOG_OAK:
+	case LOG_SPRUCE:
+		return 16;
+	default:
+		return 0;
+	}
+}
