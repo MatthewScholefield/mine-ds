@@ -10,13 +10,14 @@ FurnaceUpdater::FurnaceUpdater()
 {
 	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
+	for (auto &i : clones)
+		setCloneGraphic(&fireParticle, &i);
 }
 
 void FurnaceUpdater::alwaysUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
-		printLocalMessage("Blah");
 		unsigned int databyte = world->data[x][y];
 		//Increment time part of data
 		unsigned char t = world->data[x][y] & 0xFF;
@@ -35,7 +36,8 @@ void FurnaceUpdater::alwaysUpdate(WorldObject* world, int x, int y, bool bg)
 		databyte = databyte | t;
 		//Store in data
 		world->data[x][y] = databyte;
-		showGraphic(&fireParticle, x * 16 - world->camX + ((world->data[x][y]&0xF00) >> 8), y * 16 - world->camY - (world->data[x][y]&0xFF) / 32 + 6);
-
+		showGraphic(&clones[bufferIndex++], x * 16 - world->camX + ((world->data[x][y]&0xF00) >> 8), y * 16 - world->camY - (world->data[x][y]&0xFF) / 32 + 6);
+		if (bufferIndex > 15)
+			bufferIndex = 0;
 	}
 }
