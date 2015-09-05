@@ -7,7 +7,7 @@ class FurnaceUpdater : public BlockUpdater
 {
 public:
 	FurnaceUpdater();
-	bool update(WorldObject* world, int x, int y, bool bg);
+	void alwaysUpdate(WorldObject* world, int x, int y, bool bg);
 	Graphic fireParticle;
 };
 
