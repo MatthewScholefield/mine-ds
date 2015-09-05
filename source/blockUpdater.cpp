@@ -37,15 +37,6 @@
 std::vector<BlockUpdateInfo> UpdaterList;
 BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
-BlockUpdater::BlockUpdater() { }
-
-bool BlockUpdater::update(WorldObject* world, int x, int y, bool bg)
-{
-	return false;
-}
-
-void BlockUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg) { }
-
 void proceduralBlockUpdateInit()
 {
 	blockUpdaters[0] = new FurnaceUpdater;
@@ -245,6 +236,16 @@ void proceduralBlockUpdate(WorldObject* world)
 	int t = 0;
 	if (amount > 0 && amount < 5) t = amount;
 	else if (amount > 4 && amount < 20 ) t = amount / 2;
-	else t = 10;	
+	else t = 10;
 	for (int i = 0; i < t; ++i) processOneBlock(world);
+	
+	const int EXTRA_FRAME = 1;
+	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
+		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16 + EXTRA_FRAME); ++y)
+		{
+			if (updaterIndex(world->bgblocks[x][y]) >= 0)
+				blockUpdaters[updaterIndex(world->bgblocks[x][y])]->alwaysUpdate(world, x, y, true);
+			if (updaterIndex(world->blocks[x][y]) >= 0)
+				blockUpdaters[updaterIndex(world->blocks[x][y])]->alwaysUpdate(world, x, y, false);
+		}
 }
