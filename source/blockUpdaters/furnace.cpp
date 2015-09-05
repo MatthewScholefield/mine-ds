@@ -6,7 +6,7 @@
 #include "../blockID.h"
 #include "furnace.h"
 
-FurnaceUpdater::FurnaceUpdater()
+LitFurnaceUpdater::LitFurnaceUpdater()
 {
 	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
@@ -14,7 +14,7 @@ FurnaceUpdater::FurnaceUpdater()
 		setCloneGraphic(&fireParticle, &i);
 }
 
-bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool LitFurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
