@@ -185,8 +185,9 @@ void updateAround(WorldObject *world, int x, int y)
 	updateBlocksAround(world,x,y,false);
 	updateBlocksAround(world,x,y,true);
 }
-void updateSingleBlock(WorldObject* world, int x, int y, bool bg = false, int timeToUpdate = 0)
+void updateSingleBlock(WorldObject* world, int x, int y, bool bg, int timeToUpdate)
 {
+	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
