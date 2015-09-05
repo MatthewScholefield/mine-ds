@@ -241,16 +241,6 @@ std::vector<BlockUpdateInfo>::iterator it;
 }
 void proceduralBlockUpdate(WorldObject* world)
 {
-	if (UpdaterList.size()==0) return;
-	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
-	//If TTL is not 1, decrement the TTL value.
-	int amount = processTTL(world);
-	int t = 0;
-	if (amount > 0 && amount < 5) t = amount;
-	else if (amount > 4 && amount < 20 ) t = amount / 2;
-	else t = 10;
-	for (int i = 0; i < t; ++i) processOneBlock(world);
-	
 	const int EXTRA_FRAME = 1;
 	for (int x = std::max(0, world->camX / 16 - EXTRA_FRAME); x <= std::min(WORLD_WIDTH, world->camX / 16 + 256 / 16 + EXTRA_FRAME); ++x)
 		for (int y = std::max(0, world->camY / 16 - EXTRA_FRAME); y <= std::min(WORLD_HEIGHT, world->camY / 16 + 192 / 16 + EXTRA_FRAME); ++y)
@@ -260,4 +250,13 @@ void proceduralBlockUpdate(WorldObject* world)
 			if (updaterIndex(world->blocks[x][y]) >= 0)
 				blockUpdaters[updaterIndex(world->blocks[x][y])]->alwaysUpdate(world, x, y, false);
 		}
+	if (UpdaterList.size()==0) return;
+	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
+	//If TTL is not 1, decrement the TTL value.
+	int amount = processTTL(world);
+	int t = 0;
+	if (amount > 0 && amount < 5) t = amount;
+	else if (amount > 4 && amount < 20 ) t = amount / 2;
+	else t = 10;
+	for (int i = 0; i < t; ++i) processOneBlock(world);
 }
