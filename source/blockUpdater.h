@@ -41,3 +41,4 @@ typedef struct
 void proceduralBlockUpdateInit();
 void proceduralBlockUpdate(WorldObject* world);
 void updateAround(WorldObject *world, int x, int y);
+void updateSingleBlock(WorldObject* world, int x, int y, bool bg = false, int timeToUpdate = 1);
