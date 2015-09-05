@@ -11,7 +11,7 @@
 #include "general.h"
 
 //Include blockUpdaters
-#include "blockUpdaters/furnace.h"
+#include "blockUpdaters/litFurnace.h"
 #include "blockUpdaters/air.h"
 #include "blockUpdaters/grass.h"
 #include "blockUpdaters/dirt.h"
