@@ -39,7 +39,7 @@ BlockUpdater* blockUpdaters[NUM_UPDATERS];
 
 void proceduralBlockUpdateInit()
 {
-	blockUpdaters[0] = new FurnaceUpdater;
+	blockUpdaters[0] = new LitFurnaceUpdater;
 	blockUpdaters[1] = new AirUpdater;
 	blockUpdaters[2] = new GrassUpdater;
 	blockUpdaters[3] = new JungleGrassUpdater;
