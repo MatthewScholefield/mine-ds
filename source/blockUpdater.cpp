@@ -176,6 +176,17 @@ void updateAround(WorldObject *world, int x, int y)
 	updateBlocksAround(world,x,y,false);
 	updateBlocksAround(world,x,y,true);
 }
+void updateSingleBlock(WorldObject* world, int x, int y, bool bg = false, int timeToUpdate = 0)
+{
+	int index = updaterIndex(blockXY);
+	if (index!=-1)
+	{
+		if (!findUpdateInfo(x,y,bg,false))
+		{
+			UpdaterList.push_back(BlockUpdateInfo{x,y,bg,timeToUpdate,false});
+		}
+	}
+}
 int processTTL(WorldObject* world)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
