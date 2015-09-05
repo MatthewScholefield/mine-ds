@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "litFurnace.h"
+#include "../furnaceHandler.h"
 
 LitFurnaceUpdater::LitFurnaceUpdater()
 {
@@ -39,7 +40,23 @@ bool LitFurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 		showGraphic(&clones[bufferIndex++], x * 16 - world->camX + ((world->data[x][y]&0xF000) >> 4 * 3), y * 16 - world->camY - ((world->data[x][y]&0xFF0) >> 4) / 32 + 6);
 		if (bufferIndex > 15)
 			bufferIndex = 0;
-		updateSingleBlock(world,x,y,bg);
 	}
+	int id = getFurnaceID(world, x, y, bg);
+	if (--world->furnaces[id]->timeTillFuelBurn < 0)
+	{
+		world->furnaces[id]->timeTillFuelBurn = SEC_TO_FPS(4);
+		if (--world->furnaces[id]->fuel < 0)
+		{
+			convertItemToFuel(*world->furnaces[id]);
+			if (world->furnaces[id]->fuel < 0)
+			{
+				if (bg)
+					world->bgblocks[x][y] = FURNACE;
+				else
+					world->blocks[x][y] = FURNACE;
+			}
+		}
+	}
+	updateSingleBlock(world, x, y, bg);
 	return false;
 }
