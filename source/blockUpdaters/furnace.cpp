@@ -12,10 +12,11 @@ FurnaceUpdater::FurnaceUpdater()
 	chance = NO_CHANCE;
 }
 
-bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
+void FurnaceUpdater::alwaysUpdate(WorldObject* world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{
+		printLocalMessage("Blah");
 		unsigned int databyte = world->data[x][y];
 		//Increment time part of data
 		unsigned char t = world->data[x][y] & 0xFF;
@@ -24,7 +25,7 @@ bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 		{
 			//Create new x
 			int nx = rand() % 12;
-			nx *= 256;
+			nx <<= 8;
 			databyte = databyte & 0x0FF;
 			databyte = databyte | nx;
 			t = 0;
@@ -34,8 +35,7 @@ bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 		databyte = databyte | t;
 		//Store in data
 		world->data[x][y] = databyte;
-		showGraphic(&fireParticle, x * 16 - world->camX + (world->data[x][y]&0xF00) / 256, y * 16 - world->camY - (world->data[x][y]&0xFF) / 32 + 6);
+		showGraphic(&fireParticle, x * 16 - world->camX + ((world->data[x][y]&0xF00) >> 8), y * 16 - world->camY - (world->data[x][y]&0xFF) / 32 + 6);
 
 	}
-	return false;
 }

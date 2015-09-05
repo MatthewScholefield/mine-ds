@@ -2,6 +2,7 @@
 #include "interfaceHandler.h"
 #include "../graphics/UI.h"
 #include "InventoryInterface.h"
+#include "../blocks.h"
 
 void FurnaceInterface::updateContents()
 {
@@ -9,15 +10,15 @@ void FurnaceInterface::updateContents()
 		return;
 	for (int i = 0; i < 3; ++i)
 		unloadGraphic(&gfx[i]);
-	loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->source.blockId);
-	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuel.blockId);
-	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->result.blockId);
-	if (openFurnace->source.blockAmount > 0)
-		printXY(12, 10, openFurnace->source.blockAmount);
-	if (openFurnace->fuel.blockAmount > 0)
-		printXY(12, 14, openFurnace->fuel.blockAmount);
-	if (openFurnace->result.blockAmount > 0)
-		printXY(17, 12, openFurnace->result.blockAmount);
+	loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->sourceBlock.blockId);
+	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuelBlock.blockId);
+	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.blockId);
+	if (openFurnace->sourceBlock.blockAmount > 0)
+		printXY(12, 10, openFurnace->sourceBlock.blockAmount);
+	if (openFurnace->fuelBlock.blockAmount > 0)
+		printXY(12, 14, openFurnace->fuelBlock.blockAmount);
+	if (openFurnace->resultBlock.blockAmount > 0)
+		printXY(17, 12, openFurnace->resultBlock.blockAmount);
 }
 
 void FurnaceInterface::openInv()
@@ -47,12 +48,12 @@ void FurnaceInterface::swapItem(InvBlock &original)
 	switch (selectedInvSlot)
 	{
 	case FUEL:
-		temp = openFurnace->fuel;
-		openFurnace->fuel = original;
+		temp = openFurnace->fuelBlock;
+		openFurnace->fuelBlock = original;
 		break;
 	case SOURCE:
-		temp = openFurnace->source;
-		openFurnace->source = original;
+		temp = openFurnace->sourceBlock;
+		openFurnace->sourceBlock = original;
 		break;
 	default:
 		showError("Invalid selected furnace slot");
@@ -96,7 +97,16 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 	switch (menu.update(*touch))
 	{
 	case SMELT:
+	{
+		int newFuel = fuelAmount(openFurnace->fuelBlock.blockId);
+		if (newFuel > 0 && openFurnace->fuel < 1)
+		{
+			openFurnace->fuel = newFuel;
+			if (--openFurnace->fuelBlock.blockAmount < 1)
+				openFurnace->fuelBlock.blockId = AIR;
+		}
 		break;
+	}
 	case BACK:
 		if (invOpen)
 			closeInv();
