@@ -5,18 +5,27 @@
 
 void FurnaceInterface::updateContents()
 {
+	if (invOpen)
+		return;
 	for (int i = 0; i < 3; ++i)
 		unloadGraphic(&gfx[i]);
 	loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->source.blockId);
 	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuel.blockId);
 	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->result.blockId);
-	printXY(12, 10, openFurnace->source.blockAmount);
-	printXY(12, 14, openFurnace->fuel.blockAmount);
-	printXY(17, 12, openFurnace->result.blockAmount);
+	if (openFurnace->source.blockAmount > 0)
+		printXY(12, 10, openFurnace->source.blockAmount);
+	if (openFurnace->fuel.blockAmount > 0)
+		printXY(12, 14, openFurnace->fuel.blockAmount);
+	if (openFurnace->result.blockAmount > 0)
+		printXY(17, 12, openFurnace->result.blockAmount);
 }
 
 void FurnaceInterface::openInv()
 {
+	for (int i = 0; i < 3; ++i)
+		unloadGraphic(&gfx[i]);
+	for (int i = 0; i < 3; ++i)
+		loadGraphicSub(&gfx[i], GRAPHIC_BLOCK, AIR);
 	smeltButton->setVisible(false);
 	invOpen = true;
 	menu.setFrame(0, -1);
@@ -55,19 +64,14 @@ void FurnaceInterface::swapItem(InvBlock &original)
 void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 {
 	if (!openFurnace)
+	{
 		openFurnace = world->furnaces[getOpenedFurnaceID()];
-	showGraphic(&gfx[SOURCE], 12 * 8, 9 * 8);
-	showGraphic(&gfx[FUEL], 12 * 8, 13 * 8);
-	showGraphic(&gfx[RESULT], 17 * 8, 11 * 8);
-	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuel.blockId);
-	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->result.blockId);
-	printXY(12, 9, openFurnace->source.blockAmount);
-	printXY(12, 13, openFurnace->fuel.blockAmount);
-	printXY(17, 11, openFurnace->result.blockAmount);
+		updateContents();
+	}
 	if (invOpen)
 	{
 		gfxHandler.update();
-		if (InventoryInterface::touchesInvSlot(*touch))
+		if (keysDown() & KEY_TOUCH && InventoryInterface::touchesInvSlot(*touch))
 		{
 			int slot = InventoryInterface::touchedSlot(*touch);
 			swapItem(getInventoryRef().blocks[slot]);
@@ -76,12 +80,18 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 	}
 	else
 	{
-		if (touchesTileBox(*touch, 12, 9, 2, 2))
-			selectedInvSlot = FUEL;
-		else if (touchesTileBox(*touch, 12, 13, 2, 2))
-			selectedInvSlot = SOURCE;
-		if (selectedInvSlot != NONE)
-			openInv();
+		showGraphic(&gfx[SOURCE], 12 * 8, 9 * 8, false, 2);
+		showGraphic(&gfx[FUEL], 12 * 8, 13 * 8, false, 2);
+		showGraphic(&gfx[RESULT], 17 * 8, 11 * 8, false, 2);
+		if (keysDown() & KEY_TOUCH)
+		{
+			if (touchesTileBox(*touch, 12, 9, 2, 2))
+				selectedInvSlot = SOURCE;
+			else if (touchesTileBox(*touch, 12, 13, 2, 2))
+				selectedInvSlot = FUEL;
+			if (selectedInvSlot != NONE)
+				openInv();
+		}
 	}
 	switch (menu.update(*touch))
 	{
@@ -123,5 +133,6 @@ void FurnaceInterface::draw()
 		drawInvSlot(12, 9);
 		drawInvSlot(12, 13);
 		drawInvSlot(17, 11);
+		updateContents();
 	}
 }
