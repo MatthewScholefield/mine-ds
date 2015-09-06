@@ -16,7 +16,7 @@ void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 	for (int i = x - LEAF_SQUARE_RADIUS; i <= x + LEAF_SQUARE_RADIUS; ++i)
 	{
 		for (int j = y - LEAF_SQUARE_RADIUS; j <= y + LEAF_SQUARE_RADIUS; ++j)
-			if (getType(bg ? world->bgblocks[i][j] : world->blocks[i][j]) == WOOD)
+			if (getType(bg ? world->bgblocks[i][j] : world->blocks[i][j]) == TYPE_WOOD)
 			{
 				nearWood = true;
 				break;
