@@ -60,7 +60,7 @@ void growSpruceTree(WorldObject* world, int x, int y)
 void growJungleTree(WorldObject* world, int x, int y)
 {
 	int height = 2 + rand() % 6;
-	int blockID = JUNGLE_WOOD;
+	int blockID = LOG_JUNGLE;
 	int i;
 	for (i = y; i >= y - height; i--)
 	{
