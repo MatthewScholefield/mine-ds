@@ -48,6 +48,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		destroyChest(world, x, y, bg);
 		break;
 	case FURNACE:
+	case FURNACE_LIT:
 		destroyFurnace(world, x, y, bg);
 		break;
 	case WATER:
@@ -97,6 +98,7 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 			createChest(world, x, y, bg);
 			break;
 		case FURNACE:
+		case FURNACE_LIT:
 			createFurnace(world, x, y, bg);
 			break;
 		case BUCKET_WATER:
@@ -168,6 +170,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		openChest(world, x, y, bg);
 		break;
 	case FURNACE:
+	case FURNACE_LIT:
 		openFurnace(world, x, y, bg);
 		break;
 	case DOOR_OPEN_BOTTOM:

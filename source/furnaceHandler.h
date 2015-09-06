@@ -7,6 +7,8 @@ void destroyFurnace(WorldObject *world, int x, int y, bool bg);
 void openFurnace(WorldObject *world, int x, int y, bool bg);
 void closeFurnace();
 int getOpenedFurnaceID();
+void createResult(Furnace &furnace);
+int fuelNeeded(const Furnace &furnace);
 
 inline int getFurnaceID(WorldObject *world, int x, int y, bool bg)
 {
