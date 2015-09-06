@@ -42,7 +42,7 @@ void ItemMob::updateMob(WorldObject* world)
 		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
 		{
 			bool positive = vx > 0;
-			vx -= FixedPoint(true, 1)*(positive ? 1 : -1);
+			vx -= FixedPoint(true, (positive ? 0.01 : -0.01) * FixedPoint::SCALER);
 			if ((positive && vx < 0) || (!positive && vx > 0))
 				vx = 0;
 			x += vx;
@@ -58,21 +58,21 @@ void ItemMob::updateMob(WorldObject* world)
 		y += (16 * vy) / FPS;
 		vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
 	}
-	if (vy != 0 && !isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2 - 1) / 16]))
+	bool falling = vy != 0 && !isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2 - 1) / 16]);
+	if (falling)
 	{
 		y -= int(y + sy / 2) % 16;
 		vy = 0;
 	}
+	else if (++floatY > 100)
+		floatY = 0;
 	if (world->blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
 		normalSprite.paletteID = (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
-	++floatY;
-	if (floatY > 100)
-		floatY = 0;
 	BaseMob_ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == nullptr)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == nullptr || !target->isMyPlayer())
-		showGraphic(&normalSprite, x - world->camX - 3, (y - 9 - world->camY + floatVal[floatY]), false);
+		showGraphic(&normalSprite, (int) x - world->camX - 3, (int) y - 9 - world->camY + floatVal[floatY], false);
 	else if (addInventory(blockID, amount))
 		health = 0;
 	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
@@ -97,7 +97,6 @@ void ItemMob::hurt(int hamount, int type)
 	case CACTUS_HURT:
 		if (rand() % 10 == 1)
 			health = 0;
-		;
 		break;
 	default:
 		break;

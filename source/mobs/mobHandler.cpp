@@ -38,7 +38,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		return;
 	if (displayID == -1)
 		displayID = blockID;
-	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 7, y * 16 - 4, blockID, amount, displayID, initVX)));
+	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 7, y * 16 + 8, blockID, amount, displayID, initVX)));
 }
 
 bool canMobSpawnHere(WorldObject *world, int x, int y)
