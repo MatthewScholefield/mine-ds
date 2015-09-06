@@ -130,14 +130,14 @@ int destroyTime(int blockID, int selectedBlock) //Calculated the required frames
 	int blockTypeXY = getType(blockID);
 	switch (getType(selectedBlock)) //Ensures tools only work for correct material
 	{
-	case AXE:
-		if (blockTypeXY != WOOD) handHardness = 1;
+	case TYPE_AXE:
+		if (blockTypeXY != TYPE_WOOD) handHardness = 1;
 		break;
-	case PICKAXE:
-		if (blockTypeXY != STONEBLOCK) handHardness = 1;
+	case TYPE_PICKAXE:
+		if (blockTypeXY != TYPE_STONE) handHardness = 1;
 		break;
-	case SHOVEL:
-		if (blockTypeXY != SOIL) handHardness = 1;
+	case TYPE_SHOVEL:
+		if (blockTypeXY != TYPE_SOIL) handHardness = 1;
 		break;
 	}
 	int val = getHardness(blockID)*10 / handHardness;

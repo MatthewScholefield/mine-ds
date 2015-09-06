@@ -1,14 +1,14 @@
 #pragma once
 //Block Types
-#define SOIL 1 //Any type of block that destroys faster with a shovel
-#define WOOD 2
-#define STONEBLOCK 3 //Any type of item that must be mined with a pickaxe
+#define TYPE_SOIL 1 //Any type of block that destroys faster with a shovel
+#define TYPE_WOOD 2
+#define TYPE_STONE 3 //Any type of item that must be mined with a pickaxe
 
 //Tool Types
-#define PICKAXE -1
-#define SHOVEL -2
-#define AXE -3
-#define SWORD -4
+#define TYPE_PICKAXE -1
+#define TYPE_SHOVEL -2
+#define TYPE_AXE -3
+#define TYPE_SWORD -4
 
 #define BLOCK_DEBUG 6
 //Blocks
@@ -78,7 +78,7 @@
 #define MAGENTA_WOOL 46
 #define ORANGE_WOOL 47
 #define LADDER 48
-#define JUNGLE_WOOD 49
+#define LOG_JUNGLE 49
 #define GRASS_JUNGLE 50
 #define TALLGRASS 51
 #define TALL_GRASS 51

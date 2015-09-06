@@ -6,7 +6,7 @@
 
 const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 	{PLANKS_WOOD, 4, LOG_OAK, 1},
-	{PLANKS_WOOD, 4, JUNGLE_WOOD, 1},
+	{PLANKS_WOOD, 4, LOG_JUNGLE, 1},
 	{PLANKS_WOOD, 4, LOG_BIRCH, 1},
 	{PLANKS_WOOD, 4, LOG_SPRUCE, 1},
 	{STICK, 4, PLANKS_WOOD, 2},
