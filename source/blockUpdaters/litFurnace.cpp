@@ -45,9 +45,15 @@ bool LitFurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
 	if (--world->furnaces[id]->timeTillFuelBurn < 0)
 	{
 		world->furnaces[id]->timeTillFuelBurn = SEC_TO_FPS(4);
+		if (--world->furnaces[id]->fuelTillComplete < 0)
+		{
+			createResult(*world->furnaces[id]);
+			world->furnaces[id]->fuelTillComplete = fuelNeeded(*world->furnaces[id]);
+		}
 		if (--world->furnaces[id]->fuel < 0)
 		{
-			convertItemToFuel(*world->furnaces[id]);
+			if (fuelNeeded(*world->furnaces[id]) > 0)
+				convertItemToFuel(*world->furnaces[id]);
 			if (world->furnaces[id]->fuel < 0)
 			{
 				if (bg)
