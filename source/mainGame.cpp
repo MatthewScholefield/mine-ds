@@ -197,8 +197,8 @@ void startGame(void)
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH)
 			touchRead(&touch);
-		
-		mobHandlerUpdate(world, &touch);
+
+		PROFILE_TIME(mobHandlerUpdate(world, &touch));
 		updateInterface(world, &touch);
 		update_message();
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)

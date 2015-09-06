@@ -544,7 +544,7 @@ bool shouldRender(int blockID)
 }
 int getFoodValue(int blockID)
 {
-	for (int i = 0; i < sizeOfArray(foodItems); i+=2)
+	for (unsigned int i = 0; i < sizeOfArray(foodItems); i += 2)
 	{
 		if (foodItems[i] == blockID)
 			return foodItems[i+1];
