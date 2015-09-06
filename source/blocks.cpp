@@ -581,6 +581,7 @@ int fuelAmount(int blockID)
 	case LOG_BIRCH:
 	case LOG_OAK:
 	case LOG_SPRUCE:
+	case JUNGLE_WOOD:
 		return 16;
 	default:
 		return 0;

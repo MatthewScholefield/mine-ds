@@ -11,13 +11,13 @@
 
 int furnaceID = -1;
 static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
-	{1, GLASS, 1, SAND, 1},
-	{2, BEEF_COOKED, 1, BEEF_RAW, 1},
-	{2, CHICKEN_COOKED, 1, CHICKEN_RAW, 1},
-	{2, PORKCHOP_COOKED, 1, PORKCHOP_RAW, 1},
-	{3, DIAMOND, 1, DIAMOND_ORE, 1},
-	{2, INGOT_GOLD, 1, GOLD_ORE, 1},
-	{2, INGOT_IRON, 1, IRON_ORE, 1}
+	{1, GLASS, SAND},
+	{2, BEEF_COOKED, BEEF_RAW},
+	{2, CHICKEN_COOKED, CHICKEN_RAW},
+	{2, PORKCHOP_COOKED, PORKCHOP_RAW},
+	{3, DIAMOND, DIAMOND_ORE},
+	{2, INGOT_GOLD, GOLD_ORE},
+	{2, INGOT_IRON, IRON_ORE}
 };
 
 void convertItemToFuel(Furnace &furnace)
@@ -29,8 +29,6 @@ void convertItemToFuel(Furnace &furnace)
 		if (--furnace.fuelBlock.blockAmount < 1)
 			furnace.fuelBlock.blockId = AIR;
 	}
-	else
-		printXY(1, rand() % 10, furnace.fuelBlock.blockId);
 }
 
 void createFurnace(WorldObject *world, int x, int y, bool bg)
@@ -108,4 +106,26 @@ void closeFurnace()
 int getOpenedFurnaceID()
 {
 	return furnaceID;
+}
+
+int fuelNeeded(const Furnace &furnace)
+{
+	for (auto &i : furnaceRecipes)
+		if (i.needed == furnace.sourceBlock.blockId && (i.result == furnace.resultBlock.blockId || furnace.resultBlock.blockId == AIR))
+			return i.fuel;
+	return 0;
+}
+
+void createResult(Furnace &furnace)
+{
+	int id = 0;
+	for (id = 0; id < NUM_FURNACE_RECIPES && furnaceRecipes[id].needed != furnace.sourceBlock.blockId; ++id);
+	if (id >= NUM_FURNACE_RECIPES || (furnace.resultBlock.blockId != AIR && furnaceRecipes[id].result != furnace.resultBlock.blockId))
+		return;
+	if (furnace.resultBlock.blockId == AIR)
+		furnace.resultBlock = InvBlock(furnaceRecipes[id].result, 1);
+	else
+		++furnace.resultBlock.blockAmount;
+	if (--furnace.sourceBlock.blockAmount < 1)
+		furnace.sourceBlock.blockId = AIR;
 }

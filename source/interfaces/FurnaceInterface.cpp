@@ -15,10 +15,16 @@ void FurnaceInterface::updateContents()
 	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.blockId);
 	if (openFurnace->sourceBlock.blockAmount > 0)
 		printXY(12, 10, openFurnace->sourceBlock.blockAmount);
+	else
+		printXY(12, 10, "  ");
 	if (openFurnace->fuelBlock.blockAmount > 0)
 		printXY(12, 14, openFurnace->fuelBlock.blockAmount);
+	else
+		printXY(12, 14, "  ");
 	if (openFurnace->resultBlock.blockAmount > 0)
 		printXY(17, 12, openFurnace->resultBlock.blockAmount);
+	else
+		printXY(17, 12, "  ");
 }
 
 void FurnaceInterface::openInv()
@@ -90,6 +96,12 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 				selectedInvSlot = SOURCE;
 			else if (touchesTileBox(*touch, 12, 13, 2, 2))
 				selectedInvSlot = FUEL;
+			else if (touchesTileBox(*touch, 17, 11, 2, 2))
+			{
+				addInventory(openFurnace->resultBlock.blockId, openFurnace->resultBlock.blockAmount, false);
+				openFurnace->resultBlock = InvBlock(AIR, 0);
+				updateContents();
+			}
 			if (selectedInvSlot != NONE)
 				openInv();
 		}
@@ -99,6 +111,8 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 	case SMELT:
 	{
 		convertItemToFuel(*openFurnace);
+		openFurnace->fuelTillComplete = fuelNeeded(*openFurnace);
+		updateContents();
 		break;
 	}
 	case BACK:
