@@ -583,6 +583,15 @@ int fuelAmount(int blockID)
 	case LOG_SPRUCE:
 	case LOG_JUNGLE:
 		return 16;
+	case PICKAXE_WOOD:
+	case AXE_WOOD:
+		return 4 * 3 + 2;
+	case SWORD_WOOD:
+		return 2 * 3 + 1;
+	case DOOR_ITEM:
+		return 4 * 6;
+	case LADDER:
+		return 8;
 	default:
 		return 0;
 	}
