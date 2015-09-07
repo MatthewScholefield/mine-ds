@@ -33,7 +33,7 @@ static bool attemptPut(WorldObject *world, int amount, int x, int y)
 	case WATER:
 	{
 		int i;
-		for (i = y; i >= 0 && world->blocks[x][i] == WATER && getWaterLevel(world, x, i) == MAX_WATER_LEVEL; --i);
+		for (i = y; i >= 0 && world->blocks[x][i] == WATER && getWaterLevel(world, x, i) >= MAX_WATER_LEVEL; --i);
 		if (i < 0 || world->blocks[x][i] != WATER)
 			return false;
 		if (getWaterLevel(world, x, i) + amount > MAX_WATER_LEVEL)
@@ -107,7 +107,7 @@ static bool flowDown(WorldObject *world, int x, int y)
 		return true;
 	case WATER:
 	{
-		if (getWaterLevel(world, x, y + 1) == MAX_WATER_LEVEL)
+		if (getWaterLevel(world, x, y + 1) >= MAX_WATER_LEVEL)
 			return false;
 		int newLevel = getWaterLevel(world, x, y + 1) + level;
 		if (newLevel > MAX_WATER_LEVEL)
