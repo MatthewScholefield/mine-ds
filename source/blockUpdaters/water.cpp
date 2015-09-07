@@ -22,6 +22,67 @@ WaterUpdater::WaterUpdater()
 	chance = NO_CHANCE;
 }
 
+static bool attemptPut(WorldObject *world, int amount, int x, int y)
+{
+	switch (world->blocks[x][y])
+	{
+	case AIR:
+		world->blocks[x][y] = WATER;
+		setWaterLevel(world, x, y, amount);
+		return true;
+	case WATER:
+	{
+		int i;
+		for (i = y; i >= 0 && world->blocks[x][i] == WATER && getWaterLevel(world, x, i) == 12; --i);
+		if (i < 0 || world->blocks[x][i] != WATER)
+			return false;
+		if (getWaterLevel(world, x, i) + amount > 12)
+		{
+			if (world->blocks[x][i - 1] != AIR)
+				return false;
+			setWaterLevel(world, x, i, 12);
+			world->blocks[x][i - 1] = WATER;
+			setWaterLevel(world, x, i - 1, getWaterLevel(world, x, i) + amount);
+		}
+		else
+		{
+			world->blocks[x][i - 1] = WATER;
+			setWaterLevel(world, x, i - 1, amount);
+		}
+		updateAround(world, x, i - 1);
+		return true;
+	}
+	default:
+		break;
+	}
+	return false;
+}
+
+int pushWaterFrom(WorldObject *world, int x, int y)
+{
+	int level = getWaterLevel(world, x, y);
+	int left = level / 2 + level % 2;
+	int right = level / 2;
+	bool putLeft = attemptPut(world, left, x - 1, y);
+	bool putRight = attemptPut(world, left, x + 1, y);
+	if (putLeft && putRight)
+		return 0;
+	if (!putLeft&&!putRight)
+		return attemptPut(world, level, x, y - 1) ? 0 : level;
+
+	if (!putLeft && !attemptPut(world, left, x + 1, y))
+		level -= attemptPut(world, left, x, y - 1) ? left : 0;
+	else
+		level -= left;
+
+	if (!putRight && !attemptPut(world, right, x - 1, y + 1))
+		level -= attemptPut(world, right, x, y - 1) ? right : 0;
+	else
+		level -= right;
+
+	return level;
+}
+
 static void setWater(WorldObject *world, int x, int y, int amount)
 {
 	if (world->blocks[x][y] != WATER)
