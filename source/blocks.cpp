@@ -77,6 +77,8 @@ bool isSpriteBlock(int block)
 	case SAPLING_OAK:
 	case SAPLING_SPRUCE:
 	case CHEST:
+	case DOOR_CLOSED_BOTTOM:
+	case DOOR_CLOSED_TOP:
 		return true;
 
 	default:
