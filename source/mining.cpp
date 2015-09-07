@@ -182,6 +182,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		blockXY = DOOR_CLOSED_TOP;
 		blockBelowXY = DOOR_CLOSED_BOTTOM;
 		playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world->camX));
+		updateBrightnessAround(world, x, y + 1);
 		break;
 	}
 	case DOOR_CLOSED_BOTTOM:
@@ -193,6 +194,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		blockXY = DOOR_OPEN_TOP;
 		blockBelowXY = DOOR_OPEN_BOTTOM;
 		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world->camX));
+		updateBrightnessAround(world, x, y + 1);
 		break;
 	}
 	default:
