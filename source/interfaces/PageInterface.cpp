@@ -18,7 +18,7 @@ void PageInterface::update(WorldObject *world, touchPosition *touch)
 	switch (menu.update(*touch))
 	{
 	case LEFT:
-		changeBlockPage(true, true);
+		changeBlockPage(false, true);
 		iprintf("\x1b[11;13H            ");
 		printXY(13, 11, getPageName());
 		break;
