@@ -17,6 +17,7 @@
 #include "mobs/hurt.h"
 #include "blockPages.h"
 #include "blockUpdaters/water.h"
+#include "communications.h"
 
 bool miningDisabled = false;
 int framesOnBlock;
@@ -195,6 +196,17 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		blockBelowXY = DOOR_OPEN_BOTTOM;
 		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world->camX));
 		updateBrightnessAround(world, x, y + 1);
+		break;
+	}
+	case WATER:
+	{
+		if (bg)
+			return;
+		int newLevel = pushWaterFrom(world, x, y);
+		if (newLevel == 0)
+			placeBlock(world, x, y, bg);
+		else
+			setWaterLevel(world, x, y, newLevel);
 		break;
 	}
 	default:
