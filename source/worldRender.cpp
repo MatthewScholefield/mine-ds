@@ -289,7 +289,7 @@ void BlockSpriteContainer::draw(int x, int y)
 static void renderWater(WorldObject *world, int x, int y)
 {
 	int waterLevel = getWaterLevel(world, x, y);
-	waterLevel = (waterLevel * 16) / 12;
+	waterLevel = (waterLevel * 16) / MAX_WATER_LEVEL;
 	int r = 0, g = 255, b = 255;
 	if (world->bgblocks[x][y] == AIR)
 	{
@@ -315,7 +315,7 @@ void worldRender_RenderWater(WorldObject *world)
 				{
 					renderWater(world, i, j);
 				}
-				/*if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 12))))
+				/*if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < MAX_WATER_LEVEL))))
 				{
 					createWaterMob(i, j, world->data[i][j]);
 					world->blocks[i][j] = AIR;
