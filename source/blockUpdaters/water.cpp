@@ -14,7 +14,7 @@
 bool isWaterAt(WorldObject *world, int px, int py)
 {
 	return world->blocks[px / 16][py / 16] == WATER
-			&& py % 16 >= (16 - (getWaterLevel(world, px / 16, py / 16)*16) / 12);
+			&& py % 16 >= (16 - (getWaterLevel(world, px / 16, py / 16)*16) / MAX_WATER_LEVEL);
 }
 
 WaterUpdater::WaterUpdater()
@@ -33,14 +33,14 @@ static bool attemptPut(WorldObject *world, int amount, int x, int y)
 	case WATER:
 	{
 		int i;
-		for (i = y; i >= 0 && world->blocks[x][i] == WATER && getWaterLevel(world, x, i) == 12; --i);
+		for (i = y; i >= 0 && world->blocks[x][i] == WATER && getWaterLevel(world, x, i) == MAX_WATER_LEVEL; --i);
 		if (i < 0 || world->blocks[x][i] != WATER)
 			return false;
-		if (getWaterLevel(world, x, i) + amount > 12)
+		if (getWaterLevel(world, x, i) + amount > MAX_WATER_LEVEL)
 		{
 			if (world->blocks[x][i - 1] != AIR)
 				return false;
-			setWaterLevel(world, x, i, 12);
+			setWaterLevel(world, x, i, MAX_WATER_LEVEL);
 			world->blocks[x][i - 1] = WATER;
 			setWaterLevel(world, x, i - 1, getWaterLevel(world, x, i) + amount);
 		}
@@ -107,13 +107,13 @@ static bool flowDown(WorldObject *world, int x, int y)
 		return true;
 	case WATER:
 	{
-		if (getWaterLevel(world, x, y + 1) == 12)
+		if (getWaterLevel(world, x, y + 1) == MAX_WATER_LEVEL)
 			return false;
 		int newLevel = getWaterLevel(world, x, y + 1) + level;
-		if (newLevel > 12)
+		if (newLevel > MAX_WATER_LEVEL)
 		{
-			setWater(world, x, y, newLevel - 12);
-			setWater(world, x, y + 1, 12);
+			setWater(world, x, y, newLevel - MAX_WATER_LEVEL);
+			setWater(world, x, y + 1, MAX_WATER_LEVEL);
 			return true;
 		}
 		else
