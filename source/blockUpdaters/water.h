@@ -5,6 +5,7 @@
 
 int getWaterLevel(WorldObject *world, int x, int y);
 bool isWaterAt(WorldObject *world, int px, int py);
+int pushWaterFrom(WorldObject *world, int x, int y);
 
 class WaterUpdater : public BlockUpdater
 {
