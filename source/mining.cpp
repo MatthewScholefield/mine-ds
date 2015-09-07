@@ -53,7 +53,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		destroyFurnace(world, x, y, bg);
 		break;
 	case WATER:
-		if (blockID == BUCKET_EMPTY && getWaterLevel(world, x, y)==12)
+		if (blockID == BUCKET_EMPTY && getWaterLevel(world, x, y)==MAX_WATER_LEVEL)
 		{
 			*blockXY = AIR;
 			subInventory(blockID,1);
@@ -106,7 +106,7 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 			//createWaterMob(x, y);
 			addInventory(BUCKET_EMPTY);
 			world->blocks[x][y] = WATER;
-			world->data[x][y] |= 12;
+			world->data[x][y] |= MAX_WATER_LEVEL;
 			break;
 		default:
 			if (!item(blockID))

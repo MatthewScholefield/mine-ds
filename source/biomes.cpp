@@ -5,6 +5,7 @@
 #include "blockID.h"
 #include "trees.h"
 #include "blocks.h"
+#include "blockUpdaters/water.h"
 
 void plainsBiome(WorldObject* world, int startx, int endx)
 {
@@ -186,7 +187,7 @@ void oceanBiome(WorldObject* world, int startx, int endx)
 			while (world->blocks[x][j]==AIR)
 			{
 				world->blocks[x][j]=WATER;
-				world->data[x][j]=12;
+				world->data[x][j]=MAX_WATER_LEVEL;
 				++j;
 			}
 		}

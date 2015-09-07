@@ -16,17 +16,17 @@ void WaterMob::calcMiscData(WorldObject* world)
 void addWater(WorldObject *world, int x, int y, int amount)
 {
 	int totalWater = amount + getWaterLevel(world, x, y);
-	if (totalWater <= 12)
+	if (totalWater <= MAX_WATER_LEVEL)
 		setWaterLevel(world, x, y, totalWater);
 	else
 	{
 		if (world->blocks[x][y - 1] !=WATER)
 		{
 			world->blocks[x][y - 1] = WATER;
-			setWaterLevel(world, x, y - 1, totalWater - 12);
+			setWaterLevel(world, x, y - 1, totalWater - MAX_WATER_LEVEL);
 		}
-		else addWater(world,x,y-1,totalWater-12);
-		setWaterLevel(world, x, y, 12);
+		else addWater(world,x,y-1,totalWater-MAX_WATER_LEVEL);
+		setWaterLevel(world, x, y, MAX_WATER_LEVEL);
 	}
 	updateAround(world, x, y);
 }

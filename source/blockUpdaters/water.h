@@ -3,6 +3,8 @@
 #include "../blockID.h"
 #include "../blockUpdater.h"
 
+#define MAX_WATER_LEVEL 12
+
 int getWaterLevel(WorldObject *world, int x, int y);
 bool isWaterAt(WorldObject *world, int px, int py);
 int pushWaterFrom(WorldObject *world, int x, int y);
