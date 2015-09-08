@@ -11,7 +11,7 @@
 #define SHOULD_LOAD true
 #define SOUNDBANK_FILENAME "nitro:/soundbank.bin"
 #define SOUNDTRACK_FILENAME "nitro:/soundtrack.wav"
-#define MINE_DS_FOLDER "fat:/Mine DS/"
+#define MINE_DS_FOLDER "fat:/data/Mine DS/"
 #endif
 
 #ifdef JUST_NITRO
@@ -27,9 +27,9 @@
 #define USE_FAT
 #define SHOULD_SAVE true
 #define SHOULD_LOAD true
-#define SOUNDBANK_FILENAME "fat:/Mine DS/soundbank.bin"
-#define SOUNDTRACK_FILENAME "fat:/Mine DS/soundtrack.wav"
-#define MINE_DS_FOLDER "fat:/Mine DS/"
+#define SOUNDBANK_FILENAME "fat:/data/Mine DS/soundbank.bin"
+#define SOUNDTRACK_FILENAME "fat:/data/Mine DS/soundtrack.wav"
+#define MINE_DS_FOLDER "fat:/data/Mine DS/"
 #endif
 
 #define WORLD_FILENAME	"MineWorld.dat"
