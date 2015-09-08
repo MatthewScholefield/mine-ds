@@ -166,7 +166,7 @@ void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 	if (index!=-1)
 	{
 		if (!findUpdateInfo(x,y,bg,false))
-			updaterList.push_back(BlockUpdateInfo{x,y,bg,1,false});
+			updaterList.push_back(BlockUpdateInfo{x,y,bg,60,false});
 		if (blockUpdaters[index]->chance!=NO_CHANCE && !findUpdateInfo(x,y,bg,true))
 			updaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % blockUpdaters[index]->chance,true});
 			
@@ -204,7 +204,7 @@ int processTTL(WorldObject* world)
 			numReadyToUpdate+=1;
 			a = Color({0,255,0});
 		}
-		//drawRect(a, it->x * 16 + 4 - world->camX, it->y * 16 + 4 - world->camY, 8, 8);
+		drawRect(a, it->x * 16 + 4 - world->camX, it->y * 16 + 4 - world->camY, 8, 8);
 	}
 	return numReadyToUpdate;
 }
