@@ -289,8 +289,9 @@ void BlockSpriteContainer::draw(int x, int y)
 static void renderWater(WorldObject *world, int x, int y)
 {
 	int waterLevel = getWaterLevel(world, x, y);
-	waterLevel = (waterLevel * 16) / MAX_WATER_LEVEL;
 	int r = 0, g = 255, b = 255;
+	if (waterLevel > MAX_WATER_LEVEL) r = 255;
+	waterLevel = (waterLevel * 16) / MAX_WATER_LEVEL;
 	if (world->bgblocks[x][y] == AIR)
 	{
 		g /= 2;
