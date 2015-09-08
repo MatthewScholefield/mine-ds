@@ -103,29 +103,31 @@ static bool flowDown(WorldObject *world, int x, int y)
 	case AIR:
 		world->blocks[x][y] = AIR;
 		world->blocks[x][y + 1] = WATER;
-		setWater(world, x, y + 1, level);
+		setWaterLevel(world, x, y + 1, level);
 		return true;
 	case WATER:
 	{
-		if (getWaterLevel(world, x, y + 1) >= MAX_WATER_LEVEL)
+		if (getWaterLevel(world, x, y + 1) == MAX_WATER_LEVEL)
 			return false;
 		int newLevel = getWaterLevel(world, x, y + 1) + level;
 		if (newLevel > MAX_WATER_LEVEL)
 		{
-			setWater(world, x, y, newLevel - MAX_WATER_LEVEL);
-			setWater(world, x, y + 1, MAX_WATER_LEVEL);
+			setWaterLevel(world, x, y, newLevel - MAX_WATER_LEVEL);
+			setWaterLevel(world, x, y + 1, MAX_WATER_LEVEL);
 			return true;
 		}
 		else
 		{
 			world->blocks[x][y] = AIR;
-			setWater(world, x, y + 1, newLevel);
+			setWaterLevel(world, x, y + 1, newLevel);
 			return true;
 		}
 	}
 	default:
 		destroyBlock(world, x, y + 1, false, false);
 		world->blocks[x][y + 1] = WATER;
+		world->blocks[x][y] = AIR;
+		setWaterLevel(world, x, y + 1, level);
 		return true;
 	}
 }
