@@ -163,9 +163,10 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	int leftLevel = canMixLeft ? getWaterLevel(world, x - 1, y) : origLevel;
 	int rightLevel = canMixRight ? getWaterLevel(world, x + 1, y) : origLevel;
 
-	int total = getWaterLevel(world, x, y)
-			+ ((leftBound && world->blocks[x - 1][y] == WATER) ? getWaterLevel(world, x - 1, y) : 0)
-			+ ((rightBound && world->blocks[x + 1][y] == WATER) ? getWaterLevel(world, x + 1, y) : 0);
+	int leftWater = ((leftBound && world->blocks[x - 1][y] == WATER) ? getWaterLevel(world, x - 1, y) : 0);
+	int rightWater = ((rightBound && world->blocks[x + 1][y] == WATER) ? getWaterLevel(world, x + 1, y) : 0);
+	int total = getWaterLevel(world, x, y) + leftWater + rightWater;
+	int shiftedTotal = getWaterLevel(world, x, y)+(leftWater << 4)+(rightWater << 8);
 
 	int div = 1 + canMixLeft + canMixRight;
 	if (total < div || div < 2 || abs(leftLevel - origLevel) + abs(rightLevel - origLevel) < 2)
@@ -182,5 +183,8 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	if (canMixRight)
 		setWater(world, x + 1, y, addAmount);
 	setWaterLevel(world, x, y, newLevel);
-	return origLevel != newLevel;
+	int newShiftedTotal = getWaterLevel(world, x, y)
+			+((canMixLeft ? getWaterLevel(world, x - 1, y) : 0) << 4)
+			+((canMixRight ? getWaterLevel(world, x + 1, y) : 0) << 8);
+	return shiftedTotal != newShiftedTotal;
 }
