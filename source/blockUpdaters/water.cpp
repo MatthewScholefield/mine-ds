@@ -172,10 +172,10 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 		return false;
 	int addAmount = total / div;
 	int newLevel = addAmount + (total % div);
-	if (newLevel > 12)
+	if (total % div == 2)
 	{
-		addAmount += newLevel - 12;
-		newLevel -= (newLevel - 12)*2;
+		++addAmount;
+		newLevel -= 2;
 	}
 	if (canMixLeft)
 		setWater(world, x - 1, y, addAmount);
