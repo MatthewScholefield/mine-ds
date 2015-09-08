@@ -166,7 +166,7 @@ void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 	if (index!=-1)
 	{
 		if (!findUpdateInfo(x,y,bg,false))
-			updaterList.push_back(BlockUpdateInfo{x,y,bg,60,false});
+			updaterList.push_back(BlockUpdateInfo{x, y, bg, 1, false});
 		if (blockUpdaters[index]->chance!=NO_CHANCE && !findUpdateInfo(x,y,bg,true))
 			updaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % blockUpdaters[index]->chance,true});
 			
