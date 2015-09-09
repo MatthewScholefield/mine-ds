@@ -11,6 +11,8 @@
 #include "../mobs/mobHandler.h"
 #include "../mining.h"
 
+int rainAmount = 0;
+
 bool isWaterAt(WorldObject *world, int px, int py)
 {
 	return world->blocks[px / 16][py / 16] == WATER
@@ -19,7 +21,7 @@ bool isWaterAt(WorldObject *world, int px, int py)
 
 WaterUpdater::WaterUpdater()
 {
-	chance = NO_CHANCE;
+	chance = 1000;
 }
 
 static bool attemptPut(WorldObject *world, int amount, int x, int y)
@@ -187,4 +189,24 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 			+((canMixLeft ? getWaterLevel(world, x - 1, y) : 0) << 4)
 			+((canMixRight ? getWaterLevel(world, x + 1, y) : 0) << 8);
 	return shiftedTotal != newShiftedTotal;
+}
+
+void WaterUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+{
+	if (rainAmount > 0 && getWaterLevel(world, x, y) < MAX_WATER_LEVEL)
+	{
+		--rainAmount;
+		setWaterLevel(world, x, y, getWaterLevel(world, x, y) + 1);
+		updateAround(world, x, y);
+	}
+}
+
+void fillBucket(WorldObject *world, int x, int y)
+{
+	if (getWaterLevel(world, x, y) != MAX_WATER_LEVEL)
+		rainAmount += getWaterLevel(world, x, y);
+	world->blocks[x][y] = AIR;
+	subInventory(BUCKET_EMPTY, 1);
+	addInventory(BUCKET_WATER);
+	updateAround(world, x, y);
 }

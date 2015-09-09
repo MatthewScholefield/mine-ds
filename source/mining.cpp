@@ -53,12 +53,8 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 		destroyFurnace(world, x, y, bg);
 		break;
 	case WATER:
-		if (blockID == BUCKET_EMPTY && getWaterLevel(world, x, y)==MAX_WATER_LEVEL)
-		{
-			*blockXY = AIR;
-			subInventory(blockID,1);
-			addInventory(BUCKET_WATER);
-		}
+		if (blockID == BUCKET_EMPTY)
+			fillBucket(world, x, y);
 		break;
 	default:
 		if (!byHand || canBreak(*blockXY))
@@ -202,12 +198,9 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 	{
 		if (bg)
 			return;
-		if (getBlockID(getInventoryRef().hand) == BUCKET_EMPTY && getWaterLevel(world, x, y) == MAX_WATER_LEVEL)
+		if (getBlockID(getInventoryRef().hand) == BUCKET_EMPTY)
 		{
-			world->blocks[x][y] = AIR;
-			subInventory(BUCKET_EMPTY, 1);
-			addInventory(BUCKET_WATER);
-			updateAround(world, x, y);
+			fillBucket(world, x, y);
 			break;
 		}
 		int newLevel = pushWaterFrom(world, x, y);
