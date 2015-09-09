@@ -186,6 +186,7 @@ void startGame(void)
 	shouldQuitGame = false;
 	setInterface(INTERFACE_INVENTORY);
 	lcdMainOnBottom();
+	addInventory(BUCKET_WATER, 3);
 
 	while (!shouldQuitGame)
 	{

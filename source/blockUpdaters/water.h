@@ -14,7 +14,6 @@ class WaterUpdater : public BlockUpdater
 {
 public:
 	WaterUpdater();
-	void chanceUpdate(WorldObject* world, int x, int y, bool bg);
 
 	bool update(WorldObject* world, int x, int y, bool bg);
 	void attemptSpreading(WorldObject* world, int x, int y);
