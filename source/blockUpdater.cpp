@@ -221,7 +221,7 @@ std::vector<BlockUpdateInfo>::iterator it;
 			bool bg = it->bg;
 			bool chance = it->chance;
 			it = updaterList.erase(it);
-			if (x > 0 && x < WORLD_WIDTH && y > 0 && y < WORLD_HEIGHT)
+			if (x >= 0 && x < WORLD_WIDTH && y >= 0 && y < WORLD_HEIGHT)
 			{
 				int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
 				int index = updaterIndex(blockXY);
