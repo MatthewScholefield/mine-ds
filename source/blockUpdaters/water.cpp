@@ -155,7 +155,7 @@ bool WaterUpdater::update(WorldObject* world, int x, int y, bool bg)
 	if (flowDown(world, x, y))
 		return true;
 
-	bool leftBound = (x - 1) > 0;
+	bool leftBound = x > 0;
 	bool rightBound = (x + 1) < WORLD_WIDTH;
 	bool canMixLeft = leftBound && isBlockWalkThrough(world->blocks[x - 1][y]);
 	bool canMixRight = rightBound && isBlockWalkThrough(world->blocks[x + 1][y]);
