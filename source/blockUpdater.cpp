@@ -234,7 +234,8 @@ std::vector<BlockUpdateInfo>::iterator it;
 					}
 					else
 					{
-						blockUpdaters[index]->chanceUpdate(world,x,y,bg);
+						blockUpdaters[index]->chanceUpdate(world, x, y, bg);
+						updaterList.push_back(BlockUpdateInfo{x, y, bg, rand() % blockUpdaters[index]->chance, true});
 					}
 				}
 			}
