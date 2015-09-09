@@ -56,13 +56,14 @@ public:
 	int obsoleteChests[MAX_CHESTS][CHEST_SLOTS][2];
 	Inventory chests[MAX_CHESTS];
 	Furnace *furnaces[MAX_FURNACES];
+	int reservedWater;
 
 	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
 	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, obsoleteChests{}
 
-	, furnaces() { }
+	, furnaces(), reservedWater(0) { }
 
 	~WorldObject()
 	{
