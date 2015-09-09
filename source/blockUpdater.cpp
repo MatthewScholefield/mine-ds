@@ -235,7 +235,9 @@ std::vector<BlockUpdateInfo>::iterator it;
 					else
 					{
 						blockUpdaters[index]->chanceUpdate(world, x, y, bg);
-						updaterList.push_back(BlockUpdateInfo{x, y, bg, rand() % blockUpdaters[index]->chance, true});
+						if (x * 16 < world->camX + 256 + 128 && x * 16 > world->camX - 128
+								&& y * 16 < world->camY + 192 + 128 && y * 16 > world->camY - 128)
+							updaterList.push_back(BlockUpdateInfo{x, y, bg, rand() % blockUpdaters[index]->chance, true});
 					}
 				}
 			}
