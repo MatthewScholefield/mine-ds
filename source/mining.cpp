@@ -202,9 +202,21 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 	{
 		if (bg)
 			return;
+		if (getBlockID(getInventoryRef().hand) == BUCKET_EMPTY && getWaterLevel(world, x, y) == MAX_WATER_LEVEL)
+		{
+			world->blocks[x][y] = AIR;
+			subInventory(BUCKET_EMPTY, 1);
+			addInventory(BUCKET_WATER);
+			updateAround(world, x, y);
+			break;
+		}
 		int newLevel = pushWaterFrom(world, x, y);
 		if (newLevel == 0)
+		{
 			placeBlock(world, x, y, bg);
+			if (world->blocks[x][y] == WATER)
+				world->blocks[x][y] = AIR;
+		}
 		else
 			setWaterLevel(world, x, y, newLevel);
 		break;
