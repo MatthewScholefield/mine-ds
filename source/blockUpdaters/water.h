@@ -8,11 +8,14 @@
 int getWaterLevel(WorldObject *world, int x, int y);
 bool isWaterAt(WorldObject *world, int px, int py);
 int pushWaterFrom(WorldObject *world, int x, int y);
+void fillBucket(WorldObject *world, int x, int y);
 
 class WaterUpdater : public BlockUpdater
 {
 public:
 	WaterUpdater();
+	void chanceUpdate(WorldObject* world, int x, int y, bool bg);
+
 	bool update(WorldObject* world, int x, int y, bool bg);
 	void attemptSpreading(WorldObject* world, int x, int y);
 	void attemptSharing(WorldObject* world, int x, int y);
