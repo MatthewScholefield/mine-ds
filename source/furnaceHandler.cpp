@@ -26,12 +26,12 @@ static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
 
 void convertItemToFuel(Furnace &furnace)
 {
-	int newFuel = fuelAmount(furnace.fuelBlock.blockId);
+	int newFuel = fuelAmount(furnace.fuelBlock.ID);
 	if (newFuel > 0 && furnace.fuel < 1)
 	{
 		furnace.fuel = newFuel;
-		if (--furnace.fuelBlock.blockAmount < 1)
-			furnace.fuelBlock.blockId = AIR;
+		if (--furnace.fuelBlock.amount < 1)
+			furnace.fuelBlock.ID = AIR;
 	}
 }
 
@@ -72,7 +72,7 @@ void disperseItems(int x, int y, int blockID, int amount)
 
 void disperseItems(int x, int y, InvBlock block)
 {
-	disperseItems(x, y, block.blockId, block.blockAmount);
+	disperseItems(x, y, block.ID, block.amount);
 }
 
 void destroyFurnace(WorldObject *world, int x, int y, bool bg)
@@ -115,7 +115,7 @@ int getOpenedFurnaceID()
 int fuelNeeded(const Furnace &furnace)
 {
 	for (auto &i : furnaceRecipes)
-		if (i.needed == furnace.sourceBlock.blockId && (i.result == furnace.resultBlock.blockId || furnace.resultBlock.blockId == AIR))
+		if (i.needed == furnace.sourceBlock.ID && (i.result == furnace.resultBlock.ID || furnace.resultBlock.ID == AIR))
 			return i.fuel;
 	return 0;
 }
@@ -123,13 +123,13 @@ int fuelNeeded(const Furnace &furnace)
 void createResult(Furnace &furnace)
 {
 	int id = 0;
-	for (id = 0; id < NUM_FURNACE_RECIPES && furnaceRecipes[id].needed != furnace.sourceBlock.blockId; ++id);
-	if (id >= NUM_FURNACE_RECIPES || (furnace.resultBlock.blockId != AIR && furnaceRecipes[id].result != furnace.resultBlock.blockId))
+	for (id = 0; id < NUM_FURNACE_RECIPES && furnaceRecipes[id].needed != furnace.sourceBlock.ID; ++id);
+	if (id >= NUM_FURNACE_RECIPES || (furnace.resultBlock.ID != AIR && furnaceRecipes[id].result != furnace.resultBlock.ID))
 		return;
-	if (furnace.resultBlock.blockId == AIR)
+	if (furnace.resultBlock.ID == AIR)
 		furnace.resultBlock = InvBlock(furnaceRecipes[id].result, 1);
 	else
-		++furnace.resultBlock.blockAmount;
-	if (--furnace.sourceBlock.blockAmount < 1)
-		furnace.sourceBlock.blockId = AIR;
+		++furnace.resultBlock.amount;
+	if (--furnace.sourceBlock.amount < 1)
+		furnace.sourceBlock.ID = AIR;
 }

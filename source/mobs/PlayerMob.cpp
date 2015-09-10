@@ -13,7 +13,6 @@
 #include "../sounds.h"
 #include "../deathScreen.h"
 #include "../mainGame.h"
-#include "../graphics/inventoryGraphics.h"
 #include "../Config.h"
 #include "../mining.h"
 #include <time.h>
@@ -80,15 +79,8 @@ void PlayerMob::hurt(int amount, int type)
 			message += "\n";
 			printGlobalMessage((char*) message.c_str());
 			if (isSurvival())
-			{
-				for (int j = 0; j < NUM_INV_SPACES; ++j)
-				{
-					for (int i = 0; i < 3; ++i)
-						createItemMob(x / 16, (y - 24) / 16, getBlockID(j), getBlockAmount(j) / 4, getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
-					createItemMob(x / 16, (y - 24) / 16, getBlockID(j), getBlockAmount(j) - 3 * (getBlockAmount(j) / 4), getBlockID(j), ((double(rand() % 25)) / 40.0) * (rand() % 2 == 0 ? -1.0 : 1.0));
-				}
-			}
-			clearInventory(true);
+				spillInvItems(x, y);
+			clearInventory();
 			setupDeathScreen();
 		}
 	}
@@ -162,7 +154,7 @@ void PlayerMob::updateMob(WorldObject* world)
 
 			if (keysDown() & getGlobalSettings()->getKey(ACTION_DROP))
 			{
-				int blockIDToDrop = getBlockID(getHand());
+				int blockIDToDrop = getHandID();
 				if (subInventory(blockIDToDrop, 1))
 					createItemMob(x / 16, y / 16 - 2, blockIDToDrop, 1);
 			}

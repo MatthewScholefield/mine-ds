@@ -1,6 +1,5 @@
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
-#include "graphics/inventoryGraphics.h"
 #include "mobs/mobHandler.h"
 #include "mining.h"
 #include <stdio.h>
@@ -46,10 +45,8 @@ int deathScreenUpdate(touchPosition *touch)
 			showingDeathScreen = false;
 			drawBackground();
 			clearText();
-			enableInvGraphics();
 			lcdMainOnBottom();
 			setMiningDisabled(false);
-			drawInvButtons(false, isSurvival());
 			returnVal = 0;
 		}
 		else if (deathToTitleScreenButton.isTouching(touch->px, touch->py) && deathToTitleScreenButton.isColored)

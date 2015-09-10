@@ -5,28 +5,28 @@
 class Recipe
 {
 public:
-	InvBlock createdblock;
-	InvBlock neededblocks[4];
+	InvBlock result;
+	InvBlock needed[4];
 
-	Recipe() : createdblock(), neededblocks { }
+	Recipe() : result(), needed { }
 	{
 	}
 
-	Recipe(int block, int amount, int aid, int aamount, int bid = AIR, int bamount = 0,
-		int cid = AIR, int camount = 0, int did = AIR, int damount = 0) :
-	createdblock(block, amount), neededblocks
+	Recipe(int resultID, int resultAmount, int aID, int aAmount, int bID = AIR, int bAmount = 0,
+		int cID = AIR, int cAmount = 0, int dID = AIR, int dAmount = 0) :
+	result(resultID, resultAmount), needed
 	{
 		{
-			aid, aamount
+			aID, aAmount
 		},
 		{
-			bid, bamount
+			bID, bAmount
 		},
 		{
-			cid, camount
+			cID, cAmount
 		},
 		{
-			did, damount
+			dID, dAmount
 		}
 	}
 	{

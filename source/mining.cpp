@@ -5,7 +5,6 @@
 #include "chests.h"
 #include "furnaceHandler.h"
 #include "graphics/graphics.h"
-#include "graphics/inventoryGraphics.h"
 #include "inventory.h"
 #include "blockName.h"
 #include "blocks.h"
@@ -39,7 +38,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 
 void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 {
-	int blockID = getBlockID(getHand());
+	int blockID = getHandID();
 	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
 	if (*blockXY == AIR)
 		return;
@@ -73,7 +72,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 
 void placeBlock(WorldObject *world, int x, int y, bool bg)
 {
-	int blockID = getBlockID(getHand());
+	int blockID = getHandID();
 	if (isFoodStuff(blockID))
 	{
 		BaseMob_ptr m;
@@ -147,7 +146,7 @@ int destroyTime(int blockID, int selectedBlock) //Calculated the required frames
 void changeTarget(int newSum, int newBlock)
 {
 	targetSum = newSum;
-	framesTillBreak = destroyTime(newBlock, getBlockID(getHand()));
+	framesTillBreak = destroyTime(newBlock, getHandID());
 	framesOnBlock = 0;
 	finishedTask = false;
 	soundOffset = getTime() % HIT_SOUND_DELAY;
@@ -198,7 +197,7 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 	{
 		if (bg)
 			return;
-		if (getBlockID(getInventoryRef().hand) == BUCKET_EMPTY)
+		if (getHandID() == BUCKET_EMPTY)
 		{
 			fillBucket(world, x, y);
 			break;
@@ -227,7 +226,7 @@ bool attackMob(WorldObject *world, int px, int py)
 	if (targetMob != nullptr)
 	{
 		int damage;
-		switch (getBlockID(getHand()))
+		switch (getHandID())
 		{
 		case SWORD_DIAMOND:
 			damage = 6;

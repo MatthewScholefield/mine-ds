@@ -3,8 +3,8 @@
 class InvBlock
 {
 public:
-	int blockId = 0;
-	int blockAmount = 0;
+	int ID = 0;
+	int amount = 0;
 
-	InvBlock(int blockId = 0, int blockAmount = 0) : blockId(blockId), blockAmount(blockAmount) { }
+	InvBlock(int ID = 0, int amount = 0) : ID(ID), amount(amount) { }
 };
