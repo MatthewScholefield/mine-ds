@@ -10,19 +10,19 @@ void FurnaceInterface::updateContents()
 		return;
 	for (int i = 0; i < 3; ++i)
 		unloadGraphic(&gfx[i]);
-	loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->sourceBlock.blockId);
-	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuelBlock.blockId);
-	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.blockId);
-	if (openFurnace->sourceBlock.blockAmount > 0)
-		printXY(12, 10, openFurnace->sourceBlock.blockAmount);
+	loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->sourceBlock.ID);
+	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuelBlock.ID);
+	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.ID);
+	if (openFurnace->sourceBlock.amount > 0)
+		printXY(12, 10, openFurnace->sourceBlock.amount);
 	else
 		printXY(12, 10, "  ");
-	if (openFurnace->fuelBlock.blockAmount > 0)
-		printXY(12, 14, openFurnace->fuelBlock.blockAmount);
+	if (openFurnace->fuelBlock.amount > 0)
+		printXY(12, 14, openFurnace->fuelBlock.amount);
 	else
 		printXY(12, 14, "  ");
-	if (openFurnace->resultBlock.blockAmount > 0)
-		printXY(17, 12, openFurnace->resultBlock.blockAmount);
+	if (openFurnace->resultBlock.amount > 0)
+		printXY(17, 12, openFurnace->resultBlock.amount);
 	else
 		printXY(17, 12, "  ");
 }
@@ -98,7 +98,7 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 				selectedInvSlot = FUEL;
 			else if (touchesTileBox(*touch, 17, 11, 2, 2))
 			{
-				addInventory(openFurnace->resultBlock.blockId, openFurnace->resultBlock.blockAmount, false);
+				addInventory(openFurnace->resultBlock.ID, openFurnace->resultBlock.amount);
 				openFurnace->resultBlock = InvBlock(AIR, 0);
 				updateContents();
 			}

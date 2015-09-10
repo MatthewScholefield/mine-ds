@@ -22,10 +22,10 @@ void InvGfxHandler::drawQuantities()
 {
 	for (int i = 0; i < xCount; ++i)
 		for (int j = 0; j < yCount; ++j)
-			if (inv.blocks[j * xCount + i].blockAmount != 0 && inv.blocks[j * xCount + i].blockId != 0)
+			if (inv.blocks[j * xCount + i].amount != 0 && inv.blocks[j * xCount + i].ID != 0)
 			{
-				printXY(startX + i * xDist, startY + 1 + j * yDist, inv.blocks[j * xCount + i].blockAmount);
-				if (inv.blocks[j * 15 + i].blockAmount < 10)
+				printXY(startX + i * xDist, startY + 1 + j * yDist, inv.blocks[j * xCount + i].amount);
+				if (inv.blocks[j * 15 + i].amount < 10)
 					printXY(startX + i * xDist + 1, startY + 1 + j * yDist, " ");
 			}
 			else
@@ -38,20 +38,20 @@ void InvGfxHandler::update()
 	for (int i = 0; i < yCount; ++i)
 		for (int j = 0; j < xCount; ++j)
 		{
-			if (inv.blocks[a].blockId == AIR && loadedGfx[a])
+			if (inv.blocks[a].ID == AIR && loadedGfx[a])
 			{
 				unloadGraphic(&gfx[a]);
 				loadedGfx[a] = false;
 				loadedID[a] = AIR;
 			}
-			else if (inv.blocks[a].blockId != loadedID[a])
+			else if (inv.blocks[a].ID != loadedID[a])
 			{
 				if (loadedGfx[a])
 					unloadGraphic(&gfx[a]);
 				else
 					loadedGfx[a] = true;
-				loadGraphicSub(&gfx[a], GRAPHIC_BLOCK, inv.blocks[a].blockId);
-				loadedID[a] = inv.blocks[a].blockId;
+				loadGraphicSub(&gfx[a], GRAPHIC_BLOCK, inv.blocks[a].ID);
+				loadedID[a] = inv.blocks[a].ID;
 			}
 			if (loadedGfx[a])
 				showGraphic(&gfx[a], startX * 8 + j * 8 * xDist, startY * 8 + i * 8 * yDist, false, 2);

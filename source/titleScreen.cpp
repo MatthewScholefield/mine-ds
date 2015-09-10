@@ -9,7 +9,6 @@
 #include "mainGame.h"
 #include "sounds.h"
 #include "inventory.h"
-#include "graphics/inventoryGraphics.h"
 #include <stdio.h>
 #include "Config.h"
 #include "general.h"
@@ -529,7 +528,7 @@ void titleScreen()
 		printXY(22, 23, VERSION_STRING " fat");
 #endif
 		lcdMainOnTop();
-		clearInventory(true);
+		clearInventory();
 
 		Menu menu(MENU_BUTTON, false);
 		menu.addButton(8, 8, "Single Player", 15);

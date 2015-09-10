@@ -60,7 +60,7 @@ bool saveWorld(WorldObject *world)
 		saveMobs(worldFile);
 		for (int i = 0; i < MAX_CHESTS; ++i)
 			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fprintf(worldFile, "%d %d ", world->chests[i].blocks[j].blockId, world->chests[i].blocks[j].blockAmount);
+				fprintf(worldFile, "%d %d ", world->chests[i].blocks[j].ID, world->chests[i].blocks[j].amount);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
@@ -162,7 +162,7 @@ bool loadWorld(WorldObject *world)
 		loadMobs(worldFile);
 		for (int i = 0; i < MAX_CHESTS; ++i)
 			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fscanf(worldFile, "%d %d ", &world->chests[i].blocks[j].blockId, &world->chests[i].blocks[j].blockAmount);
+				fscanf(worldFile, "%d %d ", &world->chests[i].blocks[j].ID, &world->chests[i].blocks[j].amount);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
