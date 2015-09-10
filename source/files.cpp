@@ -26,8 +26,10 @@ void initFile()
 #ifdef USE_FAT
 	fatInitDefault();
 	chdir("fat:/");
+	mkdir("data",0777);
+	chdir("fat:/data");
 	mkdir("Mine DS", 0777);
-	chdir("fat:/Mine DS");
+	chdir("fat:/data/Mine DS");
 	mkdir("Textures", 0777);
 	chdir("fat:/");
 #endif
