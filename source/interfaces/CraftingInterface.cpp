@@ -38,14 +38,14 @@ const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 void CraftingInterface::updateCraftingGraphics()
 {
 	unloadGraphic(&resultBlock);
-	loadGraphicSub(&resultBlock, GRAPHIC_BLOCK, recipes[page].createdblock.blockId);
-	iprintf("\x1b[11;22H%d/%d ", checkInventory(recipes[page].createdblock.blockId), recipes[page].createdblock.blockAmount);
+	loadGraphicSub(&resultBlock, GRAPHIC_BLOCK, recipes[page].result.ID);
+	iprintf("\x1b[11;22H%d/%d ", checkInventory(recipes[page].result.ID), recipes[page].result.amount);
 	for (int i = 0; i <= 3; ++i)
 	{
 		unloadGraphic(&neededblocks[i]);
-		loadGraphicSub(&neededblocks[i], GRAPHIC_BLOCK, recipes[page].neededblocks[i].blockId);
-		if (recipes[page].neededblocks[i].blockAmount > 0)
-			iprintf("\x1b[%d;%dH%d/%d  ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(recipes[page].neededblocks[i].blockId), recipes[page].neededblocks[i].blockAmount);
+		loadGraphicSub(&neededblocks[i], GRAPHIC_BLOCK, recipes[page].needed[i].ID);
+		if (recipes[page].needed[i].amount > 0)
+			iprintf("\x1b[%d;%dH%d/%d  ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(recipes[page].needed[i].ID), recipes[page].needed[i].amount);
 		else
 			iprintf("\x1b[%d;%dH      ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
 	}
@@ -53,8 +53,8 @@ void CraftingInterface::updateCraftingGraphics()
 
 bool CraftingInterface::canCraftRecipe(int recipe)
 {
-	for (const InvBlock &i : recipes[recipe].neededblocks)
-		if (checkInventory(i.blockId) < i.blockAmount)
+	for (const InvBlock &i : recipes[recipe].needed)
+		if (checkInventory(i.ID) < i.amount)
 			return false;
 	return true;
 }
@@ -94,10 +94,10 @@ void CraftingInterface::craftItem()
 {
 	if (canCraftRecipe(page))
 	{
-		for (InvBlock i : recipes[page].neededblocks)
-			subInventory(i.blockId, i.blockAmount);
-		addInventory(recipes[page].createdblock.blockId,
-					recipes[page].createdblock.blockAmount, true);
+		for (InvBlock i : recipes[page].needed)
+			subInventory(i.ID, i.amount);
+		addInventory(recipes[page].result.ID,
+					recipes[page].result.amount);
 		updateCraftingGraphics();
 	}
 }

@@ -3,7 +3,6 @@
 #include "../Config.h"
 #include "../blockPages.h"
 #include "../blockID.h"
-#include "../graphics/inventoryGraphics.h"
 #include "../blockName.h"
 #include "../mining.h"
 #include "../graphics/UI.h"
@@ -14,7 +13,7 @@ void ChestInterface::updateInv()
 {
 	Inventory curInv = getSelectedInv();
 	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].blockId);
+	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].ID);
 	invHandler.drawSlots(!selectedChest);
 	chestHandler->drawSlots(selectedChest);
 	if (isSurvival())
@@ -22,7 +21,7 @@ void ChestInterface::updateInv()
 		invHandler.drawQuantities();
 		chestHandler->drawQuantities();
 	}
-	updateTopName(curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].blockId);
+	updateTopName(curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].ID);
 }
 
 int ChestInterface::correctValue(int value)
@@ -52,7 +51,7 @@ void ChestInterface::moveSlot(bool right)
 	int initialSlot = currentInv->hand;
 	bool initialChest = selectedChest;
 
-	if (currentInv->hand != -1 && currentInv->blocks[currentInv->hand].blockId != AIR)
+	if (currentInv->hand != -1 && currentInv->blocks[currentInv->hand].ID != AIR)
 	{
 		currentInv->hand += change;
 		int val = correctValue(currentInv->hand);
@@ -65,7 +64,7 @@ void ChestInterface::moveSlot(bool right)
 			int val = correctValue(currentInv->hand += change);
 			(currentInv = &getSelectedInv())->hand = val;
 		}
-		while ((currentInv->hand == -1 || currentInv->blocks[currentInv->hand].blockId == AIR)
+		while ((currentInv->hand == -1 || currentInv->blocks[currentInv->hand].ID == AIR)
 				&& (initialSlot != currentInv->hand || initialChest != selectedChest));
 		if (initialSlot == currentInv->hand && initialChest == selectedChest)
 		{
@@ -141,7 +140,7 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 		{
 			selectedChest = !touchedChest;
 			int i = 0;
-			for (; i < NUM_INV_SPACES && getSelectedInv().blocks[i].blockId != AIR; ++i);
+			for (; i < NUM_INV_SPACES && getSelectedInv().blocks[i].ID != AIR; ++i);
 			if (i == NUM_INV_SPACES)
 			{
 				getSelectedInv().hand = -1;
@@ -154,12 +153,12 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 		Inventory &src = getSelectedInv();
 		selectedChest = touchedChest;
 		Inventory &dest = getSelectedInv();
-		int tmpId = src.blocks[src.hand].blockId;
-		int tmpAmount = src.blocks[src.hand].blockAmount;
-		src.blocks[src.hand].blockId = dest.blocks[touched].blockId;
-		src.blocks[src.hand].blockAmount = dest.blocks[touched].blockAmount;
-		dest.blocks[touched].blockId = tmpId;
-		dest.blocks[touched].blockAmount = tmpAmount;
+		int tmpId = src.blocks[src.hand].ID;
+		int tmpAmount = src.blocks[src.hand].amount;
+		src.blocks[src.hand].ID = dest.blocks[touched].ID;
+		src.blocks[src.hand].amount = dest.blocks[touched].amount;
+		dest.blocks[touched].ID = tmpId;
+		dest.blocks[touched].amount = tmpAmount;
 		dest.hand = -1;
 	}
 	updateInv();

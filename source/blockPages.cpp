@@ -2,7 +2,6 @@
 #include "blockPages.h"
 #include "inventory.h"
 #include "graphics/Button.h"
-#include "graphics/inventoryGraphics.h"
 #include "graphics/UI.h"
 #include "mining.h"
 #include "mainGame.h"
@@ -49,7 +48,7 @@ void setBlockPage(int page)
 	else if (page >= NUM_BLOCK_PAGES)
 		page = 0;
 	blockPage = page;
-	clearInventory(true);
+	clearInventory();
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
 		addInventory(BLOCK_PAGES[page][i]);
 	updatePageName();
@@ -62,9 +61,9 @@ void changeBlockPage(bool forward, bool skipUpdate)
 		blockPage = NUM_BLOCK_PAGES - 1;
 	else if (blockPage >= NUM_BLOCK_PAGES)
 		blockPage = 0;
-	clearInventory(true);
+	clearInventory();
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
-		addInventory(BLOCK_PAGES[blockPage][i], 1, true);
+		addInventory(BLOCK_PAGES[blockPage][i], 1);
 	if (!skipUpdate)
 		updatePageName();
 }

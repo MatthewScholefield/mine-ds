@@ -15,7 +15,6 @@
 #include "mobs/ItemMob.h"
 #include "deathScreen.h"
 #include "dayNight.h"
-#include "graphics/inventoryGraphics.h"
 #include "inventory.h"
 #include "titleScreen.h"
 #include "graphics/UI.h"
@@ -107,7 +106,7 @@ void newGame(gamemode_t mode, int seed)
 		world->seed = seed;
 	srand(world->seed);
 	mobsReset();
-	clearInventory(true);
+	clearInventory();
 	shouldQuitGame = false;
 	world->gamemode = mode;
 	generateWorld(world);
@@ -202,7 +201,7 @@ void startGame(void)
 		mobHandlerUpdate(world, &touch);
 		updateInterface(world, &touch);
 		update_message();
-		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU) && getInventoryState() == 0)
+		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
 		{
 			if (inGameMenu() != 0)
 				break;
