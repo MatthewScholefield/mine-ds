@@ -502,15 +502,6 @@ int getSurvivalItem(int blockID)
 	case STONE:
 		return COBBLESTONE;
 		break;
-	case IRON_ORE:
-		return INGOT_IRON;
-		break;
-	case GOLD_ORE:
-		return INGOT_GOLD;
-		break;
-	case DIAMOND_ORE:
-		return DIAMOND;
-		break;
 	default:
 		break;
 	}
