@@ -1,8 +1,8 @@
 #include "FurnaceInterface.h"
 #include "interfaceHandler.h"
-#include "../graphics/UI.h"
+#include "../UI.h"
 #include "InventoryInterface.h"
-#include "../blocks.h"
+#include "../../blocks.h"
 
 void FurnaceInterface::updateContents()
 {

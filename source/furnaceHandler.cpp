@@ -3,7 +3,7 @@
 #include "mobs/mobHandler.h"
 #include "inventory.h"
 #include "general.h"
-#include "interfaces/interfaceHandler.h"
+#include "graphics/interfaces/interfaceHandler.h"
 #include "furnaceHandler.h"
 #include "blocks.h"
 #include "Recipe.h"

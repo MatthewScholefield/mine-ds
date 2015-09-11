@@ -3,7 +3,7 @@
 #include "general.h"
 #include "mobs/mobHandler.h"
 #include "mainGame.h"
-#include "interfaces/interfaceHandler.h"
+#include "graphics/interfaces/interfaceHandler.h"
 
 Inventory mainPlayerInv;
 

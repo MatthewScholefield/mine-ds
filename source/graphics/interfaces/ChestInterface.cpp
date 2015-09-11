@@ -1,13 +1,13 @@
 #include "interfaceHandler.h"
 #include "ChestInterface.h"
-#include "../Config.h"
-#include "../blockPages.h"
-#include "../blockID.h"
-#include "../blockName.h"
-#include "../mining.h"
-#include "../graphics/UI.h"
-#include "../files.h"
-#include "../chests.h"
+#include "../../Config.h"
+#include "../../blockPages.h"
+#include "../../blockID.h"
+#include "../../blockName.h"
+#include "../../mining.h"
+#include "../UI.h"
+#include "../../files.h"
+#include "../../chests.h"
 
 void ChestInterface::updateInv()
 {

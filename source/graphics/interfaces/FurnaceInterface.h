@@ -1,8 +1,8 @@
 #include "Interface.h"
-#include "../graphics/Menu.h"
-#include "../furnaceHandler.h"
-#include "../mining.h"
-#include "../graphics/handlers/InvGfxHandler.h"
+#include "../Menu.h"
+#include "../../furnaceHandler.h"
+#include "../../mining.h"
+#include "../handlers/InvGfxHandler.h"
 
 #pragma once
 class FurnaceInterface : public Interface
