@@ -1,12 +1,12 @@
 #include "interfaceHandler.h"
 #include "InventoryInterface.h"
-#include "../Config.h"
-#include "../blockPages.h"
-#include "../blockID.h"
-#include "../blockName.h"
-#include "../mining.h"
-#include "../graphics/UI.h"
-#include "../files.h"
+#include "../../Config.h"
+#include "../../blockPages.h"
+#include "../../blockID.h"
+#include "../../blockName.h"
+#include "../../mining.h"
+#include "../UI.h"
+#include "../../files.h"
 
 void InventoryInterface::updateInv()
 {

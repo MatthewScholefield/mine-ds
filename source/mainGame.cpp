@@ -30,7 +30,7 @@
 #include "blocks.h"
 #include "graphics/Menu.h"
 #include "graphics/3DHandler.h"
-#include "interfaces/interfaceHandler.h"
+#include "graphics/interfaces/interfaceHandler.h"
 
 bool shouldQuitGame = false;
 WorldObject *world;

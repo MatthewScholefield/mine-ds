@@ -5,7 +5,7 @@
 #include "mainGame.h"
 #include "mobs/mobHandler.h"
 #include "communications.h"
-#include "interfaces/interfaceHandler.h"
+#include "graphics/interfaces/interfaceHandler.h"
 
 bool chestOpened = false;
 int chestID = -1;

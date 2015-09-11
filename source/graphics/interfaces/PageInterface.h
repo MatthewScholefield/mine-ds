@@ -1,5 +1,5 @@
 #include "Interface.h"
-#include "../graphics/Menu.h"
+#include "../Menu.h"
 
 #pragma once
 class PageInterface : public Interface

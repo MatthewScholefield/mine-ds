@@ -1,7 +1,7 @@
 #include "PageInterface.h"
-#include "../blockPages.h"
+#include "../../blockPages.h"
 #include "interfaceHandler.h"
-#include "../graphics/UI.h"
+#include "../UI.h"
 
 PageInterface::PageInterface() : Interface(INTERFACE_PAGE), menu(MENU_BUTTON, false)
 {
