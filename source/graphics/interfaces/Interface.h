@@ -22,7 +22,7 @@ protected:
 	}
 public:
 	InterfaceType type;
-	virtual void update(WorldObject *world, touchPosition *touch) = 0;
+	virtual void update(WorldObject &world, touchPosition &touch) = 0;
 	virtual void draw() = 0;
 
 	static void triggerUpdate()

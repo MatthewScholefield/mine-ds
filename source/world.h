@@ -76,7 +76,7 @@ public:
 	}
 };
 
-int findFirstBlock(WorldObject* world, int x);
-int findFirstBiomeBlock(WorldObject* world, int x);
-void drawLineDown(WorldObject* world, int x, int y);
-void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2);
+int findFirstBlock(WorldObject &world, int x);
+int findFirstBiomeBlock(WorldObject &world, int x);
+void drawLineDown(WorldObject &world, int x, int y);
+void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2);

@@ -36,10 +36,10 @@ bool canMine() //Returns whether touch input can destroy blocks
 	return !miningDisabled;
 }
 
-void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
+void destroyBlock(WorldObject &world, int x, int y, bool bg, bool byHand)
 {
 	int blockID = getHandID();
-	int *blockXY = bg ? &world->bgblocks[x][y] : &world->blocks[x][y];
+	int *blockXY = bg ? &world.bgblocks[x][y] : &world.blocks[x][y];
 	if (*blockXY == AIR)
 		return;
 	switch (*blockXY)
@@ -70,7 +70,7 @@ void destroyBlock(WorldObject *world, int x, int y, bool bg, bool byHand)
 	updateAround(world, x, y);
 }
 
-void placeBlock(WorldObject *world, int x, int y, bool bg)
+void placeBlock(WorldObject &world, int x, int y, bool bg)
 {
 	int blockID = getHandID();
 	if (isFoodStuff(blockID))
@@ -100,16 +100,16 @@ void placeBlock(WorldObject *world, int x, int y, bool bg)
 		case BUCKET_WATER:
 			//createWaterMob(x, y);
 			addInventory(BUCKET_EMPTY);
-			world->blocks[x][y] = WATER;
-			world->data[x][y] |= MAX_WATER_LEVEL;
+			world.blocks[x][y] = WATER;
+			world.data[x][y] |= MAX_WATER_LEVEL;
 			break;
 		default:
 			if (!item(blockID))
 			{
 				if (bg)
-					world->bgblocks[x][y] = blockID;
+					world.bgblocks[x][y] = blockID;
 				else
-					world->blocks[x][y] = blockID;
+					world.blocks[x][y] = blockID;
 			}
 			break;
 		}
@@ -152,14 +152,14 @@ void changeTarget(int newSum, int newBlock)
 	soundOffset = getTime() % HIT_SOUND_DELAY;
 }
 
-void activateBlock(WorldObject *world, int x, int y, bool bg)
+void activateBlock(WorldObject &world, int x, int y, bool bg)
 {
-	switch (bg ? world->bgblocks[x][y] : world->blocks[x][y])
+	switch (bg ? world.bgblocks[x][y] : world.blocks[x][y])
 	{
 	case AIR:
 	{
 		placeBlock(world, x, y, bg);
-		playBlockSfx(bg ? world->bgblocks[x][y] : world->blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world->camX));
+		playBlockSfx(bg ? world.bgblocks[x][y] : world.blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world.camX));
 		break;
 	}
 	case CHEST:
@@ -173,11 +173,11 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		--y;
 	case DOOR_OPEN_TOP:
 	{
-		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-		int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 		blockXY = DOOR_CLOSED_TOP;
 		blockBelowXY = DOOR_CLOSED_BOTTOM;
-		playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world->camX));
+		playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world.camX));
 		updateBrightnessAround(world, x, y + 1);
 		break;
 	}
@@ -185,11 +185,11 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		--y;
 	case DOOR_CLOSED_TOP:
 	{
-		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-		int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 		blockXY = DOOR_OPEN_TOP;
 		blockBelowXY = DOOR_OPEN_BOTTOM;
-		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world->camX));
+		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world.camX));
 		updateBrightnessAround(world, x, y + 1);
 		break;
 	}
@@ -206,8 +206,8 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 		if (newLevel == 0)
 		{
 			placeBlock(world, x, y, bg);
-			if (world->blocks[x][y] == WATER)
-				world->blocks[x][y] = AIR;
+			if (world.blocks[x][y] == WATER)
+				world.blocks[x][y] = AIR;
 		}
 		else
 			setWaterLevel(world, x, y, newLevel);
@@ -220,9 +220,9 @@ void activateBlock(WorldObject *world, int x, int y, bool bg)
 	}
 }
 
-bool attackMob(WorldObject *world, int px, int py)
+bool attackMob(WorldObject &world, int px, int py)
 {
-	BaseMob_ptr targetMob = isMobAt(px + world->camX, py + world->camY);
+	BaseMob_ptr targetMob = isMobAt(px + world.camX, py + world.camY);
 	if (targetMob != nullptr)
 	{
 		int damage;
@@ -254,10 +254,10 @@ bool attackMob(WorldObject *world, int px, int py)
 		return false;
 }
 
-void miningUpdate(WorldObject* world, touchPosition touch)
+void miningUpdate(WorldObject &world, touchPosition touch)
 {
-	int x = (touch.px - 1 + world->camX) / 16;
-	int y = (touch.py - 1 + world->camY) / 16;
+	int x = (touch.px - 1 + world.camX) / 16;
+	int y = (touch.py - 1 + world.camY) / 16;
 	if (!(keysHeld() & KEY_TOUCH) || miningDisabled)
 	{
 		if (targetSum != -1)
@@ -271,15 +271,15 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 	}
 	int touchedBlock;
 	bool oldLayerIsBG = layerIsBG;
-	if ((world->blocks[x][y] == AIR && isSurvival()) || (isBlockWalkThrough(world->blocks[x][y])
+	if ((world.blocks[x][y] == AIR && isSurvival()) || (isBlockWalkThrough(world.blocks[x][y])
 			&& keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)))
 	{
-		touchedBlock = world->bgblocks[x][y];
+		touchedBlock = world.bgblocks[x][y];
 		layerIsBG = true;
 	}
 	else if (!(keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)))
 	{
-		touchedBlock = world->blocks[x][y];
+		touchedBlock = world.blocks[x][y];
 		layerIsBG = false;
 	}
 	else
@@ -293,7 +293,7 @@ void miningUpdate(WorldObject* world, touchPosition touch)
 	}
 	if (touchedBlock != AIR && framesOnBlock >= framesTillBreak && !finishedTask && framesOnBlock >= ACTIVATE_DELAY)
 	{
-		destroyBlock(world, x, y, world->blocks[x][y] == AIR || keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
+		destroyBlock(world, x, y, world.blocks[x][y] == AIR || keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH));
 		changeTarget(x + y, AIR);
 		finishedTask = true;
 		playBlockSfx(touchedBlock, SOUND_TYPE_DESTROY, 255, touch.px);

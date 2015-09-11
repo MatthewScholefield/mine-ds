@@ -24,11 +24,11 @@ bool ItemMob::isMyPlayer()
 	return false;
 }
 
-void ItemMob::calcMiscData(WorldObject* world) { }
+void ItemMob::calcMiscData(WorldObject &world) { }
 
-void ItemMob::updateMob(WorldObject* world)
+void ItemMob::updateMob(WorldObject &world)
 {
-	if (world->gamemode == GAMEMODE_CREATIVE)
+	if (world.gamemode == GAMEMODE_CREATIVE)
 	{
 		health = 0;
 		return;
@@ -39,7 +39,7 @@ void ItemMob::updateMob(WorldObject* world)
 		return;
 	if (vx < 0 || vx > 0)
 	{
-		if ((vx > 0 && isBlockWalkThrough(world->blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world->blocks[int(x - sx / 2) / 16][int(y) / 16])))
+		if ((vx > 0 && isBlockWalkThrough(world.blocks[int ((x + sx / 2 + 1) / 16)][int(y) / 16])) || (vx < 0 && isBlockWalkThrough(world.blocks[int(x - sx / 2) / 16][int(y) / 16])))
 		{
 			bool positive = vx > 0;
 			vx -= FixedPoint(true, (positive ? 0.01 : -0.01) * FixedPoint::SCALER);
@@ -53,12 +53,12 @@ void ItemMob::updateMob(WorldObject* world)
 			vx = 0;
 		}
 	}
-	if (isBlockWalkThrough(world->blocks[int(x - sx / 2 + 1) / 16][int(y + sy / 2) / 16]) && isBlockWalkThrough(world->blocks[int(x + sx / 2) / 16][int(y + sy / 2) / 16]))
+	if (isBlockWalkThrough(world.blocks[int(x - sx / 2 + 1) / 16][int(y + sy / 2) / 16]) && isBlockWalkThrough(world.blocks[int(x + sx / 2) / 16][int(y + sy / 2) / 16]))
 	{
 		y += (16 * vy) / FPS;
 		vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS); //Gravity Acceleration = +18.0 m/s^2
 	}
-	bool falling = vy != 0 && !isBlockWalkThrough(world->blocks[int(x) / 16][int(y + sy / 2 - 1) / 16]);
+	bool falling = vy != 0 && !isBlockWalkThrough(world.blocks[int(x) / 16][int(y + sy / 2 - 1) / 16]);
 	if (falling)
 	{
 		y -= int(y + sy / 2) % 16;
@@ -66,16 +66,16 @@ void ItemMob::updateMob(WorldObject* world)
 	}
 	else if (++floatY > 100)
 		floatY = 0;
-	if (world->blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
+	if (world.blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
 		normalSprite.paletteID = (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
 	BaseMob_ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == nullptr)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == nullptr || !target->isMyPlayer())
-		showGraphic(&normalSprite, (int) x - world->camX - 3, (int) y - 9 - world->camY + floatVal[floatY], false);
+		showGraphic(&normalSprite, (int) x - world.camX - 3, (int) y - 9 - world.camY + floatVal[floatY], false);
 	else if (addInventory(blockID, amount))
 		health = 0;
-	if (!onScreen(x, y, world->camX, world->camY) && rand() % 1000 == 1)
+	if (!onScreen(x, y, world.camX, world.camY) && rand() % 1000 == 1)
 		health = 0;
 	if (health < 1)
 		playSound(SOUND_POP, 155 + rand() % 100);

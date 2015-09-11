@@ -137,7 +137,7 @@ void InventoryInterface::switchInvState()
 		openInventory();
 }
 
-void InventoryInterface::update(WorldObject *world, touchPosition *touch)
+void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 {
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
 	gfxHandler.update();
@@ -146,8 +146,8 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 
 	if (open)
 	{
-		parseTouchInput(*touch);
-		switch (menu.update(*touch))
+		parseTouchInput(touch);
+		switch (menu.update(touch))
 		{
 		case BACK:
 			closeInventory();

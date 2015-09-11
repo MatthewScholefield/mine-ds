@@ -9,14 +9,14 @@
 #include "leaf.h"
 #include "../mobs/mobHandler.h"
 
-void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
+void leafChanceUpdateGeneric(WorldObject &world, int x, int y, bool bg)
 {
-	int leafID = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int leafID = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	bool nearWood = false;
 	for (int i = x - LEAF_SQUARE_RADIUS; i <= x + LEAF_SQUARE_RADIUS; ++i)
 	{
 		for (int j = y - LEAF_SQUARE_RADIUS; j <= y + LEAF_SQUARE_RADIUS; ++j)
-			if (getType(bg ? world->bgblocks[i][j] : world->blocks[i][j]) == TYPE_WOOD)
+			if (getType(bg ? world.bgblocks[i][j] : world.blocks[i][j]) == TYPE_WOOD)
 			{
 				nearWood = true;
 				break;
@@ -25,9 +25,9 @@ void leafChanceUpdateGeneric(WorldObject* world, int x, int y, bool bg)
 			break;
 	}
 	if (!nearWood && bg)
-		world->bgblocks[x][y] = AIR;
+		world.bgblocks[x][y] = AIR;
 	else if (!nearWood)
-		world->blocks[x][y] = AIR;
+		world.blocks[x][y] = AIR;
 	if (!nearWood)
 	{
 		createItemMob(x, y, getSurvivalItem(leafID));
@@ -40,7 +40,7 @@ LeafUpdater::LeafUpdater()
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void LeafUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void LeafUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

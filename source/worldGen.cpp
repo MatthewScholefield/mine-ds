@@ -12,7 +12,7 @@
 //#include <tr1/regex>
 
 
-void fillWorld(WorldObject* world, int blockType)
+void fillWorld(WorldObject &world, int blockType)
 {
 	unsigned int x, y;
 
@@ -20,13 +20,13 @@ void fillWorld(WorldObject* world, int blockType)
 	{
 		for (y = 0; y < WORLD_HEIGHT; ++y)
 		{
-			world->blocks[x][y] = blockType;
-			world->bgblocks[x][y] = blockType;
+			world.blocks[x][y] = blockType;
+			world.bgblocks[x][y] = blockType;
 		}
 	}
 }
 
-int extremeMountainGen(WorldObject* world, int startx, int starty, int endx)
+int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x = startx;
@@ -52,7 +52,7 @@ int extremeMountainGen(WorldObject* world, int startx, int starty, int endx)
 	return endy;
 }
 
-int flatGen(WorldObject* world, int startx, int starty, int endx)
+int flatGen(WorldObject &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x;
@@ -78,22 +78,22 @@ int flatGen(WorldObject* world, int startx, int starty, int endx)
 {
 	int i;
 	for (i=y; i<WORLD_HEIGHT; ++i)
-		world->blocks[x][i]=STONE;
+		world.blocks[x][i]=STONE;
 }*/
-void generateBedrock(WorldObject* world)
+void generateBedrock(WorldObject &world)
 {
 	int i;
 	for (i = 0; i <= WORLD_WIDTH; ++i)
 	{
-		world->blocks[i][WORLD_HEIGHT] = BEDROCK;
-		if (!(rand() % 2)) world->blocks[i][WORLD_HEIGHT - 1] = BEDROCK;
-		if (!(rand() % 4)) world->blocks[i][WORLD_HEIGHT - 2] = BEDROCK;
-		if (!(rand() % 6)) world->blocks[i][WORLD_HEIGHT - 3] = BEDROCK;
-		if (!(rand() % 8)) world->blocks[i][WORLD_HEIGHT - 4] = BEDROCK;
+		world.blocks[i][WORLD_HEIGHT] = BEDROCK;
+		if (!(rand() % 2)) world.blocks[i][WORLD_HEIGHT - 1] = BEDROCK;
+		if (!(rand() % 4)) world.blocks[i][WORLD_HEIGHT - 2] = BEDROCK;
+		if (!(rand() % 6)) world.blocks[i][WORLD_HEIGHT - 3] = BEDROCK;
+		if (!(rand() % 8)) world.blocks[i][WORLD_HEIGHT - 4] = BEDROCK;
 	}
 }
 
-void generateSmallWorld(WorldObject* world)//Generates one biome
+void generateSmallWorld(WorldObject &world)//Generates one biome
 {
 	int j = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
 	int oj = j;
@@ -131,12 +131,12 @@ void generateSmallWorld(WorldObject* world)//Generates one biome
 
 }
 
-void generateWorld(WorldObject* world)
+void generateWorld(WorldObject &world)
 {
 	//Generating a world is intensive on the cpu.
 	//If you don't stop the music, the whole sound engine will become stuffed up.
 	stopMusic();
-	if (world->gamemode == GAMEMODE_PREVIEW)
+	if (world.gamemode == GAMEMODE_PREVIEW)
 		generateSmallWorld(world);
 	else
 	{
@@ -179,6 +179,6 @@ void generateWorld(WorldObject* world)
 		generateBedrock(world);
 		for (i = 0; i <= WORLD_WIDTH; ++i) //Copy FG blocks to BG
 			for (j = 0; j <= WORLD_HEIGHT; ++j)
-				if (world->blocks[i][j] != AIR && !isBlockWalkThrough(world->blocks[i][j])) world->bgblocks[i][j] = world->blocks[i][j];
+				if (world.blocks[i][j] != AIR && !isBlockWalkThrough(world.blocks[i][j])) world.bgblocks[i][j] = world.blocks[i][j];
 	}
 }

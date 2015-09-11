@@ -21,7 +21,7 @@
 Graphic fullHearts[PLAYER_FULL_HEALTH / 2];
 Graphic halfHeart;
 
-void PlayerMob::calcMiscData(WorldObject* world)
+void PlayerMob::calcMiscData(WorldObject &world)
 {
 	calculateMiscData(world, this);
 }
@@ -95,12 +95,12 @@ void showHealth(int health)
 		showGraphic(&halfHeart, 256 - 8 * PLAYER_FULL_HEALTH / 2 + (health - 1)*4, 56);
 }
 
-bool checkLadder(WorldObject *world, int x, int y)
+bool checkLadder(WorldObject &world, int x, int y)
 {
-	return world->blocks[x / 16][y / 16] == LADDER || world->bgblocks[x / 16][y / 16] == LADDER;
+	return world.blocks[x / 16][y / 16] == LADDER || world.bgblocks[x / 16][y / 16] == LADDER;
 }
 
-void PlayerMob::updateMob(WorldObject* world)
+void PlayerMob::updateMob(WorldObject &world)
 {
 	if (host)
 	{
@@ -114,21 +114,21 @@ void PlayerMob::updateMob(WorldObject* world)
 
 			if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))
 			{
-				world->camCalcX += (double(x) - 256 / 2 - world->camCalcX)*0.1;
-				world->camCalcY += (double(y) - 192 / 2 - world->camCalcY)*0.1;
+				world.camCalcX += (double(x) - 256 / 2 - world.camCalcX)*0.1;
+				world.camCalcY += (double(y) - 192 / 2 - world.camCalcY)*0.1;
 			}
 			else
 			{
-				world->camCalcX = x - 256 / 2;
-				world->camCalcY = y - 192 / 2;
+				world.camCalcX = x - 256 / 2;
+				world.camCalcY = y - 192 / 2;
 			}
 
-			if (world->camCalcX < 0.0) world->camCalcX = 0.0;
-			if (world->camCalcX > WORLD_WIDTH * 16 - 256) world->camCalcX = WORLD_WIDTH * 16 - 256;
-			if (world->camCalcY < 0.0) world->camCalcY = 0.0;
-			if (world->camCalcY > (WORLD_HEIGHT + 1)*16 - 192) world->camCalcY = (WORLD_HEIGHT + 1)*16 - 192;
-			world->camX = int(world->camCalcX);
-			world->camY = int(world->camCalcY);
+			if (world.camCalcX < 0.0) world.camCalcX = 0.0;
+			if (world.camCalcX > WORLD_WIDTH * 16 - 256) world.camCalcX = WORLD_WIDTH * 16 - 256;
+			if (world.camCalcY < 0.0) world.camCalcY = 0.0;
+			if (world.camCalcY > (WORLD_HEIGHT + 1)*16 - 192) world.camCalcY = (WORLD_HEIGHT + 1)*16 - 192;
+			world.camX = int(world.camCalcX);
+			world.camY = int(world.camCalcY);
 
 			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
 			{
@@ -136,7 +136,7 @@ void PlayerMob::updateMob(WorldObject* world)
 				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 				facing = false;
 				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
-					playBlockSfx(world->blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
+					playBlockSfx(world.blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
 			}
 			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
 			{
@@ -144,7 +144,7 @@ void PlayerMob::updateMob(WorldObject* world)
 				vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
 				facing = true;
 				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
-					playBlockSfx(world->blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
+					playBlockSfx(world.blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
 			}
 			else
 			{
@@ -171,7 +171,7 @@ void PlayerMob::updateMob(WorldObject* world)
 				vy = -3;
 			else if (onLadder)
 				vy = 2;
-			if ((!onLadder || !checkLadder(world, x, y + 15)) && (canJump(world) || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+			if ((!onLadder || !checkLadder(world, x, y + 15)) && (canJump(&world) || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
 				vy = JUMP_VELOCITY;
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
@@ -187,7 +187,7 @@ void PlayerMob::updateMob(WorldObject* world)
 		loadGraphic(&mineSprite, GRAPHIC_MOB_ANIM, 2, 16, 32, normalSprite.paletteID); //Mine Animation
 		setAnimFrame(&mineSprite, 0, 1);
 	}
-	if (world->blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y + 8) / 16 + 1) != brightness)
+	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y + 8) / 16 + 1) != brightness)
 		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15;
 	if (spriteState == 0)
 		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.anim_frame == 0)
@@ -196,11 +196,11 @@ void PlayerMob::updateMob(WorldObject* world)
 				setAnimFrame(&mineSprite, 0, 1);
 			else if (getTime() % 3 == 1)
 				animateMob(&mineSprite, 0);
-			showGraphic(&mineSprite, x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+			showGraphic(&mineSprite, x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
 		}
 		else
-			showGraphic(&normalSprite, x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world->camX - 7, (y - world->camY) - 15, facing ? true : false);
+			showGraphic(&normalSprite, x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
 }
 
 void PlayerMob::sendWifiUpdate() { }
@@ -223,10 +223,10 @@ bool PlayerMob::isMyPlayer()
 	return true;
 }
 
-bool canPlayerMobSpawnHere(WorldObject* world, int x, int y)
+bool canPlayerMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;
-	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
+	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS) return true;
 	return false;
 }
 

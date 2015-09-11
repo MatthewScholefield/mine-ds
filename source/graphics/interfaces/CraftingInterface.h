@@ -33,7 +33,7 @@ protected:
 	}
 public:
 
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
 	CraftingInterface() : Interface(INTERFACE_CRAFTING), menu(MENU_BUTTON, false)

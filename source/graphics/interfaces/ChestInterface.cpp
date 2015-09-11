@@ -164,11 +164,11 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 	updateInv();
 }
 
-void ChestInterface::update(WorldObject *world, touchPosition *touch)
+void ChestInterface::update(WorldObject &world, touchPosition &touch)
 {
 	if (!chest)
 	{
-		chestHandler = new InvGfxHandler(*(chest = &world->chests[getOpenedChestID()]), 1, 1);
+		chestHandler = new InvGfxHandler(*(chest = &world.chests[getOpenedChestID()]), 1, 1);
 		updateInv();
 	}
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8 + 4, false, 0);
@@ -176,8 +176,8 @@ void ChestInterface::update(WorldObject *world, touchPosition *touch)
 	chestHandler->update();
 
 	parseKeyInput();
-	parseTouchInput(*touch);
-	switch (menu.update(*touch))
+	parseTouchInput(touch);
+	switch (menu.update(touch))
 	{
 	case BACK:
 		closeInventory();
