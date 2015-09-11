@@ -13,11 +13,11 @@ public:
 	int amount;
 	int floatY;
 
-	void calcMiscData(WorldObject* world);
+	void calcMiscData(WorldObject &world);
 	void saveToFile(FILE* sFile);
 	void loadFromFile(FILE* sFile);
 	void sendWifiUpdate();
-	void updateMob(WorldObject* world);
+	void updateMob(WorldObject &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 

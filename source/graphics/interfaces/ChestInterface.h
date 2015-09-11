@@ -45,7 +45,7 @@ public:
 	static void triggerUpdate();
 	static void staticUpdate();
 
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
 	ChestInterface(bool open) : Interface(INTERFACE_INVENTORY)

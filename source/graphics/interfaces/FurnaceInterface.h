@@ -36,7 +36,7 @@ class FurnaceInterface : public Interface
 	void swapItem(InvBlock &original);
 public:
 
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
 	FurnaceInterface() : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)

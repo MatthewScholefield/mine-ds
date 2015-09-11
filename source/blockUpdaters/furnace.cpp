@@ -12,14 +12,14 @@ FurnaceUpdater::FurnaceUpdater()
 	chance = NO_CHANCE;
 }
 
-bool FurnaceUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool FurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
 {
-	if (world->furnaces[getFurnaceID(world, x, y, bg)]->fuel > 0)
+	if (world.furnaces[getFurnaceID(world, x, y, bg)]->fuel > 0)
 	{
 		if (bg)
-			world->bgblocks[x][y] = FURNACE_LIT;
+			world.bgblocks[x][y] = FURNACE_LIT;
 		else
-			world->blocks[x][y] = FURNACE_LIT;
+			world.blocks[x][y] = FURNACE_LIT;
 	}
 	updateSingleBlock(world, x, y, bg, FPS);
 	return false;

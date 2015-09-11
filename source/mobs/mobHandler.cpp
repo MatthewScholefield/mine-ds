@@ -41,9 +41,9 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 7, y * 16 + 8, blockID, amount, displayID, initVX)));
 }
 
-bool canMobSpawnHere(WorldObject *world, int x, int y)
+bool canMobSpawnHere(WorldObject &world, int x, int y)
 {
-	return (isBlockWalkThrough(world->blocks[x][y]) && !isBlockWalkThrough(world->blocks[x][y + 1]) && world->blocks[x][y] != CACTUS && world->bgblocks[x][y + 1] != CACTUS);
+	return (isBlockWalkThrough(world.blocks[x][y]) && !isBlockWalkThrough(world.blocks[x][y + 1]) && world.blocks[x][y] != CACTUS && world.bgblocks[x][y + 1] != CACTUS);
 }
 
 int getDefaultSpawnX()
@@ -101,7 +101,7 @@ void mobHandlerInit()
 	hasSpawnedPlayer = false;
 }
 
-static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
+static bool canMobSpawnHere(MobType type, WorldObject &world, int a, int b)
 {
 	switch (type)
 	{
@@ -160,7 +160,7 @@ void saveMobs(FILE* f)
 	fprintf(f, "-1 ");
 }
 
-static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck = false)
+static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
@@ -172,7 +172,7 @@ static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck 
 		}
 }
 
-static int spawnMob(MobType mobId, WorldObject* world)
+static int spawnMob(MobType mobId, WorldObject &world)
 {
 	int i;
 	int j;
@@ -209,14 +209,8 @@ void loadMobs(FILE* f)
 	}
 }
 
-void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
+void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 {
-	bool delTouch = false;
-	if (!touch)
-	{
-		delTouch = true;
-		touch = new touchPosition();
-	}
 	const int EXTRA = 128;
 	int badMobs = 0;
 	int goodMobs = 0;
@@ -241,8 +235,8 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 		if (mobs[i]->health > 0)
 		{
 			mobs[i]->calcHealth();
-			bool closeToPlayer = !(mobs[i]->x < world->camX - EXTRA || mobs[i]->x > world->camX + 256 + EXTRA
-					|| mobs[i]->y < world->camY - EXTRA || mobs[i]->y > world->camY + 192 + EXTRA);
+			bool closeToPlayer = !(mobs[i]->x < world.camX - EXTRA || mobs[i]->x > world.camX + 256 + EXTRA
+					|| mobs[i]->y < world.camY - EXTRA || mobs[i]->y > world.camY + 192 + EXTRA);
 			if (mobs[i]->type == MOB_ZOMBIE || mobs[i]->type == MOB_HEROBRINE)
 				++badMobs;
 			else if (mobs[i]->type == MOB_ANIMAL)
@@ -271,11 +265,9 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 		}
 	}
 	if (goodMobs < 4 && rand() % 30 == 0)
-		spawnMobOn(MOB_ANIMAL, world, world->camX / 16 + rand() % 16);
+		spawnMobOn(MOB_ANIMAL, world, world.camX / 16 + rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
 				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
 				world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
-	if (delTouch)
-		delete touch;
 }

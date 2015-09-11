@@ -14,12 +14,12 @@ CactusUpdater::CactusUpdater()
 	chance = CACTUS_CHANCE_UPDATE;
 }
 
-bool CactusUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool CactusUpdater::update(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (blockBelowXY != SAND && blockBelowXY != CACTUS)
 	{
-		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockXY = AIR;
 		createItemMob(x, y, CACTUS);
 		return true;
@@ -27,13 +27,13 @@ bool CactusUpdater::update(WorldObject* world, int x, int y, bool bg)
 	return false;
 }
 
-void CactusUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void CactusUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockAboveXY = bg ? world->bgblocks[x][y - 1] : world->blocks[x][y - 1];
-	int &blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+	int &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
+	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (blockAboveXY == AIR && blockBelowXY == SAND)
 	{
-		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockAboveXY = blockXY;
 	}
 }

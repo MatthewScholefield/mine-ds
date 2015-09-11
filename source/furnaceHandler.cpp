@@ -35,11 +35,11 @@ void convertItemToFuel(Furnace &furnace)
 	}
 }
 
-void createFurnace(WorldObject *world, int x, int y, bool bg)
+void createFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	int furnaceID = -1;
 	for (int i = 0; i < MAX_FURNACES; ++i)
-		if (!world->furnaces[i])
+		if (!world.furnaces[i])
 		{
 			furnaceID = i;
 			break;
@@ -50,16 +50,16 @@ void createFurnace(WorldObject *world, int x, int y, bool bg)
 		addInventory(FURNACE);
 		return;
 	}
-	world->furnaces[furnaceID] = new Furnace();
+	world.furnaces[furnaceID] = new Furnace();
 	if (bg)
 	{
-		world->bgblocks[x][y] = FURNACE;
-		world->data[x][y] = (world->data[x][y] & 0x0000FFFF) | (furnaceID << 4 * 4);
+		world.bgblocks[x][y] = FURNACE;
+		world.data[x][y] = (world.data[x][y] & 0x0000FFFF) | (furnaceID << 4 * 4);
 	}
 	else
 	{
-		world->blocks[x][y] = FURNACE;
-		world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | (furnaceID);
+		world.blocks[x][y] = FURNACE;
+		world.data[x][y] = (world.data[x][y] & 0xFFFF0000) | (furnaceID);
 	}
 }
 
@@ -75,7 +75,7 @@ void disperseItems(int x, int y, InvBlock block)
 	disperseItems(x, y, block.ID, block.amount);
 }
 
-void destroyFurnace(WorldObject *world, int x, int y, bool bg)
+void destroyFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	int id = getFurnaceID(world, x, y, bg);
 	if (id < 0)
@@ -83,19 +83,19 @@ void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 		showError("Destroying non-existent furnace");
 		return;
 	}
-	disperseItems(x, y, world->furnaces[id]->sourceBlock);
-	disperseItems(x, y, world->furnaces[id]->fuelBlock);
-	disperseItems(x, y, world->furnaces[id]->resultBlock);
-	delete world->furnaces[id];
-	world->furnaces[id] = nullptr;
+	disperseItems(x, y, world.furnaces[id]->sourceBlock);
+	disperseItems(x, y, world.furnaces[id]->fuelBlock);
+	disperseItems(x, y, world.furnaces[id]->resultBlock);
+	delete world.furnaces[id];
+	world.furnaces[id] = nullptr;
 	if (bg)
-		world->bgblocks[x][y] = AIR;
+		world.bgblocks[x][y] = AIR;
 	else
-		world->blocks[x][y] = AIR;
+		world.blocks[x][y] = AIR;
   disperseItems(x,y,FURNACE,1);
 }
 
-void openFurnace(WorldObject *world, int x, int y, bool bg)
+void openFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	if (furnaceID >= 0) //Another furnace is already opened
 		return;

@@ -35,7 +35,7 @@ void initFile()
 #endif
 }
 
-bool saveWorld(WorldObject *world)
+bool saveWorld(WorldObject &world)
 {
 	if (!SHOULD_SAVE) return false;
 	stopMusic();
@@ -46,23 +46,23 @@ bool saveWorld(WorldObject *world)
 	{
 		fprintf(worldFile, VERSION_STRING);
 		fprintf(worldFile, " %d %d ", WORLD_WIDTH, WORLD_HEIGHT);
-		fprintf(worldFile, "%d ", world->gamemode);
-		fprintf(worldFile, "%d ", world->timeInWorld);
+		fprintf(worldFile, "%d ", world.gamemode);
+		fprintf(worldFile, "%d ", world.timeInWorld);
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
-				fprintf(worldFile, "%d %d %d ", world->blocks[i][j], world->bgblocks[i][j], world->data[i][j]);
+				fprintf(worldFile, "%d %d %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
 			if (i % 50 == 0)
 				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 		}
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
-			fprintf(worldFile, "%d ", world->biome[i]);
+			fprintf(worldFile, "%d ", world.biome[i]);
 
 		saveInventory(worldFile);
 		saveMobs(worldFile);
 		for (int i = 0; i < MAX_CHESTS; ++i)
 			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fprintf(worldFile, "%d %d ", world->chests[i].blocks[j].ID, world->chests[i].blocks[j].amount);
+				fprintf(worldFile, "%d %d ", world.chests[i].blocks[j].ID, world.chests[i].blocks[j].amount);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
@@ -153,7 +153,7 @@ bool loadWorld(WorldObject *world)
 				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 
 		}
-		Calculate_Brightness(world);
+		Calculate_Brightness(*world);
 		int loadBiome;
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{

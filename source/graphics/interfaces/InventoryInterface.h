@@ -40,7 +40,7 @@ public:
 	static bool touchesInvSlot(const touchPosition &touch);
 	static int touchedSlot(const touchPosition &touch);
 	
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 
 	void draw();
 

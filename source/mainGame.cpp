@@ -58,7 +58,7 @@ static bool inGameMenu()
 		{
 		case 1: // save game
 			printXY(1, 22, "Saving game");
-			if (!saveWorld(world))
+			if (!saveWorld(*world))
 			{
 				printXY(1, 22, "Failed to save game");
 				sleepThread(1);
@@ -109,7 +109,7 @@ void newGame(gamemode_t mode, int seed)
 	clearInventory();
 	shouldQuitGame = false;
 	world->gamemode = mode;
-	generateWorld(world);
+	generateWorld(*world);
 	if (mode == GAMEMODE_PREVIEW)
 		for (int i = 1; i < WORLD_HEIGHT; ++i)
 			if (!isBlockWalkThrough(world->blocks[0][i]))
@@ -121,7 +121,7 @@ void newGame(gamemode_t mode, int seed)
 
 void drawWorld()
 {
-	worldRender_Render(world);
+	worldRender_Render(*world);
 }
 
 void previewGame(void)
@@ -145,7 +145,7 @@ bool loadGame(void)
 void joinGame(void)
 {
 	nifiEnable();
-	//fillWorld(world, BEDROCK);
+	//fillWorld(*world, BEDROCK);
 	delete world;
 	world = new WorldObject();
 	clearText();
@@ -161,7 +161,7 @@ void joinGame(void)
 		sleepThread(2);
 		return;
 	}
-	recieveWorld(world);
+	recieveWorld(*world);
 	// TODO: Move this to nifi.cpp
 	unsigned short buffer[100];
 	int client_id = getClientID();
@@ -191,28 +191,28 @@ void startGame(void)
 	{
 		clearMainGraphics();
 		clearUnusedBlockSprites();
-		dayNightUpdate(world);
+		dayNightUpdate(*world);
 		timeUpdate();
 
 		scanKeys();
 		if (keysHeld() & KEY_TOUCH)
 			touchRead(&touch);
 
-		mobHandlerUpdate(world, &touch);
-		updateInterface(world, &touch);
+		mobHandlerUpdate(*world, touch);
+		updateInterface(*world, touch);
 		update_message();
 		if (keysDown() & getGlobalSettings()->getKey(ACTION_MENU))
 		{
 			if (inGameMenu() != 0)
 				break;
 		}
-		miningUpdate(world, touch);
-		proceduralBlockUpdate(world);
-		worldRender_RenderWater(world);
+		miningUpdate(*world, touch);
+		proceduralBlockUpdate(*world);
+		worldRender_RenderWater(*world);
 		update3D();
 		vBlank();
 		{
-			worldRender_Render(world);
+			worldRender_Render(*world);
 			oamUpdate(&oamMain);
 			updateSubBG();
 		}
@@ -241,9 +241,9 @@ void startMultiplayerGame(bool host)
 		delete world;
 		world = new WorldObject();
 		world->gamemode = GAMEMODE_CREATIVE;
-		generateWorld(world);
+		generateWorld(*world);
 		while (!hostNifiInit()) updateFrame();
-		communicationInit(world);
+		communicationInit(*world);
 		clearText();
 		unsigned short buffer[100];
 		int server_id = getServerID();
@@ -256,7 +256,7 @@ void startMultiplayerGame(bool host)
 		recieveWorldUpdate();
 		updateTime();
 		scanKeys();
-		mobHandlerUpdate(world);
+		mobHandlerUpdate(*world);
 		updateInventory(touch, world, oldKeys);
 		update_message();
 		if (keysHeld() & KEY_B && keysHeld() & KEY_DOWN)
@@ -265,20 +265,19 @@ void startMultiplayerGame(bool host)
 			break;
 		oldKeys = keysHeld();
 		touchRead(&touch);
-		miningUpdate(world, touch);
+		miningUpdate(*world, touch);
 		if (host)
-			proceduralBlockUpdate(world);
+			proceduralBlockUpdate(*world);
 		updateFrame(); //Should be the only time called in the loop
-		worldRender_Render(world, world->camX, world->camY);
+		worldRender_Render(*world, world->camX, world->camY);
 		oamUpdate(&oamMain);
 		oamUpdate(&oamSub);
 		clearMainGraphics();
 		clearUnusedBlockSprites();
 		if (host)
-			timeUpdate(world);
+			timeUpdate(*world);
 	}
-	nifiDisable();*/
-}
+	nifiDisable();*/ }
 /*void setSeed(int seed)
 {
 	world->seed = seed;

@@ -16,12 +16,12 @@
 #include "../worldRender.h"
 const int AnimalMob::FRAME[3] = {10, 12, 14};
 
-void AnimalMob::calcMiscData(WorldObject* world)
+void AnimalMob::calcMiscData(WorldObject &world)
 {
 	calculateMiscDataSmall(world, this);
 }
 
-void AnimalMob::updateMob(WorldObject* world)
+void AnimalMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
@@ -29,7 +29,7 @@ void AnimalMob::updateMob(WorldObject* world)
 		loadGraphic(&hurtSprite, GRAPHIC_MOB, FRAME[animal] + 1, 16, 16, normalSprite.paletteID);
 	}
 	
-	showGraphic(spriteState == 0 ? &normalSprite : &hurtSprite, x - world->camX - 7, y - world->camY - 7, facing ? true : false);
+	showGraphic(spriteState == 0 ? &normalSprite : &hurtSprite, x - world.camX - 7, y - world.camY - 7, facing ? true : false);
 
 	if (host == true)
 	{
@@ -47,11 +47,11 @@ void AnimalMob::updateMob(WorldObject* world)
 		{
 			if (mov > 1)
 			{
-				if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
+				if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(&world))
 					vy = JUMP_VELOCITY;
 				else if (!(collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]))
 					--mov;
-				if (!canJump(world) && ((collisions[SIDE_RIGHT] && dir) || (collisions[SIDE_LEFT]&&!dir)) && vy > 0)
+				if (!canJump(&world) && ((collisions[SIDE_RIGHT] && dir) || (collisions[SIDE_LEFT]&&!dir)) && vy > 0)
 				{
 					mov = 50;
 					dir = !(facing = dir); //Change Direction
@@ -81,14 +81,14 @@ void AnimalMob::updateMob(WorldObject* world)
 		else //Scared
 		{
 			vx = (facing = (target->x > x)) ? -RUN_VELOCITY : RUN_VELOCITY;
-			if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
+			if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(&world))
 				vy = JUMP_VELOCITY;
 			--scaredTimer;
 		}
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 	}
-	if (world->blocks[int(x) / 16][(int(y)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y) / 16 + 1) != brightness)
+	if (world.blocks[int(x) / 16][(int(y)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y) / 16 + 1) != brightness)
 		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15;
 }
 
@@ -156,7 +156,7 @@ bool AnimalMob::isMyPlayer()
 	return false;
 }
 
-bool canAnimalMobSpawnHere(WorldObject* world, int x, int y)
+bool canAnimalMobSpawnHere(WorldObject &world, int x, int y)
 {
 	return canMobSpawnHere(world, x, y);
 }
