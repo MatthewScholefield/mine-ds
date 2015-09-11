@@ -1,7 +1,7 @@
 #include "CraftingInterface.h"
-#include "../Recipe.h"
-#include "../inventory.h"
-#include "../graphics/UI.h"
+#include "../../Recipe.h"
+#include "../../inventory.h"
+#include "../UI.h"
 #include "interfaceHandler.h"
 
 const Recipe CraftingInterface::recipes[NUM_RECIPES] = {

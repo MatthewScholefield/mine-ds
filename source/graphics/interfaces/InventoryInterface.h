@@ -1,10 +1,10 @@
 #include "Interface.h"
-#include "../inventory.h"
-#include "../mainGame.h"
-#include "../graphics/Menu.h"
-#include "../graphics/graphics.h"
-#include "../blockID.h"
-#include "../graphics/handlers/InvGfxHandler.h"
+#include "../../inventory.h"
+#include "../../mainGame.h"
+#include "../Menu.h"
+#include "../graphics.h"
+#include "../../blockID.h"
+#include "../handlers/InvGfxHandler.h"
 
 #pragma once
 

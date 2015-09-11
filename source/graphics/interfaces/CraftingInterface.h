@@ -1,7 +1,7 @@
 #include "Interface.h"
-#include "../graphics/Menu.h"
-#include "../Recipe.h"
-#include "../graphics/graphics.h"
+#include "../Menu.h"
+#include "../../Recipe.h"
+#include "../graphics.h"
 
 #pragma once
 
