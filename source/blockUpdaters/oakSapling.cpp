@@ -10,11 +10,11 @@
 #include "../worldRender.h"
 #include "../mobs/mobHandler.h"
 
-void saplingChanceUpdate(WorldObject *world, int x, int y, bool bg)
+void saplingChanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	if (getBrightness(world, x, y + 1) < 2)
 	{
-		int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		switch (blockXY)
 		{
 		case SAPLING_OAK:
@@ -31,10 +31,10 @@ void saplingChanceUpdate(WorldObject *world, int x, int y, bool bg)
 	}
 }
 
-void saplingUpdate(WorldObject *world, int x, int y, bool bg)
+void saplingUpdate(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
-	int blockBelowXY = bg ? world->bgblocks[x][y + 1] : world->blocks[x][y + 1];
+	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+	int blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 
 	int requiredBlock = AIR;
 	switch (blockXY)
@@ -63,13 +63,13 @@ OakSaplingUpdater::OakSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-bool OakSaplingUpdater::update(WorldObject* world, int x, int y, bool bg)
+bool OakSaplingUpdater::update(WorldObject &world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
 	return false;
 }
 
-void OakSaplingUpdater::chanceUpdate(WorldObject* world, int x, int y, bool bg)
+void OakSaplingUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	saplingChanceUpdate(world, x, y, bg);
 }

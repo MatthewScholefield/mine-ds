@@ -109,9 +109,9 @@ int updaterIndex(int blockID, int index = 0)
 	}
 }
 
-static void recursiveUpdate(WorldObject *world, int x, int y, bool bg);
+static void recursiveUpdate(WorldObject &world, int x, int y, bool bg);
 
-void updateDir(WorldObject *world, int x, int y, bool bg, int dir)
+void updateDir(WorldObject &world, int x, int y, bool bg, int dir)
 {
 	switch (dir)
 	{
@@ -132,7 +132,7 @@ void updateDir(WorldObject *world, int x, int y, bool bg, int dir)
 	}
 }
 
-void updateBlocksAround(WorldObject *world, int x, int y, bool bg)
+void updateBlocksAround(WorldObject &world, int x, int y, bool bg)
 {
 	recursiveUpdate(world, x + 1, y, bg);
 	recursiveUpdate(world, x, y - 1, bg);
@@ -158,10 +158,10 @@ bool findUpdateInfo(int x,int y, bool bg,bool chance)
 	}
 	return false;
 }
-void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
+void recursiveUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT ) return;
-	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
@@ -174,14 +174,14 @@ void recursiveUpdate(WorldObject *world, int x, int y, bool bg)
 }
 
 
-void updateAround(WorldObject *world, int x, int y)
+void updateAround(WorldObject &world, int x, int y)
 {
 	updateBlocksAround(world,x,y,false);
 	updateBlocksAround(world,x,y,true);
 }
-void updateSingleBlock(WorldObject* world, int x, int y, bool bg, int timeToUpdate)
+void updateSingleBlock(WorldObject &world, int x, int y, bool bg, int timeToUpdate)
 {
-	int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
@@ -191,7 +191,7 @@ void updateSingleBlock(WorldObject* world, int x, int y, bool bg, int timeToUpda
 		}
 	}
 }
-int processTTL(WorldObject* world)
+int processTTL(WorldObject &world)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
 	int numReadyToUpdate = 0;
@@ -204,11 +204,11 @@ int processTTL(WorldObject* world)
 			numReadyToUpdate+=1;
 			a = Color({0,255,0});
 		}
-		//drawRect(a, it->x * 16 + 4 - world->camX, it->y * 16 + 4 - world->camY, 8, 8);
+		//drawRect(a, it->x * 16 + 4 - world.camX, it->y * 16 + 4 - world.camY, 8, 8);
 	}
 	return numReadyToUpdate;
 }
-void processOneBlock(WorldObject* world)
+void processOneBlock(WorldObject &world)
 {
 std::vector<BlockUpdateInfo>::iterator it;
 	for (it = updaterList.begin(); it != updaterList.end(); ++it)
@@ -223,7 +223,7 @@ std::vector<BlockUpdateInfo>::iterator it;
 			it = updaterList.erase(it);
 			if (x >= 0 && x < WORLD_WIDTH && y >= 0 && y < WORLD_HEIGHT)
 			{
-				int &blockXY = bg ? world->bgblocks[x][y] : world->blocks[x][y];
+				int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 				int index = updaterIndex(blockXY);
 				if (index!=-1)
 				{
@@ -242,7 +242,7 @@ std::vector<BlockUpdateInfo>::iterator it;
 		}
 	}
 }
-void proceduralBlockUpdate(WorldObject* world)
+void proceduralBlockUpdate(WorldObject &world)
 {
 	if (updaterList.size()==0) return;
 	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.

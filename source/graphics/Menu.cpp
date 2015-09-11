@@ -85,16 +85,16 @@ void slideButtonAction(UIElement *button, int sizeY, bool extra)
 	button->draw();
 }
 
-int getTouchState(touchPosition *touch)
+int getTouchState(touchPosition &touch)
 {
 	if (keysDown() & KEY_TOUCH)
 	{
-		touchRead(touch);
+		touchRead(&touch);
 		return STATE_TAP;
 	}
 	if (keysHeld() & KEY_TOUCH)
 	{
-		touchRead(touch);
+		touchRead(&touch);
 		return STATE_HOLD;
 	}
 	if (keysUp() & KEY_TOUCH)
@@ -129,7 +129,7 @@ int Menu::activate()
 			vBlank();
 			timeUpdate(); //Used to ensure random world seed changes
 			scanKeys();
-			int state = getTouchState(&touch);
+			int state = getTouchState(touch);
 			if (state)
 				for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
 					if (elements[i]->update(state, touch.px, touch.py))
@@ -165,7 +165,7 @@ int Menu::activate()
 				else //Remove any colored buttons, if any
 					drawBoxCenter(frameX + listX + 1, frameY + listY + 1, maxNameLength, listItems.size());
 			}
-			int state = getTouchState(&touch);
+			int state = getTouchState(touch);
 			if (state)
 				for (std::vector<UIElement_ptr>::size_type i = 0; i != elements.size(); ++i)
 					if (elements[i]->update(state, touch.px, touch.py))

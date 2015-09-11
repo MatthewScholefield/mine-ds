@@ -11,12 +11,12 @@
 #include "../mining.h"
 #include "../general.h"
 
-void HerobrineMob::calcMiscData(WorldObject* world)
+void HerobrineMob::calcMiscData(WorldObject &world)
 {
 	calculateMiscData(world, this);
 }
 
-void HerobrineMob::updateMob(WorldObject* world)
+void HerobrineMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
@@ -24,12 +24,12 @@ void HerobrineMob::updateMob(WorldObject* world)
 		loadGraphic(&hurtSprite, GRAPHIC_MOB, 9, 16, 32, normalSprite.paletteID);
 	}
 	++waitingCount;
-	if (spriteState == 0) showGraphic(&normalSprite, x - world->camX - 7, y - world->camY - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world->camX - 7, y - world->camY - 15, facing ? true : false);
+	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
+	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])
-			while (y > 16 && (world->blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world->blocks[int(x) / 16][int(y) / 16] != AIR))
+			while (y > 16 && (world.blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world.blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->type == MOB_PLAYER) facing = true;
@@ -52,14 +52,14 @@ void HerobrineMob::updateMob(WorldObject* world)
 					x += ((rand() % 2) ? -1 : 1)*(rand() % 15);
 			}
 		}
-		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(world))
+		else if ((collisions[SIDE_RIGHT] || collisions[SIDE_LEFT]) && canJump(&world))
 			vy = JUMP_VELOCITY;
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			target->hurt(3, HEROBRINE_HURT);
 	}
-	if (world->blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y+8) / 16 + 1) != brightness)
+	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y+8) / 16 + 1) != brightness)
 		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15;
 }
 
@@ -72,10 +72,10 @@ void HerobrineMob::loadFromFile(FILE* pFile)
 	health = 0;
 }
 
-bool canHerobrineMobSpawnHere(WorldObject* world, int x, int y)
+bool canHerobrineMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;
-	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS)
+	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)
 		return true;
 	return false;
 }

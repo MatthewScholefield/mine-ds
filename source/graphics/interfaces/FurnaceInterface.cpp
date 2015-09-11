@@ -68,19 +68,19 @@ void FurnaceInterface::swapItem(InvBlock &original)
 	original = temp;
 }
 
-void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
+void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 {
 	if (!openFurnace)
 	{
-		openFurnace = world->furnaces[getOpenedFurnaceID()];
+		openFurnace = world.furnaces[getOpenedFurnaceID()];
 		updateContents();
 	}
 	if (invOpen)
 	{
 		gfxHandler.update();
-		if (keysDown() & KEY_TOUCH && InventoryInterface::touchesInvSlot(*touch))
+		if (keysDown() & KEY_TOUCH && InventoryInterface::touchesInvSlot(touch))
 		{
-			int slot = InventoryInterface::touchedSlot(*touch);
+			int slot = InventoryInterface::touchedSlot(touch);
 			swapItem(getInventoryRef().blocks[slot]);
 			closeInv();
 		}
@@ -92,11 +92,11 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 		showGraphic(&gfx[RESULT], 17 * 8, 11 * 8, false, 2);
 		if (keysDown() & KEY_TOUCH)
 		{
-			if (touchesTileBox(*touch, 12, 9, 2, 2))
+			if (touchesTileBox(touch, 12, 9, 2, 2))
 				selectedInvSlot = SOURCE;
-			else if (touchesTileBox(*touch, 12, 13, 2, 2))
+			else if (touchesTileBox(touch, 12, 13, 2, 2))
 				selectedInvSlot = FUEL;
-			else if (touchesTileBox(*touch, 17, 11, 2, 2))
+			else if (touchesTileBox(touch, 17, 11, 2, 2))
 			{
 				addInventory(openFurnace->resultBlock.ID, openFurnace->resultBlock.amount);
 				openFurnace->resultBlock = InvBlock(AIR, 0);
@@ -106,7 +106,7 @@ void FurnaceInterface::update(WorldObject *world, touchPosition *touch)
 				openInv();
 		}
 	}
-	switch (menu.update(*touch))
+	switch (menu.update(touch))
 	{
 	case SMELT:
 	{
