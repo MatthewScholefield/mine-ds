@@ -92,6 +92,7 @@ void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 		world->bgblocks[x][y] = AIR;
 	else
 		world->blocks[x][y] = AIR;
+  disperseItems(x,y,FURNACE,1);
 }
 
 void openFurnace(WorldObject *world, int x, int y, bool bg)
