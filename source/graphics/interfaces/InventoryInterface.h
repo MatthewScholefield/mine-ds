@@ -54,6 +54,10 @@ public:
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
+		if (open)
+			lcdMainOnTop();
+		else
+			lcdMainOnBottom();
 	}
 
 	~InventoryInterface() { }
