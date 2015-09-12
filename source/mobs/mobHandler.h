@@ -21,3 +21,4 @@ void mobsReset(bool playerSpawned = false);
 BaseMob_ptr isMobAt(int x, int y);
 BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y);
 int getPlayerX();
+void triggerPlayerRespawn();

@@ -5,6 +5,7 @@
 #include "ChestInterface.h"
 #include "PageInterface.h"
 #include "FurnaceInterface.h"
+#include "DeathScreenInterface.h"
 #include <memory>
 
 Interface_ptr currentInterface = Interface_ptr(new InventoryInterface(false));
@@ -27,6 +28,9 @@ void setInterface(InterfaceType type, int parameter)
 		break;
 	case INTERFACE_PAGE:
 		currentInterface = Interface_ptr(new PageInterface());
+		break;
+	case INTERFACE_DEATH_SCREEN:
+		currentInterface = Interface_ptr(new DeathScreenInterface());
 		break;
 	default:
 		showError("Unknown interface set");

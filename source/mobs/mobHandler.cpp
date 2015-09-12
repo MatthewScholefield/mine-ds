@@ -209,22 +209,16 @@ void loadMobs(FILE* f)
 	}
 }
 
+void triggerPlayerRespawn()
+{
+	hasSpawnedPlayer = false;
+}
+
 void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 {
 	const int EXTRA = 128;
 	int badMobs = 0;
 	int goodMobs = 0;
-	switch (deathScreenUpdate(touch))
-	{
-	case 0: //Respawn
-		spawnMob(MOB_PLAYER, world);
-		break;
-	case 1: //Titlescreen
-		quitGame();
-		break;
-	default: //Nothing
-		break;
-	}
 	if (!hasSpawnedPlayer)
 	{
 		spawnMob(MOB_PLAYER, world);
