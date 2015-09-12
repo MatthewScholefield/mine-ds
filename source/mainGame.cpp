@@ -184,7 +184,6 @@ void startGame(void)
 		setBlockPage(PAGE_WOOL);
 	shouldQuitGame = false;
 	setInterface(INTERFACE_INVENTORY);
-	lcdMainOnBottom();
 	addInventory(BUCKET_WATER, 3);
 
 	while (!shouldQuitGame)

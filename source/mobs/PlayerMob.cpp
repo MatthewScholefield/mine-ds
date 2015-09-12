@@ -16,6 +16,7 @@
 #include "../Config.h"
 #include "../mining.h"
 #include <time.h>
+#include "../graphics/interfaces/interfaceHandler.h"
 
 #define PLAYER_FULL_HEALTH 20
 Graphic fullHearts[PLAYER_FULL_HEALTH / 2];
@@ -81,7 +82,7 @@ void PlayerMob::hurt(int amount, int type)
 			if (isSurvival())
 				spillInvItems(x, y);
 			clearInventory();
-			setupDeathScreen();
+			setInterface(INTERFACE_DEATH_SCREEN);
 		}
 	}
 }
