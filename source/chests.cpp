@@ -107,3 +107,17 @@ int getOpenedChestID()
 {
 	return chestID;
 }
+
+void saveChests(FILE *file, WorldObject &world)
+{
+	for (int i = 0; i < MAX_CHESTS; ++i)
+		for (int j = 0; j < CHEST_SLOTS; ++j)
+			fprintf(file, "%d %d ", world.chests[i].blocks[j].ID, world.chests[i].blocks[j].amount);
+}
+
+void loadChests(FILE *file, WorldObject &world)
+{
+	for (int i = 0; i < MAX_CHESTS; ++i)
+		for (int j = 0; j < CHEST_SLOTS; ++j)
+			fscanf(file, "%d %d ", &world.chests[i].blocks[j].ID, &world.chests[i].blocks[j].amount);
+}
