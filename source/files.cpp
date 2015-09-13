@@ -15,7 +15,8 @@
 #include "graphics/UI.h"
 #include "graphics/Button.h"
 #include "graphics/graphics.h"
-#include "sounds.h" //For stopping sound on save / load
+#include "sounds.h"
+#include "chests.h" //For stopping sound on save / load
 
 void initFile()
 {
@@ -60,9 +61,7 @@ bool saveWorld(WorldObject &world)
 
 		saveInventory(worldFile);
 		saveMobs(worldFile);
-		for (int i = 0; i < MAX_CHESTS; ++i)
-			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fprintf(worldFile, "%d %d ", world.chests[i].blocks[j].ID, world.chests[i].blocks[j].amount);
+		saveChests(worldFile, world);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
@@ -162,9 +161,7 @@ bool loadWorld(WorldObject *world)
 		}
 		loadInventory(worldFile);
 		loadMobs(worldFile);
-		for (int i = 0; i < MAX_CHESTS; ++i)
-			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fscanf(worldFile, "%d %d ", &world->chests[i].blocks[j].ID, &world->chests[i].blocks[j].amount);
+		loadChests(worldFile, *world);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
