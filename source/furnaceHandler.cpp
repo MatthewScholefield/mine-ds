@@ -137,14 +137,30 @@ void createResult(Furnace &furnace)
 
 void saveFurnaces(FILE *file, WorldObject &world)
 {
-	for (int i = 0; i < MAX_CHESTS; ++i)
-		for (int j = 0; j < CHEST_SLOTS; ++j)
-			fprintf(file, "%d %d ", world.furnaces[i]->fuel, world.chests[i].blocks[j].amount);
+	for (int i = 0; i < MAX_FURNACES; ++i)
+	{
+		if (world.furnaces[i])
+		{
+			fprintf(file, "1 ");
+			world.furnaces[i]->saveToFile(file);
+		}
+		else
+			fprintf(file, "0 ");
+	}
 }
 
 void loadFurnaces(FILE *file, WorldObject &world)
 {
-	for (int i = 0; i < MAX_CHESTS; ++i)
-		for (int j = 0; j < CHEST_SLOTS; ++j)
-			fscanf(file, "%d %d ", &world.chests[i].blocks[j].ID, &world.chests[i].blocks[j].amount);
+	for (int i = 0; i < MAX_FURNACES; ++i)
+	{
+		if (world.furnaces[i])
+		{
+			delete world.furnaces[i];
+			world.furnaces[i] = NULL;
+		}
+		int val;
+		fscanf(file, "%d ", &val);
+		if (val == 1)
+			world.furnaces[i] = new Furnace(file);
+	}
 }
