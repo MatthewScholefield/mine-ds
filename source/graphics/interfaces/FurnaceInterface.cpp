@@ -8,23 +8,26 @@ void FurnaceInterface::updateContents()
 {
 	if (invOpen)
 		return;
-	for (int i = 0; i < 3; ++i)
-		unloadGraphic(&gfx[i]);
-	loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->sourceBlock.ID);
-	loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuelBlock.ID);
-	loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.ID);
-	if (openFurnace->sourceBlock.amount > 0)
-		printXY(12, 10, openFurnace->sourceBlock.amount);
-	else
-		printXY(12, 10, "  ");
-	if (openFurnace->fuelBlock.amount > 0)
-		printXY(12, 14, openFurnace->fuelBlock.amount);
-	else
-		printXY(12, 14, "  ");
-	if (openFurnace->resultBlock.amount > 0)
-		printXY(17, 12, openFurnace->resultBlock.amount);
-	else
-		printXY(17, 12, "  ");
+	if (openFurnace)
+	{
+		for (int i = 0; i < 3; ++i)
+			unloadGraphic(&gfx[i]);
+		loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->sourceBlock.ID);
+		loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuelBlock.ID);
+		loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.ID);
+		if (openFurnace->sourceBlock.amount > 0)
+			printXY(12, 10, openFurnace->sourceBlock.amount);
+		else
+			printXY(12, 10, "  ");
+		if (openFurnace->fuelBlock.amount > 0)
+			printXY(12, 14, openFurnace->fuelBlock.amount);
+		else
+			printXY(12, 14, "  ");
+		if (openFurnace->resultBlock.amount > 0)
+			printXY(17, 12, openFurnace->resultBlock.amount);
+		else
+			printXY(17, 12, "  ");
+	}
 }
 
 void FurnaceInterface::openInv()
