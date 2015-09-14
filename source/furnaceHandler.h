@@ -9,6 +9,8 @@ void closeFurnace();
 int getOpenedFurnaceID();
 void createResult(Furnace &furnace);
 int fuelNeeded(const Furnace &furnace);
+void saveFurnaces(FILE *file, WorldObject &world);
+void loadFurnaces(FILE *file, WorldObject &world);
 
 inline int getFurnaceID(WorldObject &world, int x, int y, bool bg)
 {
