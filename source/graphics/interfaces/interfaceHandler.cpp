@@ -8,7 +8,7 @@
 #include "DeathScreenInterface.h"
 #include <memory>
 
-Interface_ptr currentInterface = Interface_ptr(new InventoryInterface(false));
+Interface_ptr currentInterface = nullptr;
 
 void setInterface(InterfaceType type, int parameter)
 {
@@ -42,6 +42,8 @@ void setInterface(InterfaceType type, int parameter)
 
 void updateInterface(WorldObject &world, touchPosition &touch)
 {
+	if (!currentInterface)
+		setInterface(INTERFACE_INVENTORY, false);
 	currentInterface->update(world, touch);
 	Interface::staticUpdate();
 }
