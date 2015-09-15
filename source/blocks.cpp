@@ -589,3 +589,15 @@ int fuelAmount(int blockID)
 		return 0;
 	}
 }
+
+bool perpetualUpdates(int blockID)
+{
+	switch (blockID)
+	{
+	case FURNACE:
+	case FURNACE_LIT:
+		return true;
+	default:
+		return false;
+	}
+}
