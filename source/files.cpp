@@ -17,6 +17,8 @@
 #include "graphics/graphics.h"
 #include "sounds.h"
 #include "chests.h" //For stopping sound on save / load
+#include "furnaceHandler.h"
+#include "blocks.h"
 
 void initFile()
 {
@@ -62,6 +64,7 @@ bool saveWorld(WorldObject &world)
 		saveInventory(worldFile);
 		saveMobs(worldFile);
 		saveChests(worldFile, world);
+		saveFurnaces(worldFile, world);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
@@ -147,7 +150,13 @@ bool loadWorld(WorldObject *world)
 		for (int i = 0; i <= worldBlocksX; ++i)
 		{
 			for (int j = 0; j <= worldBlocksY; ++j)
+			{
 				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
+				if (perpetualUpdates(world->bgblocks[i][j]))
+					updateSingleBlock(*world, i, j, true);
+				if (perpetualUpdates(world->blocks[i][j]))
+					updateSingleBlock(*world, i, j, false);
+			}
 			if (i % 64 == 0)
 				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 
@@ -162,6 +171,7 @@ bool loadWorld(WorldObject *world)
 		loadInventory(worldFile);
 		loadMobs(worldFile);
 		loadChests(worldFile, *world);
+		loadFurnaces(worldFile, *world);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
