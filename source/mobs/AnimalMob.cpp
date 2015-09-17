@@ -112,10 +112,16 @@ void AnimalMob::hurt(int amount, int type)
 	int playerX = getPlayerX();
 	if (abs(x - playerX) < 256)
 	{
-		int volume = -abs(x - playerX) + 280;
+		int volume = - abs(x - playerX) + 260;
 		if (volume > 255)
 			volume = 255;
-		int panning = (x - playerX) / 2 + 127;
+		if (volume < 0)
+			volume = 0;
+		int panning = 127 + x - playerX;
+		if (panning < 0)
+			panning = 0;
+		if (panning > 255)
+			panning = 255;
 		switch (animal)
 		{
 		case ANIMAL_COW:
