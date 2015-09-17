@@ -132,7 +132,6 @@ void previewGame(void)
 
 bool loadGame(void)
 {
-	mobsReset(true);
 	shouldQuitGame = false;
 	if (loadWorld(world))
 	{
