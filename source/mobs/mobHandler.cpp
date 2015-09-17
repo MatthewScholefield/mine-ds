@@ -22,6 +22,7 @@
 #include "../deathScreen.h"
 #include "../mainGame.h"
 #include "WaterMob.h"
+#include "mobHandler.h"
 
 std::vector<BaseMob_ptr> mobs;
 BaseMob_ptr playerPointer;
@@ -48,7 +49,7 @@ bool canMobSpawnHere(WorldObject &world, int x, int y)
 
 int getDefaultSpawnX()
 {
-	return playerPointer->x / 16 + (rand() % 5) - 2;
+	return !playerPointer ? 0 : playerPointer->x / 16 + (rand() % 5) - 2;
 }
 
 BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
@@ -78,7 +79,7 @@ BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
 
 int getPlayerX()
 {
-	return playerPointer->x;
+	return !playerPointer ? 0 : playerPointer->x;
 }
 
 BaseMob_ptr isMobAt(int x, int y)
@@ -264,5 +265,5 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
 				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
-				world, playerPointer->x / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
+				world, getPlayerX() / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
 }
