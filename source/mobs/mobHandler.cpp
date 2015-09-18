@@ -49,7 +49,7 @@ bool canMobSpawnHere(WorldObject &world, int x, int y)
 
 int getDefaultSpawnX()
 {
-	return !playerPointer ? 0 : playerPointer->x / 16 + (rand() % 5) - 2;
+	return !playerPointer ? 0 : (int)playerPointer->x / 16 + (rand() % 5) - 2;
 }
 
 BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
@@ -79,7 +79,7 @@ BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
 
 int getPlayerX()
 {
-	return !playerPointer ? 0 : playerPointer->x;
+	return !playerPointer ? 0 : (int)playerPointer->x;
 }
 
 BaseMob_ptr isMobAt(int x, int y)
