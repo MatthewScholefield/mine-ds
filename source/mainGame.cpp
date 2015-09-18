@@ -84,7 +84,7 @@ static bool inGameMenu()
 
 bool isSurvival(void)
 {
-	return (world->gamemode == GAMEMODE_SURVIVAL);
+	return (world->gameMode == GAMEMODE_SURVIVAL);
 }
 
 void quitGame()
@@ -92,13 +92,13 @@ void quitGame()
 	shouldQuitGame = true;
 }
 
-void newGame(gamemode_t mode, int seed)
+void newGame(GameMode mode, int seed)
 {
 	updateSubBG();
-	if (world && world->gamemode == GAMEMODE_PREVIEW)
+	if (world && world->gameMode == GAMEMODE_PREVIEW)
 		seed = world->seed;
 	delete world;
-	world = new WorldObject();
+	world = new WorldObject(mode);
 	// Zero for a random seed
 	if (seed == 0)
 		world->seed = time(nullptr);
@@ -108,7 +108,6 @@ void newGame(gamemode_t mode, int seed)
 	mobsReset();
 	clearInventory();
 	shouldQuitGame = false;
-	world->gamemode = mode;
 	generateWorld(*world);
 	if (mode == GAMEMODE_PREVIEW)
 		for (int i = 1; i < WORLD_HEIGHT; ++i)
