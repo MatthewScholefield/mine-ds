@@ -28,7 +28,7 @@ void ItemMob::calcMiscData(WorldObject &world) { }
 
 void ItemMob::updateMob(WorldObject &world)
 {
-	if (world.gamemode == GAMEMODE_CREATIVE)
+	if (world.gameMode == GAMEMODE_CREATIVE)
 	{
 		health = 0;
 		return;

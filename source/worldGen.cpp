@@ -8,25 +8,10 @@
 #include "worldRender.h"
 #include "files.h"
 #include "sounds.h"
+#include "blockUpdater.h"
 #include <string>
-//#include <tr1/regex>
 
-
-void fillWorld(WorldObject &world, int blockType)
-{
-	unsigned int x, y;
-
-	for (x = 0; x < WORLD_WIDTH; ++x)
-	{
-		for (y = 0; y < WORLD_HEIGHT; ++y)
-		{
-			world.blocks[x][y] = blockType;
-			world.bgblocks[x][y] = blockType;
-		}
-	}
-}
-
-int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
+static int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x = startx;
@@ -51,8 +36,7 @@ int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
 	drawLineThing(world, x, y, endx, endy);
 	return endy;
 }
-
-int flatGen(WorldObject &world, int startx, int starty, int endx)
+static int flatGen(WorldObject &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x;
@@ -74,13 +58,7 @@ int flatGen(WorldObject &world, int startx, int starty, int endx)
 	return y;
 }
 
-/*void plotHeight(worldObject* world,int x, int y)
-{
-	int i;
-	for (i=y; i<WORLD_HEIGHT; ++i)
-		world.blocks[x][i]=STONE;
-}*/
-void generateBedrock(WorldObject &world)
+static void generateBedrock(WorldObject &world)
 {
 	int i;
 	for (i = 0; i <= WORLD_WIDTH; ++i)
@@ -93,92 +71,61 @@ void generateBedrock(WorldObject &world)
 	}
 }
 
-void generateSmallWorld(WorldObject &world)//Generates one biome
+static void generateRandomBiome(WorldObject &world, int x, int endX)
 {
-	int j = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
-	int oj = j;
-	int i = 0;
-	int sizex;
-
-	fillWorld(world, AIR);
-	sizex = rand() % 16 + 16;
-	if (sizex > WORLD_WIDTH) sizex = WORLD_WIDTH;
-	j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
 	switch (rand() % 6 + 1)
 	{
 	case BIOME_PLAINS:
-		plainsBiome(world, i, i + sizex);
+		plainsBiome(world, x, endX);
 		break;
 	case BIOME_SNOW:
-		snowBiome(world, i, i + sizex);
+		snowBiome(world, x, endX);
 		break;
 	case BIOME_DESERT:
-		desertBiome(world, i, i + sizex);
+		desertBiome(world, x, endX);
 		break;
 	case BIOME_JUNGLE:
-		jungleBiome(world, i, i + sizex);
+		jungleBiome(world, x, endX);
 		break;
 	case BIOME_MUSHROOM:
-		mushroomBiome(world, i, i + sizex);
+		mushroomBiome(world, x, endX);
 		break;
 	case BIOME_OCEAN:
-		oceanBiome(world, i, i + sizex);
+		oceanBiome(world, x, endX);
 		break;
 	}
+}
 
-	updateBrightnessAround(world, i, j);
-	updateBrightnessAround(world, 0, oj);
-
+void generateSmallWorld(WorldObject &world)//Generates one biome
+{
+	int y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
+	y = (rand() % 2 == 1 ? extremeMountainGen(world, 0, y, 15) : flatGen(world, 0, y, 15));
+	generateRandomBiome(world, 0, 15);
+	updateBrightnessAround(world, 15, y);
 }
 
 void generateWorld(WorldObject &world)
 {
+	if (world.gameMode == GAMEMODE_PREVIEW)
+	{
+		generateSmallWorld(world);
+		return;
+	}
+	stopMusic();
 	//Generating a world is intensive on the cpu.
 	//If you don't stop the music, the whole sound engine will become stuffed up.
-	stopMusic();
-	if (world.gamemode == GAMEMODE_PREVIEW)
-		generateSmallWorld(world);
-	else
+	int x = 0, y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4, initY = y;
+	while (x < WORLD_WIDTH)
 	{
-		int i, j;
-		fillWorld(world, AIR);
-		j = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
-		i = 0;
-		int oj = j;
-		while (i < WORLD_WIDTH)
-		{
-			int sizex;
-			sizex = rand() % 16 + 16;
-			if (i + sizex >= WORLD_WIDTH) sizex = WORLD_WIDTH - 1 - i;
-			j = (rand() % 2 == 1 ? extremeMountainGen(world, i, j, i + sizex) : flatGen(world, i, j, i + sizex));
-			switch (rand() % 6 + 1)
-			{
-			case BIOME_PLAINS:
-				plainsBiome(world, i, i + sizex);
-				break;
-			case BIOME_SNOW:
-				snowBiome(world, i, i + sizex);
-				break;
-			case BIOME_DESERT:
-				desertBiome(world, i, i + sizex);
-				break;
-			case BIOME_JUNGLE:
-				jungleBiome(world, i, i + sizex);
-				break;
-			case BIOME_MUSHROOM:
-				mushroomBiome(world, i, i + sizex);
-				break;
-			case BIOME_OCEAN:	
-				oceanBiome(world, i, i + sizex);
-				break;
-			}
-			updateBrightnessAround(world, i, j);
-			i = i + sizex + 1;
-		}
-		updateBrightnessAround(world, 0, oj);
-		generateBedrock(world);
-		for (i = 0; i <= WORLD_WIDTH; ++i) //Copy FG blocks to BG
-			for (j = 0; j <= WORLD_HEIGHT; ++j)
-				if (world.blocks[i][j] != AIR && !isBlockWalkThrough(world.blocks[i][j])) world.bgblocks[i][j] = world.blocks[i][j];
+		int endX = x + rand() % 16 + 16;
+		if (endX >= WORLD_WIDTH) endX = WORLD_WIDTH - 1;
+		y = (rand() % 2 ? extremeMountainGen(world, x, y, endX) : flatGen(world, x, y, endX));
+		generateRandomBiome(world, x, endX);
+		x = endX + 1;
 	}
+	updateBrightnessAround(world, 0, initY);
+	generateBedrock(world);
+	for (x = 0; x <= WORLD_WIDTH; ++x) //Copy FG blocks to BG
+		for (y = 0; y <= WORLD_HEIGHT; ++y)
+			if (world.blocks[x][y] != AIR && !isBlockWalkThrough(world.blocks[x][y])) world.bgblocks[x][y] = world.blocks[x][y];
 }
