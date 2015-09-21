@@ -82,6 +82,11 @@ int getPlayerX()
 	return !playerPointer ? 0 : (int) playerPointer->x;
 }
 
+BaseMob_ptr getPlayerPtr()
+{
+	return playerPointer;
+}
+
 BaseMob_ptr isMobAt(int x, int y)
 {
 	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)

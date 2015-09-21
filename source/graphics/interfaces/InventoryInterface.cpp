@@ -7,6 +7,8 @@
 #include "../../mining.h"
 #include "../UI.h"
 #include "../../files.h"
+#include "../../mobs/BaseMob.h"
+#include "../../mobs/mobHandler.h"
 
 void InventoryInterface::updateInv()
 {
@@ -159,7 +161,10 @@ void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 				printLocalMessage("Failed to Save Game\n");
 			break;
 		case CRAFT_MENU:
-			setInterface(INTERFACE_CRAFTING);
+		{
+			BaseMob_ptr player(getPlayerPtr());
+			setInterface(INTERFACE_CRAFTING, world.blocks[player->x / 16][(player->y + player->sy / 2) / 16] == CRAFTING_TABLE);
+		}
 			break;
 		case PAGE_MENU:
 			setInterface(INTERFACE_PAGE);

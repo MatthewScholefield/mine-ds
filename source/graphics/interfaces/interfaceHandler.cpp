@@ -18,7 +18,7 @@ void setInterface(InterfaceType type, int parameter)
 		currentInterface = Interface_ptr(new InventoryInterface(parameter));
 		break;
 	case INTERFACE_CRAFTING:
-		currentInterface = Interface_ptr(new CraftingInterface());
+		currentInterface = Interface_ptr(new CraftingInterface(parameter));
 		break;
 	case INTERFACE_CHEST:
 		currentInterface = Interface_ptr(new ChestInterface(parameter));
