@@ -20,6 +20,8 @@ class CraftingInterface : public Interface
 	static const Recipe recipes[NUM_RECIPES];
 	Graphic resultBlock;
 	Graphic neededblocks[4];
+	Graphic toolBlockGfx;
+	const bool tableInUse;
 
 	void updateCraftingGraphics();
 	void moveCraftingPage(bool right);
@@ -36,8 +38,12 @@ public:
 	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
-	CraftingInterface() : Interface(INTERFACE_CRAFTING), menu(MENU_BUTTON, false)
+	CraftingInterface(bool tableInUse) : Interface(INTERFACE_CRAFTING), menu(MENU_BUTTON, false), tableInUse(tableInUse)
 	{
+		if (tableInUse)
+			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, CRAFTING_TABLE);
+		else
+			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, AIR);
 		for (page = 0; !canCraftRecipe(page) && page < NUM_RECIPES; ++page);
 		if (page == NUM_RECIPES)
 			page = 0;
@@ -48,5 +54,8 @@ public:
 		menu.addButton(3, 16, "Back");
 	}
 
-	~CraftingInterface() { }
+	~CraftingInterface()
+	{
+		unloadGraphic(&toolBlockGfx);
+	}
 };
