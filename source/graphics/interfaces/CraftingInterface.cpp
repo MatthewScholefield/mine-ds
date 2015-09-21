@@ -107,6 +107,7 @@ void CraftingInterface::update(WorldObject &world, touchPosition &touch)
 	showGraphic(&resultBlock, 19 * 8 + 4, 10 * 8 + 4);
 	for (int i = 0; i <= 3; ++i)
 		showGraphic(&neededblocks[i], 60, ((i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
+	showGraphic(&toolBlockGfx, 1 * 8, 9 * 8);
 	switch (menu.update(touch))
 	{
 	case LEFT:

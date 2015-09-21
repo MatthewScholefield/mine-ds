@@ -18,6 +18,7 @@ int spawnMobAt(MobType type, int x, int y);
 void mobHandlerInit();
 void mobHandlerUpdate(WorldObject &world, touchPosition &touch);
 void mobsReset();
+BaseMob_ptr getPlayerPtr();
 BaseMob_ptr isMobAt(int x, int y);
 BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y);
 int getPlayerX();
