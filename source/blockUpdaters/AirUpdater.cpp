@@ -4,7 +4,7 @@
 #include "../blockUpdater.h"
 #include <stdlib.h>
 #include "../blockID.h"
-#include "air.h"
+#include "AirUpdater.h"
 
 AirUpdater::AirUpdater()
 {

@@ -1,6 +1,6 @@
 
 #include "BaseMob.h"
-#include "../blockUpdaters/water.h"
+#include "../blockUpdaters/WaterUpdater.h"
 
 #pragma once
 

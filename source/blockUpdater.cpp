@@ -13,26 +13,26 @@
 #include "graphics/3DHandler.h"
 
 //Include blockUpdaters
-#include "blockUpdaters/litFurnace.h"
-#include "blockUpdaters/air.h"
-#include "blockUpdaters/grass.h"
-#include "blockUpdaters/dirt.h"
-#include "blockUpdaters/junglegrass.h"
-#include "blockUpdaters/mycelium.h"
-#include "blockUpdaters/leaf.h"
-#include "blockUpdaters/redwoodLeaf.h"
-#include "blockUpdaters/jungleLeaf.h"
-#include "blockUpdaters/snowTop.h"
-#include "blockUpdaters/snowGrass.h"
-#include "blockUpdaters/cactus.h"
-#include "blockUpdaters/plants.h"
-#include "blockUpdaters/oakSapling.h"
-#include "blockUpdaters/spruceSapling.h"
-#include "blockUpdaters/jungleSapling.h"
-#include "blockUpdaters/ladder.h"
-#include "blockUpdaters/door.h"
-#include "blockUpdaters/water.h"
-#include "blockUpdaters/furnace.h"
+#include "blockUpdaters/LitFurnaceUpdater.h"
+#include "blockUpdaters/AirUpdater.h"
+#include "blockUpdaters/GrassUpdater.h"
+#include "blockUpdaters/DirtUpdater.h"
+#include "blockUpdaters/JungleGrassUpdater.h"
+#include "blockUpdaters/MyceliumUpdater.h"
+#include "blockUpdaters/OakLeafUpdater.h"
+#include "blockUpdaters/RedwoodLeafUpdater.h"
+#include "blockUpdaters/JungleLeafUpdater.h"
+#include "blockUpdaters/SnowTopUpdater.h"
+#include "blockUpdaters/SnowGrassUpdater.h"
+#include "blockUpdaters/CactusUpdater.h"
+#include "blockUpdaters/plantUpdaters.cpp.h"
+#include "blockUpdaters/OakSaplingUpdater.h"
+#include "blockUpdaters/SpruceSaplingUpdater.h"
+#include "blockUpdaters/JungleSaplingUpdater.h"
+#include "blockUpdaters/LadderUpdater.h"
+#include "blockUpdaters/DoorUpdater.h"
+#include "blockUpdaters/WaterUpdater.h"
+#include "blockUpdaters/FurnaceUpdater.h"
 
 //Todo: Profile to find out which of std::vector, std::list or std::forward_list is the quickest.
 std::vector<BlockUpdateInfo> updaterList;
@@ -46,7 +46,7 @@ void proceduralBlockUpdateInit()
 	blockUpdaters[3] = new JungleGrassUpdater;
 	blockUpdaters[4] = new MyceliumUpdater;
 	blockUpdaters[5] = new DirtUpdater;
-	blockUpdaters[6] = new LeafUpdater;
+	blockUpdaters[6] = new OakLeafUpdater;
 	blockUpdaters[7] = new RedwoodLeafUpdater;
 	blockUpdaters[8] = new JungleLeafUpdater;
 	blockUpdaters[9] = new SnowTopUpdater;
