@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "junglegrass.h"
+#include "MyceliumUpdater.h"
 
-JungleGrassUpdater::JungleGrassUpdater()
+MyceliumUpdater::MyceliumUpdater()
 {
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-void JungleGrassUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void MyceliumUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	if (!bg)
 	{

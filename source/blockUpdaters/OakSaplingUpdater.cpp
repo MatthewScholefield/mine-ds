@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "oakSapling.h"
+#include "OakSaplingUpdater.h"
 #include "../trees.h"
 #include "../worldRender.h"
 #include "../mobs/mobHandler.h"

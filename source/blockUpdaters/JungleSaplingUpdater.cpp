@@ -1,8 +1,8 @@
 #include "../world.h"
 #include "../blockUpdater.h"
 #include "../blockID.h"
-#include "jungleSapling.h"
-#include "oakSapling.h"
+#include "JungleSaplingUpdater.h"
+#include "OakSaplingUpdater.h"
 
 JungleSaplingUpdater::JungleSaplingUpdater()
 {

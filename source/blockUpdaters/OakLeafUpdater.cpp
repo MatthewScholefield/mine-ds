@@ -6,7 +6,7 @@
 #include "../blockID.h"
 #include "../blocks.h"
 #include "../mobs/hurt.h"
-#include "leaf.h"
+#include "OakLeafUpdater.h"
 #include "../mobs/mobHandler.h"
 
 void leafChanceUpdateGeneric(WorldObject &world, int x, int y, bool bg)
@@ -35,12 +35,12 @@ void leafChanceUpdateGeneric(WorldObject &world, int x, int y, bool bg)
 	}
 }
 
-LeafUpdater::LeafUpdater()
+OakLeafUpdater::OakLeafUpdater()
 {
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void LeafUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void OakLeafUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

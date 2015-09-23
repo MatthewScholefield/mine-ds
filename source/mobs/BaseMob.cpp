@@ -8,7 +8,7 @@
 #include "hurt.h"
 #include "../general.h"
 #include "../Config.h"
-#include "../blockUpdaters/water.h"
+#include "../blockUpdaters/WaterUpdater.h"
 
 bool canBaseMobSpawnHere(WorldObject &world, int x, int y)
 {

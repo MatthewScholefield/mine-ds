@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "snowTop.h"
+#include "SnowTopUpdater.h"
 
 SnowTopUpdater::SnowTopUpdater()
 {
