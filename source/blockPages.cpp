@@ -2,7 +2,6 @@
 #include "blockPages.h"
 #include "inventory.h"
 #include "graphics/Button.h"
-#include "graphics/inventoryGraphics.h"
 #include "graphics/UI.h"
 #include "mining.h"
 #include "mainGame.h"
@@ -11,7 +10,7 @@
 
 const int BLOCK_PAGES [NUM_BLOCK_PAGES][NUM_INV_SPACES] = {
 	{BLACK_WOOL, RED_WOOL, DARK_GREEN_WOOL, BROWN_WOOL, BlUE_WOOL, PURPLE_WOOL, CYAN_WOOL, GRAY_WOOL, WHITE_WOOL, DARK_GRAY_WOOL, PINK_WOOL, LIGHT_GREEN_WOOL, YELLOW_WOOL, LIGHT_BLUE_WOOL, MAGENTA_WOOL, ORANGE_WOOL},
-	{DIRT, GRASS, SNOW_GRASS, MYCELIUM, STONE, COBBLESTONE, BEDROCK, GRAVEL, SAND, SANDSTONE, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, JUNGLE_WOOD, PLANKS_WOOD, LEAVES_OAK, LEAVES_SPRUCE, LEAVES_JUNGLE},
+	{DIRT, GRASS, SNOW_GRASS, MYCELIUM, STONE, COBBLESTONE, BEDROCK, GRAVEL, SAND, SANDSTONE, LOG_OAK, LOG_SPRUCE, LOG_BIRCH, LOG_JUNGLE, PLANKS_WOOD, LEAVES_OAK, LEAVES_SPRUCE, LEAVES_JUNGLE},
 	{CRAFTING_TABLE, LADDER, CHEST, STICK, FURNACE, FURNACE_LIT, GLASS, TNT, TORCH, DOOR_ITEM, BUCKET_WATER,BUCKET_EMPTY},
 	{CACTUS, TALL_GRASS, SHRUB, SAPLING_OAK, SAPLING_JUNGLE, SAPLING_SPRUCE, FLOWER_RED, FLOWER_YELLOW, MUSHROOM_RED, MUSHROOM_BROWN, LEAVES_OAK, LEAVES_JUNGLE, LEAVES_SPRUCE, MUSHROOM_STEM, MUSHROOM_TOP, PUMPKIN, PUMPKIN_LIGHT, SEEDS_PUMPKIN, SEEDS_WHEAT},
 	{COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE, REDSTONE_ORE, INGOT_GOLD, INGOT_IRON, COAL, DIAMOND, IRON_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK},
@@ -49,7 +48,7 @@ void setBlockPage(int page)
 	else if (page >= NUM_BLOCK_PAGES)
 		page = 0;
 	blockPage = page;
-	clearInventory(true);
+	clearInventory();
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
 		addInventory(BLOCK_PAGES[page][i]);
 	updatePageName();
@@ -62,9 +61,9 @@ void changeBlockPage(bool forward, bool skipUpdate)
 		blockPage = NUM_BLOCK_PAGES - 1;
 	else if (blockPage >= NUM_BLOCK_PAGES)
 		blockPage = 0;
-	clearInventory(true);
+	clearInventory();
 	for (int i = 0; i < NUM_INV_SPACES; ++i)
-		addInventory(BLOCK_PAGES[blockPage][i], 1, true);
+		addInventory(BLOCK_PAGES[blockPage][i], 1);
 	if (!skipUpdate)
 		updatePageName();
 }

@@ -22,10 +22,11 @@
 #include "../deathScreen.h"
 #include "../mainGame.h"
 #include "WaterMob.h"
-#define PLAYER_ID 1
+#include "mobHandler.h"
 
 std::vector<BaseMob_ptr> mobs;
-bool hasSpawnedPlayer;
+BaseMob_ptr playerPointer;
+bool shouldSpawnPlayer = false;
 
 void createWaterMob(int x, int y, int level)
 {
@@ -38,17 +39,17 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		return;
 	if (displayID == -1)
 		displayID = blockID;
-	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 7, y * 16 - 4, blockID, amount, displayID, initVX)));
+	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 7, y * 16 + 8, blockID, amount, displayID, initVX)));
 }
 
-bool canMobSpawnHere(WorldObject *world, int x, int y)
+bool canMobSpawnHere(WorldObject &world, int x, int y)
 {
-	return (isBlockWalkThrough(world->blocks[x][y]) && !isBlockWalkThrough(world->blocks[x][y + 1]) && world->blocks[x][y] != CACTUS && world->bgblocks[x][y + 1] != CACTUS);
+	return (isBlockWalkThrough(world.blocks[x][y]) && !isBlockWalkThrough(world.blocks[x][y + 1]) && world.blocks[x][y] != CACTUS && world.bgblocks[x][y + 1] != CACTUS);
 }
 
 int getDefaultSpawnX()
 {
-	return mobs[PLAYER_ID]->x / 16 + (rand() % 5) - 2;
+	return !playerPointer ? 0 : (int) (playerPointer->x / 16 + (rand() % 5) - 2);
 }
 
 BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
@@ -78,7 +79,12 @@ BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
 
 int getPlayerX()
 {
-	return mobs[PLAYER_ID]->x;
+	return !playerPointer ? 0 : (int) playerPointer->x;
+}
+
+BaseMob_ptr getPlayerPtr()
+{
+	return playerPointer;
 }
 
 BaseMob_ptr isMobAt(int x, int y)
@@ -89,19 +95,20 @@ BaseMob_ptr isMobAt(int x, int y)
 	return nullptr;
 }
 
-void mobsReset(bool playerSpawned)
+void mobsReset()
 {
+	playerPointer.reset();
 	mobs.clear();
-	hasSpawnedPlayer = playerSpawned;
+	shouldSpawnPlayer = true;
 }
 
 void mobHandlerInit()
 {
 	playerMobInit();
-	hasSpawnedPlayer = false;
+	shouldSpawnPlayer = true;
 }
 
-static bool canMobSpawnHere(MobType type, WorldObject* world, int a, int b)
+static bool canMobSpawnHere(MobType type, WorldObject &world, int a, int b)
 {
 	switch (type)
 	{
@@ -128,6 +135,7 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	{
 	case MOB_PLAYER:
 		mobs.push_back(BaseMob_ptr(new PlayerMob(x, y)));
+		playerPointer = mobs.back();
 		break;
 	case MOB_MULTIPLAYER:
 		mobs.push_back(BaseMob_ptr(new MultiplayerMob(x, y)));
@@ -160,7 +168,7 @@ void saveMobs(FILE* f)
 	fprintf(f, "-1 ");
 }
 
-static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck = false)
+static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
@@ -172,7 +180,7 @@ static void spawnMobOn(MobType mobId, WorldObject* world, int j, bool skipCheck 
 		}
 }
 
-static int spawnMob(MobType mobId, WorldObject* world)
+static int spawnMob(MobType mobId, WorldObject &world)
 {
 	int i;
 	int j;
@@ -197,52 +205,39 @@ int spawnMobAt(MobType type, int x, int y)
 
 void loadMobs(FILE* f)
 {
-	mobsReset(false);
+	mobsReset();
 	int index = 0;
-	while (index != -1)
+	do
 	{
-		if (index == MOB_PLAYER)
-			hasSpawnedPlayer = true;
 		fscanf(f, "%d ", &index);
-		if (index!=-1)
-			mobs[spawnMobAt((MobType) index, 0, 0)]->loadFromFile(f);
+		if (index >= 0 && spawnMobAt((MobType) index, 0, 0) >= 0)
+			mobs.back()->loadFromFile(f);
 	}
+	while (index != -1);
 }
 
-void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
+void triggerPlayerRespawn()
 {
-	bool delTouch = false;
-	if (!touch)
-	{
-		delTouch = true;
-		touch = new touchPosition();
-	}
+	shouldSpawnPlayer = true;
+}
+
+void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
+{
 	const int EXTRA = 128;
 	int badMobs = 0;
 	int goodMobs = 0;
-	switch (deathScreenUpdate(touch))
-	{
-	case 0: //Respawn
-		spawnMob(MOB_PLAYER, world);
-		break;
-	case 1: //Titlescreen
-		quitGame();
-		break;
-	default: //Nothing
-		break;
-	}
-	if (!hasSpawnedPlayer)
+	if (shouldSpawnPlayer)
 	{
 		spawnMob(MOB_PLAYER, world);
-		hasSpawnedPlayer = true;
+		shouldSpawnPlayer = false;
 	}
 	for (std::vector<BaseMob_ptr>::size_type i = 0; i < mobs.size(); ++i)
 	{
 		if (mobs[i]->health > 0)
 		{
 			mobs[i]->calcHealth();
-			bool closeToPlayer = !(mobs[i]->x < world->camX - EXTRA || mobs[i]->x > world->camX + 256 + EXTRA
-					|| mobs[i]->y < world->camY - EXTRA || mobs[i]->y > world->camY + 192 + EXTRA);
+			bool closeToPlayer = !(mobs[i]->x < world.camX - EXTRA || mobs[i]->x > world.camX + 256 + EXTRA
+					|| mobs[i]->y < world.camY - EXTRA || mobs[i]->y > world.camY + 192 + EXTRA);
 			if (mobs[i]->type == MOB_ZOMBIE || mobs[i]->type == MOB_HEROBRINE)
 				++badMobs;
 			else if (mobs[i]->type == MOB_ANIMAL)
@@ -271,11 +266,9 @@ void mobHandlerUpdate(WorldObject* world, touchPosition *touch)
 		}
 	}
 	if (goodMobs < 4 && rand() % 30 == 0)
-		spawnMobOn(MOB_ANIMAL, world, world->camX / 16 + rand() % 16);
+		spawnMobOn(MOB_ANIMAL, world, world.camX / 16 + rand() % 16);
 	if (badMobs <= 5 && canSpawnMob())
 		spawnMobOn((rand() % 10) != 1
 				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
-				world, mobs[PLAYER_ID]->x / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
-	if (delTouch)
-		delete touch;
+				world, getPlayerX() / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
 }

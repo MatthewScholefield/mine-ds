@@ -9,7 +9,7 @@
 #include "hurt.h"
 #include "../blockUpdaters/water.h"
 
-void calculatePhysics(WorldObject* world,BaseMob *mob, bool inWater)
+void calculatePhysics(WorldObject &world,BaseMob *mob, bool inWater)
 {
 	if (mob->collisions[SIDE_BOTTOM] && mob->vy > 0)
 	{
@@ -27,34 +27,34 @@ void calculatePhysics(WorldObject* world,BaseMob *mob, bool inWater)
 	{
 		velocityCap = 2;
 		//Allow the velocity to be less than -2 only if there is air above the player.
-		if (mob->vy<-2 && world->blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)] != AIR && world->blocks[int((mob->x + mob->sx / 2) / 16)][int((mob->y - mob->sy / 2) / 16)] != AIR) mob->vy = -2;
+		if (mob->vy<-2 && world.blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)] != AIR && world.blocks[int((mob->x + mob->sx / 2) / 16)][int((mob->y - mob->sy / 2) / 16)] != AIR) mob->vy = -2;
 		if (abs(mob->vx) > 2) mob->vx = 2 * (mob->vx > 0 ? 1 : -1);
 	}
 	//Don't remove the y velocity so quickly.
 	if (mob->vy > velocityCap) mob->vy -= (mob->vy - velocityCap) / 4;
 }
 
-int blockAtPixel(WorldObject *world, int pixX, int pixY)
+int blockAtPixel(WorldObject &world, int pixX, int pixY)
 {
-	return world->blocks[pixX / 16][pixY / 16];
+	return world.blocks[pixX / 16][pixY / 16];
 }
 
-void calculateCollisions(WorldObject *world, BaseMob *mob)
+void calculateCollisions(WorldObject &world, BaseMob *mob)
 {
-	mob->collisions[SIDE_BOTTOM] = !isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2) / 16])
-			|| !isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2) / 16]);
-	mob->collisions[SIDE_RIGHT] = !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
-			|| !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y) / 16)])
-			|| !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y + mob->sy / 2 - 1) / 16)]);
-	mob->collisions[SIDE_LEFT] = !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
-			|| !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y) / 16)])
-			|| !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y + mob->sy / 2 - 1) / 16)]);
-	mob->collisions[SIDE_TOP] = !isBlockWalkThrough(world->blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)])
-			|| !isBlockWalkThrough(world->blocks[int((mob->x + mob->sx / 2) / 16)][int((mob->y - mob->sy / 2) / 16)]);
+	mob->collisions[SIDE_BOTTOM] = !isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2) / 16])
+			|| !isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2) / 16]);
+	mob->collisions[SIDE_RIGHT] = !isBlockWalkThrough(world.blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
+			|| !isBlockWalkThrough(world.blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y) / 16)])
+			|| !isBlockWalkThrough(world.blocks[int((mob->x + mob->sx / 2 + 1) / 16)][int((mob->y + mob->sy / 2 - 1) / 16)]);
+	mob->collisions[SIDE_LEFT] = !isBlockWalkThrough(world.blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y - mob->sy / 2 + 1) / 16)])
+			|| !isBlockWalkThrough(world.blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y) / 16)])
+			|| !isBlockWalkThrough(world.blocks[int((mob->x - mob->sx / 2) / 16)][int((mob->y + mob->sy / 2 - 1) / 16)]);
+	mob->collisions[SIDE_TOP] = !isBlockWalkThrough(world.blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)])
+			|| !isBlockWalkThrough(world.blocks[int((mob->x + mob->sx / 2) / 16)][int((mob->y - mob->sy / 2) / 16)]);
 	mob->collisions[COLLISION_STUCK] = false;
 }
 
-void calculateMiscData(WorldObject *world, BaseMob *mob)
+void calculateMiscData(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
@@ -68,7 +68,7 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 		{
 			for (int y = mob->y - mob->sy / 2 + 1; y < mob->y + mob->sy / 2; y += mob->sy / 2 - 1)
 			{
-				if (!isBlockWalkThrough(world->blocks[x / 16][y / 16]))
+				if (!isBlockWalkThrough(world.blocks[x / 16][y / 16]))
 				{
 					inBlock = true;
 					break;
@@ -82,23 +82,23 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 		{ //move player out of block
 			if (int(mob->y) % 16 < 3)
 				mob->y -= int(mob->y) % 16;
-			if ((!isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16]))
+			if ((!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16]))
 					||
-					(!isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y - mob->sy / 2 + 1) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y - mob->sy / 2 + 1) / 16]))
+					(!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y - mob->sy / 2 + 1) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y - mob->sy / 2 + 1) / 16]))
 					||
-					(!isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
+					(!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
 				mob->x -= int(mob->x + mob->sx / 2) % 16 + 1;
-			else if ((!isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16]))
+			else if ((!isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16]))
 					||
-					(!isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y - mob->sy / 2 + 1) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y - mob->sy / 2 + 1) / 16]))
+					(!isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y - mob->sy / 2 + 1) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y - mob->sy / 2 + 1) / 16]))
 					||
-					(!isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
+					(!isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
 				mob->x += 16 - int(mob->x - mob->sx / 2 + 1) % 16;
 			else if (int(mob->y) % 16 < 9)
 				mob->y -= int(mob->y) % 16;
@@ -115,7 +115,7 @@ void calculateMiscData(WorldObject *world, BaseMob *mob)
 	}
 }
 
-void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
+void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
@@ -131,7 +131,7 @@ void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
 		{
 			for (int y = mob->y - mob->sy / 2 + 1; y < mob->y + mob->sy / 2; y += mob->sy - 1)
 			{
-				if (!isBlockWalkThrough(world->blocks[x / 16][y / 16]))
+				if (!isBlockWalkThrough(world.blocks[x / 16][y / 16]))
 				{
 					inBlock = true;
 					break;
@@ -145,17 +145,17 @@ void calculateMiscDataSmall(WorldObject* world, BaseMob *mob)
 		{ //move player out of block
 			if (int(mob->y) % 16 < 3)
 				mob->y -= int(mob->y) % 16;
-			if ((!isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16]))
+			if ((!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16]))
 					||
-					(!isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
+					(!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
 				mob->x -= int(mob->x + mob->sx / 2) % 16 + 1;
-			else if ((!isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16]))
+			else if ((!isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16]))
 					||
-					(!isBlockWalkThrough(world->blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
-					&& isBlockWalkThrough(world->blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
+					(!isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2 - 1) / 16])
+					&& isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2 - 1) / 16])))
 				mob->x += 16 - int(mob->x - mob->sx / 2 + 1) % 16;
 			else if (int(mob->y + mob->sy / 2) % 16 < 9)
 				mob->y -= int(mob->y + mob->sy / 2) % 16;

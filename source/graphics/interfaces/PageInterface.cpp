@@ -1,7 +1,7 @@
 #include "PageInterface.h"
-#include "../blockPages.h"
+#include "../../blockPages.h"
 #include "interfaceHandler.h"
-#include "../graphics/UI.h"
+#include "../UI.h"
 
 PageInterface::PageInterface() : Interface(INTERFACE_PAGE), menu(MENU_BUTTON, false)
 {
@@ -13,12 +13,12 @@ PageInterface::PageInterface() : Interface(INTERFACE_PAGE), menu(MENU_BUTTON, fa
 	printXY(13, 11, getPageName());
 }
 
-void PageInterface::update(WorldObject *world, touchPosition *touch)
+void PageInterface::update(WorldObject &world, touchPosition &touch)
 {
-	switch (menu.update(*touch))
+	switch (menu.update(touch))
 	{
 	case LEFT:
-		changeBlockPage(true, true);
+		changeBlockPage(false, true);
 		iprintf("\x1b[11;13H            ");
 		printXY(13, 11, getPageName());
 		break;

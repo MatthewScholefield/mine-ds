@@ -10,10 +10,10 @@
 #include "../Config.h"
 #include "../blockUpdaters/water.h"
 
-bool canBaseMobSpawnHere(WorldObject* world, int x, int y)
+bool canBaseMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;
-	if (!isBlockWalkThrough(world->blocks[x][y + 1]) && isBlockWalkThrough(world->blocks[x][y]) && world->blocks[x][y] != CACTUS && world->blocks[x][y + 1] != CACTUS) return true;
+	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS) return true;
 	return false;
 }
 
@@ -54,5 +54,5 @@ bool jumpHurtType(int hurtType)
 
 bool BaseMob::canJump(WorldObject *world)
 {
-	return !collisions[SIDE_TOP] && (collisions[SIDE_BOTTOM] || (world && (isWaterAt(world, x, y + sy / 2 - 1) || isWaterAt(world, x, y - sy / 2 + 1)) && vy < 3));
+	return !collisions[SIDE_TOP] && (collisions[SIDE_BOTTOM] || (world && (isWaterAt(*world, x, y + sy / 2 - 1) || isWaterAt(*world, x, y - sy / 2 + 1)) && vy < 3));
 }

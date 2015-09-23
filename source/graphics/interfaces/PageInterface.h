@@ -1,5 +1,5 @@
 #include "Interface.h"
-#include "../graphics/Menu.h"
+#include "../Menu.h"
 
 #pragma once
 class PageInterface : public Interface
@@ -13,7 +13,7 @@ private:
 	static const int BACK = 3;
 
 public:
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
 	PageInterface();

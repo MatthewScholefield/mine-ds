@@ -3,11 +3,11 @@
 #include "blockID.h"
 #include "blocks.h"
 
-int findFirstBlock(WorldObject* world, int x)
+int findFirstBlock(WorldObject &world, int x)
 {
 	int i;
 	for (i = 0; i <= WORLD_HEIGHT; ++i)
-		if (!isBlockWalkThrough(world->blocks[x][i])) return i;
+		if (!isBlockWalkThrough(world.blocks[x][i])) return i;
 	return -1;
 }
 
@@ -15,27 +15,27 @@ int findFirstBlock(WorldObject* world, int x)
 {
 	int i;
 	for (i=0; i<=WORLD_HEIGHT; ++i)
-		if (!isAGroundBlock(world->blocks[x][i])) return i;
+		if (!isAGroundBlock(world.blocks[x][i])) return i;
 	return -1;
 }*/
-void drawLineDown(WorldObject* world, int x, int y)
+void drawLineDown(WorldObject &world, int x, int y)
 {
 	int i;
 	for (i = y; i < WORLD_HEIGHT; ++i)
 	{
 		if (i > WORLD_HEIGHT - 20 && rand() % 120 == 1) //20 blocks from bottom
-			world->blocks[x][i] = DIAMOND_ORE;
+			world.blocks[x][i] = DIAMOND_ORE;
 		else if (i > WORLD_HEIGHT - 30 && rand() % 90 == 1) //30 blocks from bottom
-			world->blocks[x][i] = GOLD_ORE;
+			world.blocks[x][i] = GOLD_ORE;
 		else if (i > WORLD_HEIGHT - 65 && rand() % 80 == 1) //65 blocks from bottom
-			world->blocks[x][i] = IRON_ORE;
+			world.blocks[x][i] = IRON_ORE;
 		else if (i > WORLD_HEIGHT - 80 && rand() % 60 == 1) //80 blocks from bottom
-			world->blocks[x][i] = COAL_ORE;
-		else world->blocks[x][i] = STONE;
+			world.blocks[x][i] = COAL_ORE;
+		else world.blocks[x][i] = STONE;
 	}
 }
 
-void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2)
+void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2)
 {
 	// if x1 == x2 or y1 == y2, then it does not matter what we set here
 	int delta_x(x2 - x1);

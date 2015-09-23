@@ -13,11 +13,11 @@
 
 #define CHEST_SLOTS 30
 #define MAX_CHESTS 30
-#define MAX_FURNACES 30
+#define MAX_FURNACES 16
 #define INDEX_BLOCK_ID 0
 #define INDEX_AMOUNT 1
 
-enum gamemode_t
+enum GameMode
 {
 	GAMEMODE_CREATIVE = 1,
 	GAMEMODE_SURVIVAL = 2,
@@ -47,7 +47,7 @@ public:
 	int camX;
 	int timeInWorld;
 	int worldBrightness;
-	gamemode_t gamemode;
+	GameMode gameMode;
 	int seed; //The random number seed used to generate the world
 	double camCalcX;
 	double camCalcY;
@@ -56,13 +56,14 @@ public:
 	int obsoleteChests[MAX_CHESTS][CHEST_SLOTS][2];
 	Inventory chests[MAX_CHESTS];
 	Furnace *furnaces[MAX_FURNACES];
+	int reservedWater;
 
-	WorldObject() : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+	WorldObject(GameMode gameMode = GAMEMODE_PREVIEW) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
-	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gamemode(GAMEMODE_PREVIEW)
+	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gameMode(gameMode)
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, obsoleteChests{}
 
-	, furnaces() { }
+	, furnaces(), reservedWater(0) { }
 
 	~WorldObject()
 	{
@@ -75,7 +76,7 @@ public:
 	}
 };
 
-int findFirstBlock(WorldObject* world, int x);
-int findFirstBiomeBlock(WorldObject* world, int x);
-void drawLineDown(WorldObject* world, int x, int y);
-void drawLineThing(WorldObject* world, int x1, int y1, int x2, int y2);
+int findFirstBlock(WorldObject &world, int x);
+int findFirstBiomeBlock(WorldObject &world, int x);
+void drawLineDown(WorldObject &world, int x, int y);
+void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2);

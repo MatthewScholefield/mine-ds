@@ -3,12 +3,12 @@
 #include "../blockUpdater.h"
 #include "../graphics/graphics.h"
 
-class FurnaceUpdater : public BlockUpdater
+class LitFurnaceUpdater : public BlockUpdater
 {
 private:
 	int bufferIndex = 0;
 public:
-	FurnaceUpdater();
+	LitFurnaceUpdater();
 	bool update(WorldObject &world, int x, int y, bool bg);
 	Graphic fireParticle;
 	Graphic clones[16];

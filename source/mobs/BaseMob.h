@@ -22,7 +22,7 @@ enum MobType
 	MOB_WATER = 6
 };
 
-bool canBaseMobSpawnHere(WorldObject* world, int x, int y);
+bool canBaseMobSpawnHere(WorldObject &world, int x, int y);
 
 class BaseMob
 {
@@ -45,8 +45,8 @@ public:
 	//Multiplayer
 	bool host;
 
-	virtual void updateMob(WorldObject* world) = 0;
-	virtual void calcMiscData(WorldObject *world) = 0;
+	virtual void updateMob(WorldObject &world) = 0;
+	virtual void calcMiscData(WorldObject &world) = 0;
 
 	virtual void saveToFile(FILE* sFile) { }
 

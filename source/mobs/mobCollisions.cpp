@@ -4,7 +4,7 @@
 #include "../Config.h"
 #include <nds.h>
 
-void collisionWithCactus(WorldObject* world, BaseMob *mob, int type, int x, int y, bool sub)
+void collisionWithCactus(WorldObject &world, BaseMob *mob, int type, int x, int y, bool sub)
 {
 	if (mob->timeOnCactus > 40 || mob->timeOnCactus == -1)
 	{
@@ -16,13 +16,13 @@ void collisionWithCactus(WorldObject* world, BaseMob *mob, int type, int x, int 
 
 }
 
-void cactusCheck(WorldObject* world, BaseMob *mob, int type, int x, int y, bool sub)
+void cactusCheck(WorldObject &world, BaseMob *mob, int type, int x, int y, bool sub)
 {
 	if (mob->host == true)
 	{
-		if (world->blocks[x][y] == CACTUS)
+		if (world.blocks[x][y] == CACTUS)
 			collisionWithCactus(world, mob, type, x, y, sub);
-		else if (!(keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)) && world->bgblocks[x][y] == CACTUS)
+		else if (!(keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH)) && world.bgblocks[x][y] == CACTUS)
 			collisionWithCactus(world, mob, type, x, y, sub);
 		else if (mob->timeOnCactus >= 0 && rand() % 5 == 1)
 			--mob->timeOnCactus;
