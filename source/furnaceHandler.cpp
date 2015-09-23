@@ -3,20 +3,43 @@
 #include "mobs/mobHandler.h"
 #include "inventory.h"
 #include "general.h"
-#include "interfaces/interfaceHandler.h"
+#include "graphics/interfaces/interfaceHandler.h"
+#include "furnaceHandler.h"
+#include "blocks.h"
+#include "Recipe.h"
+#define NUM_FURNACE_RECIPES 11
 
 int furnaceID = -1;
+static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
+	{1, GLASS, SAND},
+	{2, BEEF_COOKED, BEEF_RAW},
+	{2, CHICKEN_COOKED, CHICKEN_RAW},
+	{2, PORKCHOP_COOKED, PORKCHOP_RAW},
+	{3, DIAMOND, DIAMOND_ORE},
+	{2, INGOT_GOLD, GOLD_ORE},
+	{2, INGOT_IRON, IRON_ORE},
+	{4, COAL, LOG_BIRCH},
+	{4, COAL, LOG_JUNGLE},
+	{4, COAL, LOG_OAK},
+	{4, COAL, LOG_SPRUCE}
+};
 
-int getFurnaceID(WorldObject *world, int x, int y, bool bg)
+void convertItemToFuel(Furnace &furnace)
 {
-	return (world->data[x][y] & (bg ? 0xFFFF0000 : 0x0000FFFF)) >> (bg ? 16 : 0);
+	int newFuel = fuelAmount(furnace.fuelBlock.ID);
+	if (newFuel > 0 && furnace.fuel < 1)
+	{
+		furnace.fuel = newFuel;
+		if (--furnace.fuelBlock.amount < 1)
+			furnace.fuelBlock.ID = AIR;
+	}
 }
 
-void createFurnace(WorldObject *world, int x, int y, bool bg)
+void createFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	int furnaceID = -1;
 	for (int i = 0; i < MAX_FURNACES; ++i)
-		if (!world->furnaces[i])
+		if (!world.furnaces[i])
 		{
 			furnaceID = i;
 			break;
@@ -27,16 +50,16 @@ void createFurnace(WorldObject *world, int x, int y, bool bg)
 		addInventory(FURNACE);
 		return;
 	}
-	world->furnaces[furnaceID] = new Furnace();
+	world.furnaces[furnaceID] = new Furnace();
 	if (bg)
 	{
-		world->bgblocks[x][y] = FURNACE;
-		world->data[x][y] = (world->data[x][y] & 0x0000FFFF) | (furnaceID << 16);
+		world.bgblocks[x][y] = FURNACE;
+		world.data[x][y] = (world.data[x][y] & 0x0000FFFF) | (furnaceID << 4 * 4);
 	}
 	else
 	{
-		world->blocks[x][y] = FURNACE;
-		world->data[x][y] = (world->data[x][y] & 0xFFFF0000) | (furnaceID);
+		world.blocks[x][y] = FURNACE;
+		world.data[x][y] = (world.data[x][y] & 0xFFFF0000) | (furnaceID);
 	}
 }
 
@@ -49,10 +72,10 @@ void disperseItems(int x, int y, int blockID, int amount)
 
 void disperseItems(int x, int y, InvBlock block)
 {
-	disperseItems(x, y, block.blockId, block.blockAmount);
+	disperseItems(x, y, block.ID, block.amount);
 }
 
-void destroyFurnace(WorldObject *world, int x, int y, bool bg)
+void destroyFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	int id = getFurnaceID(world, x, y, bg);
 	if (id < 0)
@@ -60,18 +83,19 @@ void destroyFurnace(WorldObject *world, int x, int y, bool bg)
 		showError("Destroying non-existent furnace");
 		return;
 	}
-	disperseItems(x, y, world->furnaces[id]->source);
-	disperseItems(x, y, world->furnaces[id]->fuel);
-	disperseItems(x, y, world->furnaces[id]->result);
-	delete world->furnaces[id];
-	world->furnaces[id] = nullptr;
+	disperseItems(x, y, world.furnaces[id]->sourceBlock);
+	disperseItems(x, y, world.furnaces[id]->fuelBlock);
+	disperseItems(x, y, world.furnaces[id]->resultBlock);
+	delete world.furnaces[id];
+	world.furnaces[id] = nullptr;
 	if (bg)
-		world->bgblocks[x][y] = AIR;
+		world.bgblocks[x][y] = AIR;
 	else
-		world->blocks[x][y] = AIR;
+		world.blocks[x][y] = AIR;
+  disperseItems(x,y,FURNACE,1);
 }
 
-void openFurnace(WorldObject *world, int x, int y, bool bg)
+void openFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	if (furnaceID >= 0) //Another furnace is already opened
 		return;
@@ -87,4 +111,56 @@ void closeFurnace()
 int getOpenedFurnaceID()
 {
 	return furnaceID;
+}
+
+int fuelNeeded(const Furnace &furnace)
+{
+	for (auto &i : furnaceRecipes)
+		if (i.needed == furnace.sourceBlock.ID && (i.result == furnace.resultBlock.ID || furnace.resultBlock.ID == AIR))
+			return i.fuel;
+	return 0;
+}
+
+void createResult(Furnace &furnace)
+{
+	int id = 0;
+	for (id = 0; id < NUM_FURNACE_RECIPES && furnaceRecipes[id].needed != furnace.sourceBlock.ID; ++id);
+	if (id >= NUM_FURNACE_RECIPES || (furnace.resultBlock.ID != AIR && furnaceRecipes[id].result != furnace.resultBlock.ID))
+		return;
+	if (furnace.resultBlock.ID == AIR)
+		furnace.resultBlock = InvBlock(furnaceRecipes[id].result, 1);
+	else
+		++furnace.resultBlock.amount;
+	if (--furnace.sourceBlock.amount < 1)
+		furnace.sourceBlock.ID = AIR;
+}
+
+void saveFurnaces(FILE *file, WorldObject &world)
+{
+	for (int i = 0; i < MAX_FURNACES; ++i)
+	{
+		if (world.furnaces[i])
+		{
+			fprintf(file, "1 ");
+			world.furnaces[i]->saveToFile(file);
+		}
+		else
+			fprintf(file, "0 ");
+	}
+}
+
+void loadFurnaces(FILE *file, WorldObject &world)
+{
+	for (int i = 0; i < MAX_FURNACES; ++i)
+	{
+		if (world.furnaces[i])
+		{
+			delete world.furnaces[i];
+			world.furnaces[i] = NULL;
+		}
+		int val;
+		fscanf(file, "%d ", &val);
+		if (val == 1)
+			world.furnaces[i] = new Furnace(file);
+	}
 }

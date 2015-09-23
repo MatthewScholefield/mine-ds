@@ -5,9 +5,10 @@
 #include "ChestInterface.h"
 #include "PageInterface.h"
 #include "FurnaceInterface.h"
+#include "DeathScreenInterface.h"
 #include <memory>
 
-Interface_ptr currentInterface = Interface_ptr(new InventoryInterface(false));
+Interface_ptr currentInterface = nullptr;
 
 void setInterface(InterfaceType type, int parameter)
 {
@@ -17,7 +18,7 @@ void setInterface(InterfaceType type, int parameter)
 		currentInterface = Interface_ptr(new InventoryInterface(parameter));
 		break;
 	case INTERFACE_CRAFTING:
-		currentInterface = Interface_ptr(new CraftingInterface());
+		currentInterface = Interface_ptr(new CraftingInterface(parameter));
 		break;
 	case INTERFACE_CHEST:
 		currentInterface = Interface_ptr(new ChestInterface(parameter));
@@ -28,6 +29,9 @@ void setInterface(InterfaceType type, int parameter)
 	case INTERFACE_PAGE:
 		currentInterface = Interface_ptr(new PageInterface());
 		break;
+	case INTERFACE_DEATH_SCREEN:
+		currentInterface = Interface_ptr(new DeathScreenInterface());
+		break;
 	default:
 		showError("Unknown interface set");
 		setInterface(INTERFACE_INVENTORY);
@@ -36,8 +40,10 @@ void setInterface(InterfaceType type, int parameter)
 	currentInterface->draw();
 }
 
-void updateInterface(WorldObject *world, touchPosition *touch)
+void updateInterface(WorldObject &world, touchPosition &touch)
 {
+	if (!currentInterface)
+		setInterface(INTERFACE_INVENTORY, false);
 	currentInterface->update(world, touch);
 	Interface::staticUpdate();
 }

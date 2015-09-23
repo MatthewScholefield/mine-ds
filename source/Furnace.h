@@ -4,9 +4,15 @@
 class Furnace
 {
 public:
-	InvBlock source, fuel, result;
+	InvBlock sourceBlock, fuelBlock, resultBlock;
+	int fuel, timeTillFuelBurn, fuelTillComplete;
 
-	Furnace() : source(), fuel(), result() { }
+	void saveToFile(FILE *file);
 
-	Furnace(InvBlock source, InvBlock fuel) : source(source), fuel(fuel), result() { }
+	Furnace(FILE *file);
+
+	Furnace() : sourceBlock(), fuelBlock(), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
+
+	Furnace(InvBlock source, InvBlock fuel)
+	: sourceBlock(source), fuelBlock(fuel), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
 };

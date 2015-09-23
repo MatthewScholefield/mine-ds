@@ -15,7 +15,10 @@
 #include "graphics/UI.h"
 #include "graphics/Button.h"
 #include "graphics/graphics.h"
-#include "sounds.h" //For stopping sound on save / load
+#include "sounds.h"
+#include "chests.h" //For stopping sound on save / load
+#include "furnaceHandler.h"
+#include "blocks.h"
 
 void initFile()
 {
@@ -26,14 +29,16 @@ void initFile()
 #ifdef USE_FAT
 	fatInitDefault();
 	chdir("fat:/");
+	mkdir("data",0777);
+	chdir("fat:/data");
 	mkdir("Mine DS", 0777);
-	chdir("fat:/Mine DS");
+	chdir("fat:/data/Mine DS");
 	mkdir("Textures", 0777);
 	chdir("fat:/");
 #endif
 }
 
-bool saveWorld(WorldObject *world)
+bool saveWorld(WorldObject &world)
 {
 	if (!SHOULD_SAVE) return false;
 	stopMusic();
@@ -44,23 +49,22 @@ bool saveWorld(WorldObject *world)
 	{
 		fprintf(worldFile, VERSION_STRING);
 		fprintf(worldFile, " %d %d ", WORLD_WIDTH, WORLD_HEIGHT);
-		fprintf(worldFile, "%d ", world->gamemode);
-		fprintf(worldFile, "%d ", world->timeInWorld);
+		fprintf(worldFile, "%d ", world.gameMode);
+		fprintf(worldFile, "%d ", world.timeInWorld);
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j <= WORLD_HEIGHT; ++j)
-				fprintf(worldFile, "%d %d %d ", world->blocks[i][j], world->bgblocks[i][j], world->data[i][j]);
+				fprintf(worldFile, "%d %d %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
 			if (i % 50 == 0)
 				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 		}
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
-			fprintf(worldFile, "%d ", world->biome[i]);
+			fprintf(worldFile, "%d ", world.biome[i]);
 
 		saveInventory(worldFile);
 		saveMobs(worldFile);
-		for (int i = 0; i < MAX_CHESTS; ++i)
-			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fprintf(worldFile, "%d %d ", world->chests[i].blocks[j].blockId, world->chests[i].blocks[j].blockAmount);
+		saveChests(worldFile, world);
+		saveFurnaces(worldFile, world);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
@@ -139,19 +143,25 @@ bool loadWorld(WorldObject *world)
 		}
 		int loadGameMode;
 		fscanf(worldFile, "%d ", &loadGameMode);
-		world->gamemode = gamemode_t(loadGameMode);
+		world->gameMode = GameMode(loadGameMode);
 		int loadTimeInWorld;
 		fscanf(worldFile, "%d ", &loadTimeInWorld);
 		world->timeInWorld = loadTimeInWorld;
 		for (int i = 0; i <= worldBlocksX; ++i)
 		{
 			for (int j = 0; j <= worldBlocksY; ++j)
+			{
 				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
+				if (perpetualUpdates(world->bgblocks[i][j]))
+					updateSingleBlock(*world, i, j, true);
+				if (perpetualUpdates(world->blocks[i][j]))
+					updateSingleBlock(*world, i, j, false);
+			}
 			if (i % 64 == 0)
 				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 
 		}
-		Calculate_Brightness(world);
+		Calculate_Brightness(*world);
 		int loadBiome;
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{
@@ -160,9 +170,8 @@ bool loadWorld(WorldObject *world)
 		}
 		loadInventory(worldFile);
 		loadMobs(worldFile);
-		for (int i = 0; i < MAX_CHESTS; ++i)
-			for (int j = 0; j < CHEST_SLOTS; ++j)
-				fscanf(worldFile, "%d %d ", &world->chests[i].blocks[j].blockId, &world->chests[i].blocks[j].blockAmount);
+		loadChests(worldFile, *world);
+		loadFurnaces(worldFile, *world);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
