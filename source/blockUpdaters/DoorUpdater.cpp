@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "door.h"
+#include "DoorUpdater.h"
 #include "../mobs/hurt.h"
 #include "../mobs/mobHandler.h"
 

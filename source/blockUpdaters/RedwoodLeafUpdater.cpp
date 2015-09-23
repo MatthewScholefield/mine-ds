@@ -5,15 +5,15 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "jungleLeaf.h"
-#include "leaf.h"
+#include "RedwoodLeafUpdater.h"
+#include "OakLeafUpdater.h"
 
-JungleLeafUpdater::JungleLeafUpdater()
+RedwoodLeafUpdater::RedwoodLeafUpdater()
 {
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void JungleLeafUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void RedwoodLeafUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "grass.h"
+#include "GrassUpdater.h"
 #include "../dayNight.h"
 #include "../worldRender.h"
 

@@ -7,7 +7,7 @@
 #include "../blockUpdater.h"
 #include "../blockID.h"
 #include "../blocks.h"
-#include "water.h"
+#include "WaterUpdater.h"
 #include "../mobs/mobHandler.h"
 #include "../mining.h"
 
