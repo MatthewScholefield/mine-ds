@@ -27,7 +27,7 @@ bool canSpawnMob()
 }
 int addamount;
 
-WorldObject* worldptr;
+WorldObject *worldptr;
 
 int doHandshake()
 {
@@ -62,11 +62,11 @@ void connectSuccess()
 	code = code2;
 }*/
 
-void recieveWorld(WorldObject* world2)
+void recieveWorld(WorldObject &world2)
 {
 	recv_code = 0;
 	code = 0;
-	worldptr = world2;
+	worldptr = &world2;
 	unsigned short buffer[100];
 	int server_id = getServerID();
 	int client_id = getClientID();
@@ -135,16 +135,16 @@ void recieveWorldUpdate()
 			}
 			if (recv_x > WORLD_WIDTH)
 			{
-				Calculate_Brightness(worldptr);
+				Calculate_Brightness(*worldptr);
 				recv_code = 2;
 			}
 		}
 	}
 }
 
-void communicationInit(WorldObject* world2)
+void communicationInit(WorldObject &world2)
 {
-	worldptr = world2;
+	worldptr = &world2;
 }
 
 void setBlock(int x, int y, int block, int bgblock, int amount)
@@ -242,7 +242,7 @@ void recievePlaceBlock(int x, int y, int block, int block2)
 {
 	worldptr->blocks[x][y] = block;
 	worldptr->bgblocks[x][y] = block2;
-	updateBrightnessAround(worldptr, x, y);
+	updateBrightnessAround(*worldptr, x, y);
 }
 
 void placeBlock(int x, int y)

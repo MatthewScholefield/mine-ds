@@ -77,6 +77,8 @@ bool isSpriteBlock(int block)
 	case SAPLING_OAK:
 	case SAPLING_SPRUCE:
 	case CHEST:
+	case DOOR_CLOSED_BOTTOM:
+	case DOOR_CLOSED_TOP:
 		return true;
 
 	default:
@@ -185,11 +187,11 @@ SoundAudio getBlockAudio(int blockID)
 	}
 	switch (blockType[blockID])
 	{
-	case SOIL:
+	case TYPE_SOIL:
 		return SOUND_GRASS;
-	case WOOD:
+	case TYPE_WOOD:
 		return SOUND_WOOD;
-	case STONEBLOCK:
+	case TYPE_STONE:
 		return SOUND_STONE;
 	default:
 		return SOUND_STONE;
@@ -340,22 +342,22 @@ int getLightAmount(int blockID)
 void initBlockProperties()
 {
 	//Tools
-	setArray(blockType, PICKAXE, 5, PICKAXE_STONE, PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_WOOD, PICKAXE_DIAMOND); //Pickaxes
-	setArray(blockType, SHOVEL, 5, SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, SHOVEL_WOOD, SHOVEL_DIAMOND); //Shovels
-	setArray(blockType, AXE, 5, AXE_STONE, AXE_IRON, AXE_GOLD, AXE_WOOD, AXE_DIAMOND); //Axes
-	setArray(blockType, SWORD, 5, SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD, SWORD_DIAMOND); //Swords
+	setArray(blockType, TYPE_PICKAXE, 5, PICKAXE_STONE, PICKAXE_IRON, PICKAXE_GOLD, PICKAXE_WOOD, PICKAXE_DIAMOND); //Pickaxes
+	setArray(blockType, TYPE_SHOVEL, 5, SHOVEL_STONE, SHOVEL_IRON, SHOVEL_GOLD, SHOVEL_WOOD, SHOVEL_DIAMOND); //Shovels
+	setArray(blockType, TYPE_AXE, 5, AXE_STONE, AXE_IRON, AXE_GOLD, AXE_WOOD, AXE_DIAMOND); //Axes
+	setArray(blockType, TYPE_SWORD, 5, SWORD_STONE, SWORD_IRON, SWORD_GOLD, SWORD_WOOD, SWORD_DIAMOND); //Swords
 
 	//Blocks
-	setArray(blockType, WOOD, 7, LOG_OAK, JUNGLE_WOOD, LOG_BIRCH, LOG_SPRUCE, PLANKS_WOOD, CHEST, LADDER); //Axe Blocks
-	setArray(blockType, SOIL, 7, GRASS_JUNGLE, GRASS, DIRT, SAND, GRAVEL, SNOW_GRASS, MYCELIUM); //Shovel Blocks
-	setArray(blockType, STONEBLOCK, 8, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE, BEDROCK); //Blocks that must be mined with a pickaxe
+	setArray(blockType, TYPE_WOOD, 7, LOG_OAK, LOG_JUNGLE, LOG_BIRCH, LOG_SPRUCE, PLANKS_WOOD, CHEST, LADDER); //Axe Blocks
+	setArray(blockType, TYPE_SOIL, 7, GRASS_JUNGLE, GRASS, DIRT, SAND, GRAVEL, SNOW_GRASS, MYCELIUM); //Shovel Blocks
+	setArray(blockType, TYPE_STONE, 8, STONE, SANDSTONE, COBBLESTONE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE, BEDROCK); //Blocks that must be mined with a pickaxe
 
 	int i;
 	for (i = 1; i < NUM_BLOCKS; ++i)
 	{
 		switch (blockType[i])
 		{
-		case WOOD:
+		case TYPE_WOOD:
 			hardness[i] = 5;
 			break; //Wood hardness is 5
 		default:
@@ -401,9 +403,9 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 {
 	if (!isSurvival())
 		return false;
-	if (getType(blockID) == STONEBLOCK)
+	if (getType(blockID) == TYPE_STONE)
 	{
-		if (getType(getBlockID(getHand())) != PICKAXE)
+		if (getType(getHandID()) != TYPE_PICKAXE)
 			return false;
 		else
 		{
@@ -416,13 +418,13 @@ bool canDropItem(int blockID) //checks is the item should be dropped when mined
 				blockID = COBBLESTONE;
 				break;
 			case IRON_ORE:
-				if (getBlockID(getHand()) == PICKAXE_WOOD) return false;
+				if (getHandID() == PICKAXE_WOOD) return false;
 				break;
 			case GOLD_ORE:
-				if (getBlockID(getHand()) == PICKAXE_WOOD || getBlockID(getHand()) == PICKAXE_STONE)return false;
+				if (getHandID() == PICKAXE_WOOD || getHandID() == PICKAXE_STONE)return false;
 				break;
 			case DIAMOND_ORE:
-				if (getBlockID(getHand()) != PICKAXE_DIAMOND && getBlockID(getHand()) != PICKAXE_IRON) return false;
+				if (getHandID() != PICKAXE_DIAMOND && getHandID() != PICKAXE_IRON) return false;
 				break;
 			}
 		}
@@ -500,15 +502,6 @@ int getSurvivalItem(int blockID)
 	case STONE:
 		return COBBLESTONE;
 		break;
-	case IRON_ORE:
-		return INGOT_IRON;
-		break;
-	case GOLD_ORE:
-		return INGOT_GOLD;
-		break;
-	case DIAMOND_ORE:
-		return DIAMOND;
-		break;
 	default:
 		break;
 	}
@@ -544,7 +537,7 @@ bool shouldRender(int blockID)
 }
 int getFoodValue(int blockID)
 {
-	for (int i = 0; i < sizeOfArray(foodItems); i+=2)
+	for (unsigned int i = 0; i < sizeOfArray(foodItems); i += 2)
 	{
 		if (foodItems[i] == blockID)
 			return foodItems[i+1];
@@ -566,4 +559,45 @@ bool isFoodStuff(int blockID)
 			break;	
 	}
 	return false;
+}
+
+int fuelAmount(int blockID)
+{
+	switch (blockID)
+	{
+	case COAL:
+		return 24;
+	case STICK:
+		return 1;
+	case PLANKS_WOOD:
+		return 4;
+	case LOG_BIRCH:
+	case LOG_OAK:
+	case LOG_SPRUCE:
+	case LOG_JUNGLE:
+		return 16;
+	case PICKAXE_WOOD:
+	case AXE_WOOD:
+		return 4 * 3 + 2;
+	case SWORD_WOOD:
+		return 2 * 3 + 1;
+	case DOOR_ITEM:
+		return 4 * 6;
+	case LADDER:
+		return 8;
+	default:
+		return 0;
+	}
+}
+
+bool perpetualUpdates(int blockID)
+{
+	switch (blockID)
+	{
+	case FURNACE:
+	case FURNACE_LIT:
+		return true;
+	default:
+		return false;
+	}
 }

@@ -1,22 +1,23 @@
 #include "interfaceHandler.h"
 #include "InventoryInterface.h"
-#include "../Config.h"
-#include "../blockPages.h"
-#include "../blockID.h"
-#include "../graphics/inventoryGraphics.h"
-#include "../blockName.h"
-#include "../mining.h"
-#include "../graphics/UI.h"
-#include "../files.h"
+#include "../../Config.h"
+#include "../../blockPages.h"
+#include "../../blockID.h"
+#include "../../blockName.h"
+#include "../../mining.h"
+#include "../UI.h"
+#include "../../files.h"
+#include "../../mobs/BaseMob.h"
+#include "../../mobs/mobHandler.h"
 
 void InventoryInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
+	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].ID);
 	gfxHandler.drawSlots(inv.hand);
 	if (isSurvival())
 		gfxHandler.drawQuantities();
-	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].blockId);
+	updateTopName(inv.hand < 0 ? AIR : inv.blocks[inv.hand].ID);
 }
 
 void InventoryInterface::checkLimits(int &value)
@@ -33,7 +34,7 @@ void InventoryInterface::moveSlot(bool right)
 	int invSlot = inv.hand;
 	int initialSlot = invSlot;
 
-	if (invSlot != -1 && inv.blocks[invSlot].blockId != AIR)
+	if (invSlot != -1 && inv.blocks[invSlot].ID != AIR)
 	{
 		invSlot += change;
 		checkLimits(invSlot);
@@ -42,7 +43,7 @@ void InventoryInterface::moveSlot(bool right)
 	{
 		do
 			checkLimits(invSlot += change);
-		while ((invSlot == -1 || inv.blocks[invSlot].blockId == AIR) && initialSlot != invSlot);
+		while ((invSlot == -1 || inv.blocks[invSlot].ID == AIR) && initialSlot != invSlot);
 		if (initialSlot == invSlot)
 		{
 			invSlot += change;
@@ -119,12 +120,12 @@ void InventoryInterface::parseTouchInput(const touchPosition &touch)
 		inv.hand = touched;
 	else
 	{
-		int tmpId = inv.blocks[inv.hand].blockId;
-		int tmpAmount = inv.blocks[inv.hand].blockAmount;
-		inv.blocks[inv.hand].blockId = inv.blocks[touched].blockId;
-		inv.blocks[inv.hand].blockAmount = inv.blocks[touched].blockAmount;
-		inv.blocks[touched].blockId = tmpId;
-		inv.blocks[touched].blockAmount = tmpAmount;
+		int tmpId = inv.blocks[inv.hand].ID;
+		int tmpAmount = inv.blocks[inv.hand].amount;
+		inv.blocks[inv.hand].ID = inv.blocks[touched].ID;
+		inv.blocks[inv.hand].amount = inv.blocks[touched].amount;
+		inv.blocks[touched].ID = tmpId;
+		inv.blocks[touched].amount = tmpAmount;
 		inv.hand = -1;
 	}
 	updateInv();
@@ -138,7 +139,7 @@ void InventoryInterface::switchInvState()
 		openInventory();
 }
 
-void InventoryInterface::update(WorldObject *world, touchPosition *touch)
+void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 {
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
 	gfxHandler.update();
@@ -147,8 +148,8 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 
 	if (open)
 	{
-		parseTouchInput(*touch);
-		switch (menu.update(*touch))
+		parseTouchInput(touch);
+		switch (menu.update(touch))
 		{
 		case BACK:
 			closeInventory();
@@ -160,7 +161,10 @@ void InventoryInterface::update(WorldObject *world, touchPosition *touch)
 				printLocalMessage("Failed to Save Game\n");
 			break;
 		case CRAFT_MENU:
-			setInterface(INTERFACE_CRAFTING);
+		{
+			BaseMob_ptr player(getPlayerPtr());
+			setInterface(INTERFACE_CRAFTING, world.blocks[player->x / 16][(player->y + player->sy / 2) / 16] == CRAFTING_TABLE);
+		}
 			break;
 		case PAGE_MENU:
 			setInterface(INTERFACE_PAGE);

@@ -156,7 +156,7 @@ const char *getName(int blockID)
 	case LADDER:
 		name = "Ladder";
 		break;
-	case JUNGLE_WOOD:
+	case LOG_JUNGLE:
 		name = "Jungle Wood";
 		break;
 	case GRASS_JUNGLE:

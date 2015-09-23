@@ -6,6 +6,6 @@ class JungleGrassUpdater : public BlockUpdater
 {
 public:
 	JungleGrassUpdater();
-	virtual void chanceUpdate(WorldObject* world, int x, int y, bool bg);
+	virtual void chanceUpdate(WorldObject &world, int x, int y, bool bg);
 };
 

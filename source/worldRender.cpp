@@ -18,14 +18,14 @@ uint16 *bg2ptr;
 BlockSpriteContainer *blockSprites[MAX_BLOCK_SPRITES] = {};
 int sunbrightness;
 
-static void drawBlockGraphic(WorldObject *world, int x, int y)
+static void drawBlockGraphic(WorldObject &world, int x, int y)
 {
-	int blockID = world->blocks[x][y];
+	int blockID = world.blocks[x][y];
 	int paletteID = (7 * getBrightness(world, x, y)) / 15;
 	x *= 16;
 	y *= 16;
-	x -= world->camX;
-	y -= world->camY;
+	x -= world.camX;
+	y -= world.camY;
 	std::vector<BlockSpriteContainer>::size_type i;
 	for (i=0; i<MAX_BLOCK_SPRITES && blockSprites[i];++i)
 		if (blockID == blockSprites[i]->blockID && paletteID == blockSprites[i]->sprite.paletteID && !blockSprites[i]->hasBeenRendered)
@@ -42,13 +42,13 @@ static void drawBlockGraphic(WorldObject *world, int x, int y)
 	}
 }
 
-int getBrightness(WorldObject* world, int x, int y)
+int getBrightness(WorldObject &world, int x, int y)
 {
 	int brightness;
-	if (world->sun[x][y] + sunbrightness < world->brightness[x][y])
-		brightness = world->sun[x][y] + sunbrightness;
+	if (world.sun[x][y] + sunbrightness < world.brightness[x][y])
+		brightness = world.sun[x][y] + sunbrightness;
 	else
-		brightness = world->brightness[x][y];
+		brightness = world.brightness[x][y];
 	if (brightness > 15) brightness = 15;
 	else if (brightness < 0) brightness = 0;
 	return brightness;
@@ -65,7 +65,7 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
-void updateBrightnessAround(WorldObject* world, int x, int y)
+void updateBrightnessAround(WorldObject &world, int x, int y)
 {
 	int i, j;
 	bool startshade = false;
@@ -77,11 +77,11 @@ void updateBrightnessAround(WorldObject* world, int x, int y)
 		startshade = false;
 		for (j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			world->brightness[i][j] = 15;
-			world->sun[i][j] = 15;
-			world->lightemit[i][j] = 0;
-			if (isBlockALightSource(world->blocks[i][j]))
-				world->lightemit[i][j] = 1 + getLightAmount(world->blocks[i][j]);
+			world.brightness[i][j] = 15;
+			world.sun[i][j] = 15;
+			world.lightemit[i][j] = 0;
+			if (isBlockALightSource(world.blocks[i][j]))
+				world.lightemit[i][j] = 1 + getLightAmount(world.blocks[i][j]);
 		}
 	}
 	//Now update the brightness'
@@ -90,32 +90,32 @@ void updateBrightnessAround(WorldObject* world, int x, int y)
 		startshade = false;
 		for (j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			if (world->brightness[i][j] < 15)
-				brightnessSpread(world, i, j, world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
-			if (blockCastsShadow(world->blocks[i][j]) && !startshade)
+			if (world.brightness[i][j] < 15)
+				brightnessSpread(&world, i, j, world.brightness[i][j]/*+ (isBlockWalkThrough(world.blocks[i+1][j]) ? 1:3)*/);
+			if (blockCastsShadow(world.blocks[i][j]) && !startshade)
 			{
-				//	world->lightemit[i][j]=1+sunlight;
-				//	world->sun[i][j]=true; // This is a block that is lit by the sun...
-				//world->brightness[i][j]=0; //Will be set later
-				sunSpread(world, i, j, sunlight);
+				//	world.lightemit[i][j]=1+sunlight;
+				//	world.sun[i][j]=true; // This is a block that is lit by the sun...
+				//world.brightness[i][j]=0; //Will be set later
+				sunSpread(&world, i, j, sunlight);
 				startshade = true;
 			}
 
-			else if (!startshade) world->sun[i][j] = sunlight;
-			if (!startshade && world->blocks[i][j] != AIR)
-				world->sun[i][j] = sunlight;
-			else if (!startshade && world->blocks[i - 1][j] == AIR && world->blocks[i + 1][j] == AIR && i != 0) world->sun[i][j] = sunlight;
-			if (world->lightemit[i][j] != 0)
+			else if (!startshade) world.sun[i][j] = sunlight;
+			if (!startshade && world.blocks[i][j] != AIR)
+				world.sun[i][j] = sunlight;
+			else if (!startshade && world.blocks[i - 1][j] == AIR && world.blocks[i + 1][j] == AIR && i != 0) world.sun[i][j] = sunlight;
+			if (world.lightemit[i][j] != 0)
 			{
-				int light = world->lightemit[i][j] - 1;
-				brightnessSpread(world, i, j, light);
+				int light = world.lightemit[i][j] - 1;
+				brightnessSpread(&world, i, j, light);
 			}
-			if (world->brightness[i][j] == 16) world->brightness[i][j] = 15;
+			if (world.brightness[i][j] == 16) world.brightness[i][j] = 15;
 		}
 	}
 }
 
-void Calculate_Brightness(WorldObject* world)
+void Calculate_Brightness(WorldObject &world)
 {
 	int i, j;
 	//Kill Every block so it has no brightness...
@@ -123,11 +123,11 @@ void Calculate_Brightness(WorldObject* world)
 	{
 		for (j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			world->brightness[i][j] = 15;
-			world->sun[i][j] = 15;
-			world->lightemit[i][j] = 0;
-			if (isBlockALightSource(world->blocks[i][j]))
-				world->lightemit[i][j] = 1 + getLightAmount(world->blocks[i][j]);
+			world.brightness[i][j] = 15;
+			world.sun[i][j] = 15;
+			world.lightemit[i][j] = 0;
+			if (isBlockALightSource(world.blocks[i][j]))
+				world.lightemit[i][j] = 1 + getLightAmount(world.blocks[i][j]);
 		}
 	}
 	for (i = 0; i <= WORLD_WIDTH; ++i)
@@ -136,27 +136,27 @@ void Calculate_Brightness(WorldObject* world)
 		bool startshade = false;
 		for (j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			if (world->brightness[i][j] < 15)
-				brightnessSpread(world, i, j, world->brightness[i][j]/*+ (isBlockWalkThrough(world->blocks[i+1][j]) ? 1:3)*/);
-			if (blockCastsShadow(world->blocks[i][j]) && !startshade)
+			if (world.brightness[i][j] < 15)
+				brightnessSpread(&world, i, j, world.brightness[i][j]/*+ (isBlockWalkThrough(world.blocks[i+1][j]) ? 1:3)*/);
+			if (blockCastsShadow(world.blocks[i][j]) && !startshade)
 			{
-				//	world->lightemit[i][j]=1+sunlight;
-				//	world->sun[i][j]=true; // This is a block that is lit by the sun...
-				//world->brightness[i][j]=0; //Will be set later
-				sunSpread(world, i, j, sunlight);
+				//	world.lightemit[i][j]=1+sunlight;
+				//	world.sun[i][j]=true; // This is a block that is lit by the sun...
+				//world.brightness[i][j]=0; //Will be set later
+				sunSpread(&world, i, j, sunlight);
 				startshade = true;
 			}
 
-			else if (!startshade) world->sun[i][j] = sunlight;
-			if (!startshade && world->blocks[i][j] != AIR)
-				world->sun[i][j] = sunlight;
-			else if (!startshade && world->blocks[i - 1][j] == AIR && world->blocks[i + 1][j] == AIR && i != 0) world->sun[i][j] = sunlight;
-			if (world->lightemit[i][j] != 0)
+			else if (!startshade) world.sun[i][j] = sunlight;
+			if (!startshade && world.blocks[i][j] != AIR)
+				world.sun[i][j] = sunlight;
+			else if (!startshade && world.blocks[i - 1][j] == AIR && world.blocks[i + 1][j] == AIR && i != 0) world.sun[i][j] = sunlight;
+			if (world.lightemit[i][j] != 0)
 			{
-				int light = world->lightemit[i][j] - 1;
-				brightnessSpread(world, i, j, light);
+				int light = world.lightemit[i][j] - 1;
+				brightnessSpread(&world, i, j, light);
 			}
-			if (world->brightness[i][j] == 16) world->brightness[i][j] = 15;
+			if (world.brightness[i][j] == 16) world.brightness[i][j] = 15;
 		}
 	}
 }
@@ -213,45 +213,45 @@ void renderTile16(int x, int y, int tile, int palette)
 	setTileXY(x + 1, y + 1, tile + 3, palette);
 }
 
-void renderBlock(WorldObject* world, int i, int j, int blockId, bool add = false)
+void renderBlock(WorldObject &world, int i, int j, int blockId, bool add = false)
 {
-	if (world->sun[i][j] + sunbrightness < world->brightness[i][j])
+	if (world.sun[i][j] + sunbrightness < world.brightness[i][j])
 	{
-		int brightness = world->sun[i][j] + sunbrightness + (add ? 6 : 0);
+		int brightness = world.sun[i][j] + sunbrightness + (add ? 6 : 0);
 		if (brightness > 15) brightness = 15;
 		if (brightness < 0) brightness = 0;
 		renderTile16(i, j, blockId, brightness);
 	}
 	else
-		renderTile16(i, j, blockId, world->brightness[i][j] + (add ? 6 : 0));
+		renderTile16(i, j, blockId, world.brightness[i][j] + (add ? 6 : 0));
 }
 
-void renderWorld(WorldObject* world)
+void renderWorld(WorldObject &world)
 {
 	int i, j;
-	for (i = world->camX / 16 - 2; i <= world->camX / 16 + 20; ++i)
+	for (i = world.camX / 16 - 2; i <= world.camX / 16 + 20; ++i)
 	{
-		for (j = world->camY / 16 - 2; j <= world->camY / 16 + 20; ++j)
+		for (j = world.camY / 16 - 2; j <= world.camY / 16 + 20; ++j)
 		{
 			//Check The Block is on screen
 			if (onScreen(16, i, j, 1, 1))
 			{
-				if (isSpriteBlock(world->blocks[i][j]) && world->bgblocks[i][j] != AIR)
+				if (isSpriteBlock(world.blocks[i][j]) && world.bgblocks[i][j] != AIR)
 				{
 					drawBlockGraphic(world, i, j);
-					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+					renderBlock(world, i, j, world.bgblocks[i][j], !alwaysRenderBright(world.bgblocks[i][j]));
 				}
-				else if (world->blocks[i][j] == WATER)
+				else if (world.blocks[i][j] == WATER)
 				{
-					if (shouldRender(world->bgblocks[i][j]) && !isSpriteBlock(world->bgblocks[i][j]) && world->bgblocks[i][j] != AIR)
-						renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+					if (shouldRender(world.bgblocks[i][j]) && !isSpriteBlock(world.bgblocks[i][j]) && world.bgblocks[i][j] != AIR)
+						renderBlock(world, i, j, world.bgblocks[i][j], !alwaysRenderBright(world.bgblocks[i][j]));
 					else
 						renderBlock(world, i, j, AIR);
 				}
-				else if (shouldRender(world->blocks[i][j]) && world->blocks[i][j] != AIR)
-					renderBlock(world, i, j, world->blocks[i][j]);
-				else if (shouldRender(world->bgblocks[i][j]) && world->bgblocks[i][j] != AIR)
-					renderBlock(world, i, j, world->bgblocks[i][j], !alwaysRenderBright(world->bgblocks[i][j]));
+				else if (shouldRender(world.blocks[i][j]) && world.blocks[i][j] != AIR)
+					renderBlock(world, i, j, world.blocks[i][j]);
+				else if (shouldRender(world.bgblocks[i][j]) && world.bgblocks[i][j] != AIR)
+					renderBlock(world, i, j, world.bgblocks[i][j], !alwaysRenderBright(world.bgblocks[i][j]));
 				else
 					renderBlock(world, i, j, AIR);
 			}
@@ -259,9 +259,9 @@ void renderWorld(WorldObject* world)
 	}
 }
 
-void worldRender_Render(WorldObject* world)
+void worldRender_Render(WorldObject &world)
 {
-	beginRender(world->camX, world->camY);
+	beginRender(world.camX, world.camY);
 	renderWorld(world);
 }
 
@@ -285,39 +285,40 @@ void BlockSpriteContainer::draw(int x, int y)
 	hasBeenRendered = true;
 }
 
-static void renderWater(WorldObject *world, int x, int y)
+static void renderWater(WorldObject &world, int x, int y)
 {
 	int waterLevel = getWaterLevel(world, x, y);
-	waterLevel = (waterLevel * 16) / 12;
 	int r = 0, g = 255, b = 255;
-	if (world->bgblocks[x][y] == AIR)
+	if (waterLevel > MAX_WATER_LEVEL) r = 255;
+	waterLevel = (waterLevel * 16) / MAX_WATER_LEVEL;
+	if (world.bgblocks[x][y] == AIR)
 	{
 		g /= 2;
 		b /= 2;
 	}
-	if (y > 0 && world->blocks[x][y-1]==WATER)
+	if (y > 0 && world.blocks[x][y-1]==WATER)
 	{
 		//waterLevel = 16;
 	}
 	drawRect(Color{
-		{r, g, b}}, x * 16 - world->camX, y * 16 - world->camY + 16, 16, -waterLevel);
+		{r, g, b}}, x * 16 - world.camX, y * 16 - world.camY + 16, 16, -waterLevel);
 }
 
-void worldRender_RenderWater(WorldObject *world)
+void worldRender_RenderWater(WorldObject &world)
 {
-	for (int i = world->camX / 16 - 2; i <= world->camX / 16 + 20; ++i)
-		for (int j = world->camY / 16 - 20; j <= world->camY / 16 + 20; ++j)
+	for (int i = world.camX / 16 - 2; i <= world.camX / 16 + 20; ++i)
+		for (int j = world.camY / 16 - 20; j <= world.camY / 16 + 20; ++j)
 		{
-			if (world->blocks[i][j] == WATER)
+			if (world.blocks[i][j] == WATER)
 			{
 				if (onScreen(16, i, j, 1, 1))
 				{
 					renderWater(world, i, j);
 				}
-				/*if (j < WORLD_WIDTH && (world->blocks[i][j + 1] == AIR || (world->blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < 12))))
+				/*if (j < WORLD_WIDTH && (world.blocks[i][j + 1] == AIR || (world.blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < MAX_WATER_LEVEL))))
 				{
-					createWaterMob(i, j, world->data[i][j]);
-					world->blocks[i][j] = AIR;
+					createWaterMob(i, j, world.data[i][j]);
+					world.blocks[i][j] = AIR;
 				}*/
 			}
 		}

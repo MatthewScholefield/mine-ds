@@ -1,8 +1,8 @@
 #include "Interface.h"
-#include "../graphics/Menu.h"
-#include "../furnaceHandler.h"
-#include "../mining.h"
-#include "../graphics/handlers/InvGfxHandler.h"
+#include "../Menu.h"
+#include "../../furnaceHandler.h"
+#include "../../mining.h"
+#include "../handlers/InvGfxHandler.h"
 
 #pragma once
 class FurnaceInterface : public Interface
@@ -36,7 +36,7 @@ class FurnaceInterface : public Interface
 	void swapItem(InvBlock &original);
 public:
 
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
 	FurnaceInterface() : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)

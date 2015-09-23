@@ -1,12 +1,12 @@
 #include "Interface.h"
-#include "../inventory.h"
-#include "../mainGame.h"
-#include "../graphics/Menu.h"
-#include "../graphics/graphics.h"
-#include "../blockID.h"
-#include "../graphics/handlers/InvGfxHandler.h"
-#include "../mining.h"
-#include "../chests.h"
+#include "../../inventory.h"
+#include "../../mainGame.h"
+#include "../Menu.h"
+#include "../graphics.h"
+#include "../../blockID.h"
+#include "../handlers/InvGfxHandler.h"
+#include "../../mining.h"
+#include "../../chests.h"
 
 #pragma once
 
@@ -45,7 +45,7 @@ public:
 	static void triggerUpdate();
 	static void staticUpdate();
 
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
 	ChestInterface(bool open) : Interface(INTERFACE_INVENTORY)

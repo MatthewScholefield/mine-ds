@@ -21,11 +21,11 @@ public:
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
 
-	void calcMiscData(WorldObject *world);
+	void calcMiscData(WorldObject &world);
 	void saveToFile(FILE* sFile);
 	void loadFromFile(FILE* sFile);
 	void sendWifiUpdate();
-	void updateMob(WorldObject* world);
+	void updateMob(WorldObject &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
@@ -34,4 +34,4 @@ public:
 
 	~AnimalMob() { }
 };
-bool canAnimalMobSpawnHere(WorldObject* world, int x, int y);
+bool canAnimalMobSpawnHere(WorldObject &world, int x, int y);

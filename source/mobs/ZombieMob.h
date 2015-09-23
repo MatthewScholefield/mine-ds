@@ -4,16 +4,16 @@
 #include "BaseMob.h"
 #define ZOMBIE_SPEED 0.5
 
-bool canZombieMobSpawnHere(WorldObject* world, int x, int y);
+bool canZombieMobSpawnHere(WorldObject &world, int x, int y);
 
 class ZombieMob : public BaseMob
 {
 public:
-	void calcMiscData(WorldObject* world);
+	void calcMiscData(WorldObject &world);
 	void saveToFile(FILE* sFile);
 	void loadFromFile(FILE* sFile);
 	void sendWifiUpdate();
-	void updateMob(WorldObject* world);
+	void updateMob(WorldObject &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 

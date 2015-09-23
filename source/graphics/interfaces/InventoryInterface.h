@@ -1,10 +1,10 @@
 #include "Interface.h"
-#include "../inventory.h"
-#include "../mainGame.h"
-#include "../graphics/Menu.h"
-#include "../graphics/graphics.h"
-#include "../blockID.h"
-#include "../graphics/handlers/InvGfxHandler.h"
+#include "../../inventory.h"
+#include "../../mainGame.h"
+#include "../Menu.h"
+#include "../graphics.h"
+#include "../../blockID.h"
+#include "../handlers/InvGfxHandler.h"
 
 #pragma once
 
@@ -40,7 +40,7 @@ public:
 	static bool touchesInvSlot(const touchPosition &touch);
 	static int touchedSlot(const touchPosition &touch);
 	
-	void update(WorldObject *world, touchPosition *touch);
+	void update(WorldObject &world, touchPosition &touch);
 
 	void draw();
 
@@ -54,6 +54,10 @@ public:
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
+		if (open)
+			lcdMainOnTop();
+		else
+			lcdMainOnBottom();
 	}
 
 	~InventoryInterface() { }

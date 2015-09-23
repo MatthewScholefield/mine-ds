@@ -1,10 +1,14 @@
 #pragma once
+#include <stdio.h>
 
 class InvBlock
 {
 public:
-	int blockId = 0;
-	int blockAmount = 0;
+	int ID = 0;
+	int amount = 0;
 
-	InvBlock(int blockId = 0, int blockAmount = 0) : blockId(blockId), blockAmount(blockAmount) { }
+	void saveToFile(FILE *file);
+	void loadFromFile(FILE *file);
+
+	InvBlock(int ID = 0, int amount = 0) : ID(ID), amount(amount) { }
 };
