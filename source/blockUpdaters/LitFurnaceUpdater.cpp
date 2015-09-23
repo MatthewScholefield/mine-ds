@@ -4,7 +4,7 @@
 #include "blockUpdater.h"
 #include <stdlib.h>
 #include "../blockID.h"
-#include "litFurnaceUpdater.h"
+#include "LitFurnaceUpdater.h"
 #include "../furnaceHandler.h"
 
 LitFurnaceUpdater::LitFurnaceUpdater()
