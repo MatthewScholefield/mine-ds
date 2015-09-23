@@ -26,7 +26,7 @@ class CraftingInterface : public Interface
 	void updateCraftingGraphics();
 	void moveCraftingPage(bool right);
 	void craftItem();
-	static bool canCraftRecipe(int recipe);
+	bool canCraftRecipe(int recipe);
 protected:
 
 	virtual bool closeOnMovement()
