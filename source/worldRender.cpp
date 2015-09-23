@@ -10,7 +10,6 @@
 #include "graphics/3DHandler.h"
 #include "mobs/mobHandler.h"
 #include <math.h>
-#define sizeOfArray(x) (sizeof(x)/sizeof(x[0]))
 #define MAX_BLOCK_SPRITES 100
 
 int sunlight;
