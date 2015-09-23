@@ -1,7 +1,7 @@
 #include "../world.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
-#include "../blockUpdater.h"
+#include "blockUpdater.h"
 #include <stdlib.h>
 #include "../blockID.h"
 #include "FurnaceUpdater.h"

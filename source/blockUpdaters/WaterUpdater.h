@@ -1,7 +1,7 @@
 #pragma once
 #include "../world.h"
 #include "../blockID.h"
-#include "../blockUpdater.h"
+#include "blockUpdater.h"
 
 #define MAX_WATER_LEVEL 12
 

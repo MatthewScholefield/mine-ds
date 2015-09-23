@@ -4,7 +4,7 @@
 #include "../general.h"
 #include "../graphics/graphics.h"
 #include "../graphics/3DHandler.h"
-#include "../blockUpdater.h"
+#include "blockUpdater.h"
 #include "../blockID.h"
 #include "../blocks.h"
 #include "WaterUpdater.h"

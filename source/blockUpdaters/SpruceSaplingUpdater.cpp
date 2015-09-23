@@ -1,5 +1,5 @@
 #include "../world.h"
-#include "../blockUpdater.h"
+#include "blockUpdater.h"
 #include "../blockID.h"
 #include "SpruceSaplingUpdater.h"
 #include "OakSaplingUpdater.h"

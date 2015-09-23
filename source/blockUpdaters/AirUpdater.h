@@ -1,6 +1,6 @@
 #pragma once
 #include "../world.h"
-#include "../blockUpdater.h"
+#include "blockUpdater.h"
 
 class AirUpdater : public BlockUpdater
 {
