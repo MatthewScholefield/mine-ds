@@ -5,6 +5,7 @@
 #include "chests.h"
 #include "furnaceHandler.h"
 #include "graphics/graphics.h"
+#include "graphics/interfaces/interfaceHandler.h"
 #include "inventory.h"
 #include "blockName.h"
 #include "blocks.h"
@@ -162,6 +163,11 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 		playBlockSfx(bg ? world.bgblocks[x][y] : world.blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world.camX));
 		break;
 	}
+	case CRAFTING_TABLE:
+		setInterface(INTERFACE_CRAFTING,true);
+		lcdMainOnTop();
+		setMiningDisabled(true);
+		break;
 	case CHEST:
 		openChest(world, x, y, bg);
 		break;

@@ -7,7 +7,6 @@ class Recipe
 public:
 	InvBlock result;
 	InvBlock needed[4];
-
 	Recipe() : result(), needed { }
 	{
 	}
