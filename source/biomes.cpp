@@ -5,7 +5,7 @@
 #include "blockID.h"
 #include "trees.h"
 #include "blocks.h"
-#include "blockUpdaters/water.h"
+#include "blockUpdaters/WaterUpdater.h"
 
 void plainsBiome(WorldObject &world, int startx, int endx)
 {

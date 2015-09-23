@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "plants.h"
+#include "plantUpdaters.cpp.h"
 #include "../mobs/hurt.h"
 #include "../mobs/mobHandler.h"
 

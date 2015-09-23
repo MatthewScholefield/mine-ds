@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "dirt.h"
+#include "DirtUpdater.h"
 
 //The values to add to the x y coord for checking adjacent blocks
 //Setting the evaluting block as the center, the scan coords are:

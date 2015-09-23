@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "../blockID.h"
 #include "../blocks.h"
-#include "cactus.h"
+#include "CactusUpdater.h"
 #include "../mobs/hurt.h"
 #include "../mobs/mobHandler.h"
 
