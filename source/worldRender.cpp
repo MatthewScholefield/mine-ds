@@ -6,7 +6,7 @@
 #include "blocks.h"
 #include "graphics/graphics.h"
 #include "general.h"
-#include "blockUpdaters/water.h"
+#include "blockUpdaters/WaterUpdater.h"
 #include "graphics/3DHandler.h"
 #include "mobs/mobHandler.h"
 #include <math.h>
