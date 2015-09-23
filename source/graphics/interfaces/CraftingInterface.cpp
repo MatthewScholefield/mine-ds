@@ -5,34 +5,34 @@
 #include "interfaceHandler.h"
 
 const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
-	{PLANKS_WOOD, 4, LOG_OAK, 1},
-	{PLANKS_WOOD, 4, LOG_JUNGLE, 1},
-	{PLANKS_WOOD, 4, LOG_BIRCH, 1},
-	{PLANKS_WOOD, 4, LOG_SPRUCE, 1},
-	{STICK, 4, PLANKS_WOOD, 2},
-	{PICKAXE_WOOD, 1, PLANKS_WOOD, 3, STICK, 2},
-	{PICKAXE_STONE, 1, COBBLESTONE, 3, STICK, 2},
-	{PICKAXE_IRON, 1, INGOT_IRON, 3, STICK, 2},
-	{PICKAXE_DIAMOND, 1, DIAMOND, 3, STICK, 2},
-	{AXE_WOOD, 1, PLANKS_WOOD, 3, STICK, 2},
-	{AXE_STONE, 1, COBBLESTONE, 3, STICK, 2},
-	{AXE_IRON, 1, INGOT_IRON, 3, STICK, 2},
-	{AXE_DIAMOND, 1, DIAMOND, 3, STICK, 2},
-	{SWORD_WOOD, 1, PLANKS_WOOD, 2, STICK, 1},
-	{SWORD_STONE, 1, COBBLESTONE, 2, STICK, 1},
-	{SWORD_IRON, 1, INGOT_IRON, 2, STICK, 1},
-	{SWORD_DIAMOND, 1, DIAMOND, 2, STICK, 1},
-	{SHOVEL_WOOD, 1, PLANKS_WOOD, 1, STICK, 2},
-	{SHOVEL_STONE, 1, COBBLESTONE, 1, STICK, 2},
-	{SHOVEL_IRON, 1, INGOT_IRON, 1, STICK, 2},
-	{SHOVEL_DIAMOND, 1, DIAMOND, 1, STICK, 2},
-	{TORCH, 4, COAL, 1, STICK, 1},
-	{CRAFTING_TABLE, 1, PLANKS_WOOD, 4},
-	{LADDER, 2, STICK, 8},
-	{CHEST, 1, PLANKS_WOOD, 8},
-	{DOOR_ITEM, 1, PLANKS_WOOD, 6},
-	{BUCKET_EMPTY, 1, INGOT_IRON, 3},
-	{FURNACE, 1, COBBLESTONE, 8}
+	{false,PLANKS_WOOD, 4, LOG_OAK, 1},
+	{false,PLANKS_WOOD, 4, LOG_JUNGLE, 1},
+	{false,PLANKS_WOOD, 4, LOG_BIRCH, 1},
+	{false,PLANKS_WOOD, 4, LOG_SPRUCE, 1},
+	{false,STICK, 4, PLANKS_WOOD, 2},
+	{true ,PICKAXE_WOOD, 1, PLANKS_WOOD, 3, STICK, 2},
+	{true ,PICKAXE_STONE, 1, COBBLESTONE, 3, STICK, 2},
+	{true ,PICKAXE_IRON, 1, INGOT_IRON, 3, STICK, 2},
+	{true ,PICKAXE_DIAMOND, 1, DIAMOND, 3, STICK, 2},
+	{true ,AXE_WOOD, 1, PLANKS_WOOD, 3, STICK, 2},
+	{true ,AXE_STONE, 1, COBBLESTONE, 3, STICK, 2},
+	{true ,AXE_IRON, 1, INGOT_IRON, 3, STICK, 2},
+	{true ,AXE_DIAMOND, 1, DIAMOND, 3, STICK, 2},
+	{true  ,SWORD_WOOD, 1, PLANKS_WOOD, 2, STICK, 1},
+	{true ,SWORD_STONE, 1, COBBLESTONE, 2, STICK, 1},
+	{true ,SWORD_IRON, 1, INGOT_IRON, 2, STICK, 1},
+	{true ,SWORD_DIAMOND, 1, DIAMOND, 2, STICK, 1},
+	{true ,SHOVEL_WOOD, 1, PLANKS_WOOD, 1, STICK, 2},
+	{true ,SHOVEL_STONE, 1, COBBLESTONE, 1, STICK, 2},
+	{true ,SHOVEL_IRON, 1, INGOT_IRON, 1, STICK, 2},
+	{true ,SHOVEL_DIAMOND, 1, DIAMOND, 1, STICK, 2},
+	{false,TORCH, 4, COAL, 1, STICK, 1},
+	{false,CRAFTING_TABLE, 1, PLANKS_WOOD, 4},
+	{true ,LADDER, 2, STICK, 8},
+	{true ,CHEST, 1, PLANKS_WOOD, 8},
+	{true ,DOOR_ITEM, 1, PLANKS_WOOD, 6},
+	{true ,BUCKET_EMPTY, 1, INGOT_IRON, 3},
+	{true ,FURNACE, 1, COBBLESTONE, 8}
 };
 
 void CraftingInterface::updateCraftingGraphics()
@@ -55,6 +55,8 @@ bool CraftingInterface::canCraftRecipe(int recipe)
 {
 	for (const InvBlock &i : recipes[recipe].needed)
 		if (checkInventory(i.ID) < i.amount)
+			return false;
+	if (recipes[recipe].requiresCraftingTable && !tableInUse)
 			return false;
 	return true;
 }
@@ -81,8 +83,8 @@ void CraftingInterface::moveCraftingPage(bool right)
 		}
 		while (!canCraftRecipe(page) && initialPage != page);
 	}
-	if (initialPage == page)
-		page += change;
+//	if (initialPage == page)
+//		page += change;
 	if (page >= NUM_RECIPES)
 		page = 0;
 	else if (page < 0)
