@@ -49,8 +49,15 @@ void ZombieMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
-		loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15);
-		loadGraphic(&hurtSprite, GRAPHIC_MOB, 4, 16, 32, normalSprite.paletteID);
+		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15);
+		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 4, 16, 32, normalSprite.paletteID);
+		if (!loadedFirst || !loadedSecond)
+		{
+			unloadGraphic(&normalSprite);
+			health = 0;
+			return;
+		}
+
 	}
 	if (world.timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
 	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);

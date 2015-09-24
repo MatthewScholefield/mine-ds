@@ -370,9 +370,11 @@ void setAnimFrame(Graphic* g, int mobSlot, int frame)
 	\param x x Size of Tile
 	\param y y Size of Tile
  */
-void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
+bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 {
 	g->spriteID = graphicNextMain();
+	if (g->spriteID < 0)
+		return false;
 	switch (type)
 	{
 	case GRAPHIC_PARTICLE:
@@ -396,6 +398,7 @@ void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 	g->loadIter = textureID;
 	g->sx = x;
 	g->sy = y;
+	return true;
 }
 
 /**
@@ -405,10 +408,10 @@ void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 	\param mob To choose between loading a mob image (true) or a 8x8 particle (false).
 	\param frame Tile of Graphic to load
  */
-void loadGraphic(Graphic* g, GraphicType type, int frame)
+bool loadGraphic(Graphic* g, GraphicType type, int frame)
 {
-	if (type == GRAPHIC_PARTICLE) loadGraphic(g, type, frame, 8, 8);
-	else loadGraphic(g, type, frame, 16, 32);
+	if (type == GRAPHIC_PARTICLE) return loadGraphic(g, type, frame, 8, 8);
+	else return loadGraphic(g, type, frame, 16, 32);
 }
 
 /**
@@ -507,7 +510,10 @@ void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x, int y)
  */
 bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 {
-	if (x<-g->sx || x > 256 || y<-g->sy || y > 192) return false;
+	if (x<-g->sx || x > 256 || y<-g->sy || y > 192)
+		return false;
+	if (!g->Gfx)
+		return false;
 	OamState *oam = g->main ? &oamMain : &oamSub;
 	SpriteEntry &entry = oam->oamMemory[g->spriteID];
 	if (g->loadIter != textureID) //Must reload texture
