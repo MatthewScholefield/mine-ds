@@ -68,8 +68,8 @@ void setBlockPalette(bool block, int brightness, int index = 2);
 bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
 
 //Loading
-void loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID = 0);
-void loadGraphic(Graphic* g, GraphicType type, int frame);
+bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID = 0);
+bool loadGraphic(Graphic* g, GraphicType type, int frame);
 void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x = 8, int y = 8);
 
 //Textures
