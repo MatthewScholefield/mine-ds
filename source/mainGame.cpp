@@ -24,7 +24,7 @@
 #include "sounds.h"
 #include "nifi.h"
 #include "communications.h"
-#include "blockUpdater.h"
+#include "blockUpdaters/blockUpdater.h"
 #include "blockPages.h"
 #include <time.h>
 #include "blocks.h"

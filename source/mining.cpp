@@ -16,7 +16,7 @@
 #include "mobs/mobHandler.h"
 #include "mobs/hurt.h"
 #include "blockPages.h"
-#include "blockUpdaters/water.h"
+#include "blockUpdaters/WaterUpdater.h"
 #include "communications.h"
 
 bool miningDisabled = false;

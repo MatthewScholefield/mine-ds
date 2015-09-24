@@ -8,7 +8,7 @@
 #include "worldRender.h"
 #include "files.h"
 #include "sounds.h"
-#include "blockUpdater.h"
+#include "blockUpdaters/blockUpdater.h"
 #include <string>
 
 static int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)

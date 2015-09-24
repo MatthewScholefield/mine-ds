@@ -18,7 +18,7 @@
 #include "sounds.h"
 #include "files.h"
 #include "general.h"
-#include "blockUpdater.h"
+#include "blockUpdaters/blockUpdater.h"
 //#include <maxmod9.h>    // Maxmod definitions for ARM9
 //#include <string>
 

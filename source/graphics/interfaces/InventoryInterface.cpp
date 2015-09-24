@@ -161,10 +161,7 @@ void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 				printLocalMessage("Failed to Save Game\n");
 			break;
 		case CRAFT_MENU:
-		{
-			BaseMob_ptr player(getPlayerPtr());
-			setInterface(INTERFACE_CRAFTING, world.blocks[player->x / 16][(player->y + player->sy / 2) / 16] == CRAFTING_TABLE);
-		}
+			setInterface(INTERFACE_CRAFTING, false);
 			break;
 		case PAGE_MENU:
 			setInterface(INTERFACE_PAGE);

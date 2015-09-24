@@ -5,7 +5,7 @@
 #include "../graphics/3DHandler.h"
 #include "../general.h"
 #include "../FixedPoint.h"
-#include "../blockUpdaters/water.h"
+#include "../blockUpdaters/WaterUpdater.h"
 
 void WaterMob::calcMiscData(WorldObject &world)
 {
