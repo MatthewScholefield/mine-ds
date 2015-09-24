@@ -7,7 +7,7 @@
 #include "../general.h"
 #include "mobFunctions.h"
 #include "hurt.h"
-#include "../blockUpdaters/water.h"
+#include "../blockUpdaters/WaterUpdater.h"
 
 void calculatePhysics(WorldObject &world,BaseMob *mob, bool inWater)
 {
