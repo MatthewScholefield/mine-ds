@@ -253,6 +253,7 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 				if (mobs[i]->framesFarAway > SEC_TO_FPS(6))
 				{
 					mobs.erase(mobs.begin() + i);
+					--i;
 					continue;
 				}
 				else
@@ -262,6 +263,7 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 		else
 		{
 			mobs.erase(mobs.begin() + i);
+			--i;
 			continue;
 		}
 	}
