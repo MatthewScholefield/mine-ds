@@ -136,6 +136,7 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	case MOB_PLAYER:
 		mobs.push_back(BaseMob_ptr(new PlayerMob(x, y)));
 		playerPointer = mobs.back();
+		shouldSpawnPlayer = false;
 		break;
 	case MOB_MULTIPLAYER:
 		mobs.push_back(BaseMob_ptr(new MultiplayerMob(x, y)));
@@ -213,7 +214,7 @@ void loadMobs(FILE* f)
 		if (index >= 0 && spawnMobAt((MobType) index, 0, 0) >= 0)
 			mobs.back()->loadFromFile(f);
 	}
-	while (index != -1);
+	while (index >= 0);
 }
 
 void triggerPlayerRespawn()
@@ -227,10 +228,7 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 	int badMobs = 0;
 	int goodMobs = 0;
 	if (shouldSpawnPlayer)
-	{
 		spawnMob(MOB_PLAYER, world);
-		shouldSpawnPlayer = false;
-	}
 	for (std::vector<BaseMob_ptr>::size_type i = 0; i < mobs.size(); ++i)
 	{
 		if (mobs[i]->health > 0)
