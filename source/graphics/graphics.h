@@ -81,4 +81,4 @@ void loadDefaultTexture();
 void setSkyColor(double, double, double, double, double, double);
 void gradientHandler();
 
-void setCloneGraphic(Graphic *source, Graphic *clone);
+bool setCloneGraphic(Graphic *source, Graphic *clone);

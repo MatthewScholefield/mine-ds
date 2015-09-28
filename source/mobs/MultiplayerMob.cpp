@@ -20,8 +20,14 @@ void MultiplayerMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
-		loadGraphic(&normalSprite, GRAPHIC_MOB, 0, 16, 32, 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15);
-		loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID);
+		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 0, 16, 32, 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15);
+		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID);
+		if (!loadedFirst || !loadedSecond)
+		{
+			unloadGraphic(&normalSprite);
+			health = 0;
+			return;
+		}
 	}
 	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);
 	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);

@@ -43,10 +43,7 @@ static int graphicNextMain()
 	int i;
 	for (i = 0; i < 128 && mainSpriteUsed[i]; ++i);
 	if (i >= 128)
-	{
-		showError("Over sprites");
 		return -1;
-	}
 	mainSpriteUsed[i] = true;
 	return i;
 }
@@ -580,7 +577,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	
 }
 
-void setCloneGraphic(Graphic *source, Graphic *clone)
+bool setCloneGraphic(Graphic *source, Graphic *clone)
 {
 	clone->Gfx = source->Gfx;
 	clone->frame_gfx = source->frame_gfx;
@@ -597,4 +594,7 @@ void setCloneGraphic(Graphic *source, Graphic *clone)
 
 	clone->ownsGfx = false;
 	clone->spriteID = clone->main ? graphicNextMain() : graphicNextSub();
+	if (clone->spriteID < 0)
+		return false;
+	return true;
 }

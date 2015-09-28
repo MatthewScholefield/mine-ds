@@ -33,8 +33,15 @@ void ItemMob::updateMob(WorldObject &world)
 		health = 0;
 		return;
 	}
-	if (brightness<0)
-		loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15);
+	if (brightness < 0)
+	{
+		bool hasLoaded = loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15);
+		if (!hasLoaded)
+		{
+			health = 0;
+			return;
+		}
+	}
 	if (health < 1)
 		return;
 	if (vx < 0 || vx > 0)

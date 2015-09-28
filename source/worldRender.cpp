@@ -18,7 +18,7 @@ uint16 *bg2ptr;
 BlockSpriteContainer *blockSprites[MAX_BLOCK_SPRITES] = {};
 int sunbrightness;
 
-static void drawBlockGraphic(WorldObject &world, int x, int y)
+static bool drawBlockGraphic(WorldObject &world, int x, int y)
 {
 	int blockID = world.blocks[x][y];
 	int paletteID = (7 * getBrightness(world, x, y)) / 15;
@@ -31,15 +31,22 @@ static void drawBlockGraphic(WorldObject &world, int x, int y)
 		if (blockID == blockSprites[i]->blockID && paletteID == blockSprites[i]->sprite.paletteID && !blockSprites[i]->hasBeenRendered)
 		{
 			blockSprites[i]->draw(x, y);
-			return;
+			return true;
 		}
 	if (i==MAX_BLOCK_SPRITES)
-		showError("Too many block sprites");
+		return false;
 	else if (!blockSprites[i])
 	{
 		blockSprites[i] = new BlockSpriteContainer(blockID, paletteID);
+		if (!blockSprites[i]->loaded)
+		{
+			delete blockSprites[i];
+			blockSprites[i] = nullptr;
+			return false;
+		}
 		blockSprites[i]->draw(x, y);
 	}
+	return true;
 }
 
 int getBrightness(WorldObject &world, int x, int y)
@@ -238,8 +245,10 @@ void renderWorld(WorldObject &world)
 			{
 				if (isSpriteBlock(world.blocks[i][j]) && world.bgblocks[i][j] != AIR)
 				{
-					drawBlockGraphic(world, i, j);
-					renderBlock(world, i, j, world.bgblocks[i][j], !alwaysRenderBright(world.bgblocks[i][j]));
+					if (drawBlockGraphic(world, i, j))
+						renderBlock(world, i, j, world.bgblocks[i][j], !alwaysRenderBright(world.bgblocks[i][j]));
+					else
+						renderBlock(world, i, j, world.blocks[i][j]); //Render sprite block as tile
 				}
 				else if (world.blocks[i][j] == WATER)
 				{
