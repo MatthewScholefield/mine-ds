@@ -7,7 +7,7 @@
 #include "furnaceHandler.h"
 #include "blocks.h"
 #include "Recipe.h"
-#define NUM_FURNACE_RECIPES 11
+#define NUM_FURNACE_RECIPES 12
 
 int furnaceID = -1;
 static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
@@ -21,7 +21,8 @@ static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
 	{4, COAL, LOG_BIRCH},
 	{4, COAL, LOG_JUNGLE},
 	{4, COAL, LOG_OAK},
-	{4, COAL, LOG_SPRUCE}
+	{4, COAL, LOG_SPRUCE},
+	{1, STONE, COBBLESTONE}
 };
 
 void convertItemToFuel(Furnace &furnace)
