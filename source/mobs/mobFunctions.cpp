@@ -27,7 +27,7 @@ void calculatePhysics(WorldObject &world,BaseMob *mob, bool inWater)
 	{
 		velocityCap = 2;
 		//Allow the velocity to be less than -2 only if there is air above the player.
-		if (mob->vy<-2 && world.blocks[int((mob->x - mob->sx / 2 + 1) / 16)][int((mob->y - mob->sy / 2) / 16)] != AIR && world.blocks[int((mob->x + mob->sx / 2) / 16)][int((mob->y - mob->sy / 2) / 16)] != AIR) mob->vy = -2;
+		if (mob->vy<-2) mob->vy = -2;
 		if (abs(mob->vx) > 2) mob->vx = 2 * (mob->vx > 0 ? 1 : -1);
 	}
 	//Don't remove the y velocity so quickly.
@@ -58,7 +58,7 @@ void calculateMiscData(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		calculatePhysics(world, mob, isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 1) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1));
+		calculatePhysics(world, mob, isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1));
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
