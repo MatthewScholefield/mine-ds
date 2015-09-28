@@ -12,12 +12,6 @@ Inventory &getInventoryRef()
 	return mainPlayerInv;
 }
 
-void saveInventory(FILE* data)
-{
-	for (int i = 0; i < NUM_INV_SPACES; ++i)
-		fprintf(data, "%d %d ", mainPlayerInv.blocks[i].ID, mainPlayerInv.blocks[i].amount);
-}
-
 static int findFreeSlot(int blockID)
 {
 	int space = -1;
@@ -115,15 +109,17 @@ void clearInventory() //clears inventory
 	}
 }
 
+void saveInventory(FILE* data)
+{
+	for (auto &i : mainPlayerInv.blocks)
+		i.saveToFile(data);
+}
+
 void loadInventory(FILE* data)
 {
 	clearInventory();
-	for (int i = 0; i < NUM_INV_SPACES; ++i)
-	{
-		int id, quantity;
-		fscanf(data, "%d %d ", &id, &quantity);
-		addInventory(id, quantity);
-	}
+	for (auto &i : mainPlayerInv.blocks)
+		i.loadFromFile(data);
 }
 
 void spillInvItems(int x, int y)
