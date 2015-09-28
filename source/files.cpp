@@ -65,6 +65,7 @@ bool saveWorld(WorldObject &world)
 		saveMobs(worldFile);
 		saveChests(worldFile, world);
 		saveFurnaces(worldFile, world);
+		fprintf(worldFile, "%d ", world.reservedWater);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
 		playMusic(MUSIC_CALM);
@@ -140,6 +141,7 @@ bool loadWorld(WorldObject *world)
 		loadMobs(worldFile);
 		loadChests(worldFile, *world);
 		loadFurnaces(worldFile, *world);
+		fscanf(worldFile, "%d ", &world->reservedWater);
 		iprintf("\x1b[22;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
