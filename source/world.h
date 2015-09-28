@@ -53,7 +53,6 @@ public:
 	double camCalcY;
 	Biome biome[WORLD_WIDTH + 1];
 	bool chestInUse[MAX_CHESTS];
-	int obsoleteChests[MAX_CHESTS][CHEST_SLOTS][2];
 	Inventory chests[MAX_CHESTS];
 	Furnace *furnaces[MAX_FURNACES];
 	int reservedWater;
@@ -61,7 +60,7 @@ public:
 	WorldObject(GameMode gameMode = GAMEMODE_PREVIEW) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
 	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gameMode(gameMode)
-	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}, obsoleteChests{}
+	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}
 
 	, furnaces(), reservedWater(0) { }
 
