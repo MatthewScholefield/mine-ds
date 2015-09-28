@@ -138,12 +138,12 @@ void createResult(Furnace &furnace)
 
 void saveFurnaces(FILE *file, WorldObject &world)
 {
-	for (int i = 0; i < MAX_FURNACES; ++i)
+	for (auto &i : world.furnaces)
 	{
-		if (world.furnaces[i])
+		if (i)
 		{
 			fprintf(file, "1 ");
-			world.furnaces[i]->saveToFile(file);
+			i->saveToFile(file);
 		}
 		else
 			fprintf(file, "0 ");
@@ -152,16 +152,16 @@ void saveFurnaces(FILE *file, WorldObject &world)
 
 void loadFurnaces(FILE *file, WorldObject &world)
 {
-	for (int i = 0; i < MAX_FURNACES; ++i)
+	for (auto &i : world.furnaces)
 	{
-		if (world.furnaces[i])
+		if (i)
 		{
-			delete world.furnaces[i];
-			world.furnaces[i] = NULL;
+			delete i;
+			i = nullptr;
 		}
 		int val;
 		fscanf(file, "%d ", &val);
 		if (val == 1)
-			world.furnaces[i] = new Furnace(file);
+			i = new Furnace(file);
 	}
 }
