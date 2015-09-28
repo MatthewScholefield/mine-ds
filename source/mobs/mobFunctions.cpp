@@ -119,8 +119,6 @@ void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		if (mob->x < 1) mob->x = 1;
-		if (mob->y < 1) mob->y = 1;
 		calculatePhysics(world, mob, isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 1) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1));
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
@@ -166,6 +164,10 @@ void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
 			mob->y += (16 * mob->vy) / FPS; //Main statement Positive velocity=down
 		if ((mob->vx > 0 && !mob->collisions[SIDE_RIGHT]) || (mob->vx < 0 && !mob->collisions[SIDE_LEFT]))
 			mob->x += (16 * mob->vx) / FPS;
+
+		if (mob->x < mob->sx / 2) mob->x = mob->sx / 2;
+		if (mob->y < mob->sy / 2) mob->y = mob->sy / 2;
+		if (mob->x > WORLD_WIDTHPX - mob->sx / 2) mob->x = WORLD_WIDTHPX - mob->sx / 2;
 	}
 }
 
