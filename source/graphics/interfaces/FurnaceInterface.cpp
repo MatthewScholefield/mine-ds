@@ -90,6 +90,8 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 	}
 	else
 	{
+		if (openFurnace->timeTillFuelBurn == 0)
+			updateContents();
 		showGraphic(&gfx[SOURCE], 12 * 8, 9 * 8, false, 2);
 		showGraphic(&gfx[FUEL], 12 * 8, 13 * 8, false, 2);
 		showGraphic(&gfx[RESULT], 17 * 8, 11 * 8, false, 2);
