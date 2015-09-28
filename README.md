@@ -5,14 +5,16 @@ A 2D survival NDS game inspired by Minecraft. The current version incorperates a
 
 ### Features
 - Inventory
-- *Furnaces*
-- *Water*
+- **Furnaces**
+- **Water**
+- **Food**
 - Crafting
 - Zombies
 - Smooth, responsive UI
 - Grass + Tree growth
 - Stereo sounds based on location
-- *Oceans*/Plains/Jungles/Deserts/Tundra/Mushroom Biomes
+- **Oceans**/Plains/Jungles/Deserts/Tundra/Mushroom Biomes
+- Various options (**Disable regen**, audio, graphics)
 
 # How to get involved
 - Look at the issues page to see some items that need to get added
