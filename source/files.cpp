@@ -47,8 +47,8 @@ bool saveWorld(WorldObject &world)
 
 	if (openedWorld)
 	{
-		fprintf(worldFile, VERSION_STRING);
-		fprintf(worldFile, " %d %d ", WORLD_WIDTH, WORLD_HEIGHT);
+		fprintf(worldFile, VERSION_STRING " ");
+		fprintf(worldFile, "%d %d ", WORLD_WIDTH, WORLD_HEIGHT);
 		fprintf(worldFile, "%d ", world.gameMode);
 		fprintf(worldFile, "%d ", world.timeInWorld);
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
@@ -74,41 +74,6 @@ bool saveWorld(WorldObject &world)
 	if (openedWorld)
 		fclose(worldFile);
 	playMusic(MUSIC_CALM);
-	return false;
-}
-
-bool saveConfig(Config *controls)
-{
-	FILE *fp;
-	if (!SHOULD_SAVE) return false;
-	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != nullptr)
-	{
-		fprintf(fp, "==Controls==\n");
-		fprintf(fp, "Move Left: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_LEFT)));
-		fprintf(fp, "Move Right: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_RIGHT)));
-		fprintf(fp, "Jump: %s\n", getKeyChar(controls->getKey(ACTION_JUMP)));
-		fprintf(fp, "Crouch: %s\n", getKeyChar(controls->getKey(ACTION_CROUCH)));
-		fprintf(fp, "Item Left: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_LEFT)));
-		fprintf(fp, "Item Right: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_RIGHT)));
-		fprintf(fp, "Switch Screen: %s\n", getKeyChar(controls->getKey(ACTION_SWITCH_SCREEN)));
-		fprintf(fp, "Menu: %s\n", getKeyChar(controls->getKey(ACTION_MENU)));
-		fprintf(fp, "Climb: %s\n", getKeyChar(controls->getKey(ACTION_CLIMB)));
-		fprintf(fp, "Drop: %s\n", getKeyChar(controls->getKey(ACTION_DROP)));
-		fprintf(fp, "\n==Game Options==\n");
-		fprintf(fp, "Herobrine: %s\n", controls->getProperty(PROPERTY_HEROBRINE) ? "Enabled" : "Disabled");
-		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
-		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
-		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
-		fprintf(fp, "Gradient: %s\n", controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
-		fprintf(fp, "Dithering: %s\n", controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
-		fprintf(fp, "Regeneration: %s\n", controls->getProperty(PROPERTY_REGEN) ? "Enabled" : "Disabled");
-		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
-		fprintf(fp, "\n==Audio==\n");
-		fprintf(fp, "Music Volume: %d\n", controls->musicVolume);
-		fprintf(fp, "Sfx Volume: %d\n", controls->sfxVolume);
-		fclose(fp);
-		return true;
-	}
 	return false;
 }
 
@@ -181,9 +146,42 @@ bool loadWorld(WorldObject *world)
 		fclose(worldFile);
 		return true;
 	}
-	if (openedWorld)
-		fclose(worldFile);
 	playMusic(MUSIC_CALM);
+	return false;
+}
+
+bool saveConfig(Config *controls)
+{
+	FILE *fp;
+	if (!SHOULD_SAVE) return false;
+	if ((fp = fopen(MINE_DS_FOLDER CONTROLS_FILENAME, "w+")) != nullptr)
+	{
+		fprintf(fp, "==Controls==\n");
+		fprintf(fp, "Move Left: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_LEFT)));
+		fprintf(fp, "Move Right: %s\n", getKeyChar(controls->getKey(ACTION_MOVE_RIGHT)));
+		fprintf(fp, "Jump: %s\n", getKeyChar(controls->getKey(ACTION_JUMP)));
+		fprintf(fp, "Crouch: %s\n", getKeyChar(controls->getKey(ACTION_CROUCH)));
+		fprintf(fp, "Item Left: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_LEFT)));
+		fprintf(fp, "Item Right: %s\n", getKeyChar(controls->getKey(ACTION_ITEM_RIGHT)));
+		fprintf(fp, "Switch Screen: %s\n", getKeyChar(controls->getKey(ACTION_SWITCH_SCREEN)));
+		fprintf(fp, "Menu: %s\n", getKeyChar(controls->getKey(ACTION_MENU)));
+		fprintf(fp, "Climb: %s\n", getKeyChar(controls->getKey(ACTION_CLIMB)));
+		fprintf(fp, "Drop: %s\n", getKeyChar(controls->getKey(ACTION_DROP)));
+		fprintf(fp, "\n==Game Options==\n");
+		fprintf(fp, "Herobrine: %s\n", controls->getProperty(PROPERTY_HEROBRINE) ? "Enabled" : "Disabled");
+		fprintf(fp, "Draw Mode: %s\n", controls->getProperty(PROPERTY_DRAW) ? "Enabled" : "Disabled");
+		fprintf(fp, "Smooth Camera: %s\n", controls->getProperty(PROPERTY_SMOOTH) ? "Enabled" : "Disabled");
+		fprintf(fp, "Creative Speed: %s\n", controls->getProperty(PROPERTY_SPEED) ? "Enabled" : "Disabled");
+		fprintf(fp, "Gradient: %s\n", controls->getProperty(PROPERTY_GRADIENT) ? "Enabled" : "Disabled");
+		fprintf(fp, "Dithering: %s\n", controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
+		fprintf(fp, "Regeneration: %s\n", controls->getProperty(PROPERTY_REGEN) ? "Enabled" : "Disabled");
+		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
+		fprintf(fp, "\n==Audio==\n");
+		fprintf(fp, "Music Volume: %d\n", controls->musicVolume);
+		fprintf(fp, "Sfx Volume: %d\n", controls->sfxVolume);
+		fclose(fp);
+		return true;
+	}
 	return false;
 }
 
