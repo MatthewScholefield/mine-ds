@@ -103,6 +103,9 @@ bool saveConfig(Config *controls)
 		fprintf(fp, "Dithering: %s\n", controls->getProperty(PROPERTY_DITHERING) ? "Enabled" : "Disabled");
 		fprintf(fp, "Regeneration: %s\n", controls->getProperty(PROPERTY_REGEN) ? "Enabled" : "Disabled");
 		fprintf(fp, "\nTexture Pack: %s\n", controls->textureName.c_str());
+		fprintf(fp, "\n==Audio==\n");
+		fprintf(fp, "Music Volume: %d\n", controls->musicVolume);
+		fprintf(fp, "Sfx Volume: %d\n", controls->sfxVolume);
 		fclose(fp);
 		return true;
 	}
@@ -230,6 +233,9 @@ bool loadConfig(Config *controls)
 		controls->setProperty(PROPERTY_REGEN, parsePropertyChar(&parseChar));
 		fscanf(fp, "\nTexture Pack: %s\n", &parseChar);
 		controls->textureName = &parseChar;
+		fscanf(fp, "\n==Audio==\n");
+		fscanf(fp, "Music Volume: %d\n", &controls->musicVolume);
+		fscanf(fp, "Sfx Volume: %d\n", &controls->sfxVolume);
 		fclose(fp);
 		return true;
 	}
