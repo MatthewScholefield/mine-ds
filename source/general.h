@@ -24,7 +24,7 @@ void sleepThread(unsigned int seconds);
 void printGlobalMessage(const char* s);
 #define MESSAGE_COUNT 3
 #define MESSAGE_CLEAR_DELAY 512
-#define VERSION_STRING "v0.2.1"
+#define VERSION_STRING "v0.3.0"
 
 void update_message();
 void printLocalMessage(const char* s);
