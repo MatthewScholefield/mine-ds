@@ -33,7 +33,7 @@ ICON     :=
 NITRO    := nitro
 
 # These set the information text in the nds file
-GAME_TITLE     := Mine DS v0.2.1
+GAME_TITLE     := Mine DS v0.3.0
 GAME_SUBTITLE1 := A 2D Minecraft
 GAME_SUBTITLE2 := inspired homebrew
 
