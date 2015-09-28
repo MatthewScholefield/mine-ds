@@ -358,8 +358,8 @@ void initBlockProperties()
 		switch (blockType[i])
 		{
 		case TYPE_WOOD:
-			hardness[i] = 5;
-			break; //Wood hardness is 5
+			hardness[i] = 10;
+			break; //Wood hardness is 10
 		default:
 			hardness[i] = 1;
 			break; //Default hardness is 1
@@ -378,6 +378,7 @@ void initBlockProperties()
 	//Block Hardness
 	setArray(hardness, 2, 5, GRASS_JUNGLE, GRASS, DIRT, SNOW_GRASS, MYCELIUM); //Blocks with DIRT's hardness
 	hardness[STONE] = 30;
+	hardness[COBBLESTONE] = 25;
 	hardness[SANDSTONE] = 20;
 	hardness[COAL_ORE] = 35;
 	hardness[IRON_ORE] = 40;
