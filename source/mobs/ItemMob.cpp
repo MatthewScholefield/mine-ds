@@ -90,11 +90,20 @@ void ItemMob::updateMob(WorldObject &world)
 
 void ItemMob::sendWifiUpdate() { }
 
-void ItemMob::saveToFile(FILE* pFile) { }
+void ItemMob::saveToFile(FILE* pFile)
+{
+	int i = x;
+	int j = y;
+	fprintf(pFile,"%d %d %d %d %d ",i, j, blockID, amount, displayID);
+}
 
 void ItemMob::loadFromFile(FILE* pFile)
 {
-	health = 0;
+	int i,j;
+	fscanf(pFile,"%d %d %d %d %d ",&i, &j, &blockID, &amount, &displayID);
+	x = i;
+	y = j;
+	health = 100;
 }
 
 void ItemMob::hurt(int hamount, int type)

@@ -112,17 +112,19 @@ static bool canMobSpawnHere(MobType type, WorldObject &world, int a, int b)
 {
 	switch (type)
 	{
-	case MOB_PLAYER:
+            case MOB_PLAYER:
 		return canPlayerMobSpawnHere(world, a, b);
-	case MOB_MULTIPLAYER:
+            case MOB_MULTIPLAYER:
 		return canMultiplayerMobSpawnHere(world, a, b);
-	case MOB_ZOMBIE:
+            case MOB_ZOMBIE:
 		return canZombieMobSpawnHere(world, a, b);
-	case MOB_ANIMAL:
+            case MOB_ANIMAL:
 		return canAnimalMobSpawnHere(world, a, b);
-	case MOB_HEROBRINE:
+            case MOB_HEROBRINE:
 		return canHerobrineMobSpawnHere(world, a, b);
-	default:
+            case MOB_ITEM:
+                return true;
+            default:
 		showError("Checking spawn for non-existent mob type");
 		break;
 	}
@@ -150,6 +152,9 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	case MOB_HEROBRINE:
 		mobs.push_back(BaseMob_ptr(new HerobrineMob(x, y)));
 		break;
+  case MOB_ITEM:
+    createItemMob(x,y,DIRT);
+    break;
 	default:
 		showError("Unknown Mob Spawned");
 		break;
