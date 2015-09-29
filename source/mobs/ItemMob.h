@@ -30,6 +30,7 @@ public:
 			this->vx = FixedPoint(true, (float((rand() % 10) + 40) / 100.f) * ((rand() % 2) ? -1.f : 1.f) * FixedPoint::SCALER);
 		else
 			this->vx = FixedPoint(true, ax * FixedPoint::SCALER);
+                alive = true;
 	}
 
 	~ItemMob() { }
