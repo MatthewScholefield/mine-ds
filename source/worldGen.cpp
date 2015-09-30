@@ -99,8 +99,9 @@ static void generateRandomBiome(WorldObject &world, int x, int endX)
 void generateSmallWorld(WorldObject &world)//Generates one biome
 {
 	int y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
-	y = (rand() % 2 == 1 ? extremeMountainGen(world, 0, y, 15) : flatGen(world, 0, y, 15));
-	generateRandomBiome(world, 0, 15);
+	int endX = rand() % 16 + 16;
+	y = (rand() % 2 ? extremeMountainGen(world, 0, y, endX) : flatGen(world, 0, y, endX));
+	generateRandomBiome(world, 0, endX);
 	updateBrightnessAround(world, 15, y);
 }
 
