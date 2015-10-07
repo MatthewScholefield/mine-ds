@@ -144,7 +144,7 @@ static void loadSound(int sfx)
 
 int getBlockPanning(int x, int camX)
 {
-	return (16 * (x - (camX / 16)) + camX % 16) - 256 / 2 + 1;
+	return (16 * (x - ((camX + 256 / 2) / 16)) + camX % 16) + 256 / 2 + 1;
 }
 
 void playSound(Sound sfx, mm_byte volume, mm_byte panning)
