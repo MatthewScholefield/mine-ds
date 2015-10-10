@@ -30,6 +30,7 @@
 #include "blocks.h"
 #include "graphics/Menu.h"
 #include "graphics/3DHandler.h"
+#include "graphics/particleHandler.h"
 #include "graphics/interfaces/interfaceHandler.h"
 
 bool shouldQuitGame = false;
@@ -206,6 +207,7 @@ void startGame(void)
 		proceduralBlockUpdate(*world);
 		worldRender_RenderWater(*world);
 		update3D();
+		updateParticles(*world);
 		vBlank();
 		{
 			worldRender_Render(*world);
