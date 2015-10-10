@@ -7,6 +7,8 @@
 #include "LitFurnaceUpdater.h"
 #include "../furnaceHandler.h"
 
+int LitFurnaceUpdater::bufferIndex = 0;
+
 LitFurnaceUpdater::LitFurnaceUpdater()
 {
 	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
@@ -31,13 +33,13 @@ bool LitFurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
 			databyte = databyte & 0xFFFF0FFF;
 			databyte = databyte | nx;
 			t = 0;
+			addParticle(Particle((float)(x * 16 + ((world.data[x][y]&0xF000) >> 4 * 3)), (float) y * 16 + 10, (float)(rand() % 4 - 1)/32, -0.05f, 0.0f, -0.008f,120,&clones[bufferIndex++]));
 		}
 		//Replace t
 		databyte = databyte & 0xFFFFF00F;
 		databyte = databyte | (t << 4);
 		//Store in data
 		world.data[x][y] = databyte;
-		showGraphic(&clones[bufferIndex++], x * 16 - world.camX + ((world.data[x][y]&0xF000) >> 4 * 3), y * 16 - world.camY - ((world.data[x][y]&0xFF0) >> 4) / 32 + 6);
 		if (bufferIndex > 15)
 			bufferIndex = 0;
 	}
