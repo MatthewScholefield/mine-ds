@@ -1,10 +1,34 @@
 #include <vector>
+#include "../general.h"
 #include "graphics.h"
 #include "particleHandler.h"
 
 std::vector<Particle> particles;
 
-Particle::Particle(float x, float y, float vx, float vy, float ax, float ay, int LiveTime, Graphic* g)
+Graphic* waterGraphic;
+
+void initParticles()
+{
+	waterGraphic = new Graphic;
+	loadGraphic(waterGraphic,GRAPHIC_PARTICLE,1);
+}
+
+Graphic* getCloneWaterGraphic()
+{
+	Graphic* g = new Graphic;
+	setCloneGraphic(waterGraphic,g);
+	return g;
+}
+
+Particle::~Particle()
+{
+	if (this->KillGraphic)
+	{
+			unloadGraphic(this->g);
+	}
+}
+
+Particle::Particle(float x, float y, float vx, float vy, float ax, float ay, int LiveTime, Graphic* g, bool KillGraphic)
 {
 	this->x  = FixedPoint(true,(int)(x *FixedPoint::SCALER));
 	this->vx = FixedPoint(true,(int)(vx*FixedPoint::SCALER));
@@ -14,11 +38,12 @@ Particle::Particle(float x, float y, float vx, float vy, float ax, float ay, int
 	this->ay = FixedPoint(true,(int)(ay*FixedPoint::SCALER));
 	this->LiveTime = LiveTime;
 	this->g = g;
+	this->KillGraphic = KillGraphic;
 }
 
-Particle::Particle(int x, int y, int vx, int vy, int ax, int ay, int LiveTime,Graphic * g)
+Particle::Particle(int x, int y, int vx, int vy, int ax, int ay, int LiveTime,Graphic * g, bool KillGraphic)
 {
-	Particle(FixedPoint(x),FixedPoint(y),FixedPoint(vx),FixedPoint(vy),FixedPoint(ax),FixedPoint(ay),LiveTime,g);
+	Particle(FixedPoint(x),FixedPoint(y),FixedPoint(vx),FixedPoint(vy),FixedPoint(ax),FixedPoint(ay),LiveTime,g,KillGraphic);
 }
 
 bool Particle::UpdatePhys()

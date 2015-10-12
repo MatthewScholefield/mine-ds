@@ -13,6 +13,7 @@
 #include "titleScreen.h"
 #include "mainGame.h"
 #include "graphics/graphics.h"
+#include "graphics/particleHandler.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"
 #include "sounds.h"
@@ -49,7 +50,7 @@ int main()
 	initSound();
 	clear_messages();
 	init3D();
-
+	initParticles();
 	titleScreen();
 	return 0;
 }
