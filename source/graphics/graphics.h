@@ -53,7 +53,6 @@ typedef struct
 	//! \breif The loaded texture ID. Used to trigger reload on texture change
 	int loadIter;
 	bool drawn = false;
-	int spriteID;
 	bool ownsGfx = true;
 } Graphic;
 
