@@ -38,14 +38,12 @@ bool subSpriteUsed[128] = {};
 	\breif Returns the next SpriteID for the Main OAM.
 	\return The next SpriteID for the Main OAM.
  */
+
+int nextSpriteIDMain;
+int nextSpriteIDSub;
 static int graphicNextMain()
 {
-	int i;
-	for (i = 0; i < 128 && mainSpriteUsed[i]; ++i);
-	if (i >= 128)
-		return -1;
-	mainSpriteUsed[i] = true;
-	return i;
+	return nextSpriteIDMain++;
 }
 
 /**
@@ -54,12 +52,7 @@ static int graphicNextMain()
  */
 static int graphicNextSub()
 {
-	int i;
-	for (i = 0; i < 128 && subSpriteUsed[i]; ++i);
-	if (i >= 128)
-		return -1;
-	subSpriteUsed[i] = true;
-	return i;
+	return nextSpriteIDSub++;
 }
 
 void gradientHandler()
@@ -106,14 +99,14 @@ void setSkyColor(double red1, double green1, double blue1, double red2, double g
  */
 void clearMainGraphics()
 {
-	for (int i = 0; i < 128; ++i)
-		oamMain.oamMemory[i].isHidden = true;
+	nextSpriteIDMain = 0;
+	oamClear(&oamMain,0,127);
 }
 
 void clearSubGraphics()
 {
-	for (int i = 0; i < 128; ++i)
-		oamSub.oamMemory[i].isHidden = true;
+	nextSpriteIDSub = 0;
+	oamClear(&oamSub,0,127);
 }
 
 void setBlockPalette(bool blocks, int darkness, int index)
@@ -369,9 +362,6 @@ void setAnimFrame(Graphic* g, int mobSlot, int frame)
  */
 bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 {
-	g->spriteID = graphicNextMain();
-	if (g->spriteID < 0)
-		return false;
 	switch (type)
 	{
 	case GRAPHIC_PARTICLE:
@@ -423,13 +413,11 @@ void unloadGraphic(Graphic* g)
 	{
 		if (g->ownsGfx)
 			oamFreeGfx(&oamMain, g->Gfx);
-		mainSpriteUsed[g->spriteID] = false;
 	}
 	else
 	{
 		if (g->ownsGfx)
 			oamFreeGfx(&oamSub, g->Gfx);
-		subSpriteUsed[g->spriteID] = false;
 	}
 }
 
@@ -496,7 +484,6 @@ void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x, int y)
 	g->sx = x;
 	g->sy = y;
 	g->type = type;
-	g->spriteID = graphicNextSub();
 }
 
 /**
@@ -511,8 +498,6 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 		return false;
 	if (!g->Gfx)
 		return false;
-	OamState *oam = g->main ? &oamMain : &oamSub;
-	SpriteEntry &entry = oam->oamMemory[g->spriteID];
 	if (g->loadIter != textureID) //Must reload texture
 	{
 		unloadGraphic(g);
@@ -525,54 +510,49 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 	{
 		if (g->main)
 		{
+			int spriteID = graphicNextMain();
 			switch (g->type)
 			{
 			case GRAPHIC_PARTICLE://1
-				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_MOB://0
 				if (g->sy == 32)
-					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+					oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				else
-					oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+					oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_BLOCK://2
-				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_MOB_ANIM://0
-				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case GRAPHIC_BLOCK_MINI://miniBlock
-				oamSet(&oamMain, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			}
 		}
 		else
 		{
+			int spriteID = graphicNextSub();
 			switch (g->type)
 			{
 			case 0:
 				if (g->sx == 8 && g->sy == 8)
-					oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+					oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case 1:
-				oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			case 2:
-				oamSet(&oamSub, g->spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
+				oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
 				break;
 			default:
 				break;
 			}
 		}
 	}
-	else
-	{
-		entry.x = x;
-		entry.y = y;
-		entry.hFlip = flip;
-	}
-	entry.isHidden = false;
 	return true;
 	
 }
@@ -591,10 +571,6 @@ bool setCloneGraphic(Graphic *source, Graphic *clone)
 	clone->frame = source->frame;
 	clone->loadIter = source->loadIter;
 	clone->drawn = source->drawn;
-
 	clone->ownsGfx = false;
-	clone->spriteID = clone->main ? graphicNextMain() : graphicNextSub();
-	if (clone->spriteID < 0)
-		return false;
 	return true;
 }
