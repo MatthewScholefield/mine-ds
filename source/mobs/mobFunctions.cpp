@@ -7,6 +7,7 @@
 #include "../general.h"
 #include "mobFunctions.h"
 #include "hurt.h"
+#include "../graphics/particleHandler.h"
 #include "../blockUpdaters/WaterUpdater.h"
 
 void calculatePhysics(WorldObject &world,BaseMob *mob, bool inWater)
@@ -58,7 +59,16 @@ void calculateMiscData(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		calculatePhysics(world, mob, isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1));
+		bool oinwater = mob->isInWater;
+		mob->isInWater = isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1);
+		if (oinwater == false && mob->isInWater)
+		{
+			addParticle(Particle(mob->x + FixedPoint(2) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+			addParticle(Particle(mob->x + FixedPoint(0) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+			addParticle(Particle(mob->x - FixedPoint(4),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, -50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+			addParticle(Particle(mob->x - FixedPoint(6),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, - 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+		}
+		calculatePhysics(world, mob, mob->isInWater);
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
@@ -119,7 +129,16 @@ void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		calculatePhysics(world, mob, isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1));
+				bool oinwater = mob->isInWater;
+		mob->isInWater = isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1);
+		if (oinwater == false && mob->isInWater)
+		{
+			addParticle(Particle(mob->x + FixedPoint(2) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+			addParticle(Particle(mob->x + FixedPoint(0) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+			addParticle(Particle(mob->x - FixedPoint(4),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, -50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+			addParticle(Particle(mob->x - FixedPoint(6),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, - 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
+		}
+		calculatePhysics(world, mob, mob->isInWater);
 		for (int b = -1; b <= 1; ++b)
 			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
 
