@@ -44,6 +44,7 @@ public:
 
 	//Multiplayer
 	bool host;
+	bool isInWater;
 
 	virtual void updateMob(WorldObject &world) = 0;
 	virtual void calcMiscData(WorldObject &world) = 0;
@@ -66,7 +67,7 @@ public:
 
 	,
 	spriteState(0), framesHurtSprite(0),
-	timeOnCactus(30), framesFarAway(0), brightness(-1), host(true) { }
+	timeOnCactus(30), framesFarAway(0), brightness(-1), host(true), isInWater(false) { }
 
 	virtual ~BaseMob()
 	{
