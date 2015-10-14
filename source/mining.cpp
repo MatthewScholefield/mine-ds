@@ -85,7 +85,7 @@ void placeBlock(WorldObject &world, int x, int y, bool bg)
 		}
 		return;
 	}
-	if (item(blockID) && !blockItem(blockID))
+	if (item(blockID) && !isPlaceableItem(blockID))
 		return;
 	if (subInventory(blockID, 1))
 	{

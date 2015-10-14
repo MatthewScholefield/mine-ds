@@ -245,11 +245,13 @@ bool item(int blockID)
 	}
 }
 
-bool blockItem(int blockID)
+bool isPlaceableItem(int blockID)
 {
 	switch (blockID)
 	{
 	case DOOR_ITEM:
+	case BUCKET_EMPTY:
+	case BUCKET_WATER:
 		return true;
 
 	default:
