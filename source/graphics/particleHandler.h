@@ -30,3 +30,4 @@ void addParticle(Particle p);
 
 void updateParticles(WorldObject& world);
 void initParticles();
+void createSplash(const FixedPoint &px, const FixedPoint &py, const FixedPoint &vx, const FixedPoint &vy);
