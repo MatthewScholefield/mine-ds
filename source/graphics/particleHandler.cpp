@@ -82,8 +82,9 @@ void updateParticles(WorldObject& world)
 
 void createSplash(const FixedPoint &px, const FixedPoint &py, const FixedPoint &vx, const FixedPoint &vy)
 {
-	addParticle(Particle(px + FixedPoint(2), py, vx * FixedPoint(true, 8) + FixedPoint(true, 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
-	addParticle(Particle(px + FixedPoint(0), py, vx * FixedPoint(true, 8) + FixedPoint(true, 50), FixedPoint(-3), FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
-	addParticle(Particle(px - FixedPoint(4), py, vx * FixedPoint(true, 8) + FixedPoint(true, -50), FixedPoint(-3), FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
-	addParticle(Particle(px - FixedPoint(6), py, vx * FixedPoint(true, 8) + FixedPoint(true, -100), FixedPoint(-3), FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
+	FixedPoint initVY = std::min((FixedPoint) - 3, -vy / 2);
+	addParticle(Particle(px + FixedPoint(2), py, vx * FixedPoint(true, 8) + FixedPoint(true, 100), initVY, FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
+	addParticle(Particle(px + FixedPoint(0), py, vx * FixedPoint(true, 8) + FixedPoint(true, 50), initVY, FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
+	addParticle(Particle(px - FixedPoint(4), py, vx * FixedPoint(true, 8) + FixedPoint(true, -50), initVY, FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
+	addParticle(Particle(px - FixedPoint(6), py, vx * FixedPoint(true, 8) + FixedPoint(true, -100), initVY, FixedPoint(0), FixedPoint(true, 49), 20, getCloneWaterGraphic(), true));
 }
