@@ -99,10 +99,8 @@ void placeBlock(WorldObject &world, int x, int y, bool bg)
 			createFurnace(world, x, y, bg);
 			break;
 		case BUCKET_WATER:
-			//createWaterMob(x, y);
+			createWaterMob(x, y);
 			addInventory(BUCKET_EMPTY);
-			world.blocks[x][y] = WATER;
-			world.data[x][y] |= MAX_WATER_LEVEL;
 			break;
 		default:
 			if (!item(blockID))

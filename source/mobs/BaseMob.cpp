@@ -17,6 +17,16 @@ bool canBaseMobSpawnHere(WorldObject &world, int x, int y)
 	return false;
 }
 
+bool BaseMob::isInBlock(WorldObject &world)
+{
+	int addY = sy / (smallMob ? 1 : 2) - 1;
+	for (int x = this->x - sx / 2 + 1; x < this->x + sx / 2 + 1; x += sx - 1)
+		for (int y = this->y - sy / 2 + 1; y < this->y + sy / 2; y += addY)
+			if (!isBlockWalkThrough(world.blocks[x / 16][y / 16]))
+				return true;
+	return false;
+}
+
 void BaseMob::calcHealth()
 {
 	if (health>getMaxHealth())

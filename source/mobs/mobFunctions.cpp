@@ -55,40 +55,23 @@ void calculateCollisions(WorldObject &world, BaseMob *mob)
 	mob->collisions[COLLISION_STUCK] = false;
 }
 
+static void calcGeneralData(WorldObject &world, BaseMob *mob)
+{ //For both small and large mobs
+	bool wasInWater = mob->isInWater;
+	mob->isInWater = isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1);
+	if (wasInWater == false && mob->isInWater)
+		createSplash(mob->x, mob->y, mob->vx, mob->vy);
+	calculatePhysics(world, mob, mob->isInWater);
+	for (int b = -1; b <= 1; ++b)
+		cactusCheck(world, mob, (mob->x) / 16, (mob->y) / 16 + b);
+}
+
 void calculateMiscData(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-		bool oinwater = mob->isInWater;
-		mob->isInWater = isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1);
-		if (oinwater == false && mob->isInWater)
-		{
-			addParticle(Particle(mob->x + FixedPoint(2) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-			addParticle(Particle(mob->x + FixedPoint(0) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-			addParticle(Particle(mob->x - FixedPoint(4),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, -50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-			addParticle(Particle(mob->x - FixedPoint(6),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, - 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-		}
-		calculatePhysics(world, mob, mob->isInWater);
-		for (int b = -1; b <= 1; ++b)
-			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
-
-		bool inBlock = false;
-
-		for (int x = mob->x - mob->sx / 2 + 1; x < mob->x + mob->sx / 2 + 1; x += mob->sx - 1)
-		{
-			for (int y = mob->y - mob->sy / 2 + 1; y < mob->y + mob->sy / 2; y += mob->sy / 2 - 1)
-			{
-				if (!isBlockWalkThrough(world.blocks[x / 16][y / 16]))
-				{
-					inBlock = true;
-					break;
-				}
-			}
-			if (inBlock)
-				break;
-		}
-
-		if (inBlock)
+		calcGeneralData(world, mob);
+		if (mob->isInBlock(world))
 		{ //move player out of block
 			if (int(mob->y) % 16 < 3)
 				mob->y -= int(mob->y) % 16;
@@ -129,37 +112,9 @@ void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
-				bool oinwater = mob->isInWater;
-		mob->isInWater = isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1);
-		if (oinwater == false && mob->isInWater)
-		{
-			addParticle(Particle(mob->x + FixedPoint(2) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-			addParticle(Particle(mob->x + FixedPoint(0) ,mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, 50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-			addParticle(Particle(mob->x - FixedPoint(4),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, -50), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-			addParticle(Particle(mob->x - FixedPoint(6),mob->y, mob->vx * FixedPoint(true,8) + FixedPoint(true, - 100), FixedPoint(-3), FixedPoint(0), FixedPoint(true,49), 20, getCloneWaterGraphic(), true));
-		}
-		calculatePhysics(world, mob, mob->isInWater);
-		for (int b = -1; b <= 1; ++b)
-			cactusCheck(world, mob, 0, (mob->x) / 16, (mob->y) / 16 + b, false);
-
-		bool inBlock = false;
-
-		for (int x = mob->x - mob->sx / 2 + 1; x < mob->x + mob->sx / 2 + 1; x += mob->sx - 1)
-		{
-			for (int y = mob->y - mob->sy / 2 + 1; y < mob->y + mob->sy / 2; y += mob->sy - 1)
-			{
-				if (!isBlockWalkThrough(world.blocks[x / 16][y / 16]))
-				{
-					inBlock = true;
-					break;
-				}
-			}
-			if (inBlock)
-				break;
-		}
-
-		if (inBlock)
-		{ //move player out of block
+		calcGeneralData(world, mob);
+		if (mob->isInBlock(world))
+		{ //move mob out of block
 			if (int(mob->y) % 16 < 3)
 				mob->y -= int(mob->y) % 16;
 			if ((!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
