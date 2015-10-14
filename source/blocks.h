@@ -21,7 +21,7 @@ int getType(int blockID);
 bool isSpriteBlock(int block);
 bool isGrassBlock(int blockID);
 SoundAudio getBlockAudio(int blockID);
-bool blockItem(int blockID);
+bool isPlaceableItem(int blockID);
 int getGenericBlock(int blockID);
 bool shouldRender(int blockID);
 bool isFoodStuff(int blockID);
