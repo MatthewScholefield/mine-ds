@@ -9,6 +9,7 @@
 #include "../../files.h"
 #include "../../mobs/BaseMob.h"
 #include "../../mobs/mobHandler.h"
+#include "../../general.h"
 
 void InventoryInterface::updateInv()
 {
@@ -141,11 +142,12 @@ void InventoryInterface::switchInvState()
 
 void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 {
+	if (inv.hand > 32) inv.hand = -1;
+	if (oldInvSlot > 32) oldInvSlot = -1;
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
 	gfxHandler.update();
 
 	parseKeyInput();
-
 	if (open)
 	{
 		parseTouchInput(touch);
