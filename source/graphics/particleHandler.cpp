@@ -28,18 +28,12 @@ Particle::~Particle()
 	}
 }
 
-Particle::Particle(float x, float y, float vx, float vy, float ax, float ay, int LiveTime, Graphic* g, bool KillGraphic)
-{
-	this->x  = FixedPoint(true,(int)(x *FixedPoint::SCALER));
-	this->vx = FixedPoint(true,(int)(vx*FixedPoint::SCALER));
-	this->ax = FixedPoint(true,(int)(ax*FixedPoint::SCALER));
-	this->y  = FixedPoint(true,(int)(y *FixedPoint::SCALER));
-	this->vy = FixedPoint(true,(int)(vy*FixedPoint::SCALER));
-	this->ay = FixedPoint(true,(int)(ay*FixedPoint::SCALER));
-	this->LiveTime = LiveTime;
-	this->g = g;
-	this->KillGraphic = KillGraphic;
-}
+Particle::Particle(float x, float y, float vx, float vy, float ax
+				   , float ay, int LiveTime, Graphic* g, bool KillGraphic)
+: x(FixedPoint(true, (int) (x * FixedPoint::SCALER))), y(FixedPoint(true, (int) (y * FixedPoint::SCALER)))
+, vx(FixedPoint(true, (int) (vx * FixedPoint::SCALER))), vy(FixedPoint(true, (int) (vy * FixedPoint::SCALER)))
+, ax(FixedPoint(true, (int) (ax * FixedPoint::SCALER))), ay(FixedPoint(true, (int) (ay * FixedPoint::SCALER)))
+, LiveTime(LiveTime), KillGraphic(KillGraphic), g(g) { }
 
 Particle::Particle(int x, int y, int vx, int vy, int ax, int ay, int LiveTime,Graphic * g, bool KillGraphic)
 {
