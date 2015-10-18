@@ -33,25 +33,25 @@ typedef struct
 	//! \breif Pointer to loaded graphic in VRAM
 	u16* Gfx = nullptr;
 	//! \breif Frame of animation
-	u8* frame_gfx;
+	u8* frameGfx = nullptr;
 	//! \breif animation state
-	int state;
+	int state = 0;
 	//! \breif Animation frame
-	int anim_frame;
+	int anim_frame = 0;
 	//! \breif x Size of Graphic in pixels.
-	int sx;
+	int sx = 0;
 	//! \breif y Size of Graphic in pixels.
-	int sy;
+	int sy = 0;
 	//! \breif Whether Graphic is a mob or a particle.
-	GraphicType type;
+	GraphicType type = GRAPHIC_BLOCK;
 	//! \breif Whether loaded for main or sub OAM.
-	bool main;
+	bool main = true;
 	//! \breif The palette index to use
-	int paletteID;
+	int paletteID = 0;
 	//! \breif The part of the image to crop
-	int frame;
+	int frame = 0;
 	//! \breif The loaded texture ID. Used to trigger reload on texture change
-	int loadIter;
+	int loadIter = 0;
 	bool drawn = false;
 	bool ownsGfx = true;
 } Graphic;

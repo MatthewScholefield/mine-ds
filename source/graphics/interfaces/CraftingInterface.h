@@ -38,13 +38,15 @@ public:
 	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
-	CraftingInterface(bool tableInUse) : Interface(INTERFACE_CRAFTING), menu(MENU_BUTTON, false), tableInUse(tableInUse)
+	CraftingInterface(bool tableInUse) : Interface(INTERFACE_CRAFTING)
+	, menu(MENU_BUTTON, false), page(0), resultBlock(), neededblocks { }, toolBlockGfx(), tableInUse(tableInUse)
 	{
 		if (tableInUse)
 			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, CRAFTING_TABLE);
 		else
 			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, AIR);
-		for (page = 0; !canCraftRecipe(page) && page < NUM_RECIPES; ++page);
+		while (!canCraftRecipe(page) && page < NUM_RECIPES)
+			++page;
 		if (page == NUM_RECIPES)
 			page = 0;
 		updateCraftingGraphics();

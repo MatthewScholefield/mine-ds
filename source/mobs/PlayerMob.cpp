@@ -82,7 +82,6 @@ void PlayerMob::hurt(int amount, int type)
 			if (isSurvival())
 				spillInvItems(x, y);
 			clearInventory();
-			setInterface(INTERFACE_DEATH_SCREEN);
 		}
 	}
 }

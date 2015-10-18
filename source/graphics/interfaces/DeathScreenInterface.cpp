@@ -17,7 +17,7 @@ void DeathScreenInterface::update(WorldObject& world, touchPosition& touch)
 	{
 	case RESPAWN:
 		triggerPlayerRespawn();
-		setInterface(INTERFACE_INVENTORY);
+		setInterface(world, INTERFACE_INVENTORY);;
 		break;
 	case TITLESCREEN:
 		quitGame();

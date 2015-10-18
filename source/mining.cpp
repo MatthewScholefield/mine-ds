@@ -162,7 +162,7 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 		break;
 	}
 	case CRAFTING_TABLE:
-		setInterface(INTERFACE_CRAFTING,true);
+		setInterface(world, INTERFACE_CRAFTING,true);
 		lcdMainOnTop();
 		setMiningDisabled(true);
 		break;

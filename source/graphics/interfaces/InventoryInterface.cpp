@@ -163,10 +163,10 @@ void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 				printLocalMessage("Failed to Save Game\n");
 			break;
 		case CRAFT_MENU:
-			setInterface(INTERFACE_CRAFTING, false);
+			setInterface(world, INTERFACE_CRAFTING, false);
 			break;
 		case PAGE_MENU:
-			setInterface(INTERFACE_PAGE);
+			setInterface(world, INTERFACE_PAGE);;
 			break;
 		default:
 			break;
