@@ -326,14 +326,14 @@ void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame, int pID)
 	sprite->sx = 16;
 	sprite->sy = 32;
 	sprite->Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
-	sprite->frame_gfx = gfx;
+	sprite->frameGfx = gfx;
 }
 
 void drawAnimFrame(Graphic* g, int mobSlot, int frame)
 {
 	int slot = frame + mobSlot * (FRAMES_PER_ANIMATION);
 
-	u8* offset = g->frame_gfx + slot * 16 * 32;
+	u8* offset = g->frameGfx + slot * 16 * 32;
 
 	dmaCopy(offset, g->Gfx, 16 * 32);
 }
@@ -560,7 +560,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 bool setCloneGraphic(Graphic *source, Graphic *clone)
 {
 	clone->Gfx = source->Gfx;
-	clone->frame_gfx = source->frame_gfx;
+	clone->frameGfx = source->frameGfx;
 	clone->state = source->state;
 	clone->anim_frame = source->anim_frame;
 	clone->sx = source->sx;

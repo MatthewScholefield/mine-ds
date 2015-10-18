@@ -42,9 +42,9 @@ GAME_SUBTITLE2 := inspired homebrew
 #---------------------------------------------------------------------------------
 ARCH := -mthumb -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-CFLAGS   := -g -Wall -Werror -O3\
+CFLAGS   := -g -Wall -Werror -Wfatal-errors -O3\
             $(ARCH) $(INCLUDE) -DARM9
-CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=c++11
+CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=c++11 -Weffc++
 ASFLAGS  := -g $(ARCH)
 LDFLAGS   = -specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 

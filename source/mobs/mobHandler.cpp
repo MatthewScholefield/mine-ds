@@ -23,6 +23,8 @@
 #include "../mainGame.h"
 #include "WaterMob.h"
 #include "mobHandler.h"
+#include "../graphics/interfaces/Interface.h"
+#include "../graphics/interfaces/interfaceHandler.h"
 
 std::vector<BaseMob_ptr> mobs;
 BaseMob_ptr playerPointer;
@@ -265,6 +267,8 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 		}
 		else
 		{
+			if (mobs[i]->isMyPlayer())
+				setInterface(world, INTERFACE_DEATH_SCREEN);
 			mobs.erase(mobs.begin() + i);
 			--i;
 			continue;

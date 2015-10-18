@@ -2,6 +2,7 @@
 #include "graphics.h"
 #include "../FixedPoint.h"
 #include "../world.h"
+
 class Particle
 {
 private:
@@ -13,11 +14,15 @@ private:
 	FixedPoint ay;
 	int LiveTime;
 	bool KillGraphic;
-	Graphic* g;
+	Graphic g;
 public:
-	Particle(FixedPoint x, FixedPoint y, FixedPoint vx, FixedPoint vy, FixedPoint ax, FixedPoint ay,int LiveTime, Graphic* g, bool KillGraphic = false) : x(x), y(y), vx(vx), vy(vy), ax(ax), ay(ay), LiveTime(LiveTime), g(g) {};
-	Particle(float x, float y, float vx, float vy, float ax, float ay, int LiveTime, Graphic*g , bool KillGraphic = false);
-	Particle(int x, int y, int vx, int vy, int ax, int ay, int LiveTime, Graphic* g, bool KillGraphic = false);
+
+	Particle(FixedPoint x, FixedPoint y, FixedPoint vx, FixedPoint vy
+			, FixedPoint ax, FixedPoint ay, int LiveTime, Graphic g, bool KillGraphic = false)
+	: x(x), y(y), vx(vx), vy(vy), ax(ax), ay(ay), LiveTime(LiveTime), KillGraphic(KillGraphic), g(g) { };
+
+	Particle(float x, float y, float vx, float vy, float ax, float ay, int LiveTime, Graphic g, bool KillGraphic = false);
+	Particle(int x, int y, int vx, int vy, int ax, int ay, int LiveTime, Graphic g, bool KillGraphic = false);
 	~Particle();
 	bool UpdatePhys();
 	void Draw(WorldObject& world);

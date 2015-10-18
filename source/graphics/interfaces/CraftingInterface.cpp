@@ -122,7 +122,7 @@ void CraftingInterface::update(WorldObject &world, touchPosition &touch)
 		craftItem();
 		break;
 	case BACK:
-		setInterface(INTERFACE_INVENTORY, true);
+		setInterface(world, INTERFACE_INVENTORY, true);
 		break;
 	default:
 		break;

@@ -27,8 +27,6 @@ public:
 	: inv(inv), gfx { }, loadedGfx{}, loadedID{}, startX(startX), startY(startY)
 	, xCount(xCount), yCount(yCount), xDist(xDist), yDist(yDist) { }
 
-	InvGfxHandler() : inv(getInventoryRef()) { }
-
 	~InvGfxHandler()
 	{
 		for (int i = 0; i < NUM_INV_SPACES; ++i)

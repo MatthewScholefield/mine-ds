@@ -10,7 +10,7 @@
 
 Interface_ptr currentInterface = nullptr;
 
-void setInterface(InterfaceType type, int parameter)
+void setInterface(WorldObject &world, InterfaceType type, int parameter)
 {
 	switch (type)
 	{
@@ -21,7 +21,7 @@ void setInterface(InterfaceType type, int parameter)
 		currentInterface = Interface_ptr(new CraftingInterface(parameter));
 		break;
 	case INTERFACE_CHEST:
-		currentInterface = Interface_ptr(new ChestInterface(parameter));
+		currentInterface = Interface_ptr(new ChestInterface(world, parameter));
 		break;
 	case INTERFACE_FURNACE:
 		currentInterface = Interface_ptr(new FurnaceInterface());
@@ -34,7 +34,7 @@ void setInterface(InterfaceType type, int parameter)
 		break;
 	default:
 		showError("Unknown interface set");
-		setInterface(INTERFACE_INVENTORY);
+		setInterface(world, INTERFACE_INVENTORY);;
 		break;
 	}
 	currentInterface->draw();
@@ -43,7 +43,7 @@ void setInterface(InterfaceType type, int parameter)
 void updateInterface(WorldObject &world, touchPosition &touch)
 {
 	if (!currentInterface)
-		setInterface(INTERFACE_INVENTORY, false);
+		setInterface(world, INTERFACE_INVENTORY, false);
 	currentInterface->update(world, touch);
 	Interface::staticUpdate();
 }

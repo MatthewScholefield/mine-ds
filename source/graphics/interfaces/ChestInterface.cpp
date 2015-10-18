@@ -15,11 +15,11 @@ void ChestInterface::updateInv()
 	unloadGraphic(&selectedGraphic);
 	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].ID);
 	invHandler.drawSlots(!selectedChest);
-	chestHandler->drawSlots(selectedChest);
+	chestHandler.drawSlots(selectedChest);
 	if (isSurvival())
 	{
 		invHandler.drawQuantities();
-		chestHandler->drawQuantities();
+		chestHandler.drawQuantities();
 	}
 	updateTopName(curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].ID);
 }
@@ -41,7 +41,7 @@ int ChestInterface::correctValue(int value)
 
 Inventory &ChestInterface::getSelectedInv()
 {
-	return selectedChest ? *chest : inv;
+	return selectedChest ? chest : inv;
 }
 
 void ChestInterface::moveSlot(bool right)
@@ -93,13 +93,13 @@ void ChestInterface::parseKeyInput()
 	}
 }
 
-void ChestInterface::closeInventory()
+void ChestInterface::closeInventory(WorldObject &world)
 {
 	if (selectedChest || getSelectedInv().hand == -1)
 		inv.hand = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
-	setInterface(INTERFACE_INVENTORY);
+	setInterface(world, INTERFACE_INVENTORY);;
 }
 
 bool ChestInterface::touchesInvSlot(const touchPosition &touch)
@@ -166,21 +166,16 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 
 void ChestInterface::update(WorldObject &world, touchPosition &touch)
 {
-	if (!chest)
-	{
-		chestHandler = new InvGfxHandler(*(chest = &world.chests[getOpenedChestID()]), 1, 1);
-		updateInv();
-	}
 	showGraphic(&selectedGraphic, 1 * 8, 6 * 8 + 4, false, 0);
 	invHandler.update();
-	chestHandler->update();
+	chestHandler.update();
 
 	parseKeyInput();
 	parseTouchInput(touch);
 	switch (menu.update(touch))
 	{
 	case BACK:
-		closeInventory();
+		closeInventory(world);
 		break;
 	case SAVE:
 		if (saveWorld(world))
@@ -189,16 +184,16 @@ void ChestInterface::update(WorldObject &world, touchPosition &touch)
 			printLocalMessage("Failed to Save Game\n");
 		break;
 	case CRAFT_MENU:
-		setInterface(INTERFACE_CRAFTING);
+		setInterface(world, INTERFACE_CRAFTING);;
 		break;
 	case PAGE_MENU:
-		setInterface(INTERFACE_PAGE);
+		setInterface(world, INTERFACE_PAGE);;
 		break;
 	default:
 		break;
 	}
 	if (keysDown() & getGlobalSettings()->getKey(ACTION_SWITCH_SCREEN))
-		closeInventory();
+		closeInventory(world);
 	if (shouldUpdate)
 		updateInv();
 }
