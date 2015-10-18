@@ -46,7 +46,7 @@ public:
 
 	InventoryInterface(bool open) : Interface(INTERFACE_INVENTORY)
 	, menu(MENU_BUTTON, false), open(open), loadedGraphic(AIR)
-	, inv(getInventoryRef()), gfxHandler(getInventoryRef(), 1, 9)
+	, inv(getInventoryRef()), gfxHandler(getInventoryRef(), 1, 9), oldInvSlot(-1)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, "Back");
