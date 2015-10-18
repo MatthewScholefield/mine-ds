@@ -40,7 +40,7 @@ void createFurnace(WorldObject &world, int x, int y, bool bg)
 {
 	int furnaceID = -1;
 	for (int i = 0; i < MAX_FURNACES; ++i)
-		if (!world.furnaces[i])
+		if (!world.furnaces[i].inUse)
 		{
 			furnaceID = i;
 			break;
@@ -51,7 +51,7 @@ void createFurnace(WorldObject &world, int x, int y, bool bg)
 		addInventory(FURNACE);
 		return;
 	}
-	world.furnaces[furnaceID] = new Furnace();
+	world.furnaces[furnaceID]= Furnace(true);
 	if (bg)
 	{
 		world.bgblocks[x][y] = FURNACE;
@@ -84,11 +84,10 @@ void destroyFurnace(WorldObject &world, int x, int y, bool bg)
 		showError("Destroying non-existent furnace");
 		return;
 	}
-	disperseItems(x, y, world.furnaces[id]->sourceBlock);
-	disperseItems(x, y, world.furnaces[id]->fuelBlock);
-	disperseItems(x, y, world.furnaces[id]->resultBlock);
-	delete world.furnaces[id];
-	world.furnaces[id] = nullptr;
+	disperseItems(x, y, world.furnaces[id].sourceBlock);
+	disperseItems(x, y, world.furnaces[id].fuelBlock);
+	disperseItems(x, y, world.furnaces[id].resultBlock);
+	world.furnaces[id].inUse = false;
 	if (bg)
 		world.bgblocks[x][y] = AIR;
 	else
@@ -139,29 +138,11 @@ void createResult(Furnace &furnace)
 void saveFurnaces(FILE *file, WorldObject &world)
 {
 	for (auto &i : world.furnaces)
-	{
-		if (i)
-		{
-			fprintf(file, "1 ");
-			i->saveToFile(file);
-		}
-		else
-			fprintf(file, "0 ");
-	}
+		i.saveToFile(file);
 }
 
 void loadFurnaces(FILE *file, WorldObject &world)
 {
 	for (auto &i : world.furnaces)
-	{
-		if (i)
-		{
-			delete i;
-			i = nullptr;
-		}
-		int val;
-		fscanf(file, "%d ", &val);
-		if (val == 1)
-			i = new Furnace(file);
-	}
+		i = Furnace(file);
 }
