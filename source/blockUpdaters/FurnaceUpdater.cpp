@@ -14,7 +14,7 @@ FurnaceUpdater::FurnaceUpdater()
 
 bool FurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
 {
-	if (world.furnaces[getFurnaceID(world, x, y, bg)]->fuel > 0)
+	if (world.furnaces[getFurnaceID(world, x, y, bg)].fuel > 0)
 	{
 		if (bg)
 			world.bgblocks[x][y] = FURNACE_LIT;

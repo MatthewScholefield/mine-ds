@@ -1,5 +1,6 @@
 #pragma once
 #include <time.h>
+#include <algorithm>
 #include "Furnace.h"
 #include "inventory.h"
 
@@ -54,7 +55,7 @@ public:
 	Biome biome[WORLD_WIDTH + 1];
 	bool chestInUse[MAX_CHESTS];
 	Inventory chests[MAX_CHESTS];
-	Furnace *furnaces[MAX_FURNACES];
+	Furnace furnaces[MAX_FURNACES];
 	int reservedWater;
 
 	WorldObject(GameMode gameMode = GAMEMODE_PREVIEW) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
@@ -62,16 +63,11 @@ public:
 	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gameMode(gameMode)
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}
 
-	, furnaces(), reservedWater(0) { }
+	, furnaces{}
+, reservedWater(0) { }
 
 	~WorldObject()
 	{
-		for (int i = 0; i < MAX_FURNACES; ++i)
-			if (furnaces[i])
-			{
-				delete furnaces[i];
-				furnaces[i] = nullptr;
-			}
 	}
 };
 

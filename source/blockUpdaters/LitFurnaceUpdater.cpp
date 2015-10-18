@@ -44,19 +44,19 @@ bool LitFurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
 			bufferIndex = 0;
 	}
 	int id = getFurnaceID(world, x, y, bg);
-	if (--world.furnaces[id]->timeTillFuelBurn < 0)
+	if (--world.furnaces[id].timeTillFuelBurn < 0)
 	{
-		world.furnaces[id]->timeTillFuelBurn = SEC_TO_FPS(4);
-		if (--world.furnaces[id]->fuelTillComplete < 0)
+		world.furnaces[id].timeTillFuelBurn = SEC_TO_FPS(4);
+		if (--world.furnaces[id].fuelTillComplete < 0)
 		{
-			createResult(*world.furnaces[id]);
-			world.furnaces[id]->fuelTillComplete = fuelNeeded(*world.furnaces[id]);
+			createResult(world.furnaces[id]);
+			world.furnaces[id].fuelTillComplete = fuelNeeded(world.furnaces[id]);
 		}
-		if (--world.furnaces[id]->fuel < 0)
+		if (--world.furnaces[id].fuel < 0)
 		{
-			if (fuelNeeded(*world.furnaces[id]) > 0)
-				convertItemToFuel(*world.furnaces[id]);
-			if (world.furnaces[id]->fuel < 0)
+			if (fuelNeeded(world.furnaces[id]) > 0)
+				convertItemToFuel(world.furnaces[id]);
+			if (world.furnaces[id].fuel < 0)
 			{
 				if (bg)
 					world.bgblocks[x][y] = FURNACE;
