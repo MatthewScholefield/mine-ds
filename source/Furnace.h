@@ -4,6 +4,7 @@
 class Furnace
 {
 public:
+	bool inUse;
 	InvBlock sourceBlock, fuelBlock, resultBlock;
 	int fuel, timeTillFuelBurn, fuelTillComplete;
 
@@ -11,8 +12,8 @@ public:
 
 	Furnace(FILE *file);
 
-	Furnace() : sourceBlock(), fuelBlock(), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
+	Furnace(bool inUse = false) : inUse(inUse), sourceBlock(), fuelBlock(), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
 
 	Furnace(InvBlock source, InvBlock fuel)
-	: sourceBlock(source), fuelBlock(fuel), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
+	: inUse(true), sourceBlock(source), fuelBlock(fuel), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
 };

@@ -5,11 +5,15 @@
 #define NUM_INV_SPACES 30
 #define MAX_PER_STACK 64
 
-typedef struct
+class Inventory
 {
+public:
 	InvBlock blocks[32];
 	int hand;
-} Inventory;
+
+	Inventory() : blocks { }
+, hand(-1) { }
+};
 
 Inventory &getInventoryRef();
 bool addInventory(int blockID, int amount = 1);

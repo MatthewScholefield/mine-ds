@@ -75,7 +75,7 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 {
 	if (!openFurnace)
 	{
-		openFurnace = world.furnaces[getOpenedFurnaceID()];
+		openFurnace = &world.furnaces[getOpenedFurnaceID()];
 		updateContents();
 	}
 	if (invOpen)
