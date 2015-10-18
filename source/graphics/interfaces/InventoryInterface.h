@@ -60,5 +60,8 @@ public:
 			lcdMainOnBottom();
 	}
 
-	~InventoryInterface() { }
+	~InventoryInterface()
+	{
+		unloadGraphic(selectedGraphic);
+	}
 };
