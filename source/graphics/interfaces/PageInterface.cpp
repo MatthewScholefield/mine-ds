@@ -28,7 +28,7 @@ void PageInterface::update(WorldObject &world, touchPosition &touch)
 		printXY(13, 11, getPageName());
 		break;
 	case BACK:
-		setInterface(INTERFACE_INVENTORY, true);
+		setInterface(world, INTERFACE_INVENTORY, true);
 		break;
 	default:
 		break;

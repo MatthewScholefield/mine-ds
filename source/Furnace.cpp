@@ -1,6 +1,6 @@
 #include "Furnace.h"
 
-Furnace::Furnace(FILE* file)
+Furnace::Furnace(FILE* file) : Furnace(true)
 {
 	fscanf(file, "%d %d %d ", &fuel, &timeTillFuelBurn, &fuelTillComplete);
 	sourceBlock.loadFromFile(file);

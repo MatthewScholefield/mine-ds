@@ -8,23 +8,23 @@ void FurnaceInterface::updateContents()
 {
 	if (invOpen)
 		return;
-	if (openFurnace)
+	if (openFurnace.inUse)
 	{
 		for (int i = 0; i < 3; ++i)
 			unloadGraphic(&gfx[i]);
-		loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace->sourceBlock.ID);
-		loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace->fuelBlock.ID);
-		loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace->resultBlock.ID);
-		if (openFurnace->sourceBlock.amount > 0)
-			printXY(12, 10, openFurnace->sourceBlock.amount);
+		loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace.sourceBlock.ID);
+		loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace.fuelBlock.ID);
+		loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace.resultBlock.ID);
+		if (openFurnace.sourceBlock.amount > 0)
+			printXY(12, 10, openFurnace.sourceBlock.amount);
 		else
 			printXY(12, 10, "  ");
-		if (openFurnace->fuelBlock.amount > 0)
-			printXY(12, 14, openFurnace->fuelBlock.amount);
+		if (openFurnace.fuelBlock.amount > 0)
+			printXY(12, 14, openFurnace.fuelBlock.amount);
 		else
 			printXY(12, 14, "  ");
-		if (openFurnace->resultBlock.amount > 0)
-			printXY(17, 12, openFurnace->resultBlock.amount);
+		if (openFurnace.resultBlock.amount > 0)
+			printXY(17, 12, openFurnace.resultBlock.amount);
 		else
 			printXY(17, 12, "  ");
 	}
@@ -57,12 +57,12 @@ void FurnaceInterface::swapItem(InvBlock &original)
 	switch (selectedInvSlot)
 	{
 	case FUEL:
-		temp = openFurnace->fuelBlock;
-		openFurnace->fuelBlock = original;
+		temp = openFurnace.fuelBlock;
+		openFurnace.fuelBlock = original;
 		break;
 	case SOURCE:
-		temp = openFurnace->sourceBlock;
-		openFurnace->sourceBlock = original;
+		temp = openFurnace.sourceBlock;
+		openFurnace.sourceBlock = original;
 		break;
 	default:
 		showError("Invalid selected furnace slot");
@@ -73,9 +73,9 @@ void FurnaceInterface::swapItem(InvBlock &original)
 
 void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 {
-	if (!openFurnace)
+	if (!openFurnace.inUse)
 	{
-		openFurnace = &world.furnaces[getOpenedFurnaceID()];
+		openFurnace = world.furnaces[getOpenedFurnaceID()];
 		updateContents();
 	}
 	if (invOpen)
@@ -90,7 +90,7 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 	}
 	else
 	{
-		if (openFurnace->timeTillFuelBurn == 0)
+		if (openFurnace.timeTillFuelBurn == 0)
 			updateContents();
 		showGraphic(&gfx[SOURCE], 12 * 8, 9 * 8, false, 2);
 		showGraphic(&gfx[FUEL], 12 * 8, 13 * 8, false, 2);
@@ -103,8 +103,8 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 				selectedInvSlot = FUEL;
 			else if (touchesTileBox(touch, 17, 11, 2, 2))
 			{
-				addInventory(openFurnace->resultBlock.ID, openFurnace->resultBlock.amount);
-				openFurnace->resultBlock = InvBlock(AIR, 0);
+				addInventory(openFurnace.resultBlock.ID, openFurnace.resultBlock.amount);
+				openFurnace.resultBlock = InvBlock(AIR, 0);
 				updateContents();
 			}
 			if (selectedInvSlot != NONE)
@@ -115,8 +115,8 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 	{
 	case SMELT:
 	{
-		convertItemToFuel(*openFurnace);
-		openFurnace->fuelTillComplete = fuelNeeded(*openFurnace);
+		convertItemToFuel(openFurnace);
+		openFurnace.fuelTillComplete = fuelNeeded(openFurnace);
 		updateContents();
 		break;
 	}
@@ -127,7 +127,7 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 		{
 			lcdMainOnBottom();
 			setMiningDisabled(false);
-			setInterface(INTERFACE_INVENTORY);
+			setInterface(world, INTERFACE_INVENTORY);;
 		}
 		break;
 	default:

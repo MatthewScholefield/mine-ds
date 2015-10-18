@@ -24,5 +24,20 @@ public:
 	UIElement(int x, int y, const char * const label, int length, bool isVisible, void (*setData)(UIElement *element, int data, bool data2)) :
 	setData(setData), sendData(0), x(x), y(y), label(label), length(length), isVisible(isVisible) { }
 
+	UIElement(const UIElement &other) : setData(other.setData), sendData(other.sendData), x(other.x)
+	, y(other.y), label(other.label), length(other.length), isVisible(other.isVisible) { }
+
+	UIElement &operator=(const UIElement &other)
+	{
+		setData = other.setData;
+		sendData = other.sendData;
+		x = other.x;
+		y = other.y;
+		label = other.label;
+		length = other.length;
+		isVisible = other.isVisible;
+		return *this;
+	}
+
 	virtual ~UIElement() { }
 };

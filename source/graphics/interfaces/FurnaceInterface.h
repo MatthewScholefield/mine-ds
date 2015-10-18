@@ -25,7 +25,7 @@ class FurnaceInterface : public Interface
 	bool invOpen;
 	InvGfxHandler gfxHandler;
 	InvSlot selectedInvSlot;
-	Furnace *openFurnace;
+	Furnace openFurnace;
 	UIElement_ptr smeltButton;
 	Graphic gfx[3];
 
@@ -41,7 +41,7 @@ public:
 
 	FurnaceInterface() : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
 	, invOpen(false), gfxHandler(getInventoryRef(), 1, 9), selectedInvSlot(NONE)
-	, openFurnace(nullptr)
+	, openFurnace(false), smeltButton()
 	{
 		for (int i = 0; i < 3; ++i)
 			loadGraphicSub(&gfx[i], GRAPHIC_BLOCK, AIR);

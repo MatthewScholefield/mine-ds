@@ -7,11 +7,11 @@
 class LitFurnaceUpdater : public BlockUpdater
 {
 private:
-	static int bufferIndex; // is there a reason this wasn't static before? ~Cool As
+	int bufferIndex;
+	Graphic fireParticle;
+	Graphic clones[16];
 public:
 	LitFurnaceUpdater();
 	bool update(WorldObject &world, int x, int y, bool bg);
-	Graphic fireParticle;
-	Graphic clones[16];
 };
 

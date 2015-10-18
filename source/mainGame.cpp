@@ -182,7 +182,7 @@ void startGame(void)
 	if (!isSurvival())
 		setBlockPage(PAGE_WOOL);
 	shouldQuitGame = false;
-	setInterface(INTERFACE_INVENTORY);
+	setInterface(*world, INTERFACE_INVENTORY);
 
 	while (!shouldQuitGame)
 	{
