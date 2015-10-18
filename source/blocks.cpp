@@ -520,13 +520,11 @@ int displayBlock(int blockID)
 
 int getType(int blockID)
 {
-	if (blockID < NUM_BLOCKS) return 0;
 	return blockType[blockID];
 }
 
 int getHardness(int blockID)
 {
-	if (blockID < NUM_BLOCKS) return 0;
 	return hardness[blockID];
 }
 
