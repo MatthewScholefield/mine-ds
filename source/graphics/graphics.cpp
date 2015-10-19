@@ -340,16 +340,16 @@ void drawAnimFrame(Graphic* g, int mobSlot, int frame)
 
 void animateMob(Graphic* g, int mobSlot)
 {
-	++g->anim_frame;
-	if (g->anim_frame >= FRAMES_PER_ANIMATION)
-		g->anim_frame = 0;
-	drawAnimFrame(g, mobSlot, g->anim_frame);
+	++g->animFrame;
+	if (g->animFrame >= FRAMES_PER_ANIMATION)
+		g->animFrame = 0;
+	drawAnimFrame(g, mobSlot, g->animFrame);
 }
 
 void setAnimFrame(Graphic* g, int mobSlot, int frame)
 {
-	g->anim_frame = frame;
-	drawAnimFrame(g, mobSlot, g->anim_frame);
+	g->animFrame = frame;
+	drawAnimFrame(g, mobSlot, g->animFrame);
 }
 
 /**
@@ -562,7 +562,7 @@ bool setCloneGraphic(Graphic *source, Graphic *clone)
 	clone->Gfx = source->Gfx;
 	clone->frameGfx = source->frameGfx;
 	clone->state = source->state;
-	clone->anim_frame = source->anim_frame;
+	clone->animFrame = source->animFrame;
 	clone->sx = source->sx;
 	clone->sy = source->sy;
 	clone->type = source->type;
