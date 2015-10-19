@@ -37,7 +37,7 @@ typedef struct
 	//! \breif animation state
 	int state = 0;
 	//! \breif Animation frame
-	int anim_frame = 0;
+	int animFrame = 0;
 	//! \breif x Size of Graphic in pixels.
 	int sx = 0;
 	//! \breif y Size of Graphic in pixels.

@@ -12,20 +12,20 @@ private:
 	FixedPoint vy;
 	FixedPoint ax;
 	FixedPoint ay;
-	int LiveTime;
-	bool KillGraphic;
+	int liveTime;
+	bool killGraphic;
 	Graphic g;
 public:
 
 	Particle(FixedPoint x, FixedPoint y, FixedPoint vx, FixedPoint vy
-			, FixedPoint ax, FixedPoint ay, int LiveTime, Graphic g, bool KillGraphic = false)
-	: x(x), y(y), vx(vx), vy(vy), ax(ax), ay(ay), LiveTime(LiveTime), KillGraphic(KillGraphic), g(g) { };
+			, FixedPoint ax, FixedPoint ay, int LiveTime, Graphic g, bool killGraphic = false)
+	: x(x), y(y), vx(vx), vy(vy), ax(ax), ay(ay), liveTime(LiveTime), killGraphic(killGraphic), g(g) { };
 
-	Particle(float x, float y, float vx, float vy, float ax, float ay, int LiveTime, Graphic g, bool KillGraphic = false);
-	Particle(int x, int y, int vx, int vy, int ax, int ay, int LiveTime, Graphic g, bool KillGraphic = false);
+	Particle(float x, float y, float vx, float vy, float ax, float ay, int liveTime, Graphic g, bool killGraphic = false);
+	Particle(int x, int y, int vx, int vy, int ax, int ay, int liveTime, Graphic g, bool killGraphic = false);
 	~Particle();
-	bool UpdatePhys();
-	void Draw(WorldObject& world);
+	bool updatePhys();
+	void draw(WorldObject& world);
 };
 
 Graphic* getCloneWaterGraphic();

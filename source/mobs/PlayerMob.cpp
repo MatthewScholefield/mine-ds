@@ -197,7 +197,7 @@ void PlayerMob::updateMob(WorldObject &world)
 	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y + 8) / 16 + 1) != brightness)
 		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15;
 	if (spriteState == 0)
-		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.anim_frame == 0)
+		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.animFrame == 0)
 		{
 			if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT]))
 				setAnimFrame(&mineSprite, 0, 1);
