@@ -49,13 +49,17 @@ public:
 	, loadedGraphic(AIR), backButton(), inv(getInventoryRef()), gfxHandler(getInventoryRef(), 1, 9)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
-		menu.addButton(1, 16, "Back");
+		menu.addButton(1, 16, "Back", open);
 		backButton = menu.getBack();
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
 		if (open)
+		{
 			lcdMainOnTop();
+			oldInvSlot = inv.hand;
+			inv.hand = -1;
+		}
 		else
 			lcdMainOnBottom();
 	}
