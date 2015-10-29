@@ -73,8 +73,6 @@ void calculateMiscData(WorldObject &world, BaseMob *mob)
 		calcGeneralData(world, mob);
 		if (mob->isInBlock(world))
 		{ //move player out of block
-			if (int(mob->y) % 16 < 3)
-				mob->y -= int(mob->y) % 16;
 			if ((!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
 					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16]))
 					||
@@ -115,8 +113,6 @@ void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
 		calcGeneralData(world, mob);
 		if (mob->isInBlock(world))
 		{ //move mob out of block
-			if (int(mob->y) % 16 < 3)
-				mob->y -= int(mob->y) % 16;
 			if ((!isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y) / 16])
 					&& isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y) / 16]))
 					||
