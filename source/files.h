@@ -2,7 +2,7 @@
 
 #include "world.h"
 #include "Config.h"
-#define NITRO_AND_FAT
+
 
 #ifdef NITRO_AND_FAT
 #define USE_FAT
