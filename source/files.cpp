@@ -31,8 +31,8 @@ void initFile()
 	chdir("fat:/");
 	mkdir("data",0777);
 	chdir("fat:/data");
-	mkdir("Mine DS", 0777);
-	chdir("fat:/data/Mine DS");
+	mkdir("Mine-DS", 0777);
+	chdir("fat:/data/Mine-DS");
 	mkdir("Textures", 0777);
 	chdir("fat:/");
 #endif
