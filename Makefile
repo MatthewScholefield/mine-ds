@@ -158,11 +158,13 @@ endif
 $(BUILD):
 	@mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	mv $(OUTPUT).nds Mine-DS.nds || true
+	mv $(OUTPUT).elf Mine-DS.elf || true
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK)
+	@rm -fr $(BUILD) Mine-DS.elf Mine-DS.nds Mine-DS-FAT.elf Mine-DS-FAT.nds $(SOUNDBANK)
 
 #---------------------------------------------------------------------------------
 else
