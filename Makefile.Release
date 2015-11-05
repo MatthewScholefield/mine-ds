@@ -1,0 +1,36 @@
+all:
+	make clean
+	rm -rf Release
+	
+	@mkdir Release
+	@mkdir Release/source
+	@mkdir Release/source/source
+	@mkdir Release/source/gfx
+	@mkdir Release/source/audio
+	@mkdir Release/source/nitro
+	
+	@echo 
+	@echo "Building Nitro and FAT version"
+	@echo
+	
+	make -f Makefile
+	
+	mv Mine-DS.nds Release/
+	mv Mine-DS.elf Release/
+	
+	make clean
+	
+	@echo 
+	@echo "Building FAT version"
+	@echo
+	
+	make -f Makefile.FAT
+	
+	
+	
+	cp Mine-DS* Release/
+	cp Makefile* Release/source
+	cp -r source Release/source/
+	cp -r audio Release/source/
+	cp -r gfx Release/source/
+	cp nitro/soundtrack.wav Release/source/nitro
