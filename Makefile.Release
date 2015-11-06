@@ -8,6 +8,7 @@ all:
 	@mkdir Release/source/gfx
 	@mkdir Release/source/audio
 	@mkdir Release/source/nitro
+	@mkdir -p Release/sdcard/data/Mine-DS
 	
 	@echo 
 	@echo "Building Nitro and FAT version"
@@ -34,3 +35,5 @@ all:
 	cp -r audio Release/source/
 	cp -r gfx Release/source/
 	cp nitro/soundtrack.wav Release/source/nitro
+	cp nitro/soundtrack.wav Release/sdcard/data/Mine-DS/
+	cp nitro/soundbank.bin Release/sdcard/data/Mine-DS/
