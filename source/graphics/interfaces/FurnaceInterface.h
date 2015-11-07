@@ -25,8 +25,8 @@ class FurnaceInterface : public Interface
 	bool invOpen;
 	InvGfxHandler gfxHandler;
 	InvSlot selectedInvSlot;
-	Furnace openFurnace;
 	UIElement_ptr smeltButton;
+	Furnace& openFurnace;
 	Graphic gfx[3];
 
 
@@ -39,9 +39,9 @@ public:
 	void update(WorldObject &world, touchPosition &touch);
 	void draw();
 
-	FurnaceInterface() : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
+	FurnaceInterface(WorldObject& world) : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
 	, invOpen(false), gfxHandler(getInventoryRef(), 1, 9), selectedInvSlot(NONE)
-	, openFurnace(false), smeltButton()
+	, smeltButton(), openFurnace(world.furnaces[getOpenedFurnaceID()])
 	{
 		for (int i = 0; i < 3; ++i)
 			loadGraphicSub(&gfx[i], GRAPHIC_BLOCK, AIR);

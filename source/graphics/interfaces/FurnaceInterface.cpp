@@ -73,11 +73,6 @@ void FurnaceInterface::swapItem(InvBlock &original)
 
 void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 {
-	if (!openFurnace.inUse)
-	{
-		openFurnace = world.furnaces[getOpenedFurnaceID()];
-		updateContents();
-	}
 	if (invOpen)
 	{
 		gfxHandler.update();

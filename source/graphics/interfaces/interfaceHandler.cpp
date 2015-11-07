@@ -24,7 +24,7 @@ void setInterface(WorldObject &world, InterfaceType type, int parameter)
 		currentInterface = Interface_ptr(new ChestInterface(world, parameter));
 		break;
 	case INTERFACE_FURNACE:
-		currentInterface = Interface_ptr(new FurnaceInterface());
+		currentInterface = Interface_ptr(new FurnaceInterface(world));
 		break;
 	case INTERFACE_PAGE:
 		currentInterface = Interface_ptr(new PageInterface());
