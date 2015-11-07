@@ -62,7 +62,7 @@ void destroyBlock(WorldObject &world, int x, int y, bool bg, bool byHand)
 			if (!byHand || canDropItem(*blockXY))
 				createItemMob(x, y, getSurvivalItem(*blockXY));
 			else if (!isSurvival())
-				addInventory(*blockXY);
+				addInventory(getGenericBlock(*blockXY));
 			*blockXY = AIR;
 		}
 		break;

@@ -57,7 +57,7 @@ DoorBottomClosedUpdater::DoorBottomClosedUpdater()
 void DoorTopUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
-	if (blockBelowXY == AIR)
+	if (blockBelowXY != DOOR_OPEN_BOTTOM && blockBelowXY != DOOR_CLOSED_BOTTOM)
 	{
 		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockXY = AIR;
@@ -67,7 +67,7 @@ void DoorTopUpdate(WorldObject &world, int x, int y, bool bg)
 void DoorBottomUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	int &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
-	if (blockAboveXY == AIR)
+	if (blockAboveXY != DOOR_OPEN_TOP && blockAboveXY != DOOR_CLOSED_TOP)
 	{
 		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockXY = AIR;
