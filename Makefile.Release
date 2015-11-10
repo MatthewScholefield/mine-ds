@@ -37,3 +37,15 @@ all:
 	cp nitro/soundtrack.wav Release/source/nitro
 	cp nitro/soundtrack.wav Release/sdcard/data/Mine-DS/
 	cp nitro/soundbank.bin Release/sdcard/data/Mine-DS/
+	
+	@echo
+	@echo "Creating zips"
+	@echo
+	
+	cd Release && \
+	zip Emulator-Version Mine-DS.nds && \
+	zip Debugging Mine-DS.elf Mine-DS.nds Mine-DS-FAT.elf Mine-DS-FAT.nds && \
+	zip -r FAT-Version Mine-DS-FAT.nds sdcard && \
+	zip -r sourcecode source
+	
+	
