@@ -82,8 +82,14 @@ void ItemMob::updateMob(WorldObject &world)
 		showGraphic(&normalSprite, (int) x - world.camX - 3, (int) y - 9 - world.camY + floatVal[floatY], false);
 	else if (addInventory(blockID, amount))
 		health = 0;
-	if (!onScreen(x, y, world.camX, world.camY) && rand() % 1000 == 1)
-		health = 0;
+	if (!onScreen(x, y, world.camX, world.camY))
+	{
+		--timeOut;
+		if (timeOut < 0)
+			health = 0;
+	}
+	else
+		timeOut = maximumTimeOut;
 	if (health < 1)
 		playSound(SOUND_POP, 155 + rand() % 100);
 }
