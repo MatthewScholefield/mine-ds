@@ -360,8 +360,8 @@ void initBlockProperties()
 		switch (blockType[i])
 		{
 		case TYPE_WOOD:
-			hardness[i] = 10;
-			break; //Wood hardness is 10
+			hardness[i] = 20;
+			break; //Wood hardness is 20
 		default:
 			hardness[i] = 1;
 			break; //Default hardness is 1
@@ -387,6 +387,7 @@ void initBlockProperties()
 	hardness[GOLD_ORE] = 40;
 	hardness[DIAMOND_ORE] = 45;
 	hardness[CHEST] = 20;
+	
 }
 
 bool canBreak(int blockID) //checks a blockvalue
