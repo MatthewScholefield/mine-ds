@@ -102,6 +102,9 @@ void placeBlock(WorldObject &world, int x, int y, bool bg)
 			createWaterMob(x, y);
 			addInventory(BUCKET_EMPTY);
 			break;
+		case BUCKET_EMPTY:
+			addInventory(BUCKET_EMPTY);
+			break;
 		default:
 			if (!item(blockID))
 			{
