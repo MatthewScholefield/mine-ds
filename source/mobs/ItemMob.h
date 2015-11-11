@@ -7,11 +7,13 @@ class ItemMob : public BaseMob
 {
 private:
 	static const int floatVal[];
+	static const int maximumTimeOut = 18000;
 public:
 	int blockID;
 	int displayID;
 	int amount;
 	int floatY;
+	int timeOut;
 
 	void calcMiscData(WorldObject &world);
 	void saveToFile(FILE* sFile);
@@ -23,7 +25,7 @@ public:
 
 	ItemMob(int x, int y, int blockID, int amount, int displayID, float ax) :
 	BaseMob(MOB_ITEM, x, y, 8, 8), blockID(blockID), displayID(displayID)
-	, amount(amount), floatY(0)
+	, amount(amount), floatY(0), timeOut(maximumTimeOut)
 	{
 		vy = -3;
 		if (ax > 54320.f)
