@@ -255,7 +255,7 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 			}
 			else if (!closeToPlayer)
 			{
-				if (mobs[i]->framesFarAway > SEC_TO_FPS(6))
+				if (mobs[i]->framesFarAway > SEC_TO_FPS(6) && mobs[i]->type != MOB_ITEM)
 				{
 					mobs.erase(mobs.begin() + i);
 					--i;
