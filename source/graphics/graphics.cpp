@@ -242,7 +242,7 @@ void graphicsInit()
 {
 	loadTexture(getGlobalSettings()->textureName.c_str());
 	worldRender_Init();
-	setSkyDay();
+	resetSky();
 
 	clearMainGraphics();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
