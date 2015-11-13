@@ -385,7 +385,7 @@ void audioScreen()
 void changeSkyProperty(UIElement *element, int property, bool state)
 {
 	setPropertyAction(element, property, state);
-	setSkyDay();
+	resetSky();
 }
 
 void settingsScreen()
