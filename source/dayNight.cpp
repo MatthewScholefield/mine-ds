@@ -8,6 +8,8 @@
 
 #include "worldRender.h"
 int timeTillChange = 0;
+
+int lastWorldBrightness = 0;
 u8 r[15] = {12, 12, 11, 10, 10, 9, 8, 6, 6, 5, 4};
 u8 g[15] = {15, 13, 13, 11, 10, 8, 7, 5, 4, 3, 2};
 u8 b[15] = {31, 31, 30, 29, 28, 27, 26, 26, 24, 23, 15};
@@ -28,6 +30,9 @@ void dayNightUpdate(WorldObject &world)
 		else if (world.timeInWorld > 110) world.worldBrightness = 10 - (world.timeInWorld - 110);
 		else if (world.timeInWorld >= 90) world.worldBrightness = 10;
 		else world.worldBrightness = 0;
+		
+		lastWorldBrightness = world.worldBrightness;
+		
 		setSkyColor(r[world.worldBrightness], g[world.worldBrightness], b[world.worldBrightness],
 					r2[world.worldBrightness], g2[world.worldBrightness], b2[world.worldBrightness]);
 		setSun(world.worldBrightness);
@@ -46,8 +51,8 @@ bool isDay(WorldObject &world)
 	return world.timeInWorld >= 0 && world.timeInWorld < 80;
 }
 
-void setSkyDay()
+void resetSky()
 {
-	setSkyColor(r[0], g[0], b[0], r2[0], g2[0], b2[0]);
+	setSkyColor(r[lastWorldBrightness], g[lastWorldBrightness], b[lastWorldBrightness], r2[lastWorldBrightness], g2[lastWorldBrightness], b2[lastWorldBrightness]);
 }
 
