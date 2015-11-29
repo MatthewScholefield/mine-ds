@@ -57,6 +57,7 @@ public:
 	Inventory chests[MAX_CHESTS];
 	Furnace furnaces[MAX_FURNACES];
 	int reservedWater;
+	int spawnX;
 
 	WorldObject(GameMode gameMode = GAMEMODE_PREVIEW) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
@@ -64,7 +65,8 @@ public:
 	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}
 
 	, furnaces{}
-, reservedWater(0) { }
+
+	, reservedWater(0), spawnX(0) { }
 
 	~WorldObject()
 	{
