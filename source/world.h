@@ -66,7 +66,7 @@ public:
 
 	, furnaces{}
 
-	, reservedWater(0), spawnX(0) { }
+	, reservedWater(0), spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)) { }
 
 	~WorldObject()
 	{
