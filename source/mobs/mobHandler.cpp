@@ -192,7 +192,7 @@ static int spawnMob(MobType mobId, WorldObject &world)
 {
 	int i;
 	int j;
-	for (j = 0; j <= WORLD_WIDTH; ++j)
+	for (j = world.spawnX; j <= WORLD_WIDTH; ++j)
 		for (i = 0; i <= WORLD_HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
