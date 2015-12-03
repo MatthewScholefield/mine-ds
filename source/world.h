@@ -44,6 +44,8 @@ public:
 	int lightemit[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int sun[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int bgblocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+
+	int spawnX;
 	int camY;
 	int camX;
 	int timeInWorld;
@@ -57,16 +59,15 @@ public:
 	Inventory chests[MAX_CHESTS];
 	Furnace furnaces[MAX_FURNACES];
 	int reservedWater;
-	int spawnX;
 
 	WorldObject(GameMode gameMode = GAMEMODE_PREVIEW) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
-	, camY(0), camX(0), timeInWorld(0), worldBrightness(0), gameMode(gameMode)
-	, seed(1), camCalcX(0.0), camCalcY(0.0), biome { }, chestInUse{}
+	, spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2), timeInWorld(0), worldBrightness(0), gameMode(gameMode)
+	, seed(1), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse {}
 
 	, furnaces{}
 
-	, reservedWater(0), spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)) { }
+	, reservedWater(0) { }
 
 	~WorldObject()
 	{
