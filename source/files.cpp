@@ -89,7 +89,7 @@ bool loadWorld(WorldObject *world)
 	if (openedWorld)
 	{
 		delete world;
-		world = new WorldObject();
+		world = new WorldObject(false);
 		char *versionChar = new char();
 		fscanf(worldFile, "%s ", versionChar);
 		int worldBlocksX, worldBlocksY;

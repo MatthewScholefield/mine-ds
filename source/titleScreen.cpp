@@ -454,12 +454,12 @@ void gameModeScreen()
 	case 1: // creative mode
 		// TODO: Add menu to set game seed
 		printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Generating creative game");
-		newGame(GAMEMODE_CREATIVE, 0);
+		newGame(GAMEMODE_CREATIVE);
 		break;
 	case 2: // survival mode
 		// TODO: Add menu to set game seed
 		printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Generating survival game");
-		newGame(GAMEMODE_SURVIVAL, 0);
+		newGame(GAMEMODE_SURVIVAL);
 		break;
 	case 3: // load game
 		printXY(1, 22, "Loading game");
