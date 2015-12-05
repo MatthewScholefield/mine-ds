@@ -93,30 +93,14 @@ void quitGame()
 	shouldQuitGame = true;
 }
 
-void newGame(GameMode mode, int seed)
+void newGame(GameMode mode)
 {
 	updateSubBG();
-	if (world && world->gameMode == GAMEMODE_PREVIEW)
-		seed = world->seed;
 	delete world;
 	world = new WorldObject(mode);
-	// Zero for a random seed
-	if (seed == 0)
-		world->seed = time(nullptr);
-	else
-		world->seed = seed;
-	srand(world->seed);
 	mobsReset();
 	clearInventory();
 	shouldQuitGame = false;
-	generateWorld(*world);
-	if (mode == GAMEMODE_PREVIEW)
-		for (int i = 1; i < WORLD_HEIGHT; ++i)
-			if (!isBlockWalkThrough(world->blocks[0][i]))
-			{
-				world->camCalcY = world->camY = i * 16 - 192 / 2 - 16;
-				break;
-			}
 }
 
 void drawWorld()
@@ -126,7 +110,7 @@ void drawWorld()
 
 void previewGame(void)
 {
-	newGame(GAMEMODE_PREVIEW, 0);
+	newGame(GAMEMODE_PREVIEW);
 	drawWorld();
 }
 

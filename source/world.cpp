@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include "blockID.h"
 #include "blocks.h"
+#include "worldGen.h"
+
+int WorldObject::useSeed = NO_SEED;
 
 int findFirstBlock(WorldObject &world, int x)
 {
@@ -96,4 +99,60 @@ void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2)
 			drawLineDown(world, x1, y1);
 		}
 	}
+}
+
+void WorldObject::initialize()
+{
+	if (useSeed != NO_SEED)
+	{
+		seed = useSeed;
+		useSeed = NO_SEED;
+	}
+	else
+	{
+		seed = time(nullptr);
+		if (gameMode == GAMEMODE_PREVIEW)
+			useSeed = seed;
+	}
+	srand(seed);
+	generateWorld(*this);
+	bool onLand = false;
+	int spawnY;
+	do
+	{
+		for (auto i = 0; i <= WORLD_HEIGHT; ++i)
+			if (blocks[spawnX][i] != AIR)
+			{
+				onLand = (blocks[spawnX][i] != WATER);
+				spawnY = i - 1;
+				break;
+			}
+		if (!onLand)
+			++spawnX;
+	}
+	while (!onLand);
+	if (gameMode == GAMEMODE_PREVIEW)
+		camCalcY = camY = spawnY * 16 - 192 / 2 - 16;
+}
+
+WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+, spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
+, timeInWorld(0), worldBrightness(0), gameMode(gameMode)
+, seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
+, furnaces{}
+, reservedWater(0)
+{
+	initialize();
+}
+
+WorldObject::WorldObject(bool init) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+
+, spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(0)
+, timeInWorld(0), worldBrightness(0), gameMode(GAMEMODE_PREVIEW)
+, seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
+, furnaces{}
+, reservedWater(0)
+{
+	if (init)
+		initialize();
 }
