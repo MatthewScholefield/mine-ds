@@ -1,7 +1,6 @@
 #pragma once
 #include "world.h"
-void generateWorld(WorldObject &world);
-void generateSmallWorld(WorldObject &world);
-void randGenerate(WorldObject &world);
-void fixgrass(WorldObject &world);
-
+int extremeMountainGen(WorldObject &world, int startx, int starty, int endx);
+void generateBedrock(WorldObject &world);
+int flatGen(WorldObject &world, int startx, int starty, int endx);
+void generateRandomBiome(WorldObject &world, int x, int endX);

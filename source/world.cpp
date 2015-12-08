@@ -1,5 +1,6 @@
 #include "world.h"
 #include <cstdlib>
+#include "worldRender.h"
 #include "blockID.h"
 #include "blocks.h"
 #include "worldGen.h"
@@ -14,13 +15,40 @@ int findFirstBlock(WorldObject &world, int x)
 	return -1;
 }
 
-/*int findFirstBiomeBlock(worldObject* world,int x)
+void WorldObject::generateSmallWorld()//Generates one biome
 {
-	int i;
-	for (i=0; i<=WORLD_HEIGHT; ++i)
-		if (!isAGroundBlock(world.blocks[x][i])) return i;
-	return -1;
-}*/
+	int y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
+	int endX = rand() % 16 + 16;
+	y = (rand() % 2 ? extremeMountainGen(*this, 0, y, endX) : flatGen(*this, 0, y, endX));
+	generateRandomBiome(*this, 0, endX);
+	updateBrightnessAround(*this, 15, y);
+}
+
+void WorldObject::generate()
+{
+	if (gameMode == GAMEMODE_PREVIEW)
+	{
+		generateSmallWorld();
+		return;
+	}
+	stopMusic();
+	//Generating a world is intensive on the cpu.
+	//If you don't stop the music, the whole sound engine will become stuffed up.
+	int x = 0, y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4, initY = y;
+	while (x < WORLD_WIDTH)
+	{
+		int endX = x + rand() % 16 + 16;
+		if (endX >= WORLD_WIDTH) endX = WORLD_WIDTH - 1;
+		y = (rand() % 2 ? extremeMountainGen(*this, x, y, endX) : flatGen(*this, x, y, endX));
+		generateRandomBiome(*this, x, endX);
+		x = endX + 1;
+	}
+	updateBrightnessAround(*this, 0, initY);
+	generateBedrock(*this);
+	for (x = 0; x <= WORLD_WIDTH; ++x) //Copy FG blocks to BG
+		for (y = 0; y <= WORLD_HEIGHT; ++y)
+			if (blocks[x][y] != AIR && !isBlockWalkThrough(blocks[x][y])) bgblocks[x][y] = blocks[x][y];
+}
 void drawLineDown(WorldObject &world, int x, int y)
 {
 	int i;
@@ -115,7 +143,7 @@ void WorldObject::initialize()
 			useSeed = seed;
 	}
 	srand(seed);
-	generateWorld(*this);
+	generate();
 	bool onLand = false;
 	int spawnY;
 	do

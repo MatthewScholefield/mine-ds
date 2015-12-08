@@ -40,6 +40,8 @@ class WorldObject
 	static const int NO_SEED = 0;
 	static int useSeed;
 
+	void generateSmallWorld();
+	void generate();
 	void initialize();
 public:
 	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
