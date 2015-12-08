@@ -11,7 +11,7 @@
 #include "blockUpdaters/blockUpdater.h"
 #include <string>
 
-static int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
+int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x = startx;
@@ -36,7 +36,7 @@ static int extremeMountainGen(WorldObject &world, int startx, int starty, int en
 	drawLineThing(world, x, y, endx, endy);
 	return endy;
 }
-static int flatGen(WorldObject &world, int startx, int starty, int endx)
+int flatGen(WorldObject &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x;
@@ -58,7 +58,7 @@ static int flatGen(WorldObject &world, int startx, int starty, int endx)
 	return y;
 }
 
-static void generateBedrock(WorldObject &world)
+void generateBedrock(WorldObject &world)
 {
 	int i;
 	for (i = 0; i <= WORLD_WIDTH; ++i)
@@ -71,7 +71,7 @@ static void generateBedrock(WorldObject &world)
 	}
 }
 
-static void generateRandomBiome(WorldObject &world, int x, int endX)
+void generateRandomBiome(WorldObject &world, int x, int endX)
 {
 	switch (rand() % 6 + 1)
 	{
@@ -94,39 +94,4 @@ static void generateRandomBiome(WorldObject &world, int x, int endX)
 		oceanBiome(world, x, endX);
 		break;
 	}
-}
-
-void generateSmallWorld(WorldObject &world)//Generates one biome
-{
-	int y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
-	int endX = rand() % 16 + 16;
-	y = (rand() % 2 ? extremeMountainGen(world, 0, y, endX) : flatGen(world, 0, y, endX));
-	generateRandomBiome(world, 0, endX);
-	updateBrightnessAround(world, 15, y);
-}
-
-void generateWorld(WorldObject &world)
-{
-	if (world.gameMode == GAMEMODE_PREVIEW)
-	{
-		generateSmallWorld(world);
-		return;
-	}
-	stopMusic();
-	//Generating a world is intensive on the cpu.
-	//If you don't stop the music, the whole sound engine will become stuffed up.
-	int x = 0, y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4, initY = y;
-	while (x < WORLD_WIDTH)
-	{
-		int endX = x + rand() % 16 + 16;
-		if (endX >= WORLD_WIDTH) endX = WORLD_WIDTH - 1;
-		y = (rand() % 2 ? extremeMountainGen(world, x, y, endX) : flatGen(world, x, y, endX));
-		generateRandomBiome(world, x, endX);
-		x = endX + 1;
-	}
-	updateBrightnessAround(world, 0, initY);
-	generateBedrock(world);
-	for (x = 0; x <= WORLD_WIDTH; ++x) //Copy FG blocks to BG
-		for (y = 0; y <= WORLD_HEIGHT; ++y)
-			if (world.blocks[x][y] != AIR && !isBlockWalkThrough(world.blocks[x][y])) world.bgblocks[x][y] = world.blocks[x][y];
 }
