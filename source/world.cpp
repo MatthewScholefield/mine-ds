@@ -136,10 +136,12 @@ void WorldObject::initialize()
 }
 
 WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+
 , spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
 , timeInWorld(0), worldBrightness(0), gameMode(gameMode)
 , seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
 , furnaces{}
+
 , reservedWater(0)
 {
 	initialize();
@@ -151,6 +153,7 @@ WorldObject::WorldObject(bool init) : blocks { }, data{}, brightness{}, lightemi
 , timeInWorld(0), worldBrightness(0), gameMode(GAMEMODE_PREVIEW)
 , seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
 , furnaces{}
+
 , reservedWater(0)
 {
 	if (init)
