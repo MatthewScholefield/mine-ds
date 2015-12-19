@@ -8,6 +8,10 @@
 !/**/*.cpp
 !/**/*.h
 
+# Localisation files
+!/**/*.lang
+!/**/*.py
+
 # Graphics Files
 !/**/*.png
 !/**/*.grit
