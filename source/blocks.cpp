@@ -328,13 +328,13 @@ int getLightAmount(int blockID)
 	switch (blockID)
 	{
 	case TORCH:
-		return 1;
+		return 15;
 	case PUMPKIN_LIGHT:
-		return 0;
+		return 13;
 	case GLOWSTONE:
-		return 0;
+		return 15;
 	case FURNACE_LIT:
-		return 0;
+		return 12;
 
 	default:
 		return -1;

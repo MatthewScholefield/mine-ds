@@ -6,12 +6,6 @@
 void worldRender_Init();
 void worldRender_Render(WorldObject &world);
 void worldRender_RenderWater(WorldObject &world);
-void Calculate_Brightness(WorldObject &world);
-extern "C"
-{
-void brightnessSpread(WorldObject *world, int x, int y, int brightness);
-void sunSpread(WorldObject *world, int x, int y, int brightness);
-}
 void updateBrightnessAround(WorldObject &world, int x, int y);
 void setSun(int brightness);
 int getBrightness(WorldObject &world, int x, int y);
