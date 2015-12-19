@@ -130,7 +130,7 @@ bool loadWorld(WorldObject *world)
 				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 
 		}
-		Calculate_Brightness(*world);
+		//Calculate_Brightness(*world);
 		int loadBiome;
 		for (int i = 0; i <= WORLD_WIDTH; ++i)
 		{

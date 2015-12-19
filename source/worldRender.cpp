@@ -10,6 +10,7 @@
 #include "graphics/3DHandler.h"
 #include "mobs/mobHandler.h"
 #include <math.h>
+#include <vector>
 #define MAX_BLOCK_SPRITES 100
 
 int sunlight;
@@ -27,13 +28,13 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 	x -= world.camX;
 	y -= world.camY;
 	std::vector<BlockSpriteContainer>::size_type i;
-	for (i=0; i<MAX_BLOCK_SPRITES && blockSprites[i];++i)
+	for (i = 0; i < MAX_BLOCK_SPRITES && blockSprites[i]; ++i)
 		if (blockID == blockSprites[i]->blockID && paletteID == blockSprites[i]->sprite.paletteID && !blockSprites[i]->hasBeenRendered)
 		{
 			blockSprites[i]->draw(x, y);
 			return true;
 		}
-	if (i==MAX_BLOCK_SPRITES)
+	if (i == MAX_BLOCK_SPRITES)
 		return false;
 	else if (!blockSprites[i])
 	{
@@ -51,14 +52,10 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 
 int getBrightness(WorldObject &world, int x, int y)
 {
-	int brightness;
-	if (world.sun[x][y] + sunbrightness < world.brightness[x][y])
+	/*if (world.sun[x][y] + sunbrightness < world.brightness[x][y])
 		brightness = world.sun[x][y] + sunbrightness;
-	else
-		brightness = world.brightness[x][y];
-	if (brightness > 15) brightness = 15;
-	else if (brightness < 0) brightness = 0;
-	return brightness;
+	else*/
+	return world.darkness[x][y];
 }
 
 void setSun(int brightness)
@@ -74,99 +71,38 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 
 void updateBrightnessAround(WorldObject &world, int x, int y)
 {
-	int i, j;
-	bool startshade = false;
-	//testfunction();
-	//Set all the light values to 0
-	//Then set light emit to the approate value.
-	for (x > 15 ? i = x - 14 : i = 0; x < WORLD_WIDTH - 16 ? i <= x + 15 : i <= WORLD_WIDTH; ++i)
+	// brightness 15 = Darkest
+	// lightemit 0 = Darkest
+	std::vector<std::pair<int, int>> lightSources;
+	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
-		startshade = false;
-		for (j = 0; j <= WORLD_HEIGHT; ++j)
+		for (int j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			world.brightness[i][j] = 15;
 			world.sun[i][j] = 15;
 			world.lightemit[i][j] = 0;
 			if (isBlockALightSource(world.blocks[i][j]))
-				world.lightemit[i][j] = 1 + getLightAmount(world.blocks[i][j]);
+			{
+				world.lightemit[i][j] = getLightAmount(world.blocks[i][j]);
+				lightSources.emplace_back(i, j);
+			}
 		}
 	}
-	//Now update the brightness'
-	for (x > 15 ? i = x - 15 : i = 0; x < WORLD_WIDTH - 16 ? i <= x + 16 : i <= WORLD_WIDTH; ++i)
+	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
-		startshade = false;
-		for (j = 0; j <= WORLD_HEIGHT; ++j)
+		for (int j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			if (world.brightness[i][j] < 15)
-				brightnessSpread(&world, i, j, world.brightness[i][j]/*+ (isBlockWalkThrough(world.blocks[i+1][j]) ? 1:3)*/);
-			if (blockCastsShadow(world.blocks[i][j]) && !startshade)
+			int brightness = 0;
+			for (auto &k : lightSources)
 			{
-				//	world.lightemit[i][j]=1+sunlight;
-				//	world.sun[i][j]=true; // This is a block that is lit by the sun...
-				//world.brightness[i][j]=0; //Will be set later
-				sunSpread(&world, i, j, sunlight);
-				startshade = true;
+				int val = std::max(0, world.lightemit[k.first][k.second] - 2 * (abs(k.first - i) + abs(k.second - j)));
+				if (val > brightness)
+					brightness = val;
 			}
-
-			else if (!startshade) world.sun[i][j] = sunlight;
-			if (!startshade && world.blocks[i][j] != AIR)
-				world.sun[i][j] = sunlight;
-			else if (!startshade && world.blocks[i - 1][j] == AIR && world.blocks[i + 1][j] == AIR && i != 0) world.sun[i][j] = sunlight;
-			if (world.lightemit[i][j] != 0)
-			{
-				int light = world.lightemit[i][j] - 1;
-				brightnessSpread(&world, i, j, light);
-			}
-			if (world.brightness[i][j] == 16) world.brightness[i][j] = 15;
+			world.darkness[i][j] = std::max(0, 15 - brightness);
 		}
 	}
 }
 
-void Calculate_Brightness(WorldObject &world)
-{
-	int i, j;
-	//Kill Every block so it has no brightness...
-	for (i = 0; i <= WORLD_WIDTH; ++i)
-	{
-		for (j = 0; j <= WORLD_HEIGHT; ++j)
-		{
-			world.brightness[i][j] = 15;
-			world.sun[i][j] = 15;
-			world.lightemit[i][j] = 0;
-			if (isBlockALightSource(world.blocks[i][j]))
-				world.lightemit[i][j] = 1 + getLightAmount(world.blocks[i][j]);
-		}
-	}
-	for (i = 0; i <= WORLD_WIDTH; ++i)
-	{
-
-		bool startshade = false;
-		for (j = 0; j <= WORLD_HEIGHT; ++j)
-		{
-			if (world.brightness[i][j] < 15)
-				brightnessSpread(&world, i, j, world.brightness[i][j]/*+ (isBlockWalkThrough(world.blocks[i+1][j]) ? 1:3)*/);
-			if (blockCastsShadow(world.blocks[i][j]) && !startshade)
-			{
-				//	world.lightemit[i][j]=1+sunlight;
-				//	world.sun[i][j]=true; // This is a block that is lit by the sun...
-				//world.brightness[i][j]=0; //Will be set later
-				sunSpread(&world, i, j, sunlight);
-				startshade = true;
-			}
-
-			else if (!startshade) world.sun[i][j] = sunlight;
-			if (!startshade && world.blocks[i][j] != AIR)
-				world.sun[i][j] = sunlight;
-			else if (!startshade && world.blocks[i - 1][j] == AIR && world.blocks[i + 1][j] == AIR && i != 0) world.sun[i][j] = sunlight;
-			if (world.lightemit[i][j] != 0)
-			{
-				int light = world.lightemit[i][j] - 1;
-				brightnessSpread(&world, i, j, light);
-			}
-			if (world.brightness[i][j] == 16) world.brightness[i][j] = 15;
-		}
-	}
-}
 void renderTile16(int a, int b, int c, int d); //HAX
 
 void worldRender_Init()
@@ -222,15 +158,15 @@ void renderTile16(int x, int y, int tile, int palette)
 
 void renderBlock(WorldObject &world, int i, int j, int blockId, bool add = false)
 {
-	if (world.sun[i][j] + sunbrightness < world.brightness[i][j])
+	/*if (world.sun[i][j] + sunbrightness < world.brightness[i][j])
 	{
 		int brightness = world.sun[i][j] + sunbrightness + (add ? 6 : 0);
 		if (brightness > 15) brightness = 15;
 		if (brightness < 0) brightness = 0;
 		renderTile16(i, j, blockId, brightness);
 	}
-	else
-		renderTile16(i, j, blockId, world.brightness[i][j] + (add ? 6 : 0));
+	else*/
+	renderTile16(i, j, blockId, std::min(15, world.darkness[i][j] + (add ? 6 : 0)));
 }
 
 void renderWorld(WorldObject &world)
@@ -274,10 +210,9 @@ void worldRender_Render(WorldObject &world)
 	renderWorld(world);
 }
 
-
 void clearUnusedBlockSprites()
 {
-	for (int i=0; i<MAX_BLOCK_SPRITES && blockSprites[i];++i)
+	for (int i = 0; i < MAX_BLOCK_SPRITES && blockSprites[i]; ++i)
 		if (!blockSprites[i]->hasBeenRendered)
 		{
 			delete blockSprites[i];
@@ -305,12 +240,13 @@ static void renderWater(WorldObject &world, int x, int y)
 		g /= 2;
 		b /= 2;
 	}
-	if (y > 0 && world.blocks[x][y-1]==WATER)
+	if (y > 0 && world.blocks[x][y - 1] == WATER)
 	{
 		//waterLevel = 16;
 	}
 	drawRect(Color{
-		{r, g, b}}, x * 16 - world.camX, y * 16 - world.camY + 16, 16, -waterLevel);
+		{r, g, b}
+	}, x * 16 - world.camX, y * 16 - world.camY + 16, 16, -waterLevel);
 }
 
 void worldRender_RenderWater(WorldObject &world)

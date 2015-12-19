@@ -135,7 +135,7 @@ void recieveWorldUpdate()
 			}
 			if (recv_x > WORLD_WIDTH)
 			{
-				Calculate_Brightness(*worldptr);
+				//Calculate_Brightness(*worldptr);
 				recv_code = 2;
 			}
 		}
