@@ -121,12 +121,11 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 			//world.sun[i][j] = 15;
 			//world.lightemit[i][j] = 0;
 			//50% CPU
-			int sunBrightness = 15;
 			int block = world.blocks[i][j];
 			if (!startedShade && !isBlockWalkThrough(block))
 			{
 				startedShade = true;
-				int curBright = sunBrightness;
+				int curBright = sunbrightness;
 				for (int k = j; curBright > 0; ++k)
 				{
 					world.darkness[i][k] = std::min(world.darkness[i][k], 15 - curBright);
