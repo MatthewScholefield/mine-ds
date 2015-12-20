@@ -163,7 +163,7 @@ void WorldObject::initialize()
 		camCalcY = camY = spawnY * 16 - 192 / 2 - 16;
 }
 
-WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, darkness{}, lightemit{}, sun{}, bgblocks{}
+WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
 , spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
 , timeInWorld(0), worldBrightness(0), gameMode(gameMode)
@@ -175,7 +175,7 @@ WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, darkness{}, li
 	initialize();
 }
 
-WorldObject::WorldObject(bool init) : blocks { }, data{}, darkness{}, lightemit{}, sun{}, bgblocks{}
+WorldObject::WorldObject(bool init) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
 
 , spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(0)
 , timeInWorld(0), worldBrightness(0), gameMode(GAMEMODE_PREVIEW)

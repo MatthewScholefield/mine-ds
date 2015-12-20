@@ -108,7 +108,7 @@ bool canZombieMobSpawnHere(WorldObject &world, int x, int y)
   if (x >= WORLD_WIDTH) return false;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)
 	{
-		if (getBrightness(world, x, y + 1) > 7)
+		if (getBrightness(world, x, y + 1) <= 8)
 			return true;
 	}
 	return false;

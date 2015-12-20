@@ -17,7 +17,7 @@ int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
 BlockSpriteContainer *blockSprites[MAX_BLOCK_SPRITES] = {};
-int sunbrightness;
+int sunBrightness;
 
 static bool drawBlockGraphic(WorldObject &world, int x, int y)
 {
@@ -52,15 +52,12 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 
 int getBrightness(WorldObject &world, int x, int y)
 {
-	/*if (world.sun[x][y] + sunbrightness < world.brightness[x][y])
-		brightness = world.sun[x][y] + sunbrightness;
-	else*/
-	return world.darkness[x][y];
+	return world.brightness[x][y];
 }
 
 void setSun(int brightness)
 {
-	sunbrightness = brightness;
+	sunBrightness = brightness;
 }
 
 inline void setTileXY(int x, int y, uint16 tile, int palette)
@@ -102,17 +99,14 @@ void spewLight(WorldObject &world, int x, int y, int brightness)
 {
 	for (int i = x - brightness; i <= x + brightness; ++i)
 		for (int j = y - brightness; j <= y + brightness; ++j)
-			world.darkness[i][j] = std::min(world.darkness[i][j], 15 - (brightness - 2 * (abs(x - i) + abs(y - j))));
+			world.brightness[i][j] = std::max(world.brightness[i][j], (brightness - 2 * (abs(x - i) + abs(y - j))));
 }
 
 void updateBrightnessAround(WorldObject &world, int x, int y)
 {
-	// brightness 15 = Darkest
-	// lightemit 0 = Darkest
-	//std::vector<std::pair<int, int>> lightSources;
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 		for (int j = 0; j <= WORLD_HEIGHT; ++j)
-			world.darkness[i][j] = 15; //15% CPU
+			world.brightness[i][j] = 0; //15% CPU
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
 		bool startedShade = false;
@@ -125,10 +119,10 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 			if (!startedShade && !isBlockWalkThrough(block))
 			{
 				startedShade = true;
-				int curBright = sunbrightness;
+				int curBright = sunBrightness;
 				for (int k = j; curBright > 0; ++k)
 				{
-					world.darkness[i][k] = std::min(world.darkness[i][k], 15 - curBright);
+					world.brightness[i][k] = std::max(world.brightness[i][k], curBright);
 					curBright -= 3;
 				}
 			}
@@ -180,7 +174,7 @@ void worldRender_Init()
 	for (i = 0; i <= 16; ++i)
 		for (j = 0; j <= 16; ++j)
 			renderTile16(i, j, AIR, 0);
-	sunbrightness = 0;
+	sunBrightness = 15;
 }
 
 bool onScreen(int SizeMultiplier, int x, int y, int tx, int ty)
@@ -208,7 +202,7 @@ void renderTile16(int x, int y, int tile, int palette)
 	x *= 2; //Convert tiles of 16 to tiles of 8
 	y *= 2;
 	tile *= 4;
-	if (palette > 15) palette = 14;
+	if (palette < 0) palette = 1;
 	//Draw the 4 (8x8) tiles
 	setTileXY(x, y, tile, palette);
 	setTileXY(x + 1, y, tile + 2, palette);
@@ -216,7 +210,7 @@ void renderTile16(int x, int y, int tile, int palette)
 	setTileXY(x + 1, y + 1, tile + 3, palette);
 }
 
-void renderBlock(WorldObject &world, int i, int j, int blockId, bool add = false)
+void renderBlock(WorldObject &world, int i, int j, int blockId, bool dim = false)
 {
 	/*if (world.sun[i][j] + sunbrightness < world.brightness[i][j])
 	{
@@ -226,7 +220,7 @@ void renderBlock(WorldObject &world, int i, int j, int blockId, bool add = false
 		renderTile16(i, j, blockId, brightness);
 	}
 	else*/
-	renderTile16(i, j, blockId, std::min(15, world.darkness[i][j] + (add ? 6 : 0)));
+	renderTile16(i, j, blockId, std::max(0, world.brightness[i][j] - (dim ? 6 : 0)));
 }
 
 void renderWorld(WorldObject &world)

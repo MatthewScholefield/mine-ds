@@ -109,9 +109,8 @@ void clearSubGraphics()
 	oamClear(&oamSub,0,127);
 }
 
-void setBlockPalette(bool blocks, int darkness, int index)
+void setBlockPalette(bool blocks, int brightness, int index)
 {
-	darkness = 15 - darkness;
 	unsigned short *palette = new unsigned short[PAL_LEN/2];
 	for (int i = 0; i < PAL_LEN/2; ++i)
 	{
@@ -121,9 +120,9 @@ void setBlockPalette(bool blocks, int darkness, int index)
 		unsigned short green = slot & 0x1F;
 		slot >>= 5;
 		unsigned short red = slot;
-		blue = (blue * darkness) / 15;
-		green = (green * darkness) / 15;
-		red = (red * darkness) / 15; //*/
+		blue = (blue * brightness) / 15;
+		green = (green * brightness) / 15;
+		red = (red * brightness) / 15; //*/
 		slot = red;
 		slot <<= 5;
 		slot |= green;
@@ -178,17 +177,17 @@ void updateTexture()
 {
 	//=== Main Block BG ===
 	vramSetBankE(VRAM_E_LCD);
-	dmaCopy(blockPal.data(), VRAM_E_EXT_PALETTE[2][0], PAL_LEN); //Copy the palette
-	for (int i = 1; i < 16; ++i)
+	dmaCopy(blockPal.data(), VRAM_E_EXT_PALETTE[2][15], PAL_LEN); //Copy the palette
+	for (int i = 0; i < 16; ++i)
 	{
 		for (int j = 0; j < 256; ++j)
 		{
-			uint16 col = VRAM_E_EXT_PALETTE[2][0][j];
+			uint16 col = VRAM_E_EXT_PALETTE[2][15][j];
 			uint16 r = (col >> 0) & 0x1F;
 			uint16 g = (col >> 5) & 0x1F;
 			uint16 b = (col >> 10) & 0x1F;
 			uint16 a = (col >> 15) & 0x1;
-			int brightness = (16 - i)*16;
+			int brightness = i*16;
 			r = (r * brightness) / 256;
 			g = (g * brightness) / 256;
 			b = (b * brightness) / 256;
@@ -198,8 +197,6 @@ void updateTexture()
 					a << 15;
 		}
 	}
-	for (int j = 0; j < 256; ++j)
-		VRAM_E_EXT_PALETTE[2][15][j] = 0;
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 
 	//=== Main Block Gfx ===
@@ -291,7 +288,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 	u8* Tiles = (u8*) & particlesTiles;
 	Tiles += frame * (8 * 8);
 	dmaCopy(Tiles, graphics, 8 * 8);
-	g->paletteID = 15;
+	g->paletteID = 3;
 	g->Gfx = graphics;
 }
 
