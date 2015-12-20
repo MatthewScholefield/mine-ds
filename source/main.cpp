@@ -22,8 +22,8 @@
 #include "blockUpdaters/blockUpdater.h"
 //#include <maxmod9.h>    // Maxmod definitions for ARM9
 //#include <string>
-
 #include "graphics/3DHandler.h"
+#include "localizations/locale.h"
 
 
 int screen_x, screen_y;
@@ -36,6 +36,9 @@ int main()
 	initFile();
 	//nifiInit();
 
+
+	
+	
 	initBlockProperties();
 	loadConfig(getGlobalSettings()); //Silently load controls (May fail silently))
 	subBgInit();
@@ -51,6 +54,8 @@ int main()
 	clear_messages();
 	init3D();
 	initParticles();
+		
+	setLanguage(1);
 	titleScreen();
 	return 0;
 }
