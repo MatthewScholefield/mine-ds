@@ -21,7 +21,7 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 TARGET   := $(shell basename $(CURDIR))
 BUILD    := build
-SOURCES  := source source/mobs source/graphics source/blockUpdaters source/audio source/graphics/interfaces source/graphics/handlers
+SOURCES  := source source/mobs source/graphics source/blockUpdaters source/audio source/graphics/interfaces source/graphics/handlers source/localizations
 INCLUDES := include
 DATA     := data
 GRAPHICS := gfx
@@ -91,6 +91,7 @@ CPPFILES := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 PNGFILES := $(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 BINFILES := $(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
+LANGFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.lang)))
 
 # prepare NitroFS directory
 ifneq ($(strip $(NITRO)),)
@@ -127,7 +128,7 @@ endif
 #---------------------------------------------------------------------------------
 
 export OFILES   := $(addsuffix .o,$(BINFILES))\
-                   $(PNGFILES:.png=.o)\
+                   $(PNGFILES:.png=.o) \
                    $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 export INCLUDE  := $(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir))\
                    $(foreach dir,$(LIBDIRS),-I$(dir)/include)\
@@ -157,6 +158,7 @@ endif
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@mkdir -p $@
+	python localize.py $(LANGFILES)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	mv $(OUTPUT).nds Mine-DS.nds || true
 	mv $(OUTPUT).elf Mine-DS.elf || true
@@ -174,9 +176,10 @@ else
 #---------------------------------------------------------------------------------
 $(OUTPUT).nds: $(OUTPUT).elf $(GAME_ICON)
 $(OUTPUT).elf: $(OFILES)
-
+ 
 # need to build soundbank first
 $(OFILES): $(SOUNDBANK)
+
 
 #---------------------------------------------------------------------------------
 # rule to build solution from music files
@@ -184,6 +187,7 @@ $(OFILES): $(SOUNDBANK)
 $(SOUNDBANK) : $(MODFILES)
 #---------------------------------------------------------------------------------
 	mmutil $^ -d -o$@ -hsoundbank.h
+
 
 #---------------------------------------------------------------------------------
 %.bin.o: %.bin
@@ -200,6 +204,9 @@ $(SOUNDBANK) : $(MODFILES)
 %.s %.h: %.png %.grit
 #---------------------------------------------------------------------------------
 	grit $< -fts -o$*
+
+
+
 
 #---------------------------------------------------------------------------------
 # Convert non-GRF game icon to GRF if needed
