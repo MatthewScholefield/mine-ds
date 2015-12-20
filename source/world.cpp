@@ -120,7 +120,7 @@ void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2)
 				// else do nothing
 			}
 			// else do nothing
-
+			
 			y1 += iy;
 			error += delta_x;
 
