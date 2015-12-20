@@ -69,25 +69,81 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
+void parseBlock(bool walkThrough, std::pair<int, int> &data)
+{
+	if (walkThrough)
+		++data.second;
+	else
+		++data.first;
+}
+
+//      Solid, Not-solid
+
+std::pair<int, int> getDist(const WorldObject &world, int maxDist, std::pair<int, int> a, std::pair<int, int> b)
+{
+	if (abs(a.first - b.first) + abs(a.second - b.second) >= maxDist)
+		return std::pair<int, int>(-1, -1);
+	const int ADD_X = b.first > a.first ? 1 : -1;
+	const int ADD_Y = b.second > a.second ? 1 : -1;
+	std::pair<int, int> routeOne(0, 0), routeTwo(0, 0);
+
+	for (int i = a.first; i != b.first; i += ADD_X)
+		parseBlock(isBlockWalkThrough(world.blocks[i][a.second]), routeOne);
+	for (int j = a.second; j != b.second; j += ADD_Y)
+		parseBlock(isBlockWalkThrough(world.blocks[b.first][j]), routeOne);
+	for (int i = a.first; i != b.first; i += ADD_X)
+		parseBlock(isBlockWalkThrough(world.blocks[i][b.second]), routeTwo);
+	for (int j = a.second; j != b.second; j += ADD_Y)
+		parseBlock(isBlockWalkThrough(world.blocks[a.first][j]), routeTwo);
+	return routeOne.second > routeTwo.second ? routeOne : routeTwo;
+}
+
+void spewLight(WorldObject &world, int x, int y, int brightness)
+{
+	for (int i = x - brightness; i <= x + brightness; ++i)
+		for (int j = y - brightness; j <= y + brightness; ++j)
+			world.darkness[i][j] = std::min(world.darkness[i][j], 15 - (brightness - 2 * (abs(x - i) + abs(y - j))));
+}
+
 void updateBrightnessAround(WorldObject &world, int x, int y)
 {
 	// brightness 15 = Darkest
 	// lightemit 0 = Darkest
-	std::vector<std::pair<int, int>> lightSources;
+	//std::vector<std::pair<int, int>> lightSources;
+	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
+		for (int j = 0; j <= WORLD_HEIGHT; ++j)
+			world.darkness[i][j] = 15; //15% CPU
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
+		bool startedShade = false;
 		for (int j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			world.sun[i][j] = 15;
-			world.lightemit[i][j] = 0;
-			if (isBlockALightSource(world.blocks[i][j]))
+			//world.sun[i][j] = 15;
+			//world.lightemit[i][j] = 0;
+			//50% CPU
+			int sunBrightness = 15;
+			int block = world.blocks[i][j];
+			if (!startedShade && !isBlockWalkThrough(block))
 			{
-				world.lightemit[i][j] = getLightAmount(world.blocks[i][j]);
-				lightSources.emplace_back(i, j);
+				startedShade = true;
+				int curBright = sunBrightness;
+				for (int k = j; curBright > 0; ++k)
+				{
+					world.darkness[i][k] = std::min(world.darkness[i][k], 15 - curBright);
+					curBright -= 3;
+				}
+			}
+
+			if (isBlockALightSource(block))
+			{
+				//35% CPU
+				spewLight(world, i, j, getLightAmount(block));
+				/*world.lightemit[i][j] = getLightAmount(world.blocks[i][j]);
+				lightSources.emplace_back(i, j);*/
 			}
 		}
 	}
-	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
+	/*for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
 		for (int j = 0; j <= WORLD_HEIGHT; ++j)
 		{
@@ -95,12 +151,17 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 			for (auto &k : lightSources)
 			{
 				int val = std::max(0, world.lightemit[k.first][k.second] - 2 * (abs(k.first - i) + abs(k.second - j)));
+				std::pair<int, int> distInfo = getDist(world, world.lightemit[k.first][k.second], k, std::pair<int, int>(i, j));
+				if (distInfo.first < 0)
+					continue;
+				int val = std::max(0, world.lightemit[k.first][k.second] - (4 * distInfo.first + 2 * distInfo.second));
 				if (val > brightness)
 					brightness = val;
 			}
 			world.darkness[i][j] = std::max(0, 15 - brightness);
-		}
-	}
+}
+}
+*/
 }
 
 void renderTile16(int a, int b, int c, int d); //HAX
