@@ -66,32 +66,40 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
-void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
+void brightnessUpdate(WorldObject &world, int x, int y, int brightness, bool first = false)
 {
 	int before = world.brightness[x][y];
 	int after = std::max(before, brightness);
-	if (before != after)
+	if (first || before != after)
 	{
 		world.brightness[x][y] = after;
-		int give = after - (isBlockWalkThrough(world.blocks[x][y]) ? 1 : 3);
+		int sub;
+		if (isBlockWalkThrough(world.blocks[x][y]))
+			sub = 1;
+		else
+		{
+			switch (after)
+			{
+			case 0 ... 4:
+				sub = 1;
+				break;
+			case 5 ... 8:
+				sub = 2;
+				break;
+			case 9 ... 15:
+				sub = 3;
+				break;
+			default:
+				sub = 1;
+			}
+		}
+		int give = after - sub;
 		brightnessUpdate(world, x + 1, y, give);
 		brightnessUpdate(world, x - 1, y, give);
 		brightnessUpdate(world, x, y + 1, give);
 		brightnessUpdate(world, x, y - 1, give);
 	}
 }
-
-void startBrightnessUpdate(WorldObject &world, int x, int y, int brightness)
-{
-	brightness = std::max(world.brightness[x][y], brightness);
-	world.brightness[x][y] = brightness;
-	brightness -= 3;
-	brightnessUpdate(world, x + 1, y, brightness);
-	brightnessUpdate(world, x - 1, y, brightness);
-	brightnessUpdate(world, x, y + 1, brightness);
-	brightnessUpdate(world, x, y - 1, brightness);
-}
-
 
 void updateBrightnessAround(WorldObject &world, int x, int y)
 {
@@ -113,12 +121,12 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 			if (!startedShade && !isBlockWalkThrough(block))
 			{
 				startedShade = true;
-				startBrightnessUpdate(world, i, j, sunBrightness);
+				brightnessUpdate(world, i, j, sunBrightness, true);
 			}
 
 			if (isBlockALightSource(block))
 			{
-				startBrightnessUpdate(world, i, j, getLightAmount(block));
+				brightnessUpdate(world, i, j, getLightAmount(block), true);
 			}
 		}
 	}
