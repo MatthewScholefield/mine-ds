@@ -16,6 +16,7 @@
 #include "nifi.h"
 #include "graphics/UI.h"
 #include "dayNight.h"
+#include "localizations/locale.h"
 //Single Player/Multiplayer :D
 //By the time we reach the title screen, all setup procedures should have been completed!
 bool firstWorld = true;
@@ -529,9 +530,9 @@ void titleScreen()
 #endif
 		lcdMainOnTop();
 		clearInventory();
-
 		Menu menu(MENU_BUTTON, false);
-		menu.addButton(8, 8, "Single Player", 15);
+		
+		menu.addButton(8, 8, locale("single-player"), 15);
 		menu.addButton(8, 13, "Settings", 15);
 		menu.addButton(8, 18, "Credits", 15);
 		menu.addButton(1, 20, "\xFE"); // \xFE = Dot
