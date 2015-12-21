@@ -22,7 +22,7 @@ int sunBrightness;
 static bool drawBlockGraphic(WorldObject &world, int x, int y)
 {
 	int blockID = world.blocks[x][y];
-	int paletteID = (7 * getBrightness(world, x, y)) / 15;
+	int paletteID = (7 * world.brightness[x][y]) / 15;
 	x *= 16;
 	y *= 16;
 	x -= world.camX;
@@ -48,16 +48,6 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 		blockSprites[i]->draw(x, y);
 	}
 	return true;
-}
-
-int getBrightness(WorldObject &world, int x, int y)
-{
-	return world.brightness[x][y];
-}
-
-void setSun(int brightness)
-{
-	sunBrightness = brightness;
 }
 
 inline void setTileXY(int x, int y, uint16 tile, int palette)
@@ -108,7 +98,7 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 		for (int j = 0; j <= WORLD_HEIGHT; ++j)
 			world.brightness[i][j] = 0;
 		for (int j = 0; j <= WORLD_HEIGHT && isBlockWalkThrough(world.blocks[i][j]); ++j)
-			world.brightness[i][j] = sunBrightness;
+			world.brightness[i][j] = world.worldBrightness;
 	}
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
@@ -119,7 +109,7 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 			if (!startedShade && !isBlockWalkThrough(block))
 			{
 				startedShade = true;
-				brightnessUpdate(world, i, j, sunBrightness, true);
+				brightnessUpdate(world, i, j, world.worldBrightness, true);
 			}
 
 			if (isBlockALightSource(block))
@@ -147,7 +137,6 @@ void worldRender_Init()
 	for (i = 0; i <= 16; ++i)
 		for (j = 0; j <= 16; ++j)
 			renderTile16(i, j, AIR, 0);
-	sunBrightness = 15;
 }
 
 bool onScreen(int SizeMultiplier, int x, int y, int tx, int ty)

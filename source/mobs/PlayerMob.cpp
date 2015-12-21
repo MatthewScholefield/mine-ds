@@ -182,7 +182,7 @@ void PlayerMob::updateMob(WorldObject &world)
 	}
 	if (brightness < 0)
 	{
-		bool loadedNorm = loadGraphic(&normalSprite, GRAPHIC_MOB_ANIM, 0, 16, 32, 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15); //Walk Animation
+		bool loadedNorm = loadGraphic(&normalSprite, GRAPHIC_MOB_ANIM, 0, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15); //Walk Animation
 		bool loadedHurt = loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID); //Hurt Graphic
 		bool loadedMine = loadGraphic(&mineSprite, GRAPHIC_MOB_ANIM, 2, 16, 32, normalSprite.paletteID); //Mine Animation
 
@@ -194,8 +194,8 @@ void PlayerMob::updateMob(WorldObject &world)
 
 		setAnimFrame(&mineSprite, 0, 1);
 	}
-	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y + 8) / 16 + 1) != brightness)
-		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15;
+	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
+		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15;
 	if (spriteState == 0)
 		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.animFrame == 0)
 		{
