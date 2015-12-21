@@ -163,7 +163,7 @@ void renderTile16(int x, int y, int tile, int palette)
 {
 	x *= 2; //Convert tiles of 16 to tiles of 8
 	y *= 2;
-	tile *= 4;
+	tile *= 2 * 2;
 	if (palette < 0) palette = 1;
 	//Draw the 4 (8x8) tiles
 	setTileXY(x, y, tile, palette);
@@ -174,15 +174,7 @@ void renderTile16(int x, int y, int tile, int palette)
 
 void renderBlock(WorldObject &world, int i, int j, int blockId, bool dim = false)
 {
-	/*if (world.sun[i][j] + sunbrightness < world.brightness[i][j])
-	{
-		int brightness = world.sun[i][j] + sunbrightness + (add ? 6 : 0);
-		if (brightness > 15) brightness = 15;
-		if (brightness < 0) brightness = 0;
-		renderTile16(i, j, blockId, brightness);
-	}
-	else*/
-	renderTile16(i, j, blockId, std::max(0, world.brightness[i][j] - (dim ? 6 : 0)));
+	renderTile16(i, j, blockId, world.brightness[i][j] - (dim ? 6 : 0));
 }
 
 void renderWorld(WorldObject &world)
@@ -256,10 +248,6 @@ static void renderWater(WorldObject &world, int x, int y)
 		g /= 2;
 		b /= 2;
 	}
-	if (y > 0 && world.blocks[x][y - 1] == WATER)
-	{
-		//waterLevel = 16;
-	}
 	drawRect(Color{
 		{r, g, b}
 	}, x * 16 - world.camX, y * 16 - world.camY + 16, 16, -waterLevel);
@@ -269,18 +257,7 @@ void worldRender_RenderWater(WorldObject &world)
 {
 	for (int i = world.camX / 16 - 2; i <= world.camX / 16 + 20; ++i)
 		for (int j = world.camY / 16 - 20; j <= world.camY / 16 + 20; ++j)
-		{
 			if (world.blocks[i][j] == WATER)
-			{
 				if (onScreen(16, i, j, 1, 1))
-				{
 					renderWater(world, i, j);
-				}
-				/*if (j < WORLD_WIDTH && (world.blocks[i][j + 1] == AIR || (world.blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < MAX_WATER_LEVEL))))
-				{
-					createWaterMob(i, j, world.data[i][j]);
-					world.blocks[i][j] = AIR;
-				}*/
-			}
-		}
 }
