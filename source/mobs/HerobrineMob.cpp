@@ -20,7 +20,7 @@ void HerobrineMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
-		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 8, 16, 32, 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15);
+		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 8, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15);
 		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 9, 16, 32, normalSprite.paletteID);
 		if (!loadedFirst || !loadedSecond)
 		{
@@ -65,8 +65,8 @@ void HerobrineMob::updateMob(WorldObject &world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			target->hurt(3, HEROBRINE_HURT);
 	}
-	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y+8) / 16 + 1) != brightness)
-		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15;
+	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = world.brightness[x / 16][(y+8) / 16 + 1])) / 15;
 }
 
 void HerobrineMob::sendWifiUpdate() { }

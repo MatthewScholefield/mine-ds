@@ -8,7 +8,6 @@ void worldRender_Render(WorldObject &world);
 void worldRender_RenderWater(WorldObject &world);
 void updateBrightnessAround(WorldObject &world, int x, int y);
 void setSun(int brightness);
-int getBrightness(WorldObject &world, int x, int y);
 void clearUnusedBlockSprites();
 
 class BlockSpriteContainer

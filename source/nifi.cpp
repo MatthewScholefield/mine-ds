@@ -82,7 +82,7 @@ void Handler(int packetID, int readlength)
 		sscanf(message, "%d %d %d %d %d", &test_id, &sunbrightness, &r, &g, &b);
 		if (test_id == server_id)
 		{
-			setSun(sunbrightness);
+			//worldptr->worldBrightness = sunbrightness;
 			//setSkyColor(r, g, b);
 		}
 	}

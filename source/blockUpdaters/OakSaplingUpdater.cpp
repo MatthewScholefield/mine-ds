@@ -12,7 +12,7 @@
 
 void saplingChanceUpdate(WorldObject &world, int x, int y, bool bg)
 {
-	if (getBrightness(world, x, y + 1) < 2)
+	if (world.brightness[x][y + 1] < 2)
 	{
 		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		switch (blockXY)
