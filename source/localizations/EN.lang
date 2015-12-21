@@ -1,4 +1,8 @@
+# General menuing
+
 single-player=Single player
+
+# Block names
 
 block--1=
 block-0=
@@ -33,7 +37,23 @@ block-28=Yellow flower
 block-29=Iron
 block-30=Gold
 block-31=Diamond
-
-
-
-
+block-32=Black wool
+block-33=Red wool
+block-34=Green wool
+block-35=Dark green wool
+block-35=Brown wool
+block-36=Blue wool
+block-37=Purple wool
+block-38=Cyan wool
+block-39=Grey wool
+block-40=White wool
+block-41=Dark grey wool
+block-42=Pink wool
+block-43=Light green wool
+block-44=Yellow wool
+block-45=Light blue wool
+block-46=Magenta wool
+block-47=Orange wool
+block-48=Ladder
+block-49=Wood
+block-50=Grass
