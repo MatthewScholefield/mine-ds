@@ -49,7 +49,7 @@ void ZombieMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
-		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8 + (6 * (brightness = getBrightness(world, x / 16, (y + 8) / 16 + 1))) / 15);
+		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15);
 		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 4, 16, 32, normalSprite.paletteID);
 		if (!loadedFirst || !loadedSecond)
 		{
@@ -86,8 +86,8 @@ void ZombieMob::updateMob(WorldObject &world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			target->hurt(1, ZOMBIE_HURT);
 	}
-	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y+8) / 16 + 1) != brightness)
-		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y+8) / 16 + 1))) / 15;
+	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = world.brightness[x / 16][(y+8) / 16 + 1])) / 15;
 }
 
 void ZombieMob::sendWifiUpdate() { }
@@ -108,7 +108,7 @@ bool canZombieMobSpawnHere(WorldObject &world, int x, int y)
   if (x >= WORLD_WIDTH) return false;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)
 	{
-		if (getBrightness(world, x, y + 1) <= 8)
+		if (world.brightness[x][y + 1] <= 8)
 			return true;
 	}
 	return false;
