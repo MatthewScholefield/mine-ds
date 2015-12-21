@@ -103,12 +103,10 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness, bool fir
 
 void updateBrightnessAround(WorldObject &world, int x, int y)
 {
-	cpuStartTiming(0);
-	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
-		for (int j = 0; j <= WORLD_HEIGHT; ++j)
-			world.brightness[i][j] = 0; //15% CPU
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
+		for (int j = 0; j <= WORLD_HEIGHT; ++j)
+			world.brightness[i][j] = 0;
 		for (int j = 0; j <= WORLD_HEIGHT && isBlockWalkThrough(world.blocks[i][j]); ++j)
 			world.brightness[i][j] = sunBrightness;
 	}
@@ -130,7 +128,6 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 			}
 		}
 	}
-	printXY(1, 1, cpuEndTiming());
 }
 
 void renderTile16(int a, int b, int c, int d); //HAX
