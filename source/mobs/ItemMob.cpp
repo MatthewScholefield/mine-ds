@@ -35,7 +35,7 @@ void ItemMob::updateMob(WorldObject &world)
 	}
 	if (brightness < 0)
 	{
-		bool hasLoaded = loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15);
+		bool hasLoaded = loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = world.brightness[x / 16][(y - 8) / 16 + 1])) / 15);
 		if (!hasLoaded)
 		{
 			health = 0;
@@ -73,8 +73,8 @@ void ItemMob::updateMob(WorldObject &world)
 	}
 	else if (++floatY > 100)
 		floatY = 0;
-	if (world.blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && getBrightness(world, x / 16, (y - 8) / 16 + 1) != brightness)
-		normalSprite.paletteID = (7 * (brightness = getBrightness(world, x / 16, (y - 8) / 16 + 1))) / 15;
+	if (world.blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && world.brightness[x / 16][(y - 8) / 16 + 1] != brightness)
+		normalSprite.paletteID = (7 * (brightness = world.brightness[x / 16][(y - 8) / 16 + 1])) / 15;
 	BaseMob_ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == nullptr)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);

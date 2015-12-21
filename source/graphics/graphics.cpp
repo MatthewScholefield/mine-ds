@@ -175,22 +175,25 @@ void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockP
 
 void updateTexture()
 {
+	const int NUM_BANK_SLOTS = 16;
+	const int MAX_BRIGHTNESS = 16;
+	const int NUM_PALETTE_COLORS = 256;
+	const int BLOCK_PAL_BG = 2;
 	//=== Main Block BG ===
 	vramSetBankE(VRAM_E_LCD);
-	dmaCopy(blockPal.data(), VRAM_E_EXT_PALETTE[2][15], PAL_LEN); //Copy the palette
-	for (int i = 0; i < 16; ++i)
+	dmaCopy(blockPal.data(), VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1], PAL_LEN); //Copy the palette
+	for (int i = 0; i < NUM_BANK_SLOTS; ++i)
 	{
-		for (int j = 0; j < 256; ++j)
+		for (int j = 0; j < NUM_PALETTE_COLORS; ++j)
 		{
-			uint16 col = VRAM_E_EXT_PALETTE[2][15][j];
+			uint16 col = VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1][j];
 			uint16 r = (col >> 0) & 0x1F;
 			uint16 g = (col >> 5) & 0x1F;
 			uint16 b = (col >> 10) & 0x1F;
 			uint16 a = (col >> 15) & 0x1;
-			int brightness = i*16;
-			r = (r * brightness) / 256;
-			g = (g * brightness) / 256;
-			b = (b * brightness) / 256;
+			r = (r * i) / (NUM_BANK_SLOTS - 1);
+			g = (g * i) / (NUM_BANK_SLOTS - 1);
+			b = (b * i) / (NUM_BANK_SLOTS - 1);
 			VRAM_E_EXT_PALETTE[2][i][j] = r << 0 |
 					g << 5 |
 					b << 10 |
@@ -199,14 +202,15 @@ void updateTexture()
 	}
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 
-	//=== Main Block Gfx ===
-	vramSetBankF(VRAM_F_LCD);
-	for (int i = 0; i < 8; ++i)
-		setBlockPalette(true, (15 * (i)) / 7, i);
 	
-	//=== Mob Sprite Gfx ===
-	for (int i = 8; i < 15; ++i)
-		setBlockPalette(false, (15 * (i-8)) / 6, i);
+	vramSetBankF(VRAM_F_LCD);
+	for (int i = 1; i <= NUM_BANK_SLOTS / 2; ++i)
+	{
+		//=== Main Block Gfx ===
+		setBlockPalette(true, (MAX_BRIGHTNESS * i) / (NUM_BANK_SLOTS / 2), i - 1);
+		//=== Mob Sprite Gfx ===
+		setBlockPalette(false, (MAX_BRIGHTNESS * i) / (NUM_BANK_SLOTS / 2), i - 1 + NUM_BANK_SLOTS / 2);
+	}
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	//=== Sub Block ===

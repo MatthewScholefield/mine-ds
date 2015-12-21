@@ -86,33 +86,6 @@ bool isSpriteBlock(int block)
 	}
 }
 
-bool isBlockWalkThrough(int blockID)
-{
-	switch (blockID)
-	{
-	case AIR:
-	case YELLOW_FLOWER:
-	case RED_FLOWER:
-	case SNOW_TOP:
-	case TORCH:
-	case LADDER:
-	case SHRUB:
-	case TALL_GRASS:
-	case MUSHROOM_BROWN:
-	case MUSHROOM_RED:
-	case SAPLING_JUNGLE:
-	case SAPLING_OAK:
-	case SAPLING_SPRUCE:
-	case DOOR_OPEN_TOP:
-	case DOOR_OPEN_BOTTOM:
-	case WATER:
-		return true;
-
-	default:
-		return false;
-	}
-}
-
 int sapling(int leafID)
 {
 	switch (leafID)

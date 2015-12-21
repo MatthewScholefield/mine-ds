@@ -22,7 +22,7 @@ int sunBrightness;
 static bool drawBlockGraphic(WorldObject &world, int x, int y)
 {
 	int blockID = world.blocks[x][y];
-	int paletteID = (7 * getBrightness(world, x, y)) / 15;
+	int paletteID = (7 * world.brightness[x][y]) / 15;
 	x *= 16;
 	y *= 16;
 	x -= world.camX;
@@ -50,111 +50,74 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 	return true;
 }
 
-int getBrightness(WorldObject &world, int x, int y)
-{
-	return world.brightness[x][y];
-}
-
-void setSun(int brightness)
-{
-	sunBrightness = brightness;
-}
-
 inline void setTileXY(int x, int y, uint16 tile, int palette)
 {
 	tile |= palette << 12;
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
-void parseBlock(bool walkThrough, std::pair<int, int> &data)
+void brightnessUpdate(WorldObject &world, int x, int y, int brightness, bool first = false)
 {
-	if (walkThrough)
-		++data.second;
-	else
-		++data.first;
-}
-
-//      Solid, Not-solid
-
-std::pair<int, int> getDist(const WorldObject &world, int maxDist, std::pair<int, int> a, std::pair<int, int> b)
-{
-	if (abs(a.first - b.first) + abs(a.second - b.second) >= maxDist)
-		return std::pair<int, int>(-1, -1);
-	const int ADD_X = b.first > a.first ? 1 : -1;
-	const int ADD_Y = b.second > a.second ? 1 : -1;
-	std::pair<int, int> routeOne(0, 0), routeTwo(0, 0);
-
-	for (int i = a.first; i != b.first; i += ADD_X)
-		parseBlock(isBlockWalkThrough(world.blocks[i][a.second]), routeOne);
-	for (int j = a.second; j != b.second; j += ADD_Y)
-		parseBlock(isBlockWalkThrough(world.blocks[b.first][j]), routeOne);
-	for (int i = a.first; i != b.first; i += ADD_X)
-		parseBlock(isBlockWalkThrough(world.blocks[i][b.second]), routeTwo);
-	for (int j = a.second; j != b.second; j += ADD_Y)
-		parseBlock(isBlockWalkThrough(world.blocks[a.first][j]), routeTwo);
-	return routeOne.second > routeTwo.second ? routeOne : routeTwo;
-}
-
-void spewLight(WorldObject &world, int x, int y, int brightness)
-{
-	for (int i = x - brightness; i <= x + brightness; ++i)
-		for (int j = y - brightness; j <= y + brightness; ++j)
-			world.brightness[i][j] = std::max(world.brightness[i][j], (brightness - 2 * (abs(x - i) + abs(y - j))));
+	int before = world.brightness[x][y];
+	int after = std::max(before, brightness);
+	if (first || before != after)
+	{
+		world.brightness[x][y] = after;
+		int sub;
+		if (isBlockWalkThrough(world.blocks[x][y]))
+			sub = 1;
+		else
+		{
+			switch (after)
+			{
+			case 0 ... 4:
+				sub = 1;
+				break;
+			case 5 ... 8:
+				sub = 2;
+				break;
+			case 9 ... 15:
+				sub = 3;
+				break;
+			default:
+				sub = 1;
+			}
+		}
+		int give = after - sub;
+		brightnessUpdate(world, x + 1, y, give);
+		brightnessUpdate(world, x - 1, y, give);
+		brightnessUpdate(world, x, y + 1, give);
+		brightnessUpdate(world, x, y - 1, give);
+	}
 }
 
 void updateBrightnessAround(WorldObject &world, int x, int y)
 {
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
+	{
 		for (int j = 0; j <= WORLD_HEIGHT; ++j)
-			world.brightness[i][j] = 0; //15% CPU
+			world.brightness[i][j] = 0;
+		for (int j = 0; j <= WORLD_HEIGHT && isBlockWalkThrough(world.blocks[i][j]); ++j)
+			world.brightness[i][j] = world.worldBrightness;
+	}
 	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
 	{
 		bool startedShade = false;
 		for (int j = 0; j <= WORLD_HEIGHT; ++j)
 		{
-			//world.sun[i][j] = 15;
-			//world.lightemit[i][j] = 0;
-			//50% CPU
 			int block = world.blocks[i][j];
 			if (!startedShade && !isBlockWalkThrough(block))
 			{
 				startedShade = true;
-				int curBright = sunBrightness;
-				for (int k = j; curBright > 0; ++k)
-				{
-					world.brightness[i][k] = std::max(world.brightness[i][k], curBright);
-					curBright -= 3;
-				}
+				brightnessUpdate(world, i, j, world.worldBrightness, true);
 			}
 
 			if (isBlockALightSource(block))
 			{
-				//35% CPU
-				spewLight(world, i, j, getLightAmount(block));
-				/*world.lightemit[i][j] = getLightAmount(world.blocks[i][j]);
-				lightSources.emplace_back(i, j);*/
+				brightnessUpdate(world, i, j, getLightAmount(block), true);
 			}
 		}
 	}
-	/*for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
-	{
-		for (int j = 0; j <= WORLD_HEIGHT; ++j)
-		{
-			int brightness = 0;
-			for (auto &k : lightSources)
-			{
-				int val = std::max(0, world.lightemit[k.first][k.second] - 2 * (abs(k.first - i) + abs(k.second - j)));
-				std::pair<int, int> distInfo = getDist(world, world.lightemit[k.first][k.second], k, std::pair<int, int>(i, j));
-				if (distInfo.first < 0)
-					continue;
-				int val = std::max(0, world.lightemit[k.first][k.second] - (4 * distInfo.first + 2 * distInfo.second));
-				if (val > brightness)
-					brightness = val;
-			}
-			world.darkness[i][j] = std::max(0, 15 - brightness);
-}
-}
-*/
 }
 
 void renderTile16(int a, int b, int c, int d); //HAX
@@ -174,7 +137,6 @@ void worldRender_Init()
 	for (i = 0; i <= 16; ++i)
 		for (j = 0; j <= 16; ++j)
 			renderTile16(i, j, AIR, 0);
-	sunBrightness = 15;
 }
 
 bool onScreen(int SizeMultiplier, int x, int y, int tx, int ty)
@@ -201,7 +163,7 @@ void renderTile16(int x, int y, int tile, int palette)
 {
 	x *= 2; //Convert tiles of 16 to tiles of 8
 	y *= 2;
-	tile *= 4;
+	tile *= 2 * 2;
 	if (palette < 0) palette = 1;
 	//Draw the 4 (8x8) tiles
 	setTileXY(x, y, tile, palette);
@@ -212,15 +174,7 @@ void renderTile16(int x, int y, int tile, int palette)
 
 void renderBlock(WorldObject &world, int i, int j, int blockId, bool dim = false)
 {
-	/*if (world.sun[i][j] + sunbrightness < world.brightness[i][j])
-	{
-		int brightness = world.sun[i][j] + sunbrightness + (add ? 6 : 0);
-		if (brightness > 15) brightness = 15;
-		if (brightness < 0) brightness = 0;
-		renderTile16(i, j, blockId, brightness);
-	}
-	else*/
-	renderTile16(i, j, blockId, std::max(0, world.brightness[i][j] - (dim ? 6 : 0)));
+	renderTile16(i, j, blockId, world.brightness[i][j] - (dim ? 6 : 0));
 }
 
 void renderWorld(WorldObject &world)
@@ -294,10 +248,6 @@ static void renderWater(WorldObject &world, int x, int y)
 		g /= 2;
 		b /= 2;
 	}
-	if (y > 0 && world.blocks[x][y - 1] == WATER)
-	{
-		//waterLevel = 16;
-	}
 	drawRect(Color{
 		{r, g, b}
 	}, x * 16 - world.camX, y * 16 - world.camY + 16, 16, -waterLevel);
@@ -307,18 +257,7 @@ void worldRender_RenderWater(WorldObject &world)
 {
 	for (int i = world.camX / 16 - 2; i <= world.camX / 16 + 20; ++i)
 		for (int j = world.camY / 16 - 20; j <= world.camY / 16 + 20; ++j)
-		{
 			if (world.blocks[i][j] == WATER)
-			{
 				if (onScreen(16, i, j, 1, 1))
-				{
 					renderWater(world, i, j);
-				}
-				/*if (j < WORLD_WIDTH && (world.blocks[i][j + 1] == AIR || (world.blocks[i][j + 1] == WATER && (getWaterLevel(world, i, j + 1) < MAX_WATER_LEVEL))))
-				{
-					createWaterMob(i, j, world.data[i][j]);
-					world.blocks[i][j] = AIR;
-				}*/
-			}
-		}
 }

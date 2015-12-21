@@ -45,7 +45,6 @@ void dayNightUpdate(WorldObject &world)
 
 		setSkyColor(r[world.worldBrightness - 5], g[world.worldBrightness - 5], b[world.worldBrightness - 5],
 					r2[world.worldBrightness - 5], g2[world.worldBrightness - 5], b2[world.worldBrightness - 5]);
-		setSun(world.worldBrightness);
 		if (isWifi())
 		{
 			unsigned short buffer[100];

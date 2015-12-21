@@ -25,7 +25,7 @@ void AnimalMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 	{
-		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, FRAME[animal], 16, 16, 8 + (6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15);
+		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, FRAME[animal], 16, 16, 8 + (6 * (brightness = world.brightness[x / 16][y / 16 + 1])) / 15);
 		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, FRAME[animal] + 1, 16, 16, normalSprite.paletteID);
 		if (!loadedFirst || !loadedSecond)
 		{
@@ -94,8 +94,8 @@ void AnimalMob::updateMob(WorldObject &world)
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 	}
-	if (world.blocks[int(x) / 16][(int(y)) / 16 + 1] != AIR && getBrightness(world, x / 16, (y) / 16 + 1) != brightness)
-		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = getBrightness(world, x / 16, (y) / 16 + 1))) / 15;
+	if (world.blocks[int(x) / 16][(int(y)) / 16 + 1] != AIR && world.brightness[x / 16][y / 16 + 1] != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = world.brightness[x / 16][y / 16 + 1])) / 15;
 }
 
 void AnimalMob::sendWifiUpdate() { }
