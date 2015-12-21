@@ -187,10 +187,10 @@ void updateTexture()
 			uint16 g = (col >> 5) & 0x1F;
 			uint16 b = (col >> 10) & 0x1F;
 			uint16 a = (col >> 15) & 0x1;
-			int brightness = i*16;
-			r = (r * brightness) / 256;
-			g = (g * brightness) / 256;
-			b = (b * brightness) / 256;
+			int brightness = i;
+			r = (r * brightness) / 15;
+			g = (g * brightness) / 15;
+			b = (b * brightness) / 15;
 			VRAM_E_EXT_PALETTE[2][i][j] = r << 0 |
 					g << 5 |
 					b << 10 |
