@@ -16,8 +16,8 @@ DoorUpdater::DoorUpdater()
 
 bool DoorUpdater::update(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
-	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
+	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (isBlockWalkThrough(blockBelowXY))
 	{
 		blockXY = AIR;
@@ -25,7 +25,7 @@ bool DoorUpdater::update(WorldObject &world, int x, int y, bool bg)
 	}
 	else
 	{
-		int &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
+		short &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
 		blockXY = DOOR_OPEN_BOTTOM;
 		blockAboveXY = DOOR_OPEN_TOP;
 	}
@@ -56,20 +56,20 @@ DoorBottomClosedUpdater::DoorBottomClosedUpdater()
 
 void DoorTopUpdate(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
+	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (blockBelowXY != DOOR_OPEN_BOTTOM && blockBelowXY != DOOR_CLOSED_BOTTOM)
 	{
-		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockXY = AIR;
 	}
 }
 
 void DoorBottomUpdate(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
+	short &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
 	if (blockAboveXY != DOOR_OPEN_TOP && blockAboveXY != DOOR_CLOSED_TOP)
 	{
-		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockXY = AIR;
 	}
 }

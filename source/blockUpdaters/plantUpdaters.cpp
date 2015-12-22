@@ -11,10 +11,10 @@
 
 void plantUpdate(int beneathID, WorldObject &world, int x, int y, bool bg)
 {
-	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
+	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (blockBelowXY != beneathID)
 	{
-		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		createItemMob(x, y, getSurvivalItem(blockXY));
 		blockXY = AIR;
 	}
