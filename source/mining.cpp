@@ -40,7 +40,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 void destroyBlock(WorldObject &world, int x, int y, bool bg, bool byHand)
 {
 	int blockID = getHandID();
-	int *blockXY = bg ? &world.bgblocks[x][y] : &world.blocks[x][y];
+	short *blockXY = bg ? &world.bgblocks[x][y] : &world.blocks[x][y];
 	if (*blockXY == AIR)
 		return;
 	switch (*blockXY)
@@ -180,8 +180,8 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 		--y;
 	case DOOR_OPEN_TOP:
 	{
-		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
-		int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 		blockXY = DOOR_CLOSED_TOP;
 		blockBelowXY = DOOR_CLOSED_BOTTOM;
 		playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world.camX));
@@ -192,8 +192,8 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 		--y;
 	case DOOR_CLOSED_TOP:
 	{
-		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
-		int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 		blockXY = DOOR_OPEN_TOP;
 		blockBelowXY = DOOR_OPEN_BOTTOM;
 		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world.camX));

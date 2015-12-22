@@ -41,10 +41,10 @@ class WorldObject
 	void generate();
 	void initialize();
 public:
-	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
-	int bgblocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	short blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	short bgblocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 	int data[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
-	int brightness[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	short brightness[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
 
 	int spawnX;
 	int camY;

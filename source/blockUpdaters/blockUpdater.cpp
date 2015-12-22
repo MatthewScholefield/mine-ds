@@ -161,7 +161,7 @@ bool findUpdateInfo(int x,int y, bool bg,bool chance)
 void recursiveUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT ) return;
-	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
@@ -181,7 +181,7 @@ void updateAround(WorldObject &world, int x, int y)
 }
 void updateSingleBlock(WorldObject &world, int x, int y, bool bg, int timeToUpdate)
 {
-	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index!=-1)
 	{
@@ -223,7 +223,7 @@ std::vector<BlockUpdateInfo>::iterator it;
 			it = updaterList.erase(it);
 			if (x >= 0 && x < WORLD_WIDTH && y >= 0 && y < WORLD_HEIGHT)
 			{
-				int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+				short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 				int index = updaterIndex(blockXY);
 				if (index!=-1)
 				{

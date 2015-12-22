@@ -14,10 +14,10 @@ LadderUpdater::LadderUpdater()
 
 bool LadderUpdater::update(WorldObject &world, int x, int y, bool bg)
 {
-	int &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
+	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if ((isBlockWalkThrough(blockBelowXY) && blockBelowXY != LADDER) && (bg || isBlockWalkThrough(world.bgblocks[x][y])))
 	{
-		int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 		blockXY = AIR;
 		createItemMob(x, y, LADDER);
 	}
