@@ -1,1 +1,59 @@
+# General menuing
+
 single-player=Einzelspieler
+
+# Block names
+
+block--1=
+block-0=
+block-1=Stein
+block-2=Erde
+block-3=Gras
+block-4=Fackel
+block-5=Jack-O'-Lantern
+block-6=Glowstone
+block-7=Holz
+block-8=Holz
+block-9=Holz
+block-10=Holz
+block-11=Blätter
+block-12=Blätter
+block-13=Blätter
+block-14=Glas
+block-15=Kaktus
+block-16=Sand
+block-17=Bedrock
+block-18=Schnee
+block-19=Gras
+block-20=Kohle
+block-21=Eisen
+block-22=Gold
+block-23=Diamant
+block-24=Redstone
+block-25=TNT
+block-26=Sandstone
+block-27=Rote Blume
+block-28=Gelbe Blume
+block-29=Eisen
+block-30=Gold
+block-31=Diamant
+block-32=Schwarze Wolle
+block-33=Rote Wolle
+block-34=Grüne Wolle
+block-35=Dunkelgrüne Wolle
+block-35=Braune Wolle
+block-36=Blaue Wolle
+block-37=Violette Wolle
+block-38=Türkise Wolle
+block-39=Graue Wolle
+block-40= Wolle
+block-41=Dunkengraue Wolle
+block-42=Rosae Wolle
+block-43=Helgrüne Wolle
+block-44=Gelbe Wolle
+block-45=Helblaue Wolle
+block-46=Magentae Wolle
+block-47=Orangee Wolle
+block-48=Leiter
+block-49=Holz
+block-50=Gras

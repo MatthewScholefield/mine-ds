@@ -1,10 +1,20 @@
 #include "blockID.h"
+#include "localizations/locale.h"
 #include <stdio.h>
 #include <nds.h>
+#include <string>
 
 const char *getName(int blockID)
 {
-	const char *name;
+	//const char *name;
+	
+	char buf[20];
+	sprintf(buf,"%d",blockID);
+	std::string tagname = "block-" + std::string(buf);
+	
+	return locale(tagname.c_str());
+	
+	/*
 	switch (blockID)
 	{
 	case -1:
@@ -328,7 +338,7 @@ const char *getName(int blockID)
 		name = "Bucket";
 		break;
 	}
-	return name;
+	return name;*/
 }
 
 void updateTopName(int blockID)
