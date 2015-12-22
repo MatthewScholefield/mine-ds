@@ -1,0 +1,59 @@
+# General menuing
+
+single-player=${LANG( sub(n(1247,0,false,false,0,false,false,false)) punc 0 )}
+
+# Block names
+
+block--1=
+block-0=
+block-1=${LANG( sub(n(1050,0,false,false,0,false,false,false)) punc 0 )}
+block-2=${LANG( sub(n(1248,0,false,false,0,false,false,false)) punc 0 )}
+block-3=${LANG( sub(n(558,0,false,false,0,false,false,false)) punc 0 )}
+block-4=${LANG( sub(n(1249,0,false,false,0,false,false,false)) punc 0 )}
+block-5=Jack-O'-Lantern
+block-6=Glowstone
+block-7=${LANG( sub(n(1195,0,false,false,0,false,false,false)) punc 0 )}
+block-8=${LANG( sub(n(1195,0,false,false,0,false,false,false)) punc 0 )}
+block-9=${LANG( sub(n(1195,0,false,false,0,false,false,false)) punc 0 )}
+block-10=${LANG( sub(n(1195,0,false,false,0,false,false,false)) punc 0 )}
+block-11=${LANG( sub(n(682,0,false,true,0,false,false,false)) punc 0 )}
+block-12=${LANG( sub(n(682,0,false,true,0,false,false,false)) punc 0 )}
+block-13=${LANG( sub(n(682,0,false,true,0,false,false,false)) punc 0 )}
+block-14=${LANG( sub(n(552,0,false,false,0,false,false,false)) punc 0 )}
+block-15=${LANG( sub(n(1250,0,false,false,0,false,false,false)) punc 0 )}
+block-16=${LANG( sub(n(989,0,false,false,0,false,false,false)) punc 0 )}
+block-17=Bedrock
+block-18=${LANG( sub(n(1022,0,false,false,0,false,false,false)) punc 0 )}
+block-19=${LANG( sub(n(558,0,false,false,0,false,false,false)) punc 0 )}
+block-20=${LANG( sub(n(286,0,false,false,0,false,false,false)) punc 0 )}
+block-21=${LANG( sub(n(635,0,false,false,0,false,false,false)) punc 0 )}
+block-22=${LANG( sub(n(555,0,false,false,0,false,false,false)) punc 0 )}
+block-23=${LANG( sub(n(1251,0,false,false,0,false,false,false)) punc 0 )}
+block-24=Redstone
+block-25=TNT
+block-26=Sandstone
+block-27=${LANG( sub(n(503,0,false,false,0,false,false,false) adj(153)) punc 0 )}
+block-28=${LANG( sub(n(503,0,false,false,0,false,false,false) adj(202)) punc 0 )}
+block-29=${LANG( sub(n(635,0,false,false,0,false,false,false)) punc 0 )}
+block-30=${LANG( sub(n(555,0,false,false,0,false,false,false)) punc 0 )}
+block-31=${LANG( sub(n(1251,0,false,false,0,false,false,false)) punc 0 )}
+block-32=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(22) ) punc 0 )}
+block-33=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(153)) punc 0 )}
+block-34=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(87) ) punc 0 )}
+block-35=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(211)) punc 0 )}
+block-35=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(25) ) punc 0 )}
+block-36=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(23) ) punc 0 )}
+block-37=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(212)) punc 0 )}
+block-38=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(213)) punc 0 )}
+block-39=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(88) ) punc 0 )}
+block-40=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(197)) punc 0 )}
+block-41=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(214)) punc 0 )}
+block-42=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(215)) punc 0 )}
+block-43=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(216)) punc 0 )}
+block-44=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(202)) punc 0 )}
+block-45=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(217)) punc 0 )}
+block-46=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(218)) punc 0 )}
+block-47=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(219)) punc 0 )}
+block-48=${LANG( sub(n(1252,0,false,false,0,false,false,false)) punc 0 )}
+block-49=${LANG( sub(n(1195,0,false,false,0,false,false,false)) punc 0 )}
+block-50=${LANG( sub( n(558,0,false,false,0,false,false,false)) punc 0 )}

@@ -1,1 +1,59 @@
-single-player=Single Player
+# General menuing
+
+single-player=Single player
+
+# Block names
+
+block--1=
+block-0=
+block-1=Stone
+block-2=Dirt
+block-3=Grass
+block-4=Torch
+block-5=Jack-O'-Lantern
+block-6=Glowstone
+block-7=Wood
+block-8=Wood
+block-9=Wood
+block-10=Wood
+block-11=Leaves
+block-12=Leaves
+block-13=Leaves
+block-14=Glass
+block-15=Cactus
+block-16=Sand
+block-17=Bedrock
+block-18=Snow
+block-19=Grass
+block-20=Coal
+block-21=Iron
+block-22=Gold
+block-23=Diamond
+block-24=Redstone
+block-25=TNT
+block-26=Sandstone
+block-27=Red flower
+block-28=Yellow flower
+block-29=Iron
+block-30=Gold
+block-31=Diamond
+block-32=Black wool
+block-33=Red wool
+block-34=Green wool
+block-35=Dark green wool
+block-35=Brown wool
+block-36=Blue wool
+block-37=Purple wool
+block-38=Cyan wool
+block-39=Grey wool
+block-40=White wool
+block-41=Dark grey wool
+block-42=Pink wool
+block-43=Light green wool
+block-44=Yellow wool
+block-45=Light blue wool
+block-46=Magenta wool
+block-47=Orange wool
+block-48=Ladder
+block-49=Wood
+block-50=Grass
