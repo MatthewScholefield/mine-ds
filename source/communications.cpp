@@ -242,7 +242,7 @@ void recievePlaceBlock(int x, int y, int block, int block2)
 {
 	worldptr->blocks[x][y] = block;
 	worldptr->bgblocks[x][y] = block2;
-	updateBrightnessAround(*worldptr, x, y);
+	//updateBrightnessAround(*worldptr, x, y);
 }
 
 void placeBlock(int x, int y)

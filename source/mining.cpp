@@ -67,7 +67,7 @@ void destroyBlock(WorldObject &world, int x, int y, bool bg, bool byHand)
 		}
 		break;
 	}
-	updateBrightnessAround(world, x, y);
+	calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
 	updateAround(world, x, y);
 }
 
@@ -116,7 +116,7 @@ void placeBlock(WorldObject &world, int x, int y, bool bg)
 			break;
 		}
 	}
-	updateBrightnessAround(world, x, y);
+	calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
 	updateAround(world, x, y);
 }
 
@@ -185,7 +185,7 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 		blockXY = DOOR_CLOSED_TOP;
 		blockBelowXY = DOOR_CLOSED_BOTTOM;
 		playSound(SOUND_DOOR_CLOSE, 255, getBlockPanning(x, world.camX));
-		updateBrightnessAround(world, x, y + 1);
+		calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
 		break;
 	}
 	case DOOR_CLOSED_BOTTOM:
@@ -197,7 +197,7 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 		blockXY = DOOR_OPEN_TOP;
 		blockBelowXY = DOOR_OPEN_BOTTOM;
 		playSound(SOUND_DOOR_OPEN, 255, getBlockPanning(x, world.camX));
-		updateBrightnessAround(world, x, y + 1);
+		calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
 		break;
 	}
 	case WATER:

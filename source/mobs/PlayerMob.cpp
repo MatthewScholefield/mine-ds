@@ -109,7 +109,7 @@ void PlayerMob::updateMob(WorldObject &world)
 			if (++tillBrightness > SEC_TO_FPS(1))
 			{
 				tillBrightness = 0;
-				updateBrightnessAround(world, x / 16, y / 16);
+				calculateBrightness(world, x / 16, y / 16);
 			}
 
 			if (getGlobalSettings()->getProperty(PROPERTY_SMOOTH))

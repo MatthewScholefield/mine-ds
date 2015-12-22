@@ -297,7 +297,7 @@ bool isBlockALightSource(int blockID)
 }
 
 int getLightAmount(int blockID)
-{ //15 - value
+{
 	switch (blockID)
 	{
 	case TORCH:
@@ -308,7 +308,6 @@ int getLightAmount(int blockID)
 		return 15;
 	case FURNACE_LIT:
 		return 12;
-
 	default:
 		return -1;
 	}
