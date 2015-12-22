@@ -58,6 +58,8 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 
 void brightnessUpdate(WorldObject &world, int x, int y, int brightness, bool first = false)
 {
+	if ((unsigned) x > WORLD_WIDTH || (unsigned) y > WORLD_HEIGHT)
+		return;
 	int before = world.brightness[x][y];
 	int after = std::max(before, brightness);
 	if (first || before != after)
@@ -91,19 +93,23 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness, bool fir
 	}
 }
 
-void updateBrightnessAround(WorldObject &world, int x, int y)
+void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int bottomBound)
 {
-	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
+	const int MAX_SPREAD = 7;
+	const int MIN_X = std::max(0, leftBound - MAX_SPREAD);
+	const int MAX_X = std::min(WORLD_WIDTH, rightBound + MAX_SPREAD);
+	const int MAX_Y = std::min(WORLD_HEIGHT, bottomBound + MAX_SPREAD);
+	for (int i = MIN_X; i <= MAX_X; ++i)
 	{
-		for (int j = 0; j <= WORLD_HEIGHT; ++j)
+		for (int j = 0; j <= MAX_Y; ++j)
 			world.brightness[i][j] = 0;
-		for (int j = 0; j <= WORLD_HEIGHT && isBlockWalkThrough(world.blocks[i][j]); ++j)
+		for (int j = 0; j <= MAX_Y && isBlockWalkThrough(world.blocks[i][j]); ++j)
 			world.brightness[i][j] = world.worldBrightness;
 	}
-	for (int i = x > 15 ? x - 14 : 0; i <= (x < WORLD_WIDTH - 16 ? x + 15 : WORLD_WIDTH); ++i)
+	for (int i = MIN_X; i <= MAX_X; ++i)
 	{
 		bool startedShade = false;
-		for (int j = 0; j <= WORLD_HEIGHT; ++j)
+		for (int j = 0; j <= MAX_Y; ++j)
 		{
 			int block = world.blocks[i][j];
 			if (!startedShade && !isBlockWalkThrough(block))
@@ -111,13 +117,20 @@ void updateBrightnessAround(WorldObject &world, int x, int y)
 				startedShade = true;
 				brightnessUpdate(world, i, j, world.worldBrightness, true);
 			}
-
 			if (isBlockALightSource(block))
-			{
 				brightnessUpdate(world, i, j, getLightAmount(block), true);
-			}
 		}
 	}
+}
+
+void calculateBrightness(WorldObject &world)
+{
+	calculateBrightness(world, 0, WORLD_WIDTH, WORLD_HEIGHT);
+}
+
+void calculateBrightness(WorldObject &world, int x, int y)
+{
+	calculateBrightness(world, x - 8, x + 8, y + 6);
 }
 
 void renderTile16(int a, int b, int c, int d); //HAX

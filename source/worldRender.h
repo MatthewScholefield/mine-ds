@@ -6,7 +6,9 @@
 void worldRender_Init();
 void worldRender_Render(WorldObject &world);
 void worldRender_RenderWater(WorldObject &world);
-void updateBrightnessAround(WorldObject &world, int x, int y);
+void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int bottomBound);
+void calculateBrightness(WorldObject &world);
+void calculateBrightness(WorldObject &world, int x, int y);
 void setSun(int brightness);
 void clearUnusedBlockSprites();
 
