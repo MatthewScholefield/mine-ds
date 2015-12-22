@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+
+
 import sys
 import os
 
@@ -38,6 +40,9 @@ for arg in sys.argv[1:]:
 
 	numFiles += 1
 	fileNames.append(basename)
+
+	if (sys.version_info[0]<3):
+		string = string.decode("UTF-8")
 
 	wfile.write(string.encode("ISO-8859-15"))
 	wfile.close()
