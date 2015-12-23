@@ -6,11 +6,10 @@
 
 void leafVirus(WorldObject &world, int x, int y, int amount, bool down, int blockID)
 {
-	if (amount <= 0) return;
-	if (x >= 0 && x < WORLD_WIDTH)
-		world.bgblocks[x][y] = (world.bgblocks[x][y] == AIR ? blockID : world.bgblocks[x][y]);
-	else
+	if (amount <= 0 || (unsigned) x >= WORLD_WIDTH)
 		return;
+	if (world.bgblocks[x][y] == AIR)
+		world.bgblocks[x][y] = blockID;
 	leafVirus(world, x + 1, y, amount - 1, down, blockID);
 	leafVirus(world, x - 1, y, amount - 1, down, blockID);
 	leafVirus(world, x, y - 1, amount - 1, down, blockID);

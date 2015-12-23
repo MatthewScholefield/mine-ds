@@ -74,7 +74,7 @@ void recieveWorld(WorldObject &world2)
 	for (i = 0; i <= 16; ++i)
 	{
 		iprintf(".");
-		for (j = 0; j <= WORLD_HEIGHT; ++j)
+		for (j = 0; j < WORLD_HEIGHT; ++j)
 		{
 			framecounter = 0;
 			code = 0;
@@ -128,12 +128,12 @@ void recieveWorldUpdate()
 			code = 0;
 			recv_code = 0;
 			recv_y += addamount + 1;
-			if (recv_y > WORLD_HEIGHT)
+			if (recv_y >= WORLD_HEIGHT)
 			{
 				recv_y = 0;
 				++recv_x;
 			}
-			if (recv_x > WORLD_WIDTH)
+			if (recv_x >= WORLD_WIDTH)
 			{
 				//Calculate_Brightness(*worldptr);
 				recv_code = 2;

@@ -11,7 +11,7 @@ int WorldObject::useSeed = NO_SEED;
 int findFirstBlock(WorldObject &world, int x)
 {
 	int i;
-	for (i = 0; i <= WORLD_HEIGHT; ++i)
+	for (i = 0; i < WORLD_HEIGHT; ++i)
 		if (!isBlockWalkThrough(world.blocks[x][i])) return i;
 	return -1;
 }
@@ -46,9 +46,10 @@ void WorldObject::generate()
 		x = endX + 1;
 	}
 	generateBedrock(*this);
-	for (x = 0; x <= WORLD_WIDTH; ++x) //Copy FG blocks to BG
-		for (y = 0; y <= WORLD_HEIGHT; ++y)
-			if (blocks[x][y] != AIR && !isBlockWalkThrough(blocks[x][y])) bgblocks[x][y] = blocks[x][y];
+	for (x = 0; x < WORLD_WIDTH; ++x) //Copy FG blocks to BG
+		for (y = 0; y < WORLD_HEIGHT; ++y)
+			if (blocks[x][y] != AIR && !isBlockWalkThrough(blocks[x][y]))
+				bgblocks[x][y] = blocks[x][y];
 	dayNightUpdate(*this);
 	calculateBrightness(*this);
 }

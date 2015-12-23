@@ -114,19 +114,19 @@ static bool canMobSpawnHere(MobType type, WorldObject &world, int a, int b)
 {
 	switch (type)
 	{
-            case MOB_PLAYER:
+	case MOB_PLAYER:
 		return canPlayerMobSpawnHere(world, a, b);
-            case MOB_MULTIPLAYER:
+	case MOB_MULTIPLAYER:
 		return canMultiplayerMobSpawnHere(world, a, b);
-            case MOB_ZOMBIE:
+	case MOB_ZOMBIE:
 		return canZombieMobSpawnHere(world, a, b);
-            case MOB_ANIMAL:
+	case MOB_ANIMAL:
 		return canAnimalMobSpawnHere(world, a, b);
-            case MOB_HEROBRINE:
+	case MOB_HEROBRINE:
 		return canHerobrineMobSpawnHere(world, a, b);
-            case MOB_ITEM:
-                return true;
-            default:
+	case MOB_ITEM:
+		return true;
+	default:
 		showError("Checking spawn for non-existent mob type");
 		break;
 	}
@@ -154,9 +154,9 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	case MOB_HEROBRINE:
 		mobs.push_back(BaseMob_ptr(new HerobrineMob(x, y)));
 		break;
-  case MOB_ITEM:
-    createItemMob(x,y,DIRT);
-    break;
+	case MOB_ITEM:
+		createItemMob(x, y, DIRT);
+		break;
 	default:
 		showError("Unknown Mob Spawned");
 		break;
@@ -179,7 +179,7 @@ void saveMobs(FILE* f)
 static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck = false)
 {
 	int i;
-	for (i = 0; i <= WORLD_HEIGHT; ++i)
+	for (i = 0; i < WORLD_HEIGHT; ++i)
 		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
 			newMob(mobId, j * 16, i * 16);
@@ -188,20 +188,16 @@ static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck 
 		}
 }
 
-static int spawnMob(MobType mobId, WorldObject &world)
+static void spawnMob(MobType mobId, WorldObject &world)
 {
-	int i;
-	int j;
-	for (j = world.spawnX; j <= WORLD_WIDTH; ++j)
-		for (i = 0; i <= WORLD_HEIGHT; ++i)
+	for (int j = world.spawnX; j < WORLD_WIDTH; ++j)
+		for (int i = 0; i < WORLD_HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
 				newMob(mobId, j * 16, i * 16);
 				mobs.back()->host = true;
-				i = WORLD_HEIGHT + 1;
-				j = WORLD_WIDTH + 1;
+				return;
 			}
-	return -1;
 }
 
 int spawnMobAt(MobType type, int x, int y)

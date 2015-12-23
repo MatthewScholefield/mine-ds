@@ -51,14 +51,14 @@ bool saveWorld(WorldObject &world)
 		fprintf(worldFile, "%d %d ", WORLD_WIDTH, WORLD_HEIGHT);
 		fprintf(worldFile, "%d ", world.gameMode);
 		fprintf(worldFile, "%d ", world.timeInWorld);
-		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		for (int i = 0; i < WORLD_WIDTH; ++i)
 		{
-			for (int j = 0; j <= WORLD_HEIGHT; ++j)
+			for (int j = 0; j < WORLD_HEIGHT; ++j)
 				fprintf(worldFile, "%d %d %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
 			if (i % 50 == 0)
 				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 		}
-		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		for (int i = 0; i < WORLD_WIDTH; ++i)
 			fprintf(worldFile, "%d ", world.biome[i]);
 
 		saveInventory(worldFile);
@@ -132,7 +132,7 @@ bool loadWorld(WorldObject *world)
 		}
 		//Calculate_Brightness(*world);
 		int loadBiome;
-		for (int i = 0; i <= WORLD_WIDTH; ++i)
+		for (int i = 0; i < WORLD_WIDTH; ++i)
 		{
 			fscanf(worldFile, "%d ", &loadBiome);
 			world->biome[i] = Biome(loadBiome);

@@ -41,10 +41,10 @@ class WorldObject
 	void generate();
 	void initialize();
 public:
-	int blocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
-	int bgblocks[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
-	int data[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
-	int brightness[WORLD_WIDTH + 1][WORLD_HEIGHT + 1];
+	int blocks[WORLD_WIDTH][WORLD_HEIGHT];
+	int bgblocks[WORLD_WIDTH][WORLD_HEIGHT];
+	int data[WORLD_WIDTH][WORLD_HEIGHT];
+	int brightness[WORLD_WIDTH][WORLD_HEIGHT];
 
 	int spawnX;
 	int camY;
@@ -55,7 +55,7 @@ public:
 	int seed; //The random number seed used to generate the world
 	double camCalcX;
 	double camCalcY;
-	Biome biome[WORLD_WIDTH + 1];
+	Biome biome[WORLD_WIDTH];
 	bool chestInUse[MAX_CHESTS];
 	Inventory chests[MAX_CHESTS];
 	Furnace furnaces[MAX_FURNACES];
