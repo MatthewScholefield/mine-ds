@@ -17,6 +17,8 @@ class InventoryInterface : public Interface
 	static const int SAVE = 2;
 	static const int CRAFT_MENU = 3;
 	static const int PAGE_MENU = 4;
+	static const int ARRANGE_LEFT = 5;
+	static const int ARRANGE_RIGHT = 6;
 
 	bool open;
 	int oldInvSlot;
@@ -35,6 +37,7 @@ class InventoryInterface : public Interface
 	void switchInvState();
 	void parseTouchInput(const touchPosition &touch);
 	static void drawHandFrame();
+	void arrangeItems(bool right);
 
 public:
 	static bool touchesInvSlot(const touchPosition &touch);
@@ -54,6 +57,8 @@ public:
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
+		menu.addButton(26, 5, "<");
+		menu.addButton(29, 5, ">");
 		if (open)
 		{
 			lcdMainOnTop();

@@ -140,6 +140,44 @@ void InventoryInterface::switchInvState()
 		openInventory();
 }
 
+void InventoryInterface::arrangeItems(bool right)
+{
+	Inventory newInv;
+	newInv.hand = inv.hand;
+	int position = right ? NUM_INV_SPACES - 1 : 0;
+	const int INITIAL = position;
+	const int ADD = right ? 1 : -1;
+	for (int i = right ? 0 : (NUM_INV_SPACES - 1); i != INITIAL; i += ADD)
+	{
+		if (inv.blocks[i].ID == AIR)
+			continue;
+		InvBlock &block = inv.blocks[i];
+		int j;
+		for (j = INITIAL; j != position; j -= ADD)
+			if (newInv.blocks[j].ID == block.ID && newInv.blocks[j].amount < 64)
+			{
+				newInv.blocks[j].amount += block.amount;
+				if (newInv.blocks[j].amount > 64)
+				{
+					block.amount = newInv.blocks[j].amount - 64;
+					newInv.blocks[j].amount = 64;
+				}
+				else
+				{
+					block.ID = AIR;
+					break;
+				}
+			}
+		if (j == position) //Didn't find a match
+		{
+			newInv.blocks[j] = block;
+			position -= ADD;
+		}
+	}
+	inv = newInv;
+	updateInv();
+}
+
 void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 {
 	if (inv.hand > 32) inv.hand = -1;
@@ -167,6 +205,12 @@ void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 			break;
 		case PAGE_MENU:
 			setInterface(world, INTERFACE_PAGE);
+			break;
+		case ARRANGE_LEFT:
+			arrangeItems(false);
+			break;
+		case ARRANGE_RIGHT:
+			arrangeItems(true);
 			break;
 		default:
 			break;
