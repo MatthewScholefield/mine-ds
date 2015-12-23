@@ -148,7 +148,8 @@ void updateBlocksAround(WorldObject &world, int x, int y, bool bg)
 	recursiveUpdate(world, x, y + 2, bg);
 	recursiveUpdate(world, x, y, bg);
 }
-bool findUpdateInfo(int x,int y, bool bg,bool chance)
+
+bool findUpdateInfo(int x, int y, bool bg, bool chance)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
 	for (it = updaterList.begin(); it != updaterList.end(); it++)
@@ -158,39 +159,41 @@ bool findUpdateInfo(int x,int y, bool bg,bool chance)
 	}
 	return false;
 }
+
 void recursiveUpdate(WorldObject &world, int x, int y, bool bg)
 {
-	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT ) return;
+	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return;
 	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
-	if (index!=-1)
+	if (index != -1)
 	{
-		if (!findUpdateInfo(x,y,bg,false))
+		if (!findUpdateInfo(x, y, bg, false))
 			updaterList.push_back(BlockUpdateInfo{x, y, bg, 1, false});
-		if (blockUpdaters[index]->chance!=NO_CHANCE && !findUpdateInfo(x,y,bg,true))
-			updaterList.push_back(BlockUpdateInfo{x,y,bg,rand() % blockUpdaters[index]->chance,true});
-			
+		if (blockUpdaters[index]->chance != NO_CHANCE && !findUpdateInfo(x, y, bg, true))
+			updaterList.push_back(BlockUpdateInfo{x, y, bg, rand() % blockUpdaters[index]->chance, true});
+
 	}
 }
 
-
 void updateAround(WorldObject &world, int x, int y)
 {
-	updateBlocksAround(world,x,y,false);
-	updateBlocksAround(world,x,y,true);
+	updateBlocksAround(world, x, y, false);
+	updateBlocksAround(world, x, y, true);
 }
+
 void updateSingleBlock(WorldObject &world, int x, int y, bool bg, int timeToUpdate)
 {
 	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
-	if (index!=-1)
+	if (index != -1)
 	{
-		if (!findUpdateInfo(x,y,bg,false))
+		if (!findUpdateInfo(x, y, bg, false))
 		{
-			updaterList.push_back(BlockUpdateInfo{x,y,bg,timeToUpdate,false});
+			updaterList.push_back(BlockUpdateInfo{x, y, bg, timeToUpdate, false});
 		}
 	}
 }
+
 int processTTL(WorldObject &world)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
@@ -198,39 +201,41 @@ int processTTL(WorldObject &world)
 	for (it = updaterList.begin(); it != updaterList.end(); ++it)
 	{
 
-		Color a = Color({255,0,0});
-		it->TimeToLive-=1;
-		if (it->TimeToLive < 2){
-			numReadyToUpdate+=1;
-			a = Color({0,255,0});
+		Color a = Color({255, 0, 0});
+		it->TimeToLive -= 1;
+		if (it->TimeToLive < 2)
+		{
+			numReadyToUpdate += 1;
+			a = Color({0, 255, 0});
 		}
 		//drawRect(a, it->x * 16 + 4 - world.camX, it->y * 16 + 4 - world.camY, 8, 8);
 	}
 	return numReadyToUpdate;
 }
+
 void processOneBlock(WorldObject &world)
 {
-std::vector<BlockUpdateInfo>::iterator it;
+	std::vector<BlockUpdateInfo>::iterator it;
 	for (it = updaterList.begin(); it != updaterList.end(); ++it)
 	{
 
-		if (it->TimeToLive<2)
+		if (it->TimeToLive < 2)
 		{
 			int x = it->x;
- 			int y = it->y;
+			int y = it->y;
 			bool bg = it->bg;
 			bool chance = it->chance;
 			it = updaterList.erase(it);
-			if (x >= 0 && x < WORLD_WIDTH && y >= 0 && y < WORLD_HEIGHT)
+			if ((unsigned) x < WORLD_WIDTH && (unsigned) y < WORLD_HEIGHT)
 			{
 				int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 				int index = updaterIndex(blockXY);
-				if (index!=-1)
+				if (index != -1)
 				{
-					if(!chance)
+					if (!chance)
 					{
-						if(blockUpdaters[index]->update(world,x,y,bg))
-							updateAround(world,x,y);
+						if (blockUpdaters[index]->update(world, x, y, bg))
+							updateAround(world, x, y);
 					}
 					else
 					{
@@ -242,15 +247,16 @@ std::vector<BlockUpdateInfo>::iterator it;
 		}
 	}
 }
+
 void proceduralBlockUpdate(WorldObject &world)
 {
-	if (updaterList.size()==0) return;
+	if (updaterList.size() == 0) return;
 	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.
 	//If TTL is not 1, decrement the TTL value.
 	int amount = processTTL(world);
 	int t = 0;
 	if (amount > 0 && amount < 5) t = amount;
-	else if (amount > 4 && amount < 20 ) t = amount / 2;
+	else if (amount > 4 && amount < 20) t = amount / 2;
 	else t = 10;
 	for (int i = 0; i < t; ++i) processOneBlock(world);
 }

@@ -60,8 +60,7 @@ int flatGen(WorldObject &world, int startx, int starty, int endx)
 
 void generateBedrock(WorldObject &world)
 {
-	int i;
-	for (i = 0; i <= WORLD_WIDTH; ++i)
+	for (int i = 0; i < WORLD_WIDTH; ++i)
 	{
 		world.blocks[i][WORLD_HEIGHT] = BEDROCK;
 		if (!(rand() % 2)) world.blocks[i][WORLD_HEIGHT - 1] = BEDROCK;

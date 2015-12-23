@@ -124,9 +124,9 @@ void PlayerMob::updateMob(WorldObject &world)
 			}
 
 			if (world.camCalcX < 0.0) world.camCalcX = 0.0;
-			if (world.camCalcX > WORLD_WIDTH * 16 - 256) world.camCalcX = WORLD_WIDTH * 16 - 256;
+			if (world.camCalcX > (WORLD_WIDTH - 1) * 16 - 256) world.camCalcX = (WORLD_WIDTH - 1) * 16 - 256;
 			if (world.camCalcY < 0.0) world.camCalcY = 0.0;
-			if (world.camCalcY > (WORLD_HEIGHT + 1)*16 - 192) world.camCalcY = (WORLD_HEIGHT + 1)*16 - 192;
+			if (world.camCalcY > (WORLD_HEIGHT - 1)*16 - 192) world.camCalcY = (WORLD_HEIGHT - 1)*16 - 192;
 			world.camX = int(world.camCalcX);
 			world.camY = int(world.camCalcY);
 

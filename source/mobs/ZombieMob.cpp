@@ -47,7 +47,7 @@ void ZombieMob::hurt(int amount, int type)
 
 void ZombieMob::updateMob(WorldObject &world)
 {
-	if (brightness<0)
+	if (brightness < 0)
 	{
 		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15);
 		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 4, 16, 32, normalSprite.paletteID);
@@ -86,8 +86,8 @@ void ZombieMob::updateMob(WorldObject &world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			target->hurt(1, ZOMBIE_HURT);
 	}
-	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
-		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = world.brightness[x / 16][(y+8) / 16 + 1])) / 15;
+	if (world.blocks[int(x) / 16][(int(y + 8)) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
+		hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15;
 }
 
 void ZombieMob::sendWifiUpdate() { }
@@ -102,10 +102,7 @@ void ZombieMob::loadFromFile(FILE* pFile)
 bool canZombieMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;
-  if (y >= WORLD_HEIGHT) return false;
-  if (y < 0) return false;
-  if (x < 0) return false;
-  if (x >= WORLD_WIDTH) return false;
+	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return false;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)
 	{
 		if (world.brightness[x][y + 1] <= 8)
