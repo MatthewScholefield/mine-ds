@@ -62,11 +62,11 @@ void generateBedrock(WorldObject &world)
 {
 	for (int i = 0; i < WORLD_WIDTH; ++i)
 	{
-		world.blocks[i][WORLD_HEIGHT] = BEDROCK;
-		if (!(rand() % 2)) world.blocks[i][WORLD_HEIGHT - 1] = BEDROCK;
-		if (!(rand() % 4)) world.blocks[i][WORLD_HEIGHT - 2] = BEDROCK;
-		if (!(rand() % 6)) world.blocks[i][WORLD_HEIGHT - 3] = BEDROCK;
-		if (!(rand() % 8)) world.blocks[i][WORLD_HEIGHT - 4] = BEDROCK;
+		world.blocks[i][WORLD_HEIGHT - 1] = BEDROCK;
+		if (!(rand() % 2)) world.blocks[i][WORLD_HEIGHT - 2] = BEDROCK;
+		if (!(rand() % 4)) world.blocks[i][WORLD_HEIGHT - 3] = BEDROCK;
+		if (!(rand() % 6)) world.blocks[i][WORLD_HEIGHT - 4] = BEDROCK;
+		if (!(rand() % 8)) world.blocks[i][WORLD_HEIGHT - 5] = BEDROCK;
 	}
 }
 
