@@ -10,7 +10,7 @@ bool canDropItem(int blockID);
 int getSurvivalItem(int blockID);
 int displayBlock(int blockID);
 bool isAGroundBlock(int a);
-int getLightAmount(int a);
+short getLightAmount(int a);
 bool isBlockALightSource(int a);
 bool item(int a);
 bool alwaysRenderBright(int a);

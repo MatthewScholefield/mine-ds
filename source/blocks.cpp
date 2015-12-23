@@ -296,7 +296,7 @@ bool isBlockALightSource(int blockID)
 	}
 }
 
-int getLightAmount(int blockID)
+short getLightAmount(int blockID)
 {
 	switch (blockID)
 	{
