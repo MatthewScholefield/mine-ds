@@ -147,7 +147,7 @@ void InventoryInterface::arrangeItems(bool right)
 	int position = right ? NUM_INV_SPACES - 1 : 0;
 	const int INITIAL = position;
 	const int ADD = right ? 1 : -1;
-	for (int i = right ? 0 : (NUM_INV_SPACES - 1); i != INITIAL; i += ADD)
+	for (int i = right ? 0 : (NUM_INV_SPACES - 1); i != INITIAL + ADD; i += ADD)
 	{
 		if (inv.blocks[i].ID == AIR)
 			continue;
