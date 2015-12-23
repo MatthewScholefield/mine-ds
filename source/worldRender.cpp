@@ -134,14 +134,16 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 		for (int j = 0; j <= MAX_Y; ++j)
 		{
 			int block = world.blocks[i][j];
-			if (startedShade)
-				world.brightness[i][j] = isBlockALightSource(block) ? getLightAmount(block) : 0;
-			else
+			if (!startedShade)
 			{
 				world.brightness[i][j] = world.worldBrightness;
 				if (!isBlockWalkThrough(block))
 					startedShade = true;
 			}
+			else
+				world.brightness[i][j] = 0;
+			if (isBlockALightSource(block))
+				world.brightness[i][j] = std::max(world.brightness[i][j], getLightAmount(block));
 		}
 	}
 	for (int i = MIN_X; i <= MAX_X; ++i)
