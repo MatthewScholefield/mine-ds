@@ -5,7 +5,7 @@
 #include "inventory.h"
 
 #define WORLD_HEIGHT	(128)
-#define WORLD_WIDTH	(512)
+#define WORLD_WIDTH	(1024)
 #define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
 #define WORLD_WIDTHPX	(WORLD_WIDTH * 16)
 
