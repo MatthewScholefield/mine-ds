@@ -166,7 +166,7 @@ void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 			setInterface(world, INTERFACE_CRAFTING, false);
 			break;
 		case PAGE_MENU:
-			setInterface(world, INTERFACE_PAGE);;
+			setInterface(world, INTERFACE_PAGE);
 			break;
 		default:
 			break;
@@ -204,8 +204,11 @@ void InventoryInterface::draw()
 	consoleClear();
 	drawBackground();
 	menu.draw();
+
+	//Draw Inventory container
 	drawBoxFrame(0, 8, 32, 7);
 	drawBoxCenter(1, 11, 30, 1);
+
 	drawHandFrame();
 	updateInv();
 }
