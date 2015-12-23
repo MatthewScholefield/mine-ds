@@ -163,7 +163,7 @@ bool findUpdateInfo(int x, int y, bool bg, bool chance)
 void recursiveUpdate(WorldObject &world, int x, int y, bool bg)
 {
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return;
-	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index != -1)
 	{
@@ -183,7 +183,7 @@ void updateAround(WorldObject &world, int x, int y)
 
 void updateSingleBlock(WorldObject &world, int x, int y, bool bg, int timeToUpdate)
 {
-	int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index != -1)
 	{
@@ -228,7 +228,7 @@ void processOneBlock(WorldObject &world)
 			it = updaterList.erase(it);
 			if ((unsigned) x < WORLD_WIDTH && (unsigned) y < WORLD_HEIGHT)
 			{
-				int &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+				short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 				int index = updaterIndex(blockXY);
 				if (index != -1)
 				{

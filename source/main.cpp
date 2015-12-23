@@ -35,7 +35,7 @@ int main()
 	defaultExceptionHandler();
 	initFile();
 	//nifiInit();
-
+	
 
 	
 	
@@ -57,5 +57,6 @@ int main()
 		
 	setLanguage(1);
 	titleScreen();
+
 	return 0;
 }

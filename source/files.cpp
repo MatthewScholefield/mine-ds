@@ -54,7 +54,7 @@ bool saveWorld(WorldObject &world)
 		for (int i = 0; i < WORLD_WIDTH; ++i)
 		{
 			for (int j = 0; j < WORLD_HEIGHT; ++j)
-				fprintf(worldFile, "%d %d %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
+				fprintf(worldFile, "%hd %hd %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
 			if (i % 50 == 0)
 				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
 		}
@@ -120,7 +120,7 @@ bool loadWorld(WorldObject *world)
 		{
 			for (int j = 0; j <= worldBlocksY; ++j)
 			{
-				fscanf(worldFile, "%d %d %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
+				fscanf(worldFile, "%hd %hd %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
 				if (perpetualUpdates(world->bgblocks[i][j]))
 					updateSingleBlock(*world, i, j, true);
 				if (perpetualUpdates(world->blocks[i][j]))
