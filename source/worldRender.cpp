@@ -109,11 +109,9 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 				world.brightness[i][j] = std::max(world.brightness[i][j], getLightAmount(block));
 		}
 	}
-	cpuStartTiming(0);
 	for (int i = MIN_X; i <= MAX_X; ++i)
 		for (int j = MIN_Y; j <= MAX_Y; ++j)
 			checkBlock(world, i, j);
-	printXY(1, 1, cpuEndTiming());
 }
 
 void calculateBrightness(WorldObject &world)
