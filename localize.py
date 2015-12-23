@@ -32,14 +32,14 @@ for arg in sys.argv[1:]:
 	string += "};\n"
 	string += "int "+basename+"_num = " + str(len(tags)) + ";"
 
-	wfile = open("source/localizations/" + basename + ".h","w")
+	wfile = open("source/localizations/" + basename + ".h","wb")
 
 	#For creating the languages.h file
 
 	numFiles += 1
 	fileNames.append(basename)
 
-	wfile.write(string)
+	wfile.write(string.encode("ISO-8859-15"))
 	wfile.close()
 	
 
