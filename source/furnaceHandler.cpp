@@ -100,7 +100,7 @@ void openFurnace(WorldObject &world, int x, int y, bool bg)
 	if (furnaceID >= 0) //Another furnace is already opened
 		return;
 	furnaceID = getFurnaceID(world, x, y, bg);
-	setInterface(world, INTERFACE_FURNACE);;
+	setInterface(world, INTERFACE_FURNACE);
 }
 
 void closeFurnace()
