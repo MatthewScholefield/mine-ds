@@ -123,7 +123,6 @@ void checkBlock(WorldObject &world, int x, int y)
 
 void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int topBound, int bottomBound)
 {
-	cpuStartTiming(0);
 	const int MAX_SPREAD = 7;
 	const int MIN_X = std::max(0, leftBound - MAX_SPREAD);
 	const int MAX_X = std::min(WORLD_WIDTH, rightBound + MAX_SPREAD);
@@ -148,7 +147,6 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 	for (int i = MIN_X; i <= MAX_X; ++i)
 		for (int j = MIN_Y; j <= MAX_Y; ++j)
 			checkBlock(world, i, j);
-	printXY(1, 1, cpuEndTiming());
 }
 
 void calculateBrightness(WorldObject &world)
