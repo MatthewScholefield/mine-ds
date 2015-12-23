@@ -99,7 +99,7 @@ void ChestInterface::closeInventory(WorldObject &world)
 		inv.hand = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
-	setInterface(world, INTERFACE_INVENTORY);;
+	setInterface(world, INTERFACE_INVENTORY);
 }
 
 bool ChestInterface::touchesInvSlot(const touchPosition &touch)
@@ -184,10 +184,10 @@ void ChestInterface::update(WorldObject &world, touchPosition &touch)
 			printLocalMessage("Failed to Save Game\n");
 		break;
 	case CRAFT_MENU:
-		setInterface(world, INTERFACE_CRAFTING);;
+		setInterface(world, INTERFACE_CRAFTING);
 		break;
 	case PAGE_MENU:
-		setInterface(world, INTERFACE_PAGE);;
+		setInterface(world, INTERFACE_PAGE);
 		break;
 	default:
 		break;

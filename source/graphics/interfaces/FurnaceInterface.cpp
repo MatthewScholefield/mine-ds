@@ -122,7 +122,7 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 		{
 			lcdMainOnBottom();
 			setMiningDisabled(false);
-			setInterface(world, INTERFACE_INVENTORY);;
+			setInterface(world, INTERFACE_INVENTORY);
 		}
 		break;
 	default:

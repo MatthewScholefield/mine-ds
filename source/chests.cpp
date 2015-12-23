@@ -94,7 +94,7 @@ void openChest(WorldObject &world, int x, int y, bool bg)
 		return;
 	chestOpened = true;
 	chestID = getChestID(world, x, y, bg);
-	setInterface(world, INTERFACE_CHEST);;
+	setInterface(world, INTERFACE_CHEST);
 }
 
 void closeChest()
