@@ -52,6 +52,7 @@ void WorldObject::generate()
 	dayNightUpdate(*this);
 	calculateBrightness(*this);
 }
+
 void drawLineDown(WorldObject &world, int x, int y)
 {
 	int i;
@@ -123,7 +124,7 @@ void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2)
 				// else do nothing
 			}
 			// else do nothing
-			
+
 			y1 += iy;
 			error += delta_x;
 
@@ -166,7 +167,7 @@ void WorldObject::initialize()
 		camCalcY = camY = spawnY * 16 - 192 / 2 - 16;
 }
 
-WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+WorldObject::WorldObject(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
 
 , spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
 , timeInWorld(0), worldBrightness(15), gameMode(gameMode)
@@ -178,7 +179,7 @@ WorldObject::WorldObject(GameMode gameMode) : blocks { }, data{}, brightness{}, 
 	initialize();
 }
 
-WorldObject::WorldObject(bool init) : blocks { }, data{}, brightness{}, lightemit{}, sun{}, bgblocks{}
+WorldObject::WorldObject(bool init) : blocks { }, bgblocks{}, data{}, brightness{}
 
 , spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(0)
 , timeInWorld(0), worldBrightness(15), gameMode(GAMEMODE_PREVIEW)
