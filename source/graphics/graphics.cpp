@@ -176,7 +176,7 @@ void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockP
 void updateTexture()
 {
 	const int NUM_BANK_SLOTS = 16;
-	const int MAX_BRIGHTNESS = 16;
+	const int MAX_BRIGHTNESS = 15;
 	const int NUM_PALETTE_COLORS = 256;
 	const int BLOCK_PAL_BG = 2;
 	//=== Main Block BG ===
