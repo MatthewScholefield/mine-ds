@@ -121,13 +121,13 @@ void checkBlock(WorldObject &world, int x, int y)
 	brightnessUpdate(world, x, y - 1, brightness);
 }
 
-void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int bottomBound)
+void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int topBound, int bottomBound)
 {
 	cpuStartTiming(0);
 	const int MAX_SPREAD = 7;
 	const int MIN_X = std::max(0, leftBound - MAX_SPREAD);
 	const int MAX_X = std::min(WORLD_WIDTH, rightBound + MAX_SPREAD);
-	const int MIN_Y = std::max(0, bottomBound - MAX_SPREAD - 12);
+	const int MIN_Y = std::max(0, topBound - MAX_SPREAD);
 	const int MAX_Y = std::min(WORLD_HEIGHT, bottomBound + MAX_SPREAD);
 	for (int i = MIN_X; i <= MAX_X; ++i)
 	{
@@ -153,12 +153,12 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 
 void calculateBrightness(WorldObject &world)
 {
-	calculateBrightness(world, 0, WORLD_WIDTH, WORLD_HEIGHT);
+	calculateBrightness(world, 0, WORLD_WIDTH, 0, WORLD_HEIGHT);
 }
 
 void calculateBrightness(WorldObject &world, int x, int y)
 {
-	calculateBrightness(world, x - 8, x + 8, y + 6);
+	calculateBrightness(world, x - 8, x + 8, y - 6, y + 6);
 }
 
 void renderTile16(int a, int b, int c, int d); //HAX
