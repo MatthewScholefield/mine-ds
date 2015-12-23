@@ -8,7 +8,7 @@
 class Inventory
 {
 public:
-	InvBlock blocks[32];
+	InvBlock blocks[NUM_INV_SPACES];
 	int hand;
 
 	Inventory() : blocks { }
