@@ -21,6 +21,8 @@
 #define PLAYER_FULL_HEALTH 20
 Graphic fullHearts[PLAYER_FULL_HEALTH / 2];
 Graphic halfHeart;
+bool PlayerMob::controlsEnabled = true;
+
 
 void PlayerMob::calcMiscData(WorldObject &world)
 {
@@ -90,14 +92,19 @@ void showHealth(int health)
 {
 	int i;
 	for (i = 0; i < health / 2; ++i)
-		showGraphic(&fullHearts[i], 256 - 8 * PLAYER_FULL_HEALTH / 2 + i * 8, 56);
+		showGraphic(&fullHearts[i], 25 * 8 - i * 8, 56);
 	if (health % 2 == 1)
-		showGraphic(&halfHeart, 256 - 8 * PLAYER_FULL_HEALTH / 2 + (health - 1)*4, 56);
+		showGraphic(&halfHeart, 25 * 8 - (health - 1)*4, 56, true);
 }
 
 bool checkLadder(WorldObject &world, int x, int y)
 {
 	return world.blocks[x / 16][y / 16] == LADDER || world.bgblocks[x / 16][y / 16] == LADDER;
+}
+
+void PlayerMob::setControlsEnabled(bool enabled)
+{
+	controlsEnabled = enabled;
 }
 
 void PlayerMob::updateMob(WorldObject &world)
@@ -130,34 +137,6 @@ void PlayerMob::updateMob(WorldObject &world)
 			world.camX = int(world.camCalcX);
 			world.camY = int(world.camCalcY);
 
-			if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
-			{
-				animateMob(&normalSprite, 0);
-				vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
-				facing = false;
-				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
-					playBlockSfx(world.blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
-			}
-			else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
-			{
-				animateMob(&normalSprite, 0);
-				vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
-				facing = true;
-				if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
-					playBlockSfx(world.blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
-			}
-			else
-			{
-				setAnimFrame(&normalSprite, 0, 0);
-				vx = 0;
-			}
-
-			if (keysDown() & getGlobalSettings()->getKey(ACTION_DROP))
-			{
-				int blockIDToDrop = getHandID();
-				if (subInventory(blockIDToDrop, 1))
-					createItemMob(x / 16, y / 16 - 2, blockIDToDrop, 1);
-			}
 			bool onLadder = false;
 			for (int i = -1; i < 2; ++i)
 			{
@@ -167,12 +146,44 @@ void PlayerMob::updateMob(WorldObject &world)
 					break;
 				}
 			}
-			if (onLadder && keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB))
+			if (controlsEnabled && onLadder && keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB))
 				vy = -3;
 			else if (onLadder)
 				vy = 2;
-			if ((!onLadder || !checkLadder(world, x, y + 15)) && (canJump(&world) || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
-				vy = JUMP_VELOCITY;
+
+			if (controlsEnabled)
+			{
+				if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
+				{
+					animateMob(&normalSprite, 0);
+					vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
+					facing = false;
+					if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
+						playBlockSfx(world.blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
+				}
+				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
+				{
+					animateMob(&normalSprite, 0);
+					vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
+					facing = true;
+					if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
+						playBlockSfx(world.blocks[int(x / 16)][int((y + 16) / 16)], SOUND_TYPE_STEP, 80);
+				}
+				else
+				{
+					setAnimFrame(&normalSprite, 0, 0);
+					vx = 0;
+				}
+
+				if (keysDown() & getGlobalSettings()->getKey(ACTION_DROP))
+				{
+					int blockIDToDrop = getHandID();
+					if (subInventory(blockIDToDrop, 1))
+						createItemMob(x / 16, y / 16 - 2, blockIDToDrop, 1);
+				}
+				if ((!onLadder || !checkLadder(world, x, y + 15)) && (canJump(&world) || !isSurvival() || (checkLadder(world, x, y + 16) && !checkLadder(world, x, y + 15))) && !collisions[SIDE_TOP] && (keysHeld() & getGlobalSettings()->getKey(ACTION_JUMP) || keysHeld() & getGlobalSettings()->getKey(ACTION_CLIMB)))
+					vy = JUMP_VELOCITY;
+			}
 
 			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
 			if (framesHurtSprite == 0) spriteState = 0;

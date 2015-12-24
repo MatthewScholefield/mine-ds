@@ -39,9 +39,9 @@ int ChestInterface::correctValue(int value)
 	return value;
 }
 
-Inventory &ChestInterface::getSelectedInv()
+Inventory &ChestInterface::getSelectedInv(int useChest)
 {
-	return selectedChest ? chest : inv;
+	return (useChest == -1 ? selectedChest : (bool)useChest) ? chest : inv;
 }
 
 void ChestInterface::moveSlot(bool right)
@@ -99,7 +99,7 @@ void ChestInterface::closeInventory(WorldObject &world)
 		inv.hand = oldInvSlot;
 	lcdMainOnBottom();
 	setMiningDisabled(false);
-	setInterface(world, INTERFACE_INVENTORY);;
+	setInterface(world, INTERFACE_INVENTORY);
 }
 
 bool ChestInterface::touchesInvSlot(const touchPosition &touch)
@@ -120,6 +120,76 @@ int ChestInterface::touchedSlot(const touchPosition& touch, int yOffset)
 	return row + column * 15;
 }
 
+void ChestInterface::swapBlocks(int destSlot, bool touchedChest)
+{
+	Inventory &src = getSelectedInv();
+	selectedChest = touchedChest;
+	Inventory &dest = getSelectedInv();
+	int tmpId = src.blocks[src.hand].ID;
+	int tmpAmount = src.blocks[src.hand].amount;
+	src.blocks[src.hand].ID = dest.blocks[destSlot].ID;
+	src.blocks[src.hand].amount = dest.blocks[destSlot].amount;
+	dest.blocks[destSlot].ID = tmpId;
+	dest.blocks[destSlot].amount = tmpAmount;
+	dest.hand = -1;
+}
+
+void ChestInterface::jumpTransfer(int amount, int touched, bool touchedChest)
+{
+	Inventory &src = getSelectedInv(touchedChest);
+	Inventory &dest = getSelectedInv(!touchedChest);
+
+	InvBlock &srcBlk = src.blocks[touched];
+	if (srcBlk.ID == AIR)
+		return;
+
+	int i = 0;
+	for (; i < NUM_INV_SPACES && (dest.blocks[i].ID != AIR && (dest.blocks[i].ID != srcBlk.ID && dest.blocks[i].amount < 64)); ++i);
+	if (i == NUM_INV_SPACES)
+	{
+		dest.hand = -1;
+		updateInv();
+		return;
+	}
+	dest.hand = i;
+	InvBlock &destBlk = dest.blocks[dest.hand];
+	if (destBlk.ID == srcBlk.ID)
+	{
+		destBlk.amount += amount;
+		srcBlk.amount -= amount;
+		if (destBlk.amount > 64)
+		{
+			int extra = destBlk.amount - 64;
+			destBlk.amount = 64;
+			jumpTransfer(extra, touched, touchedChest);
+		}
+		if (srcBlk.amount < 1)
+			srcBlk.ID = AIR;
+		return;
+	}
+	destBlk.ID = srcBlk.ID;
+	destBlk.amount = amount;
+	srcBlk.amount -= amount;
+	if (srcBlk.amount < 1)
+		srcBlk.ID = AIR;
+}
+
+int ChestInterface::getAmount(Transfer type, int touched, bool touchedChest)
+{
+	int initial = getSelectedInv(touchedChest).blocks[touched].amount;
+	switch (type)
+	{
+	case Transfer::FULL_JUMP:
+		return initial;
+	case Transfer::HALF_JUMP:
+		return (1 + initial) / 2;
+	case Transfer::SINGLE_JUMP:
+		return 1;
+	default:
+		return 0;
+	}
+}
+
 void ChestInterface::parseTouchInput(const touchPosition &touch)
 {
 	if (!(keysDown() & KEY_TOUCH) || (!touchesInvSlot(touch)&&!touchesChestSlot(touch)))
@@ -127,39 +197,51 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 
 	bool touchedChest = touchesChestSlot(touch);
 	int touched = touchedSlot(touch, touchedChest ? 1 : 9 * 8);
-	bool jumpTransfer = keysHeld() & getGlobalSettings()->getKey(ACTION_CROUCH);
 
-	if (getSelectedInv().hand < 0 && !jumpTransfer)
-	{
-		selectedChest = touchedChest;
-		getSelectedInv().hand = touched;
-	}
+	Transfer type;
+	unsigned int keys = keysHeld();
+	if (keys & getGlobalSettings()->getKey(ACTION_CROUCH))
+		type = Transfer::FULL_JUMP;
+	else if (keys & getGlobalSettings()->getKey(ACTION_CLIMB))
+		type = Transfer::HALF_JUMP;
+	else if (keys & getGlobalSettings()->getKey(ACTION_MOVE_LEFT))
+		type = Transfer::SINGLE_JUMP;
+	else if (keys & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT))
+		type = Transfer::REVERSE_SINGLE_JUMP;
 	else
+		type = Transfer::TOUCH;
+	switch (type)
 	{
-		if (jumpTransfer)
+	case Transfer::TOUCH:
+		if (getSelectedInv().hand < 0)
 		{
-			selectedChest = !touchedChest;
-			int i = 0;
-			for (; i < NUM_INV_SPACES && getSelectedInv().blocks[i].ID != AIR; ++i);
-			if (i == NUM_INV_SPACES)
-			{
-				getSelectedInv().hand = -1;
-				updateInv();
-				return;
-			}
-			getSelectedInv().hand = i;
-
+			selectedChest = touchedChest;
+			getSelectedInv().hand = touched;
 		}
-		Inventory &src = getSelectedInv();
-		selectedChest = touchedChest;
-		Inventory &dest = getSelectedInv();
-		int tmpId = src.blocks[src.hand].ID;
-		int tmpAmount = src.blocks[src.hand].amount;
-		src.blocks[src.hand].ID = dest.blocks[touched].ID;
-		src.blocks[src.hand].amount = dest.blocks[touched].amount;
-		dest.blocks[touched].ID = tmpId;
-		dest.blocks[touched].amount = tmpAmount;
-		dest.hand = -1;
+		else
+			swapBlocks(touched, touchedChest);
+		break;
+	case Transfer::FULL_JUMP:
+	case Transfer::HALF_JUMP:
+	case Transfer::SINGLE_JUMP:
+		jumpTransfer(getAmount(type, touched, touchedChest), touched, touchedChest);
+		break;
+	case Transfer::REVERSE_SINGLE_JUMP:
+	{
+		InvBlock &src = getSelectedInv(touchedChest).blocks[touched];
+		if (src.ID == AIR || src.amount >= 64)
+			return;
+		for (auto &i : getSelectedInv(!touchedChest).blocks)
+			if (i.ID == src.ID)
+			{
+				--i.amount;
+				++src.amount;
+				if (i.amount < 1)
+					i.ID = AIR;
+				break;
+			}
+	}
+		break;
 	}
 	updateInv();
 }
@@ -184,10 +266,10 @@ void ChestInterface::update(WorldObject &world, touchPosition &touch)
 			printLocalMessage("Failed to Save Game\n");
 		break;
 	case CRAFT_MENU:
-		setInterface(world, INTERFACE_CRAFTING);;
+		setInterface(world, INTERFACE_CRAFTING);
 		break;
 	case PAGE_MENU:
-		setInterface(world, INTERFACE_PAGE);;
+		setInterface(world, INTERFACE_PAGE);
 		break;
 	default:
 		break;
