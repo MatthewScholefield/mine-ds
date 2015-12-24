@@ -28,18 +28,30 @@ class ChestInterface : public Interface
 	InvGfxHandler invHandler, chestHandler;
 	bool selectedChest;
 
+	enum class Transfer
+	{
+		TOUCH,
+		FULL_JUMP,
+		HALF_JUMP,
+		SINGLE_JUMP,
+		REVERSE_SINGLE_JUMP
+	};
+
 	void updateInv();
 	int correctValue(int value);
 	void moveSlot(bool right);
 	void parseKeyInput();
 	void openInventory();
 	void closeInventory(WorldObject &world);
-	Inventory &getSelectedInv();
+	Inventory &getSelectedInv(int useChest = -1);
 	static bool touchesInvSlot(const touchPosition &touch);
 	static bool touchesChestSlot(const touchPosition &touch);
 	static int touchedSlot(const touchPosition &touch, int yOffset);
 	void parseTouchInput(const touchPosition &touch);
 	static void drawHandFrame();
+	void swapBlocks(int destSlot, bool touchedChest);
+	int getAmount(Transfer type, int touched, bool touchedChest);
+	void jumpTransfer(int amount, int touched, bool touchedChest);
 
 public:
 	static void triggerUpdate();
