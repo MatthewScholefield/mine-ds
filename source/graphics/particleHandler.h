@@ -1,7 +1,7 @@
 #pragma once
 #include "graphics.h"
 #include "../FixedPoint.h"
-#include "../world.h"
+#include "../WorldObject.h"
 
 class Particle
 {

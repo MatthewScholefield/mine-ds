@@ -1,4 +1,4 @@
 #pragma once
 #include "BaseMob.h"
-#include "../world.h"
+#include "../WorldObject.h"
 void cactusCheck(WorldObject &world, BaseMob *mob, int x, int y);

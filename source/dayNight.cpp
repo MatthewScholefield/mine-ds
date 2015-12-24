@@ -1,5 +1,5 @@
 #include <nds.h>
-#include "world.h"
+#include "WorldObject.h"
 #include "nifi.h"
 #include <dswifi9.h>
 #include <stdio.h>

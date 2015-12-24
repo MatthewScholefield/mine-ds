@@ -1,4 +1,4 @@
-#include "world.h"
+#include "WorldObject.h"
 #include "blockID.h"
 #include "mobs/mobHandler.h"
 #include "inventory.h"

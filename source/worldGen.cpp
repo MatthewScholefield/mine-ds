@@ -1,4 +1,4 @@
-#include "world.h"
+#include "WorldObject.h"
 #include "blockID.h"
 #include "blocks.h"
 #include <stdio.h>

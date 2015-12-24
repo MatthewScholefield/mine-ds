@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "../world.h"
+#include "../WorldObject.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
 #include "../graphics/3DHandler.h"

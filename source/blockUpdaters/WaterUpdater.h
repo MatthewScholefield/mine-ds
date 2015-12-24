@@ -1,5 +1,5 @@
 #pragma once
-#include "../world.h"
+#include "../WorldObject.h"
 #include "../blockID.h"
 #include "blockUpdater.h"
 

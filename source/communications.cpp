@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "nifi.h"
-#include "world.h"
+#include "WorldObject.h"
 #include "mobs/mobHandler.h"
 #include "mobs/BaseMob.h"
 #include "mining.h"
