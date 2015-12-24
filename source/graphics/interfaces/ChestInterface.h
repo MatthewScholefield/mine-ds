@@ -7,6 +7,7 @@
 #include "../handlers/InvGfxHandler.h"
 #include "../../mining.h"
 #include "../../chests.h"
+#include "../../mobs/PlayerMob.h"
 
 #pragma once
 
@@ -74,6 +75,7 @@ public:
 		menu.addButton(21, 16, "Pages", 9, !isSurvival());
 		lcdMainOnTop();
 		setMiningDisabled(true);
+		PlayerMob::setControlsEnabled(false);
 		inv.hand = -1;
 		updateInv();
 	}
@@ -81,5 +83,6 @@ public:
 	~ChestInterface()
 	{
 		closeChest();
+		PlayerMob::setControlsEnabled(true);
 	}
 };
