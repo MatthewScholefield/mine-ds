@@ -145,12 +145,6 @@ bool WaterUpdater::update(WorldObject &world, int x, int y, bool bg)
 		return false;
 	}
 
-	if (getWaterLevel(world, x, y) == 0)
-	{
-		world.blocks[x][y] = AIR;
-		return true;
-	}
-
 	int origLevel = getWaterLevel(world, x, y);
 	if (flowDown(world, x, y))
 		return true;
@@ -186,6 +180,11 @@ bool WaterUpdater::update(WorldObject &world, int x, int y, bool bg)
 	int newShiftedTotal = getWaterLevel(world, x, y)
 			+((canMixLeft ? getWaterLevel(world, x - 1, y) : 0) << 4)
 			+((canMixRight ? getWaterLevel(world, x + 1, y) : 0) << 8);
+	if (getWaterLevel(world, x, y) == 0)
+	{
+		world.blocks[x][y] = AIR;
+		return true;
+	}
 	return shiftedTotal != newShiftedTotal;
 }
 
@@ -199,12 +198,12 @@ void fillBucket(WorldObject &world, int x, int y)
 		else
 		{
 			world.reservedWater += getWaterLevel(world, x, y);
-			world.blocks[x][y] = AIR;
+			setWaterLevel(world, x, y, 0);
 			updateAround(world, x, y);
 			return;
 		}
 	}
-	world.blocks[x][y] = AIR;
+	setWaterLevel(world, x, y, 0);
 	subInventory(BUCKET_EMPTY, 1);
 	addInventory(BUCKET_WATER);
 	updateAround(world, x, y);
