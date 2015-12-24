@@ -209,8 +209,11 @@ void updateTexture()
 		//=== Main Block Gfx ===
 		setBlockPalette(true, (MAX_BRIGHTNESS * i) / (NUM_BANK_SLOTS / 2), i - 1);
 		//=== Mob Sprite Gfx ===
-		setBlockPalette(false, (MAX_BRIGHTNESS * i) / (NUM_BANK_SLOTS / 2), i - 1 + NUM_BANK_SLOTS / 2);
+		if (i != NUM_BANK_SLOTS / 2)//Save room for the particle palette at index 15 
+			setBlockPalette(false, (MAX_BRIGHTNESS * i) / (NUM_BANK_SLOTS / 2 - 1), i - 1 + NUM_BANK_SLOTS / 2);
 	}
+	//=== Particles ===
+	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[15], particlesPalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	//=== Sub Block ===
@@ -218,6 +221,8 @@ void updateTexture()
 	dmaCopy(blockPal.data(), VRAM_I_EXT_SPR_PALETTE[2], PAL_LEN);
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	dmaCopy(blockTiles.data(), bgGetGfxPtr(2), TILES_LEN);
+
+	
 
 	//=== Sub BG ===
 	vramSetBankH(VRAM_H_LCD);
@@ -257,11 +262,6 @@ void graphicsInit()
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain, SpriteMapping_1D_256, true);
-
-	//Start copying palettes
-	vramSetBankF(VRAM_F_LCD);
-	dmaCopy(particlesPal, VRAM_F_EXT_SPR_PALETTE[15], particlesPalLen);
-	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
 
 void loadGraphicMob(Graphic* g, int frame, int x, int y, int pID)
@@ -292,7 +292,7 @@ void loadGraphicParticle(Graphic* g, int frame, int x, int y)
 	u8* Tiles = (u8*) & particlesTiles;
 	Tiles += frame * (8 * 8);
 	dmaCopy(Tiles, graphics, 8 * 8);
-	g->paletteID = 3;
+	g->paletteID = 15;
 	g->Gfx = graphics;
 }
 
