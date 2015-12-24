@@ -34,7 +34,7 @@ void setInterface(WorldObject &world, InterfaceType type, int parameter)
 		break;
 	default:
 		showError("Unknown interface set");
-		setInterface(world, INTERFACE_INVENTORY);;
+		setInterface(world, INTERFACE_INVENTORY);
 		break;
 	}
 	currentInterface->draw();

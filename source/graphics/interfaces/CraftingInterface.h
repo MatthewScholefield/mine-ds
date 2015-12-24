@@ -2,6 +2,7 @@
 #include "../Menu.h"
 #include "../../Recipe.h"
 #include "../graphics.h"
+#include "../../mobs/PlayerMob.h"
 
 #pragma once
 
@@ -42,7 +43,10 @@ public:
 	, menu(MENU_BUTTON, false), page(0), resultBlock(), neededblocks { }, toolBlockGfx(), tableInUse(tableInUse)
 	{
 		if (tableInUse)
+		{
+			PlayerMob::setControlsEnabled(false);
 			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, CRAFTING_TABLE);
+		}
 		else
 			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, AIR);
 		while (!canCraftRecipe(page) && page < NUM_RECIPES)
@@ -59,5 +63,7 @@ public:
 	~CraftingInterface()
 	{
 		unloadGraphic(&toolBlockGfx);
+		if (tableInUse)
+			PlayerMob::setControlsEnabled(true);
 	}
 };

@@ -56,6 +56,8 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 	bg2ptr[(x % 64) + (y % 64)*64] = tile;
 }
 
+const int SUB_AMOUNT[16] = {1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
+
 void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
 {
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT)
@@ -65,27 +67,7 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
 	if (before != after)
 	{
 		world.brightness[x][y] = after;
-		int sub;
-		if (isBlockWalkThrough(world.blocks[x][y]))
-			sub = 1;
-		else
-		{
-			switch (after)
-			{
-			case 0 ... 4:
-				sub = 1;
-				break;
-			case 5 ... 8:
-				sub = 2;
-				break;
-			case 9 ... 15:
-				sub = 3;
-				break;
-			default:
-				sub = 1;
-			}
-		}
-		int give = after - sub;
+		int give = after - (isBlockWalkThrough(world.blocks[x][y]) ? 1 : SUB_AMOUNT[after]);
 		brightnessUpdate(world, x + 1, y, give);
 		brightnessUpdate(world, x - 1, y, give);
 		brightnessUpdate(world, x, y + 1, give);
@@ -95,26 +77,7 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
 
 void checkBlock(WorldObject &world, int x, int y)
 {
-	int brightness = world.brightness[x][y];
-	if (isBlockWalkThrough(world.blocks[x][y]))
-		brightness -= 1;
-	else
-	{
-		switch (brightness)
-		{
-		case 0 ... 4:
-			brightness -= 1;
-			break;
-		case 5 ... 8:
-			brightness -= 2;
-			break;
-		case 9 ... 15:
-			brightness -= 3;
-			break;
-		default:
-			brightness -= 1;
-		}
-	}
+	int brightness = world.brightness[x][y] - (isBlockWalkThrough(world.blocks[x][y]) ? 1 : SUB_AMOUNT[world.brightness[x][y]]);
 	brightnessUpdate(world, x + 1, y, brightness);
 	brightnessUpdate(world, x - 1, y, brightness);
 	brightnessUpdate(world, x, y + 1, brightness);
@@ -134,14 +97,16 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 		for (int j = 0; j <= MAX_Y; ++j)
 		{
 			int block = world.blocks[i][j];
-			if (startedShade)
-				world.brightness[i][j] = isBlockALightSource(block) ? getLightAmount(block) : 0;
-			else
+			if (!startedShade)
 			{
 				world.brightness[i][j] = world.worldBrightness;
 				if (!isBlockWalkThrough(block))
 					startedShade = true;
 			}
+			else
+				world.brightness[i][j] = 0;
+			if (isBlockALightSource(block))
+				world.brightness[i][j] = std::max(world.brightness[i][j], getLightAmount(block));
 		}
 	}
 	for (int i = MIN_X; i <= MAX_X; ++i)
