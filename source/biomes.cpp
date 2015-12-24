@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <nds.h>
-#include "world.h"
+#include "WorldObject.h"
 #include "blockID.h"
 #include "trees.h"
 #include "blocks.h"

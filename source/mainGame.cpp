@@ -1,6 +1,6 @@
 #include <nds.h>
 #include <stdio.h>
-#include "world.h"
+#include "WorldObject.h"
 #include "worldGen.h"
 #include "general.h"
 #include "mining.h"

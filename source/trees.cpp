@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <nds.h>
-#include "world.h"
+#include "WorldObject.h"
 #include "blocks.h"
 #include "blockID.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../world.h"
+#include "../WorldObject.h"
 #include "blockUpdater.h"
 
 class JungleLeafUpdater : public BlockUpdater

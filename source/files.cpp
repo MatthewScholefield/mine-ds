@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include "general.h"
 #include "Config.h"
-#include "world.h"
+#include "WorldObject.h"
 #include "inventory.h"
 #include "files.h"
 #include "mobs/mobHandler.h"

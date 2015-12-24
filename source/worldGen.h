@@ -1,5 +1,5 @@
 #pragma once
-#include "world.h"
+#include "WorldObject.h"
 int extremeMountainGen(WorldObject &world, int startx, int starty, int endx);
 void generateBedrock(WorldObject &world);
 int flatGen(WorldObject &world, int startx, int starty, int endx);

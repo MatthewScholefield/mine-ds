@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#include "../world.h"
+#include "../WorldObject.h"
 #include "BaseMob.h"
 bool canMultiplayerMobSpawnHere(WorldObject &world, int x, int y);
 

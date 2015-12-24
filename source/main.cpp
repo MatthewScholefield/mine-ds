@@ -1,7 +1,7 @@
 #include <nds.h>
 #include <stdio.h>
 #include "blocks.h"
-#include "world.h"
+#include "WorldObject.h"
 #include "mobs.h"
 #include "particles.h"
 #include "fontHandler.h"
