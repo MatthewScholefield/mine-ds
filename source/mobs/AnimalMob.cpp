@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../blocks.h"
 #include "hurt.h"
 #include "../graphics/graphics.h"
@@ -13,7 +13,7 @@
 #include "../collision.h"
 #include "../inventory.h"
 #include "../mainGame.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 const int AnimalMob::FRAME[3] = {10, 12, 14};
 
 void AnimalMob::calcMiscData(WorldObject &world)

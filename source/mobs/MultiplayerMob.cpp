@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
 #include "MultiplayerMob.h"
 #include "../blockID.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include <nds.h>
 //ASDF?
 

@@ -1,4 +1,4 @@
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
 #include "blockUpdater.h"

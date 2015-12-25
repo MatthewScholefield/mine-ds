@@ -18,7 +18,7 @@
 #include "../Config.h"
 #include "../blockID.h"
 #include "../blocks.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include "../deathScreen.h"
 #include "../mainGame.h"
 #include "WaterMob.h"

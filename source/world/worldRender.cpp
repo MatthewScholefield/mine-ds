@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include "WorldObject.h"
 #include "worldRender.h"
-#include "blockID.h"
-#include "blocks.h"
-#include "graphics/graphics.h"
-#include "general.h"
-#include "blockUpdaters/WaterUpdater.h"
-#include "graphics/3DHandler.h"
-#include "mobs/mobHandler.h"
+#include "../blockID.h"
+#include "../blocks.h"
+#include "../graphics/graphics.h"
+#include "../general.h"
+#include "../blockUpdaters/WaterUpdater.h"
+#include "../graphics/3DHandler.h"
+#include "../mobs/mobHandler.h"
 #include <math.h>
 #include <vector>
 #define MAX_BLOCK_SPRITES 100

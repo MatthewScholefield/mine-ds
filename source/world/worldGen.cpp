@@ -1,14 +1,14 @@
 #include "WorldObject.h"
-#include "blockID.h"
-#include "blocks.h"
+#include "../blockID.h"
+#include "../blocks.h"
 #include <stdio.h>
 #include <cstdlib>
 #include <nds.h>
-#include "biomes.h"
+#include "../biomes.h"
 #include "worldRender.h"
-#include "files.h"
-#include "sounds.h"
-#include "blockUpdaters/blockUpdater.h"
+#include "../files.h"
+#include "../sounds.h"
+#include "../blockUpdaters/blockUpdater.h"
 #include <string>
 
 int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)

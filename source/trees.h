@@ -1,5 +1,5 @@
 #pragma once
-#include "WorldObject.h"
+#include "world/WorldObject.h"
 void growOakTree(WorldObject &world, int x, int y);
 void growSpruceTree(WorldObject &world, int x, int y);
 void growJungleTree(WorldObject &world, int x, int y);

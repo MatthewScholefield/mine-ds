@@ -1,12 +1,12 @@
 #include <nds.h>
 #include <stdio.h>
-#include "WorldObject.h"
-#include "worldGen.h"
+#include "world/WorldObject.h"
+#include "world/worldGen.h"
 #include "general.h"
 #include "mining.h"
 #include "blockID.h"
 #include "inventory.h"
-#include "worldRender.h"
+#include "world/worldRender.h"
 #include "graphics/graphics.h"
 #include "graphics/subBgHandler.h"
 #include "mobs/mobHandler.h"

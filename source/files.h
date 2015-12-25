@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WorldObject.h"
+#include "world/WorldObject.h"
 #include "Config.h"
 
 

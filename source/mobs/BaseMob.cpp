@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../blocks.h"
 #include "../graphics/graphics.h"
 #include "../debugflag.h"

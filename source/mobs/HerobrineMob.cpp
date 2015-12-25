@@ -6,7 +6,7 @@
 #include "mobFunctions.h"
 #include "../blockID.h"
 #include "../collision.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include "../inventory.h"
 #include "../mining.h"
 #include "../general.h"

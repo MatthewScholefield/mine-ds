@@ -1,12 +1,12 @@
 #include <nds.h>
-#include "WorldObject.h"
+#include "world/WorldObject.h"
 #include "nifi.h"
 #include <dswifi9.h>
 #include <stdio.h>
 #include "general.h"
 #include "graphics/graphics.h"
 
-#include "worldRender.h"
+#include "world/worldRender.h"
 int timeTillChange = 0;
 
 int lastWorldBrightness = 15;

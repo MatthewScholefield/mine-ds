@@ -1,7 +1,7 @@
 #pragma once
 #include "WorldObject.h"
 #include "block_small.h"
-#include "graphics/graphics.h"
+#include "../graphics/graphics.h"
 
 void worldRender_Init();
 void worldRender_Render(WorldObject &world);

@@ -10,7 +10,7 @@
 #include <vector>
 #include <algorithm>
 #include "../general.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include "../files.h"
 #include "../fontHandler.h"
 #include "../dayNight.h"

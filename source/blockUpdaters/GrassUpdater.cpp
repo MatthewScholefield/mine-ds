@@ -1,4 +1,4 @@
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
 #include "blockUpdater.h"
@@ -7,7 +7,7 @@
 #include "../blocks.h"
 #include "GrassUpdater.h"
 #include "../dayNight.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 
 GrassUpdater::GrassUpdater()
 {

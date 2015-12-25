@@ -1,5 +1,5 @@
 #pragma once
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "blockUpdater.h"
 
 class SnowTopUpdater : public BlockUpdater

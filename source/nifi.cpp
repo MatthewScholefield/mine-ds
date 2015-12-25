@@ -7,7 +7,7 @@
 #include "nifi.h"
 #include "mobs/mobHandler.h"
 #include "graphics/graphics.h"
-#include "worldRender.h"
+#include "world/worldRender.h"
 #include "graphics/subBgHandler.h"
 #include "communications.h"
 #include "mining.h"
