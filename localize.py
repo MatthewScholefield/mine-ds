@@ -44,6 +44,15 @@ for arg in sys.argv[1:]:
 	if (sys.version_info[0]<3):
 		string = string.decode("UTF-8")
 
+	ostring = string
+	string = ""
+	for char in ostring:
+		if (char=="ß"):
+			string += "ss"
+		else:
+			string += char
+			
+
 	wfile.write(string.encode("ISO-8859-15"))
 	wfile.close()
 	
