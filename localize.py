@@ -1,6 +1,5 @@
 #!/usr/bin/python
-# coding: ISO-8859-15
-
+# coding: UTF-8
 
 import sys
 import os
@@ -47,7 +46,7 @@ for arg in sys.argv[1:]:
 	ostring = string
 	string = ""
 	for char in ostring:
-		if (char=="ß"):
+		if (char==u"ß"):
 			string += "ss"
 		else:
 			string += char
