@@ -1,4 +1,4 @@
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../general.h"
 #include "../graphics/graphics.h"
 #include "blockUpdater.h"
@@ -7,7 +7,7 @@
 #include "../blocks.h"
 #include "OakSaplingUpdater.h"
 #include "../trees.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include "../mobs/mobHandler.h"
 
 void saplingChanceUpdate(WorldObject &world, int x, int y, bool bg)

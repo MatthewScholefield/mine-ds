@@ -4,11 +4,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include "nifi.h"
-#include "WorldObject.h"
+#include "world/WorldObject.h"
 #include "mobs/mobHandler.h"
 #include "mobs/BaseMob.h"
 #include "mining.h"
-#include "worldRender.h"
+#include "world/worldRender.h"
 #include "general.h"
 //0 = Nothing
 //1 = Recieved Handshake, Connected Successfully.

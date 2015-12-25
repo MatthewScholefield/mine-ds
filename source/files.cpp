@@ -7,11 +7,11 @@
 #include <unistd.h>
 #include "general.h"
 #include "Config.h"
-#include "WorldObject.h"
+#include "world/WorldObject.h"
 #include "inventory.h"
 #include "files.h"
 #include "mobs/mobHandler.h"
-#include "worldRender.h"
+#include "world/worldRender.h"
 #include "graphics/UI.h"
 #include "graphics/Button.h"
 #include "graphics/graphics.h"

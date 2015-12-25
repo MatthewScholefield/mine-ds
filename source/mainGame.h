@@ -1,5 +1,5 @@
 #pragma once
-#include "WorldObject.h"
+#include "world/WorldObject.h"
 
 bool isCreative(void);
 bool isSurvival(void);

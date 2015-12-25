@@ -4,7 +4,7 @@
 #include "mobFunctions.h"
 #include "../nifi.h"
 #include "../blocks.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include "../graphics/graphics.h"
 #include "../inventory.h"
 #include "PlayerMob.h"

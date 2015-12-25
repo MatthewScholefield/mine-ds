@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../blocks.h"
 #include "hurt.h"
 #include "../graphics/graphics.h"
@@ -10,7 +10,7 @@
 #include "../blockID.h"
 #include "../general.h"
 #include "../collision.h"
-#include "../worldRender.h"
+#include "../world/worldRender.h"
 #include "../sounds.h"
 #include "../inventory.h"
 #include "../mainGame.h"

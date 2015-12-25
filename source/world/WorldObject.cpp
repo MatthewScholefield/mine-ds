@@ -1,10 +1,10 @@
 #include "WorldObject.h"
 #include <cstdlib>
 #include "worldRender.h"
-#include "blockID.h"
-#include "blocks.h"
+#include "../blockID.h"
+#include "../blocks.h"
 #include "worldGen.h"
-#include "dayNight.h"
+#include "../dayNight.h"
 
 int WorldObject::useSeed = NO_SEED;
 

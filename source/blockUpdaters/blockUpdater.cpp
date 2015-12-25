@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "blockUpdater.h"
-#include "../WorldObject.h"
+#include "../world/WorldObject.h"
 #include "../blocks.h"
 #include "../blockID.h"
 #include "../nifi.h"

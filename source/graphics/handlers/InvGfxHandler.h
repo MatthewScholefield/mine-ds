@@ -1,5 +1,5 @@
 #include "../../inventory.h"
-#include "../../WorldObject.h"
+#include "../../world/WorldObject.h"
 #include "../graphics.h"
 #include "../../blockID.h"
 

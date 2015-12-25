@@ -1,8 +1,8 @@
 #pragma once
 #include <time.h>
 #include <algorithm>
-#include "Furnace.h"
-#include "inventory.h"
+#include "../Furnace.h"
+#include "../inventory.h"
 
 #define WORLD_HEIGHT	(128)
 #define WORLD_WIDTH	(1024)
