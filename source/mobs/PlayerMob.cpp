@@ -92,9 +92,9 @@ void showHealth(int health)
 {
 	int i;
 	for (i = 0; i < health / 2; ++i)
-		showGraphic(&fullHearts[i], 25 * 8 - i * 8, 56);
+		showGraphic(&fullHearts[i], 25 * 8 - i * 8, 48);
 	if (health % 2 == 1)
-		showGraphic(&halfHeart, 25 * 8 - (health - 1)*4, 56, true);
+		showGraphic(&halfHeart, 25 * 8 - (health - 1)*4, 48, true);
 }
 
 bool checkLadder(WorldObject &world, int x, int y)
