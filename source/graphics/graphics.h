@@ -55,7 +55,7 @@ public:
 	int loadIter;
 	bool drawn;
 	bool ownsGfx;
-	Graphic(GraphicType type, int frame, int x, int y, int pID = 0, bool main = false);
+	Graphic(GraphicType type, int frame, int x, int y, int pID = 0, bool main = true);
 
 	Graphic() : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
 	, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(0)
