@@ -19,20 +19,11 @@ void MultiplayerMob::hurt(int amount, int type)
 void MultiplayerMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
-	{
-		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 0, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15);
-		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID);
-		if (!loadedFirst || !loadedSecond)
-		{
-			unloadGraphic(&normalSprite);
-			health = 0;
-			return;
-		}
-	}
+		calcMobBrightness(world);
 	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);
 	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);
 	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
-		hurtSprite.paletteID = normalSprite.paletteID = 8+(6 * (brightness = world.brightness[x / 16][(y+8) / 16 + 1])) / 15;
+		calcMobBrightness(world);
 }
 
 void MultiplayerMob::sendWifiUpdate() { }

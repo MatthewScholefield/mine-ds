@@ -41,6 +41,7 @@ bool subSpriteUsed[128] = {};
 
 int nextSpriteIDMain;
 int nextSpriteIDSub;
+
 static int graphicNextMain()
 {
 	return nextSpriteIDMain++;
@@ -100,21 +101,21 @@ void setSkyColor(double red1, double green1, double blue1, double red2, double g
 void clearMainGraphics()
 {
 	nextSpriteIDMain = 0;
-	oamClear(&oamMain,0,127);
+	oamClear(&oamMain, 0, 127);
 }
 
 void clearSubGraphics()
 {
 	nextSpriteIDSub = 0;
-	oamClear(&oamSub,0,127);
+	oamClear(&oamSub, 0, 127);
 }
 
 void setBlockPalette(bool blocks, int brightness, int index)
 {
-	unsigned short *palette = new unsigned short[PAL_LEN/2];
-	for (int i = 0; i < PAL_LEN/2; ++i)
+	unsigned short *palette = new unsigned short[PAL_LEN / 2];
+	for (int i = 0; i < PAL_LEN / 2; ++i)
 	{
-		unsigned short slot = blocks?blockPal.data()[i]:mobPal.data()[i];
+		unsigned short slot = blocks ? blockPal.data()[i] : mobPal.data()[i];
 		unsigned short blue = slot & 0x1F;
 		slot >>= 5;
 		unsigned short green = slot & 0x1F;
@@ -202,7 +203,7 @@ void updateTexture()
 	}
 	vramSetBankE(VRAM_E_BG_EXT_PALETTE);
 
-	
+
 	vramSetBankF(VRAM_F_LCD);
 	for (int i = 1; i <= NUM_BANK_SLOTS / 2; ++i)
 	{
@@ -222,7 +223,7 @@ void updateTexture()
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	dmaCopy(blockTiles.data(), bgGetGfxPtr(2), TILES_LEN);
 
-	
+
 
 	//=== Sub BG ===
 	vramSetBankH(VRAM_H_LCD);
@@ -389,6 +390,40 @@ bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
 	return true;
 }
 
+Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
+, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(0)
+, drawn(false), ownsGfx(true)
+{
+	if (!main)
+	{
+		loadGraphicSub(this, type, frame, x, y);
+		return;
+	}
+	switch (type)
+	{
+	case GRAPHIC_PARTICLE:
+		loadGraphicParticle(this, frame, x, y);
+		break;
+	case GRAPHIC_MOB:
+		loadGraphicMob(this, frame, x, y, pID);
+		break;
+	case GRAPHIC_BLOCK:
+		loadGraphicBlock(this, frame, x, y, pID);
+		break;
+	case GRAPHIC_MOB_ANIM:
+		loadGraphicAnim(this, (u8*) mobTiles.data(), frame, pID);
+		break;
+	case GRAPHIC_BLOCK_MINI:
+		loadGraphicMiniBlock(this, frame, x, y, pID);
+	}
+	type = type;
+	main = true;
+	frame = frame;
+	loadIter = textureID;
+	sx = x;
+	sy = y;
+}
+
 /**
 	\breif A function used to load graphics for use on the Main screen, the screen with all the blocks on it.
 	This function assmumes you are using a particle of 8x8 size or a Mob of 16x32 size
@@ -501,11 +536,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 		return false;
 	if (g->loadIter != textureID) //Must reload texture
 	{
-		unloadGraphic(g);
-		if (g->main)
-			loadGraphic(g, g->type, g->frame, g->sx, g->sy, g->paletteID);
-		else
-			loadGraphicSub(g, g->type, g->frame, g->sx, g->sy);
+		*g = Graphic(g->type, g->frame, g->sx, g->sy, g->paletteID, g->main);
 	}
 	if (!g->drawn)
 	{
@@ -555,7 +586,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 		}
 	}
 	return true;
-	
+
 }
 
 bool setCloneGraphic(Graphic *source, Graphic *clone)

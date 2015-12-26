@@ -25,9 +25,10 @@ public:
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
-	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
-	, mineSprite(), deathScreen(false), tillBrightness(0)
+	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32, GRAPHIC_MOB_ANIM, 0, 16, 32)
+	, mineSprite(GRAPHIC_MOB_ANIM, 2, 16, 32), deathScreen(false), tillBrightness(0)
 	{
+		hurtSprite = Graphic(GRAPHIC_MOB, 1, 16, 32);
 		controlsEnabled = true;
 		addInventory(CHEST);
 		addInventory(DIRT, 27);

@@ -29,7 +29,7 @@ public:
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
-	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16),
+	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16, GRAPHIC_MOB, FRAME[animal], 16, 16),
 	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0) { }
 
 	~AnimalMob() { }

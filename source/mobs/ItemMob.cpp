@@ -26,6 +26,11 @@ bool ItemMob::isMyPlayer()
 
 void ItemMob::calcMiscData(WorldObject &world) { }
 
+void ItemMob::calcItemMobBrightness(WorldObject &world)
+{
+	normalSprite.paletteID = (7 * (brightness = world.brightness[x / 16][(y - 8) / 16 + 1])) / 15;
+}
+
 void ItemMob::updateMob(WorldObject &world)
 {
 	if (world.gameMode == GAMEMODE_CREATIVE)
@@ -34,14 +39,7 @@ void ItemMob::updateMob(WorldObject &world)
 		return;
 	}
 	if (brightness < 0)
-	{
-		bool hasLoaded = loadGraphic(&normalSprite, GRAPHIC_BLOCK_MINI, displayID, 8, 8, (7 * (brightness = world.brightness[x / 16][(y - 8) / 16 + 1])) / 15);
-		if (!hasLoaded)
-		{
-			health = 0;
-			return;
-		}
-	}
+		calcItemMobBrightness(world);
 	if (health < 1)
 		return;
 	if (vx < 0 || vx > 0)
@@ -74,7 +72,7 @@ void ItemMob::updateMob(WorldObject &world)
 	else if (++floatY > 100)
 		floatY = 0;
 	if (world.blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && world.brightness[x / 16][(y - 8) / 16 + 1] != brightness)
-		normalSprite.paletteID = (7 * (brightness = world.brightness[x / 16][(y - 8) / 16 + 1])) / 15;
+		calcItemMobBrightness(world);
 	BaseMob_ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == nullptr)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
