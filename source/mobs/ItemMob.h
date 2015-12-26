@@ -8,6 +8,8 @@ class ItemMob : public BaseMob
 private:
 	static const int floatVal[];
 	static const int maximumTimeOut = 18000;
+
+	void calcItemMobBrightness(WorldObject &world);
 public:
 	int blockID;
 	int displayID;
@@ -24,7 +26,7 @@ public:
 	bool isMyPlayer();
 
 	ItemMob(int x, int y, int blockID, int amount, int displayID, float ax) :
-	BaseMob(MOB_ITEM, x, y, 8, 8), blockID(blockID), displayID(displayID)
+	BaseMob(MOB_ITEM, x, y, 8, 8, GRAPHIC_BLOCK_MINI, displayID, 8, 8), blockID(blockID), displayID(displayID)
 	, amount(amount), floatY(0), timeOut(maximumTimeOut)
 	{
 		vy = -3;

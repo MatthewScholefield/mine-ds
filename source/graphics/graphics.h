@@ -28,33 +28,71 @@ enum GraphicType
  */
 //! \breif Graphic Structure
 
-typedef struct
+class Graphic
 {
+public:
 	//! \breif Pointer to loaded graphic in VRAM
-	u16* Gfx = nullptr;
+	u16* Gfx;
 	//! \breif Frame of animation
-	u8* frameGfx = nullptr;
+	u8* frameGfx;
 	//! \breif animation state
-	int state = 0;
+	int state;
 	//! \breif Animation frame
-	int animFrame = 0;
+	int animFrame;
 	//! \breif x Size of Graphic in pixels.
-	int sx = 0;
+	int sx;
 	//! \breif y Size of Graphic in pixels.
-	int sy = 0;
+	int sy;
 	//! \breif Whether Graphic is a mob or a particle.
-	GraphicType type = GRAPHIC_BLOCK;
+	GraphicType type;
 	//! \breif Whether loaded for main or sub OAM.
-	bool main = true;
+	bool main;
 	//! \breif The palette index to use
-	int paletteID = 0;
+	int paletteID;
 	//! \breif The part of the image to crop
-	int frame = 0;
+	int frame;
 	//! \breif The loaded texture ID. Used to trigger reload on texture change
-	int loadIter = 0;
-	bool drawn = false;
-	bool ownsGfx = true;
-} Graphic;
+	int loadIter;
+	bool drawn;
+	bool ownsGfx;
+	Graphic(GraphicType type, int frame, int x, int y, int pID = 0, bool main = false);
+
+	Graphic() : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
+	, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(0)
+	, drawn(false), ownsGfx(true) { }
+
+	Graphic(const Graphic &orig) : Gfx(orig.Gfx), frameGfx(orig.frameGfx), state(orig.state), animFrame(orig.animFrame), sx(0)
+	, sy(orig.sy), type(orig.type), main(orig.main), paletteID(orig.paletteID), frame(orig.frame), loadIter(0)
+	, drawn(orig.drawn), ownsGfx(orig.ownsGfx)
+	{
+		//Does not deep copy gfx yet
+	}
+
+	Graphic &operator=(const Graphic &orig)
+	{
+		Graphic newObj(orig);
+		Gfx = newObj.Gfx;
+		frameGfx = newObj.frameGfx;
+		state = newObj.state;
+		animFrame = newObj.animFrame;
+		sx = newObj.sx;
+		sy = newObj.sy;
+		type = newObj.type;
+		main = newObj.main;
+		paletteID = newObj.paletteID;
+		frame = newObj.frame;
+		loadIter = newObj.loadIter;
+		drawn = newObj.drawn;
+		ownsGfx = newObj.ownsGfx;
+		return *this;
+	}
+
+	~Graphic()
+	{
+		if (Gfx && ownsGfx)
+			oamFreeGfx(main ? &oamMain : &oamSub, Gfx);
+	}
+};
 
 //Misc
 void graphicsInit();

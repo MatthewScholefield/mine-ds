@@ -20,11 +20,10 @@ public:
 	bool hasBeenRendered;
 	bool loaded;
 	void draw(int x, int y);
-	BlockSpriteContainer(int blockID, int paletteID) : sprite(), blockID(blockID)
-	, hasBeenRendered(false), loaded(loadGraphic(&sprite, GRAPHIC_BLOCK, blockID, 16, 32, paletteID)) { }
+	BlockSpriteContainer(int blockID, int paletteID) : sprite(GRAPHIC_BLOCK, blockID, 16, 32, paletteID), blockID(blockID)
+	, hasBeenRendered(false), loaded(true) { }
 
 	~BlockSpriteContainer()
 	{
-		unloadGraphic(&sprite);
 	}
 };

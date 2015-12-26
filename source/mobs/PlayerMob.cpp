@@ -19,8 +19,19 @@
 #include "../graphics/interfaces/interfaceHandler.h"
 
 #define PLAYER_FULL_HEALTH 20
-Graphic fullHearts[PLAYER_FULL_HEALTH / 2];
-Graphic halfHeart;
+Graphic fullHearts[PLAYER_FULL_HEALTH / 2] ={
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false},
+	{GRAPHIC_PARTICLE, 0, 8, 8, 2, false}
+};
+Graphic halfHeart = {GRAPHIC_PARTICLE, 1, 8, 8, 1, false};
 bool PlayerMob::controlsEnabled = true;
 
 
@@ -193,20 +204,15 @@ void PlayerMob::updateMob(WorldObject &world)
 	}
 	if (brightness < 0)
 	{
-		bool loadedNorm = loadGraphic(&normalSprite, GRAPHIC_MOB_ANIM, 0, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15); //Walk Animation
-		bool loadedHurt = loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID); //Hurt Graphic
-		bool loadedMine = loadGraphic(&mineSprite, GRAPHIC_MOB_ANIM, 2, 16, 32, normalSprite.paletteID); //Mine Animation
-
-		if (!loadedNorm || !loadedHurt || !loadedMine)
-		{
-			health = 0;
-			return;
-		}
-
+		calcMobBrightness(world);
+		mineSprite.paletteID = normalSprite.paletteID;
 		setAnimFrame(&mineSprite, 0, 1);
 	}
 	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
-		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15;
+	{
+		calcMobBrightness(world);
+		mineSprite.paletteID = normalSprite.paletteID;
+	}
 	if (spriteState == 0)
 		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.animFrame == 0)
 		{
