@@ -11,6 +11,7 @@
 #include "../../mobs/mobHandler.h"
 #include "../../general.h"
 
+
 void InventoryInterface::updateInv()
 {
 	unloadGraphic(&selectedGraphic);

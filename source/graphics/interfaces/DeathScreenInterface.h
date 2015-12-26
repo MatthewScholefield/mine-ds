@@ -19,8 +19,8 @@ public:
 
 	DeathScreenInterface() : Interface(INTERFACE_DEATH_SCREEN), menu(MENU_BUTTON, false)
 	{
-		menu.addButton(8, 10, "Respawn", 14);
-		menu.addButton(8, 15, "TitleScreen", 14);
+		menu.addButton(8, 10, locale("respawn"), 14);
+		menu.addButton(8, 15, locale("main-menu"), 14);
 		setMiningDisabled(true);
 		lcdMainOnTop();
 	}

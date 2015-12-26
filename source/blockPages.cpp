@@ -7,6 +7,7 @@
 #include "mainGame.h"
 #include "general.h"
 #include <nds.h>
+#include "localizations/locale.h"
 
 const int BLOCK_PAGES [NUM_BLOCK_PAGES][NUM_INV_SPACES] = {
 	{BLACK_WOOL, RED_WOOL, DARK_GREEN_WOOL, BROWN_WOOL, BlUE_WOOL, PURPLE_WOOL, CYAN_WOOL, GRAY_WOOL, WHITE_WOOL, DARK_GRAY_WOOL, PINK_WOOL, LIGHT_GREEN_WOOL, YELLOW_WOOL, LIGHT_BLUE_WOOL, MAGENTA_WOOL, ORANGE_WOOL},
@@ -20,17 +21,11 @@ int blockPage = 0;
 
 const char *getPageName()
 {
-	switch (blockPage)
-	{
-	case PAGE_WOOL: return "Wool";
-	case PAGE_BLOCKS: return "Blocks";
-	case PAGE_CRAFTING: return "Crafting";
-	case PAGE_PLANTS: return "Plants";
-	case PAGE_ORES: return "Ores";
-	case PAGE_TOOLS: return "Tools";
-	default:
-		return "Error";
-	}
+	char buf[20];
+	sprintf(buf,"%d",blockPage);
+	std::string tagname = "block-page-" + std::string(buf);
+	
+	return locale(tagname.c_str());
 }
 
 void updatePageName()

@@ -9,6 +9,8 @@
 #include "../../chests.h"
 #include "../../mobs/PlayerMob.h"
 
+#include "../../localizations/locale.h"
+
 #pragma once
 
 class ChestInterface : public Interface
@@ -68,7 +70,7 @@ public:
 	, selectedChest(false)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
-		menu.addButton(1, 16, "Back");
+		menu.addButton(1, 16, locale("back"));
 		backButton = menu.getBack();
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());

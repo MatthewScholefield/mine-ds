@@ -3,11 +3,13 @@
 #include "interfaceHandler.h"
 #include "../UI.h"
 
+#include "../../localizations/locale.h"
+
 PageInterface::PageInterface() : Interface(INTERFACE_PAGE), menu(MENU_BUTTON, false)
 {
 	menu.addButton(0, 10, "\x011");
 	menu.addButton(29, 10, "\x010");
-	menu.addButton(1, 16, "Back");
+	menu.addButton(1, 16, locale("back"));
 	clearText();
 	drawBackground();
 	printXY(13, 11, getPageName());

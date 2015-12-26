@@ -3,7 +3,7 @@
 #include "../../Recipe.h"
 #include "../graphics.h"
 #include "../../mobs/PlayerMob.h"
-
+#include "../../localizations/locale.h"
 #pragma once
 
 class CraftingInterface : public Interface
@@ -57,7 +57,7 @@ public:
 		menu.addButton(0, 10, "\x011");
 		menu.addButton(29, 10, "\x010");
 		menu.addButton(22, 16, "Craft");
-		menu.addButton(3, 16, "Back");
+		menu.addButton(3, 16, locale("back"));
 	}
 
 	~CraftingInterface()

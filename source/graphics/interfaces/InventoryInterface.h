@@ -5,7 +5,7 @@
 #include "../graphics.h"
 #include "../../blockID.h"
 #include "../handlers/InvGfxHandler.h"
-
+#include "../../localizations/locale.h"
 #pragma once
 
 class InventoryInterface : public Interface
@@ -52,11 +52,11 @@ public:
 	, loadedGraphic(AIR), backButton(), inv(getInventoryRef()), gfxHandler(getInventoryRef(), 1, 9)
 	{
 		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
-		menu.addButton(1, 16, "Back", open);
+		menu.addButton(1, 16, locale("back"), open);
 		backButton = menu.getBack();
-		menu.addButton(8, 16, "Save World");
+		menu.addButton(8, 16, locale("save"));
 		menu.addButton(21, 16, "Crafting", isSurvival());
-		menu.addButton(21, 16, "Pages", 9, !isSurvival());
+		menu.addButton(21, 16, locale("pages"), 9, !isSurvival());
 		menu.addButton(26, 5, "<");
 		menu.addButton(29, 5, ">");
 		if (open)

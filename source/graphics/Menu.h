@@ -1,5 +1,6 @@
 #pragma once
 #include "Button.h"
+#include "../localizations/locale.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -35,6 +36,7 @@ public:
 	UIElement_ptr getBack();
 	void addButton(int x, int y, const char * const label, int length = -1, bool isVisible = true);
 	void addButton(int x, int y, const char * const label, bool isVisible);
+	void addButton(int y, const char * const label, bool isVisible = true);
 	void addListItem(const char *label);
 	void addSlider(int x, int y, const char * const label, int initPos, int length = 30, bool isVisible = true);
 	void addCheckButton(int x, int y, const char * const label, bool enabled, int length = -1, bool isVisible = true);
@@ -45,6 +47,6 @@ public:
 	{
 		elements.push_back(UIElement_ptr(new Button(1, 20, "\x1F", sizeY > 24)));
 		setAction(slideButtonAction, sizeY);
-		elements.push_back(UIElement_ptr(new Button(25, 20, "Back", back)));
+		elements.push_back(UIElement_ptr(new Button(25, 20, locale("back"), back)));
 	}
 };

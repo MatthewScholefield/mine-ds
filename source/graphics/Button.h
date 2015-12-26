@@ -28,5 +28,6 @@ public:
 	printX(length > 0 ? x + round(double(length) / 2.0 - double(strlen(label)) / 2.0) : x + 1),
 	printY(y + 1), isColored(false) { }
 
+
 	~Button() { }
 };
