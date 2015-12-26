@@ -31,6 +31,7 @@ enum GraphicType
 class Graphic
 {
 public:
+	static int textureID;
 	//! \breif Pointer to loaded graphic in VRAM
 	u16* Gfx;
 	//! \breif Frame of animation
@@ -58,11 +59,11 @@ public:
 	Graphic(GraphicType type, int frame, int x, int y, int pID = 0, bool main = true);
 
 	Graphic() : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
-	, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(0)
+	, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(textureID)
 	, drawn(false), ownsGfx(true) { }
 
 	Graphic(const Graphic &orig) : Gfx(orig.Gfx), frameGfx(orig.frameGfx), state(orig.state), animFrame(orig.animFrame), sx(0)
-	, sy(orig.sy), type(orig.type), main(orig.main), paletteID(orig.paletteID), frame(orig.frame), loadIter(0)
+	, sy(orig.sy), type(orig.type), main(orig.main), paletteID(orig.paletteID), frame(orig.frame), loadIter(orig.loadIter)
 	, drawn(orig.drawn), ownsGfx(orig.ownsGfx)
 	{
 		//Does not deep copy gfx yet
@@ -109,7 +110,7 @@ void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x = 8, int y = 
 //Textures
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
 				 const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc);
+				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc, bool skipReload = false);
 void updateTexture();
 void loadDefaultTexture();
 void setSkyColor(double, double, double, double, double, double);

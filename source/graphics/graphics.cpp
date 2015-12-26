@@ -18,7 +18,7 @@
 
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
-int textureID = 0;
+int Graphic::textureID = 0;
 uint16 backdropColor[192];
 double gradientData[192][3];
 
@@ -137,7 +137,7 @@ void setBlockPalette(bool blocks, int brightness, int index)
 
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
 				 const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc)
+				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc, bool skipReload)
 {
 	if (!blockTilesSrc || !blockPalSrc)
 	{
@@ -171,7 +171,8 @@ void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockP
 		mobTiles.assign(mobTilesSrc, mobTilesSrc + MOB_TILES_ARRAY_LEN);
 		mobPal.assign(mobPalSrc, mobPalSrc + MOB_PAL_ARRAY_LEN);
 	}
-	++textureID;
+	if (!skipReload)
+		++Graphic::textureID;
 }
 
 void updateTexture()
@@ -238,7 +239,7 @@ void updateTexture()
 
 void loadDefaultTexture()
 {
-	loadTexture(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	loadTexture(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, true);
 }
 
 /**
@@ -352,7 +353,7 @@ void setAnimFrame(Graphic* g, int mobSlot, int frame)
 }
 
 Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
-, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(0)
+, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(textureID)
 , drawn(false), ownsGfx(true)
 {
 	if (!main)
@@ -381,7 +382,6 @@ Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) 
 	this->type = type;
 	this->main = true;
 	this->frame = frame;
-	loadIter = textureID;
 	sx = x;
 	sy = y;
 }
@@ -473,7 +473,6 @@ void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x, int y)
 	}
 	g->main = false;
 	g->frame = frame;
-	g->loadIter = textureID;
 	g->sx = x;
 	g->sy = y;
 	g->type = type;
@@ -491,7 +490,7 @@ bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
 		return false;
 	if (!g->Gfx)
 		return false;
-	if (g->loadIter != textureID) //Must reload texture
+	if (g->loadIter != Graphic::textureID) //Must reload texture
 	{
 		*g = Graphic(g->type, g->frame, g->sx, g->sy, g->paletteID, g->main);
 	}
