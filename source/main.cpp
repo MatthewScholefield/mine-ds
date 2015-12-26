@@ -34,13 +34,8 @@ int main()
 {
 	defaultExceptionHandler();
 	initFile();
-	//nifiInit();
-	
-
-	
-	
 	initBlockProperties();
-	loadConfig(getGlobalSettings()); //Silently load controls (May fail silently))
+	loadConfig(getGlobalSettings()); //May fail silently
 	subBgInit();
 	setupFont();
 	graphicsInit();
@@ -54,7 +49,7 @@ int main()
 	clear_messages();
 	init3D();
 	initParticles();
-		
+
 	setLanguage(1);
 	titleScreen();
 
