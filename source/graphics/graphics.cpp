@@ -334,16 +334,13 @@ void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame, int pID)
 void drawAnimFrame(Graphic* g, int mobSlot, int frame)
 {
 	int slot = frame + mobSlot * (FRAMES_PER_ANIMATION);
-
-	u8* offset = g->frameGfx + slot * 16 * 32;
-
-	dmaCopy(offset, g->Gfx, 16 * 32);
+	u8* newGfx = g->frameGfx + slot * 16 * 32;
+	dmaCopy(newGfx, g->Gfx, 16 * 32);
 }
 
 void animateMob(Graphic* g, int mobSlot)
 {
-	++g->animFrame;
-	if (g->animFrame >= FRAMES_PER_ANIMATION)
+	if (++g->animFrame >= FRAMES_PER_ANIMATION)
 		g->animFrame = 0;
 	drawAnimFrame(g, mobSlot, g->animFrame);
 }
@@ -379,10 +376,11 @@ Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) 
 		break;
 	case GRAPHIC_BLOCK_MINI:
 		loadGraphicMiniBlock(this, frame, x, y, pID);
+		break;
 	}
-	type = type;
-	main = true;
-	frame = frame;
+	this->type = type;
+	this->main = true;
+	this->frame = frame;
 	loadIter = textureID;
 	sx = x;
 	sy = y;
