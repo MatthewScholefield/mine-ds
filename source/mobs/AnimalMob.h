@@ -29,8 +29,12 @@ public:
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
-	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16, GRAPHIC_MOB, FRAME[animal], 16, 16),
-	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0) { }
+	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16),
+	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0)
+	{
+		normalSprite = Graphic(GRAPHIC_MOB, FRAME[1], 16, 16);
+		hurtSprite = Graphic(GRAPHIC_MOB, FRAME[1] + 1, 16, 16);
+	}
 
 	~AnimalMob() { }
 };
