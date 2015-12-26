@@ -62,7 +62,6 @@ public:
 
 	~CraftingInterface()
 	{
-		unloadGraphic(&toolBlockGfx);
 		if (tableInUse)
 			PlayerMob::setControlsEnabled(true);
 	}

@@ -7,9 +7,8 @@
 #include "LitFurnaceUpdater.h"
 #include "../furnaceHandler.h"
 
-LitFurnaceUpdater::LitFurnaceUpdater() : bufferIndex(0), fireParticle(), clones { }
+LitFurnaceUpdater::LitFurnaceUpdater() : bufferIndex(0), fireParticle(GRAPHIC_PARTICLE, 0, 8, 8), clones { }
 {
-	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
 	for (auto &i : clones)
 		setCloneGraphic(&fireParticle, &i);

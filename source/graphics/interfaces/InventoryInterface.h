@@ -71,6 +71,5 @@ public:
 
 	~InventoryInterface()
 	{
-		unloadGraphic(&selectedGraphic);
 	}
 };

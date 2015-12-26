@@ -70,20 +70,19 @@ public:
 
 	Graphic &operator=(const Graphic &orig)
 	{
-		Graphic newObj(orig);
-		Gfx = newObj.Gfx;
-		frameGfx = newObj.frameGfx;
-		state = newObj.state;
-		animFrame = newObj.animFrame;
-		sx = newObj.sx;
-		sy = newObj.sy;
-		type = newObj.type;
-		main = newObj.main;
-		paletteID = newObj.paletteID;
-		frame = newObj.frame;
-		loadIter = newObj.loadIter;
-		drawn = newObj.drawn;
-		ownsGfx = newObj.ownsGfx;
+		Gfx = orig.Gfx;
+		frameGfx = orig.frameGfx;
+		state = orig.state;
+		animFrame = orig.animFrame;
+		sx = orig.sx;
+		sy = orig.sy;
+		type = orig.type;
+		main = orig.main;
+		paletteID = orig.paletteID;
+		frame = orig.frame;
+		loadIter = orig.loadIter;
+		drawn = orig.drawn;
+		ownsGfx = orig.ownsGfx;
 		return *this;
 	}
 
@@ -105,8 +104,6 @@ void setBlockPalette(bool block, int brightness, int index = 2);
 bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
 
 //Loading
-bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID = 0);
-bool loadGraphic(Graphic* g, GraphicType type, int frame);
 void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x = 8, int y = 8);
 
 //Textures
