@@ -54,8 +54,6 @@ public:
 
 	~FurnaceInterface()
 	{
-		for (int i = 0; i < 3; ++i)
-			unloadGraphic(&gfx[i]);
 		closeFurnace();
 	}
 };

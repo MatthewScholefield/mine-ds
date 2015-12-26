@@ -9,8 +9,7 @@ Graphic* waterGraphic;
 
 void initParticles()
 {
-	waterGraphic = new Graphic;
-	loadGraphic(waterGraphic, GRAPHIC_PARTICLE, 1);
+	waterGraphic = new Graphic(GRAPHIC_PARTICLE, 1, 8, 8);
 }
 
 Graphic* getCloneWaterGraphic()

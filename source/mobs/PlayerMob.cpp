@@ -254,14 +254,6 @@ bool canPlayerMobSpawnHere(WorldObject &world, int x, int y)
 	return false;
 }
 
-void playerMobInit()
-{
-	loadGraphicSub(&fullHearts[0], GRAPHIC_PARTICLE, 0);
-	for (int i = 1; i < PLAYER_FULL_HEALTH / 2; ++i)
-	{
-		//fullHearts[i] = Graphic(fullHearts[0]);
-		setCloneGraphic(&fullHearts[0], &fullHearts[i]);
-	}
-	loadGraphicSub(&halfHeart, GRAPHIC_PARTICLE, 1);
+void playerMobInit() {
 }
 

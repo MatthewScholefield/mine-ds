@@ -29,8 +29,5 @@ public:
 
 	~InvGfxHandler()
 	{
-		for (int i = 0; i < NUM_INV_SPACES; ++i)
-			if (loadedGfx[i])
-				unloadGraphic(&gfx[i]);
 	}
 };

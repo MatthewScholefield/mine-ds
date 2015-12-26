@@ -354,42 +354,6 @@ void setAnimFrame(Graphic* g, int mobSlot, int frame)
 	drawAnimFrame(g, mobSlot, g->animFrame);
 }
 
-/**
-	\breif A function used to load graphics for use on the Main screen, The screen with all of the blocks on it.
-	\param g A pointer to a newly allocated Graphic structure.
-	\param mob To choose between loading a mob image (true) or a 8x8 particle (false).
-	\param frame Tile of Graphic to load
-	\param x x Size of Tile
-	\param y y Size of Tile
- */
-bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID)
-{
-	switch (type)
-	{
-	case GRAPHIC_PARTICLE:
-		loadGraphicParticle(g, frame, x, y);
-		break;
-	case GRAPHIC_MOB:
-		loadGraphicMob(g, frame, x, y, pID);
-		break;
-	case GRAPHIC_BLOCK:
-		loadGraphicBlock(g, frame, x, y, pID);
-		break;
-	case GRAPHIC_MOB_ANIM:
-		loadGraphicAnim(g, (u8*) mobTiles.data(), frame, pID);
-		break;
-	case GRAPHIC_BLOCK_MINI:
-		loadGraphicMiniBlock(g, frame, x, y, pID);
-	}
-	g->type = type;
-	g->main = true;
-	g->frame = frame;
-	g->loadIter = textureID;
-	g->sx = x;
-	g->sy = y;
-	return true;
-}
-
 Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
 , sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(0)
 , drawn(false), ownsGfx(true)
@@ -431,11 +395,6 @@ Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) 
 	\param mob To choose between loading a mob image (true) or a 8x8 particle (false).
 	\param frame Tile of Graphic to load
  */
-bool loadGraphic(Graphic* g, GraphicType type, int frame)
-{
-	if (type == GRAPHIC_PARTICLE) return loadGraphic(g, type, frame, 8, 8);
-	else return loadGraphic(g, type, frame, 16, 32);
-}
 
 /**
 	\breif A function used to free the graphics memory a graphic is using.

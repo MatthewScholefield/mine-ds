@@ -79,15 +79,11 @@ public:
 	normalSprite(), hurtSprite(), type(type), health(256), x(x),
 	y(y), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
 	alive(true), onCactus(false), facing(true), collisions { }
-
-	,
-	spriteState(0), framesHurtSprite(0),
+	, spriteState(0), framesHurtSprite(0),
 	timeOnCactus(30), framesFarAway(0), brightness(-1), host(true), isInWater(false) { }
 
 	virtual ~BaseMob()
 	{
-		unloadGraphic(&normalSprite);
-		unloadGraphic(&hurtSprite);
 	}
 };
 using BaseMob_ptr = std::shared_ptr<BaseMob>;
