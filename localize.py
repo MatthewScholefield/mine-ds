@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+# coding: ISO-8859-15
 
 
 import sys
