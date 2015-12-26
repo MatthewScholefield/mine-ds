@@ -172,7 +172,7 @@ void startGame(void)
 	{
 		clearMainGraphics();
 		clearUnusedBlockSprites();
-		//dayNightUpdate(*world);
+		dayNightUpdate(*world);
 		timeUpdate();
 
 		scanKeys();
@@ -187,11 +187,11 @@ void startGame(void)
 			if (inGameMenu() != 0)
 				break;
 		}
-		//miningUpdate(*world, touch);
-		//proceduralBlockUpdate(*world);
-		//worldRender_RenderWater(*world);
-		//update3D();
-		//updateParticles(*world);
+		miningUpdate(*world, touch);
+		proceduralBlockUpdate(*world);
+		worldRender_RenderWater(*world);
+		update3D();
+		updateParticles(*world);
 		vBlank();
 		{
 			worldRender_Render(*world);
