@@ -170,7 +170,7 @@ void startGame(void)
 
 	while (!shouldQuitGame)
 	{
-		clearMainGraphics();
+		Graphic::resetSprites(true);
 		clearUnusedBlockSprites();
 		dayNightUpdate(*world);
 		timeUpdate();

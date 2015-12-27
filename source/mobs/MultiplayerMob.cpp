@@ -20,8 +20,7 @@ void MultiplayerMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 		calcMobBrightness(world);
-	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);
+	getSprite().draw(x - world.camX - (facing ? 10 : 0), y - world.camY, facing ? true : false);
 	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
 		calcMobBrightness(world);
 }

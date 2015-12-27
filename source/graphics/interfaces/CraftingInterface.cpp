@@ -37,13 +37,11 @@ const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 
 void CraftingInterface::updateCraftingGraphics()
 {
-	unloadGraphic(&resultBlock);
-	loadGraphicSub(&resultBlock, GRAPHIC_BLOCK, recipes[page].result.ID);
+	resultBlock.reload(GraphicType::BLOCK, recipes[page].result.ID);
 	iprintf("\x1b[11;22H%d/%d ", checkInventory(recipes[page].result.ID), recipes[page].result.amount);
 	for (int i = 0; i <= 3; ++i)
 	{
-		unloadGraphic(&neededblocks[i]);
-		loadGraphicSub(&neededblocks[i], GRAPHIC_BLOCK, recipes[page].needed[i].ID);
+		neededblocks[i].reload(GraphicType::BLOCK, recipes[page].needed[i].ID);
 		if (recipes[page].needed[i].amount > 0)
 			iprintf("\x1b[%d;%dH%d/%d  ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(recipes[page].needed[i].ID), recipes[page].needed[i].amount);
 		else
@@ -106,10 +104,10 @@ void CraftingInterface::craftItem()
 
 void CraftingInterface::update(WorldObject &world, touchPosition &touch)
 {
-	showGraphic(&resultBlock, 19 * 8 + 4, 10 * 8 + 4);
+	resultBlock.draw(19 * 8 + 4, 10 * 8 + 4);
 	for (int i = 0; i <= 3; ++i)
-		showGraphic(&neededblocks[i], 60, ((i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
-	showGraphic(&toolBlockGfx, 5 * 8, 8 * 8);
+		neededblocks[i].draw(60, ((i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2)*8 - 4);
+	toolBlockGfx.draw(5 * 8, 8 * 8);
 	switch (menu.update(touch))
 	{
 	case LEFT:

@@ -43,12 +43,9 @@ int main()
 	irqEnable(IRQ_HBLANK);
 	mobHandlerInit();
 	proceduralBlockUpdateInit();
-	clearMainGraphics();
-	oamClear(&oamSub, 0, 127);
 	initSound();
 	clear_messages();
 	init3D();
-	initParticles();
 
 	setLanguage(1);
 	titleScreen();

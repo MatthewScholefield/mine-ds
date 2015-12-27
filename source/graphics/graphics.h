@@ -27,7 +27,6 @@ class Graphic
 {
 	u16* Gfx; //Pointer to loaded graphic in VRAM
 	u8* frameGfx; //Pointer to source of first frame of animation
-	int animFrame; //Animation frame
 	GraphicType type;
 	bool main; //Whether loaded for main or sub OAM.
 	int frame; //The part of the image to crop
@@ -43,18 +42,18 @@ class Graphic
 	void loadAnim();
 	void loadFrame();
 	void load();
-	SpriteSize Graphic::getSpriteSize(GraphicType type);
+	SpriteSize getSpriteSize(GraphicType type);
 
 public:
 	static int textureID, nextSpriteIDMain, nextSpriteIDSub;
-	int paletteID;
+	int paletteID, animFrame; //Animation frame
 
 	static void resetSprites(bool main);
 	void animate();
 	void setFrame(int frame);
 	void reload(GraphicType type, int frame, bool main = true, int paletteID = 0);
 	void reload();
-	bool draw(int x, int y, bool flip, int pri);
+	bool draw(int x, int y, bool flip = false, int pri = 0);
 
 	Graphic(GraphicType type, int frame, bool main = true, int paletteID = 0);
 	Graphic(const Graphic &orig);

@@ -10,11 +10,9 @@ void FurnaceInterface::updateContents()
 		return;
 	if (openFurnace.inUse)
 	{
-		for (int i = 0; i < 3; ++i)
-			unloadGraphic(&gfx[i]);
-		loadGraphicSub(&gfx[SOURCE], GRAPHIC_BLOCK, openFurnace.sourceBlock.ID);
-		loadGraphicSub(&gfx[FUEL], GRAPHIC_BLOCK, openFurnace.fuelBlock.ID);
-		loadGraphicSub(&gfx[RESULT], GRAPHIC_BLOCK, openFurnace.resultBlock.ID);
+		gfx[SOURCE].reload(GraphicType::BLOCK, openFurnace.sourceBlock.ID, false);
+		gfx[FUEL].reload(GraphicType::BLOCK, openFurnace.fuelBlock.ID, false);
+		gfx[RESULT].reload(GraphicType::BLOCK, openFurnace.resultBlock.ID, false);
 		if (openFurnace.sourceBlock.amount > 0)
 			printXY(12, 10, openFurnace.sourceBlock.amount);
 		else
@@ -33,9 +31,7 @@ void FurnaceInterface::updateContents()
 void FurnaceInterface::openInv()
 {
 	for (int i = 0; i < 3; ++i)
-		unloadGraphic(&gfx[i]);
-	for (int i = 0; i < 3; ++i)
-		loadGraphicSub(&gfx[i], GRAPHIC_BLOCK, AIR);
+		gfx[i].reload(GraphicType::BLOCK, AIR, false);
 	smeltButton->setVisible(false);
 	invOpen = true;
 	menu.setFrame(0, -1);
@@ -87,9 +83,9 @@ void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
 	{
 		if (openFurnace.timeTillFuelBurn == 0)
 			updateContents();
-		showGraphic(&gfx[SOURCE], 12 * 8, 9 * 8, false, 2);
-		showGraphic(&gfx[FUEL], 12 * 8, 13 * 8, false, 2);
-		showGraphic(&gfx[RESULT], 17 * 8, 11 * 8, false, 2);
+		gfx[SOURCE].draw(12 * 8, 9 * 8, false, 2);
+		gfx[FUEL].draw(12 * 8, 13 * 8, false, 2);
+		gfx[RESULT].draw(17 * 8, 11 * 8, false, 2);
 		if (keysDown() & KEY_TOUCH)
 		{
 			if (touchesTileBox(touch, 12, 9, 2, 2))

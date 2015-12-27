@@ -5,25 +5,7 @@
 
 std::vector<Particle> particles;
 
-Graphic* waterGraphic;
-
-void initParticles()
-{
-	waterGraphic = new Graphic(GRAPHIC_PARTICLE, 1, 8, 8);
-}
-
-Graphic* getCloneWaterGraphic()
-{
-	Graphic* g = new Graphic;
-	setCloneGraphic(waterGraphic, g);
-	return g;
-}
-
-Particle::~Particle()
-{
-	if (killGraphic)
-		unloadGraphic(&g);
-}
+Graphic waterGraphic(GraphicType::PARTICLE, 1);
 
 Particle::Particle(float x, float y, float vx, float vy, float ax
 				   , float ay, int liveTime, Graphic g, bool killGraphic)
@@ -46,7 +28,7 @@ bool Particle::updatePhys()
 
 void Particle::draw(WorldObject& world)
 {
-	showGraphic(&g, x - world.camX, y - world.camY);
+	g.draw(x - world.camX, y - world.camY);
 }
 
 void addParticle(Particle p)
@@ -72,8 +54,8 @@ void updateParticles(WorldObject& world)
 void createSplash(const FixedPoint &px, const FixedPoint &py, const FixedPoint &vx, const FixedPoint &vy)
 {
 	FixedPoint initVY = std::min((FixedPoint) - 3, -vy / 2);
-	addParticle(Particle(px + FixedPoint(2), py, vx * FixedPoint(true, 8) + FixedPoint(true, 100), initVY, FixedPoint(0), FixedPoint(true, 49), 20, *getCloneWaterGraphic(), true));
-	addParticle(Particle(px + FixedPoint(0), py, vx * FixedPoint(true, 8) + FixedPoint(true, 50), initVY, FixedPoint(0), FixedPoint(true, 49), 20, *getCloneWaterGraphic(), true));
-	addParticle(Particle(px - FixedPoint(4), py, vx * FixedPoint(true, 8) + FixedPoint(true, -50), initVY, FixedPoint(0), FixedPoint(true, 49), 20, *getCloneWaterGraphic(), true));
-	addParticle(Particle(px - FixedPoint(6), py, vx * FixedPoint(true, 8) + FixedPoint(true, -100), initVY, FixedPoint(0), FixedPoint(true, 49), 20, *getCloneWaterGraphic(), true));
+	addParticle(Particle(px + FixedPoint(2), py, vx * FixedPoint(true, 8) + FixedPoint(true, 100), initVY, FixedPoint(0), FixedPoint(true, 49), 20, waterGraphic, true));
+	addParticle(Particle(px + FixedPoint(0), py, vx * FixedPoint(true, 8) + FixedPoint(true, 50), initVY, FixedPoint(0), FixedPoint(true, 49), 20, waterGraphic, true));
+	addParticle(Particle(px - FixedPoint(4), py, vx * FixedPoint(true, 8) + FixedPoint(true, -50), initVY, FixedPoint(0), FixedPoint(true, 49), 20, waterGraphic, true));
+	addParticle(Particle(px - FixedPoint(6), py, vx * FixedPoint(true, 8) + FixedPoint(true, -100), initVY, FixedPoint(0), FixedPoint(true, 49), 20, waterGraphic, true));
 }

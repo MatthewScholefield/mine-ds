@@ -50,8 +50,7 @@ void ZombieMob::updateMob(WorldObject &world)
 	if (brightness < 0)
 		calcMobBrightness(world);
 	if (world.timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
-	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
+	getSprite().draw(x - world.camX - 7, y - world.camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);

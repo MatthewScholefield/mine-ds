@@ -20,7 +20,7 @@ public:
 	bool hasBeenRendered;
 	bool loaded;
 	void draw(int x, int y);
-	BlockSpriteContainer(int blockID, int paletteID) : sprite(GRAPHIC_BLOCK, blockID, 16, 32, paletteID), blockID(blockID)
+	BlockSpriteContainer(int blockID, int paletteID) : sprite(GraphicType::BLOCK, blockID, paletteID), blockID(blockID)
 	, hasBeenRendered(false), loaded(true) { }
 
 	~BlockSpriteContainer()

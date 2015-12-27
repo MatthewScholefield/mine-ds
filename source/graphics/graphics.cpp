@@ -19,7 +19,7 @@
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
 
-int Graphic::textureID = 0, nextSpriteIDMain = 0, nextSpriteIDSub = 0;
+int Graphic::textureID = 0, Graphic::nextSpriteIDMain = 0, Graphic::nextSpriteIDSub = 0;
 
 uint16 backdropColor[192];
 double gradientData[192][3];
@@ -303,6 +303,8 @@ void Graphic::load()
 {
 	switch (type)
 	{
+	case GraphicType::NONE:
+		return;
 	case GraphicType::PARTICLE:
 		loadParticle();
 		break;
@@ -325,7 +327,7 @@ void Graphic::load()
 
 void Graphic::reload(GraphicType type, int frame, bool main, int paletteID)
 {
-	~Graphic();
+	this->Graphic::~Graphic();
 	this->type = type;
 	this->frame = frame;
 	this->main = main;
@@ -339,20 +341,20 @@ void Graphic::reload()
 }
 
 Graphic::Graphic(GraphicType type, int frame, bool main, int paletteID)
-: Gfx(nullptr), frameGfx(nullptr), animFrame(0), type(type), main(main)
-, frame(frame), loadIter(textureID), paletteID(paletteID)
+: Gfx(nullptr), frameGfx(nullptr), type(type), main(main), frame(frame)
+, loadIter(textureID), paletteID(paletteID), animFrame(0)
 {
 	load();
 }
 
-Graphic::Graphic(const Graphic& orig) : Gfx(nullptr), frameGfx(nullptr), animFrame(nullptr)
-, type(orig.type), main(orig.main), frame(orig.frame), loadIter(textureID), paletteID(orig.paletteID)
+Graphic::Graphic(const Graphic& orig) : Gfx(nullptr), frameGfx(nullptr), type(orig.type)
+, main(orig.main), frame(orig.frame), loadIter(textureID), paletteID(orig.paletteID), animFrame(orig.animFrame)
 {
 	load();
 }
 
-Graphic::Graphic() : Gfx(nullptr), frameGfx(nullptr), animFrame(0)
-, type(GraphicType::NONE), main(true), frame(0), loadIter(0), paletteID(0) { }
+Graphic::Graphic() : Gfx(nullptr), frameGfx(nullptr), type(GraphicType::NONE)
+, main(true), frame(0), loadIter(0), paletteID(0), animFrame(0) { }
 
 Graphic &Graphic::operator=(const Graphic &orig)
 {
@@ -366,22 +368,18 @@ SpriteSize Graphic::getSpriteSize(GraphicType type)
 	{
 	case GraphicType::PARTICLE:
 		return SpriteSize_8x8;
-		break;
 	case GraphicType::MOB_LARGE:
 		return SpriteSize_16x32;
-		break;
 	case GraphicType::MOB_SMALL:
 		return SpriteSize_16x16;
-		break;
 	case GraphicType::BLOCK:
 		return SpriteSize_16x16;
-		break;
 	case GraphicType::MOB_ANIM:
 		return SpriteSize_16x32;
-		break;
 	case GraphicType::BLOCK_MINI:
 		return SpriteSize_8x8;
-		break;
+	default:
+		return SpriteSize_16x16;
 	}
 }
 
@@ -391,7 +389,7 @@ bool Graphic::draw(int x, int y, bool flip, int pri)
 		return false;
 	if (loadIter != Graphic::textureID)
 		reload();
-	oamSet(getOAM(main), nextSpriteID(main), x, y, pri, paletteID, getSpriteSize(type)
+	oamSet(&getOAM(main), nextSpriteID(main), x, y, pri, paletteID, getSpriteSize(type)
 		, SpriteColorFormat_256Color, Gfx, -1, false, false, flip, false, false);
 	return true;
 }
