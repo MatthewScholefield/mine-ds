@@ -26,8 +26,10 @@ public:
 	bool isMyPlayer();
 
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
-	, mineSprite(), deathScreen(false), tillBrightness(0)
+	, mineSprite(GraphicType::MOB_ANIM, 2), deathScreen(false), tillBrightness(0)
 	{
+		normalSprite.reload(GraphicType::MOB_ANIM, 0);
+		hurtSprite.reload(GraphicType::MOB_LARGE, 1);
 		controlsEnabled = true;
 		addInventory(CHEST);
 		addInventory(DIRT, 27);
@@ -35,7 +37,6 @@ public:
 
 	~PlayerMob()
 	{
-		unloadGraphic(&mineSprite);
 	}
 };
 void playerMobInit();

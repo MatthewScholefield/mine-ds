@@ -30,7 +30,11 @@ public:
 	bool isMyPlayer();
 
 	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16),
-	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0) { }
+	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0)
+	{
+		normalSprite.reload(GraphicType::MOB_SMALL, FRAME[animal]);
+		hurtSprite.reload(GraphicType::MOB_SMALL, FRAME[animal] + 1);
+	}
 
 	~AnimalMob() { }
 };

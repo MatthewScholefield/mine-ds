@@ -12,72 +12,70 @@
 #define MOB_TILES_ARRAY_LEN MOB_TILES_LEN/4
 #define MOB_PAL_ARRAY_LEN MOB_PAL_LEN/2
 
-enum GraphicType
+enum class GraphicType
 {
-	GRAPHIC_PARTICLE = 0,
-	GRAPHIC_MOB = 1,
-	GRAPHIC_SUB_FONT = 1,
-	GRAPHIC_BLOCK = 2,
-	GRAPHIC_MOB_ANIM = 3,
-	GRAPHIC_BLOCK_MINI = 4
+	NONE,
+	PARTICLE,
+	MOB_SMALL,
+	MOB_LARGE,
+	MOB_ANIM,
+	BLOCK,
+	BLOCK_MINI
 };
 
-/**
-		\file graphics.h
-		\breif A file used to define the Graphic structure.
- */
-//! \breif Graphic Structure
-
-typedef struct
+class Graphic
 {
-	//! \breif Pointer to loaded graphic in VRAM
-	u16* Gfx = nullptr;
-	//! \breif Frame of animation
-	u8* frameGfx = nullptr;
-	//! \breif animation state
-	int state = 0;
-	//! \breif Animation frame
-	int animFrame = 0;
-	//! \breif x Size of Graphic in pixels.
-	int sx = 0;
-	//! \breif y Size of Graphic in pixels.
-	int sy = 0;
-	//! \breif Whether Graphic is a mob or a particle.
-	GraphicType type = GRAPHIC_BLOCK;
-	//! \breif Whether loaded for main or sub OAM.
-	bool main = true;
-	//! \breif The palette index to use
-	int paletteID = 0;
-	//! \breif The part of the image to crop
-	int frame = 0;
-	//! \breif The loaded texture ID. Used to trigger reload on texture change
-	int loadIter = 0;
-	bool drawn = false;
-	bool ownsGfx = true;
-} Graphic;
+	u16* Gfx; //Pointer to loaded graphic in VRAM
+	u8* frameGfx; //Pointer to source of first frame of animation
+	GraphicType type;
+	bool main; //Whether loaded for main or sub OAM.
+	int frame; //The part of the image to crop
+	int loadIter; //Used to trigger reload on texture change
+
+	static int nextSpriteID(bool main);
+	static OamState &getOAM(bool main);
+	void loadSmallMob();
+	void loadLargeMob();
+	void loadParticle();
+	void loadBlock();
+	void loadMiniBlock();
+	void loadAnim();
+	void loadFrame();
+	void load();
+	SpriteSize getSpriteSize(GraphicType type);
+
+public:
+	static int textureID, nextSpriteIDMain, nextSpriteIDSub;
+	int paletteID, animFrame; //Animation frame
+
+	static void resetSprites(bool main);
+	void animate();
+	void setFrame(int frame);
+	void reload(GraphicType type, int frame, bool main = true, int paletteID = 0);
+	void reload();
+	bool draw(int x, int y, bool flip = false, int pri = 0);
+
+	Graphic(GraphicType type, int frame, bool main = true, int paletteID = 0);
+	Graphic(const Graphic &orig);
+	Graphic();
+
+	Graphic &operator=(const Graphic &orig);
+
+	~Graphic()
+	{
+		if (Gfx)
+			oamFreeGfx(main ? &oamMain : &oamSub, Gfx);
+	}
+};
 
 //Misc
 void graphicsInit();
-void clearMainGraphics();
-void clearSubGraphics();
-void unloadGraphic(Graphic* g);
-void animateMob(Graphic* g, int mobSlot);
-void setAnimFrame(Graphic* g, int mobSlot, int frame);
-void setBlockPalette(bool block, int brightness, int index = 2);
-bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
-
-//Loading
-bool loadGraphic(Graphic* g, GraphicType type, int frame, int x, int y, int pID = 0);
-bool loadGraphic(Graphic* g, GraphicType type, int frame);
-void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x = 8, int y = 8);
 
 //Textures
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
 				 const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc);
+				 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc, bool skipReload = false);
 void updateTexture();
 void loadDefaultTexture();
 void setSkyColor(double, double, double, double, double, double);
 void gradientHandler();
-
-bool setCloneGraphic(Graphic *source, Graphic *clone);

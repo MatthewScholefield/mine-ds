@@ -13,8 +13,7 @@
 
 void InventoryInterface::updateInv()
 {
-	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].ID);
+	selectedGraphic.reload(GraphicType::BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].ID, false);
 	gfxHandler.drawSlots(inv.hand);
 	if (isSurvival())
 		gfxHandler.drawQuantities();
@@ -182,7 +181,7 @@ void InventoryInterface::update(WorldObject &world, touchPosition &touch)
 {
 	if (inv.hand > 32) inv.hand = -1;
 	if (oldInvSlot > 32) oldInvSlot = -1;
-	showGraphic(&selectedGraphic, 1 * 8, 6 * 8, false, 0);
+	selectedGraphic.draw(1 * 8, 6 * 8, false, 0);
 	gfxHandler.update();
 
 	parseKeyInput();

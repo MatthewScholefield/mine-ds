@@ -17,7 +17,7 @@ public:
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
-	ZombieMob(int x, int y) : BaseMob(MOB_ZOMBIE, x, y, 6, 32) { }
+	ZombieMob(int x, int y) : BaseMob(MOB_ZOMBIE, x, y, 6, 32, GraphicType::MOB_LARGE, 3) { }
 
 	~ZombieMob() { }
 };

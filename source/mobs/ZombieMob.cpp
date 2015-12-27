@@ -48,20 +48,9 @@ void ZombieMob::hurt(int amount, int type)
 void ZombieMob::updateMob(WorldObject &world)
 {
 	if (brightness < 0)
-	{
-		bool loadedFirst = loadGraphic(&normalSprite, GRAPHIC_MOB, 3, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15);
-		bool loadedSecond = loadGraphic(&hurtSprite, GRAPHIC_MOB, 4, 16, 32, normalSprite.paletteID);
-		if (!loadedFirst || !loadedSecond)
-		{
-			unloadGraphic(&normalSprite);
-			health = 0;
-			return;
-		}
-
-	}
+		calcMobBrightness(world);
 	if (world.timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
-	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
+	getSprite().draw(x - world.camX - 7, y - world.camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
@@ -87,7 +76,7 @@ void ZombieMob::updateMob(WorldObject &world)
 			target->hurt(1, ZOMBIE_HURT);
 	}
 	if (world.blocks[int(x) / 16][(int(y + 8)) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
-		hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15;
+		calcMobBrightness(world);
 }
 
 void ZombieMob::sendWifiUpdate() { }

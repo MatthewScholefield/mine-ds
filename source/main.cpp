@@ -34,13 +34,8 @@ int main()
 {
 	defaultExceptionHandler();
 	initFile();
-	//nifiInit();
-	
-
-	
-	
 	initBlockProperties();
-	loadConfig(getGlobalSettings()); //Silently load controls (May fail silently))
+	loadConfig(getGlobalSettings()); //May fail silently
 	subBgInit();
 	setupFont();
 	graphicsInit();
@@ -48,13 +43,10 @@ int main()
 	irqEnable(IRQ_HBLANK);
 	mobHandlerInit();
 	proceduralBlockUpdateInit();
-	clearMainGraphics();
-	oamClear(&oamSub, 0, 127);
 	initSound();
 	clear_messages();
 	init3D();
-	initParticles();
-		
+
 	setLanguage(1);
 	titleScreen();
 
