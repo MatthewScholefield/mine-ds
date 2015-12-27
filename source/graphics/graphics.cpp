@@ -253,7 +253,7 @@ void Graphic::loadLargeMob()
 void Graphic::loadParticle()
 {
 	Gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
-	dmaCopy((u8*) (main ? particlesTiles : subTiles) + 0 * frame * (8 * 8), Gfx, 8 * 8);
+	dmaCopy((u8*) (main ? particlesTiles : subTiles) + frame * (8 * 8), Gfx, 8 * 8);
 	paletteID = main ? 15 : 0;
 }
 
