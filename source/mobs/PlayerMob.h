@@ -29,7 +29,7 @@ public:
 	, mineSprite(GraphicType::MOB_ANIM, 2), deathScreen(false), tillBrightness(0)
 	{
 		normalSprite.reload(GraphicType::MOB_ANIM, 0);
-		hurtSprite.reload(GraphicType::MOB_LARGE, 0);
+		hurtSprite.reload(GraphicType::MOB_LARGE, 1);
 		controlsEnabled = true;
 		addInventory(CHEST);
 		addInventory(DIRT, 27);
