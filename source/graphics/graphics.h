@@ -12,100 +12,65 @@
 #define MOB_TILES_ARRAY_LEN MOB_TILES_LEN/4
 #define MOB_PAL_ARRAY_LEN MOB_PAL_LEN/2
 
-enum GraphicType
+enum class GraphicType
 {
-	GRAPHIC_PARTICLE = 0,
-	GRAPHIC_MOB = 1,
-	GRAPHIC_SUB_FONT = 1,
-	GRAPHIC_BLOCK = 2,
-	GRAPHIC_MOB_ANIM = 3,
-	GRAPHIC_BLOCK_MINI = 4
+	NONE,
+	PARTICLE,
+	MOB_SMALL,
+	MOB_LARGE,
+	MOB_ANIM,
+	BLOCK,
+	BLOCK_MINI
 };
-
-/**
-		\file graphics.h
-		\breif A file used to define the Graphic structure.
- */
-//! \breif Graphic Structure
 
 class Graphic
 {
-public:
-	static int textureID;
-	//! \breif Pointer to loaded graphic in VRAM
-	u16* Gfx;
-	//! \breif Frame of animation
-	u8* frameGfx;
-	//! \breif animation state
-	int state;
-	//! \breif Animation frame
-	int animFrame;
-	//! \breif x Size of Graphic in pixels.
-	int sx;
-	//! \breif y Size of Graphic in pixels.
-	int sy;
-	//! \breif Whether Graphic is a mob or a particle.
+	u16* Gfx; //Pointer to loaded graphic in VRAM
+	u8* frameGfx; //Pointer to source of first frame of animation
+	int animFrame; //Animation frame
 	GraphicType type;
-	//! \breif Whether loaded for main or sub OAM.
-	bool main;
-	//! \breif The palette index to use
+	bool main; //Whether loaded for main or sub OAM.
+	int frame; //The part of the image to crop
+	int loadIter; //Used to trigger reload on texture change
+
+	static int nextSpriteID(bool main);
+	static OamState &getOAM(bool main);
+	void loadSmallMob();
+	void loadLargeMob();
+	void loadParticle();
+	void loadBlock();
+	void loadMiniBlock();
+	void loadAnim();
+	void loadFrame();
+	void load();
+	SpriteSize Graphic::getSpriteSize(GraphicType type);
+
+public:
+	static int textureID, nextSpriteIDMain, nextSpriteIDSub;
 	int paletteID;
-	//! \breif The part of the image to crop
-	int frame;
-	//! \breif The loaded texture ID. Used to trigger reload on texture change
-	int loadIter;
-	bool drawn;
-	bool ownsGfx;
-	Graphic(GraphicType type, int frame, int x, int y, int pID = 0, bool main = true);
 
-	Graphic() : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
-	, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(textureID)
-	, drawn(false), ownsGfx(true) { }
+	static void resetSprites(bool main);
+	void animate();
+	void setFrame(int frame);
+	void reload(GraphicType type, int frame, bool main = true, int paletteID = 0);
+	void reload();
+	bool draw(int x, int y, bool flip, int pri);
 
-	Graphic(const Graphic &orig) : Gfx(orig.Gfx), frameGfx(orig.frameGfx), state(orig.state), animFrame(orig.animFrame), sx(0)
-	, sy(orig.sy), type(orig.type), main(orig.main), paletteID(orig.paletteID), frame(orig.frame), loadIter(orig.loadIter)
-	, drawn(orig.drawn), ownsGfx(orig.ownsGfx)
-	{
-		//Does not deep copy gfx yet
-	}
+	Graphic(GraphicType type, int frame, bool main = true, int paletteID = 0);
+	Graphic(const Graphic &orig);
+	Graphic();
 
-	Graphic &operator=(const Graphic &orig)
-	{
-		Gfx = orig.Gfx;
-		frameGfx = orig.frameGfx;
-		state = orig.state;
-		animFrame = orig.animFrame;
-		sx = orig.sx;
-		sy = orig.sy;
-		type = orig.type;
-		main = orig.main;
-		paletteID = orig.paletteID;
-		frame = orig.frame;
-		loadIter = orig.loadIter;
-		drawn = orig.drawn;
-		ownsGfx = orig.ownsGfx;
-		return *this;
-	}
+	Graphic &operator=(const Graphic &orig);
 
 	~Graphic()
 	{
-		if (Gfx && ownsGfx)
+		if (Gfx)
 			oamFreeGfx(main ? &oamMain : &oamSub, Gfx);
 	}
 };
 
 //Misc
 void graphicsInit();
-void clearMainGraphics();
-void clearSubGraphics();
-void unloadGraphic(Graphic* g);
-void animateMob(Graphic* g, int mobSlot);
-void setAnimFrame(Graphic* g, int mobSlot, int frame);
-void setBlockPalette(bool block, int brightness, int index = 2);
-bool showGraphic(Graphic* g, int x, int y, bool flip = false, int pri = 0);
-
-//Loading
-void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x = 8, int y = 8);
 
 //Textures
 void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
@@ -115,5 +80,3 @@ void updateTexture();
 void loadDefaultTexture();
 void setSkyColor(double, double, double, double, double, double);
 void gradientHandler();
-
-bool setCloneGraphic(Graphic *source, Graphic *clone);

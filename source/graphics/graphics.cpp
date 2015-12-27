@@ -18,43 +18,14 @@
 
 std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
 std::vector<unsigned short> blockPal, mobPal, subBgPal;
-int Graphic::textureID = 0;
+
+int Graphic::textureID = 0, nextSpriteIDMain = 0, nextSpriteIDSub = 0;
+
 uint16 backdropColor[192];
 double gradientData[192][3];
 
 bool mainSpriteUsed[128] = {};
 bool subSpriteUsed[128] = {};
-
-//A comment from 1995 :D
-
-/**
-	\file graphics.cpp
-	\breif A file containing Sprite and particle related functions.
- */
-//We need to have support for 8x8, 16x16, 64x64, 32x32 particles!
-//We also need to have support for mob images.
-
-/**
-	\breif Returns the next SpriteID for the Main OAM.
-	\return The next SpriteID for the Main OAM.
- */
-
-int nextSpriteIDMain;
-int nextSpriteIDSub;
-
-static int graphicNextMain()
-{
-	return nextSpriteIDMain++;
-}
-
-/**
-	\breif Returns the next SpriteID for the Sub OAM.
-	\return The next SpriteID for the Sub OAM.
- */
-static int graphicNextSub()
-{
-	return nextSpriteIDSub++;
-}
 
 void gradientHandler()
 {
@@ -94,23 +65,7 @@ void setSkyColor(double red1, double green1, double blue1, double red2, double g
 			backdropColor[i] = RGB15(int((red1 + red2) / 2.0 + 0.5), int((green1 + green2) / 2.0 + 0.5), int((blue1 + blue2) / 2.0 + 0.5));
 }
 
-/**
-	\breif Resets the SpriteID counters and clears the OAM.
-	Should be called once per frame.
- */
-void clearMainGraphics()
-{
-	nextSpriteIDMain = 0;
-	oamClear(&oamMain, 0, 127);
-}
-
-void clearSubGraphics()
-{
-	nextSpriteIDSub = 0;
-	oamClear(&oamSub, 0, 127);
-}
-
-void setBlockPalette(bool blocks, int brightness, int index)
+static void setBlockPalette(bool blocks, int brightness, int index)
 {
 	unsigned short *palette = new unsigned short[PAL_LEN / 2];
 	for (int i = 0; i < PAL_LEN / 2; ++i)
@@ -224,8 +179,6 @@ void updateTexture()
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	dmaCopy(blockTiles.data(), bgGetGfxPtr(2), TILES_LEN);
 
-
-
 	//=== Sub BG ===
 	vramSetBankH(VRAM_H_LCD);
 	dmaCopy(subBgPal.data(), VRAM_H_EXT_PALETTE[2][0], PAL_LEN);
@@ -242,17 +195,12 @@ void loadDefaultTexture()
 	loadTexture(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, true);
 }
 
-/**
-	\breif Init's the DS's Sprite Engine, to be used for MineDS.
-	Should be called when initing the DS.
- */
 void graphicsInit()
 {
 	loadTexture(getGlobalSettings()->textureName.c_str());
 	worldRender_Init();
 	resetSky();
 
-	clearMainGraphics();
 	vramSetBankD(VRAM_D_SUB_SPRITE);
 
 	//Set the bank for our Graphics.
@@ -266,299 +214,184 @@ void graphicsInit()
 	oamInit(&oamMain, SpriteMapping_1D_256, true);
 }
 
-void loadGraphicMob(Graphic* g, int frame, int x, int y, int pID)
+int Graphic::nextSpriteID(bool main)
 {
-	if (y == 32)
-	{
-		u16* graphics = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
-		u8* Tiles = (u8*) mobTiles.data();
-		Tiles += frame * FRAMES_PER_ANIMATION * (16 * 32);
-		dmaCopy(Tiles, graphics, 16 * 32);
-		g->paletteID = pID;
-		g->Gfx = graphics;
-	}
-	else //Small mob
-	{
-		u16* graphics = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-		u8* Tiles = (u8*) mobTiles.data();
-		Tiles += frame * FRAMES_PER_ANIMATION * (16 * 16);
-		dmaCopy(Tiles, graphics, 16 * 16);
-		g->paletteID = pID;
-		g->Gfx = graphics;
-	}
-}
-
-void loadGraphicParticle(Graphic* g, int frame, int x, int y)
-{
-	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) & particlesTiles;
-	Tiles += frame * (8 * 8);
-	dmaCopy(Tiles, graphics, 8 * 8);
-	g->paletteID = 15;
-	g->Gfx = graphics;
-}
-
-void loadGraphicBlock(Graphic* g, int frame, int x, int y, int paletteID)
-{
-	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) blockTiles.data();
-	Tiles += frame * (16 * 16);
-	dmaCopy(Tiles, graphics, 8 * 8);
-	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
-	dmaCopy(Tiles + 8 * 8, graphics + 8 * 4 * 2, 8 * 8);
-	dmaCopy(Tiles + 8 * 8 * 3, graphics + 8 * 4 * 3, 8 * 8);
-	g->paletteID = paletteID;
-	g->Gfx = graphics;
-}
-
-void loadGraphicMiniBlock(Graphic* g, int frame, int x, int y, int paletteID)
-{
-	u16 * graphics = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) blockTiles.data();
-	Tiles += frame * (16 * 16);
-	dmaCopy(Tiles + 8 * 8, graphics, 8 * 8);
-	g->paletteID = paletteID;
-	g->Gfx = graphics;
-	g->main = true;
-}
-
-void loadGraphicAnim(Graphic *sprite, u8* gfx, int frame, int pID)
-{
-	gfx += frame * FRAMES_PER_ANIMATION * (16 * 32);
-	sprite->paletteID = pID;
-	sprite->sx = 16;
-	sprite->sy = 32;
-	sprite->Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
-	sprite->frameGfx = gfx;
-}
-
-void drawAnimFrame(Graphic* g, int mobSlot, int frame)
-{
-	int slot = frame + mobSlot * (FRAMES_PER_ANIMATION);
-	u8* newGfx = g->frameGfx + slot * 16 * 32;
-	dmaCopy(newGfx, g->Gfx, 16 * 32);
-}
-
-void animateMob(Graphic* g, int mobSlot)
-{
-	if (++g->animFrame >= FRAMES_PER_ANIMATION)
-		g->animFrame = 0;
-	drawAnimFrame(g, mobSlot, g->animFrame);
-}
-
-void setAnimFrame(Graphic* g, int mobSlot, int frame)
-{
-	g->animFrame = frame;
-	drawAnimFrame(g, mobSlot, g->animFrame);
-}
-
-Graphic::Graphic(GraphicType type, int frame, int x, int y, int pID, bool main) : Gfx(nullptr), frameGfx(nullptr), state(0), animFrame(0), sx(0)
-, sy(0), type(GRAPHIC_BLOCK), main(true), paletteID(0), frame(0), loadIter(textureID)
-, drawn(false), ownsGfx(true)
-{
-	if (!main)
-	{
-		loadGraphicSub(this, type, frame, x, y);
-		return;
-	}
-	switch (type)
-	{
-	case GRAPHIC_PARTICLE:
-		loadGraphicParticle(this, frame, x, y);
-		break;
-	case GRAPHIC_MOB:
-		loadGraphicMob(this, frame, x, y, pID);
-		break;
-	case GRAPHIC_BLOCK:
-		loadGraphicBlock(this, frame, x, y, pID);
-		break;
-	case GRAPHIC_MOB_ANIM:
-		loadGraphicAnim(this, (u8*) mobTiles.data(), frame, pID);
-		break;
-	case GRAPHIC_BLOCK_MINI:
-		loadGraphicMiniBlock(this, frame, x, y, pID);
-		break;
-	}
-	this->type = type;
-	this->main = true;
-	this->frame = frame;
-	sx = x;
-	sy = y;
-}
-
-/**
-	\breif A function used to load graphics for use on the Main screen, the screen with all the blocks on it.
-	This function assmumes you are using a particle of 8x8 size or a Mob of 16x32 size
-	\param g A pointer to a newly allocated Graphic structure.
-	\param mob To choose between loading a mob image (true) or a 8x8 particle (false).
-	\param frame Tile of Graphic to load
- */
-
-/**
-	\breif A function used to free the graphics memory a graphic is using.
-	\param g A pointer to a Graphic structure that has been loaded
- */
-void unloadGraphic(Graphic* g)
-{
-	if (!g->Gfx)
-		return;
-	if (g->main)
-	{
-		if (g->ownsGfx)
-			oamFreeGfx(&oamMain, g->Gfx);
-	}
+	if (main)
+		return ++nextSpriteIDMain;
 	else
-	{
-		if (g->ownsGfx)
-			oamFreeGfx(&oamSub, g->Gfx);
-	}
+		return ++nextSpriteIDSub;
 }
 
-void loadGraphicSubParticle(Graphic* g, int frame, int x, int y)
+OamState &Graphic::getOAM(bool main)
 {
-	u16 * graphics = oamAllocateGfx(&oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) & subTiles;
-	Tiles += frame * (8 * 8);
-	dmaCopy(Tiles, graphics, 8 * 8);
-	g->paletteID = 0;
-	g->Gfx = graphics;
+	return main ? oamMain : oamSub;
 }
 
-void loadGraphicSubFont(Graphic* g, int frame, int x, int y)
+void Graphic::resetSprites(bool main)
 {
-	u16 * graphics = oamAllocateGfx(&oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) & fontTiles;
-	Tiles += frame * (8 * 8);
-	dmaCopy(Tiles, graphics, 8 * 8);
-	g->paletteID = 1;
-	g->Gfx = graphics;
+	if (main)
+		nextSpriteIDMain = 0;
+	else
+		nextSpriteIDSub = 0;
+	oamClear(&getOAM(main), 0, 127);
 }
 
-void loadGraphicSubBlock(Graphic* g, int frame, int x, int y)
+void Graphic::loadSmallMob()
 {
-	u16 * graphics = oamAllocateGfx(&oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
-	u8* Tiles = (u8*) blockTiles.data();
-	Tiles += frame * (16 * 16);
-	dmaCopy(Tiles, graphics, 8 * 8);
-	dmaCopy(Tiles + 8 * 8 * 2, graphics + 8 * 4, 8 * 8);
-	dmaCopy(Tiles + 8 * 8, graphics + 8 * 4 * 2, 8 * 8);
-	dmaCopy(Tiles + 8 * 8 * 3, graphics + 8 * 4 * 3, 8 * 8);
-	g->paletteID = 2;
-	g->Gfx = graphics;
+	Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	dmaCopy((u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 16, Gfx, 16 * 16);
 }
 
-/**
-	\breif A function used to load graphics for use on the Sub screen, The screen with the Logo on it.
-	\param g A pointer to a newly allocated Graphic structure.
-	\param font To choose between loading different types of graphic 0 = Particle 1 = font 2 = Block
-	\param frame Tile of Graphic to load
-	\param x x Size of Tile
-	\param y y Size of Tile
- */
-void loadGraphicSub(Graphic* g, GraphicType type, int frame, int x, int y)
+void Graphic::loadLargeMob()
+{
+	Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
+	dmaCopy((u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 32, Gfx, 16 * 32);
+}
+
+void Graphic::loadParticle()
+{
+	Gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
+	dmaCopy((u8*) & particlesTiles + frame * (8 * 8), Gfx, 8 * 8);
+	paletteID = main ? 15 : 0;
+}
+
+void Graphic::loadBlock()
+{
+	Gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	u8* source = (u8*) blockTiles.data() + frame * (16 * 16);
+	const int TILE_SIZE = 8 * 8;
+	dmaCopy(source, Gfx, 8 * 8);
+	dmaCopy(source + TILE_SIZE * 2, Gfx + 8 * 4, TILE_SIZE);
+	dmaCopy(source + TILE_SIZE, Gfx + 8 * 4 * 2, TILE_SIZE);
+	dmaCopy(source + TILE_SIZE * 3, Gfx + 8 * 4 * 3, TILE_SIZE);
+	if (!main)
+		paletteID = 2;
+}
+
+void Graphic::loadMiniBlock()
+{
+	Gfx = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
+	dmaCopy((u8*) blockTiles.data() + frame * (16 * 16) + 8 * 8, Gfx, 8 * 8);
+}
+
+void Graphic::loadAnim()
+{
+	frameGfx = (u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * (16 * 32);
+	Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
+}
+
+void Graphic::loadFrame()
+{
+	u8* newGfx = frameGfx + animFrame * 16 * 32;
+	dmaCopy(newGfx, Gfx, 16 * 32);
+}
+
+void Graphic::animate()
+{
+	if (++animFrame >= FRAMES_PER_ANIMATION)
+		animFrame = 0;
+	loadFrame();
+}
+
+void Graphic::setFrame(int frame)
+{
+	animFrame = frame;
+	loadFrame();
+}
+
+void Graphic::load()
 {
 	switch (type)
 	{
-	case GRAPHIC_SUB_FONT:
-		loadGraphicSubFont(g, frame, x, y);
+	case GraphicType::PARTICLE:
+		loadParticle();
 		break;
-	case GRAPHIC_BLOCK:
-		loadGraphicSubBlock(g, frame, x, y);
+	case GraphicType::MOB_SMALL:
+		loadSmallMob();
 		break;
-	case GRAPHIC_PARTICLE:
-		loadGraphicSubParticle(g, frame, x, y);
+	case GraphicType::MOB_LARGE:
+		loadLargeMob();
+	case GraphicType::BLOCK:
+		loadBlock();
 		break;
-	default:
+	case GraphicType::MOB_ANIM:
+		loadAnim();
+		break;
+	case GraphicType::BLOCK_MINI:
+		loadMiniBlock();
 		break;
 	}
-	g->main = false;
-	g->frame = frame;
-	g->sx = x;
-	g->sy = y;
-	g->type = type;
 }
 
-/**
-	\breif A function used to show a Graphic file.
-	\param g A pointer to a loaded Graphic structure.
-	\param x The x position of where the sprite should be displayed.
-	\param y The y position of where the sprite should be displayed.
- */
-bool showGraphic(Graphic* g, int x, int y, bool flip, int pri)
+void Graphic::reload(GraphicType type, int frame, bool main, int paletteID)
 {
-	if (x<-g->sx || x > 256 || y<-g->sy || y > 192)
-		return false;
-	if (!g->Gfx)
-		return false;
-	if (g->loadIter != Graphic::textureID) //Must reload texture
-	{
-		*g = Graphic(g->type, g->frame, g->sx, g->sy, g->paletteID, g->main);
-	}
-	if (!g->drawn)
-	{
-		if (g->main)
-		{
-			int spriteID = graphicNextMain();
-			switch (g->type)
-			{
-			case GRAPHIC_PARTICLE://1
-				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case GRAPHIC_MOB://0
-				if (g->sy == 32)
-					oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				else
-					oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case GRAPHIC_BLOCK://2
-				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case GRAPHIC_MOB_ANIM://0
-				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_16x32, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case GRAPHIC_BLOCK_MINI://miniBlock
-				oamSet(&oamMain, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			}
-		}
-		else
-		{
-			int spriteID = graphicNextSub();
-			switch (g->type)
-			{
-			case 0:
-				if (g->sx == 8 && g->sy == 8)
-					oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 1:
-				oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_8x8, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			case 2:
-				oamSet(&oamSub, spriteID, x, y, pri, g->paletteID, SpriteSize_16x16, SpriteColorFormat_256Color, g->Gfx, -1, false, false, flip, false, false);
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	return true;
-
+	~Graphic();
+	this->type = type;
+	this->frame = frame;
+	this->main = main;
+	this->paletteID = paletteID;
+	load();
 }
 
-bool setCloneGraphic(Graphic *source, Graphic *clone)
+void Graphic::reload()
 {
-	clone->Gfx = source->Gfx;
-	clone->frameGfx = source->frameGfx;
-	clone->state = source->state;
-	clone->animFrame = source->animFrame;
-	clone->sx = source->sx;
-	clone->sy = source->sy;
-	clone->type = source->type;
-	clone->main = source->main;
-	clone->paletteID = source->paletteID;
-	clone->frame = source->frame;
-	clone->loadIter = source->loadIter;
-	clone->drawn = source->drawn;
-	clone->ownsGfx = false;
+	reload(type, frame, main, paletteID);
+}
+
+Graphic::Graphic(GraphicType type, int frame, bool main, int paletteID)
+: Gfx(nullptr), frameGfx(nullptr), animFrame(0), type(type), main(main)
+, frame(frame), loadIter(textureID), paletteID(paletteID)
+{
+	load();
+}
+
+Graphic::Graphic(const Graphic& orig) : Gfx(nullptr), frameGfx(nullptr), animFrame(nullptr)
+, type(orig.type), main(orig.main), frame(orig.frame), loadIter(textureID), paletteID(orig.paletteID)
+{
+	load();
+}
+
+Graphic::Graphic() : Gfx(nullptr), frameGfx(nullptr), animFrame(0)
+, type(GraphicType::NONE), main(true), frame(0), loadIter(0), paletteID(0) { }
+
+Graphic &Graphic::operator=(const Graphic &orig)
+{
+	reload(orig.type, orig.frame, orig.main, orig.paletteID);
+	return *this;
+}
+
+SpriteSize Graphic::getSpriteSize(GraphicType type)
+{
+	switch (type)
+	{
+	case GraphicType::PARTICLE:
+		return SpriteSize_8x8;
+		break;
+	case GraphicType::MOB_LARGE:
+		return SpriteSize_16x32;
+		break;
+	case GraphicType::MOB_SMALL:
+		return SpriteSize_16x16;
+		break;
+	case GraphicType::BLOCK:
+		return SpriteSize_16x16;
+		break;
+	case GraphicType::MOB_ANIM:
+		return SpriteSize_16x32;
+		break;
+	case GraphicType::BLOCK_MINI:
+		return SpriteSize_8x8;
+		break;
+	}
+}
+
+bool Graphic::draw(int x, int y, bool flip, int pri)
+{
+	if (!Gfx || x < -16 || x > 256 || y < -32 || y > 192)
+		return false;
+	if (loadIter != Graphic::textureID)
+		reload();
+	oamSet(getOAM(main), nextSpriteID(main), x, y, pri, paletteID, getSpriteSize(type)
+		, SpriteColorFormat_256Color, Gfx, -1, false, false, flip, false, false);
 	return true;
 }
