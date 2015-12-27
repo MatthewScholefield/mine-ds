@@ -115,7 +115,7 @@ void updateSubBG()
 		bgUpdate();
 	}
 	oamUpdate(&oamSub);
-	clearSubGraphics();
+	Graphic::resetSprites(false);
 }
 
 void drawButton(int x, int y, int sizex)

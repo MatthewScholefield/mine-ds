@@ -21,8 +21,7 @@ void HerobrineMob::updateMob(WorldObject &world)
 	if (brightness<0)
 		calcMobBrightness(world);
 	++waitingCount;
-	if (spriteState == 0) showGraphic(&normalSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - 7, y - world.camY - 15, facing ? true : false);
+	getSprite().draw(x - world.camX - 7, y - world.camY - 15, facing ? true : false);
 	if (host == true)
 	{
 		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])

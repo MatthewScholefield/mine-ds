@@ -35,8 +35,8 @@ private:
 protected:
 	Graphic normalSprite, hurtSprite;
 
-	BaseMob(MobType type, int x, int y, int sx, int sy, GraphicType gType, int frame, int gsx, int gsy, int pID = 10) :
-	normalSprite(gType, frame, gsx, gsy, pID), hurtSprite(gType, frame + 1, gsx, gsy, pID), type(type), health(256), x(x),
+	BaseMob(MobType type, int x, int y, int sx, int sy, GraphicType gType, int frame, int pID = 10) :
+	normalSprite(gType, frame, true, pID), hurtSprite(gType, frame + 1, true, pID), type(type), health(256), x(x),
 	y(y), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
 	alive(true), onCactus(false), facing(true), collisions { }
 
@@ -47,6 +47,11 @@ protected:
 	void calcMobBrightness(WorldObject &world)
 	{
 		hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][y / 16 + 1])) / 15;
+	}
+
+	virtual Graphic &getSprite()
+	{
+		return spriteState == 0 ? normalSprite : hurtSprite;
 	}
 public:
 	MobType type;
@@ -79,12 +84,11 @@ public:
 	normalSprite(), hurtSprite(), type(type), health(256), x(x),
 	y(y), vx(0), vy(0), sx(sx), sy(sy), smallMob(false),
 	alive(true), onCactus(false), facing(true), collisions { }
+
 	, spriteState(0), framesHurtSprite(0),
 	timeOnCactus(30), framesFarAway(0), brightness(-1), host(true), isInWater(false) { }
 
-	virtual ~BaseMob()
-	{
-	}
+	virtual ~BaseMob() { }
 };
 using BaseMob_ptr = std::shared_ptr<BaseMob>;
 bool jumpHurtType(int hurtType);

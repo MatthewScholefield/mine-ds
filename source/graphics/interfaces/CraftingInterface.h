@@ -40,15 +40,9 @@ public:
 	void draw();
 
 	CraftingInterface(bool tableInUse) : Interface(INTERFACE_CRAFTING)
-	, menu(MENU_BUTTON, false), page(0), resultBlock(), neededblocks { }, toolBlockGfx(), tableInUse(tableInUse)
+	, menu(MENU_BUTTON, false), page(0), resultBlock(), neededblocks { }
+, toolBlockGfx(GraphicType::BLOCK, tableInUse ? CRAFTING_TABLE : AIR), tableInUse(tableInUse)
 	{
-		if (tableInUse)
-		{
-			PlayerMob::setControlsEnabled(false);
-			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, CRAFTING_TABLE);
-		}
-		else
-			loadGraphicSub(&toolBlockGfx, GRAPHIC_BLOCK, AIR);
 		while (!canCraftRecipe(page) && page < NUM_RECIPES)
 			++page;
 		if (page == NUM_RECIPES)

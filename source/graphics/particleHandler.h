@@ -23,7 +23,8 @@ public:
 
 	Particle(float x, float y, float vx, float vy, float ax, float ay, int liveTime, Graphic g, bool killGraphic = false);
 	Particle(int x, int y, int vx, int vy, int ax, int ay, int liveTime, Graphic g, bool killGraphic = false);
-	~Particle();
+
+	~Particle() { }
 	bool updatePhys();
 	void draw(WorldObject& world);
 };
@@ -34,5 +35,4 @@ Graphic* getCloneWaterGraphic();
 void addParticle(Particle p);
 
 void updateParticles(WorldObject& world);
-void initParticles();
 void createSplash(const FixedPoint &px, const FixedPoint &py, const FixedPoint &vx, const FixedPoint &vy);

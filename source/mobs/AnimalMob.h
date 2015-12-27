@@ -32,8 +32,8 @@ public:
 	AnimalMob(int x, int y) : BaseMob(MOB_ANIMAL, x, y, 10, 16),
 	animal(AnimalType(rand() % 3)), scaredTimer(0), dir(true), mov(0)
 	{
-		normalSprite = Graphic(GRAPHIC_MOB, FRAME[1], 16, 16);
-		hurtSprite = Graphic(GRAPHIC_MOB, FRAME[1] + 1, 16, 16);
+		normalSprite.reload(GraphicType::MOB_SMALL, FRAME[1]);
+		hurtSprite.reload(GraphicType::MOB_SMALL, FRAME[1] + 1);
 	}
 
 	~AnimalMob() { }

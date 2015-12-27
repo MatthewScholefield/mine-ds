@@ -25,8 +25,8 @@ void AnimalMob::updateMob(WorldObject &world)
 {
 	if (brightness<0)
 		calcMobBrightness(world);
-	
-	showGraphic(spriteState == 0 ? &normalSprite : &hurtSprite, x - world.camX - 7, y - world.camY - 7, facing ? true : false);
+
+	getSprite().draw(x - world.camX - 7, y - world.camY - 7, facing ? true : false);
 
 	if (host == true)
 	{

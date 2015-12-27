@@ -237,7 +237,7 @@ void clearUnusedBlockSprites()
 
 void BlockSpriteContainer::draw(int x, int y)
 {
-	showGraphic(&sprite, x, y, false, 1);
+	sprite.draw(x, y, false, 1);
 	hasBeenRendered = true;
 }
 

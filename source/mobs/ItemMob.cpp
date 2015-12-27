@@ -77,7 +77,7 @@ void ItemMob::updateMob(WorldObject &world)
 	if (target == nullptr)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == nullptr || !target->isMyPlayer())
-		showGraphic(&normalSprite, (int) x - world.camX - 3, (int) y - 9 - world.camY + floatVal[floatY], false);
+		normalSprite.draw((int) x - world.camX - 3, (int) y - 9 - world.camY + floatVal[floatY], false);
 	else if (addInventory(blockID, amount))
 		health = 0;
 	if (!onScreen(x, y, world.camX, world.camY))
