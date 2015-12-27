@@ -313,6 +313,7 @@ void Graphic::load()
 		break;
 	case GraphicType::MOB_LARGE:
 		loadLargeMob();
+		break;
 	case GraphicType::BLOCK:
 		loadBlock();
 		break;
