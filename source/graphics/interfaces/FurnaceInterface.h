@@ -41,18 +41,7 @@ public:
 
 	FurnaceInterface(WorldObject& world) : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
 	, invOpen(false), gfxHandler(getInventoryRef(), 1, 9), selectedInvSlot(NONE)
-	, smeltButton(), openFurnace(world.furnaces[getOpenedFurnaceID()]), gfx
-	{
-		{
-			GraphicType::BLOCK, AIR
-		},
-		{
-			GraphicType::BLOCK, AIR
-		},
-		{
-			GraphicType::BLOCK, AIR
-		}
-	}
+	, smeltButton(), openFurnace(world.furnaces[getOpenedFurnaceID()]), gfx { }
 	{
 		menu.addButton(24, 17, "Smelt");
 		smeltButton = menu.getBack();
