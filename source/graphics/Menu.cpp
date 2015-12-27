@@ -6,6 +6,7 @@
 #include "CheckButton.h"
 #include <vector>
 #include <string>
+#include <string.h>
 #include <nds.h>
 
 void Menu::draw(bool labels)
@@ -53,6 +54,17 @@ void Menu::addButton(int x, int y, const char * const label, int length, bool is
 void Menu::addButton(int x, int y, const char * const label, bool isVisible)
 {
 	elements.push_back(UIElement_ptr(new Button(x + frameX, y + frameY, label, isVisible)));
+}
+
+
+/*	
+	Button(int y, const char* const label, bool isVisible=true) :
+	UIElement(16-strlen(label)/2-1,y,label,strlen(label)+2,isVisible,nullptr),
+	printX(16-strlen(label)/2),
+	printY(y), isColored(false) {}*/
+void Menu::addButton(int y, const char * const label, bool isVisible)
+{
+	elements.push_back(UIElement_ptr(new Button(15-(strlen(label)+1)/2+frameX, y+frameY, label,isVisible)));
 }
 
 void Menu::addListItem(const char* label)

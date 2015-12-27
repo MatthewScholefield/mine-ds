@@ -3,11 +3,15 @@
 #include "../../mainGame.h"
 #include "../../mobs/mobHandler.h"
 
+#include "../../localizations/locale.h"
+#include <string.h>
+
 void DeathScreenInterface::draw()
 {
 	clearText();
 	drawBackground();
-	printXY(11, 9, "You Died!");
+	int X = 15-(strlen(locale("you-died"))+1)/2;
+	printXY(X, 9, locale("you-died"));
 	menu.draw();
 }
 

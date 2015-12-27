@@ -9,6 +9,8 @@
 #include "../../chests.h"
 #include "../../mobs/PlayerMob.h"
 
+#include "../../localizations/locale.h"
+
 #pragma once
 
 class ChestInterface : public Interface
@@ -67,7 +69,7 @@ public:
 	, invHandler(getInventoryRef(), 1, 9), chestHandler(world.chests[getOpenedChestID()], 1, 1)
 	, selectedChest(false)
 	{
-		menu.addButton(1, 16, "Back");
+		menu.addButton(1, 16, locale("back"));
 		backButton = menu.getBack();
 		menu.addButton(8, 16, "Save World");
 		menu.addButton(21, 16, "Crafting", isSurvival());

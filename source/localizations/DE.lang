@@ -1,6 +1,40 @@
 # General menuing
 
 single-player=Einzelspieler
+settings=Einstellungen
+credits=Abspann
+survival=Überleben
+creative=Kreativ
+audio=Töne
+controls=Steuerung
+game-options=Optionen
+music-volume=Lautstärke der Musik
+sound-volume=Lautstärke des Geräuschs
+main-menu=Hauptmenü
+
+# Button names
+
+back=Zurück
+load=Laden
+save=Speichern
+quit=Beenden
+edit=Bearbeiten
+view=Ansehen
+respawn=Respawn
+pages=Seiten
+
+# Death messages
+
+you-died=Du bist gestorben.
+
+# Block pages
+
+block-page-0=Wolle
+block-page-1=Blöcke
+block-page-2=Crafting
+block-page-3=Pflanzen
+block-page-4=Erze
+block-page-5=Werkzeuge
 
 # Block names
 
@@ -40,7 +74,6 @@ block-31=Diamant
 block-32=Schwarze Wolle
 block-33=Rote Wolle
 block-34=Grüne Wolle
-block-35=Dunkelgrüne Wolle
 block-35=Braune Wolle
 block-36=Blaue Wolle
 block-37=Violette Wolle

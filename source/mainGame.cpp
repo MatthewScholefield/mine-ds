@@ -33,6 +33,8 @@
 #include "graphics/particleHandler.h"
 #include "graphics/interfaces/interfaceHandler.h"
 
+#include "localizations/locale.h"
+
 bool shouldQuitGame = false;
 WorldObject *world;
 
@@ -51,14 +53,14 @@ static bool inGameMenu()
 
 		Menu menu;
 
-		menu.addButton(10, 8, "Save Game", 11);
-		menu.addButton(10, 13, "Quit Game", 11);
-		menu.addButton(10, 18, "Settings", 11);
+		menu.addButton(8, locale("save"));
+		menu.addButton(13, locale("quit"));
+		menu.addButton(18, locale("settings"));
 
 		switch (menu.activate())
 		{
 		case 1: // save game
-			printXY(1, 22, "Saving game");
+			printXY(1, 22, locale("save"));
 			if (!saveWorld(*world))
 			{
 				printXY(1, 22, "Failed to save game");

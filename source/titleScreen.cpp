@@ -308,8 +308,8 @@ void controlsScreen()
 		drawBackground(menuFirstSlot);
 
 		Menu menu;
-		menu.addButton(10, 10, "View", 12);
-		menu.addButton(10, 16, "Edit", 12);
+		menu.addButton(10, 10, locale("view"), 12);
+		menu.addButton(10, 16, locale("edit"), 12);
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);
 		menuFirstSlot = !menuFirstSlot;
@@ -376,9 +376,9 @@ void audioScreen()
 	Menu menu;
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
-	menu.addSlider(1, 8, "Music Volume", getGlobalSettings()->musicVolume);
+	menu.addSlider(1, 8, locale("music-volume"), getGlobalSettings()->musicVolume);
 	menu.setAction(setMusicAction, 0);
-	menu.addSlider(1, 13, "Sfx Volume", getGlobalSettings()->sfxVolume);
+	menu.addSlider(1, 13, locale("sound-volume"), getGlobalSettings()->sfxVolume);
 	menu.setAction(setSfxAction, 0);
 	menu.activate();
 }
@@ -400,9 +400,9 @@ void settingsScreen()
 		drawBackground(menuFirstSlot);
 
 		Menu menu(MENU_BUTTON, true, 37);
-		menu.addButton(8, 8, "Controls", 15);
-		menu.addButton(8, 13, "Audio", 15);
-		menu.addButton(8, 18, "Game Options", 15);
+		menu.addButton(8, 8, locale("controls"), 15);
+		menu.addButton(8, 13, locale("audio"), 15);
+		menu.addButton(8, 18, locale("game-options"), 15);
 		menu.addButton(8, 23, "Texture Pack", 15);
 		menu.addCheckButton(7, 28, "Sky Gradient", getGlobalSettings()->getProperty(PROPERTY_GRADIENT), 18);
 		menu.setAction(changeSkyProperty, PROPERTY_GRADIENT);
@@ -443,9 +443,9 @@ void gameModeScreen()
 	clearText(menuFirstSlot);
 
 	Menu menu;
-	menu.addButton(9, 8, "Creative", 12);
-	menu.addButton(9, 13, "Survival", 12);
-	menu.addButton(9, 18, "Load World", 12);
+	menu.addButton(9, 8, locale("creative"), 12);
+	menu.addButton(9, 13, locale("survival"), 12);
+	menu.addButton(9, 18, locale("load"), 12);
 
 	menu.setFrame(menuFirstSlot ? 0 : 32);
 	menuFirstSlot = !menuFirstSlot;
@@ -532,9 +532,9 @@ void titleScreen()
 		clearInventory();
 		Menu menu(MENU_BUTTON, false);
 		
-		menu.addButton(8, 8, locale("single-player"), 15);
-		menu.addButton(8, 13, "Settings", 15);
-		menu.addButton(8, 18, "Credits", 15);
+		menu.addButton(8, 8, locale("single-player") , 15);
+		menu.addButton(8, 13, locale("settings") , 15);
+		menu.addButton(8, 18, locale("credits") , 15);
 		menu.addButton(1, 20, "\xFE"); // \xFE = Dot
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);

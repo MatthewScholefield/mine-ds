@@ -11,6 +11,7 @@
 #include "../../mobs/mobHandler.h"
 #include "../../general.h"
 
+
 void InventoryInterface::updateInv()
 {
 	selectedGraphic.reload(GraphicType::BLOCK, loadedGraphic = inv.hand < 0 ? AIR : inv.blocks[inv.hand].ID, false);

@@ -1,6 +1,40 @@
 # General menuing
 
 single-player=${LANG( sub(n(1247,0,false,false,0,false,false,false)) punc 0 )}
+settings=${LANG( sub(n(1292,0,false,true,0,false,false,false)) punc 0 )}
+credits=${LANG( sub(n(1293,0,false,false,0,false,false,false)) punc 0 )}
+survival=${LANG( sub(n(1295,0,false,false,0,false,false,false)) punc 0 )}
+creative=${LANG( sub(n(1296,0,false,false,0,false,false,false)) punc 0 )}
+audio=${LANG( sub(n(1297,0,false,true,0,false,false,false)) punc 0 )}
+controls=${LANG( sub(n(1298,0,false,false,0,false,false,false)) punc 0 )}
+game-options=${LANG( sub(n(1299,0,false,true,0,false,false,false)) punc 0 )}
+music-volume=${LANG( sub(n(1300,0,false,false,0,true,n(754,0,false,false,-1,false,false,false),false,false)) punc 0 )}
+sound-volume=${LANG( sub(n(1300,0,false,false,0,true,n(1028,0,false,false,-1,false,false,false),false,false)) punc 0 )}
+main-menu=${LANG( sub(n(1301,0,false,false,0,false,false,false)) punc 0 )}
+
+# Button names
+
+back=${LANG( sub(n(1294,0,false,false,0,false,false,false)) punc 0 )}
+load=${LANG( Verb1(145) punc 0 )}
+save=${LANG( Verb1(210) punc 0 )}
+quit=${LANG( Verb1(257) punc 0 )}
+edit=${LANG( Verb1(258) punc 0 )}
+view=${LANG( Verb1(259) punc 0 )}
+respawn=Respawn
+pages=${LANG( sub(n(839,0,false,true,0,false,false,false)) punc 0 )}
+
+# Death messages
+
+you-died=${LANG( sub(n(2,0,false,false,0,false,false,false)) Verb1(260) st 2 )}
+
+# Block pages
+
+block-page-0=${LANG( sub(n(1196,0,false,false,0,false,false,false)) punc 0 )}
+block-page-1=${LANG( sub(n(1302,0,false,true,0,false,false,false)) punc 0 )}
+block-page-2=Crafting
+block-page-3=${LANG( sub(n(858,0,false,true,0,false,false,false)) punc 0 )}
+block-page-4=${LANG( sub(n(1264,0,false,true,0,false,false,false)) punc 0 )}
+block-page-5=${LANG( sub(n(1220,0,false,true,0,false,false,false)) punc 0 )}
 
 # Block names
 
@@ -40,7 +74,6 @@ block-31=${LANG( sub(n(1251,0,false,false,0,false,false,false)) punc 0 )}
 block-32=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(22) ) punc 0 )}
 block-33=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(153)) punc 0 )}
 block-34=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(87) ) punc 0 )}
-block-35=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(211)) punc 0 )}
 block-35=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(25) ) punc 0 )}
 block-36=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(23) ) punc 0 )}
 block-37=${LANG( sub(n(1196,0,false,false,0,false,false,false) adj(212)) punc 0 )}

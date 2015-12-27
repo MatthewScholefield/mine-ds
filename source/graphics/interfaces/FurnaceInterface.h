@@ -4,6 +4,8 @@
 #include "../../mining.h"
 #include "../handlers/InvGfxHandler.h"
 
+#include "../../localizations/locale.h"
+
 #pragma once
 class FurnaceInterface : public Interface
 {
@@ -45,7 +47,7 @@ public:
 	{
 		menu.addButton(24, 17, "Smelt");
 		smeltButton = menu.getBack();
-		menu.addButton(1, 17, "Back");
+		menu.addButton(1, 17, locale("back"));
 		lcdMainOnTop();
 		setMiningDisabled(true);
 	}
