@@ -18,10 +18,9 @@ public:
 	Graphic sprite;
 	int blockID;
 	bool hasBeenRendered;
-	bool loaded;
 	void draw(int x, int y);
-	BlockSpriteContainer(int blockID, int paletteID) : sprite(GraphicType::BLOCK, blockID, paletteID), blockID(blockID)
-	, hasBeenRendered(false), loaded(true) { }
+	BlockSpriteContainer(int blockID, int paletteID) : sprite(GraphicType::BLOCK, blockID, true, paletteID), blockID(blockID)
+	, hasBeenRendered(false) { }
 
 	~BlockSpriteContainer()
 	{

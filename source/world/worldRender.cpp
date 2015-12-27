@@ -11,12 +11,11 @@
 #include "../mobs/mobHandler.h"
 #include <math.h>
 #include <vector>
-#define MAX_BLOCK_SPRITES 100
 
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
-BlockSpriteContainer *blockSprites[MAX_BLOCK_SPRITES] = {};
+std::vector<BlockSpriteContainer> blockSprites;
 int sunBrightness;
 
 static bool drawBlockGraphic(WorldObject &world, int x, int y)
@@ -27,26 +26,14 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 	y *= 16;
 	x -= world.camX;
 	y -= world.camY;
-	std::vector<BlockSpriteContainer>::size_type i;
-	for (i = 0; i < MAX_BLOCK_SPRITES && blockSprites[i]; ++i)
-		if (blockID == blockSprites[i]->blockID && paletteID == blockSprites[i]->sprite.paletteID && !blockSprites[i]->hasBeenRendered)
+	for (auto &i : blockSprites)
+		if (i.blockID == blockID && i.sprite.paletteID == paletteID)
 		{
-			blockSprites[i]->draw(x, y);
+			i.draw(x, y);
 			return true;
 		}
-	if (i == MAX_BLOCK_SPRITES)
-		return false;
-	else if (!blockSprites[i])
-	{
-		blockSprites[i] = new BlockSpriteContainer(blockID, paletteID);
-		if (!blockSprites[i]->loaded)
-		{
-			delete blockSprites[i];
-			blockSprites[i] = nullptr;
-			return false;
-		}
-		blockSprites[i]->draw(x, y);
-	}
+	blockSprites.emplace_back(blockID, paletteID);
+	blockSprites.back().draw(x, y);
 	return true;
 }
 
@@ -224,15 +211,14 @@ void worldRender_Render(WorldObject &world)
 
 void clearUnusedBlockSprites()
 {
-	for (int i = 0; i < MAX_BLOCK_SPRITES && blockSprites[i]; ++i)
-		if (!blockSprites[i]->hasBeenRendered)
+	for (auto it = blockSprites.begin(); it != blockSprites.end(); ++it)
+		if (!it->hasBeenRendered)
 		{
-			delete blockSprites[i];
-			blockSprites[i] = nullptr;
-			--i;
+			it = blockSprites.erase(it);
+			--it;
 		}
 		else
-			blockSprites[i]->hasBeenRendered = false;
+			it->hasBeenRendered = false;
 }
 
 void BlockSpriteContainer::draw(int x, int y)
