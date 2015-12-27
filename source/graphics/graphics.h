@@ -25,8 +25,8 @@ enum class GraphicType
 
 class Graphic
 {
-	u16* Gfx; //Pointer to loaded graphic in VRAM
-	u8* frameGfx; //Pointer to source of first frame of animation
+	u16* gfx; //Pointer to loaded graphic in VRAM
+	u8* firstFrame; //Pointer to source of first frame of animation
 	GraphicType type;
 	bool main; //Whether loaded for main or sub OAM.
 	int frame; //The part of the image to crop
@@ -63,8 +63,8 @@ public:
 
 	~Graphic()
 	{
-		if (Gfx)
-			oamFreeGfx(main ? &oamMain : &oamSub, Gfx);
+		if (gfx)
+			oamFreeGfx(main ? &oamMain : &oamSub, gfx);
 	}
 };
 

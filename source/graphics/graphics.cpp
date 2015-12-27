@@ -240,52 +240,52 @@ void Graphic::resetSprites(bool main)
 
 void Graphic::loadSmallMob()
 {
-	Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	dmaCopy((u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 16, Gfx, 16 * 16);
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	dmaCopy((u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 16, gfx, 16 * 16);
 }
 
 void Graphic::loadLargeMob()
 {
-	Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
-	dmaCopy((u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 32, Gfx, 16 * 32);
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
+	dmaCopy((u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 32, gfx, 16 * 32);
 }
 
 void Graphic::loadParticle()
 {
-	Gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
-	dmaCopy((u8*) (main ? particlesTiles : subTiles) + frame * (8 * 8), Gfx, 8 * 8);
+	gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
+	dmaCopy((u8*) (main ? particlesTiles : subTiles) + frame * (8 * 8), gfx, 8 * 8);
 	paletteID = main ? 15 : 0;
 }
 
 void Graphic::loadBlock()
 {
-	Gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
 	u8* source = (u8*) blockTiles.data() + frame * (16 * 16);
 	const int TILE_SIZE = 8 * 8;
-	dmaCopy(source, Gfx, 8 * 8);
-	dmaCopy(source + TILE_SIZE * 2, Gfx + 8 * 4, TILE_SIZE);
-	dmaCopy(source + TILE_SIZE, Gfx + 8 * 4 * 2, TILE_SIZE);
-	dmaCopy(source + TILE_SIZE * 3, Gfx + 8 * 4 * 3, TILE_SIZE);
+	dmaCopy(source, gfx, 8 * 8);
+	dmaCopy(source + TILE_SIZE * 2, gfx + 8 * 4, TILE_SIZE);
+	dmaCopy(source + TILE_SIZE, gfx + 8 * 4 * 2, TILE_SIZE);
+	dmaCopy(source + TILE_SIZE * 3, gfx + 8 * 4 * 3, TILE_SIZE);
 	if (!main)
 		paletteID = 2;
 }
 
 void Graphic::loadMiniBlock()
 {
-	Gfx = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-	dmaCopy((u8*) blockTiles.data() + frame * (16 * 16) + 8 * 8, Gfx, 8 * 8);
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
+	dmaCopy((u8*) blockTiles.data() + frame * (16 * 16) + 8 * 8, gfx, 8 * 8);
 }
 
 void Graphic::loadAnim()
 {
-	frameGfx = (u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * (16 * 32);
-	Gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
+	firstFrame = (u8*) mobTiles.data() + frame * FRAMES_PER_ANIMATION * (16 * 32);
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
 }
 
 void Graphic::loadFrame()
 {
-	u8* newGfx = frameGfx + animFrame * 16 * 32;
-	dmaCopy(newGfx, Gfx, 16 * 32);
+	u8* newGfx = firstFrame + animFrame * 16 * 32;
+	dmaCopy(newGfx, gfx, 16 * 32);
 }
 
 void Graphic::animate()
@@ -344,19 +344,19 @@ void Graphic::reload()
 }
 
 Graphic::Graphic(GraphicType type, int frame, bool main, int paletteID)
-: Gfx(nullptr), frameGfx(nullptr), type(type), main(main), frame(frame)
+: gfx(nullptr), firstFrame(nullptr), type(type), main(main), frame(frame)
 , loadIter(textureID), paletteID(paletteID), animFrame(0)
 {
 	load();
 }
 
-Graphic::Graphic(const Graphic& orig) : Gfx(nullptr), frameGfx(nullptr), type(orig.type)
+Graphic::Graphic(const Graphic& orig) : gfx(nullptr), firstFrame(nullptr), type(orig.type)
 , main(orig.main), frame(orig.frame), loadIter(textureID), paletteID(orig.paletteID), animFrame(orig.animFrame)
 {
 	load();
 }
 
-Graphic::Graphic() : Gfx(nullptr), frameGfx(nullptr), type(GraphicType::NONE)
+Graphic::Graphic() : gfx(nullptr), firstFrame(nullptr), type(GraphicType::NONE)
 , main(true), frame(0), loadIter(0), paletteID(0), animFrame(0) { }
 
 Graphic &Graphic::operator=(const Graphic &orig)
@@ -388,11 +388,11 @@ SpriteSize Graphic::getSpriteSize(GraphicType type)
 
 bool Graphic::draw(int x, int y, bool flip, int pri)
 {
-	if (!Gfx || x < -16 || x > 256 || y < -32 || y > 192)
+	if (!gfx || x < -16 || x > 256 || y < -32 || y > 192)
 		return false;
 	if (loadIter != Graphic::textureID)
 		reload();
 	oamSet(&getOAM(main), nextSpriteID(main), x, y, pri, paletteID, getSpriteSize(type)
-		, SpriteColorFormat_256Color, Gfx, -1, false, false, flip, false, false);
+		, SpriteColorFormat_256Color, gfx, -1, false, false, flip, false, false);
 	return true;
 }
