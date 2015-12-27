@@ -212,6 +212,8 @@ void graphicsInit()
 	vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain, SpriteMapping_1D_256, true);
+	Graphic::resetSprites(true);
+	Graphic::resetSprites(false);
 }
 
 int Graphic::nextSpriteID(bool main)
@@ -251,7 +253,7 @@ void Graphic::loadLargeMob()
 void Graphic::loadParticle()
 {
 	Gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_8x8, SpriteColorFormat_256Color);
-	dmaCopy((u8*) & particlesTiles + frame * (8 * 8), Gfx, 8 * 8);
+	dmaCopy((u8*) (main ? particlesTiles : subTiles) + 0 * frame * (8 * 8), Gfx, 8 * 8);
 	paletteID = main ? 15 : 0;
 }
 
