@@ -46,8 +46,17 @@ for arg in sys.argv[1:]:
 	ostring = string
 	string = ""
 	for char in ostring:
+		#German ß should be replaced with ss
 		if (char==u"ß"):
 			string += "ss"
+		#Esperanto ^ letters can be replaced with x
+		# ĝ -> gx ĉ -> cx etc
+		elif (char==u"ĝ"):
+			string += "gx"
+		elif (char==u"ŝ"):
+			string += "sx"
+		elif (char==u"ĉ"):
+			string += "cx"
 		else:
 			string += char
 			
