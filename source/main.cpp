@@ -36,6 +36,9 @@ int main()
 	initFile();
 	initBlockProperties();
 	loadConfig(getGlobalSettings()); //May fail silently
+	
+	setLanguage(getGlobalSettings()->languageID);
+	
 	subBgInit();
 	setupFont();
 	graphicsInit();
@@ -46,8 +49,6 @@ int main()
 	initSound();
 	clear_messages();
 	init3D();
-
-	setLanguage(1);
 	titleScreen();
 
 	return 0;

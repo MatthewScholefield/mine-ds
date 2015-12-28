@@ -411,7 +411,9 @@ void languageOptions()
 	if (RetVal > 0 && RetVal <= getNumLanguages())
 	{
 		setLanguage(RetVal - 1);
+		getGlobalSettings()->languageID = RetVal - 1;
 	}
+	setLanguage(getGlobalSettings()->languageID);
 }
 
 void settingsScreen()

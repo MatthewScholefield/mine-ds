@@ -181,6 +181,8 @@ bool saveConfig(Config *controls)
 		fprintf(fp, "\n==Audio==\n");
 		fprintf(fp, "Music Volume: %d\n", controls->musicVolume);
 		fprintf(fp, "Sfx Volume: %d\n", controls->sfxVolume);
+		fprintf(fp, "\n==Language==\n");
+		fprintf(fp, "Language ID: %d\n", controls->languageID);
 		fclose(fp);
 		return true;
 	}
@@ -236,7 +238,9 @@ bool loadConfig(Config *controls)
 		fscanf(fp, "\n==Audio==\n");
 		fscanf(fp, "Music Volume: %d\n", &controls->musicVolume);
 		fscanf(fp, "Sfx Volume: %d\n", &controls->sfxVolume);
-		fclose(fp);
+		fscanf(fp, "\n==Language==\n");
+		fscanf(fp, "Language ID: %d\n", &controls->languageID);
+		fclose(fp);	
 		return true;
 	}
 	return false;
