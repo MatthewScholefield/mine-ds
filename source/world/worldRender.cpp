@@ -11,12 +11,11 @@
 #include "../mobs/mobHandler.h"
 #include <math.h>
 #include <vector>
-#define MAX_BLOCK_SPRITES 100
 
 int sunlight;
 int xMin, xMax, yMin, yMax;
 uint16 *bg2ptr;
-BlockSpriteContainer *blockSprites[MAX_BLOCK_SPRITES] = {};
+std::vector<BlockSpriteContainer> blockSprites;
 int sunBrightness;
 
 static bool drawBlockGraphic(WorldObject &world, int x, int y)
@@ -27,26 +26,14 @@ static bool drawBlockGraphic(WorldObject &world, int x, int y)
 	y *= 16;
 	x -= world.camX;
 	y -= world.camY;
-	std::vector<BlockSpriteContainer>::size_type i;
-	for (i = 0; i < MAX_BLOCK_SPRITES && blockSprites[i]; ++i)
-		if (blockID == blockSprites[i]->blockID && paletteID == blockSprites[i]->sprite.paletteID && !blockSprites[i]->hasBeenRendered)
+	for (auto &i : blockSprites)
+		if (i.blockID == blockID && i.sprite.paletteID == paletteID)
 		{
-			blockSprites[i]->draw(x, y);
+			i.draw(x, y);
 			return true;
 		}
-	if (i == MAX_BLOCK_SPRITES)
-		return false;
-	else if (!blockSprites[i])
-	{
-		blockSprites[i] = new BlockSpriteContainer(blockID, paletteID);
-		if (!blockSprites[i]->loaded)
-		{
-			delete blockSprites[i];
-			blockSprites[i] = nullptr;
-			return false;
-		}
-		blockSprites[i]->draw(x, y);
-	}
+	blockSprites.emplace_back(blockID, paletteID);
+	blockSprites.back().draw(x, y);
 	return true;
 }
 
@@ -63,7 +50,7 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT)
 		return;
 	int before = world.brightness[x][y];
-	int after = std::max(before, brightness);
+	int after = max(before, brightness);
 	if (before != after)
 	{
 		world.brightness[x][y] = after;
@@ -87,10 +74,10 @@ void checkBlock(WorldObject &world, int x, int y)
 void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int topBound, int bottomBound)
 {
 	const int MAX_SPREAD = 7;
-	const int MIN_X = std::max(0, leftBound - MAX_SPREAD);
-	const int MAX_X = std::min(WORLD_WIDTH - 1, rightBound + MAX_SPREAD);
-	const int MIN_Y = std::max(0, topBound - MAX_SPREAD);
-	const int MAX_Y = std::min(WORLD_HEIGHT - 1, bottomBound + MAX_SPREAD);
+	const int MIN_X = max(0, leftBound - MAX_SPREAD);
+	const int MAX_X = min(WORLD_WIDTH - 1, rightBound + MAX_SPREAD);
+	const int MIN_Y = max(0, topBound - MAX_SPREAD);
+	const int MAX_Y = min(WORLD_HEIGHT - 1, bottomBound + MAX_SPREAD);
 	for (int i = MIN_X; i <= MAX_X; ++i)
 	{
 		bool startedShade = false;
@@ -106,7 +93,7 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 			else
 				world.brightness[i][j] = 0;
 			if (isBlockALightSource(block))
-				world.brightness[i][j] = std::max(world.brightness[i][j], getLightAmount(block));
+				world.brightness[i][j] = max(world.brightness[i][j], getLightAmount(block));
 		}
 	}
 	for (int i = MIN_X; i <= MAX_X; ++i)
@@ -224,20 +211,19 @@ void worldRender_Render(WorldObject &world)
 
 void clearUnusedBlockSprites()
 {
-	for (int i = 0; i < MAX_BLOCK_SPRITES && blockSprites[i]; ++i)
-		if (!blockSprites[i]->hasBeenRendered)
+	for (auto it = blockSprites.begin(); it != blockSprites.end(); ++it)
+		if (!it->hasBeenRendered)
 		{
-			delete blockSprites[i];
-			blockSprites[i] = nullptr;
-			--i;
+			it = blockSprites.erase(it);
+			--it;
 		}
 		else
-			blockSprites[i]->hasBeenRendered = false;
+			it->hasBeenRendered = false;
 }
 
 void BlockSpriteContainer::draw(int x, int y)
 {
-	showGraphic(&sprite, x, y, false, 1);
+	sprite.draw(x, y, false, 1);
 	hasBeenRendered = true;
 }
 

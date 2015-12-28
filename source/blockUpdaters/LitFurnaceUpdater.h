@@ -7,9 +7,7 @@
 class LitFurnaceUpdater : public BlockUpdater
 {
 private:
-	int bufferIndex;
-	Graphic fireParticle;
-	Graphic clones[16];
+	static Graphic fireParticle;
 public:
 	LitFurnaceUpdater();
 	bool update(WorldObject &world, int x, int y, bool bg);

@@ -19,8 +19,9 @@
 #include "../graphics/interfaces/interfaceHandler.h"
 
 #define PLAYER_FULL_HEALTH 20
-Graphic fullHearts[PLAYER_FULL_HEALTH / 2];
-Graphic halfHeart;
+Graphic PlayerMob::mineSprite(GraphicType::MOB_ANIM, 2);
+Graphic PlayerMob::fullHeart(GraphicType::PARTICLE, 0, false);
+Graphic PlayerMob::halfHeart(GraphicType::PARTICLE, 1, false);
 bool PlayerMob::controlsEnabled = true;
 
 
@@ -88,13 +89,13 @@ void PlayerMob::hurt(int amount, int type)
 	}
 }
 
-void showHealth(int health)
+void PlayerMob::showHealth(int health)
 {
 	int i;
 	for (i = 0; i < health / 2; ++i)
-		showGraphic(&fullHearts[i], 25 * 8 - i * 8, 48);
+		fullHeart.draw(25 * 8 - i * 8, 7 * 8);
 	if (health % 2 == 1)
-		showGraphic(&halfHeart, 25 * 8 - (health - 1)*4, 48, true);
+		halfHeart.draw(25 * 8 - (health - 1)*4, 7 * 8, true);
 }
 
 bool checkLadder(WorldObject &world, int x, int y)
@@ -155,7 +156,7 @@ void PlayerMob::updateMob(WorldObject &world)
 			{
 				if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT])
 				{
-					animateMob(&normalSprite, 0);
+					normalSprite.animate();
 					vx = (isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2;
 					facing = false;
 					if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
@@ -163,7 +164,7 @@ void PlayerMob::updateMob(WorldObject &world)
 				}
 				else if (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT])
 				{
-					animateMob(&normalSprite, 0);
+					normalSprite.animate();
 					vx = -1 * ((isSurvival() || !getGlobalSettings()->getProperty(PROPERTY_SPEED)) ? 4.317 : 4.317 * 2);
 					facing = true;
 					if (getTime() % 10 == 1 && collisions[SIDE_BOTTOM])
@@ -171,7 +172,7 @@ void PlayerMob::updateMob(WorldObject &world)
 				}
 				else
 				{
-					setAnimFrame(&normalSprite, 0, 0);
+					normalSprite.setFrame(0);
 					vx = 0;
 				}
 
@@ -193,32 +194,27 @@ void PlayerMob::updateMob(WorldObject &world)
 	}
 	if (brightness < 0)
 	{
-		bool loadedNorm = loadGraphic(&normalSprite, GRAPHIC_MOB_ANIM, 0, 16, 32, 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15); //Walk Animation
-		bool loadedHurt = loadGraphic(&hurtSprite, GRAPHIC_MOB, 1, 16, 32, normalSprite.paletteID); //Hurt Graphic
-		bool loadedMine = loadGraphic(&mineSprite, GRAPHIC_MOB_ANIM, 2, 16, 32, normalSprite.paletteID); //Mine Animation
-
-		if (!loadedNorm || !loadedHurt || !loadedMine)
-		{
-			health = 0;
-			return;
-		}
-
-		setAnimFrame(&mineSprite, 0, 1);
+		calcMobBrightness(world);
+		mineSprite.paletteID = normalSprite.paletteID;
+		mineSprite.setFrame(0);
 	}
 	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
-		mineSprite.paletteID = hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][(y + 8) / 16 + 1])) / 15;
+	{
+		calcMobBrightness(world);
+		mineSprite.paletteID = normalSprite.paletteID;
+	}
 	if (spriteState == 0)
 		if (keysHeld() & KEY_TOUCH && canMine() && normalSprite.animFrame == 0)
 		{
 			if ((keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_LEFT) && !collisions[SIDE_LEFT]) || (keysHeld() & getGlobalSettings()->getKey(ACTION_MOVE_RIGHT) && !collisions[SIDE_RIGHT]))
-				setAnimFrame(&mineSprite, 0, 1);
+				mineSprite.setFrame(0);
 			else if (getTime() % 3 == 1)
-				animateMob(&mineSprite, 0);
-			showGraphic(&mineSprite, x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
+				mineSprite.animate();
+			mineSprite.draw(x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
 		}
 		else
-			showGraphic(&normalSprite, x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
-	else if (spriteState == 1) showGraphic(&hurtSprite, x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
+			normalSprite.draw(x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
+	else if (spriteState == 1) hurtSprite.draw(x - world.camX - 7, (y - world.camY) - 15, facing ? true : false);
 }
 
 void PlayerMob::sendWifiUpdate() { }
@@ -248,14 +244,6 @@ bool canPlayerMobSpawnHere(WorldObject &world, int x, int y)
 	return false;
 }
 
-void playerMobInit()
-{
-	loadGraphicSub(&fullHearts[0], GRAPHIC_PARTICLE, 0);
-	for (int i = 1; i < PLAYER_FULL_HEALTH / 2; ++i)
-	{
-		//fullHearts[i] = Graphic(fullHearts[0]);
-		setCloneGraphic(&fullHearts[0], &fullHearts[i]);
-	}
-	loadGraphicSub(&halfHeart, GRAPHIC_PARTICLE, 1);
+void playerMobInit() {
 }
 

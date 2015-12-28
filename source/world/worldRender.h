@@ -18,13 +18,11 @@ public:
 	Graphic sprite;
 	int blockID;
 	bool hasBeenRendered;
-	bool loaded;
 	void draw(int x, int y);
-	BlockSpriteContainer(int blockID, int paletteID) : sprite(), blockID(blockID)
-	, hasBeenRendered(false), loaded(loadGraphic(&sprite, GRAPHIC_BLOCK, blockID, 16, 32, paletteID)) { }
+	BlockSpriteContainer(int blockID, int paletteID) : sprite(GraphicType::BLOCK, blockID, true, paletteID), blockID(blockID)
+	, hasBeenRendered(false) { }
 
 	~BlockSpriteContainer()
 	{
-		unloadGraphic(&sprite);
 	}
 };

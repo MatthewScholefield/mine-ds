@@ -64,12 +64,11 @@ public:
 	void draw();
 
 	ChestInterface(WorldObject &world, bool open) : Interface(INTERFACE_INVENTORY)
-	, menu(MENU_BUTTON, false), oldInvSlot(getInventoryRef().hand), selectedGraphic()
+	, menu(MENU_BUTTON, false), oldInvSlot(getInventoryRef().hand), selectedGraphic(GraphicType::BLOCK, AIR, false)
 	, loadedGraphic(AIR), backButton(), inv(getInventoryRef()), chest(world.chests[getOpenedChestID()])
 	, invHandler(getInventoryRef(), 1, 9), chestHandler(world.chests[getOpenedChestID()], 1, 1)
 	, selectedChest(false)
 	{
-		loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, AIR);
 		menu.addButton(1, 16, locale("back"));
 		backButton = menu.getBack();
 		menu.addButton(8, 16, "Save World");

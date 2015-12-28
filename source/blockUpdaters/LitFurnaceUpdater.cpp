@@ -7,12 +7,11 @@
 #include "LitFurnaceUpdater.h"
 #include "../furnaceHandler.h"
 
-LitFurnaceUpdater::LitFurnaceUpdater() : bufferIndex(0), fireParticle(), clones { }
+Graphic LitFurnaceUpdater::fireParticle(GraphicType::PARTICLE, 0);
+
+LitFurnaceUpdater::LitFurnaceUpdater()
 {
-	loadGraphic(&fireParticle, GRAPHIC_PARTICLE, 0);
 	chance = NO_CHANCE;
-	for (auto &i : clones)
-		setCloneGraphic(&fireParticle, &i);
 }
 
 bool LitFurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
@@ -33,15 +32,13 @@ bool LitFurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
 			t = 0;
 			addParticle(Particle((float) (x * 16 + ((world.data[x][y]&0xF000) >> 4 * 3))
 								, (float) y * 16 + 10, (float) (rand() % 4 - 1) / 32
-								, -0.05f, 0.0f, -0.008f, 120, clones[bufferIndex++]));
+								, -0.05f, 0.0f, -0.008f, 120, fireParticle));
 		}
 		//Replace t
 		databyte = databyte & 0xFFFFF00F;
 		databyte = databyte | (t << 4);
 		//Store in data
 		world.data[x][y] = databyte;
-		if (bufferIndex > 15)
-			bufferIndex = 0;
 	}
 	int id = getFurnaceID(world, x, y, bg);
 	if (--world.furnaces[id].timeTillFuelBurn < 0)

@@ -6,8 +6,10 @@ bool canPlayerMobSpawnHere(WorldObject &world, int x, int y);
 class PlayerMob : public BaseMob
 {
 private:
-	Graphic mineSprite;
+	static Graphic mineSprite, fullHeart, halfHeart;
 	static bool controlsEnabled;
+
+	static void showHealth(int health);
 	virtual int getMaxHealth()
 	{
 		return 20;
@@ -26,8 +28,10 @@ public:
 	bool isMyPlayer();
 
 	PlayerMob(int x, int y) : BaseMob(MOB_PLAYER, x, y, 6, 32)
-	, mineSprite(), deathScreen(false), tillBrightness(0)
+	, deathScreen(false), tillBrightness(0)
 	{
+		normalSprite.reload(GraphicType::MOB_ANIM, 0);
+		hurtSprite.reload(GraphicType::MOB_LARGE, 1);
 		controlsEnabled = true;
 		addInventory(CHEST);
 		addInventory(DIRT, 27);
@@ -35,7 +39,6 @@ public:
 
 	~PlayerMob()
 	{
-		unloadGraphic(&mineSprite);
 	}
 };
 void playerMobInit();

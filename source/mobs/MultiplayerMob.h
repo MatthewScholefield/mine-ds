@@ -20,7 +20,7 @@ public:
 	void updateMob(WorldObject &world);
 	void hurt(int amount, int type);
 
-	MultiplayerMob(int x, int y) : BaseMob(MOB_MULTIPLAYER, x, y, 6, 32) { }
+	MultiplayerMob(int x, int y) : BaseMob(MOB_MULTIPLAYER, x, y, 6, 32, GraphicType::MOB_LARGE, 0) { }
 
 	~MultiplayerMob() { }
 };

@@ -37,6 +37,7 @@ public:
 	void addButton(int x, int y, const char * const label, int length = -1, bool isVisible = true);
 	void addButton(int x, int y, const char * const label, bool isVisible);
 	void addButton(int y, const char * const label, bool isVisible = true);
+	void addButton(int y, const char * const label, int length, bool isVisible = true);
 	void addListItem(const char *label);
 	void addSlider(int x, int y, const char * const label, int initPos, int length = 30, bool isVisible = true);
 	void addCheckButton(int x, int y, const char * const label, bool enabled, int length = -1, bool isVisible = true);

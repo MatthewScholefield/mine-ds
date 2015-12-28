@@ -343,5 +343,11 @@ const char *getName(int blockID)
 
 void updateTopName(int blockID)
 {
-	iprintf("\x1b[7;4H%s                 ", getName(blockID));
+	const int MAX_LENGTH = 20;
+	const char *name = getName(blockID);
+	int length = strlen(name);
+	bool moveUp = length > 12;
+	iprintf("\x1b[%d;4H                     \x1b[%d;4H%s", 6 + moveUp, 7 - moveUp, name);
+	for (int i = length; i <= MAX_LENGTH; ++i)
+		iprintf(" ");
 }

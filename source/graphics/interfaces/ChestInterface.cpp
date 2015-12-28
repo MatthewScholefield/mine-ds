@@ -12,8 +12,7 @@
 void ChestInterface::updateInv()
 {
 	Inventory curInv = getSelectedInv();
-	unloadGraphic(&selectedGraphic);
-	loadGraphicSub(&selectedGraphic, GRAPHIC_BLOCK, loadedGraphic = curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].ID);
+	selectedGraphic.reload(GraphicType::BLOCK, loadedGraphic = curInv.hand < 0 ? AIR : curInv.blocks[curInv.hand].ID, false);
 	invHandler.drawSlots(!selectedChest);
 	chestHandler.drawSlots(selectedChest);
 	if (isSurvival())
@@ -248,7 +247,7 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 
 void ChestInterface::update(WorldObject &world, touchPosition &touch)
 {
-	showGraphic(&selectedGraphic, 1 * 8, 6 * 8 + 4, false, 0);
+	selectedGraphic.draw(1 * 8, 6 * 8 + 4);
 	invHandler.update();
 	chestHandler.update();
 

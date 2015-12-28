@@ -38,23 +38,12 @@ void InvGfxHandler::update()
 	for (int i = 0; i < yCount; ++i)
 		for (int j = 0; j < xCount; ++j)
 		{
-			if (inv.blocks[a].ID == AIR && loadedGfx[a])
+			if (inv.blocks[a].ID != loadedID[a])
 			{
-				unloadGraphic(&gfx[a]);
-				loadedGfx[a] = false;
-				loadedID[a] = AIR;
-			}
-			else if (inv.blocks[a].ID != loadedID[a])
-			{
-				if (loadedGfx[a])
-					unloadGraphic(&gfx[a]);
-				else
-					loadedGfx[a] = true;
-				loadGraphicSub(&gfx[a], GRAPHIC_BLOCK, inv.blocks[a].ID);
+				gfx[a].reload(GraphicType::BLOCK, inv.blocks[a].ID, false);
 				loadedID[a] = inv.blocks[a].ID;
 			}
-			if (loadedGfx[a])
-				showGraphic(&gfx[a], startX * 8 + j * 8 * xDist, startY * 8 + i * 8 * yDist, false, 2);
+			gfx[a].draw(startX * 8 + j * 8 * xDist, startY * 8 + i * 8 * yDist, false, 2);
 			++a;
 		}
 }
