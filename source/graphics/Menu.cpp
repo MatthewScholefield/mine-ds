@@ -64,7 +64,12 @@ void Menu::addButton(int x, int y, const char * const label, bool isVisible)
 	printY(y), isColored(false) {}*/
 void Menu::addButton(int y, const char * const label, bool isVisible)
 {
-	elements.push_back(UIElement_ptr(new Button(15-(strlen(label)+1)/2+frameX, y+frameY, label,isVisible)));
+	elements.push_back(UIElement_ptr(new Button(15 - (strlen(label) + 1) / 2 + frameX, y + frameY, label, -1, isVisible)));
+}
+
+void Menu::addButton(int y, const char * const label, int length, bool isVisible)
+{
+	elements.push_back(UIElement_ptr(new Button(15 - (length - 1) / 2 + frameX, y + frameY, label, length, isVisible)));
 }
 
 void Menu::addListItem(const char* label)

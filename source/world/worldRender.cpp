@@ -50,7 +50,7 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT)
 		return;
 	int before = world.brightness[x][y];
-	int after = std::max(before, brightness);
+	int after = max(before, brightness);
 	if (before != after)
 	{
 		world.brightness[x][y] = after;
@@ -74,10 +74,10 @@ void checkBlock(WorldObject &world, int x, int y)
 void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int topBound, int bottomBound)
 {
 	const int MAX_SPREAD = 7;
-	const int MIN_X = std::max(0, leftBound - MAX_SPREAD);
-	const int MAX_X = std::min(WORLD_WIDTH - 1, rightBound + MAX_SPREAD);
-	const int MIN_Y = std::max(0, topBound - MAX_SPREAD);
-	const int MAX_Y = std::min(WORLD_HEIGHT - 1, bottomBound + MAX_SPREAD);
+	const int MIN_X = max(0, leftBound - MAX_SPREAD);
+	const int MAX_X = min(WORLD_WIDTH - 1, rightBound + MAX_SPREAD);
+	const int MIN_Y = max(0, topBound - MAX_SPREAD);
+	const int MAX_Y = min(WORLD_HEIGHT - 1, bottomBound + MAX_SPREAD);
 	for (int i = MIN_X; i <= MAX_X; ++i)
 	{
 		bool startedShade = false;
@@ -93,7 +93,7 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 			else
 				world.brightness[i][j] = 0;
 			if (isBlockALightSource(block))
-				world.brightness[i][j] = std::max(world.brightness[i][j], getLightAmount(block));
+				world.brightness[i][j] = max(world.brightness[i][j], getLightAmount(block));
 		}
 	}
 	for (int i = MIN_X; i <= MAX_X; ++i)

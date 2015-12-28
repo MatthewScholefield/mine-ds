@@ -41,9 +41,9 @@ void setSkyColor(double red1, double green1, double blue1, double red2, double g
 	{
 		for (double i = 0; i < 192; ++i)
 		{
-			gradientData[int(i)][0] = std::min(red1 * (1.0 - i / 191.0) + (red2 * i) / 191, 31.0);
-			gradientData[int(i)][1] = std::min(green1 * (1.0 - i / 191.0) + (green2 * i) / 191, 31.0);
-			gradientData[int(i)][2] = std::min(blue1 * (1.0 - i / 191.0) + (blue2 * i) / 191, 31.0);
+			gradientData[int(i)][0] = min(red1 * (1.0 - i / 191.0) + (red2 * i) / 191, 31.0);
+			gradientData[int(i)][1] = min(green1 * (1.0 - i / 191.0) + (green2 * i) / 191, 31.0);
+			gradientData[int(i)][2] = min(blue1 * (1.0 - i / 191.0) + (blue2 * i) / 191, 31.0);
 		}
 		if (getGlobalSettings()->getProperty(PROPERTY_DITHERING))
 		{
