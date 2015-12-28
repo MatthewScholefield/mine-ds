@@ -55,6 +55,26 @@ template<typename T> inline const T abs(T const & x)
 	return ( x < 0) ? -x : x;
 }
 
+template<typename T> inline const T max(T const &a, T const &b)
+{
+	return a > b ? a : b;
+}
+
+template<typename T> inline const T max(T const &a, T const &b, T const &c)
+{
+	return max(max(a, b), c);
+}
+
+template<typename T> inline const T min(T const &a, T const &b)
+{
+	return a < b ? a : b;
+}
+
+template<typename T> inline const T min(T const &a, T const &b, T const &c)
+{
+	return min(min(a, b), c);
+}
+
 inline void showError(const char* error)
 {
 #ifdef SHOW_ERRORS
