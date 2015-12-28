@@ -92,9 +92,9 @@ void showHealth(int health)
 {
 	int i;
 	for (i = 0; i < health / 2; ++i)
-		fullHearts.draw(25 * 8 - i * 8, 48);
+		fullHearts.draw(25 * 8 - i * 8, 7 * 8);
 	if (health % 2 == 1)
-		halfHeart.draw(25 * 8 - (health - 1)*4, 48, true);
+		halfHeart.draw(25 * 8 - (health - 1)*4, 7 * 8, true);
 }
 
 bool checkLadder(WorldObject &world, int x, int y)
