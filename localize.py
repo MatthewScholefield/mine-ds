@@ -57,6 +57,8 @@ for arg in sys.argv[1:]:
 			string += "sx"
 		elif (char==u"ĉ"):
 			string += "cx"
+		elif (char==u"ĵ"):
+			string += "jx"
 		else:
 			string += char
 			
