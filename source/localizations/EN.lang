@@ -1,3 +1,5 @@
+language-name=English
+
 # General menuing
 
 single-player=Single player
@@ -11,6 +13,8 @@ game-options=Options
 music-volume=Volume of the music
 sound-volume=Volume of the sound
 main-menu=Main menu
+language=Languages
+
 
 # Button names
 

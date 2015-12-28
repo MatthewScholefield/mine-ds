@@ -389,6 +389,31 @@ void changeSkyProperty(UIElement *element, int property, bool state)
 	resetSky();
 }
 
+void languageOptions()
+{
+	startTransition(true);
+	clearText(menuFirstSlot);
+	drawBackground(menuFirstSlot);
+	
+	int Size = getNumLanguages() * 5 + 8;
+	Menu menu(MENU_BUTTON, true, Size);
+	
+	for (int i = 0; i < getNumLanguages(); ++i)
+	{
+		setLanguage(i);
+		menu.addButton(8,8+i*5, locale("language-name"),15);
+	}
+
+	menu.setFrame(menuFirstSlot ? 0 : 32);
+	menuFirstSlot = !menuFirstSlot;
+
+	int RetVal = menu.activate();
+	if (RetVal > 0 && RetVal <= getNumLanguages())
+	{
+		setLanguage(RetVal - 1);
+	}
+}
+
 void settingsScreen()
 {
 	bool exit = false;
@@ -399,14 +424,15 @@ void settingsScreen()
 		clearText(menuFirstSlot);
 		drawBackground(menuFirstSlot);
 
-		Menu menu(MENU_BUTTON, true, 37);
+		Menu menu(MENU_BUTTON, true, 42);
 		menu.addButton(8, 8, locale("controls"), 15);
 		menu.addButton(8, 13, locale("audio"), 15);
 		menu.addButton(8, 18, locale("game-options"), 15);
-		menu.addButton(8, 23, "Texture Pack", 15);
-		menu.addCheckButton(7, 28, "Sky Gradient", getGlobalSettings()->getProperty(PROPERTY_GRADIENT), 18);
+		menu.addButton(8, 23, locale("language"), 15);
+		menu.addButton(8, 28, "Texture Pack", 15);
+		menu.addCheckButton(7, 33, "Sky Gradient", getGlobalSettings()->getProperty(PROPERTY_GRADIENT), 18);
 		menu.setAction(changeSkyProperty, PROPERTY_GRADIENT);
-		menu.addCheckButton(7, 33, "Sky Dithering", getGlobalSettings()->getProperty(PROPERTY_DITHERING));
+		menu.addCheckButton(7, 38, "Sky Dithering", getGlobalSettings()->getProperty(PROPERTY_DITHERING));
 		menu.setAction(changeSkyProperty, PROPERTY_DITHERING);
 
 		menu.setFrame(menuFirstSlot ? 0 : 32);
@@ -423,7 +449,10 @@ void settingsScreen()
 		case 3: // game options
 			gameOptions();
 			break;
-		case 4: // Graphics options
+		case 4:
+			languageOptions();
+			break;
+		case 5: // Graphics options
 			texturePackScreen();
 			break;
 		default: // back button
