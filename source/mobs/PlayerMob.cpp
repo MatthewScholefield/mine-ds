@@ -19,7 +19,7 @@
 #include "../graphics/interfaces/interfaceHandler.h"
 
 #define PLAYER_FULL_HEALTH 20
-Graphic fullHearts(GraphicType::PARTICLE, 0, false);
+Graphic fullHeart(GraphicType::PARTICLE, 0, false);
 Graphic halfHeart(GraphicType::PARTICLE, 1, false);
 bool PlayerMob::controlsEnabled = true;
 
@@ -92,7 +92,7 @@ void showHealth(int health)
 {
 	int i;
 	for (i = 0; i < health / 2; ++i)
-		fullHearts.draw(25 * 8 - i * 8, 7 * 8);
+		fullHeart.draw(25 * 8 - i * 8, 7 * 8);
 	if (health % 2 == 1)
 		halfHeart.draw(25 * 8 - (health - 1)*4, 7 * 8, true);
 }
