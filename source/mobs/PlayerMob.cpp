@@ -19,8 +19,9 @@
 #include "../graphics/interfaces/interfaceHandler.h"
 
 #define PLAYER_FULL_HEALTH 20
-Graphic fullHeart(GraphicType::PARTICLE, 0, false);
-Graphic halfHeart(GraphicType::PARTICLE, 1, false);
+Graphic PlayerMob::mineSprite(GraphicType::MOB_ANIM, 2);
+Graphic PlayerMob::fullHeart(GraphicType::PARTICLE, 0, false);
+Graphic PlayerMob::halfHeart(GraphicType::PARTICLE, 1, false);
 bool PlayerMob::controlsEnabled = true;
 
 
@@ -88,7 +89,7 @@ void PlayerMob::hurt(int amount, int type)
 	}
 }
 
-void showHealth(int health)
+void PlayerMob::showHealth(int health)
 {
 	int i;
 	for (i = 0; i < health / 2; ++i)
