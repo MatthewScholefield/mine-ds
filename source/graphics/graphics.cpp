@@ -345,10 +345,7 @@ void Graphic::reload()
 
 Graphic::Graphic(GraphicType type, int frame, bool main, int paletteID)
 : gfx(nullptr), firstFrame(nullptr), type(type), main(main), frame(frame)
-, loadIter(textureID), paletteID(paletteID), animFrame(0)
-{
-	load();
-}
+, loadIter(textureID), paletteID(paletteID), animFrame(0) { }
 
 Graphic::Graphic(const Graphic& orig) : gfx(nullptr), firstFrame(nullptr), type(orig.type)
 , main(orig.main), frame(orig.frame), loadIter(textureID), paletteID(orig.paletteID), animFrame(orig.animFrame)
@@ -388,7 +385,11 @@ SpriteSize Graphic::getSpriteSize(GraphicType type)
 
 bool Graphic::draw(int x, int y, bool flip, int pri)
 {
-	if (!gfx || x < -16 || x > 256 || y < -32 || y > 192)
+	if (type == GraphicType::NONE)
+		return false;
+	if (!gfx)
+		load();
+	if (x < -16 || x > 256 || y < -32 || y > 192)
 		return false;
 	if (loadIter != Graphic::textureID)
 		reload();
