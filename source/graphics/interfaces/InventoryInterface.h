@@ -53,7 +53,7 @@ public:
 	{
 		menu.addButton(1, 16, locale("back"), open);
 		backButton = menu.getBack();
-		menu.addButton(8, 16, locale("save"));
+		menu.addButton(8, 16, locale("save"), 12);
 		menu.addButton(21, 16, "Crafting", isSurvival());
 		menu.addButton(21, 16, locale("pages"), 9, !isSurvival());
 		menu.addButton(26, 5, "<");
