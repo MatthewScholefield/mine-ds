@@ -52,10 +52,12 @@ static bool inGameMenu()
 		clearText();
 
 		Menu menu;
+		const char *s1 = locale("save"), *s2 = locale("quit"), *s3 = locale("settings");
+		int length = 2 + max(strlen(s1), strlen(s2), strlen(s3));
 
-		menu.addButton(8, locale("save"));
-		menu.addButton(13, locale("quit"));
-		menu.addButton(18, locale("settings"));
+		menu.addButton(8, s1, length);
+		menu.addButton(13, s2, length);
+		menu.addButton(18, s3, length);
 
 		switch (menu.activate())
 		{
