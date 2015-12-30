@@ -91,7 +91,7 @@ CPPFILES := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 PNGFILES := $(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 BINFILES := $(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-LANGFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.lang)))
+LANGFILES   := $(sort $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.lang))))
 
 # prepare NitroFS directory
 ifneq ($(strip $(NITRO)),)
@@ -158,7 +158,7 @@ endif
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@mkdir -p $@
-	python localize.py $(LANGFILES)
+	python2 localize.py $(LANGFILES)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	mv $(OUTPUT).nds Mine-DS.nds || true
 	mv $(OUTPUT).elf Mine-DS.elf || true

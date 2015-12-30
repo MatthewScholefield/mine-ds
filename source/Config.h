@@ -60,7 +60,7 @@ public:
 		false, false, true, true, true, true, true
 	}
 
-	, musicVolume(20), sfxVolume(25), languageID(0),
+	, musicVolume(20), sfxVolume(25), languageID(1),
 	textureName("default") { }
 };
 
