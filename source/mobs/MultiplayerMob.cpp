@@ -27,13 +27,6 @@ void MultiplayerMob::updateMob(WorldObject &world)
 
 void MultiplayerMob::sendWifiUpdate() { }
 
-void MultiplayerMob::saveToFile(FILE* pFile) { }
-
-void MultiplayerMob::loadFromFile(FILE* pFile)
-{
-	health = 0;
-}
-
 bool canMultiplayerMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;

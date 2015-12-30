@@ -81,13 +81,6 @@ void ZombieMob::updateMob(WorldObject &world)
 
 void ZombieMob::sendWifiUpdate() { }
 
-void ZombieMob::saveToFile(FILE* pFile) { }
-
-void ZombieMob::loadFromFile(FILE* pFile)
-{
-	health = 0;
-}
-
 bool canZombieMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;

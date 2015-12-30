@@ -91,13 +91,6 @@ void AnimalMob::updateMob(WorldObject &world)
 
 void AnimalMob::sendWifiUpdate() { }
 
-void AnimalMob::saveToFile(FILE* pFile) { }
-
-void AnimalMob::loadFromFile(FILE* pFile)
-{
-	health = 0;
-}
-
 void AnimalMob::hurt(int amount, int type)
 {
 

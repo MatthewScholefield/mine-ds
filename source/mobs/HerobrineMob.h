@@ -15,8 +15,6 @@ public:
 	int waitingCount;
 
 	void calcMiscData(WorldObject &world);
-	void saveToFile(FILE* sFile);
-	void loadFromFile(FILE* sFile);
 	void sendWifiUpdate();
 	void updateMob(WorldObject &world);
 	void hurt(int amount, int type);

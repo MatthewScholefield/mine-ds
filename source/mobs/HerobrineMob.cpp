@@ -61,13 +61,6 @@ void HerobrineMob::updateMob(WorldObject &world)
 
 void HerobrineMob::sendWifiUpdate() { }
 
-void HerobrineMob::saveToFile(FILE* pFile) { }
-
-void HerobrineMob::loadFromFile(FILE* pFile)
-{
-	health = 0;
-}
-
 bool canHerobrineMobSpawnHere(WorldObject &world, int x, int y)
 {
 	++y;
