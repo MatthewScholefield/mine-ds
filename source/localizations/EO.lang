@@ -19,11 +19,11 @@ language=Lingvoj
 # Button names
 
 back=Reen
-load= ŝargas
-save= konservas
-quit= forlasas
-edit= redaktas
-view= vidigas
+load=ŝargi
+save=Konservi
+quit=Forlasi
+edit=Redakti
+view=Vidigi
 respawn=Respawn
 pages=Paĝoj
 
