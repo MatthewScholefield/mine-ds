@@ -32,7 +32,7 @@ ICON     :=
 # this is relative to the Makefile
 
 # These set the information text in the nds file
-GAME_TITLE     := Mine DS v0.3.1
+GAME_TITLE     := Mine DS v0.4.0
 GAME_SUBTITLE1 := A 2D Minecraft
 GAME_SUBTITLE2 := inspired homebrew
 
