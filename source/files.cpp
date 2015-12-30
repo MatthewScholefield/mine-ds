@@ -68,8 +68,8 @@ bool saveWorld(WorldObject &world)
 		fprintf(worldFile, "%d ", world.reservedWater);
 		fclose(worldFile);
 		iprintf("\x1b[19;1H              ");
-		playMusic(MUSIC_CALM);
 		fclose(worldFile);
+		playMusic(MUSIC_CALM);
 		return true;
 	}
 	if (openedWorld)
