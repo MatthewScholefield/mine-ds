@@ -494,10 +494,10 @@ void gameModeScreen()
 		newGame(GAMEMODE_SURVIVAL);
 		break;
 	case 3: // load game
-		printXY(1, 22, "Loading game");
+		printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Loading game");
 		if (!loadGame())
 		{
-			printXY(1, 22, "Failed to load game");
+			printXY(1 + (!menuFirstSlot ? 0 : 32), 22, "Failed to load game");
 			sleepThread(1);
 			return;
 		}
