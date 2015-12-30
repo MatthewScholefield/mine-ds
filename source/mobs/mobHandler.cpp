@@ -163,19 +163,6 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	}
 }
 
-void saveMobs(FILE* f)
-{
-	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
-	{
-		if (mobs[i]->alive)
-		{
-			fprintf(f, "%d ", mobs[i]->type);
-			mobs[i]->saveToFile(f);
-		}
-	}
-	fprintf(f, "-1 ");
-}
-
 static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck = false)
 {
 	int i;
@@ -206,6 +193,20 @@ int spawnMobAt(MobType type, int x, int y)
 	mobs.back()->host = true;
 	return mobs.size() - 1;
 }
+
+void saveMobs(FILE* f)
+{
+	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
+	{
+		if (mobs[i]->alive)
+		{
+			fprintf(f, "%d ", mobs[i]->type);
+			mobs[i]->saveToFile(f);
+		}
+	}
+	fprintf(f, "-1 ");
+}
+
 
 void loadMobs(FILE* f)
 {
