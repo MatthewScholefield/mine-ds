@@ -116,9 +116,9 @@ bool loadWorld(WorldObject *world)
 		int loadTimeInWorld;
 		fscanf(worldFile, "%d ", &loadTimeInWorld);
 		world->timeInWorld = loadTimeInWorld;
-		for (int i = 0; i <= worldBlocksX; ++i)
+		for (int i = 0; i < worldBlocksX; ++i)
 		{
-			for (int j = 0; j <= worldBlocksY; ++j)
+			for (int j = 0; j < worldBlocksY; ++j)
 			{
 				fscanf(worldFile, "%hd %hd %d ", &world->blocks[i][j], &world->bgblocks[i][j], &world->data[i][j]);
 				if (perpetualUpdates(world->bgblocks[i][j]))
