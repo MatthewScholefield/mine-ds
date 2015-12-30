@@ -50,6 +50,10 @@ void WorldObject::generate()
 		for (y = 0; y < WORLD_HEIGHT; ++y)
 			if (blocks[x][y] != AIR && !isBlockWalkThrough(blocks[x][y]))
 				bgblocks[x][y] = blocks[x][y];
+			
+	generateCaves(*this);
+	
+			
 	dayNightUpdate(*this);
 	calculateBrightness(*this);
 }

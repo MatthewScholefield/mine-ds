@@ -94,3 +94,71 @@ void generateRandomBiome(WorldObject &world, int x, int endX)
 		break;
 	}
 }
+
+void generateCaves(WorldObject &world)
+{
+	int beginning_y = findFirstBlock(world,WORLD_WIDTH/2);
+	int y = (beginning_y + WORLD_HEIGHT) / 2;
+	int height = 1;
+	
+	// 0 == widening
+	// 1 == sprawling
+	// 2 == shortening
+	int state = 0;
+	
+	for (int i = 0; i < WORLD_WIDTH; ++i)
+	{
+		//Drill the hole
+		for (int j = y - height / 2; j < y + height / 2; ++j)
+		{
+			
+			if (world.blocks[i][j]!=BEDROCK)
+				world.blocks[i][j]=AIR;
+			
+			
+			// Generate ores in background layer
+			if (rand()%4)
+			{
+				if ((rand()%100)==0 && world.bgblocks[i][j]==STONE)
+					world.bgblocks[i][j]=DIAMOND_ORE;
+				else if ((rand() % 80)==0 && world.bgblocks[i][j]==STONE)
+					world.bgblocks[i][j]=GOLD_ORE;
+				else if ((rand() % 40)==0 && world.bgblocks[i][j]==STONE)
+					world.bgblocks[i][j]=IRON_ORE;
+				else if ((rand() % 30)==0 && world.bgblocks[i][j]==STONE)
+					world.bgblocks[i][j]=COAL_ORE;
+			}
+		}
+		
+		//Move along the cave, changing the height and the y position
+		if (state == 0)
+		{
+			height += rand() % 3;
+			if (height > 4 && rand() % height)
+				state = 1;
+		}
+		else if (state == 1)
+		{
+			y += (rand() % 3) - 1;
+			
+			if ((rand() % 8)==0)
+				height += (rand() % 4) - 1;
+			
+			if (height > 10) height = 10;
+			
+			if ((rand() % 30) == 0 || height < 4)
+				state = 2;
+		}
+		else if (state == 2)
+		{
+			height -= rand() % 3;
+			if (height < 1)
+			{
+				height = 1;
+				y += (rand() % (WORLD_HEIGHT / 6)) - WORLD_HEIGHT / 12;
+				i += (rand() % (WORLD_WIDTH / 20)) + 5;
+				state = 0;
+			}
+		}
+	}
+}
