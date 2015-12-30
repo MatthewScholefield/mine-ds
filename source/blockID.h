@@ -105,8 +105,8 @@
 #define DIAMOND 64
 #define STICK 65
 #define FLESH 66
-#define BEEF_COOKED 67
-#define PORKCHOP_COOKED 68
+#define PORKCHOP_COOKED 67
+#define BEEF_COOKED 68
 #define CHICKEN_RAW 69
 #define CHICKEN_COOKED 70
 #define COBBLESTONE 71
