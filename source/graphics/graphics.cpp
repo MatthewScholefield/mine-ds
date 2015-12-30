@@ -86,6 +86,7 @@ static void setBlockPalette(bool blocks, int brightness, int index)
 		slot |= blue;
 		palette[i] = slot;
 	}
+	DC_FlushRange(palette,PAL_LEN);
 	dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], PAL_LEN);
 	delete[] palette;
 }
