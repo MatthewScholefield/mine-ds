@@ -63,10 +63,7 @@ void HerobrineMob::sendWifiUpdate() { }
 
 bool canHerobrineMobSpawnHere(World &world, int x, int y)
 {
-	++y;
-	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)
-		return true;
-	return false;
+	return canMobSpawnHere(world, x, y);
 }
 
 void HerobrineMob::hurt(int amount, int type)

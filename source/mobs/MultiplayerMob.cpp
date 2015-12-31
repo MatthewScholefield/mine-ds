@@ -4,6 +4,7 @@
 #include "../graphics/graphics.h"
 #include "../debugflag.h"
 #include "MultiplayerMob.h"
+#include "mobHandler.h"
 #include "../blockID.h"
 #include "../world/worldRender.h"
 #include <nds.h>
@@ -29,8 +30,5 @@ void MultiplayerMob::sendWifiUpdate() { }
 
 bool canMultiplayerMobSpawnHere(World &world, int x, int y)
 {
-	++y;
-	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS)
-		return true;
-	return false;
+	return canMobSpawnHere(world, x, y);
 }

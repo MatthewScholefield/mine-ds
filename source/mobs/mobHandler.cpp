@@ -46,7 +46,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 
 bool canMobSpawnHere(World &world, int x, int y)
 {
-	return (isBlockWalkThrough(world.blocks[x][y]) && !isBlockWalkThrough(world.blocks[x][y + 1]) && world.blocks[x][y] != CACTUS && world.bgblocks[x][y + 1] != CACTUS);
+	return isBlockWalkThrough(world.blocks[x][y]) && !isBlockWalkThrough(world.blocks[x][y + 1]);
 }
 
 int getDefaultSpawnX()
@@ -169,13 +169,14 @@ static void spawnMobOn(MobType mobId, World &world, int j, bool skipCheck = fals
 	for (i = 0; i < World::HEIGHT; ++i)
 		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
-			newMob(mobId, j * 16, i * 16);
+			newMob(mobId, (World::BLOCK_PX * (2 * j + 1)) / 2, (i + 1) * 16);
+			mobs.back()->y -= mobs.back()->sy / 2;
 			mobs.back()->host = true;
 			return;
 		}
 }
 
-static void spawnMob(MobType mobId, World &world)
+static void createMobAtSpawn(MobType mobId, World &world)
 {
 	for (int j = world.spawnX; j < World::WIDTH; ++j)
 		for (int i = 0; i < World::HEIGHT; ++i)
@@ -232,7 +233,7 @@ void mobHandlerUpdate(World &world, touchPosition &touch)
 	int badMobs = 0;
 	int goodMobs = 0;
 	if (shouldSpawnPlayer)
-		spawnMob(MOB_PLAYER, world);
+		createMobAtSpawn(MOB_PLAYER, world);
 	for (std::vector<BaseMob::Ptr>::size_type i = 0; i < mobs.size(); ++i)
 	{
 		if (mobs[i]->health > 0)
@@ -273,8 +274,8 @@ void mobHandlerUpdate(World &world, touchPosition &touch)
 	}
 	if (goodMobs < 4 && rand() % 30 == 0)
 		spawnMobOn(MOB_ANIMAL, world, world.camX / 16 + rand() % 16);
-	if (badMobs <= 5 && canSpawnMob())
+	if (badMobs <= 5)
 		spawnMobOn((rand() % 10) != 1
 				&& getGlobalSettings()->getProperty(PROPERTY_HEROBRINE) ? MOB_HEROBRINE : MOB_ZOMBIE,
-				world, getPlayerX() / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
+			world, getPlayerX() / 16 + (16 + (rand() % 16))*((rand() % 2) ? -1 : 1));
 }
