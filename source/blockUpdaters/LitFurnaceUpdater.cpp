@@ -29,7 +29,7 @@ bool LitFurnaceUpdater::update(World &world, int x, int y, bool bg)
 			world.furnaces[id].particleX = rand() % 12;
 			t = 0;
 			addParticle(Particle((float) (x * 16 + world.furnaces[id].particleX)
-								, (float) y * 16 + 10, (float) (rand() % 4 - 1) / 32
+								, (float) y * 16 + 10, (float) (rand() % 3 - 1) / 32
 								, -0.05f, 0.0f, -0.008f, 120, fireParticle));
 		}
 		//Replace t
