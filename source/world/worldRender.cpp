@@ -90,6 +90,8 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 				if (!isBlockWalkThrough(block))
 					startedShade = true;
 			}
+			else if (block == AIR && world.bgblocks[i][j] == AIR)
+				world.brightness[i][j] = world.worldBrightness / 2;
 			else
 				world.brightness[i][j] = 0;
 			if (isBlockALightSource(block))
