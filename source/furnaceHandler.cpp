@@ -39,7 +39,7 @@ void convertItemToFuel(Furnace &furnace)
 void createFurnace(World &world, int x, int y, bool bg)
 {
 	int furnaceID = -1;
-	for (int i = 0; i < MAX_FURNACES; ++i)
+	for (int i = 0; i < World::MAX_FURNACES; ++i)
 		if (!world.furnaces[i].inUse)
 		{
 			furnaceID = i;

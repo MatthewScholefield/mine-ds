@@ -19,7 +19,7 @@ int extremeMountainGen(World &world, int startx, int starty, int endx)
 	///This can be defined!
 	int endy = starty + (rand() % 23 - 11);
 	if (endy < 13) endy = 16;
-	else if (endy > WORLD_HEIGHT / 2) endy = WORLD_HEIGHT / 2;
+	else if (endy > World::HEIGHT / 2) endy = World::HEIGHT / 2;
 	while (x < endx - 8)
 	{
 		if (y < 8) y = 8;
@@ -49,7 +49,7 @@ int flatGen(World &world, int startx, int starty, int endx)
 			y += rand() % 3 - 1;
 			++times;
 			if (y < 5) y -= rand() % 2 - 2;
-			if (y > WORLD_HEIGHT / 3) y -= rand() % 2;
+			if (y > World::HEIGHT / 3) y -= rand() % 2;
 			changey = rand() % 5 + 2;
 		}
 		drawLineDown(world, x, y);
@@ -60,13 +60,13 @@ int flatGen(World &world, int startx, int starty, int endx)
 
 void generateBedrock(World &world)
 {
-	for (int i = 0; i < WORLD_WIDTH; ++i)
+	for (int i = 0; i < World::WIDTH; ++i)
 	{
-		world.blocks[i][WORLD_HEIGHT - 1] = BEDROCK;
-		if (!(rand() % 2)) world.blocks[i][WORLD_HEIGHT - 2] = BEDROCK;
-		if (!(rand() % 4)) world.blocks[i][WORLD_HEIGHT - 3] = BEDROCK;
-		if (!(rand() % 6)) world.blocks[i][WORLD_HEIGHT - 4] = BEDROCK;
-		if (!(rand() % 8)) world.blocks[i][WORLD_HEIGHT - 5] = BEDROCK;
+		world.blocks[i][World::HEIGHT - 1] = BEDROCK;
+		if (!(rand() % 2)) world.blocks[i][World::HEIGHT - 2] = BEDROCK;
+		if (!(rand() % 4)) world.blocks[i][World::HEIGHT - 3] = BEDROCK;
+		if (!(rand() % 6)) world.blocks[i][World::HEIGHT - 4] = BEDROCK;
+		if (!(rand() % 8)) world.blocks[i][World::HEIGHT - 5] = BEDROCK;
 	}
 }
 
@@ -97,8 +97,8 @@ void generateRandomBiome(World &world, int x, int endX)
 
 void generateCaves(World &world)
 {
-	int beginning_y = findFirstBlock(world,WORLD_WIDTH/2);
-	int y = (beginning_y + WORLD_HEIGHT) / 2;
+	int beginning_y = findFirstBlock(world,World::WIDTH/2);
+	int y = (beginning_y + World::HEIGHT) / 2;
 	int height = 1;
 	
 	// 0 == widening
@@ -106,7 +106,7 @@ void generateCaves(World &world)
 	// 2 == shortening
 	int state = 0;
 	
-	for (int i = 0; i < WORLD_WIDTH; ++i)
+	for (int i = 0; i < World::WIDTH; ++i)
 	{
 		//Drill the hole
 		for (int j = y - height / 2; j < y + height / 2; ++j)
@@ -155,8 +155,8 @@ void generateCaves(World &world)
 			if (height < 1)
 			{
 				height = 1;
-				y += (rand() % (WORLD_HEIGHT / 6)) - WORLD_HEIGHT / 12;
-				i += (rand() % (WORLD_WIDTH / 20)) + 5;
+				y += (rand() % (World::HEIGHT / 6)) - World::HEIGHT / 12;
+				i += (rand() % (World::WIDTH / 20)) + 5;
 				state = 0;
 			}
 		}

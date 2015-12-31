@@ -95,7 +95,7 @@ static void setWater(World &world, int x, int y, int amount)
 
 static bool flowDown(World &world, int x, int y)
 {
-	if (y + 1 >= WORLD_HEIGHT || !isBlockWalkThrough(world.blocks[x][y + 1]))
+	if (y + 1 >= World::HEIGHT || !isBlockWalkThrough(world.blocks[x][y + 1]))
 		return false;
 	int level = getWaterLevel(world, x, y);
 	switch (world.blocks[x][y + 1])
@@ -153,7 +153,7 @@ bool WaterUpdater::update(World &world, int x, int y, bool bg)
 		return true;
 
 	bool leftBound = x - 1 >= 0;
-	bool rightBound = (x + 1) < WORLD_WIDTH;
+	bool rightBound = (x + 1) < World::WIDTH;
 	bool canMixLeft = leftBound && isBlockWalkThrough(world.blocks[x - 1][y]);
 	bool canMixRight = rightBound && isBlockWalkThrough(world.blocks[x + 1][y]);
 

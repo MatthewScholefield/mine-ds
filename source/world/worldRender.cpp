@@ -47,7 +47,7 @@ const int SUB_AMOUNT[16] = {1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
 
 void brightnessUpdate(World &world, int x, int y, int brightness)
 {
-	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT)
+	if ((unsigned) x >= World::WIDTH || (unsigned) y >= World::HEIGHT)
 		return;
 	int before = world.brightness[x][y];
 	int after = max(before, brightness);
@@ -75,9 +75,9 @@ void calculateBrightness(World &world, int leftBound, int rightBound, int topBou
 {
 	const int MAX_SPREAD = 7;
 	const int MIN_X = max(0, leftBound - MAX_SPREAD);
-	const int MAX_X = min(WORLD_WIDTH - 1, rightBound + MAX_SPREAD);
+	const int MAX_X = min(World::WIDTH - 1, rightBound + MAX_SPREAD);
 	const int MIN_Y = max(0, topBound - MAX_SPREAD);
-	const int MAX_Y = min(WORLD_HEIGHT - 1, bottomBound + MAX_SPREAD);
+	const int MAX_Y = min(World::HEIGHT - 1, bottomBound + MAX_SPREAD);
 	for (int i = MIN_X; i <= MAX_X; ++i)
 	{
 		bool startedShade = false;
@@ -105,7 +105,7 @@ void calculateBrightness(World &world, int leftBound, int rightBound, int topBou
 
 void calculateBrightness(World &world)
 {
-	calculateBrightness(world, 0, WORLD_WIDTH - 1, 0, WORLD_HEIGHT - 1);
+	calculateBrightness(world, 0, World::WIDTH - 1, 0, World::HEIGHT - 1);
 }
 
 void calculateBrightness(World &world, int x, int y)

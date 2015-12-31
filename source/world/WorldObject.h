@@ -4,17 +4,6 @@
 #include "../Furnace.h"
 #include "../inventory.h"
 
-#define WORLD_HEIGHT	(128)
-#define WORLD_WIDTH	(1024)
-#define WORLD_HEIGHTPX	(WORLD_HEIGHT * 16)
-#define WORLD_WIDTHPX	(WORLD_WIDTH * 16)
-
-#define CHEST_SLOTS 30
-#define MAX_CHESTS 30
-#define MAX_FURNACES 30
-#define INDEX_BLOCK_ID 0
-#define INDEX_AMOUNT 1
-
 enum GameMode
 {
 	GAMEMODE_CREATIVE = 1,
@@ -31,7 +20,10 @@ enum Biome
 	BIOME_MUSHROOM = 5,
 	BIOME_OCEAN = 6
 };
-
+/*
+	static const int HEIGHTPX = HEIGHT * 16;
+	static const int WIDTHPX = HEIGHT * 16;
+ */
 class World
 {
 	static const int NO_SEED = 0;
@@ -41,10 +33,12 @@ class World
 	void generate();
 	void initialize();
 public:
-	short blocks[WORLD_WIDTH][WORLD_HEIGHT];
-	short bgblocks[WORLD_WIDTH][WORLD_HEIGHT];
-	int data[WORLD_WIDTH][WORLD_HEIGHT];
-	short brightness[WORLD_WIDTH][WORLD_HEIGHT];
+	static const int HEIGHT = 128, WIDTH = 1024, BLOCK_PX = 16;
+	static const int CHEST_SLOTS = 30, MAX_CHESTS = 30, MAX_FURNACES = 30;
+	short blocks[WIDTH][HEIGHT];
+	short bgblocks[WIDTH][HEIGHT];
+	int data[WIDTH][HEIGHT];
+	short brightness[WIDTH][HEIGHT];
 
 	int spawnX;
 	int camY;
@@ -55,7 +49,7 @@ public:
 	int seed; //The random number seed used to generate the world
 	double camCalcX;
 	double camCalcY;
-	Biome biome[WORLD_WIDTH];
+	Biome biome[WIDTH];
 	bool chestInUse[MAX_CHESTS];
 	Inventory chests[MAX_CHESTS];
 	Furnace furnaces[MAX_FURNACES];

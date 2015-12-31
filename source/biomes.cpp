@@ -173,7 +173,7 @@ void oceanBiome(World &world, int startx, int endx)
 	int olowery = starty < endy ? endy : starty;
 	int lowery = olowery + rand() % 4 + 5;
 	for (int i=startx; i < endx; i++)
-		for (int j=0; j<WORLD_HEIGHT;j++)
+		for (int j=0; j<World::HEIGHT;j++)
 			world.blocks[i][j] = AIR;
 	drawLineThing(world,startx, starty,midx-2,lowery);
 	drawLineThing(world,midx-2,lowery,midx+2,lowery);

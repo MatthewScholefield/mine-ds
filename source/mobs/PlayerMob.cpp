@@ -132,9 +132,9 @@ void PlayerMob::updateMob(World &world)
 			}
 
 			if (world.camCalcX < 0.0) world.camCalcX = 0.0;
-			if (world.camCalcX > (WORLD_WIDTH - 1) * 16 - 256) world.camCalcX = (WORLD_WIDTH - 1) * 16 - 256;
+			if (world.camCalcX > (World::WIDTH - 1) * 16 - 256) world.camCalcX = (World::WIDTH - 1) * 16 - 256;
 			if (world.camCalcY < 0.0) world.camCalcY = 0.0;
-			if (world.camCalcY > (WORLD_HEIGHT - 1)*16 - 192) world.camCalcY = (WORLD_HEIGHT - 1)*16 - 192;
+			if (world.camCalcY > (World::HEIGHT - 1)*16 - 192) world.camCalcY = (World::HEIGHT - 1)*16 - 192;
 			world.camX = int(world.camCalcX);
 			world.camY = int(world.camCalcY);
 
@@ -186,7 +186,7 @@ void PlayerMob::updateMob(World &world)
 					vy = JUMP_VELOCITY;
 			}
 
-			if (y > WORLD_HEIGHTPX) hurt(3, VOID_HURT);
+			if (y > World::HEIGHT * World::BLOCK_PX) hurt(3, VOID_HURT);
 			if (framesHurtSprite == 0) spriteState = 0;
 			else --framesHurtSprite;
 			showHealth(health);

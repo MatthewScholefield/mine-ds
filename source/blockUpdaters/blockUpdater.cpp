@@ -162,7 +162,7 @@ bool findUpdateInfo(int x, int y, bool bg, bool chance)
 
 void recursiveUpdate(World &world, int x, int y, bool bg)
 {
-	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return;
+	if ((unsigned) x >= World::WIDTH || (unsigned) y >= World::HEIGHT) return;
 	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
 	if (index != -1)
@@ -226,7 +226,7 @@ void processOneBlock(World &world)
 			bool bg = it->bg;
 			bool chance = it->chance;
 			it = updaterList.erase(it);
-			if ((unsigned) x < WORLD_WIDTH && (unsigned) y < WORLD_HEIGHT)
+			if ((unsigned) x < World::WIDTH && (unsigned) y < World::HEIGHT)
 			{
 				short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 				int index = updaterIndex(blockXY);

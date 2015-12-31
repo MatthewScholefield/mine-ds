@@ -84,7 +84,7 @@ void ZombieMob::sendWifiUpdate() { }
 bool canZombieMobSpawnHere(World &world, int x, int y)
 {
 	++y;
-	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return false;
+	if ((unsigned) x >= World::WIDTH || (unsigned) y >= World::HEIGHT) return false;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)
 	{
 		if (world.brightness[x][y + 1] <= 8)

@@ -102,7 +102,7 @@ void calculateMiscData(World &world, BaseMob *mob)
 			mob->x += (16 * mob->vx) / FPS;
 		if (mob->x < mob->sx / 2) mob->x = mob->sx / 2;
 		if (mob->y < mob->sy / 2) mob->y = mob->sy / 2;
-		if (mob->x > WORLD_WIDTHPX - mob->sx / 2) mob->x = WORLD_WIDTHPX - mob->sx / 2;
+		if (mob->x > World::WIDTH * World::BLOCK_PX - mob->sx / 2) mob->x = World::WIDTH * World::BLOCK_PX - mob->sx / 2;
 	}
 }
 
@@ -137,7 +137,7 @@ void calculateMiscDataSmall(World &world, BaseMob *mob)
 
 		if (mob->x < mob->sx / 2) mob->x = mob->sx / 2;
 		if (mob->y < mob->sy / 2) mob->y = mob->sy / 2;
-		if (mob->x > WORLD_WIDTHPX - mob->sx / 2) mob->x = WORLD_WIDTHPX - mob->sx / 2;
+		if (mob->x > World::WIDTH * World::BLOCK_PX - mob->sx / 2) mob->x = World::WIDTH * World::BLOCK_PX - mob->sx / 2;
 	}
 }
 

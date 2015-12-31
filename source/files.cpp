@@ -48,17 +48,17 @@ bool saveWorld(World &world)
 	if (openedWorld)
 	{
 		fprintf(worldFile, VERSION_STRING " ");
-		fprintf(worldFile, "%d %d ", WORLD_WIDTH, WORLD_HEIGHT);
+		fprintf(worldFile, "%d %d ", World::WIDTH, World::HEIGHT);
 		fprintf(worldFile, "%d ", world.gameMode);
 		fprintf(worldFile, "%d ", world.timeInWorld);
-		for (int i = 0; i < WORLD_WIDTH; ++i)
+		for (int i = 0; i < World::WIDTH; ++i)
 		{
-			for (int j = 0; j < WORLD_HEIGHT; ++j)
+			for (int j = 0; j < World::HEIGHT; ++j)
 				fprintf(worldFile, "%hd %hd %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
 			if (i % 50 == 0)
-				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
+				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(World::WIDTH))));
 		}
-		for (int i = 0; i < WORLD_WIDTH; ++i)
+		for (int i = 0; i < World::WIDTH; ++i)
 			fprintf(worldFile, "%d ", world.biome[i]);
 
 		saveInventory(worldFile);
@@ -94,7 +94,7 @@ bool loadWorld(World *world)
 		fscanf(worldFile, "%s ", versionChar);
 		int worldBlocksX, worldBlocksY;
 		fscanf(worldFile, "%d %d ", &worldBlocksX, &worldBlocksY);
-		if (worldBlocksX != WORLD_WIDTH || worldBlocksY != WORLD_HEIGHT || strcmp(versionChar, VERSION_STRING) != 0)
+		if (worldBlocksX != World::WIDTH || worldBlocksY != World::HEIGHT || strcmp(versionChar, VERSION_STRING) != 0)
 		{
 			bool exit;
 			if (strcmp(versionChar, VERSION_STRING) != 0)
@@ -127,12 +127,12 @@ bool loadWorld(World *world)
 					updateSingleBlock(*world, i, j, false);
 			}
 			if (i % 64 == 0)
-				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(WORLD_WIDTH))));
+				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(World::WIDTH))));
 
 		}
 		calculateBrightness(*world);
 		int loadBiome;
-		for (int i = 0; i < WORLD_WIDTH; ++i)
+		for (int i = 0; i < World::WIDTH; ++i)
 		{
 			fscanf(worldFile, "%d ", &loadBiome);
 			world->biome[i] = Biome(loadBiome);

@@ -166,7 +166,7 @@ static void newMob(MobType type, int x = 0, int y = 0)
 static void spawnMobOn(MobType mobId, World &world, int j, bool skipCheck = false)
 {
 	int i;
-	for (i = 0; i < WORLD_HEIGHT; ++i)
+	for (i = 0; i < World::HEIGHT; ++i)
 		if (canMobSpawnHere(mobId, world, j, i) || skipCheck)
 		{
 			newMob(mobId, j * 16, i * 16);
@@ -177,8 +177,8 @@ static void spawnMobOn(MobType mobId, World &world, int j, bool skipCheck = fals
 
 static void spawnMob(MobType mobId, World &world)
 {
-	for (int j = world.spawnX; j < WORLD_WIDTH; ++j)
-		for (int i = 0; i < WORLD_HEIGHT; ++i)
+	for (int j = world.spawnX; j < World::WIDTH; ++j)
+		for (int i = 0; i < World::HEIGHT; ++i)
 			if (canMobSpawnHere(mobId, world, j, i))
 			{
 				newMob(mobId, j * 16, i * 16);

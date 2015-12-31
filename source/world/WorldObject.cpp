@@ -11,14 +11,14 @@ int World::useSeed = NO_SEED;
 int findFirstBlock(World &world, int x)
 {
 	int i;
-	for (i = 0; i < WORLD_HEIGHT; ++i)
+	for (i = 0; i < World::HEIGHT; ++i)
 		if (!isBlockWalkThrough(world.blocks[x][i])) return i;
 	return -1;
 }
 
 void World::generateSmallWorld()//Generates one biome
 {
-	int y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
+	int y = rand() % (HEIGHT / 4) + HEIGHT / 4;
 	int origY = y;
 	int endX = rand() % 16 + 16;
 	y = (rand() % 2 ? extremeMountainGen(*this, 0, y, endX) : flatGen(*this, 0, y, endX));
@@ -36,18 +36,18 @@ void World::generate()
 	stopMusic();
 	//Generating a world is intensive on the cpu.
 	//If you don't stop the music, the whole sound engine will become stuffed up.
-	int x = 0, y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
-	while (x < WORLD_WIDTH)
+	int x = 0, y = rand() % (HEIGHT / 4) + HEIGHT / 4;
+	while (x < WIDTH)
 	{
 		int endX = x + rand() % 16 + 16;
-		if (endX >= WORLD_WIDTH) endX = WORLD_WIDTH - 1;
+		if (endX >= WIDTH) endX = WIDTH - 1;
 		y = (rand() % 2 ? extremeMountainGen(*this, x, y, endX) : flatGen(*this, x, y, endX));
 		generateRandomBiome(*this, x, endX);
 		x = endX + 1;
 	}
 	generateBedrock(*this);
-	for (x = 0; x < WORLD_WIDTH; ++x) //Copy FG blocks to BG
-		for (y = 0; y < WORLD_HEIGHT; ++y)
+	for (x = 0; x < WIDTH; ++x) //Copy FG blocks to BG
+		for (y = 0; y < HEIGHT; ++y)
 			if (blocks[x][y] != AIR && !isBlockWalkThrough(blocks[x][y]))
 				bgblocks[x][y] = blocks[x][y];
 			
@@ -61,15 +61,15 @@ void World::generate()
 void drawLineDown(World &world, int x, int y)
 {
 	int i;
-	for (i = y; i < WORLD_HEIGHT; ++i)
+	for (i = y; i < World::HEIGHT; ++i)
 	{
-		if (i > WORLD_HEIGHT - 20 && rand() % 120 == 1) //20 blocks from bottom
+		if (i > World::HEIGHT - 20 && rand() % 120 == 1) //20 blocks from bottom
 			world.blocks[x][i] = DIAMOND_ORE;
-		else if (i > WORLD_HEIGHT - 30 && rand() % 90 == 1) //30 blocks from bottom
+		else if (i > World::HEIGHT - 30 && rand() % 90 == 1) //30 blocks from bottom
 			world.blocks[x][i] = GOLD_ORE;
-		else if (i > WORLD_HEIGHT - 65 && rand() % 80 == 1) //65 blocks from bottom
+		else if (i > World::HEIGHT - 65 && rand() % 80 == 1) //65 blocks from bottom
 			world.blocks[x][i] = IRON_ORE;
-		else if (i > WORLD_HEIGHT - 80 && rand() % 60 == 1) //80 blocks from bottom
+		else if (i > World::HEIGHT - 80 && rand() % 60 == 1) //80 blocks from bottom
 			world.blocks[x][i] = COAL_ORE;
 		else world.blocks[x][i] = STONE;
 	}
@@ -157,7 +157,7 @@ void World::initialize()
 	int spawnY;
 	do
 	{
-		for (auto i = 0; i <= WORLD_HEIGHT; ++i)
+		for (auto i = 0; i <= HEIGHT; ++i)
 			if (blocks[spawnX][i] != AIR)
 			{
 				onLand = (blocks[spawnX][i] != WATER);
@@ -174,7 +174,7 @@ void World::initialize()
 
 World::World(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
 
-, spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
+, spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WIDTH * 3) / 8 + rand() % (WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
 , timeInWorld(0), sunBrightness(15), gameMode(gameMode)
 , seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
 , furnaces{}
@@ -186,7 +186,7 @@ World::World(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
 
 World::World(bool init) : blocks { }, bgblocks{}, data{}, brightness{}
 
-, spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(0)
+, spawnX((WIDTH * 3) / 8 + rand() % (WIDTH / 4)), camY(0), camX(0)
 , timeInWorld(0), sunBrightness(15), gameMode(GAMEMODE_PREVIEW)
 , seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
 , furnaces{}

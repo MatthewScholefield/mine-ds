@@ -74,7 +74,7 @@ void recieveWorld(World &world2)
 	for (i = 0; i <= 16; ++i)
 	{
 		iprintf(".");
-		for (j = 0; j < WORLD_HEIGHT; ++j)
+		for (j = 0; j < World::HEIGHT; ++j)
 		{
 			framecounter = 0;
 			code = 0;
@@ -128,12 +128,12 @@ void recieveWorldUpdate()
 			code = 0;
 			recv_code = 0;
 			recv_y += addamount + 1;
-			if (recv_y >= WORLD_HEIGHT)
+			if (recv_y >= World::HEIGHT)
 			{
 				recv_y = 0;
 				++recv_x;
 			}
-			if (recv_x >= WORLD_WIDTH)
+			if (recv_x >= World::WIDTH)
 			{
 				//Calculate_Brightness(*worldptr);
 				recv_code = 2;
@@ -167,11 +167,11 @@ void sendblock(int client_id, int x, int y)
 	int a = worldptr->blocks[x][y];
 	int b = worldptr->bgblocks[x][y];
 	int num = 0;
-	for (i = y; i <= WORLD_HEIGHT; ++i)
+	for (i = y; i <= World::HEIGHT; ++i)
 	{
 		if (worldptr->blocks[x][i] == a && worldptr->bgblocks[x][i] == b)
 			++num;
-		else i = WORLD_HEIGHT + 1;
+		else i = World::HEIGHT + 1;
 	}
 	sprintf((char *) buffer, "[B: %d %d %d %d %d %d %d", server_id, client_id, x, y, worldptr->blocks[x][y], worldptr->bgblocks[x][y], num - 1);
 	Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);

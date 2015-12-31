@@ -14,7 +14,7 @@ void createChest(World &world, int x, int y, bool bg)
 {
 	//Find first open chest slot
 	int chestID = -1;
-	for (int i = 0; i < MAX_CHESTS; ++i)
+	for (int i = 0; i < World::MAX_CHESTS; ++i)
 		if (!world.chestInUse[i])
 		{
 			chestID = i;
@@ -73,7 +73,7 @@ void destroyChest(World &world, int x, int y, bool bg)
 		blockID = world.data[x][y] & 0x0000FFFF;
 		world.blocks[x][y] = AIR;
 	}
-	for (int j = 0; j < CHEST_SLOTS; ++j)
+	for (int j = 0; j < World::CHEST_SLOTS; ++j)
 	{
 		if (isSurvival())
 		{
