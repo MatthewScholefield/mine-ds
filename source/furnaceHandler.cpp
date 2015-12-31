@@ -28,9 +28,9 @@ static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
 void convertItemToFuel(Furnace &furnace)
 {
 	int newFuel = fuelAmount(furnace.fuel.ID);
-	if (newFuel > 0 && furnace.fuleAmount < 1)
+	if (newFuel > 0 && furnace.fuelAmount < 1)
 	{
-		furnace.fuleAmount = newFuel;
+		furnace.fuelAmount = newFuel;
 		if (--furnace.fuel.amount < 1)
 			furnace.fuel.ID = AIR;
 	}

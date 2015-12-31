@@ -49,11 +49,11 @@ bool LitFurnaceUpdater::update(World &world, int x, int y, bool bg)
 			createResult(world.furnaces[id]);
 			world.furnaces[id].fuelTillComplete = fuelNeeded(world.furnaces[id]);
 		}
-		if (--world.furnaces[id].fuleAmount < 0)
+		if (--world.furnaces[id].fuelAmount < 0)
 		{
 			if (fuelNeeded(world.furnaces[id]) > 0)
 				convertItemToFuel(world.furnaces[id]);
-			if (world.furnaces[id].fuleAmount < 0)
+			if (world.furnaces[id].fuelAmount < 0)
 			{
 				if (bg)
 					world.bgblocks[x][y] = FURNACE;

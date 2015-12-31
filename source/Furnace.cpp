@@ -2,7 +2,7 @@
 
 Furnace::Furnace(FILE* file) : Furnace(true)
 {
-	fscanf(file, "%d %d %d ", &fuleAmount, &timeTillFuelBurn, &fuelTillComplete);
+	fscanf(file, "%d %d %d ", &fuelAmount, &timeTillFuelBurn, &fuelTillComplete);
 	source.loadFromFile(file);
 	fuel.loadFromFile(file);
 	result.loadFromFile(file);
@@ -11,7 +11,7 @@ Furnace::Furnace(FILE* file) : Furnace(true)
 
 void Furnace::saveToFile(FILE* file)
 {
-	fprintf(file, "%d %d %d ", fuleAmount, timeTillFuelBurn, fuelTillComplete);
+	fprintf(file, "%d %d %d ", fuelAmount, timeTillFuelBurn, fuelTillComplete);
 	source.saveToFile(file);
 	fuel.saveToFile(file);
 	result.saveToFile(file);
