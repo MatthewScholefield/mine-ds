@@ -10,8 +10,8 @@ creative=${LANG( sub(n(1296,0,false,false,0,false,false,false)) punc 0 )}
 audio=${LANG( sub(n(1297,0,false,true,0,false,false,false)) punc 0 )}
 controls=${LANG( sub(n(1298,0,false,false,0,false,false,false)) punc 0 )}
 game-options=${LANG( sub(n(1299,0,false,true,0,false,false,false)) punc 0 )}
-music-volume=${LANG( sub(n(1300,0,false,false,0,true,n(754,0,false,false,-1,false,false,false),false,false)) punc 0 )}
-sound-volume=${LANG( sub(n(1300,0,false,false,0,true,n(1028,0,false,false,-1,false,false,false),false,false)) punc 0 )}
+music-volume=${LANG( sub(n(754,0,false,false,0,false,false,false)) punc 0 )}
+sound-volume=${LANG( sub(n(1028,0,false,false,0,false,false,false)) punc 0 )}
 main-menu=${LANG( sub(n(1301,0,false,false,0,false,false,false)) punc 0 )}
 language=${LANG( sub(n(679,0,false,true,0,false,false,false)) punc 0 )}
 

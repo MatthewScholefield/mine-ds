@@ -10,8 +10,8 @@ creative=Krea
 audio=Sonoj
 controls=Regilo
 game-options=Opcioj
-music-volume=Laŭteco de la muziko
-sound-volume=Laŭteco de la sono
+music-volume=Muziko
+sound-volume=Sono
 main-menu=ĉefa menuo
 language=Lingvoj
 
@@ -19,11 +19,11 @@ language=Lingvoj
 # Button names
 
 back=Reen
-load=ŝargi
-save=Konservi
-quit=Forlasi
-edit=Redakti
-view=Vidigi
+load= ŝargas
+save= konservas
+quit= forlasas
+edit= redaktas
+view= vidigas
 respawn=Respawn
 pages=Paĝoj
 

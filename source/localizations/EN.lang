@@ -10,8 +10,8 @@ creative=Creative
 audio=Audio
 controls=Controls
 game-options=Options
-music-volume=Volume of the music
-sound-volume=Volume of the sound
+music-volume=Music
+sound-volume=Sound
 main-menu=Main menu
 language=Languages
 
@@ -19,8 +19,8 @@ language=Languages
 # Button names
 
 back=Back
-load=Load World
-save=Save World
+load=Load
+save=Save
 quit=Quit
 edit=Edit
 view=View
