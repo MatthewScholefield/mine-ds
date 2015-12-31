@@ -161,38 +161,34 @@ void mushroomBiome(World &world, int startx, int endx)
 		++x;
 	}
 }
-void oceanBiome(World &world, int startx, int endx)
+void oceanBiome(World &world, int startX, int endX)
 {
-	int x = startx;
-	int starty = findFirstBlock(world, startx);
-	int endy = findFirstBlock(world, endx);
+	int startY = findFirstBlock(world, startX);
+	int endY = findFirstBlock(world, endX);
 	//Check that it is possible to properly build a water biome
-	int ydiff = abs(starty - endy);
-	if (ydiff > 8 ) return plainsBiome(world,startx,endx);
-	int midx = (startx + endx) / 2 + ((starty < endy) ? -ydiff/2 : ydiff/2);
-	int olowery = starty < endy ? endy : starty;
-	int lowery = olowery + rand() % 4 + 5;
-	for (int i=startx; i < endx; i++)
+	int yDiff = abs(startY - endY);
+	if (yDiff > 8) return plainsBiome(world, startX, endX);
+	int midX = (startX + endX) / 2 + ((startY < endY) ? -yDiff / 2 : yDiff / 2);
+	int oldLowerY = startY < endY ? endY : startY;
+	int lowery = oldLowerY + rand() % 4 + 5;
+	for (int i = startX; i < endX; i++)
 		for (int j=0; j<World::HEIGHT;j++)
 			world.blocks[i][j] = AIR;
-	drawLineThing(world,startx, starty,midx-2,lowery);
-	drawLineThing(world,midx-2,lowery,midx+2,lowery);
-	drawLineThing(world,midx+2,lowery,endx,endy);
-	while (x <= endx)
+	drawLineThing(world, startX, startY, midX - 2, lowery);
+	drawLineThing(world, midX - 2, lowery, midX + 2, lowery);
+	drawLineThing(world, midX + 2, lowery, endX, endY);
+	for (int x = startX; x <= endX; ++x)
 	{
 		int y = findFirstBlock(world, x); // Get the first block that is not AIR...
-		if ( y > (olowery + 2) )
+		if (y > (oldLowerY + 2))
 		{
-			int j=olowery + 2;
-			while (world.blocks[x][j]==AIR)
+			for (int j = oldLowerY + 2; world.blocks[x][j] == AIR; ++j)
 			{
 				world.blocks[x][j]=WATER;
 				world.data[x][j]=MAX_WATER_LEVEL;
-				++j;
 			}
 		}
-		int endy = y + (rand() % 2) + 2;
-		for (int j = y; j < endy; ++j) world.blocks[x][j] = SAND;
-		++x;
+		int endY = y + (rand() % 2) + 2;
+		for (int j = y; j < endY; ++j) world.blocks[x][j] = SAND;
 	}
 }
