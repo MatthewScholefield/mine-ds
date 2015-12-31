@@ -206,11 +206,17 @@ void InventoryInterface::update(World &world, touchPosition &touch)
 		case PAGE_MENU:
 			setInterface(world, INTERFACE_PAGE);
 			break;
-		case ARRANGE_LEFT:
-			arrangeItems(false);
+		case ARROW_LEFT:
+			if (isSurvival())
+				arrangeItems(false);
+			else
+				changeBlockPage(false);
 			break;
-		case ARRANGE_RIGHT:
-			arrangeItems(true);
+		case ARROW_RIGHT:
+			if (isSurvival())
+				arrangeItems(true);
+			else
+				changeBlockPage(true);
 			break;
 		default:
 			break;

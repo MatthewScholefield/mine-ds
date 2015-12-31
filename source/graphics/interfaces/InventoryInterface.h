@@ -17,8 +17,8 @@ class InventoryInterface : public Interface
 	static const int SAVE = 2;
 	static const int CRAFT_MENU = 3;
 	static const int PAGE_MENU = 4;
-	static const int ARRANGE_LEFT = 5;
-	static const int ARRANGE_RIGHT = 6;
+	static const int ARROW_LEFT = 5;
+	static const int ARROW_RIGHT = 6;
 
 	bool open;
 	int oldInvSlot;
