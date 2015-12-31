@@ -20,11 +20,11 @@ void GrassUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 	short &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
 	if (!isBlockWalkThrough(blockAboveXY) || (world.brightness[x][y] <= 13 && isDay(world)))
 		blockXY = DIRT;
-	else if (world.biome[x] == BIOME_SNOW && !bg && rand() % 10 == 0 && blockAboveXY == AIR)
+	else if (world.biome[x] == Biome::SNOW && !bg && rand() % 10 == 0 && blockAboveXY == AIR)
 	{
 		blockXY = SNOW_GRASS;
 		blockAboveXY = SNOW_TOP;
 	}
-	else if (world.biome[x] == BIOME_SNOW && bg && rand() % 10 == 0 && world.blocks[x][y - 1] == SNOW_TOP)
+	else if (world.biome[x] == Biome::SNOW && bg && rand() % 10 == 0 && world.blocks[x][y - 1] == SNOW_TOP)
 		blockXY = SNOW_GRASS;
 }

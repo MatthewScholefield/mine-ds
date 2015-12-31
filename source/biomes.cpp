@@ -20,7 +20,7 @@ void plainsBiome(World &world, int startx, int endx)
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world.blocks[x][j] = DIRT;
 		world.blocks[x][y] = GRASS;
-		world.biome[x] = BIOME_PLAINS;
+		world.biome[x] = Biome::PLAINS;
 		if (gx == x)
 		{
 			world.blocks[x][y - 1] = TALL_GRASS;
@@ -54,7 +54,7 @@ void jungleBiome(World &world, int startx, int endx)
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world.blocks[x][j] = DIRT;
 		world.blocks[x][y] = GRASS_JUNGLE;
-		world.biome[x] = BIOME_JUNGLE;
+		world.biome[x] = Biome::JUNGLE;
 		if (flx == x)
 		{
 			world.bgblocks[x][y - 1] = LEAVES_JUNGLE;
@@ -87,7 +87,7 @@ void snowBiome(World &world, int startx, int endx)
 		for (int j = y; j < endy; ++j) world.blocks[x][j] = DIRT;
 		world.blocks[x][y] = SNOW_TOP;
 		world.blocks[x][y + 1] = SNOW_GRASS;
-		world.biome[x] = BIOME_SNOW;
+		world.biome[x] = Biome::SNOW;
 		if (flx == x)
 		{
 			growPumpkinPatch(world, x, y - 1);
@@ -115,7 +115,7 @@ void desertBiome(World &world, int startx, int endx)
 		int endy = y + (rand() % 2) + 3;
 		for (int j = y; j < endy; ++j) world.blocks[x][j] = SAND;
 		for (int j = endy - (1 + (rand() % 3)); j < endy; ++j) world.blocks[x][j] = SANDSTONE;
-		world.biome[x] = BIOME_DESERT;
+		world.biome[x] = Biome::DESERT;
 		if (treex == x)
 		{
 			growCactus(world, x, y - 1);
@@ -147,7 +147,7 @@ void mushroomBiome(World &world, int startx, int endx)
 		int endy = y + (rand() % 2) + 2;
 		for (int j = y; j < endy; ++j) world.blocks[x][j] = DIRT;
 		world.blocks[x][y] = MYCELIUM;
-		world.biome[x] = BIOME_MUSHROOM;
+		world.biome[x] = Biome::MUSHROOM;
 		if (flx == x)
 		{
 			world.blocks[x][y - 1] = (rand() % 2 == 1 ? MUSHROOM_BROWN : MUSHROOM_RED);

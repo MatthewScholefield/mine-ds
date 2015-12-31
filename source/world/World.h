@@ -4,14 +4,14 @@
 #include "../Furnace.h"
 #include "../inventory.h"
 
-enum Biome
+enum class Biome
 {
-	BIOME_PLAINS = 1,
-	BIOME_SNOW = 2,
-	BIOME_DESERT = 3,
-	BIOME_JUNGLE = 4,
-	BIOME_MUSHROOM = 5,
-	BIOME_OCEAN = 6
+	PLAINS = 1,
+	SNOW = 2,
+	DESERT = 3,
+	JUNGLE = 4,
+	MUSHROOM = 5,
+	OCEAN = 6
 };
 
 class World

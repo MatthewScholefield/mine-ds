@@ -72,24 +72,24 @@ void generateBedrock(World &world)
 
 void generateRandomBiome(World &world, int x, int endX)
 {
-	switch (rand() % 6 + 1)
+	switch ((Biome) (rand() % 6 + 1))
 	{
-	case BIOME_PLAINS:
+	case Biome::PLAINS:
 		plainsBiome(world, x, endX);
 		break;
-	case BIOME_SNOW:
+	case Biome::SNOW:
 		snowBiome(world, x, endX);
 		break;
-	case BIOME_DESERT:
+	case Biome::DESERT:
 		desertBiome(world, x, endX);
 		break;
-	case BIOME_JUNGLE:
+	case Biome::JUNGLE:
 		jungleBiome(world, x, endX);
 		break;
-	case BIOME_MUSHROOM:
+	case Biome::MUSHROOM:
 		mushroomBiome(world, x, endX);
 		break;
-	case BIOME_OCEAN:
+	case Biome::OCEAN:
 		oceanBiome(world, x, endX);
 		break;
 	}
