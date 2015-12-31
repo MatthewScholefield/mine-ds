@@ -198,7 +198,7 @@ void PlayerMob::updateMob(World &world)
 		mineSprite.paletteID = normalSprite.paletteID;
 		mineSprite.setFrame(0);
 	}
-	if (world.blocks[int(x) / 16][(int(y) + 8) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
+	if (world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
 	{
 		calcMobBrightness(world);
 		mineSprite.paletteID = normalSprite.paletteID;

@@ -143,7 +143,9 @@ void ChestInterface::jumpTransfer(int amount, int touched, bool touchedChest)
 		return;
 
 	int i = 0;
-	for (; i < NUM_INV_SPACES && (dest.blocks[i].ID != AIR && (dest.blocks[i].ID != srcBlk.ID && dest.blocks[i].amount < 64)); ++i);
+	for (; i < NUM_INV_SPACES; ++i)
+		if (dest.blocks[i].ID == AIR || (dest.blocks[i].ID == srcBlk.ID && dest.blocks[i].amount < 64))
+			break;
 	if (i == NUM_INV_SPACES)
 	{
 		dest.hand = -1;

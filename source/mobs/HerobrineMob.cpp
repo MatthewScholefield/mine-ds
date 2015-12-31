@@ -55,7 +55,7 @@ void HerobrineMob::updateMob(World &world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy) && waitingCount > 1000)
 			target->hurt(3, HEROBRINE_HURT);
 	}
-	if (world.blocks[int(x) / 16][(int(y+8)) / 16 + 1] != AIR && world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
+	if (world.brightness[x / 16][(y+8) / 16 + 1] != brightness)
 		calcMobBrightness(world);
 }
 

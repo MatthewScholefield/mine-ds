@@ -85,7 +85,7 @@ void AnimalMob::updateMob(World &world)
 		if (framesHurtSprite == 0) spriteState = 0;
 		else --framesHurtSprite;
 	}
-	if (world.blocks[int(x) / 16][(int(y)) / 16 + 1] != AIR && world.brightness[x / 16][y / 16 + 1] != brightness)
+	if (world.brightness[x / 16][y / 16 + 1] != brightness)
 		calcMobBrightness(world);
 }
 

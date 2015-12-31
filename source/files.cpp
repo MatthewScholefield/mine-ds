@@ -127,7 +127,7 @@ bool loadWorld(World *world)
 					updateSingleBlock(*world, i, j, false);
 			}
 			if (i % 64 == 0)
-				iprintf("\x1b[22;1HLoading... %d%%", int(100 * (double(i) / double(World::WIDTH))));
+				iprintf("\x1b[22;33HLoading... %d%%", int(100 * (double(i) / double(World::WIDTH))));
 
 		}
 		calculateBrightness(*world);
@@ -142,7 +142,7 @@ bool loadWorld(World *world)
 		loadChests(worldFile, *world);
 		loadFurnaces(worldFile, *world);
 		fscanf(worldFile, "%d ", &world->reservedWater);
-		iprintf("\x1b[22;1H              ");
+		iprintf("\x1b[22;33H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
 		fclose(worldFile);
