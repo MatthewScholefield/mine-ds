@@ -12,7 +12,10 @@ int fuelNeeded(const Furnace &furnace);
 void saveFurnaces(FILE *file, World &world);
 void loadFurnaces(FILE *file, World &world);
 
+
+std::pair<int, int> getOpenedFurnaceXY();
+
 inline int getFurnaceID(World &world, int x, int y, bool bg)
 {
-	return (world.data[x][y] & (bg ? 0x000F0000 : 0x0000000F)) >> (bg ? 4 * 4 : 0);
+	return (world.data[x][y] & (bg ? 0x00FF0000 : 0x000000FF)) >> (bg ? 4 * 4 : 0);
 }

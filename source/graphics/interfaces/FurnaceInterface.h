@@ -36,7 +36,6 @@ class FurnaceInterface : public Interface
 	void closeInv();
 	void swapItem(InvBlock &original);
 public:
-
 	void update(World &world, touchPosition &touch);
 	void draw();
 

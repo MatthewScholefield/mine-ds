@@ -95,8 +95,12 @@ void destroyFurnace(World &world, int x, int y, bool bg)
   disperseItems(x,y,FURNACE,1);
 }
 
+int tx = 0, ty = 0;
+
 void openFurnace(World &world, int x, int y, bool bg)
 {
+	tx = x;
+	ty = y;
 	if (furnaceID >= 0) //Another furnace is already opened
 		return;
 	furnaceID = getFurnaceID(world, x, y, bg);
@@ -111,6 +115,11 @@ void closeFurnace()
 int getOpenedFurnaceID()
 {
 	return furnaceID;
+}
+
+std::pair<int, int> getOpenedFurnaceXY()
+{
+	return std::pair<int, int>(tx, ty);
 }
 
 int fuelNeeded(const Furnace &furnace)
