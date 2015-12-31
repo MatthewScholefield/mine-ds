@@ -27,12 +27,12 @@ static const FurnaceRecipe furnaceRecipes[NUM_FURNACE_RECIPES] = {
 
 void convertItemToFuel(Furnace &furnace)
 {
-	int newFuel = fuelAmount(furnace.fuelBlock.ID);
-	if (newFuel > 0 && furnace.fuel < 1)
+	int newFuel = fuelAmount(furnace.fuel.ID);
+	if (newFuel > 0 && furnace.fuleAmount < 1)
 	{
-		furnace.fuel = newFuel;
-		if (--furnace.fuelBlock.amount < 1)
-			furnace.fuelBlock.ID = AIR;
+		furnace.fuleAmount = newFuel;
+		if (--furnace.fuel.amount < 1)
+			furnace.fuel.ID = AIR;
 	}
 }
 
@@ -84,9 +84,9 @@ void destroyFurnace(World &world, int x, int y, bool bg)
 		showError("Destroying non-existent furnace");
 		return;
 	}
-	disperseItems(x, y, world.furnaces[id].sourceBlock);
-	disperseItems(x, y, world.furnaces[id].fuelBlock);
-	disperseItems(x, y, world.furnaces[id].resultBlock);
+	disperseItems(x, y, world.furnaces[id].source);
+	disperseItems(x, y, world.furnaces[id].fuel);
+	disperseItems(x, y, world.furnaces[id].result);
 	world.furnaces[id].inUse = false;
 	if (bg)
 		world.bgblocks[x][y] = AIR;
@@ -116,7 +116,7 @@ int getOpenedFurnaceID()
 int fuelNeeded(const Furnace &furnace)
 {
 	for (auto &i : furnaceRecipes)
-		if (i.needed == furnace.sourceBlock.ID && (i.result == furnace.resultBlock.ID || furnace.resultBlock.ID == AIR))
+		if (i.needed == furnace.source.ID && (i.result == furnace.result.ID || furnace.result.ID == AIR))
 			return i.fuel;
 	return 0;
 }
@@ -124,15 +124,15 @@ int fuelNeeded(const Furnace &furnace)
 void createResult(Furnace &furnace)
 {
 	int id = 0;
-	for (id = 0; id < NUM_FURNACE_RECIPES && furnaceRecipes[id].needed != furnace.sourceBlock.ID; ++id);
-	if (id >= NUM_FURNACE_RECIPES || (furnace.resultBlock.ID != AIR && furnaceRecipes[id].result != furnace.resultBlock.ID))
+	for (id = 0; id < NUM_FURNACE_RECIPES && furnaceRecipes[id].needed != furnace.source.ID; ++id);
+	if (id >= NUM_FURNACE_RECIPES || (furnace.result.ID != AIR && furnaceRecipes[id].result != furnace.result.ID))
 		return;
-	if (furnace.resultBlock.ID == AIR)
-		furnace.resultBlock = InvBlock(furnaceRecipes[id].result, 1);
+	if (furnace.result.ID == AIR)
+		furnace.result = InvBlock(furnaceRecipes[id].result, 1);
 	else
-		++furnace.resultBlock.amount;
-	if (--furnace.sourceBlock.amount < 1)
-		furnace.sourceBlock.ID = AIR;
+		++furnace.result.amount;
+	if (--furnace.source.amount < 1)
+		furnace.source.ID = AIR;
 }
 
 void saveFurnaces(FILE *file, World &world)

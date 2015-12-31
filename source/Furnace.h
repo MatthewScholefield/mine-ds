@@ -5,15 +5,15 @@ class Furnace
 {
 public:
 	bool inUse;
-	InvBlock sourceBlock, fuelBlock, resultBlock;
-	int fuel, timeTillFuelBurn, fuelTillComplete;
+	InvBlock source, fuel, result;
+	int fuleAmount, timeTillFuelBurn, fuelTillComplete;
 
 	void saveToFile(FILE *file);
 
 	Furnace(FILE *file);
 
-	Furnace(bool inUse = false) : inUse(inUse), sourceBlock(), fuelBlock(), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
+	Furnace(bool inUse = false) : inUse(inUse), source(), fuel(), result(), fuleAmount(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
 
 	Furnace(InvBlock source, InvBlock fuel)
-	: inUse(true), sourceBlock(source), fuelBlock(fuel), resultBlock(), fuel(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
+	: inUse(true), source(source), fuel(fuel), result(), fuleAmount(0), timeTillFuelBurn(0), fuelTillComplete(0) { }
 };

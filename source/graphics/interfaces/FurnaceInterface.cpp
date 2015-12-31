@@ -10,19 +10,19 @@ void FurnaceInterface::updateContents()
 		return;
 	if (openFurnace.inUse)
 	{
-		gfx[(int) SlotType::SOURCE].reload(GraphicType::BLOCK, openFurnace.sourceBlock.ID, false);
-		gfx[(int) SlotType::FUEL].reload(GraphicType::BLOCK, openFurnace.fuelBlock.ID, false);
-		gfx[(int) SlotType::RESULT].reload(GraphicType::BLOCK, openFurnace.resultBlock.ID, false);
-		if (openFurnace.sourceBlock.amount > 0)
-			printXY(12, 10, openFurnace.sourceBlock.amount);
+		gfx[(int) SlotType::SOURCE].reload(GraphicType::BLOCK, openFurnace.source.ID, false);
+		gfx[(int) SlotType::FUEL].reload(GraphicType::BLOCK, openFurnace.fuel.ID, false);
+		gfx[(int) SlotType::RESULT].reload(GraphicType::BLOCK, openFurnace.result.ID, false);
+		if (openFurnace.source.amount > 0)
+			printXY(12, 10, openFurnace.source.amount);
 		else
 			printXY(12, 10, "  ");
-		if (openFurnace.fuelBlock.amount > 0)
-			printXY(12, 14, openFurnace.fuelBlock.amount);
+		if (openFurnace.fuel.amount > 0)
+			printXY(12, 14, openFurnace.fuel.amount);
 		else
 			printXY(12, 14, "  ");
-		if (openFurnace.resultBlock.amount > 0)
-			printXY(17, 12, openFurnace.resultBlock.amount);
+		if (openFurnace.result.amount > 0)
+			printXY(17, 12, openFurnace.result.amount);
 		else
 			printXY(17, 12, "  ");
 	}
@@ -53,12 +53,12 @@ void FurnaceInterface::swapItem(InvBlock &original)
 	switch (selectedInvSlot)
 	{
 	case SlotType::FUEL:
-		temp = openFurnace.fuelBlock;
-		openFurnace.fuelBlock = original;
+		temp = openFurnace.fuel;
+		openFurnace.fuel = original;
 		break;
 	case SlotType::SOURCE:
-		temp = openFurnace.sourceBlock;
-		openFurnace.sourceBlock = original;
+		temp = openFurnace.source;
+		openFurnace.source = original;
 		break;
 	default:
 		showError("Invalid selected furnace slot");
@@ -94,8 +94,8 @@ void FurnaceInterface::update(World &world, touchPosition &touch)
 				selectedInvSlot = SlotType::FUEL;
 			else if (touchesTileBox(touch, 17, 11, 2, 2))
 			{
-				addInventory(openFurnace.resultBlock.ID, openFurnace.resultBlock.amount);
-				openFurnace.resultBlock = InvBlock(AIR, 0);
+				addInventory(openFurnace.result.ID, openFurnace.result.amount);
+				openFurnace.result = InvBlock(AIR, 0);
 				updateContents();
 			}
 			if (selectedInvSlot != SlotType::NONE)
