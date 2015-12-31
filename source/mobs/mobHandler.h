@@ -1,6 +1,6 @@
 #pragma once
 #include "../blockUpdaters/WaterUpdater.h"
-#include "../world/WorldObject.h"
+#include "../world/World.h"
 #include "BaseMob.h"
 #include <fat.h>
 

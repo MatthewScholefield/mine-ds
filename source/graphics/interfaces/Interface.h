@@ -1,7 +1,7 @@
 #pragma once
 #include <nds.h>
 #include <memory>
-#include "../../world/WorldObject.h"
+#include "../../world/World.h"
 
 enum InterfaceType
 {

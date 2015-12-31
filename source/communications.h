@@ -1,5 +1,5 @@
 #pragma once
-#include "world/WorldObject.h"
+#include "world/World.h"
 #include "mobs/BaseMob.h"
 int doHandshake();
 void connectSuccess();

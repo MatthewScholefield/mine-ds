@@ -1,5 +1,5 @@
 #pragma once
-#include "WorldObject.h"
+#include "World.h"
 #include "block_small.h"
 #include "../graphics/graphics.h"
 

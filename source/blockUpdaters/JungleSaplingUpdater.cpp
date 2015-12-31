@@ -1,4 +1,4 @@
-#include "../world/WorldObject.h"
+#include "../world/World.h"
 #include "blockUpdater.h"
 #include "../blockID.h"
 #include "JungleSaplingUpdater.h"

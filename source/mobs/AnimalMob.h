@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include "BaseMob.h"
-#include "../world/WorldObject.h"
+#include "../world/World.h"
 #include "../graphics/graphics.h"
 
 enum AnimalType

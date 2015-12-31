@@ -1,7 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <memory>
-#include "../world/WorldObject.h"
+#include "../world/World.h"
 #include "../graphics/graphics.h"
 #include "../FixedPoint.h"
 

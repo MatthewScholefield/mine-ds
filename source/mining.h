@@ -1,5 +1,5 @@
 #pragma once
-#include "world/WorldObject.h"
+#include "world/World.h"
 #include <nds.h>
 #define NUM_BLOCKS 110
 #define ACTIVATE_DELAY 20

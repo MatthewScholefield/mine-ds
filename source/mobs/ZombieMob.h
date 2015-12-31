@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#include "../world/WorldObject.h"
+#include "../world/World.h"
 #include "BaseMob.h"
 #define ZOMBIE_SPEED 0.5
 

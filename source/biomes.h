@@ -1,5 +1,5 @@
 #pragma once
-#include "world/WorldObject.h"
+#include "world/World.h"
 void plainsBiome(World &world, int startx, int endx);
 void jungleBiome(World &world, int startx, int endx);
 void snowBiome(World &world, int startx, int endx);

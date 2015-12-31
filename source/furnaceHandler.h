@@ -1,5 +1,5 @@
 #pragma once
-#include "world/WorldObject.h"
+#include "world/World.h"
 
 void convertItemToFuel(Furnace &furnace);
 void createFurnace(World &world, int x, int y, bool bg);

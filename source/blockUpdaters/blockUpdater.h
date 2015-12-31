@@ -1,5 +1,5 @@
 #pragma once
-#include "../world/WorldObject.h"
+#include "../world/World.h"
 #define NUM_UPDATERS 29
 #define NO_CHANCE 99999
 #define SOIL_CHANCE_UPDATE 1000
