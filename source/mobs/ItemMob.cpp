@@ -24,14 +24,14 @@ bool ItemMob::isMyPlayer()
 	return false;
 }
 
-void ItemMob::calcMiscData(WorldObject &world) { }
+void ItemMob::calcMiscData(World &world) { }
 
-void ItemMob::calcItemMobBrightness(WorldObject &world)
+void ItemMob::calcItemMobBrightness(World &world)
 {
 	normalSprite.paletteID = (7 * (brightness = world.brightness[x / 16][(y - 8) / 16 + 1])) / 15;
 }
 
-void ItemMob::updateMob(WorldObject &world)
+void ItemMob::updateMob(World &world)
 {
 	if (world.gameMode == GAMEMODE_CREATIVE)
 	{

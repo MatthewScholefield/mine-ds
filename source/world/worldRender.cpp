@@ -18,7 +18,7 @@ uint16 *bg2ptr;
 std::vector<BlockSpriteContainer> blockSprites;
 int sunBrightness;
 
-static bool drawBlockGraphic(WorldObject &world, int x, int y)
+static bool drawBlockGraphic(World &world, int x, int y)
 {
 	int blockID = world.blocks[x][y];
 	int paletteID = (7 * world.brightness[x][y]) / 15;
@@ -45,7 +45,7 @@ inline void setTileXY(int x, int y, uint16 tile, int palette)
 
 const int SUB_AMOUNT[16] = {1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
 
-void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
+void brightnessUpdate(World &world, int x, int y, int brightness)
 {
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT)
 		return;
@@ -62,7 +62,7 @@ void brightnessUpdate(WorldObject &world, int x, int y, int brightness)
 	}
 }
 
-void checkBlock(WorldObject &world, int x, int y)
+void checkBlock(World &world, int x, int y)
 {
 	int brightness = world.brightness[x][y] - (isBlockWalkThrough(world.blocks[x][y]) ? 1 : SUB_AMOUNT[world.brightness[x][y]]);
 	brightnessUpdate(world, x + 1, y, brightness);
@@ -71,7 +71,7 @@ void checkBlock(WorldObject &world, int x, int y)
 	brightnessUpdate(world, x, y - 1, brightness);
 }
 
-void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int topBound, int bottomBound)
+void calculateBrightness(World &world, int leftBound, int rightBound, int topBound, int bottomBound)
 {
 	const int MAX_SPREAD = 7;
 	const int MIN_X = max(0, leftBound - MAX_SPREAD);
@@ -103,12 +103,12 @@ void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int 
 			checkBlock(world, i, j);
 }
 
-void calculateBrightness(WorldObject &world)
+void calculateBrightness(World &world)
 {
 	calculateBrightness(world, 0, WORLD_WIDTH - 1, 0, WORLD_HEIGHT - 1);
 }
 
-void calculateBrightness(WorldObject &world, int x, int y)
+void calculateBrightness(World &world, int x, int y)
 {
 	calculateBrightness(world, x - 8, x + 8, y - 6, y + 6);
 }
@@ -165,12 +165,12 @@ void renderTile16(int x, int y, int tile, int palette)
 	setTileXY(x + 1, y + 1, tile + 3, palette);
 }
 
-void renderBlock(WorldObject &world, int i, int j, int blockId, bool dim = false)
+void renderBlock(World &world, int i, int j, int blockId, bool dim = false)
 {
 	renderTile16(i, j, blockId, world.brightness[i][j] - (dim ? 6 : 0));
 }
 
-void renderWorld(WorldObject &world)
+void renderWorld(World &world)
 {
 	int i, j;
 	for (i = world.camX / 16 - 2; i <= world.camX / 16 + 20; ++i)
@@ -205,7 +205,7 @@ void renderWorld(WorldObject &world)
 	}
 }
 
-void worldRender_Render(WorldObject &world)
+void worldRender_Render(World &world)
 {
 	beginRender(world.camX, world.camY);
 	renderWorld(world);
@@ -229,7 +229,7 @@ void BlockSpriteContainer::draw(int x, int y)
 	hasBeenRendered = true;
 }
 
-static void renderWater(WorldObject &world, int x, int y)
+static void renderWater(World &world, int x, int y)
 {
 	int waterLevel = getWaterLevel(world, x, y);
 	int r = 0, g = 255, b = 255;
@@ -245,7 +245,7 @@ static void renderWater(WorldObject &world, int x, int y)
 	}, x * 16 - world.camX, y * 16 - world.camY + 16, 16, -waterLevel);
 }
 
-void worldRender_RenderWater(WorldObject &world)
+void worldRender_RenderWater(World &world)
 {
 	for (int i = world.camX / 16 - 2; i <= world.camX / 16 + 20; ++i)
 		for (int j = world.camY / 16 - 20; j <= world.camY / 16 + 20; ++j)

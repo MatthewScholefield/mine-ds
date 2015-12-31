@@ -36,7 +36,7 @@ void convertItemToFuel(Furnace &furnace)
 	}
 }
 
-void createFurnace(WorldObject &world, int x, int y, bool bg)
+void createFurnace(World &world, int x, int y, bool bg)
 {
 	int furnaceID = -1;
 	for (int i = 0; i < MAX_FURNACES; ++i)
@@ -76,7 +76,7 @@ void disperseItems(int x, int y, InvBlock block)
 	disperseItems(x, y, block.ID, block.amount);
 }
 
-void destroyFurnace(WorldObject &world, int x, int y, bool bg)
+void destroyFurnace(World &world, int x, int y, bool bg)
 {
 	int id = getFurnaceID(world, x, y, bg);
 	if (id < 0)
@@ -95,7 +95,7 @@ void destroyFurnace(WorldObject &world, int x, int y, bool bg)
   disperseItems(x,y,FURNACE,1);
 }
 
-void openFurnace(WorldObject &world, int x, int y, bool bg)
+void openFurnace(World &world, int x, int y, bool bg)
 {
 	if (furnaceID >= 0) //Another furnace is already opened
 		return;
@@ -135,13 +135,13 @@ void createResult(Furnace &furnace)
 		furnace.sourceBlock.ID = AIR;
 }
 
-void saveFurnaces(FILE *file, WorldObject &world)
+void saveFurnaces(FILE *file, World &world)
 {
 	for (auto &i : world.furnaces)
 		i.saveToFile(file);
 }
 
-void loadFurnaces(FILE *file, WorldObject &world)
+void loadFurnaces(FILE *file, World &world)
 {
 	for (auto &i : world.furnaces)
 		i = Furnace(file);

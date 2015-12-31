@@ -10,13 +10,13 @@
 
 void createWaterMob(int x, int y, int level = MAX_WATER_LEVEL);
 void createItemMob(int x, int y, int blockID, int amount = 1, int displayID = -1, float initVX = 54321.f);
-bool canMobSpawnHere(WorldObject &world, int x, int y);
+bool canMobSpawnHere(World &world, int x, int y);
 int getDefaultSpawnX();
 void saveMobs(FILE* f);
 void loadMobs(FILE* f);
 int spawnMobAt(MobType type, int x, int y);
 void mobHandlerInit();
-void mobHandlerUpdate(WorldObject &world, touchPosition &touch);
+void mobHandlerUpdate(World &world, touchPosition &touch);
 void mobsReset();
 BaseMob::Ptr getPlayerPtr();
 BaseMob::Ptr isMobAt(int x, int y);

@@ -38,7 +38,7 @@ void initFile()
 #endif
 }
 
-bool saveWorld(WorldObject &world)
+bool saveWorld(World &world)
 {
 	if (!SHOULD_SAVE) return false;
 	stopMusic();
@@ -78,7 +78,7 @@ bool saveWorld(WorldObject &world)
 	return false;
 }
 
-bool loadWorld(WorldObject *world)
+bool loadWorld(World *world)
 {
 	if (!SHOULD_LOAD) return false;
 	stopMusic();
@@ -89,7 +89,7 @@ bool loadWorld(WorldObject *world)
 	if (openedWorld)
 	{
 		delete world;
-		world = new WorldObject(false);
+		world = new World(false);
 		char *versionChar = new char();
 		fscanf(worldFile, "%s ", versionChar);
 		int worldBlocksX, worldBlocksY;

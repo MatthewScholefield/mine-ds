@@ -10,14 +10,14 @@
 #include "../Config.h"
 #include "../blockUpdaters/WaterUpdater.h"
 
-bool canBaseMobSpawnHere(WorldObject &world, int x, int y)
+bool canBaseMobSpawnHere(World &world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS) return true;
 	return false;
 }
 
-bool BaseMob::isInBlock(WorldObject &world)
+bool BaseMob::isInBlock(World &world)
 {
 	int addY = sy / (smallMob ? 1 : 2) - 1;
 	for (int x = this->x - sx / 2 + 1; x < this->x + sx / 2 + 1; x += sx - 1)
@@ -62,7 +62,7 @@ bool jumpHurtType(int hurtType)
 	}
 }
 
-bool BaseMob::canJump(WorldObject *world)
+bool BaseMob::canJump(World *world)
 {
 	return !collisions[SIDE_TOP] && (collisions[SIDE_BOTTOM] || (world && (isWaterAt(*world, x, y + sy / 2 - 1) || isWaterAt(*world, x, y - sy / 2 + 1)) && vy < 3));
 }

@@ -14,7 +14,7 @@ private:
 	static const int RESPAWN = 1;
 	static const int TITLESCREEN = 2;
 public:
-	void update(WorldObject &world, touchPosition &touch);
+	void update(World &world, touchPosition &touch);
 	void draw();
 
 	DeathScreenInterface() : Interface(INTERFACE_DEATH_SCREEN), menu(MENU_BUTTON, false)

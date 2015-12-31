@@ -16,12 +16,12 @@
 #include "../world/worldRender.h"
 const int AnimalMob::FRAME[3] = {10, 12, 14};
 
-void AnimalMob::calcMiscData(WorldObject &world)
+void AnimalMob::calcMiscData(World &world)
 {
 	calculateMiscDataSmall(world, this);
 }
 
-void AnimalMob::updateMob(WorldObject &world)
+void AnimalMob::updateMob(World &world)
 {
 	if (brightness<0)
 		calcMobBrightness(world);
@@ -152,7 +152,7 @@ bool AnimalMob::isMyPlayer()
 	return false;
 }
 
-bool canAnimalMobSpawnHere(WorldObject &world, int x, int y)
+bool canAnimalMobSpawnHere(World &world, int x, int y)
 {
 	return canMobSpawnHere(world, x, y);
 }

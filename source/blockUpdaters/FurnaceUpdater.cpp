@@ -12,7 +12,7 @@ FurnaceUpdater::FurnaceUpdater()
 	chance = NO_CHANCE;
 }
 
-bool FurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool FurnaceUpdater::update(World &world, int x, int y, bool bg)
 {
 	if (world.furnaces[getFurnaceID(world, x, y, bg)].fuel > 0)
 	{

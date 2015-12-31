@@ -21,9 +21,9 @@ public:
 	bool dir; //Direction of cow movement
 	int mov; //Loop counter for cow movement
 
-	void calcMiscData(WorldObject &world);
+	void calcMiscData(World &world);
 	void sendWifiUpdate();
-	void updateMob(WorldObject &world);
+	void updateMob(World &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 
@@ -36,4 +36,4 @@ public:
 
 	~AnimalMob() { }
 };
-bool canAnimalMobSpawnHere(WorldObject &world, int x, int y);
+bool canAnimalMobSpawnHere(World &world, int x, int y);

@@ -37,8 +37,8 @@
 #define TEXTURE_FOLDER "Textures/"
 
 void initFile(void);
-bool saveWorld(WorldObject &world);
+bool saveWorld(World &world);
 bool saveConfig(Config *controls);
-bool loadWorld(WorldObject *world);
+bool loadWorld(World *world);
 bool loadConfig(Config *controls);
 bool loadTexture(const char *fileName);

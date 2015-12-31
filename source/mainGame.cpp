@@ -36,7 +36,7 @@
 #include "localizations/locale.h"
 
 bool shouldQuitGame = false;
-WorldObject *world;
+World *world;
 
 static bool inGameMenu()
 {
@@ -101,7 +101,7 @@ void newGame(GameMode mode)
 {
 	updateSubBG();
 	delete world;
-	world = new WorldObject(mode);
+	world = new World(mode);
 	mobsReset();
 	clearInventory();
 	shouldQuitGame = false;
@@ -134,7 +134,7 @@ void joinGame(void)
 	nifiEnable();
 	//fillWorld(*world, BEDROCK);
 	delete world;
-	world = new WorldObject();
+	world = new World();
 	clearText();
 	drawBackground();
 	printXY(1, 10, "Looking for servers");

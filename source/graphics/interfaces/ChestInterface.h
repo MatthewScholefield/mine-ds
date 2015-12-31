@@ -45,7 +45,7 @@ class ChestInterface : public Interface
 	void moveSlot(bool right);
 	void parseKeyInput();
 	void openInventory();
-	void closeInventory(WorldObject &world);
+	void closeInventory(World &world);
 	Inventory &getSelectedInv(int useChest = -1);
 	static bool touchesInvSlot(const touchPosition &touch);
 	static bool touchesChestSlot(const touchPosition &touch);
@@ -60,10 +60,10 @@ public:
 	static void triggerUpdate();
 	static void staticUpdate();
 
-	void update(WorldObject &world, touchPosition &touch);
+	void update(World &world, touchPosition &touch);
 	void draw();
 
-	ChestInterface(WorldObject &world, bool open) : Interface(INTERFACE_INVENTORY)
+	ChestInterface(World &world, bool open) : Interface(INTERFACE_INVENTORY)
 	, menu(MENU_BUTTON, false), oldInvSlot(getInventoryRef().hand), selectedGraphic(GraphicType::BLOCK, AIR, false)
 	, loadedGraphic(AIR), backButton(), inv(getInventoryRef()), chest(world.chests[getOpenedChestID()])
 	, invHandler(getInventoryRef(), 1, 9), chestHandler(world.chests[getOpenedChestID()], 1, 1)

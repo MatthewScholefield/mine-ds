@@ -92,7 +92,7 @@ void ChestInterface::parseKeyInput()
 	}
 }
 
-void ChestInterface::closeInventory(WorldObject &world)
+void ChestInterface::closeInventory(World &world)
 {
 	if (selectedChest || getSelectedInv().hand == -1)
 		inv.hand = oldInvSlot;
@@ -245,7 +245,7 @@ void ChestInterface::parseTouchInput(const touchPosition &touch)
 	updateInv();
 }
 
-void ChestInterface::update(WorldObject &world, touchPosition &touch)
+void ChestInterface::update(World &world, touchPosition &touch)
 {
 	selectedGraphic.draw(1 * 8, 6 * 8 + 4);
 	invHandler.update();

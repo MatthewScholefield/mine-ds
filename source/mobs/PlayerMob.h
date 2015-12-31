@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseMob.h"
 #include "../blockID.h"
-bool canPlayerMobSpawnHere(WorldObject &world, int x, int y);
+bool canPlayerMobSpawnHere(World &world, int x, int y);
 
 class PlayerMob : public BaseMob
 {
@@ -19,11 +19,11 @@ public:
 	int tillBrightness;
 
 	static void setControlsEnabled(bool enabled);
-	void calcMiscData(WorldObject &world);
+	void calcMiscData(World &world);
 	void saveToFile(FILE* sFile);
 	void loadFromFile(FILE* sFile);
 	void sendWifiUpdate();
-	void updateMob(WorldObject &world);
+	void updateMob(World &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 

@@ -25,7 +25,7 @@ Graphic PlayerMob::halfHeart(GraphicType::PARTICLE, 1, false);
 bool PlayerMob::controlsEnabled = true;
 
 
-void PlayerMob::calcMiscData(WorldObject &world)
+void PlayerMob::calcMiscData(World &world)
 {
 	calculateMiscData(world, this);
 }
@@ -98,7 +98,7 @@ void PlayerMob::showHealth(int health)
 		halfHeart.draw(25 * 8 - (health - 1)*4, 7 * 8, true);
 }
 
-bool checkLadder(WorldObject &world, int x, int y)
+bool checkLadder(World &world, int x, int y)
 {
 	return world.blocks[x / 16][y / 16] == LADDER || world.bgblocks[x / 16][y / 16] == LADDER;
 }
@@ -108,7 +108,7 @@ void PlayerMob::setControlsEnabled(bool enabled)
 	controlsEnabled = enabled;
 }
 
-void PlayerMob::updateMob(WorldObject &world)
+void PlayerMob::updateMob(World &world)
 {
 	if (host)
 	{
@@ -237,7 +237,7 @@ bool PlayerMob::isMyPlayer()
 	return true;
 }
 
-bool canPlayerMobSpawnHere(WorldObject &world, int x, int y)
+bool canPlayerMobSpawnHere(World &world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS) return true;

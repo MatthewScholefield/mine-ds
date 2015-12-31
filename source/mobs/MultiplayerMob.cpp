@@ -9,14 +9,14 @@
 #include <nds.h>
 //ASDF?
 
-void MultiplayerMob::calcMiscData(WorldObject &world) { }
+void MultiplayerMob::calcMiscData(World &world) { }
 
 void MultiplayerMob::hurt(int amount, int type)
 {
 	return; //Do nothing, if a Multiplayer mob is hurt then it should be realised on the server not client...
 }
 
-void MultiplayerMob::updateMob(WorldObject &world)
+void MultiplayerMob::updateMob(World &world)
 {
 	if (brightness<0)
 		calcMobBrightness(world);
@@ -27,7 +27,7 @@ void MultiplayerMob::updateMob(WorldObject &world)
 
 void MultiplayerMob::sendWifiUpdate() { }
 
-bool canMultiplayerMobSpawnHere(WorldObject &world, int x, int y)
+bool canMultiplayerMobSpawnHere(World &world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS)

@@ -9,7 +9,7 @@
 #include "OakLeafUpdater.h"
 #include "../mobs/mobHandler.h"
 
-void leafChanceUpdateGeneric(WorldObject &world, int x, int y, bool bg)
+void leafChanceUpdateGeneric(World &world, int x, int y, bool bg)
 {
 	int leafID = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	bool nearWood = false;
@@ -40,7 +40,7 @@ OakLeafUpdater::OakLeafUpdater()
 	chance = LEAF_CHANCE_UPDATE;
 }
 
-void OakLeafUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void OakLeafUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 {
 	leafChanceUpdateGeneric(world, x, y, bg);
 }

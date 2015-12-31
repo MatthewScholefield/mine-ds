@@ -44,7 +44,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 	mobs.push_back(BaseMob::Ptr(new ItemMob(x * 16 + 7, y * 16 + 8, blockID, amount, displayID, initVX)));
 }
 
-bool canMobSpawnHere(WorldObject &world, int x, int y)
+bool canMobSpawnHere(World &world, int x, int y)
 {
 	return (isBlockWalkThrough(world.blocks[x][y]) && !isBlockWalkThrough(world.blocks[x][y + 1]) && world.blocks[x][y] != CACTUS && world.bgblocks[x][y + 1] != CACTUS);
 }
@@ -110,7 +110,7 @@ void mobHandlerInit()
 	shouldSpawnPlayer = true;
 }
 
-static bool canMobSpawnHere(MobType type, WorldObject &world, int a, int b)
+static bool canMobSpawnHere(MobType type, World &world, int a, int b)
 {
 	switch (type)
 	{
@@ -163,7 +163,7 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	}
 }
 
-static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck = false)
+static void spawnMobOn(MobType mobId, World &world, int j, bool skipCheck = false)
 {
 	int i;
 	for (i = 0; i < WORLD_HEIGHT; ++i)
@@ -175,7 +175,7 @@ static void spawnMobOn(MobType mobId, WorldObject &world, int j, bool skipCheck 
 		}
 }
 
-static void spawnMob(MobType mobId, WorldObject &world)
+static void spawnMob(MobType mobId, World &world)
 {
 	for (int j = world.spawnX; j < WORLD_WIDTH; ++j)
 		for (int i = 0; i < WORLD_HEIGHT; ++i)
@@ -226,7 +226,7 @@ void triggerPlayerRespawn()
 	shouldSpawnPlayer = true;
 }
 
-void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
+void mobHandlerUpdate(World &world, touchPosition &touch)
 {
 	const int EXTRA = 128;
 	int badMobs = 0;

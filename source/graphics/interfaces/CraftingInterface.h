@@ -36,7 +36,7 @@ protected:
 	}
 public:
 
-	void update(WorldObject &world, touchPosition &touch);
+	void update(World &world, touchPosition &touch);
 	void draw();
 
 	CraftingInterface(bool tableInUse) : Interface(INTERFACE_CRAFTING)

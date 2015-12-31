@@ -7,7 +7,7 @@
 #include "blocks.h"
 #include "blockUpdaters/WaterUpdater.h"
 
-void plainsBiome(WorldObject &world, int startx, int endx)
+void plainsBiome(World &world, int startx, int endx)
 {
 	int x = startx;
 	int treex = startx + 4 + rand() % 5; //Trees
@@ -42,7 +42,7 @@ void plainsBiome(WorldObject &world, int startx, int endx)
 	}
 }
 
-void jungleBiome(WorldObject &world, int startx, int endx)
+void jungleBiome(World &world, int startx, int endx)
 {
 	int x = startx;
 	int treex = startx + 4 + rand() % 5;
@@ -74,7 +74,7 @@ void jungleBiome(WorldObject &world, int startx, int endx)
 	}
 }
 
-void snowBiome(WorldObject &world, int startx, int endx)
+void snowBiome(World &world, int startx, int endx)
 {
 	int x = startx;
 	int treex = startx + 8 + rand() % 10;
@@ -103,7 +103,7 @@ void snowBiome(WorldObject &world, int startx, int endx)
 	}
 }
 
-void desertBiome(WorldObject &world, int startx, int endx)
+void desertBiome(World &world, int startx, int endx)
 {
 	int x = startx;
 	int treex = startx + 3 + rand() % 5;
@@ -135,7 +135,7 @@ void desertBiome(WorldObject &world, int startx, int endx)
 	}
 }
 
-void mushroomBiome(WorldObject &world, int startx, int endx)
+void mushroomBiome(World &world, int startx, int endx)
 {
 	int x = startx;
 	int treex = startx + 8 + rand() % 10;
@@ -161,7 +161,7 @@ void mushroomBiome(WorldObject &world, int startx, int endx)
 		++x;
 	}
 }
-void oceanBiome(WorldObject &world, int startx, int endx)
+void oceanBiome(World &world, int startx, int endx)
 {
 	int x = startx;
 	int starty = findFirstBlock(world, startx);

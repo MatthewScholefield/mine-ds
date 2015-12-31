@@ -9,13 +9,13 @@ JungleSaplingUpdater::JungleSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-bool JungleSaplingUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool JungleSaplingUpdater::update(World &world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
 	return false;
 }
 
-void JungleSaplingUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void JungleSaplingUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 {
 	saplingChanceUpdate(world, x, y, bg);
 }

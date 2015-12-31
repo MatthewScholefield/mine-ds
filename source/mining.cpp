@@ -37,7 +37,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 	return !miningDisabled;
 }
 
-void destroyBlock(WorldObject &world, int x, int y, bool bg, bool byHand)
+void destroyBlock(World &world, int x, int y, bool bg, bool byHand)
 {
 	int blockID = getHandID();
 	short *blockXY = bg ? &world.bgblocks[x][y] : &world.blocks[x][y];
@@ -71,7 +71,7 @@ void destroyBlock(WorldObject &world, int x, int y, bool bg, bool byHand)
 	updateAround(world, x, y);
 }
 
-void placeBlock(WorldObject &world, int x, int y, bool bg)
+void placeBlock(World &world, int x, int y, bool bg)
 {
 	int blockID = getHandID();
 	if (isFoodStuff(blockID))
@@ -154,7 +154,7 @@ void changeTarget(int newSum, int newBlock)
 	soundOffset = getTime() % HIT_SOUND_DELAY;
 }
 
-void activateBlock(WorldObject &world, int x, int y, bool bg)
+void activateBlock(World &world, int x, int y, bool bg)
 {
 	switch (bg ? world.bgblocks[x][y] : world.blocks[x][y])
 	{
@@ -227,7 +227,7 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 	}
 }
 
-bool attackMob(WorldObject &world, int px, int py)
+bool attackMob(World &world, int px, int py)
 {
 	BaseMob::Ptr targetMob = isMobAt(px + world.camX, py + world.camY);
 	if (targetMob != nullptr)
@@ -261,7 +261,7 @@ bool attackMob(WorldObject &world, int px, int py)
 		return false;
 }
 
-void miningUpdate(WorldObject &world, touchPosition touch)
+void miningUpdate(World &world, touchPosition touch)
 {
 	int x = (touch.px - 1 + world.camX) / 16;
 	int y = (touch.py - 1 + world.camY) / 16;

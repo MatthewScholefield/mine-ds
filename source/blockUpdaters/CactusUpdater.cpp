@@ -14,7 +14,7 @@ CactusUpdater::CactusUpdater()
 	chance = CACTUS_CHANCE_UPDATE;
 }
 
-bool CactusUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool CactusUpdater::update(World &world, int x, int y, bool bg)
 {
 	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (blockBelowXY != SAND && blockBelowXY != CACTUS)
@@ -27,7 +27,7 @@ bool CactusUpdater::update(WorldObject &world, int x, int y, bool bg)
 	return false;
 }
 
-void CactusUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void CactusUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 {
 	short &blockAboveXY = bg ? world.bgblocks[x][y - 1] : world.blocks[x][y - 1];
 	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];

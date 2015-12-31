@@ -1,9 +1,9 @@
 #pragma once
 #include "WorldObject.h"
-int extremeMountainGen(WorldObject &world, int startx, int starty, int endx);
-void generateBedrock(WorldObject &world);
-int flatGen(WorldObject &world, int startx, int starty, int endx);
-void generateRandomBiome(WorldObject &world, int x, int endX);
+int extremeMountainGen(World &world, int startx, int starty, int endx);
+void generateBedrock(World &world);
+int flatGen(World &world, int startx, int starty, int endx);
+void generateRandomBiome(World &world, int x, int endX);
 
 
-void generateCaves(WorldObject &world);
+void generateCaves(World &world);

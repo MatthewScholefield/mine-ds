@@ -102,7 +102,7 @@ void CraftingInterface::craftItem()
 	}
 }
 
-void CraftingInterface::update(WorldObject &world, touchPosition &touch)
+void CraftingInterface::update(World &world, touchPosition &touch)
 {
 	resultBlock.draw(19 * 8 + 4, 10 * 8 + 4);
 	for (int i = 0; i <= 3; ++i)

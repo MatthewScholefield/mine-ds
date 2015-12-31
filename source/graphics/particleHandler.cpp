@@ -26,7 +26,7 @@ bool Particle::updatePhys()
 	return (bool)--liveTime;
 }
 
-void Particle::draw(WorldObject& world)
+void Particle::draw(World& world)
 {
 	g.draw(x - world.camX, y - world.camY);
 }
@@ -36,7 +36,7 @@ void addParticle(Particle p)
 	particles.push_back(p);
 }
 
-void updateParticles(WorldObject& world)
+void updateParticles(World& world)
 {
 	std::vector<Particle>::iterator it;
 	for (it = particles.begin(); it != particles.end(); ++it)

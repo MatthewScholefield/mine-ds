@@ -4,11 +4,11 @@
 #include "../graphics/graphics.h"
 
 void worldRender_Init();
-void worldRender_Render(WorldObject &world);
-void worldRender_RenderWater(WorldObject &world);
-void calculateBrightness(WorldObject &world, int leftBound, int rightBound, int bottomBound);
-void calculateBrightness(WorldObject &world);
-void calculateBrightness(WorldObject &world, int x, int y);
+void worldRender_Render(World &world);
+void worldRender_RenderWater(World &world);
+void calculateBrightness(World &world, int leftBound, int rightBound, int bottomBound);
+void calculateBrightness(World &world);
+void calculateBrightness(World &world, int x, int y);
 void setSun(int brightness);
 void clearUnusedBlockSprites();
 

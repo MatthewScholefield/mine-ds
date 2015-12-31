@@ -109,9 +109,9 @@ int updaterIndex(int blockID, int index = 0)
 	}
 }
 
-static void recursiveUpdate(WorldObject &world, int x, int y, bool bg);
+static void recursiveUpdate(World &world, int x, int y, bool bg);
 
-void updateDir(WorldObject &world, int x, int y, bool bg, int dir)
+void updateDir(World &world, int x, int y, bool bg, int dir)
 {
 	switch (dir)
 	{
@@ -132,7 +132,7 @@ void updateDir(WorldObject &world, int x, int y, bool bg, int dir)
 	}
 }
 
-void updateBlocksAround(WorldObject &world, int x, int y, bool bg)
+void updateBlocksAround(World &world, int x, int y, bool bg)
 {
 	recursiveUpdate(world, x + 1, y, bg);
 	recursiveUpdate(world, x, y - 1, bg);
@@ -160,7 +160,7 @@ bool findUpdateInfo(int x, int y, bool bg, bool chance)
 	return false;
 }
 
-void recursiveUpdate(WorldObject &world, int x, int y, bool bg)
+void recursiveUpdate(World &world, int x, int y, bool bg)
 {
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return;
 	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
@@ -175,13 +175,13 @@ void recursiveUpdate(WorldObject &world, int x, int y, bool bg)
 	}
 }
 
-void updateAround(WorldObject &world, int x, int y)
+void updateAround(World &world, int x, int y)
 {
 	updateBlocksAround(world, x, y, false);
 	updateBlocksAround(world, x, y, true);
 }
 
-void updateSingleBlock(WorldObject &world, int x, int y, bool bg, int timeToUpdate)
+void updateSingleBlock(World &world, int x, int y, bool bg, int timeToUpdate)
 {
 	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	int index = updaterIndex(blockXY);
@@ -194,7 +194,7 @@ void updateSingleBlock(WorldObject &world, int x, int y, bool bg, int timeToUpda
 	}
 }
 
-int processTTL(WorldObject &world)
+int processTTL(World &world)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
 	int numReadyToUpdate = 0;
@@ -213,7 +213,7 @@ int processTTL(WorldObject &world)
 	return numReadyToUpdate;
 }
 
-void processOneBlock(WorldObject &world)
+void processOneBlock(World &world)
 {
 	std::vector<BlockUpdateInfo>::iterator it;
 	for (it = updaterList.begin(); it != updaterList.end(); ++it)
@@ -248,7 +248,7 @@ void processOneBlock(WorldObject &world)
 	}
 }
 
-void proceduralBlockUpdate(WorldObject &world)
+void proceduralBlockUpdate(World &world)
 {
 	if (updaterList.size() == 0) return;
 	//Go through the UpdaterList, and update if the TTL is 1, call updateAround if the update requests it.

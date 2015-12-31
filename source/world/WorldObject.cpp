@@ -6,9 +6,9 @@
 #include "worldGen.h"
 #include "../dayNight.h"
 
-int WorldObject::useSeed = NO_SEED;
+int World::useSeed = NO_SEED;
 
-int findFirstBlock(WorldObject &world, int x)
+int findFirstBlock(World &world, int x)
 {
 	int i;
 	for (i = 0; i < WORLD_HEIGHT; ++i)
@@ -16,7 +16,7 @@ int findFirstBlock(WorldObject &world, int x)
 	return -1;
 }
 
-void WorldObject::generateSmallWorld()//Generates one biome
+void World::generateSmallWorld()//Generates one biome
 {
 	int y = rand() % (WORLD_HEIGHT / 4) + WORLD_HEIGHT / 4;
 	int origY = y;
@@ -26,7 +26,7 @@ void WorldObject::generateSmallWorld()//Generates one biome
 	calculateBrightness(*this, 8, origY);
 }
 
-void WorldObject::generate()
+void World::generate()
 {
 	if (gameMode == GAMEMODE_PREVIEW)
 	{
@@ -58,7 +58,7 @@ void WorldObject::generate()
 	calculateBrightness(*this);
 }
 
-void drawLineDown(WorldObject &world, int x, int y)
+void drawLineDown(World &world, int x, int y)
 {
 	int i;
 	for (i = y; i < WORLD_HEIGHT; ++i)
@@ -75,7 +75,7 @@ void drawLineDown(WorldObject &world, int x, int y)
 	}
 }
 
-void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2)
+void drawLineThing(World &world, int x1, int y1, int x2, int y2)
 {
 	// if x1 == x2 or y1 == y2, then it does not matter what we set here
 	int delta_x(x2 - x1);
@@ -138,7 +138,7 @@ void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2)
 	}
 }
 
-void WorldObject::initialize()
+void World::initialize()
 {
 	if (useSeed != NO_SEED)
 	{
@@ -172,7 +172,7 @@ void WorldObject::initialize()
 		camCalcY = camY = spawnY * 16 - 192 / 2 - 16;
 }
 
-WorldObject::WorldObject(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
+World::World(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
 
 , spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
 , timeInWorld(0), sunBrightness(15), gameMode(gameMode)
@@ -184,7 +184,7 @@ WorldObject::WorldObject(GameMode gameMode) : blocks { }, bgblocks{}, data{}, br
 	initialize();
 }
 
-WorldObject::WorldObject(bool init) : blocks { }, bgblocks{}, data{}, brightness{}
+World::World(bool init) : blocks { }, bgblocks{}, data{}, brightness{}
 
 , spawnX((WORLD_WIDTH * 3) / 8 + rand() % (WORLD_WIDTH / 4)), camY(0), camX(0)
 , timeInWorld(0), sunBrightness(15), gameMode(GAMEMODE_PREVIEW)

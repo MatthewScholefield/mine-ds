@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "../world/WorldObject.h"
 #include "BaseMob.h"
-bool canMultiplayerMobSpawnHere(WorldObject &world, int x, int y);
+bool canMultiplayerMobSpawnHere(World &world, int x, int y);
 
 class MultiplayerMob : public BaseMob
 {
@@ -13,9 +13,9 @@ private:
 		return 20;
 	}
 public:
-	void calcMiscData(WorldObject &world);
+	void calcMiscData(World &world);
 	void sendWifiUpdate();
-	void updateMob(WorldObject &world);
+	void updateMob(World &world);
 	void hurt(int amount, int type);
 
 	MultiplayerMob(int x, int y) : BaseMob(MOB_MULTIPLAYER, x, y, 6, 32, GraphicType::MOB_LARGE, 0) { }

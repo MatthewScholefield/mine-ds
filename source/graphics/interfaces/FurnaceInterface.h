@@ -38,10 +38,10 @@ class FurnaceInterface : public Interface
 	void swapItem(InvBlock &original);
 public:
 
-	void update(WorldObject &world, touchPosition &touch);
+	void update(World &world, touchPosition &touch);
 	void draw();
 
-	FurnaceInterface(WorldObject& world) : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
+	FurnaceInterface(World& world) : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
 	, invOpen(false), gfxHandler(getInventoryRef(), 1, 9), selectedInvSlot(NONE)
 	, smeltButton(), openFurnace(world.furnaces[getOpenedFurnaceID()]), gfx { }
 	{

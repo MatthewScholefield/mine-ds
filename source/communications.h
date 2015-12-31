@@ -3,8 +3,8 @@
 #include "mobs/BaseMob.h"
 int doHandshake();
 void connectSuccess();
-void communicationInit(WorldObject &world2);
-void recieveWorld(WorldObject &world2);
+void communicationInit(World &world2);
+void recieveWorld(World &world2);
 void connectCode(int code2);
 void setBlock(int x, int y, int block, int bgblock, int amount);
 void sendblock(int a, int x, int y);

@@ -2,11 +2,11 @@
 #include "../world/WorldObject.h"
 #include "blockUpdater.h"
 
-void leafChanceUpdateGeneric(WorldObject &world, int x, int y, bool bg);
+void leafChanceUpdateGeneric(World &world, int x, int y, bool bg);
 
 class OakLeafUpdater : public BlockUpdater
 {
 public:
 	OakLeafUpdater();
-	virtual void chanceUpdate(WorldObject &world, int x, int y, bool bg);
+	virtual void chanceUpdate(World &world, int x, int y, bool bg);
 };

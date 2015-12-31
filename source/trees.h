@@ -1,10 +1,10 @@
 #pragma once
 #include "world/WorldObject.h"
-void growOakTree(WorldObject &world, int x, int y);
-void growSpruceTree(WorldObject &world, int x, int y);
-void growJungleTree(WorldObject &world, int x, int y);
-void growGiantMushroom(WorldObject &world, int x, int y);
-void growCactus(WorldObject &world, int x, int y);
-void growFlower(WorldObject &world, int x, int y);
-void growPumpkinPatch(WorldObject &world, int x, int y);
+void growOakTree(World &world, int x, int y);
+void growSpruceTree(World &world, int x, int y);
+void growJungleTree(World &world, int x, int y);
+void growGiantMushroom(World &world, int x, int y);
+void growCactus(World &world, int x, int y);
+void growFlower(World &world, int x, int y);
+void growPumpkinPatch(World &world, int x, int y);
 

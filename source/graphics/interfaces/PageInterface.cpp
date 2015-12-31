@@ -15,7 +15,7 @@ PageInterface::PageInterface() : Interface(INTERFACE_PAGE), menu(MENU_BUTTON, fa
 	printXY(13, 11, getPageName());
 }
 
-void PageInterface::update(WorldObject &world, touchPosition &touch)
+void PageInterface::update(World &world, touchPosition &touch)
 {
 	switch (menu.update(touch))
 	{

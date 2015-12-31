@@ -26,7 +26,7 @@ public:
 
 	~Particle() { }
 	bool updatePhys();
-	void draw(WorldObject& world);
+	void draw(World& world);
 };
 
 Graphic* getCloneWaterGraphic();
@@ -34,5 +34,5 @@ Graphic* getCloneWaterGraphic();
 
 void addParticle(Particle p);
 
-void updateParticles(WorldObject& world);
+void updateParticles(World& world);
 void createSplash(const FixedPoint &px, const FixedPoint &py, const FixedPoint &vx, const FixedPoint &vy);

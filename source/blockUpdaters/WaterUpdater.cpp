@@ -11,7 +11,7 @@
 #include "../mobs/mobHandler.h"
 #include "../mining.h"
 
-bool isWaterAt(WorldObject &world, int px, int py)
+bool isWaterAt(World &world, int px, int py)
 {
 	return world.blocks[px / 16][py / 16] == WATER
 			&& py % 16 >= (16 - (getWaterLevel(world, px / 16, py / 16)*16) / MAX_WATER_LEVEL);
@@ -22,7 +22,7 @@ WaterUpdater::WaterUpdater()
 	chance = 1000;
 }
 
-static bool attemptPut(WorldObject &world, int amount, int x, int y)
+static bool attemptPut(World &world, int amount, int x, int y)
 {
 	switch (world.blocks[x][y])
 	{
@@ -58,7 +58,7 @@ static bool attemptPut(WorldObject &world, int amount, int x, int y)
 	return false;
 }
 
-int pushWaterFrom(WorldObject &world, int x, int y)
+int pushWaterFrom(World &world, int x, int y)
 {
 	int level = getWaterLevel(world, x, y);
 	int left = level / 2 + level % 2;
@@ -83,7 +83,7 @@ int pushWaterFrom(WorldObject &world, int x, int y)
 	return level;
 }
 
-static void setWater(WorldObject &world, int x, int y, int amount)
+static void setWater(World &world, int x, int y, int amount)
 {
 	if (world.blocks[x][y] != WATER)
 	{
@@ -93,7 +93,7 @@ static void setWater(WorldObject &world, int x, int y, int amount)
 	setWaterLevel(world, x, y, amount);
 }
 
-static bool flowDown(WorldObject &world, int x, int y)
+static bool flowDown(World &world, int x, int y)
 {
 	if (y + 1 >= WORLD_HEIGHT || !isBlockWalkThrough(world.blocks[x][y + 1]))
 		return false;
@@ -135,7 +135,7 @@ static bool flowDown(WorldObject &world, int x, int y)
 	}
 }
 
-bool WaterUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool WaterUpdater::update(World &world, int x, int y, bool bg)
 {
 	if (bg == true)
 	{
@@ -188,7 +188,7 @@ bool WaterUpdater::update(WorldObject &world, int x, int y, bool bg)
 	return shiftedTotal != newShiftedTotal;
 }
 
-void fillBucket(WorldObject &world, int x, int y)
+void fillBucket(World &world, int x, int y)
 {
 	int level = getWaterLevel(world, x, y);
 	if (level < MAX_WATER_LEVEL)

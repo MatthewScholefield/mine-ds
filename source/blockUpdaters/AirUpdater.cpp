@@ -11,7 +11,7 @@ AirUpdater::AirUpdater()
 	chance = NO_CHANCE;
 }
 
-bool AirUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool AirUpdater::update(World &world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{

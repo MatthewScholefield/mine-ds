@@ -15,7 +15,7 @@ void DeathScreenInterface::draw()
 	menu.draw();
 }
 
-void DeathScreenInterface::update(WorldObject& world, touchPosition& touch)
+void DeathScreenInterface::update(World& world, touchPosition& touch)
 {
 	switch (menu.update(touch))
 	{

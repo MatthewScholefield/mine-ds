@@ -12,7 +12,7 @@ LadderUpdater::LadderUpdater()
 	chance = NO_CHANCE;
 }
 
-bool LadderUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool LadderUpdater::update(World &world, int x, int y, bool bg)
 {
 	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if ((isBlockWalkThrough(blockBelowXY) && blockBelowXY != LADDER) && (bg || isBlockWalkThrough(world.bgblocks[x][y])))

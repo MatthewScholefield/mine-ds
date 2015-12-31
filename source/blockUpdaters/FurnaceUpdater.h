@@ -7,6 +7,6 @@ class FurnaceUpdater : public BlockUpdater
 {
 public:
 	FurnaceUpdater();
-	bool update(WorldObject &world, int x, int y, bool bg);
+	bool update(World &world, int x, int y, bool bg);
 };
 

@@ -10,6 +10,6 @@ private:
 	static Graphic fireParticle;
 public:
 	LitFurnaceUpdater();
-	bool update(WorldObject &world, int x, int y, bool bg);
+	bool update(World &world, int x, int y, bool bg);
 };
 

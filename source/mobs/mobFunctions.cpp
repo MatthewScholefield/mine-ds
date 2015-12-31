@@ -10,7 +10,7 @@
 #include "../graphics/particleHandler.h"
 #include "../blockUpdaters/WaterUpdater.h"
 
-void calculatePhysics(WorldObject &world,BaseMob *mob, bool inWater)
+void calculatePhysics(World &world,BaseMob *mob, bool inWater)
 {
 	if (mob->collisions[SIDE_BOTTOM] && mob->vy > 0)
 	{
@@ -35,12 +35,12 @@ void calculatePhysics(WorldObject &world,BaseMob *mob, bool inWater)
 	if (mob->vy > velocityCap) mob->vy -= (mob->vy - velocityCap) / 4;
 }
 
-int blockAtPixel(WorldObject &world, int pixX, int pixY)
+int blockAtPixel(World &world, int pixX, int pixY)
 {
 	return world.blocks[pixX / 16][pixY / 16];
 }
 
-void calculateCollisions(WorldObject &world, BaseMob *mob)
+void calculateCollisions(World &world, BaseMob *mob)
 {
 	mob->collisions[SIDE_BOTTOM] = !isBlockWalkThrough(world.blocks[int(mob->x - mob->sx / 2 + 1) / 16][int(mob->y + mob->sy / 2) / 16])
 			|| !isBlockWalkThrough(world.blocks[int(mob->x + mob->sx / 2) / 16][int(mob->y + mob->sy / 2) / 16]);
@@ -55,7 +55,7 @@ void calculateCollisions(WorldObject &world, BaseMob *mob)
 	mob->collisions[COLLISION_STUCK] = false;
 }
 
-static void calcGeneralData(WorldObject &world, BaseMob *mob)
+static void calcGeneralData(World &world, BaseMob *mob)
 { //For both small and large mobs
 	bool wasInWater = mob->isInWater;
 	mob->isInWater = isWaterAt(world, mob->x, mob->y + mob->sy / 2 - 2) || isWaterAt(world, mob->x, mob->y - mob->sy / 2 + 1);
@@ -66,7 +66,7 @@ static void calcGeneralData(WorldObject &world, BaseMob *mob)
 		cactusCheck(world, mob, (mob->x) / 16, (mob->y) / 16 + b);
 }
 
-void calculateMiscData(WorldObject &world, BaseMob *mob)
+void calculateMiscData(World &world, BaseMob *mob)
 {
 	if (mob->host)
 	{
@@ -106,7 +106,7 @@ void calculateMiscData(WorldObject &world, BaseMob *mob)
 	}
 }
 
-void calculateMiscDataSmall(WorldObject &world, BaseMob *mob)
+void calculateMiscDataSmall(World &world, BaseMob *mob)
 {
 	if (mob->host)
 	{

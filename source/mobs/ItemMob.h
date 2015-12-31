@@ -9,7 +9,7 @@ private:
 	static const int floatVal[];
 	static const int maximumTimeOut = 18000;
 
-	void calcItemMobBrightness(WorldObject &world);
+	void calcItemMobBrightness(World &world);
 public:
 	int blockID;
 	int displayID;
@@ -17,11 +17,11 @@ public:
 	int floatY;
 	int timeOut;
 
-	void calcMiscData(WorldObject &world);
+	void calcMiscData(World &world);
 	void saveToFile(FILE* sFile);
 	void loadFromFile(FILE* sFile);
 	void sendWifiUpdate();
-	void updateMob(WorldObject &world);
+	void updateMob(World &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 

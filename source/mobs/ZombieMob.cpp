@@ -15,7 +15,7 @@
 #include "../inventory.h"
 #include "../mainGame.h"
 
-void ZombieMob::calcMiscData(WorldObject &world)
+void ZombieMob::calcMiscData(World &world)
 {
 	calculateMiscData(world, this);
 }
@@ -45,7 +45,7 @@ void ZombieMob::hurt(int amount, int type)
 	}
 }
 
-void ZombieMob::updateMob(WorldObject &world)
+void ZombieMob::updateMob(World &world)
 {
 	if (brightness < 0)
 		calcMobBrightness(world);
@@ -81,7 +81,7 @@ void ZombieMob::updateMob(WorldObject &world)
 
 void ZombieMob::sendWifiUpdate() { }
 
-bool canZombieMobSpawnHere(WorldObject &world, int x, int y)
+bool canZombieMobSpawnHere(World &world, int x, int y)
 {
 	++y;
 	if ((unsigned) x >= WORLD_WIDTH || (unsigned) y >= WORLD_HEIGHT) return false;

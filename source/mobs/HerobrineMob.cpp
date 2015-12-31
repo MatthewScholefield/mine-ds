@@ -11,12 +11,12 @@
 #include "../mining.h"
 #include "../general.h"
 
-void HerobrineMob::calcMiscData(WorldObject &world)
+void HerobrineMob::calcMiscData(World &world)
 {
 	calculateMiscData(world, this);
 }
 
-void HerobrineMob::updateMob(WorldObject &world)
+void HerobrineMob::updateMob(World &world)
 {
 	if (brightness<0)
 		calcMobBrightness(world);
@@ -61,7 +61,7 @@ void HerobrineMob::updateMob(WorldObject &world)
 
 void HerobrineMob::sendWifiUpdate() { }
 
-bool canHerobrineMobSpawnHere(WorldObject &world, int x, int y)
+bool canHerobrineMobSpawnHere(World &world, int x, int y)
 {
 	++y;
 	if (!isBlockWalkThrough(world.blocks[x][y + 1]) && isBlockWalkThrough(world.blocks[x][y]) && world.blocks[x][y] != CACTUS && world.blocks[x][y + 1] != CACTUS)

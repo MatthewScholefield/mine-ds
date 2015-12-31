@@ -7,13 +7,13 @@
 #include "../FixedPoint.h"
 #include "../blockUpdaters/WaterUpdater.h"
 
-void WaterMob::calcMiscData(WorldObject &world)
+void WaterMob::calcMiscData(World &world)
 {
 	vy += FixedPoint(true, (18 * FixedPoint::SCALER) / FPS);
 	y += (16 * vy) / FPS;
 }
 
-void addWater(WorldObject &world, int x, int y, int amount)
+void addWater(World &world, int x, int y, int amount)
 {
 	int totalWater = amount + getWaterLevel(world, x, y);
 	if (totalWater <= MAX_WATER_LEVEL)
@@ -31,7 +31,7 @@ void addWater(WorldObject &world, int x, int y, int amount)
 	updateAround(world, x, y);
 }
 
-void WaterMob::updateMob(WorldObject &world)
+void WaterMob::updateMob(World &world)
 {
 	int blockX = (x + sx / 2) / 16;
 	int blockY = (y + 1) / 16;

@@ -9,7 +9,7 @@
 #include "../mobs/hurt.h"
 #include "../mobs/mobHandler.h"
 
-void plantUpdate(int beneathID, WorldObject &world, int x, int y, bool bg)
+void plantUpdate(int beneathID, World &world, int x, int y, bool bg)
 {
 	short &blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
 	if (blockBelowXY != beneathID)
@@ -24,7 +24,7 @@ ShrubUpdater::ShrubUpdater()
 {
 }
 
-bool ShrubUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool ShrubUpdater::update(World &world, int x, int y, bool bg)
 {
 	plantUpdate(SAND, world, x, y, bg);
 	return false;
@@ -34,7 +34,7 @@ TallGrassUpdater::TallGrassUpdater()
 {
 }
 
-bool TallGrassUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool TallGrassUpdater::update(World &world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 	return false;
@@ -44,7 +44,7 @@ RedFlowerUpdater::RedFlowerUpdater()
 {
 }
 
-bool RedFlowerUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool RedFlowerUpdater::update(World &world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 	return false;
@@ -54,7 +54,7 @@ YellowFlowerUpdater::YellowFlowerUpdater()
 {
 }
 
-bool YellowFlowerUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool YellowFlowerUpdater::update(World &world, int x, int y, bool bg)
 {
 	plantUpdate(GRASS, world, x, y, bg);
 	return false;
@@ -64,7 +64,7 @@ RedMushroomUpdater::RedMushroomUpdater()
 {
 }
 
-bool RedMushroomUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool RedMushroomUpdater::update(World &world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
 	return false;
@@ -74,7 +74,7 @@ BrownMushroomUpdater::BrownMushroomUpdater()
 {
 }
 
-bool BrownMushroomUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool BrownMushroomUpdater::update(World &world, int x, int y, bool bg)
 {
 	plantUpdate(MYCELIUM, world, x, y, bg);
 	return false;

@@ -12,7 +12,7 @@ SnowGrassUpdater::SnowGrassUpdater()
 	chance = SOIL_CHANCE_UPDATE;
 }
 
-bool SnowGrassUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool SnowGrassUpdater::update(World &world, int x, int y, bool bg)
 {
 	if (world.blocks[x][y - 1] != SNOW_TOP)
 	{

@@ -11,7 +11,7 @@ SnowTopUpdater::SnowTopUpdater()
 {
 }
 
-bool SnowTopUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool SnowTopUpdater::update(World &world, int x, int y, bool bg)
 {
 	if (!bg && isBlockWalkThrough(world.blocks[x][y + 1]))
 	{

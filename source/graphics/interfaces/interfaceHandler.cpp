@@ -10,7 +10,7 @@
 
 Interface_ptr currentInterface = nullptr;
 
-void setInterface(WorldObject &world, InterfaceType type, int parameter)
+void setInterface(World &world, InterfaceType type, int parameter)
 {
 	switch (type)
 	{
@@ -40,7 +40,7 @@ void setInterface(WorldObject &world, InterfaceType type, int parameter)
 	currentInterface->draw();
 }
 
-void updateInterface(WorldObject &world, touchPosition &touch)
+void updateInterface(World &world, touchPosition &touch)
 {
 	if (!currentInterface)
 		setInterface(world, INTERFACE_INVENTORY, false);

@@ -15,8 +15,8 @@ public:
 	BlockUpdater() { }
 	int chance = NO_CHANCE;
 
-	virtual void chanceUpdate(WorldObject &world, int x, int y, bool bg) { }
-	virtual bool update(WorldObject &world, int x, int y, bool bg)
+	virtual void chanceUpdate(World &world, int x, int y, bool bg) { }
+	virtual bool update(World &world, int x, int y, bool bg)
 	{
 		return false;
 	}
@@ -36,6 +36,6 @@ typedef struct
 
 
 void proceduralBlockUpdateInit();
-void proceduralBlockUpdate(WorldObject &world);
-void updateAround(WorldObject &world, int x, int y);
-void updateSingleBlock(WorldObject &world, int x, int y, bool bg = false, int timeToUpdate = 1);
+void proceduralBlockUpdate(World &world);
+void updateAround(World &world, int x, int y);
+void updateSingleBlock(World &world, int x, int y, bool bg = false, int timeToUpdate = 1);

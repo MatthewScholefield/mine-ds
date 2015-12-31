@@ -14,7 +14,7 @@ LitFurnaceUpdater::LitFurnaceUpdater()
 	chance = NO_CHANCE;
 }
 
-bool LitFurnaceUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool LitFurnaceUpdater::update(World &world, int x, int y, bool bg)
 {
 	if (bg == false)
 	{

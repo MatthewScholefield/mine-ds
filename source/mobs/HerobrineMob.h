@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include "BaseMob.h"
-bool canHerobrineMobSpawnHere(WorldObject &world, int x, int y);
+bool canHerobrineMobSpawnHere(World &world, int x, int y);
 
 class HerobrineMob : public BaseMob
 {
@@ -14,9 +14,9 @@ private:
 public:
 	int waitingCount;
 
-	void calcMiscData(WorldObject &world);
+	void calcMiscData(World &world);
 	void sendWifiUpdate();
-	void updateMob(WorldObject &world);
+	void updateMob(World &world);
 	void hurt(int amount, int type);
 	bool isMyPlayer();
 

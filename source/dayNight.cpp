@@ -18,7 +18,7 @@ u8 r2[11] = {6, 7, 8, 8, 11, 12, 13, 14, 15, 16, 16};
 u8 g2[11] = {8, 5, 7, 8, 12, 13, 16, 18, 22, 22, 24};
 u8 b2[11] = {22, 23, 24, 26, 26, 27, 28, 29, 30, 31, 31};
 
-void dayNightUpdate(WorldObject &world)
+void dayNightUpdate(World &world)
 {
 	++timeTillChange;
 	if (timeTillChange >= SEC_TO_FPS(5))
@@ -56,7 +56,7 @@ void dayNightUpdate(WorldObject &world)
 	}
 }
 
-bool isDay(WorldObject &world)
+bool isDay(World &world)
 {
 	return world.timeInWorld >= 0 && world.timeInWorld < 80;
 }

@@ -32,7 +32,7 @@ enum Biome
 	BIOME_OCEAN = 6
 };
 
-class WorldObject
+class World
 {
 	static const int NO_SEED = 0;
 	static int useSeed;
@@ -61,15 +61,15 @@ public:
 	Furnace furnaces[MAX_FURNACES];
 	int reservedWater;
 
-	WorldObject(GameMode gameMode = GAMEMODE_PREVIEW);
-	WorldObject(bool init);
+	World(GameMode gameMode = GAMEMODE_PREVIEW);
+	World(bool init);
 
-	~WorldObject()
+	~World()
 	{
 	}
 };
 
-int findFirstBlock(WorldObject &world, int x);
-int findFirstBiomeBlock(WorldObject &world, int x);
-void drawLineDown(WorldObject &world, int x, int y);
-void drawLineThing(WorldObject &world, int x1, int y1, int x2, int y2);
+int findFirstBlock(World &world, int x);
+int findFirstBiomeBlock(World &world, int x);
+void drawLineDown(World &world, int x, int y);
+void drawLineThing(World &world, int x1, int y1, int x2, int y2);

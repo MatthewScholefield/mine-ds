@@ -10,7 +10,7 @@
 #include "../world/worldRender.h"
 #include "../mobs/mobHandler.h"
 
-void saplingChanceUpdate(WorldObject &world, int x, int y, bool bg)
+void saplingChanceUpdate(World &world, int x, int y, bool bg)
 {
 	if (world.brightness[x][y + 1] < 2)
 	{
@@ -31,7 +31,7 @@ void saplingChanceUpdate(WorldObject &world, int x, int y, bool bg)
 	}
 }
 
-void saplingUpdate(WorldObject &world, int x, int y, bool bg)
+void saplingUpdate(World &world, int x, int y, bool bg)
 {
 	short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
 	short blockBelowXY = bg ? world.bgblocks[x][y + 1] : world.blocks[x][y + 1];
@@ -63,13 +63,13 @@ OakSaplingUpdater::OakSaplingUpdater()
 	chance = SAPLING_CHANCE_UPDATE;
 }
 
-bool OakSaplingUpdater::update(WorldObject &world, int x, int y, bool bg)
+bool OakSaplingUpdater::update(World &world, int x, int y, bool bg)
 {
 	saplingUpdate(world, x, y, bg);
 	return false;
 }
 
-void OakSaplingUpdater::chanceUpdate(WorldObject &world, int x, int y, bool bg)
+void OakSaplingUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 {
 	saplingChanceUpdate(world, x, y, bg);
 }

@@ -22,7 +22,7 @@ enum MobType
 	MOB_WATER = 6
 };
 
-bool canBaseMobSpawnHere(WorldObject &world, int x, int y);
+bool canBaseMobSpawnHere(World &world, int x, int y);
 
 class BaseMob
 {
@@ -44,7 +44,7 @@ protected:
 	spriteState(0), framesHurtSprite(0),
 	timeOnCactus(30), framesFarAway(0), brightness(-1), host(true), isInWater(false) { }
 
-	void calcMobBrightness(WorldObject &world)
+	void calcMobBrightness(World &world)
 	{
 		hurtSprite.paletteID = normalSprite.paletteID = 8 + (6 * (brightness = world.brightness[x / 16][y / 16 + 1])) / 15;
 	}
@@ -67,8 +67,8 @@ public:
 	bool host;
 	bool isInWater;
 
-	virtual void updateMob(WorldObject &world) = 0;
-	virtual void calcMiscData(WorldObject &world) = 0;
+	virtual void updateMob(World &world) = 0;
+	virtual void calcMiscData(World &world) = 0;
 
 	virtual void saveToFile(FILE* sFile) { }
 
@@ -79,8 +79,8 @@ public:
 	virtual void hurt(int amount, int type);
 	virtual void calcHealth();
 	virtual bool isMyPlayer();
-	bool canJump(WorldObject *world = nullptr);
-	bool isInBlock(WorldObject &world);
+	bool canJump(World *world = nullptr);
+	bool isInBlock(World &world);
 
 	BaseMob(MobType type, int x, int y, int sx, int sy) :
 	normalSprite(), hurtSprite(), type(type), health(256), x(x),

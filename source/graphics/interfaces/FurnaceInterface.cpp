@@ -67,7 +67,7 @@ void FurnaceInterface::swapItem(InvBlock &original)
 	original = temp;
 }
 
-void FurnaceInterface::update(WorldObject &world, touchPosition &touch)
+void FurnaceInterface::update(World &world, touchPosition &touch)
 {
 	if (invOpen)
 	{

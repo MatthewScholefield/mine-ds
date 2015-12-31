@@ -178,7 +178,7 @@ void InventoryInterface::arrangeItems(bool right)
 	updateInv();
 }
 
-void InventoryInterface::update(WorldObject &world, touchPosition &touch)
+void InventoryInterface::update(World &world, touchPosition &touch)
 {
 	if (inv.hand > 32) inv.hand = -1;
 	if (oldInvSlot > 32) oldInvSlot = -1;

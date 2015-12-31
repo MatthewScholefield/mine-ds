@@ -10,7 +10,7 @@
 bool chestOpened = false;
 int chestID = -1;
 
-void createChest(WorldObject &world, int x, int y, bool bg)
+void createChest(World &world, int x, int y, bool bg)
 {
 	//Find first open chest slot
 	int chestID = -1;
@@ -42,7 +42,7 @@ void createChest(WorldObject &world, int x, int y, bool bg)
 	world.chestInUse[chestID] = true;
 }
 
-int getChestID(WorldObject &world, int x, int y, bool bg)
+int getChestID(World &world, int x, int y, bool bg)
 {
 	int databyte = world.data[x][y];
 	if (bg)
@@ -55,7 +55,7 @@ int getChestID(WorldObject &world, int x, int y, bool bg)
 	return databyte;
 }
 
-void destroyChest(WorldObject &world, int x, int y, bool bg)
+void destroyChest(World &world, int x, int y, bool bg)
 {
 	int blockID;
 	if (bg)
@@ -88,7 +88,7 @@ void destroyChest(WorldObject &world, int x, int y, bool bg)
 	world.chestInUse[blockID] = false;
 }
 
-void openChest(WorldObject &world, int x, int y, bool bg)
+void openChest(World &world, int x, int y, bool bg)
 {
 	if (chestOpened) //Another chest is already opened
 		return;
@@ -108,14 +108,14 @@ int getOpenedChestID()
 	return chestID;
 }
 
-void saveChests(FILE *file, WorldObject &world)
+void saveChests(FILE *file, World &world)
 {
 	for (auto &i : world.chests)
 		for (auto &j : i.blocks)
 			j.saveToFile(file);
 }
 
-void loadChests(FILE *file, WorldObject &world)
+void loadChests(FILE *file, World &world)
 {
 	for (auto &i : world.chests)
 		for (auto &j : i.blocks)

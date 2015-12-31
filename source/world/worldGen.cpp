@@ -11,7 +11,7 @@
 #include "../blockUpdaters/blockUpdater.h"
 #include <string>
 
-int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
+int extremeMountainGen(World &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x = startx;
@@ -36,7 +36,7 @@ int extremeMountainGen(WorldObject &world, int startx, int starty, int endx)
 	drawLineThing(world, x, y, endx, endy);
 	return endy;
 }
-int flatGen(WorldObject &world, int startx, int starty, int endx)
+int flatGen(World &world, int startx, int starty, int endx)
 {
 	int y = starty;
 	int x;
@@ -58,7 +58,7 @@ int flatGen(WorldObject &world, int startx, int starty, int endx)
 	return y;
 }
 
-void generateBedrock(WorldObject &world)
+void generateBedrock(World &world)
 {
 	for (int i = 0; i < WORLD_WIDTH; ++i)
 	{
@@ -70,7 +70,7 @@ void generateBedrock(WorldObject &world)
 	}
 }
 
-void generateRandomBiome(WorldObject &world, int x, int endX)
+void generateRandomBiome(World &world, int x, int endX)
 {
 	switch (rand() % 6 + 1)
 	{
@@ -95,7 +95,7 @@ void generateRandomBiome(WorldObject &world, int x, int endX)
 	}
 }
 
-void generateCaves(WorldObject &world)
+void generateCaves(World &world)
 {
 	int beginning_y = findFirstBlock(world,WORLD_WIDTH/2);
 	int y = (beginning_y + WORLD_HEIGHT) / 2;
