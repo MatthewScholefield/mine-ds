@@ -9,7 +9,7 @@
 #pragma once
 class FurnaceInterface : public Interface
 {
-	enum SlotType
+	enum class SlotType
 	{
 		NONE = -1,
 		SOURCE = 0,
@@ -41,7 +41,7 @@ public:
 	void draw();
 
 	FurnaceInterface(World& world) : Interface(INTERFACE_FURNACE), menu(MENU_BUTTON, false)
-	, invOpen(false), gfxHandler(getInventoryRef(), 1, 9), selectedInvSlot(NONE)
+	, invOpen(false), gfxHandler(getInventoryRef(), 1, 9), selectedInvSlot(SlotType::NONE)
 	, smeltButton(), openFurnace(world.furnaces[getOpenedFurnaceID()]), gfx { }
 	{
 		menu.addButton(24, 17, "Smelt");

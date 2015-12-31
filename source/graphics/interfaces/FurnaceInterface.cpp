@@ -10,9 +10,9 @@ void FurnaceInterface::updateContents()
 		return;
 	if (openFurnace.inUse)
 	{
-		gfx[SOURCE].reload(GraphicType::BLOCK, openFurnace.sourceBlock.ID, false);
-		gfx[FUEL].reload(GraphicType::BLOCK, openFurnace.fuelBlock.ID, false);
-		gfx[RESULT].reload(GraphicType::BLOCK, openFurnace.resultBlock.ID, false);
+		gfx[(int) SlotType::SOURCE].reload(GraphicType::BLOCK, openFurnace.sourceBlock.ID, false);
+		gfx[(int) SlotType::FUEL].reload(GraphicType::BLOCK, openFurnace.fuelBlock.ID, false);
+		gfx[(int) SlotType::RESULT].reload(GraphicType::BLOCK, openFurnace.resultBlock.ID, false);
 		if (openFurnace.sourceBlock.amount > 0)
 			printXY(12, 10, openFurnace.sourceBlock.amount);
 		else
@@ -41,7 +41,7 @@ void FurnaceInterface::openInv()
 void FurnaceInterface::closeInv()
 {
 	smeltButton->setVisible(true);
-	selectedInvSlot = NONE;
+	selectedInvSlot = SlotType::NONE;
 	invOpen = false;
 	menu.setFrame(0, 0);
 	draw();
@@ -52,11 +52,11 @@ void FurnaceInterface::swapItem(InvBlock &original)
 	InvBlock temp;
 	switch (selectedInvSlot)
 	{
-	case FUEL:
+	case SlotType::FUEL:
 		temp = openFurnace.fuelBlock;
 		openFurnace.fuelBlock = original;
 		break;
-	case SOURCE:
+	case SlotType::SOURCE:
 		temp = openFurnace.sourceBlock;
 		openFurnace.sourceBlock = original;
 		break;
@@ -83,22 +83,22 @@ void FurnaceInterface::update(World &world, touchPosition &touch)
 	{
 		if (openFurnace.timeTillFuelBurn == 0)
 			updateContents();
-		gfx[SOURCE].draw(12 * 8, 9 * 8, false, 2);
-		gfx[FUEL].draw(12 * 8, 13 * 8, false, 2);
-		gfx[RESULT].draw(17 * 8, 11 * 8, false, 2);
+		gfx[(int) SlotType::SOURCE].draw(12 * 8, 9 * 8, false, 2);
+		gfx[(int) SlotType::FUEL].draw(12 * 8, 13 * 8, false, 2);
+		gfx[(int) SlotType::RESULT].draw(17 * 8, 11 * 8, false, 2);
 		if (keysDown() & KEY_TOUCH)
 		{
 			if (touchesTileBox(touch, 12, 9, 2, 2))
-				selectedInvSlot = SOURCE;
+				selectedInvSlot = SlotType::SOURCE;
 			else if (touchesTileBox(touch, 12, 13, 2, 2))
-				selectedInvSlot = FUEL;
+				selectedInvSlot = SlotType::FUEL;
 			else if (touchesTileBox(touch, 17, 11, 2, 2))
 			{
 				addInventory(openFurnace.resultBlock.ID, openFurnace.resultBlock.amount);
 				openFurnace.resultBlock = InvBlock(AIR, 0);
 				updateContents();
 			}
-			if (selectedInvSlot != NONE)
+			if (selectedInvSlot != SlotType::NONE)
 				openInv();
 		}
 	}
