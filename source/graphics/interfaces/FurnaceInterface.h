@@ -9,8 +9,7 @@
 #pragma once
 class FurnaceInterface : public Interface
 {
-
-	enum InvSlot
+	enum SlotType
 	{
 		NONE = -1,
 		SOURCE = 0,
@@ -26,7 +25,7 @@ class FurnaceInterface : public Interface
 
 	bool invOpen;
 	InvGfxHandler gfxHandler;
-	InvSlot selectedInvSlot;
+	SlotType selectedInvSlot;
 	UIElement_ptr smeltButton;
 	Furnace& openFurnace;
 	Graphic gfx[3];
