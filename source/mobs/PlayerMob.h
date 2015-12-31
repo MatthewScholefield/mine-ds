@@ -33,8 +33,6 @@ public:
 		normalSprite.reload(GraphicType::MOB_ANIM, 0);
 		hurtSprite.reload(GraphicType::MOB_LARGE, 1);
 		controlsEnabled = true;
-		addInventory(CHEST);
-		addInventory(DIRT, 27);
 	}
 
 	~PlayerMob()
