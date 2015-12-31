@@ -52,15 +52,15 @@ for arg in sys.argv[1:]:
 		#Esperanto ^ letters can be replaced with x
 		# ĝ -> gx ĉ -> cx etc
 		elif (char==u"ĝ"):
-			string += "gx"
+			string += u"â"
 		elif (char==u"ŝ"):
-			string += "sx"
+			string += u"á"
 		elif (char==u"ĉ"):
-			string += "cx"
+			string += u"à"
 		elif (char==u"ĵ"):
-			string += "jx"
+			string += u"ã"
 		elif (char==u"ŭ"):
-			string += "u"
+			string += u"å"
 		else:
 			string += char
 			
