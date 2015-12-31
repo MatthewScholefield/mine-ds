@@ -19,8 +19,8 @@ language=Languages
 # Button names
 
 back=Back
-load=Load
-save=Save
+load=Load World
+save=Save World
 quit=Quit
 edit=Edit
 view=View
