@@ -4,13 +4,6 @@
 #include "../Furnace.h"
 #include "../inventory.h"
 
-enum GameMode
-{
-	GAMEMODE_CREATIVE = 1,
-	GAMEMODE_SURVIVAL = 2,
-	GAMEMODE_PREVIEW = 3
-};
-
 enum Biome
 {
 	BIOME_PLAINS = 1,
@@ -20,10 +13,7 @@ enum Biome
 	BIOME_MUSHROOM = 5,
 	BIOME_OCEAN = 6
 };
-/*
-	static const int HEIGHTPX = HEIGHT * 16;
-	static const int WIDTHPX = HEIGHT * 16;
- */
+
 class World
 {
 	static const int NO_SEED = 0;
@@ -33,6 +23,14 @@ class World
 	void generate();
 	void initialize();
 public:
+
+	enum class Mode
+	{
+		CREATIVE = 1,
+		SURVIVAL = 2,
+		PREVIEW = 3
+	};
+
 	static const int HEIGHT = 128, WIDTH = 1024, BLOCK_PX = 16;
 	static const int CHEST_SLOTS = 30, MAX_CHESTS = 30, MAX_FURNACES = 30;
 	short blocks[WIDTH][HEIGHT];
@@ -45,7 +43,7 @@ public:
 	int camX;
 	int timeInWorld;
 	int sunBrightness;
-	GameMode gameMode;
+	Mode gameMode;
 	int seed; //The random number seed used to generate the world
 	double camCalcX;
 	double camCalcY;
@@ -55,12 +53,10 @@ public:
 	Furnace furnaces[MAX_FURNACES];
 	int reservedWater;
 
-	World(GameMode gameMode = GAMEMODE_PREVIEW);
+	World(Mode gameMode = Mode::PREVIEW);
 	World(bool init);
 
-	~World()
-	{
-	}
+	~World() { }
 };
 
 int findFirstBlock(World &world, int x);

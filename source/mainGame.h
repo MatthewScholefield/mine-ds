@@ -3,7 +3,7 @@
 
 bool isCreative(void);
 bool isSurvival(void);
-void newGame(GameMode mode);
+void newGame(World::Mode mode);
 void previewGame(void);
 bool loadGame(void);
 void joinGame(void);

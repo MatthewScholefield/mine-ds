@@ -33,7 +33,7 @@ void ItemMob::calcItemMobBrightness(World &world)
 
 void ItemMob::updateMob(World &world)
 {
-	if (world.gameMode == GAMEMODE_CREATIVE)
+	if (world.gameMode == World::Mode::CREATIVE)
 	{
 		health = 0;
 		return;

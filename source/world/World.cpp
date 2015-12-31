@@ -28,7 +28,7 @@ void World::generateSmallWorld()//Generates one biome
 
 void World::generate()
 {
-	if (gameMode == GAMEMODE_PREVIEW)
+	if (gameMode == Mode::PREVIEW)
 	{
 		generateSmallWorld();
 		return;
@@ -148,7 +148,7 @@ void World::initialize()
 	else
 	{
 		seed = time(nullptr);
-		if (gameMode == GAMEMODE_PREVIEW)
+		if (gameMode == Mode::PREVIEW)
 			useSeed = seed;
 	}
 	srand(seed);
@@ -168,13 +168,13 @@ void World::initialize()
 			++spawnX;
 	}
 	while (!onLand);
-	if (gameMode == GAMEMODE_PREVIEW)
+	if (gameMode == Mode::PREVIEW)
 		camCalcY = camY = spawnY * 16 - 192 / 2 - 16;
 }
 
-World::World(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
+World::World(Mode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
 
-, spawnX(gameMode == GAMEMODE_PREVIEW ? 0 : (WIDTH * 3) / 8 + rand() % (WIDTH / 4)), camY(0), camX(gameMode == GAMEMODE_PREVIEW ? 0 : spawnX * 16 - 256 / 2)
+, spawnX(gameMode == Mode::PREVIEW ? 0 : (WIDTH * 3) / 8 + rand() % (WIDTH / 4)), camY(0), camX(gameMode == Mode::PREVIEW ? 0 : spawnX * 16 - 256 / 2)
 , timeInWorld(0), sunBrightness(15), gameMode(gameMode)
 , seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
 , furnaces{}
@@ -187,7 +187,7 @@ World::World(GameMode gameMode) : blocks { }, bgblocks{}, data{}, brightness{}
 World::World(bool init) : blocks { }, bgblocks{}, data{}, brightness{}
 
 , spawnX((WIDTH * 3) / 8 + rand() % (WIDTH / 4)), camY(0), camX(0)
-, timeInWorld(0), sunBrightness(15), gameMode(GAMEMODE_PREVIEW)
+, timeInWorld(0), sunBrightness(15), gameMode(Mode::PREVIEW)
 , seed(NO_SEED), camCalcX(camX), camCalcY(0.0), biome { }, chestInUse{}
 , furnaces{}
 

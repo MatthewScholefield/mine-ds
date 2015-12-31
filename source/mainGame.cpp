@@ -89,7 +89,7 @@ static bool inGameMenu()
 
 bool isSurvival(void)
 {
-	return (world->gameMode == GAMEMODE_SURVIVAL);
+	return (world->gameMode == World::Mode::SURVIVAL);
 }
 
 void quitGame()
@@ -97,7 +97,7 @@ void quitGame()
 	shouldQuitGame = true;
 }
 
-void newGame(GameMode mode)
+void newGame(World::Mode mode)
 {
 	updateSubBG();
 	delete world;
@@ -114,7 +114,7 @@ void drawWorld()
 
 void previewGame(void)
 {
-	newGame(GAMEMODE_PREVIEW);
+	newGame(World::Mode::PREVIEW);
 	drawWorld();
 }
 
@@ -226,7 +226,7 @@ void startMultiplayerGame(bool host)
 		iprintf("Generating World!\n");
 		delete world;
 		world = new WorldObject();
-		world->gamemode = GAMEMODE_CREATIVE;
+		world->gamemode = World::Mode::CREATIVE;
 		generateWorld(*world);
 		while (!hostNifiInit()) updateFrame();
 		communicationInit(*world);

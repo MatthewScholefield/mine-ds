@@ -110,9 +110,9 @@ bool loadWorld(World *world)
 			clearText();
 			drawBackground();
 		}
-		int loadGameMode;
-		fscanf(worldFile, "%d ", &loadGameMode);
-		world->gameMode = GameMode(loadGameMode);
+		int loadWorld;
+		fscanf(worldFile, "%d ", &loadWorld);
+		world->gameMode = World::Mode(loadWorld);
 		int loadTimeInWorld;
 		fscanf(worldFile, "%d ", &loadTimeInWorld);
 		world->timeInWorld = loadTimeInWorld;
