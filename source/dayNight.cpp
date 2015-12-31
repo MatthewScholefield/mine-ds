@@ -28,29 +28,29 @@ void dayNightUpdate(WorldObject &world)
 		switch (world.timeInWorld)
 		{
 		case 0 ... 79:
-			world.worldBrightness = 15;
+			world.sunBrightness = 15;
 			break;
 		case 80 ... 89:
-			world.worldBrightness = 15 - (world.timeInWorld - 80);
+			world.sunBrightness = 15 - (world.timeInWorld - 80);
 			break;
 		case 90 ... 109:
-			world.worldBrightness = 5;
+			world.sunBrightness = 5;
 			break;
 		case 110 ... 119:
-			world.worldBrightness = 5 + (world.timeInWorld - 110);
+			world.sunBrightness = 5 + (world.timeInWorld - 110);
 			break;
 		}
 
-		lastWorldBrightness = world.worldBrightness;
+		lastWorldBrightness = world.sunBrightness;
 
-		setSkyColor(r[world.worldBrightness - 5], g[world.worldBrightness - 5], b[world.worldBrightness - 5],
-					r2[world.worldBrightness - 5], g2[world.worldBrightness - 5], b2[world.worldBrightness - 5]);
+		setSkyColor(r[world.sunBrightness - 5], g[world.sunBrightness - 5], b[world.sunBrightness - 5],
+					r2[world.sunBrightness - 5], g2[world.sunBrightness - 5], b2[world.sunBrightness - 5]);
 		if (isWifi())
 		{
 			unsigned short buffer[100];
 			int server_id = getServerID();
-			sprintf((char *) buffer, "[DNC: %d %d %d %d %d", server_id, world.worldBrightness
-					, r[world.worldBrightness - 5], g[world.worldBrightness - 5], b[world.worldBrightness - 5]);
+			sprintf((char *) buffer, "[DNC: %d %d %d %d %d", server_id, world.sunBrightness
+					, r[world.sunBrightness - 5], g[world.sunBrightness - 5], b[world.sunBrightness - 5]);
 			Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
 		}
 	}

@@ -50,7 +50,7 @@ public:
 	int camY;
 	int camX;
 	int timeInWorld;
-	int worldBrightness;
+	int sunBrightness;
 	GameMode gameMode;
 	int seed; //The random number seed used to generate the world
 	double camCalcX;
