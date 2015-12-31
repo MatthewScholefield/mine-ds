@@ -30,7 +30,7 @@ void AnimalMob::updateMob(WorldObject &world)
 
 	if (host == true)
 	{
-		BaseMob_ptr target = mobHandlerFindMob(256, MOB_PLAYER, x, y);
+		BaseMob::Ptr target = mobHandlerFindMob(256, MOB_PLAYER, x, y);
 
 		if (scaredTimer == 1)
 		{

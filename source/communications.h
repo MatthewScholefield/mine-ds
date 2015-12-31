@@ -8,7 +8,7 @@ void recieveWorld(WorldObject &world2);
 void connectCode(int code2);
 void setBlock(int x, int y, int block, int bgblock, int amount);
 void sendblock(int a, int x, int y);
-void sendMobUpdater(BaseMob_ptr mob, int mobNum);
+void sendMobUpdater(BaseMob::Ptr mob, int mobNum);
 void placeBlock(int x, int y);
 void matchBlocks(int x, int y, int block, int bgblock);
 void recievePlaceBlock(int x, int y, int block, int block2);

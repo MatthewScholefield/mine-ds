@@ -26,13 +26,13 @@
 #include "../graphics/interfaces/Interface.h"
 #include "../graphics/interfaces/interfaceHandler.h"
 
-std::vector<BaseMob_ptr> mobs;
-BaseMob_ptr playerPointer;
+std::vector<BaseMob::Ptr> mobs;
+BaseMob::Ptr playerPointer;
 bool shouldSpawnPlayer = false;
 
 void createWaterMob(int x, int y, int level)
 {
-	mobs.push_back(BaseMob_ptr(new WaterMob(x * 16, y * 16 + 16, level)));
+	mobs.push_back(BaseMob::Ptr(new WaterMob(x * 16, y * 16 + 16, level)));
 }
 
 void createItemMob(int x, int y, int blockID, int amount, int displayID, float initVX)
@@ -41,7 +41,7 @@ void createItemMob(int x, int y, int blockID, int amount, int displayID, float i
 		return;
 	if (displayID == -1)
 		displayID = blockID;
-	mobs.push_back(BaseMob_ptr(new ItemMob(x * 16 + 7, y * 16 + 8, blockID, amount, displayID, initVX)));
+	mobs.push_back(BaseMob::Ptr(new ItemMob(x * 16 + 7, y * 16 + 8, blockID, amount, displayID, initVX)));
 }
 
 bool canMobSpawnHere(WorldObject &world, int x, int y)
@@ -54,11 +54,11 @@ int getDefaultSpawnX()
 	return !playerPointer ? 0 : (int) (playerPointer->x / 16 + (rand() % 5) - 2);
 }
 
-BaseMob_ptr mobHandlerFindMob(int range, MobType type, int x, int y)
+BaseMob::Ptr mobHandlerFindMob(int range, MobType type, int x, int y)
 {
 	int closest = range * range + 1;
 	int index = -1;
-	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
+	for (std::vector<BaseMob::Ptr>::size_type i = 0; i != mobs.size(); ++i)
 	{
 		if (mobs[i]->type == type)
 		{
@@ -84,14 +84,14 @@ int getPlayerX()
 	return !playerPointer ? 0 : (int) playerPointer->x;
 }
 
-BaseMob_ptr getPlayerPtr()
+BaseMob::Ptr getPlayerPtr()
 {
 	return playerPointer;
 }
 
-BaseMob_ptr isMobAt(int x, int y)
+BaseMob::Ptr isMobAt(int x, int y)
 {
-	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
+	for (std::vector<BaseMob::Ptr>::size_type i = 0; i != mobs.size(); ++i)
 		if (spriteCol(mobs[i]->x - mobs[i]->sx / 2 + 1, mobs[i]->y - mobs[i]->sy / 2 + 1, x - 1, y - 1, mobs[i]->sx, mobs[i]->sy, 1, 1) && mobs[i]->alive == true)
 			return mobs[i];
 	return nullptr;
@@ -138,21 +138,21 @@ static void newMob(MobType type, int x = 0, int y = 0)
 	switch (type)
 	{
 	case MOB_PLAYER:
-		mobs.push_back(BaseMob_ptr(new PlayerMob(x, y)));
+		mobs.push_back(BaseMob::Ptr(new PlayerMob(x, y)));
 		playerPointer = mobs.back();
 		shouldSpawnPlayer = false;
 		break;
 	case MOB_MULTIPLAYER:
-		mobs.push_back(BaseMob_ptr(new MultiplayerMob(x, y)));
+		mobs.push_back(BaseMob::Ptr(new MultiplayerMob(x, y)));
 		break;
 	case MOB_ZOMBIE:
-		mobs.push_back(BaseMob_ptr(new ZombieMob(x, y)));
+		mobs.push_back(BaseMob::Ptr(new ZombieMob(x, y)));
 		break;
 	case MOB_ANIMAL:
-		mobs.push_back(BaseMob_ptr(new AnimalMob(x, y)));
+		mobs.push_back(BaseMob::Ptr(new AnimalMob(x, y)));
 		break;
 	case MOB_HEROBRINE:
-		mobs.push_back(BaseMob_ptr(new HerobrineMob(x, y)));
+		mobs.push_back(BaseMob::Ptr(new HerobrineMob(x, y)));
 		break;
 	case MOB_ITEM:
 		createItemMob(x, y, DIRT);
@@ -196,7 +196,7 @@ int spawnMobAt(MobType type, int x, int y)
 
 void saveMobs(FILE* f)
 {
-	for (std::vector<BaseMob_ptr>::size_type i = 0; i != mobs.size(); ++i)
+	for (std::vector<BaseMob::Ptr>::size_type i = 0; i != mobs.size(); ++i)
 	{
 		if (mobs[i]->alive)
 		{
@@ -233,7 +233,7 @@ void mobHandlerUpdate(WorldObject &world, touchPosition &touch)
 	int goodMobs = 0;
 	if (shouldSpawnPlayer)
 		spawnMob(MOB_PLAYER, world);
-	for (std::vector<BaseMob_ptr>::size_type i = 0; i < mobs.size(); ++i)
+	for (std::vector<BaseMob::Ptr>::size_type i = 0; i < mobs.size(); ++i)
 	{
 		if (mobs[i]->health > 0)
 		{

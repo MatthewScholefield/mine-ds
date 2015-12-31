@@ -73,7 +73,7 @@ void ItemMob::updateMob(WorldObject &world)
 		floatY = 0;
 	if (world.blocks[int(x) / 16][(int(y) - 8) / 16 + 1] != AIR && world.brightness[x / 16][(y - 8) / 16 + 1] != brightness)
 		calcItemMobBrightness(world);
-	BaseMob_ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
+	BaseMob::Ptr target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 8);
 	if (target == nullptr)
 		target = mobHandlerFindMob(8, MOB_PLAYER, x, y - 24);
 	if (target == nullptr || !target->isMyPlayer())

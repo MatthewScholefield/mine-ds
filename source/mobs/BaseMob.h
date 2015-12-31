@@ -54,6 +54,8 @@ protected:
 		return spriteState == 0 ? normalSprite : hurtSprite;
 	}
 public:
+	using Ptr = std::shared_ptr<BaseMob>;
+
 	MobType type;
 	int health; //0 = Dead
 	FixedPoint x, y, vx, vy;
@@ -90,5 +92,4 @@ public:
 
 	virtual ~BaseMob() { }
 };
-using BaseMob_ptr = std::shared_ptr<BaseMob>;
 bool jumpHurtType(int hurtType);

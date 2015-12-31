@@ -27,7 +27,7 @@ void HerobrineMob::updateMob(WorldObject &world)
 		if (collisions[SIDE_BOTTOM] && collisions[SIDE_TOP])
 			while (y > 16 && (world.blocks[int(x) / 16][(int(y) / 16) + 1] != AIR || world.blocks[int(x) / 16][int(y) / 16] != AIR))
 				y -= 16;
-		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
+		BaseMob::Ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->type == MOB_PLAYER) facing = true;
 		else if (target->type == MOB_PLAYER) facing = false;
 		int distance = target->x - x;

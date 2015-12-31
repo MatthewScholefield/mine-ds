@@ -76,7 +76,7 @@ void placeBlock(WorldObject &world, int x, int y, bool bg)
 	int blockID = getHandID();
 	if (isFoodStuff(blockID))
 	{
-		BaseMob_ptr m;
+		BaseMob::Ptr m;
 		m = mobHandlerFindMob(2000,MOB_PLAYER,x*16,y*16);
 		if (m!=nullptr)
 		{
@@ -229,7 +229,7 @@ void activateBlock(WorldObject &world, int x, int y, bool bg)
 
 bool attackMob(WorldObject &world, int px, int py)
 {
-	BaseMob_ptr targetMob = isMobAt(px + world.camX, py + world.camY);
+	BaseMob::Ptr targetMob = isMobAt(px + world.camX, py + world.camY);
 	if (targetMob != nullptr)
 	{
 		int damage;

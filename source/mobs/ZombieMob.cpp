@@ -53,7 +53,7 @@ void ZombieMob::updateMob(WorldObject &world)
 	getSprite().draw(x - world.camX - 7, y - world.camY - 15, facing ? true : false);
 	if (host == true)
 	{
-		BaseMob_ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
+		BaseMob::Ptr target = mobHandlerFindMob(128, MOB_PLAYER, x, y);
 		if (target->x < x && target->type == MOB_PLAYER) facing = true;
 		else if (target->type == MOB_PLAYER) facing = false;
 		if (!collisions[SIDE_RIGHT] && facing == false && !collisions[SIDE_TOP])
