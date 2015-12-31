@@ -75,7 +75,7 @@ void ZombieMob::updateMob(World &world)
 		if (spriteCol(x, y, target->x, target->y, sx, sy, target->sx, target->sy))
 			target->hurt(1, ZOMBIE_HURT);
 	}
-	if (world.blocks[int(x) / 16][(int(y + 8)) / 16 + 1] != AIR && world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
+	if (world.brightness[x / 16][(y + 8) / 16 + 1] != brightness)
 		calcMobBrightness(world);
 }
 
