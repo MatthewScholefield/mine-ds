@@ -49,7 +49,7 @@ void ZombieMob::updateMob(World &world)
 {
 	if (brightness < 0)
 		calcMobBrightness(world);
-	if (world.timeInWorld < 80 && rand() % 200 == 1) hurt(2, SUN_HURT);
+	if (world.timeInWorld < 80 && rand() % 200 == 1 && brightness > 7) hurt(2, SUN_HURT);
 	getSprite().draw(x - world.camX - 7, y - world.camY - 15, facing ? true : false);
 	if (host == true)
 	{
@@ -83,7 +83,7 @@ void ZombieMob::sendWifiUpdate() { }
 
 bool canZombieMobSpawnHere(World &world, int x, int y)
 {
-	return canMobSpawnHere(world, x, y) && world.brightness[x][y + 1] <= 8;
+	return canMobSpawnHere(world, x, y) && world.brightness[x][y + 1] <= 7;
 }
 
 bool ZombieMob::isMyPlayer()
