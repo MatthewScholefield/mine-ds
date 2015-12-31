@@ -182,7 +182,10 @@ void oceanBiome(World &world, int startX, int endX)
 		int y = findFirstBlock(world, x); // Get the first block that is not AIR...
 		if (y > (oldLowerY + 2))
 		{
-			for (int j = oldLowerY + 2; world.blocks[x][j] == AIR; ++j)
+			int topWaterBlock = oldLowerY + 2;
+			world.blocks[x][topWaterBlock] = WATER;
+			setWaterLevel(world, x, topWaterBlock, (MAX_WATER_LEVEL * 5) / 6);
+			for (int j = topWaterBlock + 1; world.blocks[x][j] == AIR; ++j)
 			{
 				world.blocks[x][j]=WATER;
 				world.data[x][j]=MAX_WATER_LEVEL;
