@@ -24,10 +24,9 @@
 !README.md
 !icon.bmp
 
-# Exclude Build Folder
+# Exclude Generated Folders
 build/
+source/localizations/generated/
 
-# ================== Caveats ================== #
-# - It only works with up to 32 subdirectories  #
-# - It only excludes files with extensions      #
-# ============================================= #
+# Exclude Backup Files
+*~
