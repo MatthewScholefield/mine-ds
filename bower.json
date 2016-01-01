@@ -1,0 +1,31 @@
+{
+  "name": "Mine-DS",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Wolfgange3311999/Mine-DS",
+  "authors": [
+    "Wolfgange3311999 <matthew3311999@gmail.com>"
+  ],
+  "description": "A modern 2D adaptation of Minecraft for the DS",
+  "main": "index.html",
+  "keywords": [
+    "Minecraft",
+    "Minecraft for the DS",
+    "Mine DS",
+    "Minecraft 2D"
+  ],
+  "license": "GPL-3.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  },
+  "devDependencies": {
+    "Materialize": "materialize#~0.97.5"
+  }
+}
