@@ -167,6 +167,7 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) Mine-DS.elf Mine-DS.nds Mine-DS-FAT.elf Mine-DS-FAT.nds $(SOUNDBANK)
+	@rm -fr source/localizations/generated/
 
 #---------------------------------------------------------------------------------
 else

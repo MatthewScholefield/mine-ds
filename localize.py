@@ -32,8 +32,10 @@ for arg in sys.argv[1:]:
 		string += ",\"" + value + "\""
 	string += "};\n"
 	string += "int "+basename+"_num = " + str(len(tags)) + ";"
-
-	wfile = open("source/localizations/" + basename + ".h","wb")
+	
+	if not os.path.exists("source/localizations/generated/"):
+		os.makedirs("source/localizations/generated/")
+	wfile = open("source/localizations/generated/" + basename + ".h","wb")
 
 	#For creating the languages.h file
 
@@ -69,7 +71,7 @@ for arg in sys.argv[1:]:
 	wfile.close()
 	
 
-languagesFile = open("source/localizations/languages.h","w")
+languagesFile = open("source/localizations/generated/languages.h","w")
 languagesFile.write("#ifdef LOCALE_CPP\n#pragma once\n")
 for name in fileNames:
 	languagesFile.write("#include \""+name	+".h\"\n")

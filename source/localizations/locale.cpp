@@ -1,6 +1,6 @@
 #include <string>
 #define LOCALE_CPP
-#include "languages.h"
+#include "generated/languages.h"
 
 
 
