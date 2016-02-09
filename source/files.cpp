@@ -49,7 +49,7 @@ bool saveWorld(World &world)
 	{
 		fprintf(worldFile, VERSION_STRING " ");
 		fprintf(worldFile, "%d %d ", World::WIDTH, World::HEIGHT);
-		fprintf(worldFile, "%d ", world.gameMode);
+		fprintf(worldFile, "%d ", (int)world.gameMode);
 		fprintf(worldFile, "%d ", world.timeInWorld);
 		for (int i = 0; i < World::WIDTH; ++i)
 		{
@@ -59,7 +59,7 @@ bool saveWorld(World &world)
 				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(World::WIDTH))));
 		}
 		for (int i = 0; i < World::WIDTH; ++i)
-			fprintf(worldFile, "%d ", world.biome[i]);
+			fprintf(worldFile, "%d ", (int)world.biome[i]);
 
 		saveInventory(worldFile);
 		saveMobs(worldFile);

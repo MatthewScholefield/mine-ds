@@ -158,7 +158,7 @@ endif
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@mkdir -p $@
-	python2 localize.py $(LANGFILES)
+	python2.7 localize.py $(LANGFILES)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	mv $(OUTPUT).nds Mine-DS.nds || true
 	mv $(OUTPUT).elf Mine-DS.elf || true
