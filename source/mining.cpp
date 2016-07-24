@@ -1,3 +1,4 @@
+#include <chrono>
 #include "world/World.h"
 #include "world/worldRender.h"
 #include "blockID.h"
@@ -167,7 +168,15 @@ void activateBlock(World &world, int x, int y, bool bg)
 	}
 	case TNT:
 	{
+		bool skipWait = false;
 		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		blockXY = GLOWSTONE;
+		calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
+		blockXY = TNT;
+		playSound(SOUND_EXPLODE,230 + rand()%26, std::max(0, x * 16 - world.camX));
+		vBlank();
+		worldRender_Render(world);
+		auto begin = std::chrono::high_resolution_clock::now();
 		blockXY = AIR;
 		for (int i = 0; i < 18; ++i)
 		{
@@ -187,14 +196,23 @@ void activateBlock(World &world, int x, int y, bool bg)
 						world.bgblocks[xPos / SCALE][yPos / SCALE] :
 						world.blocks[xPos / SCALE][yPos / SCALE];
 				if (BLOCK == TNT)
+				{
+					skipWait = true;
 					activateBlock(world, xPos / SCALE, yPos / SCALE, bg);
+				}
 				
 				fuel -= SCALE;
 				destroyBlock(world, xPos / SCALE, yPos / SCALE, bg, false);
 			}
 		}
-		playSound(SOUND_EXPLODE,230 + rand()%26, x* 16 - world.camX);
 		calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
+		auto end = std::chrono::high_resolution_clock::now();
+		auto dur = end - begin;
+		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+		auto frames = ms / (1000 / FPS);
+		if (!skipWait)
+			for (int i = 6 - frames; i > 0; --i)
+				vBlank();
 		break;
 	}
 	case CRAFTING_TABLE:
