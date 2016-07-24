@@ -32,7 +32,8 @@ const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 	{true ,CHEST, 1, PLANKS_WOOD, 8},
 	{true ,DOOR_ITEM, 1, PLANKS_WOOD, 6},
 	{true ,BUCKET_EMPTY, 1, INGOT_IRON, 3},
-	{true ,FURNACE, 1, COBBLESTONE, 8}
+	{true ,FURNACE, 1, COBBLESTONE, 8},
+	{true ,TNT, 1, SAND, 7, COAL, 2}
 };
 
 void CraftingInterface::updateCraftingGraphics()
