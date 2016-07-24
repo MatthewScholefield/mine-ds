@@ -20,3 +20,10 @@ exclude:
 
 # Build settings
 markdown: kramdown
+
+defaults:
+  -
+    scope:
+      path: "" # All files in project
+    values:
+      show_in_header: false
