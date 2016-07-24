@@ -54,7 +54,7 @@ module.exports = (grunt) ->
 
     exec:
       jekyll:
-        cmd: "jkl build --trace"
+        cmd: "jekyll build --trace"
 
     watch:
       options:
