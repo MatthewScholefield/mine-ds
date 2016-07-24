@@ -37,7 +37,7 @@ bool canMine() //Returns whether touch input can destroy blocks
 	return !miningDisabled;
 }
 
-void destroyBlock(World &world, int x, int y, bool bg, bool byHand)
+void destroyBlock(World &world, int x, int y, bool bg, bool byHand, bool updateBrightness)
 {
 	int blockID = getHandID();
 	short *blockXY = bg ? &world.bgblocks[x][y] : &world.blocks[x][y];
@@ -67,7 +67,8 @@ void destroyBlock(World &world, int x, int y, bool bg, bool byHand)
 		}
 		break;
 	}
-	calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
+	if (updateBrightness)
+		calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
 	updateAround(world, x, y);
 }
 
@@ -77,11 +78,11 @@ void placeBlock(World &world, int x, int y, bool bg)
 	if (isFoodStuff(blockID))
 	{
 		BaseMob::Ptr m;
-		m = mobHandlerFindMob(2000,MOB_PLAYER,x*16,y*16);
-		if (m!=nullptr)
+		m = mobHandlerFindMob(2000, MOB_PLAYER, x * 16, y * 16);
+		if (m != nullptr)
 		{
-			m->health+=getFoodValue(blockID);
-			subInventory(blockID,1);
+			m->health += getFoodValue(blockID);
+			subInventory(blockID, 1);
 		}
 		return;
 	}
@@ -164,8 +165,40 @@ void activateBlock(World &world, int x, int y, bool bg)
 		playBlockSfx(bg ? world.bgblocks[x][y] : world.blocks[x][y], SOUND_TYPE_PLACE, 255, getBlockPanning(x, world.camX));
 		break;
 	}
+	case TNT:
+	{
+		short &blockXY = bg ? world.bgblocks[x][y] : world.blocks[x][y];
+		blockXY = AIR;
+		for (int i = 0; i < 18; ++i)
+		{
+			const int SCALE = 1000;
+			int xPos = x * SCALE, yPos = y * SCALE;
+			int dx = rand() % SCALE;
+			int dy = SCALE - dx;
+			dx *= (rand() % 2) * 2 - 1;
+			dy *= (rand() % 2) * 2 - 1;
+
+			for (int fuel = 3 * SCALE ; fuel > 0;)
+			{
+				xPos += dx;
+				yPos += dy;
+
+				const short &BLOCK = bg ?
+						world.bgblocks[xPos / SCALE][yPos / SCALE] :
+						world.blocks[xPos / SCALE][yPos / SCALE];
+				if (BLOCK == TNT)
+					activateBlock(world, xPos / SCALE, yPos / SCALE, bg);
+				
+				fuel -= SCALE;
+				destroyBlock(world, xPos / SCALE, yPos / SCALE, bg, false);
+			}
+		}
+		playSound(SOUND_EXPLODE,230 + rand()%26, x* 16 - world.camX);
+		calculateBrightness(world, getPlayerPtr()->x / 16, getPlayerPtr()->y / 16);
+		break;
+	}
 	case CRAFTING_TABLE:
-		setInterface(world, INTERFACE_CRAFTING,true);
+		setInterface(world, INTERFACE_CRAFTING, true);
 		lcdMainOnTop();
 		setMiningDisabled(true);
 		break;
