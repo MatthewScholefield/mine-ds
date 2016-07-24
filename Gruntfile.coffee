@@ -47,9 +47,9 @@ module.exports = (grunt) ->
         },
         {
           expand: true
-          cwd: "bower_components/Materialize/dist/font/"
+          cwd: "bower_components/Materialize/dist/fonts/"
           src: "**/*"
-          dest: "vendor/font/"
+          dest: "vendor/fonts/"
         }]
 
     exec:
