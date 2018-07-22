@@ -56,7 +56,7 @@ bool saveWorld(World &world)
 			for (int j = 0; j < World::HEIGHT; ++j)
 				fprintf(worldFile, "%hd %hd %d ", world.blocks[i][j], world.bgblocks[i][j], world.data[i][j]);
 			if (i % 50 == 0)
-				iprintf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(World::WIDTH))));
+				printf("\x1b[19;1HSaving... %d%%", int(100 * (double(i) / double(World::WIDTH))));
 		}
 		for (int i = 0; i < World::WIDTH; ++i)
 			fprintf(worldFile, "%d ", (int)world.biome[i]);
@@ -67,7 +67,7 @@ bool saveWorld(World &world)
 		saveFurnaces(worldFile, world);
 		fprintf(worldFile, "%d ", world.reservedWater);
 		fclose(worldFile);
-		iprintf("\x1b[19;1H              ");
+		printf("\x1b[19;1H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
 		return true;
@@ -127,7 +127,7 @@ bool loadWorld(World *world)
 					updateSingleBlock(*world, i, j, false);
 			}
 			if (i % 64 == 0)
-				iprintf("\x1b[22;33HLoading... %d%%", int(100 * (double(i) / double(World::WIDTH))));
+				printf("\x1b[22;33HLoading... %d%%", int(100 * (double(i) / double(World::WIDTH))));
 
 		}
 		calculateBrightness(*world);
@@ -142,7 +142,7 @@ bool loadWorld(World *world)
 		loadChests(worldFile, *world);
 		loadFurnaces(worldFile, *world);
 		fscanf(worldFile, "%d ", &world->reservedWater);
-		iprintf("\x1b[22;33H              ");
+		printf("\x1b[22;33H              ");
 		fclose(worldFile);
 		playMusic(MUSIC_CALM);
 		fclose(worldFile);

@@ -21,12 +21,12 @@ void PageInterface::update(World &world, touchPosition &touch)
 	{
 	case LEFT:
 		changeBlockPage(false, true);
-		iprintf("\x1b[11;13H            ");
+		printf("\x1b[11;13H            ");
 		printXY(13, 11, getPageName());
 		break;
 	case RIGHT:
 		changeBlockPage(true, true);
-		iprintf("\x1b[11;13H            ");
+		printf("\x1b[11;13H            ");
 		printXY(13, 11, getPageName());
 		break;
 	case BACK:
@@ -40,6 +40,6 @@ void PageInterface::update(World &world, touchPosition &touch)
 void PageInterface::draw()
 {
 	menu.draw();
-	iprintf("\x1b[11;13H            ");
+	printf("\x1b[11;13H            ");
 	printXY(13, 11, getPageName());
 }

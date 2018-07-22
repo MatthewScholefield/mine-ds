@@ -84,7 +84,7 @@ void update_message()
 	if (getTime() % MESSAGE_CLEAR_DELAY == unsigned(triggerTime))
 		messages[getOldestMessageIndex()] = "";
 	for (int amount = 0; amount < MESSAGE_COUNT; ++amount)
-		iprintf("\x1b[%d;0H\x1b[2K %s", 20 + amount, messages[amount].c_str());
+		printf("\x1b[%d;0H\x1b[2K %s", 20 + amount, messages[amount].c_str());
 }
 
 void clear_messages()

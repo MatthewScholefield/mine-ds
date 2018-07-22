@@ -20,8 +20,6 @@
 #include "files.h"
 #include "general.h"
 #include "blockUpdaters/blockUpdater.h"
-//#include <maxmod9.h>    // Maxmod definitions for ARM9
-//#include <string>
 #include "graphics/3DHandler.h"
 #include "localizations/locale.h"
 

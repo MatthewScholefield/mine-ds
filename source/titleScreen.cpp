@@ -394,10 +394,10 @@ void languageOptions()
 	startTransition(true);
 	clearText(menuFirstSlot);
 	drawBackground(menuFirstSlot);
-	
+
 	int Size = getNumLanguages() * 5 + 8;
 	Menu menu(MENU_BUTTON, true, Size);
-	
+
 	for (int i = 0; i < getNumLanguages(); ++i)
 	{
 		setLanguage(i);
@@ -562,7 +562,7 @@ void titleScreen()
 		lcdMainOnTop();
 		clearInventory();
 		Menu menu(MENU_BUTTON, false);
-		
+
 		menu.addButton(8, 8, locale("single-player") , 15);
 		menu.addButton(8, 13, locale("settings") , 15);
 		menu.addButton(8, 18, locale("credits") , 15);
@@ -584,6 +584,8 @@ void titleScreen()
 			break;
 		case 4: //Power
 			poweroff = true;
+			break;
+		default:
 			break;
 		}
 		startTransition(false);

@@ -223,7 +223,7 @@ void startMultiplayerGame(bool host)
 
 	if (host)
 	{
-		iprintf("Generating World!\n");
+		printf("Generating World!\n");
 		delete world;
 		world = new WorldObject();
 		world->gamemode = World::Mode::CREATIVE;

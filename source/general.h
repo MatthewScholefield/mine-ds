@@ -38,6 +38,8 @@ size_t maxStringLength(std::vector<std::string> lines);
 void clearText(bool firstSection, int sizeY = 64);
 void clearText();
 
+using uint = unsigned int;
+
 inline void printXY(int x, int y, const char *output)
 {
 	//if (y > 31 || x > 31) return;

@@ -24,7 +24,6 @@ std::map< std::pair< SoundAudio, SoundType >, std::pair< int, int > > sfxs;
 
 FILE *file;
 WaveInfo w;
-int sfxVolume;
 
 void stopStream()
 {
@@ -45,11 +44,6 @@ bool streamIsOpen()
 		stopStream();
 	}
 	return streamOpen;
-}
-
-bool songIsPlaying()
-{
-	return loadedMusic != MUSIC_NONE;
 }
 
 s16 volumeFunc(s16 orig, u16 factor)
@@ -100,7 +94,6 @@ void playStreamSong()
 
 void initSound(void)
 {
-	sfxVolume = 20;
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 	mmInitDefault(SOUNDBANK_FILENAME);
 #pragma GCC diagnostic pop
@@ -152,14 +145,6 @@ void playSound(Sound sfx, mm_byte volume, mm_byte panning)
 	if (sfx == SOUND_NONE)
 		return;
 
-	/*if (isWifi())
-	{
-		// TODO: Move this to nifi.cpp
-		unsigned short buffer[100];
-		int server_id = getServerID();
-		sprintf((char *) buffer, "[SND: %d %d", server_id, sfx);
-		Wifi_RawTxFrame(strlen((char *) buffer) + 1, 0x0014, buffer);
-	}*/
 	t_mmsoundeffect mobSound = {
 		{(mm_word) sfx}, // id
 		1024,

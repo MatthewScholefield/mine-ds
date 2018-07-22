@@ -39,14 +39,14 @@ const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 void CraftingInterface::updateCraftingGraphics()
 {
 	resultBlock.reload(GraphicType::BLOCK, recipes[page].result.ID, false);
-	iprintf("\x1b[11;22H%d/%d ", checkInventory(recipes[page].result.ID), recipes[page].result.amount);
+	printf("\x1b[11;22H%d/%d ", checkInventory(recipes[page].result.ID), recipes[page].result.amount);
 	for (int i = 0; i <= 3; ++i)
 	{
 		neededblocks[i].reload(GraphicType::BLOCK, recipes[page].needed[i].ID, false);
 		if (recipes[page].needed[i].amount > 0)
-			iprintf("\x1b[%d;%dH%d/%d  ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(recipes[page].needed[i].ID), recipes[page].needed[i].amount);
+			printf("\x1b[%d;%dH%d/%d  ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10, checkInventory(recipes[page].needed[i].ID), recipes[page].needed[i].amount);
 		else
-			iprintf("\x1b[%d;%dH      ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
+			printf("\x1b[%d;%dH      ", (i % 2) ? 11 - (i / 2)*2 - 2 : 11 + (i / 2)*2, 10);
 	}
 }
 

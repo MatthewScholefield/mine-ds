@@ -3,7 +3,7 @@
 #include "soundbank.h"  // Soundbank definitions
 #include <maxmod9.h>
 
-enum Sound
+enum Sound : int
 {
 	SOUND_NONE = -1,
 	SOUND_COW_HURT = SFX_COW_HURT,

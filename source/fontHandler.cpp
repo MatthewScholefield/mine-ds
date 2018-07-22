@@ -1,6 +1,6 @@
 #include <nds.h>
 #include "font.h"
-///@breif This function sets up the font and console used for iprintf("Hello World\n");.
+///@breif This function sets up the font and console used for printf("Hello World\n");.
 ///It took a while to get working with the subBgTiles, please don't modify unless you know what you are doing.
 ConsoleFont font;
 PrintConsole* console;

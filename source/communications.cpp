@@ -46,7 +46,7 @@ int doHandshake()
 	}
 	if (code == 1)
 	{
-		iprintf("Joined Successfully!\n");
+		printf("Joined Successfully!\n");
 		return 1;
 	}
 	return 0;
@@ -73,7 +73,7 @@ void recieveWorld(World &world2)
 	int i, j;
 	for (i = 0; i <= 16; ++i)
 	{
-		iprintf(".");
+		printf(".");
 		for (j = 0; j < World::HEIGHT; ++j)
 		{
 			framecounter = 0;

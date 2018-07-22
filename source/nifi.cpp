@@ -328,13 +328,13 @@ bool clientNifiInit()
 	if (clientReInit == true)
 	{
 		client_id = rand() % 1024;
-		iprintf("\x1b[11;1HClient ID: %d", client_id);
+		printf("\x1b[11;1HClient ID: %d", client_id);
 		lookForServers = true;
 		clientReInit = false;
 	}
 	if (foundServer)
 	{
-		iprintf("\x1b[10;0HDo you wish to join server\nID: %d ?", server_id);
+		printf("\x1b[10;0HDo you wish to join server\nID: %d ?", server_id);
 		drawButton(2, 15, 5);
 		drawButton(15, 15, 5);
 		printXY(4, 16, "Yes");
