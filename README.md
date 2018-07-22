@@ -25,18 +25,21 @@ A 2D survival NDS game inspired by Minecraft. The current version incorperates a
 - Submit a pull request
 
 # How to Compile
+
+To build Mine DS you need to download a group of tools build by [devkitPro](https://devkitpro.org/wiki/Getting_Started).
+
 #### Windows
-- Download the latest exe devkitpro [installer from here][1]
+- Download the latest exe devkitpro [installer from here](https://devkitpro.org/wiki/Getting_Started#Windows)
 - Run the downloaded installer and check "devkitARM" in the custom install
 - Download the project to a directory and in a command prompt type "make"
 
 #### Linux
-- Download the latest perl script [installer (devkitARMupdate.pl) from here][1]
-- Navigate to the downloaded file and type "perl devkitARMupdate.pl"
+- Follow [these instructions](https://devkitpro.org/wiki/Getting_Started#Unix-like_platforms) (under "Unix-like Platforms")
+- Run `sudo dkp-pacman -S nds-dev` (or `pacman` if running arch)
 - Download the Mine DS source to a directory and in a command prompt type "make"
 
 # Contact
-Contact me with any questions at [matthew3311999@gmail.com][2]
+Contact me with any questions at [matthew331199@gmail.com][2]
 
 [1]:http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/
 [2]:mailto://matthew3311999@gmail.com
