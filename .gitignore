@@ -20,6 +20,9 @@
 !/**/*.wav
 !/**/*.it
 
+# Build Files
+!/**/meson.build
+
 # Other Files
 !README.md
 !icon.bmp
