@@ -8,7 +8,7 @@ sources = [
     'adpcmparse.cpp',
     'SkySystem.cpp',
     'shittywavparse.cpp',
-    'sounds.cpp',
+    'SoundSystem.cpp',
     'main.cpp',
     'TitleGraphicsSystem.cpp'
 ]

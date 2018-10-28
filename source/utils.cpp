@@ -2,15 +2,12 @@
 #include <string>
 #include <vector>
 #include "utils.hpp"
-#include "sounds.hpp"
 
 std::string messages[MESSAGE_COUNT];
 unsigned int currentTime = 0;
 int triggerTime = 1;
 
 void vBlank() {
-    if (streamIsOpen())
-        mmStreamUpdate();
     swiWaitForVBlank();
 }
 
