@@ -36,8 +36,9 @@ int main() {
             std::string s = "Main: " + std::to_string(rand() % 100);
             messageSystem.print(s);
         }
-        if (soundSystem.streamIsOpen())
+        if (soundSystem.streamIsOpen()) {
             mmStreamUpdate();
+        }
         swiWaitForVBlank();
         {
             printXY(1, 1, "HELLO! %d", ++val);

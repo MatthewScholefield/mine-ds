@@ -17,8 +17,9 @@ bool mainSpriteUsed[128] = {};
 bool subSpriteUsed[128] = {};
 
 int Graphic::nextSpriteID(bool main) {
-    if (main)
+    if (main) {
         return ++nextSpriteIDMain;
+    }
     else
         return ++nextSpriteIDSub;
 }
@@ -28,8 +29,9 @@ OamState &Graphic::getOAM(bool main) {
 }
 
 void Graphic::resetSprites(bool main) {
-    if (main)
+    if (main) {
         nextSpriteIDMain = 0;
+    }
     else
         nextSpriteIDSub = 0;
     oamClear(&getOAM(main), 0, 127);
@@ -59,8 +61,9 @@ void Graphic::loadBlock() {
     dmaCopy(source + TILE_SIZE * 2, gfx + 8 * 4, TILE_SIZE);
     dmaCopy(source + TILE_SIZE, gfx + 8 * 4 * 2, TILE_SIZE);
     dmaCopy(source + TILE_SIZE * 3, gfx + 8 * 4 * 3, TILE_SIZE);
-    if (!main)
+    if (!main) {
         paletteID = 2;
+    }
 }
 
 void Graphic::loadMiniBlock() {
@@ -79,8 +82,9 @@ void Graphic::loadFrame() {
 }
 
 void Graphic::animate() {
-    if (++animFrame >= FRAMES_PER_ANIMATION)
+    if (++animFrame >= FRAMES_PER_ANIMATION) {
         animFrame = 0;
+    }
     loadFrame();
 }
 
@@ -166,14 +170,18 @@ SpriteSize Graphic::getSpriteSize(GraphicType type) {
 }
 
 bool Graphic::draw(int x, int y, bool flip, int pri) {
-    if (type == GraphicType::NONE)
+    if (type == GraphicType::NONE) {
         return false;
-    if (!gfx)
+    }
+    if (!gfx) {
         load();
-    if (x < -16 || x > 256 || y < -32 || y > 192)
+    }
+    if (x < -16 || x > 256 || y < -32 || y > 192) {
         return false;
-    if (loadIter != Graphic::textureID)
+    }
+    if (loadIter != Graphic::textureID) {
         reload();
+    }
     oamSet(&getOAM(main), nextSpriteID(main), x, y, pri, paletteID, getSpriteSize(type), SpriteColorFormat_256Color,
            gfx, -1, false, false, flip, false, false);
     return true;

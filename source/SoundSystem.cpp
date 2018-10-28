@@ -34,8 +34,9 @@ SoundSystem::SoundSystem() {
 }
 
 void SoundSystem::stopStream() {
-    if (!streamOpen)
+    if (!streamOpen) {
         return;
+    }
     mmStreamClose();
     fclose(file);
     streamOpen = false;
@@ -80,11 +81,13 @@ mm_word SoundSystem::streamFromInstance(mm_word length, mm_addr dest, mm_stream_
 }
 
 void SoundSystem::playStreamSong() {
-    if (streamOpen)
+    if (streamOpen) {
         return;
+    }
     int ret = parseWave(file, &w);
-    if (ret)
+    if (ret) {
         return;
+    }
     ADCMReset();
 
     instance = this;
@@ -110,9 +113,10 @@ int SoundSystem::getBlockPanning(int x, int camX) {
 void SoundSystem::playSound(Sound sfx, mm_byte volume, mm_byte panning) {
     u16 sfxVolume = 16;
 
-    if (sfx == SOUND_NONE)
+    if (sfx == SOUND_NONE) {
         return;
 
+    }
     t_mmsoundeffect mobSound = {
             {(mm_word) sfx}, // id
             1024,
@@ -125,9 +129,10 @@ void SoundSystem::playSound(Sound sfx, mm_byte volume, mm_byte panning) {
 }
 
 void SoundSystem::playMusic(Music song) {
-    if (song == MUSIC_NONE)
+    if (song == MUSIC_NONE) {
         return;
 
+    }
     if (song != loadedMusic) {
         stopMusic();
         if (file != nullptr) fclose(file);
@@ -145,9 +150,10 @@ void SoundSystem::playMusic(Music song) {
 }
 
 void SoundSystem::stopMusic() {
-    if (loadedMusic == MUSIC_NONE)
+    if (loadedMusic == MUSIC_NONE) {
         return;
 
+    }
     if (!streamOpen && loadedMusic != MUSIC_STREAM) {
         mmStop();
         mmUnload(loadedMusic);
@@ -159,15 +165,18 @@ void SoundSystem::stopMusic() {
 void SoundSystem::loadSound(int sfx) {
     unsigned int i;
 
-    if (sfx == SOUND_NONE)
+    if (sfx == SOUND_NONE) {
         return;
 
-    for (i = 0; i < LENGTH(loadedSounds); ++i) {
-        if (loadedSounds[i] == sfx)
-            return;
     }
-    if (loadedSounds[soundsPos] != SOUND_NONE)
+    for (i = 0; i < LENGTH(loadedSounds); ++i) {
+        if (loadedSounds[i] == sfx) {
+            return;
+        }
+    }
+    if (loadedSounds[soundsPos] != SOUND_NONE) {
         mmUnloadEffect(loadedSounds[soundsPos]);
+    }
     loadedSounds[soundsPos] = sfx;
     soundsPos = (soundsPos + 1) & (LENGTH(loadedSounds) - 1);
     mmLoadEffect(sfx);

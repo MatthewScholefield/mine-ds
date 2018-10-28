@@ -55,8 +55,9 @@ int TitleGraphicsSystem::getSubBgID() {
 void TitleGraphicsSystem::moveSubBg(int dX, int dY) {
     subBgX += dX;
     subBgY += dY;
-    if (subBgY + 192 > 512)
+    if (subBgY + 192 > 512) {
         subBgY = 512 - 192;
+    }
     else if (subBgY < 0)
         subBgY = 0;
 }
@@ -97,12 +98,15 @@ void TitleGraphicsSystem::drawButton(int x, int y, int sizex) {
     setSubBgTile(x + sizex, y + 2, 26, BOTH_FLIP);
 
     int i;
-    for (i = 0; i < sizex - 1; ++i)
+    for (i = 0; i < sizex - 1; ++i) {
         setSubBgTile(x + 1 + i, y, 30);
-    for (i = 0; i < sizex - 1; ++i)
+    }
+    for (i = 0; i < sizex - 1; ++i) {
         setSubBgTile(x + 1 + i, y + 2, 30, V_FLIP);
-    for (i = 0; i < sizex - 1; ++i)
+    }
+    for (i = 0; i < sizex - 1; ++i) {
         setSubBgTile(x + 1 + i, y + 1, 28 + (i % 2));
+    }
 }
 
 void TitleGraphicsSystem::drawButtonColored(int x, int y, int sizex) {
@@ -115,19 +119,24 @@ void TitleGraphicsSystem::drawButtonColored(int x, int y, int sizex) {
     setSubBgTile(x + sizex, y + 1, 59, H_FLIP);
 
     int i;
-    for (i = 0; i < sizex - 1; ++i)
+    for (i = 0; i < sizex - 1; ++i) {
         setSubBgTile(x + 1 + i, y, 62);
-    for (i = 0; i < sizex - 1; ++i)
+    }
+    for (i = 0; i < sizex - 1; ++i) {
         setSubBgTile(x + 1 + i, y + 2, 62, V_FLIP);
-    for (i = 0; i < sizex - 1; ++i)
+    }
+    for (i = 0; i < sizex - 1; ++i) {
         setSubBgTile(x + 1 + i, y + 1, 60 + (i % 2));
+    }
 }
 
 void TitleGraphicsSystem::drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 {
-    for (int i = 0; i < lx; ++i)
-        for (int j = 0; j < ly; ++j)
+    for (int i = 0; i < lx; ++i) {
+        for (int j = 0; j < ly; ++j) {
             setSubBgTile(x + i, y + j, 28 + (i + 1) % 2);
+        }
+    }
 }
 
 void TitleGraphicsSystem::drawBoxFrame(int x, int y, int lx, int ly) {

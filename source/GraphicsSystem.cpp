@@ -93,8 +93,9 @@ void GraphicsSystem::loadTexture(const unsigned int *blockTilesSrc, const unsign
         mobTiles.assign(mobTilesSrc, mobTilesSrc + MOB_TILES_ARRAY_LEN);
         mobPal.assign(mobPalSrc, mobPalSrc + MOB_PAL_ARRAY_LEN);
     }
-    if (!skipReload)
+    if (!skipReload) {
         ++Graphic::textureID;
+    }
 }
 
 void GraphicsSystem::loadDefaultTexture() {

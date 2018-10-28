@@ -24,18 +24,21 @@ void SkySystem::setSkyColor(double red1, double green1, double blue1, double red
             gradientData[i][2] = min(blue1 * (1.0 - i / 191.0) + (blue2 * i) / 191, 31.0);
         }
         if (useDithering) {
-            for (u16 i = 0; i < 191; ++i)
+            for (u16 i = 0; i < 191; ++i) {
                 for (u8 j = 0; j < 3; ++j) {
                     double extra = gradientData[i][j] - ((int) gradientData[i][j]);
                     gradientData[i][j] = int(gradientData[i][j]);
                     gradientData[i + 1][j] += extra;
                 }
-            for (u8 i = 0; i < 3; ++i)
+            }
+            for (u8 i = 0; i < 3; ++i) {
                 gradientData[191][i] = int(gradientData[191][i]);
+            }
         }
-        for (u16 i = 0; i < 192; ++i)
+        for (u16 i = 0; i < 192; ++i) {
             backdropColor[i] = (uint16) RGB15(int(gradientData[i][0]), int(gradientData[i][1]),
                                               int(gradientData[i][2]));
+        }
     } else {
         const auto ra = roundInt((red1 + red2) / 2.0);
         const auto ga = roundInt((green1 + green2) / 2.0);

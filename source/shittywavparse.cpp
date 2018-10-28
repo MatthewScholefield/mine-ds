@@ -32,16 +32,18 @@ int parseWave(FILE *f, WaveInfo *w) {
     if (require('F', f)) return -1;
     if (require('F', f)) return -1;
     //Ignore the size
-    for (i = 0; i < 4; ++i)
+    for (i = 0; i < 4; ++i) {
         fgetc(f);
+    }
     if (require('W', f)) return -1;
     if (require('A', f)) return -1;
     if (require('V', f)) return -1;
     if (require('E', f)) return -1;
     if (findfmt(f)) return -1;
     //Ignore the size
-    for (i = 0; i < 4; ++i)
+    for (i = 0; i < 4; ++i) {
         fgetc(f);
+    }
     if (require(0x11, f)) return -2;
     if (require(0x00, f)) return -2;
     if (require(0x01, f)) return -3;
@@ -50,8 +52,9 @@ int parseWave(FILE *f, WaveInfo *w) {
     int samplingRate = 0;
     fread(&samplingRate, 4, 1, f);
     //Ignore the size
-    for (i = 0; i < 4; ++i)
+    for (i = 0; i < 4; ++i) {
         fgetc(f);
+    }
     int blockSize = fgetc(f);
     blockSize |= fgetc(f) << 8;
     if (finddata(f)) return -4;

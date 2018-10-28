@@ -32,13 +32,15 @@ bool TitleFontSystem::putChar(void *con, char c) {
     }
 
     int offset = 0;
-    if (currentConsole->cursorX < 32)
+    if (currentConsole->cursorX < 32) {
         offset += currentConsole->cursorX;
+    }
     else
         offset += (currentConsole->cursorX - 32) + 32 * 32;
 
-    if (currentConsole->cursorY < 32)
+    if (currentConsole->cursorY < 32) {
         offset += currentConsole->cursorY * 32;
+    }
     else
         offset += (currentConsole->cursorY - 32) * 32 + 32 * 64;
 
@@ -54,20 +56,23 @@ int TitleFontSystem::getConsoleId() {
 
 void TitleFontSystem::clearTextRegion(int x, int y, int sx, int sy) {
     u16 *map = console->fontBgMap;
-    for (int i = x; i < x + sx; ++i)
+    for (int i = x; i < x + sx; ++i) {
         for (int j = y; j < y + sy; ++j) {
             int offset = 0;
-            if (i < 32)
+            if (i < 32) {
                 offset += i;
+            }
             else
                 offset += (i - 32) + 32 * 32;
 
-            if (j < 32)
+            if (j < 32) {
                 offset += j * 32;
+            }
             else
                 offset += (j - 32) * 32 + 64 * 32;
             map[offset] = 0;
         }
+    }
 }
 
 void TitleFontSystem::refresh() {
