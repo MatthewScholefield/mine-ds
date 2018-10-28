@@ -1,0 +1,72 @@
+#include <cstdio>
+#include <string>
+#include <vector>
+#include "utils.hpp"
+#include "sounds.hpp"
+
+std::string messages[MESSAGE_COUNT];
+unsigned int currentTime = 0;
+int triggerTime = 1;
+
+void vBlank() {
+    if (streamIsOpen())
+        mmStreamUpdate();
+    swiWaitForVBlank();
+}
+
+size_t maxStringLength(std::vector<std::string> lines) {
+    size_t maxLength = 0;
+    for (const auto &line : lines)
+        if (line.length() > maxLength)
+            maxLength = line.length();
+    return maxLength;
+}
+
+void sleepThread(unsigned int seconds) {
+    for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i)
+        vBlank(); // sleeps for one frame
+}
+
+int getOldestMessageIndex() {
+    for (int i = MESSAGE_COUNT - 1; i >= 0; --i)
+        if (messages[i].empty())
+            return i == MESSAGE_COUNT - 1 ? i : i + 1;
+    return 0;
+}
+
+void printLocalMessage(const char *message) {
+    for (int i = 0; i < MESSAGE_COUNT - 1; ++i)
+        messages[i] = messages[i + 1];
+    messages[MESSAGE_COUNT - 1] = message;
+    if (getOldestMessageIndex() == MESSAGE_COUNT - 1) { //the first message should reset the trigger time
+        triggerTime = getTime() % MESSAGE_CLEAR_DELAY - 1; //Prevent message instantly dissapearing
+        if (triggerTime < 0)
+            triggerTime = MESSAGE_CLEAR_DELAY - 1;
+    }
+}
+
+void updateMessages() {
+    if (getTime() % MESSAGE_CLEAR_DELAY == unsigned(triggerTime))
+        messages[getOldestMessageIndex()] = "";
+    for (int amount = 0; amount < MESSAGE_COUNT; ++amount)
+        printf("\x1b[%d;0H\x1b[2K %s", 20 + amount, messages[amount].c_str());
+}
+
+void clearMessages() {
+    for (auto &message : messages)
+        message = "";
+    updateMessages();
+}
+
+// TODO: Make updateTime() and getTime() less misleading,
+//       since they don't actually get the time ( gettimeofday() )
+
+void timeUpdate() {
+    ++currentTime;
+    if (currentTime > 100000)
+        currentTime = 1;
+}
+
+unsigned int getTime() {
+    return currentTime;
+}
