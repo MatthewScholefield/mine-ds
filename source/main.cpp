@@ -7,6 +7,7 @@
 #include "TitleFontSystem.hpp"
 #include "TitleGraphicsSystem.hpp"
 #include "SoundSystem.hpp"
+#include "MessageSystem.hpp"
 
 
 int main() {
@@ -20,8 +21,8 @@ int main() {
 
     graphicsSystem.bind(titleGraphics);
     SoundSystem soundSystem;
+    MessageSystem messageSystem;
 
-    clearMessages();
     lcdMainOnBottom();
     titleGraphics.drawBackground();
     titleGraphics.setSubBg(0, 0);
@@ -29,11 +30,16 @@ int main() {
     soundSystem.playMusic(Music::MUSIC_HAL2);
 
     while (true) {
+        static int val = 0;
+        messageSystem.update();
+        if (val % 100 == 0) {
+            std::string s = "Main: " + std::to_string(rand() % 100);
+            messageSystem.print(s);
+        }
         if (soundSystem.streamIsOpen())
             mmStreamUpdate();
         swiWaitForVBlank();
         {
-            static int val = 0;
             printXY(1, 1, "HELLO! %d", ++val);
             graphicsSystem.beginRender(0, 0);
             for (int i = 0; i < 10; ++i) {

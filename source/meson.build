@@ -9,6 +9,7 @@ sources = [
     'SkySystem.cpp',
     'shittywavparse.cpp',
     'SoundSystem.cpp',
+    'MessageSystem.cpp',
     'main.cpp',
     'TitleGraphicsSystem.cpp'
 ]
