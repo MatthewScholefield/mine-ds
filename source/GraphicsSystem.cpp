@@ -255,30 +255,30 @@ bool GraphicsSystem::loadTextureFile(const char *fileName) {
         return strcmp(fileName, "default") == 0;
     }
 
-    auto *blockTilesMem = new unsigned int[TILES_ARRAY_LEN];
-    auto *blockPalMem = new unsigned short[PAL_ARRAY_LEN];
-    if (fread(blockTilesMem, sizeof(uint32_t), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN ||
-        fread(blockPalMem, sizeof(unsigned short), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN) {
+    auto *blockTilesMem = new uint32[TILES_ARRAY_LEN];
+    auto *blockPalMem = new uint16[PAL_ARRAY_LEN];
+    if (fread(blockTilesMem, sizeof(uint32), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN ||
+        fread(blockPalMem, sizeof(uint16), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN) {
         delete[] blockTilesMem;
         delete[] blockPalMem;
         blockTilesMem = nullptr;
         blockPalMem = nullptr;
     }
 
-    auto *mobTilesMem = new unsigned int[TILES_ARRAY_LEN];
-    auto *mobPalMem = new unsigned short[PAL_ARRAY_LEN];
-    if (fread(mobTilesMem, sizeof(uint32_t), MOB_TILES_ARRAY_LEN, texFile) != MOB_TILES_ARRAY_LEN ||
-        fread(mobPalMem, sizeof(unsigned short), MOB_PAL_ARRAY_LEN, texFile) != MOB_PAL_ARRAY_LEN) {
+    auto *mobTilesMem = new uint32[TILES_ARRAY_LEN];
+    auto *mobPalMem = new uint16[PAL_ARRAY_LEN];
+    if (fread(mobTilesMem, sizeof(uint32), MOB_TILES_ARRAY_LEN, texFile) != MOB_TILES_ARRAY_LEN ||
+        fread(mobPalMem, sizeof(uint16), MOB_PAL_ARRAY_LEN, texFile) != MOB_PAL_ARRAY_LEN) {
         delete[] mobTilesMem;
         delete[] mobPalMem;
         mobTilesMem = nullptr;
         mobPalMem = nullptr;
     }
 
-    auto *subBgTilesMem = new unsigned int[TILES_ARRAY_LEN];
-    auto *subBgPalMem = new unsigned short[PAL_ARRAY_LEN];
-    if (fread(subBgTilesMem, sizeof(uint32_t), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN ||
-        fread(subBgPalMem, sizeof(unsigned short), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN) {
+    auto *subBgTilesMem = new uint32[TILES_ARRAY_LEN];
+    auto *subBgPalMem = new uint16[PAL_ARRAY_LEN];
+    if (fread(subBgTilesMem, sizeof(uint32), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN ||
+        fread(subBgPalMem, sizeof(uint16), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN) {
         delete[] subBgTilesMem;
         delete[] subBgPalMem;
         subBgTilesMem = nullptr;
