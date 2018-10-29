@@ -1,8 +1,8 @@
 #include <nds.h>
 #include "Graphic.hpp"
-#include "utils.hpp"
+#include "../utils.hpp"
 #include "subBgHandler.hpp"
-#include "FileSystem.hpp"
+#include "../FileSystem.hpp"
 #include <vector>
 #include <sub_bg.h>
 #include <sub.h>

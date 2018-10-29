@@ -3,7 +3,7 @@
 #include <nds/ndstypes.h>
 #include <string>
 #include "SkySystem.hpp"
-#include "FileSystem.hpp"
+#include "../FileSystem.hpp"
 #include "Texture.hpp"
 
 

@@ -1,19 +1,14 @@
-sources = [
-    'Graphic.cpp',
+sources = files(
     'FileSystem.cpp',
-    'GraphicsSystem.cpp',
     'utils.cpp',
-    'subBgHandler.cpp',
-    'TitleFontSystem.cpp',
     'adpcmparse.cpp',
-    'SkySystem.cpp',
     'shittywavparse.cpp',
     'SoundSystem.cpp',
     'MessageSystem.cpp',
-    'main.cpp',
-    'TitleGraphicsSystem.cpp',
-    'Texture.cpp'
-]
+    'main.cpp'
+)
+
+subdir('graphics')
 
 elf = executable(
     'mine-ds.elf', [sources, image_sources, soundbank_h],

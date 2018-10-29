@@ -1,7 +1,7 @@
 #include <nds.h>
 #include <font.h>
 #include "Graphic.hpp"
-#include "utils.hpp"
+#include "../utils.hpp"
 #include "subBgHandler.hpp"
 #include "TitleGraphicsSystem.hpp"
 #include "GraphicsSystem.hpp"

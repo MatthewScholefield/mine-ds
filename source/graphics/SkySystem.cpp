@@ -1,5 +1,5 @@
 #include "SkySystem.hpp"
-#include "utils.hpp"
+#include "../utils.hpp"
 
 uint16 *currentColors;
 

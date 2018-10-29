@@ -5,8 +5,8 @@
 #include <filesystem.h>
 #include "utils.hpp"
 #include "FileSystem.hpp"
-#include "Graphic.hpp"
-#include "GraphicsSystem.hpp"
+#include "graphics/Graphic.hpp"
+#include "graphics/GraphicsSystem.hpp"
 
 void initFile() {
 #ifdef USE_NITRO

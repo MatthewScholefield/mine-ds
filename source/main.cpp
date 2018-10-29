@@ -1,11 +1,11 @@
 #include <nds.h>
 #include "FileSystem.hpp"
-#include "Graphic.hpp"
-#include "subBgHandler.hpp"
+#include "graphics/Graphic.hpp"
+#include "graphics/subBgHandler.hpp"
 #include "utils.hpp"
-#include "GraphicsSystem.hpp"
-#include "TitleFontSystem.hpp"
-#include "TitleGraphicsSystem.hpp"
+#include "graphics/GraphicsSystem.hpp"
+#include "graphics/TitleFontSystem.hpp"
+#include "graphics/TitleGraphicsSystem.hpp"
 #include "SoundSystem.hpp"
 #include "MessageSystem.hpp"
 
