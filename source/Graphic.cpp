@@ -13,14 +13,12 @@
 #include "GraphicsSystem.hpp"
 
 int Graphic::textureID = 0, Graphic::nextSpriteIDMain = 0, Graphic::nextSpriteIDSub = 0;
-bool mainSpriteUsed[128] = {};
-bool subSpriteUsed[128] = {};
+
 
 int Graphic::nextSpriteID(bool main) {
     if (main) {
         return ++nextSpriteIDMain;
-    }
-    else
+    } else
         return ++nextSpriteIDSub;
 }
 
@@ -31,20 +29,19 @@ OamState &Graphic::getOAM(bool main) {
 void Graphic::resetSprites(bool main) {
     if (main) {
         nextSpriteIDMain = 0;
-    }
-    else
+    } else
         nextSpriteIDSub = 0;
     oamClear(&getOAM(main), 0, 127);
 }
 
 void Graphic::loadSmallMob() {
     gfx = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-    dmaCopy(graphics.getMobTiles() + frame * FRAMES_PER_ANIMATION * 16 * 16, gfx, 16 * 16);
+    dmaCopy((u8 *) graphics.getTexture().mob.tiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 16, gfx, 16 * 16);
 }
 
 void Graphic::loadLargeMob() {
     gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
-    dmaCopy(graphics.getMobTiles() + frame * FRAMES_PER_ANIMATION * 16 * 32, gfx, 16 * 32);
+    dmaCopy((u8 *) graphics.getTexture().mob.tiles.data() + frame * FRAMES_PER_ANIMATION * 16 * 32, gfx, 16 * 32);
 }
 
 void Graphic::loadParticle() {
@@ -55,7 +52,7 @@ void Graphic::loadParticle() {
 
 void Graphic::loadBlock() {
     gfx = oamAllocateGfx(main ? &oamMain : &oamSub, SpriteSize_16x16, SpriteColorFormat_256Color);
-    u8 *source = graphics.getBlockTiles() + frame * (16 * 16);
+    u8 *source = (u8 *) graphics.getTexture().block.tiles.data() + frame * (16 * 16);
     const int TILE_SIZE = 8 * 8;
     dmaCopy(source, gfx, 8 * 8);
     dmaCopy(source + TILE_SIZE * 2, gfx + 8 * 4, TILE_SIZE);
@@ -68,11 +65,11 @@ void Graphic::loadBlock() {
 
 void Graphic::loadMiniBlock() {
     gfx = oamAllocateGfx(&oamMain, SpriteSize_8x8, SpriteColorFormat_256Color);
-    dmaCopy(graphics.getBlockTiles() + frame * (16 * 16) + 8 * 8, gfx, 8 * 8);
+    dmaCopy((u8 *) graphics.getTexture().block.tiles.data() + frame * (16 * 16) + 8 * 8, gfx, 8 * 8);
 }
 
 void Graphic::loadAnim() {
-    firstFrame = graphics.getMobTiles() + frame * FRAMES_PER_ANIMATION * (16 * 32);
+    firstFrame = (u8 *) graphics.getTexture().mob.tiles.data() + frame * FRAMES_PER_ANIMATION * (16 * 32);
     gfx = oamAllocateGfx(&oamMain, SpriteSize_16x32, SpriteColorFormat_256Color);
 }
 

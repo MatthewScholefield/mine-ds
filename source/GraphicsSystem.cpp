@@ -13,6 +13,8 @@
 #include "TitleFontSystem.hpp"
 #include <string>
 
+using std::vector;
+
 GraphicsSystem::GraphicsSystem() : titleGraphics(nullptr) {
     videoSetModeSub(MODE_5_2D | DISPLAY_BG_EXT_PALETTE);
 
@@ -66,43 +68,6 @@ void GraphicsSystem::bind(TitleGraphicsSystem &titleGraphics) {
     this->titleGraphics = &titleGraphics;
 }
 
-void GraphicsSystem::loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
-                                 const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-                                 const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc,
-                                 bool skipReload) {
-    if (!blockTilesSrc || !blockPalSrc) {
-        blockTilesSrc = block_smallTiles;
-        blockPalSrc = block_smallPal;
-    }
-
-    if (!subBgTilesSrc || !subBgPalSrc) {
-        subBgTilesSrc = sub_bgTiles;
-        subBgPalSrc = sub_bgPal;
-    }
-
-    if (!mobTilesSrc || !mobPalSrc) {
-        mobTilesSrc = mobsTiles;
-        mobPalSrc = mobsPal;
-    }
-
-    blockTiles.assign(blockTilesSrc, blockTilesSrc + TILES_ARRAY_LEN);
-    blockPal.assign(blockPalSrc, blockPalSrc + PAL_ARRAY_LEN);
-
-    subBgTiles.assign(subBgTilesSrc, subBgTilesSrc + TILES_ARRAY_LEN);
-    subBgPal.assign(subBgPalSrc, subBgPalSrc + PAL_ARRAY_LEN);
-
-    mobTiles.assign(mobTilesSrc, mobTilesSrc + MOB_TILES_ARRAY_LEN);
-    mobPal.assign(mobPalSrc, mobPalSrc + MOB_PAL_ARRAY_LEN);
-
-    if (!skipReload) {
-        ++Graphic::textureID;
-    }
-}
-
-void GraphicsSystem::loadDefaultTexture() {
-    loadTexture(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, true);
-}
-
 void GraphicsSystem::updateTexture() {
     const int NUM_BANK_SLOTS = 16;
     const int MAX_BRIGHTNESS = 15;
@@ -110,7 +75,7 @@ void GraphicsSystem::updateTexture() {
     const int BLOCK_PAL_BG = 2;
     //=== Main Block BG ===
     vramSetBankE(VRAM_E_LCD);
-    dmaCopy(blockPal.data(), VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1], PAL_LEN); //Copy the palette
+    dmaCopy(texture.block.pal.data(), VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1], PAL_LEN); //Copy the palette
     for (int i = 0; i < NUM_BANK_SLOTS; ++i) {
         for (int j = 0; j < NUM_PALETTE_COLORS; ++j) {
             uint16 col = VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1][j];
@@ -144,15 +109,15 @@ void GraphicsSystem::updateTexture() {
 
     //=== Sub Block ===
     vramSetBankI(VRAM_I_LCD);
-    dmaCopy(blockPal.data(), VRAM_I_EXT_SPR_PALETTE[2], PAL_LEN);
+    dmaCopy(texture.block.pal.data(), VRAM_I_EXT_SPR_PALETTE[2], PAL_LEN);
     vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
-    dmaCopy(blockTiles.data(), bgGetGfxPtr(mainBgID), TILES_LEN);
+    dmaCopy(texture.block.tiles.data(), bgGetGfxPtr(mainBgID), TILES_LEN);
 
     //=== Sub BG ===
     vramSetBankH(VRAM_H_LCD);
-    dmaCopy(subBgPal.data(), VRAM_H_EXT_PALETTE[2][0], PAL_LEN);
+    dmaCopy(texture.subBg.pal.data(), VRAM_H_EXT_PALETTE[2][0], PAL_LEN);
     vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
-    dmaCopy(subBgTiles.data(), bgGetGfxPtr(subBgID), sub_bgTilesLen);
+    dmaCopy(texture.subBg.tiles.data(), bgGetGfxPtr(subBgID), sub_bgTilesLen);
     if (titleGraphics) {
         titleGraphics->getTitleFont().refresh();
         titleGraphics->updateSubBG();
@@ -164,7 +129,7 @@ void GraphicsSystem::updateTexture() {
 void GraphicsSystem::setBlockPalette(bool blocks, int brightness, int index) {
     auto *palette = new unsigned short[PAL_LEN / 2];
     for (int i = 0; i < PAL_LEN / 2; ++i) {
-        uint16 slot = blocks ? blockPal[i] : mobPal[i];
+        uint16 slot = blocks ? texture.block.pal[i] : texture.mob.pal[i];
         auto blue = uint16(slot & 0x1F);
         slot >>= 5;
         auto green = uint16(slot & 0x1F);
@@ -212,22 +177,6 @@ void GraphicsSystem::beginRender(int screenX, int screenY) {
     bgUpdate();
 }
 
-u8 *GraphicsSystem::getMobTiles() const {
-    return (u8 *) mobTiles.data();
-}
-
-u8 *GraphicsSystem::getSubBgTiles() const {
-    return (u8 *) subBgTiles.data();
-}
-
-u8 *GraphicsSystem::getBlockTiles() const {
-    return (u8 *) blockTiles.data();
-}
-
-u8 *GraphicsSystem::getBlockPal() const {
-    return (u8 *) blockPal.data();
-}
-
 uint16 *GraphicsSystem::getMainBgPtr() const {
     return mainBgPtr;
 }
@@ -240,61 +189,48 @@ int GraphicsSystem::getSubBgID() const {
     return subBgID;
 }
 
-bool GraphicsSystem::loadTextureFile(const char *fileName) {
+bool GraphicsSystem::loadTextureFile(const std::string &fileName, bool reloadGfx) {
     if (!SHOULD_LOAD) {
-        loadDefaultTexture();
+        texture.loadDefault();
         updateTexture();
     }
-    std::string temp(fileName);
-    temp = MINE_DS_FOLDER
-           TEXTURE_FOLDER + temp;
-    FILE *texFile = fopen(temp.c_str(), "rb");
-    if (!texFile) {
-        loadDefaultTexture();
-        updateTexture();
-        return strcmp(fileName, "default") == 0;
+    auto fullPath = std::string(MINE_DS_FOLDER) + TEXTURE_FOLDER + fileName;
+    FILE *texFile = fopen(fullPath.c_str(), "rb");
+    bool success;
+    if (texFile) {
+        texture.load(texFile);
+        fclose(texFile);
+        success = true;
+    } else {
+        texture.loadDefault();
+        success = fileName == "default";
     }
-
-    auto *blockTilesMem = new uint32[TILES_ARRAY_LEN];
-    auto *blockPalMem = new uint16[PAL_ARRAY_LEN];
-    if (fread(blockTilesMem, sizeof(uint32), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN ||
-        fread(blockPalMem, sizeof(uint16), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN) {
-        delete[] blockTilesMem;
-        delete[] blockPalMem;
-        blockTilesMem = nullptr;
-        blockPalMem = nullptr;
+    if (reloadGfx) {
+        ++Graphic::textureID;
     }
-
-    auto *mobTilesMem = new uint32[TILES_ARRAY_LEN];
-    auto *mobPalMem = new uint16[PAL_ARRAY_LEN];
-    if (fread(mobTilesMem, sizeof(uint32), MOB_TILES_ARRAY_LEN, texFile) != MOB_TILES_ARRAY_LEN ||
-        fread(mobPalMem, sizeof(uint16), MOB_PAL_ARRAY_LEN, texFile) != MOB_PAL_ARRAY_LEN) {
-        delete[] mobTilesMem;
-        delete[] mobPalMem;
-        mobTilesMem = nullptr;
-        mobPalMem = nullptr;
-    }
-
-    auto *subBgTilesMem = new uint32[TILES_ARRAY_LEN];
-    auto *subBgPalMem = new uint16[PAL_ARRAY_LEN];
-    if (fread(subBgTilesMem, sizeof(uint32), TILES_ARRAY_LEN, texFile) != TILES_ARRAY_LEN ||
-        fread(subBgPalMem, sizeof(uint16), PAL_ARRAY_LEN, texFile) != PAL_ARRAY_LEN) {
-        delete[] subBgTilesMem;
-        delete[] subBgPalMem;
-        subBgTilesMem = nullptr;
-        subBgPalMem = nullptr;
-    }
-
-    fclose(texFile);
-
-    loadTexture(blockTilesMem, blockPalMem, mobTilesMem, mobPalMem, subBgTilesMem, subBgPalMem);
     updateTexture();
+    return success;
+}
 
-    delete[] blockTilesMem;
-    delete[] blockPalMem;
-    delete[] mobTilesMem;
-    delete[] mobPalMem;
-    delete[] subBgTilesMem;
-    delete[] subBgPalMem;
-    return true;
+const Texture &GraphicsSystem::getTexture() const {
+    return texture;
+}
+
+void Texture::load(FILE *file) {
+    block.read(TILES_ARRAY_LEN, PAL_ARRAY_LEN, file, block_smallTiles, block_smallPal);
+    mob.read(MOB_TILES_ARRAY_LEN, MOB_PAL_ARRAY_LEN, file, mobsTiles, mobsPal);
+    subBg.read(TILES_ARRAY_LEN, PAL_ARRAY_LEN, file, sub_bgTiles, sub_bgPal);
+}
+
+void Texture::loadDefault() {
+    load(nullptr);
+}
+
+void Texture::TextureImage::read(size_t tilesLen, size_t palLen, FILE *file,
+                                 const unsigned int *defaultTiles, const uint16 *defaultPal) {
+    if (!file || fread(tiles.data(), sizeof(uint32), tilesLen, file) != tilesLen ||
+        fread(pal.data(), sizeof(uint16), palLen, file) != palLen) {
+        tiles.assign(defaultTiles, defaultTiles + tilesLen);
+        pal.assign(defaultPal, defaultPal + palLen);
+    }
 }

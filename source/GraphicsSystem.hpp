@@ -2,20 +2,45 @@
 
 #include <nds/ndstypes.h>
 #include <vector>
+#include <nds.h>
+#include <string>
 #include "SkySystem.hpp"
 #include "FileSystem.hpp"
 
 #define TILES_LEN 65536
 #define PAL_LEN 512
+
 #define MOB_TILES_LEN 30720
 #define MOB_PAL_LEN 512
+
 #define TILES_ARRAY_LEN (TILES_LEN/4)
 #define PAL_ARRAY_LEN (PAL_LEN/2)
+
 #define MOB_TILES_ARRAY_LEN (MOB_TILES_LEN/4)
 #define MOB_PAL_ARRAY_LEN (MOB_PAL_LEN/2)
 
 
 class TitleGraphicsSystem;
+
+struct Texture {
+    struct TextureImage {
+        friend class Texture;
+        explicit TextureImage(size_t tilesLen, size_t palLen) : tiles(tilesLen), pal(palLen) {}
+
+        std::vector<uint32> tiles;
+        std::vector<uint16> pal;
+    private:
+        void read(size_t tilesLen, size_t palLen, FILE *file,
+                  const unsigned int *defaultTiles, const uint16 *defaultPal);
+    };
+
+    TextureImage block{TILES_ARRAY_LEN, PAL_ARRAY_LEN};
+    TextureImage mob{MOB_TILES_ARRAY_LEN, MOB_PAL_ARRAY_LEN};
+    TextureImage subBg{TILES_ARRAY_LEN, PAL_ARRAY_LEN};
+
+    void load(FILE *file);
+    void loadDefault();
+};
 
 class GraphicsSystem {
 public:
@@ -27,25 +52,16 @@ public:
     uint16 *getMainBgPtr() const;
     uint16 *getSubBgPtr() const;
     int getSubBgID() const;
-
-    u8 *getMobTiles() const;
-    u8 *getSubBgTiles() const;
-    u8 *getBlockTiles() const;
-    u8 *getBlockPal() const;
+    const Texture &getTexture() const;
 
 private:
-    void loadTexture(const unsigned int *blockTilesSrc, const unsigned short *blockPalSrc,
-                     const unsigned int *mobTilesSrc, const unsigned short *mobPalSrc,
-                     const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc, bool skipReload = false);
     void updateTexture();
-    void loadDefaultTexture();
     inline void setTileXY(int x, int y, int tile, int palette);
     void renderTile16(int x, int y, int tile, int palette);
-    bool loadTextureFile(const char *fileName);
+    bool loadTextureFile(const std::string &fileName, bool reloadGfx = true);
     void setBlockPalette(bool blocks, int brightness, int index);
 
-    std::vector<unsigned int> blockTiles, mobTiles, subBgTiles;
-    std::vector<unsigned short> blockPal, mobPal, subBgPal;
+    Texture texture;
     uint16 *subBgPtr, *mainBgPtr;
     int subBgID, mainBgID;
     SkySystem sky;
