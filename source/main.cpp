@@ -31,14 +31,13 @@ int main() {
 
     while (true) {
         static int val = 0;
-        messageSystem.update();
         if (val % 100 == 0) {
             std::string s = "Main: " + std::to_string(rand() % 100);
             messageSystem.print(s);
         }
-        if (soundSystem.streamIsOpen()) {
-            mmStreamUpdate();
-        }
+
+        messageSystem.update();
+        soundSystem.update();
         swiWaitForVBlank();
         {
             printXY(1, 1, "HELLO! %d", ++val);

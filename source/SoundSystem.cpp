@@ -44,12 +44,14 @@ void SoundSystem::stopStream() {
     reqStreamClose = false;
 }
 
-bool SoundSystem::streamIsOpen() {
+void SoundSystem::update() {
     if (reqStreamClose) {
         reqStreamClose = false;
         stopStream();
     }
-    return streamOpen;
+    if (streamOpen) {
+        mmStreamUpdate();
+    }
 }
 
 s16 SoundSystem::volumeFunc(s16 orig, u16 factor) {
