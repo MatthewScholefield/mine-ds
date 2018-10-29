@@ -75,7 +75,7 @@ void GraphicsSystem::updateTexture() {
     const int BLOCK_PAL_BG = 2;
     //=== Main Block BG ===
     vramSetBankE(VRAM_E_LCD);
-    dmaCopy(texture.block.pal.data(), VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1], PAL_LEN); //Copy the palette
+    dmaCopyVec(texture.block.pal, VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1]); //Copy the palette
     for (int i = 0; i < NUM_BANK_SLOTS; ++i) {
         for (int j = 0; j < NUM_PALETTE_COLORS; ++j) {
             uint16 col = VRAM_E_EXT_PALETTE[BLOCK_PAL_BG][NUM_BANK_SLOTS - 1][j];
@@ -109,13 +109,13 @@ void GraphicsSystem::updateTexture() {
 
     //=== Sub Block ===
     vramSetBankI(VRAM_I_LCD);
-    dmaCopy(texture.block.pal.data(), VRAM_I_EXT_SPR_PALETTE[2], PAL_LEN);
+    dmaCopyVec(texture.block.pal, VRAM_I_EXT_SPR_PALETTE[2]);
     vramSetBankI(VRAM_I_SUB_SPRITE_EXT_PALETTE);
-    dmaCopy(texture.block.tiles.data(), bgGetGfxPtr(mainBgID), TILES_LEN);
+    dmaCopyVec(texture.block.tiles, bgGetGfxPtr(mainBgID));
 
     //=== Sub BG ===
     vramSetBankH(VRAM_H_LCD);
-    dmaCopy(texture.subBg.pal.data(), VRAM_H_EXT_PALETTE[2][0], PAL_LEN);
+    dmaCopyVec(texture.subBg.pal, VRAM_H_EXT_PALETTE[2][0]);
     vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
     dmaCopy(texture.subBg.tiles.data(), bgGetGfxPtr(subBgID), sub_bgTilesLen);
     if (titleGraphics) {
@@ -127,8 +127,8 @@ void GraphicsSystem::updateTexture() {
 }
 
 void GraphicsSystem::setBlockPalette(bool blocks, int brightness, int index) {
-    auto *palette = new unsigned short[PAL_LEN / 2];
-    for (int i = 0; i < PAL_LEN / 2; ++i) {
+    auto *palette = new unsigned short[Texture::palLen / 2];
+    for (int i = 0; i < Texture::palLen / 2; ++i) {
         uint16 slot = blocks ? texture.block.pal[i] : texture.mob.pal[i];
         auto blue = uint16(slot & 0x1F);
         slot >>= 5;
@@ -145,8 +145,8 @@ void GraphicsSystem::setBlockPalette(bool blocks, int brightness, int index) {
         slot |= blue;
         palette[i] = slot;
     }
-    DC_FlushRange(palette, PAL_LEN);
-    dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], PAL_LEN);
+    DC_FlushRange(palette, Texture::palLen);
+    dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], Texture::palLen);
     delete[] palette;
 }
 
@@ -216,21 +216,3 @@ const Texture &GraphicsSystem::getTexture() const {
     return texture;
 }
 
-void Texture::load(FILE *file) {
-    block.read(TILES_ARRAY_LEN, PAL_ARRAY_LEN, file, block_smallTiles, block_smallPal);
-    mob.read(MOB_TILES_ARRAY_LEN, MOB_PAL_ARRAY_LEN, file, mobsTiles, mobsPal);
-    subBg.read(TILES_ARRAY_LEN, PAL_ARRAY_LEN, file, sub_bgTiles, sub_bgPal);
-}
-
-void Texture::loadDefault() {
-    load(nullptr);
-}
-
-void Texture::TextureImage::read(size_t tilesLen, size_t palLen, FILE *file,
-                                 const unsigned int *defaultTiles, const uint16 *defaultPal) {
-    if (!file || fread(tiles.data(), sizeof(uint32), tilesLen, file) != tilesLen ||
-        fread(pal.data(), sizeof(uint16), palLen, file) != palLen) {
-        tiles.assign(defaultTiles, defaultTiles + tilesLen);
-        pal.assign(defaultPal, defaultPal + palLen);
-    }
-}

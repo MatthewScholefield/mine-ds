@@ -11,7 +11,8 @@ sources = [
     'SoundSystem.cpp',
     'MessageSystem.cpp',
     'main.cpp',
-    'TitleGraphicsSystem.cpp'
+    'TitleGraphicsSystem.cpp',
+    'Texture.cpp'
 ]
 
 elf = executable(
