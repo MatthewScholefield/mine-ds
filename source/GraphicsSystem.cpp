@@ -71,28 +71,29 @@ void GraphicsSystem::loadTexture(const unsigned int *blockTilesSrc, const unsign
                                  const unsigned int *subBgTilesSrc, const unsigned short *subBgPalSrc,
                                  bool skipReload) {
     if (!blockTilesSrc || !blockPalSrc) {
-        blockTiles.assign(block_smallTiles, block_smallTiles + TILES_ARRAY_LEN);
-        blockPal.assign(block_smallPal, block_smallPal + PAL_ARRAY_LEN);
-    } else {
-        blockTiles.assign(blockTilesSrc, blockTilesSrc + TILES_ARRAY_LEN);
-        blockPal.assign(blockPalSrc, blockPalSrc + PAL_ARRAY_LEN);
+        blockTilesSrc = block_smallTiles;
+        blockPalSrc = block_smallPal;
     }
 
     if (!subBgTilesSrc || !subBgPalSrc) {
-        subBgTiles.assign(sub_bgTiles, sub_bgTiles + TILES_ARRAY_LEN);
-        subBgPal.assign(sub_bgPal, sub_bgPal + PAL_ARRAY_LEN);
-    } else {
-        subBgTiles.assign(subBgTilesSrc, subBgTilesSrc + TILES_ARRAY_LEN);
-        subBgPal.assign(subBgPalSrc, subBgPalSrc + PAL_ARRAY_LEN);
+        subBgTilesSrc = sub_bgTiles;
+        subBgPalSrc = sub_bgPal;
     }
 
     if (!mobTilesSrc || !mobPalSrc) {
-        mobTiles.assign(mobsTiles, mobsTiles + MOB_TILES_ARRAY_LEN);
-        mobPal.assign(mobsPal, mobsPal + MOB_PAL_ARRAY_LEN);
-    } else {
-        mobTiles.assign(mobTilesSrc, mobTilesSrc + MOB_TILES_ARRAY_LEN);
-        mobPal.assign(mobPalSrc, mobPalSrc + MOB_PAL_ARRAY_LEN);
+        mobTilesSrc = mobsTiles;
+        mobPalSrc = mobsPal;
     }
+
+    blockTiles.assign(blockTilesSrc, blockTilesSrc + TILES_ARRAY_LEN);
+    blockPal.assign(blockPalSrc, blockPalSrc + PAL_ARRAY_LEN);
+
+    subBgTiles.assign(subBgTilesSrc, subBgTilesSrc + TILES_ARRAY_LEN);
+    subBgPal.assign(subBgPalSrc, subBgPalSrc + PAL_ARRAY_LEN);
+
+    mobTiles.assign(mobTilesSrc, mobTilesSrc + MOB_TILES_ARRAY_LEN);
+    mobPal.assign(mobPalSrc, mobPalSrc + MOB_PAL_ARRAY_LEN);
+
     if (!skipReload) {
         ++Graphic::textureID;
     }
