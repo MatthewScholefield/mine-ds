@@ -22,7 +22,7 @@ public:
     GraphicsSystem();
     void bind(TitleGraphicsSystem &titleGraphics);
     void renderBlock(int i, int j, int blockId);
-    void beginRender(int screen_x, int screen_y);
+    void beginRender(int screenX, int screenY);
 
     uint16 *getMainBgPtr() const;
     uint16 *getSubBgPtr() const;

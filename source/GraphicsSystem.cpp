@@ -207,8 +207,8 @@ void GraphicsSystem::renderBlock(int i, int j, int blockId) {
     renderTile16(i, j, blockId, brightness);
 }
 
-void GraphicsSystem::beginRender(int screen_x, int screen_y) {
-    bgSetScroll(2, screen_x, screen_y);
+void GraphicsSystem::beginRender(int screenX, int screenY) {
+    bgSetScroll(2, screenX, screenY);
     bgUpdate();
 }
 

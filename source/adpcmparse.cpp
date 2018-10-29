@@ -1,7 +1,7 @@
 #include <nds.h>
 #include "audio.hpp"
 
-int ima_step_table[89] = {
+int imaStepTable[89] = {
         7, 8, 9, 10, 11, 12, 13, 14,
         16, 17, 19, 21, 23, 25, 28, 31,
         34, 37, 41, 45, 50, 55, 60, 66,
@@ -15,7 +15,7 @@ int ima_step_table[89] = {
         15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794,
         32767
 };
-int ima_index_table[16] = {
+int imaIndexTable[16] = {
         -1, -1, -1, -1, 2, 4, 6, 8,
         -1, -1, -1, -1, 2, 4, 6, 8
 };
@@ -44,13 +44,13 @@ int getNibble(FILE *f, WaveInfo *w) {
 }
 
 int predictor = 0;
-int step_index = 0;
+int stepIndex = 0;
 int step = 0;
 int reset = 0;
 
 void ADCMReset() {
     predictor = 0;
-    step_index = 0;
+    stepIndex = 0;
     step = 0;
     reset = 0;
     get = true;
@@ -64,20 +64,20 @@ s16 getADCM(FILE *f, WaveInfo *w) {
         predictor = 0;
         getCharacter(f, w);
         getCharacter(f, w);
-        step_index = getCharacter(f, w);
+        stepIndex = getCharacter(f, w);
         step = 0;
         getCharacter(f, w);
     } else {
         int nibble = getNibble(f, w);
-        step = ima_step_table[step_index];
+        step = imaStepTable[stepIndex];
         int diff = (step >> 3) + ((nibble & 7) * (step >> 2));
         if (nibble & 8) predictor -= diff;
         else predictor += diff;
         if (predictor > 32767) predictor = 32767;
         else if (predictor < -32768) predictor = -32768;
-        step_index += ima_index_table[nibble & 7];
-        if (step_index > 88) step_index = 88;
-        if (step_index < 0) step_index = 0;
+        stepIndex += imaIndexTable[nibble & 7];
+        if (stepIndex > 88) stepIndex = 88;
+        if (stepIndex < 0) stepIndex = 0;
         reset -= 1;
     }
     return (s16) predictor;

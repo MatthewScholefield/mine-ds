@@ -3,9 +3,9 @@
 #include "TitleFontSystem.hpp"
 
 TitleFontSystem::TitleFontSystem() {
-    const int tile_base = 1;
-    const int map_base = 0;
-    console = consoleInit(nullptr, 0, BgType_Text8bpp, BgSize_T_512x512, map_base, tile_base, false, false);
+    const int tileBase = 1;
+    const int mapBase = 0;
+    console = consoleInit(nullptr, 0, BgType_Text8bpp, BgSize_T_512x512, mapBase, tileBase, false, false);
     consoleSetWindow(console, 0, 0, 64, 64);
     console->PrintChar = putChar;
     font.gfx = (u16 *) fontTiles;
