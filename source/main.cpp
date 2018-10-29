@@ -27,7 +27,7 @@ int main() {
     titleGraphics.drawBackground();
     titleGraphics.setSubBg(0, 0);
 
-    soundSystem.playMusic(Music::MUSIC_HAL2);
+    soundSystem.playMusic(Music::Hal2);
 
     while (true) {
         static int val = 0;

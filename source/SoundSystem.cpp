@@ -15,22 +15,22 @@ SoundSystem::SoundSystem() {
     mmInitDefault(SOUNDBANK_FILENAME);
 #pragma GCC diagnostic pop
 
-    sfxs[std::make_pair(SOUND_SNOW, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_SNOW_1, SFX_DIG_SNOW_2);
-    sfxs[std::make_pair(SOUND_SNOW, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_SNOW_1, SFX_STEP_SNOW_2);
-    sfxs[std::make_pair(SOUND_STONE, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_STONE_1, SFX_DIG_STONE_2);
-    sfxs[std::make_pair(SOUND_STONE, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_STONE_1, SFX_STEP_STONE_2);
-    sfxs[std::make_pair(SOUND_CLOTH, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_CLOTH_1, SFX_DIG_CLOTH_2);
-    sfxs[std::make_pair(SOUND_CLOTH, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_CLOTH_1, SFX_STEP_CLOTH_2);
-    sfxs[std::make_pair(SOUND_WOOD, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_WOOD_1, SFX_DIG_WOOD_2);
-    sfxs[std::make_pair(SOUND_WOOD, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_WOOD_1, SFX_STEP_WOOD_2);
-    sfxs[std::make_pair(SOUND_GRAVEL, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_GRAVEL_1, SFX_DIG_GRAVEL_2);
-    sfxs[std::make_pair(SOUND_GRAVEL, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_GRAVEL_1, SFX_STEP_GRAVEL_2);
-    sfxs[std::make_pair(SOUND_SAND, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_SAND_1, SFX_DIG_SAND_2);
-    sfxs[std::make_pair(SOUND_SAND, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_SAND_1, SFX_STEP_SAND_2);
-    sfxs[std::make_pair(SOUND_GRASS, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_GRASS_1, SFX_DIG_GRASS_2);
-    sfxs[std::make_pair(SOUND_GRASS, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_GRASS_1, SFX_STEP_GRASS_2);
-    sfxs[std::make_pair(SOUND_LADDER, SOUND_TYPE_DESTROY)] = std::make_pair(SFX_DIG_WOOD_1, SFX_DIG_WOOD_2);
-    sfxs[std::make_pair(SOUND_LADDER, SOUND_TYPE_STEP)] = std::make_pair(SFX_STEP_LADDER_1, SFX_STEP_LADDER_2);
+    sfxs[std::make_pair(SoundAudio::Snow, SoundType::Destroy)] = std::make_pair(SFX_DIG_SNOW_1, SFX_DIG_SNOW_2);
+    sfxs[std::make_pair(SoundAudio::Snow, SoundType::Step)] = std::make_pair(SFX_STEP_SNOW_1, SFX_STEP_SNOW_2);
+    sfxs[std::make_pair(SoundAudio::Stone, SoundType::Destroy)] = std::make_pair(SFX_DIG_STONE_1, SFX_DIG_STONE_2);
+    sfxs[std::make_pair(SoundAudio::Stone, SoundType::Step)] = std::make_pair(SFX_STEP_STONE_1, SFX_STEP_STONE_2);
+    sfxs[std::make_pair(SoundAudio::Cloth, SoundType::Destroy)] = std::make_pair(SFX_DIG_CLOTH_1, SFX_DIG_CLOTH_2);
+    sfxs[std::make_pair(SoundAudio::Cloth, SoundType::Step)] = std::make_pair(SFX_STEP_CLOTH_1, SFX_STEP_CLOTH_2);
+    sfxs[std::make_pair(SoundAudio::Wood, SoundType::Destroy)] = std::make_pair(SFX_DIG_WOOD_1, SFX_DIG_WOOD_2);
+    sfxs[std::make_pair(SoundAudio::Wood, SoundType::Step)] = std::make_pair(SFX_STEP_WOOD_1, SFX_STEP_WOOD_2);
+    sfxs[std::make_pair(SoundAudio::Gravel, SoundType::Destroy)] = std::make_pair(SFX_DIG_GRAVEL_1, SFX_DIG_GRAVEL_2);
+    sfxs[std::make_pair(SoundAudio::Gravel, SoundType::Step)] = std::make_pair(SFX_STEP_GRAVEL_1, SFX_STEP_GRAVEL_2);
+    sfxs[std::make_pair(SoundAudio::Sand, SoundType::Destroy)] = std::make_pair(SFX_DIG_SAND_1, SFX_DIG_SAND_2);
+    sfxs[std::make_pair(SoundAudio::Sand, SoundType::Step)] = std::make_pair(SFX_STEP_SAND_1, SFX_STEP_SAND_2);
+    sfxs[std::make_pair(SoundAudio::Grass, SoundType::Destroy)] = std::make_pair(SFX_DIG_GRASS_1, SFX_DIG_GRASS_2);
+    sfxs[std::make_pair(SoundAudio::Grass, SoundType::Step)] = std::make_pair(SFX_STEP_GRASS_1, SFX_STEP_GRASS_2);
+    sfxs[std::make_pair(SoundAudio::Ladder, SoundType::Destroy)] = std::make_pair(SFX_DIG_WOOD_1, SFX_DIG_WOOD_2);
+    sfxs[std::make_pair(SoundAudio::Ladder, SoundType::Step)] = std::make_pair(SFX_STEP_LADDER_1, SFX_STEP_LADDER_2);
 }
 
 void SoundSystem::stopStream() {
@@ -40,7 +40,7 @@ void SoundSystem::stopStream() {
     mmStreamClose();
     fclose(file);
     streamOpen = false;
-    loadedMusic = MUSIC_NONE;
+    loadedMusic = Music::None;
     reqStreamClose = false;
 }
 
@@ -53,8 +53,8 @@ bool SoundSystem::streamIsOpen() {
 }
 
 s16 SoundSystem::volumeFunc(s16 orig, u16 factor) {
-    s32 n = (s32) orig * factor;
-    s16 r = n / 25;
+    auto n = s32(orig * factor);
+    auto r = s16(n / 25);
     return r;
 }
 
@@ -113,10 +113,10 @@ int SoundSystem::getBlockPanning(int x, int camX) {
 void SoundSystem::playSound(Sound sfx, mm_byte volume, mm_byte panning) {
     u16 sfxVolume = 16;
 
-    if (sfx == SOUND_NONE) {
+    if (sfx == Sound::None) {
         return;
-
     }
+
     t_mmsoundeffect mobSound = {
             {(mm_word) sfx}, // id
             1024,
@@ -129,7 +129,7 @@ void SoundSystem::playSound(Sound sfx, mm_byte volume, mm_byte panning) {
 }
 
 void SoundSystem::playMusic(Music song) {
-    if (song == MUSIC_NONE) {
+    if (song == Music::None) {
         return;
 
     }
@@ -139,33 +139,33 @@ void SoundSystem::playMusic(Music song) {
         bool canStream = (file = fopen(SOUNDTRACK_FILENAME, "rb")) != nullptr;
         if (!canStream) {
             printXY(0, 0, "MUSIC LOAD FAIL: %d", file);
-            mmLoad(song);
-            mmStart(song, MM_PLAY_LOOP); //Prevents music restarting
+            mmLoad((mm_word) song);
+            mmStart((mm_word) song, MM_PLAY_LOOP); //Prevents music restarting
             loadedMusic = song;
         } else {
             playStreamSong();
-            loadedMusic = MUSIC_STREAM;
+            loadedMusic = Music::Stream;
         }
     }
 }
 
 void SoundSystem::stopMusic() {
-    if (loadedMusic == MUSIC_NONE) {
+    if (loadedMusic == Music::None) {
         return;
 
     }
-    if (!streamOpen && loadedMusic != MUSIC_STREAM) {
+    if (!streamOpen && loadedMusic != Music::Stream) {
         mmStop();
-        mmUnload(loadedMusic);
+        mmUnload((mm_word) loadedMusic);
     } else
         stopStream();
-    loadedMusic = MUSIC_NONE;
+    loadedMusic = Music::None;
 }
 
-void SoundSystem::loadSound(int sfx) {
+void SoundSystem::loadSound(Sound sfx) {
     unsigned int i;
 
-    if (sfx == SOUND_NONE) {
+    if (sfx == Sound::None) {
         return;
 
     }
@@ -174,10 +174,10 @@ void SoundSystem::loadSound(int sfx) {
             return;
         }
     }
-    if (loadedSounds[soundsPos] != SOUND_NONE) {
-        mmUnloadEffect(loadedSounds[soundsPos]);
+    if (loadedSounds[soundsPos] != Sound::None) {
+        mmUnloadEffect((mm_word) loadedSounds[soundsPos]);
     }
     loadedSounds[soundsPos] = sfx;
     soundsPos = (soundsPos + 1) & (LENGTH(loadedSounds) - 1);
-    mmLoadEffect(sfx);
+    mmLoadEffect((mm_word) sfx);
 }

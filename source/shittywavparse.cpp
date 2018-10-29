@@ -1,5 +1,6 @@
 #include <cstdio>
 #include "audio.hpp"
+#include "utils.hpp"
 
 extern "C"
 {
@@ -49,17 +50,17 @@ int parseWave(FILE *f, WaveInfo *w) {
     if (require(0x01, f)) return -3;
     if (require(0x00, f)) return -3;
 
-    int samplingRate = 0;
+    uint samplingRate = 0;
     fread(&samplingRate, 4, 1, f);
     //Ignore the size
     for (i = 0; i < 4; ++i) {
         fgetc(f);
     }
-    int blockSize = fgetc(f);
+    auto blockSize = (uint) fgetc(f);
     blockSize |= fgetc(f) << 8;
     if (finddata(f)) return -4;
     //Ignore the size
-    int dataSize = 0;
+    uint dataSize = 0;
     dataSize |= fgetc(f);
     dataSize |= fgetc(f) << 8;
     dataSize |= fgetc(f) << 16;
