@@ -11,9 +11,9 @@ class TitleFontSystem;
 class GraphicsSystem;
 
 
-class TitleGraphicsSystem {
+class SubRenderer {
 public:
-    explicit TitleGraphicsSystem(TitleFontSystem &fontSystem, GraphicsSystem &graphics);
+    explicit SubRenderer(TitleFontSystem &fontSystem, GraphicsSystem &graphics);
     inline void setSubTileXY(int x, int y, int tile, int palette, int flip);
     void setSubBgTile(int x, int y, int tile);
     void setSubBgTile(int x, int y, int tile, int flip);
@@ -37,7 +37,7 @@ private:
     TitleFontSystem &fontSystem;
     GraphicsSystem &graphics;
     int subBgID = 6;
-    uint16 *bgptr;
+    uint16 *tileMap;
     double subBgCalcX = 0;
     double subBgCalcY = 0;
     int subBgX = 0;

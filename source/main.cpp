@@ -5,7 +5,7 @@
 #include "utils.hpp"
 #include "graphics/GraphicsSystem.hpp"
 #include "graphics/TitleFontSystem.hpp"
-#include "graphics/TitleGraphicsSystem.hpp"
+#include "graphics/SubRenderer.hpp"
 #include "SoundSystem.hpp"
 #include "MessageSystem.hpp"
 #include "graphics/MainRenderer.hpp"
@@ -18,7 +18,7 @@ int main() {
 
     GraphicsSystem graphicsSystem;
     TitleFontSystem titleFontSystem;
-    TitleGraphicsSystem titleGraphics(titleFontSystem, graphicsSystem);
+    SubRenderer titleGraphics(titleFontSystem, graphicsSystem);
     MainRenderer mainRenderer(graphicsSystem);
 
     graphicsSystem.bind(titleGraphics);

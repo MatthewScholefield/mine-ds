@@ -7,12 +7,12 @@
 #include "Texture.hpp"
 
 
-class TitleGraphicsSystem;
+class SubRenderer;
 
 class GraphicsSystem {
 public:
     GraphicsSystem();
-    void bind(TitleGraphicsSystem &titleGraphics);
+    void bind(SubRenderer &titleGraphics);
     void beginRender(int screenX, int screenY);
 
     uint16 *getMainBgPtr() const;
@@ -34,5 +34,5 @@ private:
     uint16 *subBgPtr, *mainBgPtr;
     int subBgID, mainBgID;
     SkySystem sky;
-    TitleGraphicsSystem *titleGraphics;
+    SubRenderer *titleGraphics;
 };

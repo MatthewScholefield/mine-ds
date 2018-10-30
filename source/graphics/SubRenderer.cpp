@@ -3,32 +3,32 @@
 #include "Graphic.hpp"
 #include "../utils.hpp"
 #include "subBgHandler.hpp"
-#include "TitleGraphicsSystem.hpp"
+#include "SubRenderer.hpp"
 #include "GraphicsSystem.hpp"
 #include "TitleFontSystem.hpp"
 
 
-TitleGraphicsSystem::TitleGraphicsSystem(TitleFontSystem &fontSystem, GraphicsSystem &graphics)
-        : fontSystem(fontSystem), graphics(graphics), bgptr(graphics.getSubBgPtr()) {
+SubRenderer::SubRenderer(TitleFontSystem &fontSystem, GraphicsSystem &graphics)
+        : fontSystem(fontSystem), graphics(graphics), tileMap(graphics.getSubBgPtr()) {
     drawBackground();
 }
 
-void TitleGraphicsSystem::setSubTileXY(int x, int y, int tile, int palette, int flip) {
+void SubRenderer::setSubTileXY(int x, int y, int tile, int palette, int flip) {
     auto tileData = (uint16) tile;
     tileData |= palette << 12;
     tileData |= flip << 10;
-    bgptr[x + y * 64] = tileData;
+    tileMap[x + y * 64] = tileData;
 }
 
-void TitleGraphicsSystem::setSubBgTile(int x, int y, int tile) {
+void SubRenderer::setSubBgTile(int x, int y, int tile) {
     setSubTileXY(x, y, tile, 0, 0);
 }
 
-void TitleGraphicsSystem::setSubBgTile(int x, int y, int tile, int flip) {
+void SubRenderer::setSubBgTile(int x, int y, int tile, int flip) {
     setSubTileXY(x, y, tile, 0, flip);
 }
 
-void TitleGraphicsSystem::drawBackOffset(int offX, int offY, bool mineDS) {
+void SubRenderer::drawBackOffset(int offX, int offY, bool mineDS) {
     for (int i = 0; i < 64; ++i) {
         for (int j = 0; j < 32; ++j) {
             setSubBgTile(j + offX, i + offY, ((i % 2) ? 90 : 122) + j % 2);
@@ -43,16 +43,16 @@ void TitleGraphicsSystem::drawBackOffset(int offX, int offY, bool mineDS) {
     }
 }
 
-void TitleGraphicsSystem::drawBackground(bool firstSlot, bool mineDS) //Draws dirt background and MineDS Logo
+void SubRenderer::drawBackground(bool firstSlot, bool mineDS) //Draws dirt background and MineDS Logo
 {
     drawBackOffset(firstSlot ? 0 : 32, 0, mineDS);
 }
 
-int TitleGraphicsSystem::getSubBgID() {
+int SubRenderer::getSubBgID() {
     return subBgID;
 }
 
-void TitleGraphicsSystem::moveSubBg(int dX, int dY) {
+void SubRenderer::moveSubBg(int dX, int dY) {
     subBgX += dX;
     subBgY += dY;
     if (subBgY + 192 > 512) {
@@ -62,21 +62,21 @@ void TitleGraphicsSystem::moveSubBg(int dX, int dY) {
         subBgY = 0;
 }
 
-void TitleGraphicsSystem::setSubBg(int x, int y) {
+void SubRenderer::setSubBg(int x, int y) {
     bgSetScroll(fontSystem.getConsoleId(), (int) (subBgCalcX = subBgX = x), (int) (subBgCalcY = subBgY = y));
     bgSetScroll(graphics.getSubBgID(), subBgX, subBgY);
     bgUpdate();
 }
 
-int TitleGraphicsSystem::getScrollX() {
+int SubRenderer::getScrollX() {
     return roundInt(subBgCalcX) % 512;
 }
 
-int TitleGraphicsSystem::getScrollY() {
+int SubRenderer::getScrollY() {
     return roundInt(subBgCalcY);
 }
 
-void TitleGraphicsSystem::updateSubBG() {
+void SubRenderer::updateSubBG() {
     if (roundInt(subBgCalcX) != subBgX || roundInt(subBgCalcY) != subBgY) {
         subBgCalcX += (double(subBgX) - subBgCalcX) * 0.08;
         subBgCalcY += (double(subBgY) - subBgCalcY) * 0.08;
@@ -88,7 +88,7 @@ void TitleGraphicsSystem::updateSubBG() {
     Graphic::resetSprites(false);
 }
 
-void TitleGraphicsSystem::drawButton(int x, int y, int sizex) {
+void SubRenderer::drawButton(int x, int y, int sizex) {
     sizex -= 1;
     setSubBgTile(x, y + 1, 27);
     setSubBgTile(x, y, 26);
@@ -109,7 +109,7 @@ void TitleGraphicsSystem::drawButton(int x, int y, int sizex) {
     }
 }
 
-void TitleGraphicsSystem::drawButtonColored(int x, int y, int sizex) {
+void SubRenderer::drawButtonColored(int x, int y, int sizex) {
     sizex -= 1;
     setSubBgTile(x, y, 58);
     setSubBgTile(x, y + 2, 58, V_FLIP);
@@ -130,7 +130,7 @@ void TitleGraphicsSystem::drawButtonColored(int x, int y, int sizex) {
     }
 }
 
-void TitleGraphicsSystem::drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
+void SubRenderer::drawBoxCenter(int x, int y, int lx, int ly) //Draws a box without borders
 {
     for (int i = 0; i < lx; ++i) {
         for (int j = 0; j < ly; ++j) {
@@ -139,7 +139,7 @@ void TitleGraphicsSystem::drawBoxCenter(int x, int y, int lx, int ly) //Draws a 
     }
 }
 
-void TitleGraphicsSystem::drawBoxFrame(int x, int y, int lx, int ly) {
+void SubRenderer::drawBoxFrame(int x, int y, int lx, int ly) {
     setSubBgTile(x, y, 26); //Top-Left Corner
     setSubBgTile(x, y + ly - 1, 26, V_FLIP); //Bottom-Left Corner
     setSubBgTile(x + lx - 1, y + ly - 1, 26, BOTH_FLIP); //Bottom-Right Corner
@@ -154,11 +154,11 @@ void TitleGraphicsSystem::drawBoxFrame(int x, int y, int lx, int ly) {
     }
 }
 
-void TitleGraphicsSystem::drawBox(int x, int y, int lx, int ly) {
+void SubRenderer::drawBox(int x, int y, int lx, int ly) {
     drawBoxFrame(x, y, lx, ly);
     drawBoxCenter(x + 1, y + 1, lx - 2, ly - 2);
 }
 
-TitleFontSystem &TitleGraphicsSystem::getTitleFont() {
+TitleFontSystem &SubRenderer::getTitleFont() {
     return fontSystem;
 }

@@ -4,7 +4,7 @@ sources += files(
     'subBgHandler.cpp',
     'TitleFontSystem.cpp',
     'SkySystem.cpp',
-    'TitleGraphicsSystem.cpp',
+    'SubRenderer.cpp',
     'Texture.cpp',
     'MainRenderer.cpp'
 )

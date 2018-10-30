@@ -9,7 +9,7 @@
 #include "subBgHandler.hpp"
 #include "Graphic.hpp"
 #include "../FileSystem.hpp"
-#include "TitleGraphicsSystem.hpp"
+#include "SubRenderer.hpp"
 #include "TitleFontSystem.hpp"
 #include <string>
 
@@ -59,7 +59,7 @@ GraphicsSystem::GraphicsSystem() : titleGraphics(nullptr) {
     Graphic::resetSprites(false);
 }
 
-void GraphicsSystem::bind(TitleGraphicsSystem &titleGraphics) {
+void GraphicsSystem::bind(SubRenderer &titleGraphics) {
     this->titleGraphics = &titleGraphics;
 }
 
