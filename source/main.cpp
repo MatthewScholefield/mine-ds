@@ -17,16 +17,16 @@ int main() {
 
     GraphicsSystem graphicsSystem;
     TitleFontSystem titleFontSystem;
-    SubRenderer titleGraphics(titleFontSystem, graphicsSystem);
+    SubRenderer subRenderer(titleFontSystem, graphicsSystem);
     MainRenderer mainRenderer(graphicsSystem);
 
-    graphicsSystem.bind(titleGraphics);
+    graphicsSystem.bind(subRenderer);
     SoundSystem soundSystem;
     MessageSystem messageSystem;
 
     lcdMainOnBottom();
-    titleGraphics.drawBackground();
-    titleGraphics.setSubBg(0, 0);
+    subRenderer.drawBackground();
+    subRenderer.setSubBg(0, 0);
 
     soundSystem.playMusic(Music::Hal2);
 
@@ -47,7 +47,7 @@ int main() {
                 mainRenderer.renderBlock(i, 0, 31);
             }
             oamUpdate(&oamMain);
-            titleGraphics.updateSubBG();
+            subRenderer.updateSubBG();
         }
     }
 }
