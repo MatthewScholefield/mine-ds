@@ -6,7 +6,6 @@
 #include <particles.h>
 #include <sub.h>
 #include "GraphicsSystem.hpp"
-#include "subBgHandler.hpp"
 #include "Graphic.hpp"
 #include "../FileSystem.hpp"
 #include "SubRenderer.hpp"

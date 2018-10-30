@@ -2,7 +2,6 @@
 #include <font.h>
 #include "Graphic.hpp"
 #include "../utils.hpp"
-#include "subBgHandler.hpp"
 #include "SubRenderer.hpp"
 #include "GraphicsSystem.hpp"
 #include "TitleFontSystem.hpp"
