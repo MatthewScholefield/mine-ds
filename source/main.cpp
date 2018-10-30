@@ -8,6 +8,7 @@
 #include "graphics/TitleGraphicsSystem.hpp"
 #include "SoundSystem.hpp"
 #include "MessageSystem.hpp"
+#include "graphics/MainRenderer.hpp"
 
 
 int main() {
@@ -18,6 +19,7 @@ int main() {
     GraphicsSystem graphicsSystem;
     TitleFontSystem titleFontSystem;
     TitleGraphicsSystem titleGraphics(titleFontSystem, graphicsSystem);
+    MainRenderer mainRenderer(graphicsSystem);
 
     graphicsSystem.bind(titleGraphics);
     SoundSystem soundSystem;
@@ -43,7 +45,7 @@ int main() {
             printXY(1, 1, "HELLO! %d", ++val);
             graphicsSystem.beginRender(0, 0);
             for (int i = 0; i < 10; ++i) {
-                graphicsSystem.renderBlock(i, 0, 31);
+                mainRenderer.renderBlock(i, 0, 31);
             }
             oamUpdate(&oamMain);
             titleGraphics.updateSubBG();

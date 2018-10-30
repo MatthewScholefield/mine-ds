@@ -5,5 +5,6 @@ sources += files(
     'TitleFontSystem.cpp',
     'SkySystem.cpp',
     'TitleGraphicsSystem.cpp',
-    'Texture.cpp'
+    'Texture.cpp',
+    'MainRenderer.cpp'
 )

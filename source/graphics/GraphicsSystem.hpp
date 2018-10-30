@@ -13,7 +13,6 @@ class GraphicsSystem {
 public:
     GraphicsSystem();
     void bind(TitleGraphicsSystem &titleGraphics);
-    void renderBlock(int i, int j, int blockId);
     void beginRender(int screenX, int screenY);
 
     uint16 *getMainBgPtr() const;
@@ -23,8 +22,6 @@ public:
 
 private:
     void updateTexture();
-    inline void setTileXY(int x, int y, int tile, int palette);
-    void renderTile16(int x, int y, int tile, int palette);
     bool loadTextureFile(const std::string &fileName, bool reloadGfx = true);
     void setBlockPalette(bool blocks, int brightness, int index);
 

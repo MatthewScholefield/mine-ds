@@ -40,11 +40,6 @@ GraphicsSystem::GraphicsSystem() : titleGraphics(nullptr) {
     REG_BG2CNT |= BG_WRAP_ON;
     bgUpdate();
     mainBgPtr = bgGetMapPtr(mainBgID); //The Map Base
-    for (int i = 0; i <= 16; ++i) {
-        for (int j = 0; j <= 16; ++j) {
-            renderTile16(i, j, 0, 0);
-        }
-    }
 
     // Main Graphics (Other)
     sky.setSkyColor(0, 29, 31, 0, 10, 31);
@@ -148,28 +143,6 @@ void GraphicsSystem::setBlockPalette(bool blocks, int brightness, int index) {
     DC_FlushRange(palette, Texture::palLen);
     dmaCopy(palette, VRAM_F_EXT_SPR_PALETTE[index], Texture::palLen);
     delete[] palette;
-}
-
-void GraphicsSystem::setTileXY(int x, int y, int tile, int palette) {
-    tile |= palette << 12;
-    mainBgPtr[(x % 64) + (y % 64) * 64] = (uint16) tile;
-}
-
-void GraphicsSystem::renderTile16(int x, int y, int tile, int palette) {
-    x *= 2; //Convert tiles of 16 to tiles of 8
-    y *= 2;
-    tile *= 2 * 2;
-    if (palette < 0) palette = 1;
-    //Draw the 4 (8x8) tiles
-    setTileXY(x, y, tile, palette);
-    setTileXY(x + 1, y, tile + 2, palette);
-    setTileXY(x, y + 1, tile + 1, palette);
-    setTileXY(x + 1, y + 1, tile + 3, palette);
-}
-
-void GraphicsSystem::renderBlock(int i, int j, int blockId) {
-    int brightness = 15;
-    renderTile16(i, j, blockId, brightness);
 }
 
 void GraphicsSystem::beginRender(int screenX, int screenY) {
