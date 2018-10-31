@@ -39,6 +39,7 @@ int main() {
 
         messageSystem.update();
         soundSystem.update();
+        timeUpdate();
         swiWaitForVBlank();
         {
             printXY(1, 1, "HELLO! %d", ++val);

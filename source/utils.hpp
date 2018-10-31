@@ -23,21 +23,16 @@ if (keysDown() & KEY_B)         \
 else                            \
     (a);
 
-using uint = unsigned int;
-void sleepThread(unsigned int seconds);
-
 #define MESSAGE_CLEAR_DELAY 512
 #define VERSION_STRING "v0.4.1"
 
-void updateMessages();
-void printLocalMessage(const char *s);
-void clearMessages();
+using uint = unsigned int;
+
+void sleepThread(unsigned int seconds);
 void timeUpdate();
 unsigned int getTime();
 void vBlank();
-size_t maxStringLength(std::vector<std::string> lines);
-void clearText(bool firstSection, int sizeY = 64);
-void clearText();
+
 
 using uint = unsigned int;
 
