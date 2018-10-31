@@ -10,10 +10,10 @@ TitleFontSystem::TitleFontSystem() {
     console->PrintChar = putChar;
     font.gfx = (u16 *) fontTiles;
     font.pal = (u16 *) fontPal;
-    font.numChars = 256;
     font.numColors = fontPalLen / 2;
     font.bpp = 8;
     font.asciiOffset = 0;
+    font.numChars = 256;
     font.convertSingleColor = false;
     consoleSetFont(console, &font);
 }
@@ -76,7 +76,7 @@ void TitleFontSystem::clearTextRegion(int x, int y, int sx, int sy) {
 }
 
 void TitleFontSystem::refresh() {
-    consoleSetFont(nullptr, &font); //The nullptr parameter is understood as the current console
+    consoleSetFont(console, &font);
 }
 
 void TitleFontSystem::clearText(bool firstSection, int sizeY) {
