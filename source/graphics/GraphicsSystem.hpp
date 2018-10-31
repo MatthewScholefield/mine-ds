@@ -19,6 +19,7 @@ public:
     uint16 *getSubBgPtr() const;
     int getSubBgID() const;
     const Texture &getTexture() const;
+    SkySystem getSkySystem();
 
 private:
     void updateTexture();

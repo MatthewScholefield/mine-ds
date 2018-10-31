@@ -188,3 +188,7 @@ const Texture &GraphicsSystem::getTexture() const {
     return texture;
 }
 
+SkySystem GraphicsSystem::getSkySystem() {
+    return sky;
+}
+
