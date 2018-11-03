@@ -16,13 +16,10 @@ int main() {
     defaultExceptionHandler();
     initFile();
 
-    Graphics graphicsSystem;
+    Graphics graphics;
+    SubRenderer subRenderer(graphics);
+    MainRenderer mainRenderer(graphics);
 
-    Font font;
-    SubRenderer subRenderer(font, graphicsSystem);
-    MainRenderer mainRenderer(graphicsSystem);
-
-    graphicsSystem.bind(subRenderer);
     SoundSystem soundSystem;
     MessageSystem messageSystem;
 
@@ -38,7 +35,6 @@ int main() {
         world->update();
         swiWaitForVBlank();
         {
-            graphicsSystem.beginRender(0, 0);
             world->render(mainRenderer);
             oamUpdate(&oamMain);
             subRenderer.updateSubBG();

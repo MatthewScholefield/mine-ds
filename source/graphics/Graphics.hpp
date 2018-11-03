@@ -5,6 +5,7 @@
 #include "SkySystem.hpp"
 #include "../FileSystem.hpp"
 #include "Texture.hpp"
+#include "Font.hpp"
 
 
 class SubRenderer;
@@ -14,13 +15,12 @@ public:
     static constexpr int px = 256, py = 192;
 
     Graphics();
-    void bind(SubRenderer &titleGraphics);
-    void beginRender(int screenX, int screenY);
 
     int getMainBgID() const;
     int getSubBgID() const;
     const Texture &getTexture() const;
-    SkySystem getSkySystem();
+    SkySystem &getSkySystem();
+    Font &getFont();
 
 private:
     void updateTexture();
@@ -35,5 +35,5 @@ private:
     Texture texture;
     int subBgID, mainBgID;
     SkySystem sky;
-    SubRenderer *titleGraphics;
+    Font font;
 };

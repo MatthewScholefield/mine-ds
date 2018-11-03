@@ -14,7 +14,7 @@
 
 using std::vector;
 
-Graphics::Graphics() : titleGraphics(nullptr) {
+Graphics::Graphics() {
     videoSetModeSub(MODE_5_2D | DISPLAY_BG_EXT_PALETTE);
 
     vramSetBankC(VRAM_C_SUB_BG);
@@ -55,10 +55,6 @@ Graphics::Graphics() : titleGraphics(nullptr) {
     Graphic::resetSprites(true);
     Graphic::resetSprites(false);
     lcdMainOnBottom();
-}
-
-void Graphics::bind(SubRenderer &titleGraphics) {
-    this->titleGraphics = &titleGraphics;
 }
 
 void Graphics::updateTexture() {
@@ -111,10 +107,7 @@ void Graphics::updateTexture() {
     dmaCopyVec(texture.subBg.pal, VRAM_H_EXT_PALETTE[2][0]);
     vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
     dmaCopy(texture.subBg.tiles.data(), bgGetGfxPtr(subBgID), sub_bgTilesLen);
-    if (titleGraphics) {
-        titleGraphics->getTitleFont().refresh();
-        titleGraphics->updateSubBG();
-    }
+    font.refresh();
 
     swiWaitForVBlank(); //Prevents sub screen flicker
 }
@@ -143,15 +136,6 @@ void Graphics::setBlockPalette(bool blocks, int brightness, int index) {
     delete[] palette;
 }
 
-void Graphics::beginRender(int screenX, int screenY) {
-    bgSetScroll(2, screenX, screenY);
-    bgUpdate();
-}
-
-int Graphics::getSubBgID() const {
-    return subBgID;
-}
-
 bool Graphics::loadTextureFile(const std::string &fileName, bool reloadGfx) {
     if (!SHOULD_LOAD) {
         texture.loadDefault();
@@ -175,15 +159,23 @@ bool Graphics::loadTextureFile(const std::string &fileName, bool reloadGfx) {
     return success;
 }
 
-const Texture &Graphics::getTexture() const {
-    return texture;
-}
-
-SkySystem Graphics::getSkySystem() {
-    return sky;
+int Graphics::getSubBgID() const {
+    return subBgID;
 }
 
 int Graphics::getMainBgID() const {
     return mainBgID;
+}
+
+const Texture &Graphics::getTexture() const {
+    return texture;
+}
+
+SkySystem &Graphics::getSkySystem() {
+    return sky;
+}
+
+Font &Graphics::getFont() {
+    return font;
 }
 

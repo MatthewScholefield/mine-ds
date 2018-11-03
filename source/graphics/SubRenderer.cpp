@@ -7,8 +7,9 @@
 #include "Font.hpp"
 
 
-SubRenderer::SubRenderer(Font &fontSystem, Graphics &graphics)
-: fontSystem(fontSystem), graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(graphics.getSubBgID())) {
+SubRenderer::SubRenderer(Graphics &graphics) :
+        graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(graphics.getSubBgID())),
+        consoleId(graphics.getFont().getConsoleId()) {
     drawBackground();
     setSubBg(0, 0);
 }
@@ -53,13 +54,12 @@ void SubRenderer::moveSubBg(int dX, int dY) {
     subBgY += dY;
     if (subBgY + 192 > 512) {
         subBgY = 512 - 192;
-    }
-    else if (subBgY < 0)
+    } else if (subBgY < 0)
         subBgY = 0;
 }
 
 void SubRenderer::setSubBg(int x, int y) {
-    bgSetScroll(fontSystem.getConsoleId(), (int) (subBgCalcX = subBgX = x), (int) (subBgCalcY = subBgY = y));
+    bgSetScroll(consoleId, (int) (subBgCalcX = subBgX = x), (int) (subBgCalcY = subBgY = y));
     bgSetScroll(graphics.getSubBgID(), subBgX, subBgY);
     bgUpdate();
 }
@@ -77,7 +77,7 @@ void SubRenderer::updateSubBG() {
         subBgCalcX += (double(subBgX) - subBgCalcX) * 0.08;
         subBgCalcY += (double(subBgY) - subBgCalcY) * 0.08;
         bgSetScroll(graphics.getSubBgID(), roundInt(subBgCalcX), roundInt(subBgCalcY));
-        bgSetScroll(fontSystem.getConsoleId(), roundInt(subBgCalcX), roundInt(subBgCalcY));
+        bgSetScroll(consoleId, roundInt(subBgCalcX), roundInt(subBgCalcY));
         bgUpdate();
     }
     oamUpdate(&oamSub);
@@ -153,8 +153,4 @@ void SubRenderer::drawBoxFrame(int x, int y, int lx, int ly) {
 void SubRenderer::drawBox(int x, int y, int lx, int ly) {
     drawBoxFrame(x, y, lx, ly);
     drawBoxCenter(x + 1, y + 1, lx - 2, ly - 2);
-}
-
-Font &SubRenderer::getTitleFont() {
-    return fontSystem;
 }
