@@ -54,6 +54,7 @@ Graphics::Graphics() : titleGraphics(nullptr) {
     oamInit(&oamMain, SpriteMapping_1D_256, true);
     Graphic::resetSprites(true);
     Graphic::resetSprites(false);
+    lcdMainOnBottom();
 }
 
 void Graphics::bind(SubRenderer &titleGraphics) {

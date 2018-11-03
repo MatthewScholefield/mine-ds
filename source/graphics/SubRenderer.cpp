@@ -10,6 +10,7 @@
 SubRenderer::SubRenderer(Font &fontSystem, Graphics &graphics)
 : fontSystem(fontSystem), graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(graphics.getSubBgID())) {
     drawBackground();
+    setSubBg(0, 0);
 }
 
 void SubRenderer::setSubTileXY(int x, int y, int tile, int palette, int flip) {
