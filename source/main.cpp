@@ -37,7 +37,7 @@ int main() {
         {
             world->render(mainRenderer);
             oamUpdate(&oamMain);
-            subRenderer.updateSubBG();
+            subRenderer.update();
         }
     }
 }
