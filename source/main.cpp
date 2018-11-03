@@ -36,7 +36,7 @@ int main() {
         swiWaitForVBlank();
         {
             world->render(mainRenderer);
-            oamUpdate(&oamMain);
+            mainRenderer.update();
             subRenderer.update();
         }
     }

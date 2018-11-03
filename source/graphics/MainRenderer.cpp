@@ -29,3 +29,7 @@ void MainRenderer::setScroll(int x, int y) {
     bgSetScroll(mapId, x, y);
     bgUpdate();
 }
+
+void MainRenderer::update() {
+    oamUpdate(&oamMain);
+}
