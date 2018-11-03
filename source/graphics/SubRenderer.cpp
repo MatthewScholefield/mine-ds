@@ -8,7 +8,7 @@
 
 
 SubRenderer::SubRenderer(Graphics &graphics) :
-        graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(graphics.getSubBgID())),
+        graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(mapId)),
         consoleId(graphics.getFont().getConsoleId()) {
     drawBackground();
     set(0, 0);
@@ -46,38 +46,40 @@ void SubRenderer::drawBackOffset(int offX, int offY, bool mineDS) {
 
 void SubRenderer::drawBackground(bool firstSlot, bool mineDS) //Draws dirt background and MineDS Logo
 {
-    drawBackOffset(firstSlot ? 0 : 32, 0, mineDS);
+    drawBackOffset(firstSlot ? 0 : tileSx, 0, mineDS);
 }
 
 void SubRenderer::move(int dx, int dy) {
-    subBgX += dx;
-    subBgY += dy;
-    if (subBgY + 192 > 512) {
-        subBgY = 512 - 192;
-    } else if (subBgY < 0)
-        subBgY = 0;
+    pos.tx += dx;
+    pos.ty += dy;
+    if (pos.ty + Graphics::py > mapPy) {
+        pos.ty = mapPy - Graphics::py;
+    } else if (pos.ty < 0) {
+        pos.ty = 0;
+    }
 }
 
 void SubRenderer::set(int x, int y) {
-    bgSetScroll(consoleId, (int) (subBgCalcX = subBgX = x), (int) (subBgCalcY = subBgY = y));
-    bgSetScroll(graphics.getSubBgID(), subBgX, subBgY);
+    pos.setTo(x, y);
+    bgSetScroll(consoleId, x, y);
+    bgSetScroll(mapId, x, y);
     bgUpdate();
 }
 
 int SubRenderer::getScrollX() {
-    return roundInt(subBgCalcX) % 512;
+    return roundInt(pos.x) % 512;
 }
 
 int SubRenderer::getScrollY() {
-    return roundInt(subBgCalcY);
+    return roundInt(pos.y);
 }
 
 void SubRenderer::update() {
-    if (roundInt(subBgCalcX) != subBgX || roundInt(subBgCalcY) != subBgY) {
-        subBgCalcX += (double(subBgX) - subBgCalcX) * 0.08;
-        subBgCalcY += (double(subBgY) - subBgCalcY) * 0.08;
-        bgSetScroll(graphics.getSubBgID(), roundInt(subBgCalcX), roundInt(subBgCalcY));
-        bgSetScroll(consoleId, roundInt(subBgCalcX), roundInt(subBgCalcY));
+    if (pos.needsUpdate()) {
+        pos.update();
+        auto x = roundInt(pos.x), y = roundInt(pos.y);
+        bgSetScroll(mapId, x, y);
+        bgSetScroll(consoleId, x, y);
         bgUpdate();
     }
     oamUpdate(&oamSub);

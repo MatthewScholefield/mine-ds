@@ -4,6 +4,7 @@ sources = files(
     'adpcmparse.cpp',
     'shittywavparse.cpp',
     'SoundSystem.cpp',
+    'SmoothCoord.cpp',
     'MessageSystem.cpp',
     'main.cpp',
     'World.cpp'

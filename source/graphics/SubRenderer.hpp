@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nds/ndstypes.h>
+#include "../SmoothCoord.hpp"
 
 enum class Flip : int {
     None = 0,
@@ -16,6 +17,8 @@ class Graphics;
 
 class SubRenderer {
 public:
+    static constexpr int tileSx = 32, tileSy = 24;
+    static constexpr int mapPx = 512, mapPy = 512;
     explicit SubRenderer(Graphics &graphics);
     void setTile(int x, int y, int tile);
     void setTile(int x, int y, int tile, Flip flip);
@@ -41,6 +44,5 @@ private:
     int mapId;
     uint16 *tileMap;
     int consoleId;
-    double subBgCalcX = 0, subBgCalcY = 0;
-    int subBgX = 0, subBgY = 0;
+    SmoothCoord pos{0, 0, 0.08f};
 };
