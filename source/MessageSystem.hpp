@@ -9,9 +9,11 @@ public:
     void clear();
 
 private:
+    void updateDisplay();
     int getOldestIndex();
 
     static constexpr int numMessages = 3;
     std::string messages[numMessages]{};
     int triggerTime = 1;
+    bool mustUpdate = false;
 };

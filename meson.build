@@ -8,7 +8,7 @@ devkitpro = '/opt/devkitpro'
 devkitarm = devkitpro + '/devkitARM'
 
 add_global_arguments(
-    '-g', '-Wall', '-Werror', '-Wfatal-errors',
+    '-g', '-Wall', '-Wfatal-errors',
     '-O3', '-DARM9', '-DNITRO_AND_FAT', language : 'cpp'
 )
 add_global_link_arguments(

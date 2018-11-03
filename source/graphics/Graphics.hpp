@@ -9,14 +9,15 @@
 
 class SubRenderer;
 
-class GraphicsSystem {
+class Graphics {
 public:
-    GraphicsSystem();
+    static constexpr int px = 256, py = 192;
+
+    Graphics();
     void bind(SubRenderer &titleGraphics);
     void beginRender(int screenX, int screenY);
 
-    uint16 *getMainBgPtr() const;
-    uint16 *getSubBgPtr() const;
+    int getMainBgID() const;
     int getSubBgID() const;
     const Texture &getTexture() const;
     SkySystem getSkySystem();
@@ -32,7 +33,6 @@ private:
     }
 
     Texture texture;
-    uint16 *subBgPtr, *mainBgPtr;
     int subBgID, mainBgID;
     SkySystem sky;
     SubRenderer *titleGraphics;

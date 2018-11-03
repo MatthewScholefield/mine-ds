@@ -5,23 +5,22 @@
 #include <mobs.h>
 #include <particles.h>
 #include <sub.h>
-#include "GraphicsSystem.hpp"
+#include "Graphics.hpp"
 #include "Graphic.hpp"
 #include "../FileSystem.hpp"
 #include "SubRenderer.hpp"
-#include "TitleFontSystem.hpp"
+#include "Font.hpp"
 #include <string>
 
 using std::vector;
 
-GraphicsSystem::GraphicsSystem() : titleGraphics(nullptr) {
+Graphics::Graphics() : titleGraphics(nullptr) {
     videoSetModeSub(MODE_5_2D | DISPLAY_BG_EXT_PALETTE);
 
     vramSetBankC(VRAM_C_SUB_BG);
     subBgID = bgInitSub(2, BgType_ExRotation, BgSize_ER_512x512, 4, 6); //16bit BG
     bgSetScroll(subBgID, 0, -64);
     bgWrapOn(subBgID);
-    subBgPtr = bgGetMapPtr(subBgID);
     vramSetBankH(VRAM_H_LCD);
     dmaCopy(&fontPal, VRAM_H_EXT_PALETTE[0][0], fontPalLen); //Copy the palette
     vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
@@ -38,7 +37,6 @@ GraphicsSystem::GraphicsSystem() : titleGraphics(nullptr) {
     bgSetPriority(mainBgID, 1);
     REG_BG2CNT |= BG_WRAP_ON;
     bgUpdate();
-    mainBgPtr = bgGetMapPtr(mainBgID); //The Map Base
 
     // Main Graphics (Other)
     sky.setSkyColor(0, 29, 31, 0, 10, 31);
@@ -58,11 +56,11 @@ GraphicsSystem::GraphicsSystem() : titleGraphics(nullptr) {
     Graphic::resetSprites(false);
 }
 
-void GraphicsSystem::bind(SubRenderer &titleGraphics) {
+void Graphics::bind(SubRenderer &titleGraphics) {
     this->titleGraphics = &titleGraphics;
 }
 
-void GraphicsSystem::updateTexture() {
+void Graphics::updateTexture() {
     const int NUM_BANK_SLOTS = 16;
     const int MAX_BRIGHTNESS = 15;
     const int NUM_PALETTE_COLORS = 256;
@@ -120,7 +118,7 @@ void GraphicsSystem::updateTexture() {
     swiWaitForVBlank(); //Prevents sub screen flicker
 }
 
-void GraphicsSystem::setBlockPalette(bool blocks, int brightness, int index) {
+void Graphics::setBlockPalette(bool blocks, int brightness, int index) {
     auto *palette = new unsigned short[Texture::palLen / 2];
     for (int i = 0; i < Texture::palLen / 2; ++i) {
         uint16 slot = blocks ? texture.block.pal[i] : texture.mob.pal[i];
@@ -144,24 +142,16 @@ void GraphicsSystem::setBlockPalette(bool blocks, int brightness, int index) {
     delete[] palette;
 }
 
-void GraphicsSystem::beginRender(int screenX, int screenY) {
+void Graphics::beginRender(int screenX, int screenY) {
     bgSetScroll(2, screenX, screenY);
     bgUpdate();
 }
 
-uint16 *GraphicsSystem::getMainBgPtr() const {
-    return mainBgPtr;
-}
-
-uint16 *GraphicsSystem::getSubBgPtr() const {
-    return subBgPtr;
-}
-
-int GraphicsSystem::getSubBgID() const {
+int Graphics::getSubBgID() const {
     return subBgID;
 }
 
-bool GraphicsSystem::loadTextureFile(const std::string &fileName, bool reloadGfx) {
+bool Graphics::loadTextureFile(const std::string &fileName, bool reloadGfx) {
     if (!SHOULD_LOAD) {
         texture.loadDefault();
         updateTexture();
@@ -184,11 +174,15 @@ bool GraphicsSystem::loadTextureFile(const std::string &fileName, bool reloadGfx
     return success;
 }
 
-const Texture &GraphicsSystem::getTexture() const {
+const Texture &Graphics::getTexture() const {
     return texture;
 }
 
-SkySystem GraphicsSystem::getSkySystem() {
+SkySystem Graphics::getSkySystem() {
     return sky;
+}
+
+int Graphics::getMainBgID() const {
+    return mainBgID;
 }
 

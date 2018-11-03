@@ -3,9 +3,12 @@
 #include <nds.h>
 
 // This function sets up the font and console used for printf("Hello World\n");.
-class TitleFontSystem {
+class Font {
 public:
-    TitleFontSystem();
+    // Number of chars in x and y direction
+    static constexpr int cx = 32, cy = 12;  // Unverified
+
+    Font();
     int getConsoleId();
     void clearTextRegion(int x, int y, int sx, int sy);
     void clearText(bool firstSection, int sizeY);

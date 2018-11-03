@@ -2,12 +2,14 @@
 #include "FileSystem.hpp"
 #include "graphics/Graphic.hpp"
 #include "utils.hpp"
-#include "graphics/GraphicsSystem.hpp"
-#include "graphics/TitleFontSystem.hpp"
+#include "graphics/Graphics.hpp"
+#include "graphics/Font.hpp"
 #include "graphics/SubRenderer.hpp"
 #include "SoundSystem.hpp"
 #include "MessageSystem.hpp"
 #include "graphics/MainRenderer.hpp"
+#include "World.hpp"
+#include <memory>
 
 
 int main() {
@@ -15,20 +17,24 @@ int main() {
 
     initFile();
 
-    GraphicsSystem graphicsSystem;
-    TitleFontSystem titleFontSystem;
-    SubRenderer subRenderer(titleFontSystem, graphicsSystem);
+    Graphics graphicsSystem;
+    Font font;
+    SubRenderer subRenderer(font, graphicsSystem);
     MainRenderer mainRenderer(graphicsSystem);
 
     graphicsSystem.bind(subRenderer);
     SoundSystem soundSystem;
     MessageSystem messageSystem;
+    std::unique_ptr<World> world(new World());
 
     lcdMainOnBottom();
     subRenderer.drawBackground();
     subRenderer.setSubBg(0, 0);
+    
+    world->generate();
 
     soundSystem.playMusic(Music::Hal2);
+
 
     while (true) {
         static int val = 0;
@@ -40,12 +46,13 @@ int main() {
         messageSystem.update();
         soundSystem.update();
         timeUpdate();
+        world->update();
         swiWaitForVBlank();
         {
             printXY(1, 1, "HELLO! %d", ++val);
             graphicsSystem.beginRender(0, 0);
             for (int i = 0; i < 10; ++i) {
-                mainRenderer.renderBlock(i, 0, 31);
+                world->render(mainRenderer);
             }
             oamUpdate(&oamMain);
             subRenderer.updateSubBG();

@@ -6,7 +6,7 @@
 #include "utils.hpp"
 #include "FileSystem.hpp"
 #include "graphics/Graphic.hpp"
-#include "graphics/GraphicsSystem.hpp"
+#include "graphics/Graphics.hpp"
 
 void initFile() {
 #ifdef USE_NITRO

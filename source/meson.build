@@ -5,7 +5,8 @@ sources = files(
     'shittywavparse.cpp',
     'SoundSystem.cpp',
     'MessageSystem.cpp',
-    'main.cpp'
+    'main.cpp',
+    'World.cpp'
 )
 
 subdir('graphics')

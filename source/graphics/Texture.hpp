@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <nds.h>
-#include "GraphicsSystem.hpp"
+#include "Graphics.hpp"
 
 
 struct Texture {

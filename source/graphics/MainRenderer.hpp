@@ -1,15 +1,19 @@
 #pragma once
 
-#include "GraphicsSystem.hpp"
+#include "Graphics.hpp"
+#include "../Block.hpp"
+
 
 class MainRenderer {
 public:
-    explicit MainRenderer(GraphicsSystem &graphics);
-    void renderBlock(int i, int j, int blockId);
+    explicit MainRenderer(Graphics &graphics);
+    void renderBlock(int i, int j, Block block);
+    void setScroll(int x, int y);
 
 private:
     inline void setTileXY(int x, int y, int tile, int palette);
     void renderTile16(int x, int y, int tile, int palette);
 
+    int mapId;
     u16 *tileMap;
 };

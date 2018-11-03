@@ -3,12 +3,12 @@
 #include "Graphic.hpp"
 #include "../utils.hpp"
 #include "SubRenderer.hpp"
-#include "GraphicsSystem.hpp"
-#include "TitleFontSystem.hpp"
+#include "Graphics.hpp"
+#include "Font.hpp"
 
 
-SubRenderer::SubRenderer(TitleFontSystem &fontSystem, GraphicsSystem &graphics)
-        : fontSystem(fontSystem), graphics(graphics), tileMap(graphics.getSubBgPtr()) {
+SubRenderer::SubRenderer(Font &fontSystem, Graphics &graphics)
+: fontSystem(fontSystem), graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(graphics.getSubBgID())) {
     drawBackground();
 }
 
@@ -45,10 +45,6 @@ void SubRenderer::drawBackOffset(int offX, int offY, bool mineDS) {
 void SubRenderer::drawBackground(bool firstSlot, bool mineDS) //Draws dirt background and MineDS Logo
 {
     drawBackOffset(firstSlot ? 0 : 32, 0, mineDS);
-}
-
-int SubRenderer::getSubBgID() {
-    return subBgID;
 }
 
 void SubRenderer::moveSubBg(int dX, int dY) {
@@ -158,6 +154,6 @@ void SubRenderer::drawBox(int x, int y, int lx, int ly) {
     drawBoxCenter(x + 1, y + 1, lx - 2, ly - 2);
 }
 
-TitleFontSystem &SubRenderer::getTitleFont() {
+Font &SubRenderer::getTitleFont() {
     return fontSystem;
 }

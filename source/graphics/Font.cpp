@@ -1,8 +1,8 @@
 #include <font.h>
 #include <nds/arm9/background.h>
-#include "TitleFontSystem.hpp"
+#include "Font.hpp"
 
-TitleFontSystem::TitleFontSystem() {
+Font::Font() {
     const int tileBase = 1;
     const int mapBase = 0;
     console = consoleInit(nullptr, 0, BgType_Text8bpp, BgSize_T_512x512, mapBase, tileBase, false, false);
@@ -18,7 +18,7 @@ TitleFontSystem::TitleFontSystem() {
     consoleSetFont(console, &font);
 }
 
-bool TitleFontSystem::putChar(void *con, char c) {
+bool Font::putChar(void *con, char c) {
     auto *currentConsole = (PrintConsole *) con;
 
     if (currentConsole->cursorX >= currentConsole->windowWidth) {
@@ -50,11 +50,11 @@ bool TitleFontSystem::putChar(void *con, char c) {
     return true;
 }
 
-int TitleFontSystem::getConsoleId() {
+int Font::getConsoleId() {
     return console->bgId;
 }
 
-void TitleFontSystem::clearTextRegion(int x, int y, int sx, int sy) {
+void Font::clearTextRegion(int x, int y, int sx, int sy) {
     u16 *map = console->fontBgMap;
     for (int i = x; i < x + sx; ++i) {
         for (int j = y; j < y + sy; ++j) {
@@ -75,14 +75,14 @@ void TitleFontSystem::clearTextRegion(int x, int y, int sx, int sy) {
     }
 }
 
-void TitleFontSystem::refresh() {
+void Font::refresh() {
     consoleSetFont(console, &font);
 }
 
-void TitleFontSystem::clearText(bool firstSection, int sizeY) {
+void Font::clearText(bool firstSection, int sizeY) {
     clearTextRegion(firstSection ? 0 : 32, 0, 32, sizeY);
 }
 
-void TitleFontSystem::clearText() {
+void Font::clearText() {
     clearTextRegion(0, 0, 32, 24);
 }

@@ -1,7 +1,7 @@
 #include "MainRenderer.hpp"
 
-
-MainRenderer::MainRenderer(GraphicsSystem &graphics) : tileMap(graphics.getMainBgPtr()) {}
+MainRenderer::MainRenderer(Graphics &graphics) :
+        mapId(graphics.getMainBgID()), tileMap(bgGetMapPtr(graphics.getMainBgID())) {}
 
 void MainRenderer::setTileXY(int x, int y, int tile, int palette) {
     tile |= palette << 12;
@@ -20,7 +20,12 @@ void MainRenderer::renderTile16(int x, int y, int tile, int palette) {
     setTileXY(x + 1, y + 1, tile + 3, palette);
 }
 
-void MainRenderer::renderBlock(int i, int j, int blockId) {
+void MainRenderer::renderBlock(int i, int j, Block block) {
     int brightness = 15;
-    renderTile16(i, j, blockId, brightness);
+    renderTile16(i, j, int(block), brightness);
+}
+
+void MainRenderer::setScroll(int x, int y) {
+    bgSetScroll(mapId, x, y);
+    bgUpdate();
 }

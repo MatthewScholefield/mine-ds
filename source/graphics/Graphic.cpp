@@ -9,7 +9,7 @@
 #include <font.h>
 #include <block_small.h>
 #include <mobs.h>
-#include "GraphicsSystem.hpp"
+#include "Graphics.hpp"
 
 int Graphic::textureID = 0, Graphic::nextSpriteIDMain = 0, Graphic::nextSpriteIDSub = 0;
 
@@ -127,7 +127,7 @@ void Graphic::reload() {
     reload(type, frame, main, paletteID);
 }
 
-Graphic::Graphic(GraphicsSystem &graphics, GraphicType type, int frame, bool main, int paletteID)
+Graphic::Graphic(Graphics &graphics, GraphicType type, int frame, bool main, int paletteID)
         : gfx(nullptr), firstFrame(nullptr), type(type), main(main), frame(frame), loadIter(textureID),
           graphics(graphics), paletteID(paletteID), animFrame(0) {}
 
@@ -137,7 +137,7 @@ Graphic::Graphic(const Graphic &orig) : gfx(nullptr), firstFrame(nullptr), type(
     load();
 }
 
-Graphic::Graphic(GraphicsSystem &graphics)
+Graphic::Graphic(Graphics &graphics)
         : gfx(nullptr), firstFrame(nullptr), type(GraphicType::NONE), main(true),
           frame(0), loadIter(0), graphics(graphics), paletteID(0), animFrame(0) {}
 

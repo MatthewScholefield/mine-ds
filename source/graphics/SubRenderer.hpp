@@ -7,18 +7,17 @@
 #define BOTH_FLIP 3
 
 
-class TitleFontSystem;
-class GraphicsSystem;
+class Font;
+class Graphics;
 
 
 class SubRenderer {
 public:
-    explicit SubRenderer(TitleFontSystem &fontSystem, GraphicsSystem &graphics);
+    explicit SubRenderer(Font &fontSystem, Graphics &graphics);
     inline void setSubTileXY(int x, int y, int tile, int palette, int flip);
     void setSubBgTile(int x, int y, int tile);
     void setSubBgTile(int x, int y, int tile, int flip);
     void drawBackground(bool firstSlot = true, bool mineDS = true);
-    int getSubBgID();
     void moveSubBg(int dX, int dY);
     void setSubBg(int x, int y);
     int getScrollX();
@@ -29,14 +28,14 @@ public:
     void drawBoxCenter(int x, int y, int lx, int ly);
     void drawBoxFrame(int x, int y, int lx, int ly);
     void drawBox(int x, int y, int lx, int ly);
-    TitleFontSystem &getTitleFont();
+    Font &getTitleFont();
 
 private:
     void drawBackOffset(int offX, int offY, bool mineDS = true);
 
-    TitleFontSystem &fontSystem;
-    GraphicsSystem &graphics;
-    int subBgID = 6;
+    Font &fontSystem;
+    Graphics &graphics;
+    int mapId;
     uint16 *tileMap;
     double subBgCalcX = 0;
     double subBgCalcY = 0;

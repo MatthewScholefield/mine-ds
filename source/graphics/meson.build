@@ -1,7 +1,7 @@
 sources += files(
     'Graphic.cpp',
-    'GraphicsSystem.cpp',
-    'TitleFontSystem.cpp',
+    'Graphics.cpp',
+    'Font.cpp',
     'SkySystem.cpp',
     'SubRenderer.cpp',
     'Texture.cpp',

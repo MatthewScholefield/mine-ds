@@ -14,7 +14,7 @@ enum class GraphicType {
     BLOCK_MINI
 };
 
-class GraphicsSystem;
+class Graphics;
 
 class Graphic {
     u16 *gfx; //Pointer to loaded graphic in VRAM
@@ -23,7 +23,7 @@ class Graphic {
     bool main; //Whether loaded for main or sub OAM.
     int frame; //The part of the image to crop
     int loadIter; //Used to trigger reload on texture change
-    const GraphicsSystem &graphics;
+    const Graphics &graphics;
 
     static int nextSpriteID(bool main);
     static OamState &getOAM(bool main);
@@ -47,9 +47,9 @@ public:
     void reload(GraphicType type, int frame, bool main = true, int paletteID = 0);
     void reload();
     bool draw(int x, int y, bool flip = false, int pri = 0);
-    Graphic(GraphicsSystem &graphics, GraphicType type, int frame, bool main = true, int paletteID = 0);
+    Graphic(Graphics &graphics, GraphicType type, int frame, bool main = true, int paletteID = 0);
     Graphic(const Graphic &orig);
-    explicit Graphic(GraphicsSystem &graphics);
+    explicit Graphic(Graphics &graphics);
     Graphic &operator=(const Graphic &orig);
 
     ~Graphic() {
