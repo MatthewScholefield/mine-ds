@@ -2,9 +2,12 @@
 
 #include <nds/ndstypes.h>
 
-#define V_FLIP 2
-#define H_FLIP 1
-#define BOTH_FLIP 3
+enum class Flip : int {
+    None = 0,
+    Horiz = 1,
+    Vert = 2,
+    Both = 3
+};
 
 
 class Font;
@@ -15,7 +18,7 @@ class SubRenderer {
 public:
     explicit SubRenderer(Graphics &graphics);
     void setTile(int x, int y, int tile);
-    void setTile(int x, int y, int tile, int flip);
+    void setTile(int x, int y, int tile, Flip flip);
     void drawBackground(bool firstSlot = true, bool mineDS = true);
     void move(int dx, int dy);
     void set(int x, int y);
@@ -31,7 +34,7 @@ public:
     int getScrollY();
 
 private:
-    inline void setTileXY(int x, int y, int tile, int palette, int flip);
+    inline void setTileXY(int x, int y, int tile, int palette, Flip flip);
     void drawBackOffset(int offX, int offY, bool mineDS = true);
 
     Graphics &graphics;
