@@ -31,7 +31,6 @@ int main() {
     while (true) {
         messageSystem.update();
         soundSystem.update();
-        timeUpdate();
         world->update();
         swiWaitForVBlank();
         {

@@ -18,15 +18,16 @@ void MessageSystem::print(const std::string &message) {
     }
     messages[numMessages - 1] = message;
     if (getOldestIndex() == numMessages - 1) { //the first message should reset the trigger time
-        triggerTime = getTime() % MESSAGE_CLEAR_DELAY - 1; //Prevent message instantly dissapearing
+        triggerTime = counter % clearDelay - 1; //Prevent message instantly dissapearing
         if (triggerTime < 0) {
-            triggerTime = MESSAGE_CLEAR_DELAY - 1;
+            triggerTime = clearDelay - 1;
         }
     }
 }
 
 void MessageSystem::update() {
-    if (getTime() % MESSAGE_CLEAR_DELAY == unsigned(triggerTime)) {
+    ++counter;
+    if (counter % clearDelay == triggerTime) {
         messages[getOldestIndex()] = "";
         updateDisplay();
     }
