@@ -29,6 +29,9 @@ void MessageSystem::update() {
     ++counter;
     if (counter % clearDelay == triggerTime) {
         messages[getOldestIndex()] = "";
+        mustUpdate = true;
+    }
+    if (mustUpdate) {
         updateDisplay();
     }
 }
