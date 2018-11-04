@@ -14,7 +14,7 @@
 
 using std::vector;
 
-Graphics::Graphics() {
+Graphics::Graphics() : font(nullptr) {
     videoSetModeSub(MODE_5_2D | DISPLAY_BG_EXT_PALETTE);
 
     vramSetBankC(VRAM_C_SUB_BG);
@@ -55,6 +55,7 @@ Graphics::Graphics() {
     Graphic::resetSprites(true);
     Graphic::resetSprites(false);
     lcdMainOnBottom();
+    font.reset(new Font());
 }
 
 void Graphics::updateTexture() {
@@ -107,8 +108,7 @@ void Graphics::updateTexture() {
     dmaCopyVec(texture.subBg.pal, VRAM_H_EXT_PALETTE[2][0]);
     vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
     dmaCopy(texture.subBg.tiles.data(), bgGetGfxPtr(subBgID), sub_bgTilesLen);
-    font.refresh();
-
+    font.reset(new Font());
     swiWaitForVBlank(); //Prevents sub screen flicker
 }
 
@@ -176,6 +176,6 @@ SkySystem &Graphics::getSkySystem() {
 }
 
 Font &Graphics::getFont() {
-    return font;
+    return *font;
 }
 

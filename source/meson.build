@@ -7,7 +7,8 @@ sources = files(
     'SmoothCoord.cpp',
     'MessageSystem.cpp',
     'main.cpp',
-    'World.cpp'
+    'World.cpp',
+    'Player.cpp'
 )
 
 subdir('graphics')

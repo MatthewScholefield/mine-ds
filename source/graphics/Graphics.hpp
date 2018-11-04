@@ -2,6 +2,7 @@
 
 #include <nds/ndstypes.h>
 #include <string>
+#include <bits/unique_ptr.h>
 #include "SkySystem.hpp"
 #include "../FileSystem.hpp"
 #include "Texture.hpp"
@@ -35,5 +36,5 @@ private:
     Texture texture;
     int subBgID, mainBgID;
     SkySystem sky;
-    Font font;
+    std::unique_ptr<Font> font;
 };

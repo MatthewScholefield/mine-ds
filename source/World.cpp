@@ -29,3 +29,8 @@ void World::render(MainRenderer &renderer) {
         }
     }
 }
+
+void World::setCam(const Vec2f &pos) {
+    cam.tx = pos.x;
+    cam.ty = pos.y;
+}

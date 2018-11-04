@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include "linalg.hpp"
 
 #define SHOW_ERRORS
 
@@ -26,6 +27,14 @@ else                            \
 #define VERSION_STRING "v0.4.1"
 
 using uint = unsigned int;
+template<typename T, size_t N>
+using Vec = linalg::vec<T, N>;
+template<typename T>
+using Vec2 = Vec<T, 2>;
+using Vec2f = Vec2<float>;
+using Vec2d = Vec2<double>;
+using Vec2i = Vec2<int>;
+using Vec2u = Vec2<unsigned int>;
 
 void sleepThread(unsigned int seconds);
 void vBlank();

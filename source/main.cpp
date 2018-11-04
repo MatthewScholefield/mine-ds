@@ -9,6 +9,7 @@
 #include "MessageSystem.hpp"
 #include "graphics/MainRenderer.hpp"
 #include "World.hpp"
+#include "Player.hpp"
 #include <memory>
 
 
@@ -28,13 +29,21 @@ int main() {
 
     soundSystem.playMusic(Music::Hal2);
 
+    Player player;
+    int count = 0;
+
     while (true) {
+        scanKeys();
         messageSystem.update();
         soundSystem.update();
         world->update();
+        printXY(5, 5, "Hi %d", ++count);
+        player.update(*world, 1 / 60.f);
+        world->setCam(player.getPos());
         swiWaitForVBlank();
         {
             world->render(mainRenderer);
+            player.render(mainRenderer);
             mainRenderer.update();
             subRenderer.update();
         }

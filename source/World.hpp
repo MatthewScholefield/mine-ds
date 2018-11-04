@@ -2,6 +2,7 @@
 
 #include "Block.hpp"
 #include "SmoothCoord.hpp"
+#include "utils.hpp"
 
 class MainRenderer;
 
@@ -13,6 +14,7 @@ public:
     void generate();
     void update();
     void render(MainRenderer &renderer);
+    void setCam(const Vec2f &pos);
 
 private:
     Block blocks[sx][sy]{};
