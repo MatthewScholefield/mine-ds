@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Block.hpp"
-#include "SmoothCoord.hpp"
-#include "utils.hpp"
+#include "../Block.hpp"
+#include "../SmoothCoord.hpp"
+#include "../utils.hpp"
 
 class MainRenderer;
-
 
 class World {
 public:

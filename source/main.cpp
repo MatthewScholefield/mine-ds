@@ -8,7 +8,7 @@
 #include "SoundSystem.hpp"
 #include "MessageSystem.hpp"
 #include "graphics/MainRenderer.hpp"
-#include "World.hpp"
+#include "world/World.hpp"
 #include "Player.hpp"
 #include <memory>
 

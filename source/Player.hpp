@@ -2,7 +2,7 @@
 
 #include "SmoothCoord.hpp"
 #include "utils.hpp"
-#include "World.hpp"
+#include "world/World.hpp"
 #include "graphics/Graphic.hpp"
 
 class MainRenderer;

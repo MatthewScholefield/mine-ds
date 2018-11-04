@@ -7,7 +7,7 @@ void vBlank() {
     swiWaitForVBlank();
 }
 
-void sleepThread(unsigned int seconds) {
+void sleepThread(float seconds) {
     for (unsigned int i = 0; i < SEC_TO_FPS(seconds); ++i) {
         vBlank(); // sleeps for one frame
     }

@@ -1,6 +1,6 @@
 #include "Player.hpp"
 #include "graphics/MainRenderer.hpp"
-#include "World.hpp"
+#include "world/World.hpp"
 
 
 Player::Player(Graphics &graphics) : graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14) {}
