@@ -3,12 +3,14 @@
 #include "SmoothCoord.hpp"
 #include "utils.hpp"
 #include "World.hpp"
+#include "graphics/Graphic.hpp"
 
 class MainRenderer;
 class World;
 
 class Player {
 public:
+    explicit Player(Graphics &graphics);
     void update(World &world, float dt);
     void render(MainRenderer &renderer);
 
@@ -17,7 +19,7 @@ public:
 private:
     Vec2f getMoveVel();
 
-    static constexpr float speed = World::blockSize * 10;
-    Vec2f pos{0, 0};
-    Vec2f vel{0, 0};
+    static constexpr float speed = 10;
+    Vec2f pos{0, 0}, vel{0, 0};
+    Graphic graphic;
 };

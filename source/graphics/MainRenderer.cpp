@@ -1,4 +1,5 @@
 #include "MainRenderer.hpp"
+#include "Graphic.hpp"
 
 MainRenderer::MainRenderer(Graphics &graphics) :
         mapId(graphics.getMainBgID()), tileMap(bgGetMapPtr(graphics.getMainBgID())) {}
@@ -31,5 +32,15 @@ void MainRenderer::setScroll(int x, int y) {
 }
 
 void MainRenderer::update() {
+    cam.update();
     oamUpdate(&oamMain);
+    Graphic::resetSprites(true);
+}
+
+void MainRenderer::updateCenter(const Vec2f &pos) {
+    cam.target = pos - Vec2f(Graphics::px, Graphics::py) / 2.f;
+}
+
+const Vec2f &MainRenderer::getCam() {
+    return cam.pos;
 }

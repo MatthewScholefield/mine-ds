@@ -3,10 +3,6 @@
 #include "utils.hpp"
 
 void World::update() {
-    if (rand() % 80 == 0) {
-        cam.tx += 10 * blockSize;
-    }
-    cam.update();
 }
 
 void World::generate() {
@@ -20,6 +16,7 @@ void World::generate() {
 }
 
 void World::render(MainRenderer &renderer) {
+    auto &cam = renderer.getCam();
     renderer.setScroll(int(cam.x), int(cam.y));
     const int blockX = int(cam.x) / blockSize;
     const int blockY = int(cam.y) / blockSize;
@@ -28,9 +25,4 @@ void World::render(MainRenderer &renderer) {
             renderer.renderBlock(renderX, renderY, blocks[renderX][renderY]);
         }
     }
-}
-
-void World::setCam(const Vec2f &pos) {
-    cam.tx = pos.x;
-    cam.ty = pos.y;
 }

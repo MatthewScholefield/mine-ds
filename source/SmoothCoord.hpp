@@ -1,20 +1,21 @@
 #pragma once
 
+#include "utils.hpp"
+
 /**
  * Class for a LERPed coordinate
  */
 struct SmoothCoord {
+    Vec2f writeablePos;
+    float speed;
 public:
     const float &x, &y;
-    float &tx, &ty;
+    const Vec2f &pos;
+    Vec2f target;
 
-    SmoothCoord(float x, float y, float speed = 0.01f);
+    explicit SmoothCoord(const Vec2f &pos, float speed = 0.01f);
     void update();
     bool needsUpdate();
-    void moveTo(float x, float y);
-    void setTo(float x, float y);
-
-private:
-    float targetX, targetY, currentX, currentY;
-    float speed;
+    void moveTo(const Vec2f &pos);
+    void setTo(const Vec2f &pos);
 };

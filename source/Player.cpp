@@ -3,12 +3,21 @@
 #include "World.hpp"
 
 
+Player::Player(Graphics &graphics) : graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14) {}
+
 void Player::update(World &world, float dt) {
     vel = getMoveVel();
+    if (vel.x != 0 || vel.y != 0) {
+        graphic.animate();
+    } else {
+        graphic.setFrame(0);
+    }
     pos += vel * dt;
 }
 
 void Player::render(MainRenderer &renderer) {
+    auto p = Vec2i(pos * float(World::blockSize) - renderer.getCam());
+    graphic.draw(p.x, p.y);
 }
 
 const Vec2f &Player::getPos() {

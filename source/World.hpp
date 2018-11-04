@@ -14,9 +14,7 @@ public:
     void generate();
     void update();
     void render(MainRenderer &renderer);
-    void setCam(const Vec2f &pos);
 
 private:
     Block blocks[sx][sy]{};
-    SmoothCoord cam{0, 0};
 };

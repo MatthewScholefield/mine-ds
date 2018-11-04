@@ -17,8 +17,9 @@ int Graphic::textureID = 0, Graphic::nextSpriteIDMain = 0, Graphic::nextSpriteID
 int Graphic::nextSpriteID(bool main) {
     if (main) {
         return ++nextSpriteIDMain;
-    } else
+    } else {
         return ++nextSpriteIDSub;
+    }
 }
 
 OamState &Graphic::getOAM(bool main) {
@@ -28,8 +29,9 @@ OamState &Graphic::getOAM(bool main) {
 void Graphic::resetSprites(bool main) {
     if (main) {
         nextSpriteIDMain = 0;
-    } else
+    } else {
         nextSpriteIDSub = 0;
+    }
     oamClear(&getOAM(main), 0, 127);
 }
 

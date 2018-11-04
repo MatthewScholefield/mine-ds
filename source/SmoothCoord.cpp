@@ -1,25 +1,22 @@
 #include "SmoothCoord.hpp"
 #include "utils.hpp"
 
-SmoothCoord::SmoothCoord(float x, float y, float speed) :
-        x(currentX), y(currentY), tx(targetX), ty(targetY), targetX(x), targetY(y), currentX(x), currentY(y),
-        speed(speed) {}
+SmoothCoord::SmoothCoord(const Vec2f &pos, float speed) :
+        writeablePos(pos),
+        speed(speed), x(writeablePos.x), y(writeablePos.y), pos(writeablePos), target(pos) {}
 
 void SmoothCoord::update() {
-    currentX += (targetX - currentX) * speed;
-    currentY += (targetY - currentY) * speed;
+    writeablePos += (target - pos) * speed;
 }
 
 bool SmoothCoord::needsUpdate() {
-    return roundInt(x) != int(tx) || roundInt(y) != int(ty);
+    return roundInt(pos.x) != int(target.x) || roundInt(pos.y) != int(target.y);
 }
 
-void SmoothCoord::moveTo(float x, float y) {
-    targetX = x;
-    targetY = y;
+void SmoothCoord::moveTo(const Vec2f &pos) {
+    target = pos;
 }
 
-void SmoothCoord::setTo(float x, float y) {
-    targetX = currentX = x;
-    targetY = currentY = y;
+void SmoothCoord::setTo(const Vec2f &pos) {
+    target = writeablePos = pos;
 }

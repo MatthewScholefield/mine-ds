@@ -23,8 +23,8 @@ public:
     void setTile(int x, int y, int tile);
     void setTile(int x, int y, int tile, Flip flip);
     void drawBackground(bool firstSlot = true, bool mineDS = true);
-    void move(int dx, int dy);
-    void set(int x, int y);
+    void move(const Vec2f &delta);
+    void set(const Vec2f &pos);
     void update();
 
     void drawButton(int x, int y, int sizex);
@@ -44,5 +44,5 @@ private:
     int mapId;
     uint16 *tileMap;
     int consoleId;
-    SmoothCoord pos{0, 0, 0.08f};
+    SmoothCoord pos{{0, 0}, 0.08f};
 };

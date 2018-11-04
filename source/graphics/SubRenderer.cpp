@@ -11,7 +11,7 @@ SubRenderer::SubRenderer(Graphics &graphics) :
         graphics(graphics), mapId(graphics.getSubBgID()), tileMap(bgGetMapPtr(mapId)),
         consoleId(graphics.getFont().getConsoleId()) {
     drawBackground();
-    set(0, 0);
+    set({0, 0});
 }
 
 void SubRenderer::setTileXY(int x, int y, int tile, int palette, Flip flip) {
@@ -49,25 +49,25 @@ void SubRenderer::drawBackground(bool firstSlot, bool mineDS) //Draws dirt backg
     drawBackOffset(firstSlot ? 0 : tileSx, 0, mineDS);
 }
 
-void SubRenderer::move(int dx, int dy) {
-    pos.tx += dx;
-    pos.ty += dy;
-    if (pos.ty + Graphics::py > mapPy) {
-        pos.ty = mapPy - Graphics::py;
-    } else if (pos.ty < 0) {
-        pos.ty = 0;
+void SubRenderer::move(const Vec2f &delta) {
+    pos.target += delta;
+    if (pos.target.y + Graphics::py > mapPy) {
+        pos.target.y = mapPy - Graphics::py;
+    } else if (pos.target.y < 0) {
+        pos.target.y = 0;
     }
 }
 
-void SubRenderer::set(int x, int y) {
-    pos.setTo(x, y);
+void SubRenderer::set(const Vec2f &pos) {
+    this->pos.setTo(pos);
+    int x = int(this->pos.pos.x), y = int(this->pos.pos.y);
     bgSetScroll(consoleId, x, y);
     bgSetScroll(mapId, x, y);
     bgUpdate();
 }
 
 int SubRenderer::getScrollX() {
-    return roundInt(pos.x) % 512;
+    return roundInt(pos.x) % mapPx;
 }
 
 int SubRenderer::getScrollY() {
