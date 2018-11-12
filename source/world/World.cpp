@@ -46,9 +46,9 @@ void World::generate() {
 
 void World::render(MainRenderer &renderer) {
     auto &cam = renderer.getCam();
-    renderer.setScroll(int(cam.x), int(cam.y));
-    const int blockX = int(cam.x) / blockSize;
-    const int blockY = int(cam.y) / blockSize;
+    renderer.setScroll(roundInt(cam.x), roundInt(cam.y));
+    const int blockX = roundInt(cam.x) / blockSize;
+    const int blockY = roundInt(cam.y) / blockSize;
     for (int renderX = blockX; renderX <= blockX + Graphics::px / blockSize; ++renderX) {
         for (int renderY = blockY; renderY <= blockY + Graphics::py / blockSize; ++renderY) {
             renderer.renderBlock(renderX, renderY, blocks[renderX][renderY]);

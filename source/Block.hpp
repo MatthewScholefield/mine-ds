@@ -114,3 +114,5 @@ enum class Block : int {
 	BucketEmpty,
 	Length
 };
+
+bool isWalkThrough(Block block);

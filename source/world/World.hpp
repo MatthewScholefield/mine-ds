@@ -13,7 +13,6 @@ public:
     void generate();
     void update();
     void render(MainRenderer &renderer);
-
-private:
     Block blocks[sx][sy]{};
+    const Vec2f gravity{0, 9.81f};
 };
