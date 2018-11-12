@@ -1,5 +1,6 @@
 #include "MainRenderer.hpp"
 #include "Graphic.hpp"
+#include "../world/World.hpp"
 
 MainRenderer::MainRenderer(Graphics &graphics) :
         mapId(graphics.getMainBgID()), tileMap(bgGetMapPtr(graphics.getMainBgID())) {}
@@ -38,7 +39,7 @@ void MainRenderer::update() {
 }
 
 void MainRenderer::updateCenter(const Vec2f &pos) {
-    cam.target = pos - Vec2f(Graphics::px, Graphics::py) / 2.f;
+    cam.target = pos - Vec2f(Graphics::px, Graphics::py) / (2.f * World::blockSize);
 }
 
 const Vec2f &MainRenderer::getCam() {

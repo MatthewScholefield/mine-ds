@@ -2,7 +2,7 @@
 #include "graphics/MainRenderer.hpp"
 
 
-Player::Player(Graphics &graphics) : graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14) {}
+Player::Player(Graphics &graphics, const Vec2f &cam) : graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14), cam(cam) {}
 
 void Player::update(World &world, float dt) {
     if (vel.x != 0) {
@@ -21,9 +21,16 @@ void Player::update(World &world, float dt) {
         vel.y = -speed;
     }
 
-    if (keysHeld() & KEY_TOUCH) {
+    if (keysDown() & KEY_TOUCH) {
         touchPosition pos;
         touchRead(&pos);
+        auto touchBlock = Vec2i(cam + Vec2f(pos.px, pos.py) / float(World::blockSize));
+        Block &block = world[touchBlock];
+        if (block != Block::Air) {
+            block = Block::Air;
+        } else {
+            block = heldBlock;
+        }
     }
 
     vel += world.gravity * dt;
@@ -32,7 +39,7 @@ void Player::update(World &world, float dt) {
 }
 
 void Player::render(MainRenderer &renderer) {
-    auto p = Vec2i((pos - spriteSize / 2.f) * float(World::blockSize) - renderer.getCam() + Vec2f(0.5f, 0.5f));
+    auto p = Vec2i((pos - spriteSize / 2.f - renderer.getCam()) * float(World::blockSize) + Vec2f(0.5f, 0.5f));
     graphic.draw(p.x, p.y);
 }
 

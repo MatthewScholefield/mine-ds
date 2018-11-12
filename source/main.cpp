@@ -29,7 +29,7 @@ int main() {
 
     soundSystem.playMusic(Music::Hal2);
 
-    Player player(graphics);
+    Player player(graphics, mainRenderer.getCam());
     int count = 0;
 
     while (true) {
@@ -37,9 +37,9 @@ int main() {
         messageSystem.update();
         soundSystem.update();
         world->update();
-        printXY(5, 5, "Hi %d", ++count);
+        printXY(5, 5, "Hi %f", ++count);
         player.update(*world, 1 / 60.f);
-        mainRenderer.updateCenter(player.getPos() * float(World::blockSize));
+        mainRenderer.updateCenter(player.getPos());
         swiWaitForVBlank();
         {
             world->render(mainRenderer);
