@@ -1,53 +1,32 @@
-#include "Player.hpp"
-#include "graphics/MainRenderer.hpp"
+#include "Entity.hpp"
+
+#include "../graphics/MainRenderer.hpp"
 
 
-Player::Player(Graphics &graphics, const Vec2f &cam) : graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14), cam(cam) {}
+Entity::Entity(const Graphic &graphic, const Vec2f &size, const Vec2f &spriteSize) :
+        size(size), spriteSize(spriteSize), graphic(graphic){}
 
-void Player::update(World &world, float dt) {
-    if (vel.x != 0) {
-        graphic.animate();
-    } else {
-        graphic.setFrame(0);
-    }
-    if (keysHeld() & KEY_RIGHT) {
-        vel.x = speed;
-    } else if (keysHeld() & KEY_LEFT) {
-        vel.x = -speed;
-    } else {
-        vel.x = 0;
-    }
-    if (keysHeld() & KEY_UP && onGround(world)) {
-        vel.y = -speed;
-    }
-
-    if (keysDown() & KEY_TOUCH) {
-        touchPosition pos;
-        touchRead(&pos);
-        auto touchBlock = Vec2i(cam + Vec2f(pos.px, pos.py) / float(World::blockSize));
-        Block &block = world[touchBlock];
-        if (block != Block::Air) {
-            block = Block::Air;
-        } else {
-            block = heldBlock;
-        }
-    }
-
+void Entity::update(World &world, float dt) {
     vel += world.gravity * dt;
+    if (vel.x > 0) {
+        orientation = Orientation::Right;
+    } else if (vel.x < 0) {
+        orientation = Orientation::Left;
+    }
     pos += vel * dt;
     handleCollisions(world);
 }
 
-void Player::render(MainRenderer &renderer) {
+void Entity::render(MainRenderer &renderer) {
     auto p = Vec2i((pos - spriteSize / 2.f - renderer.getCam()) * float(World::blockSize) + Vec2f(0.5f, 0.5f));
-    graphic.draw(p.x, p.y);
+    graphic.draw(p.x, p.y, orientation == Orientation::Left);
 }
 
-const Vec2f &Player::getPos() {
+const Vec2f &Entity::getPos() {
     return pos;
 }
 
-void Player::handleCollisions(World &world) {
+void Entity::handleCollisions(World &world) {
     auto at = [&](float x, float y) {
         return world.blocks[int(x)][int(y)];
     };
@@ -124,6 +103,7 @@ void Player::handleCollisions(World &world) {
     }
 }
 
-bool Player::onGround(const World &world) {
+bool Entity::onGround(const World &world) {
     return !isWalkThrough(world.blocks[int(pos.x)][int(pos.y + 1.01)]);
 }
+

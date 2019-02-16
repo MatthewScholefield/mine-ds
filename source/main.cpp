@@ -9,7 +9,7 @@
 #include "MessageSystem.hpp"
 #include "graphics/MainRenderer.hpp"
 #include "world/World.hpp"
-#include "Player.hpp"
+#include "entities/Player.hpp"
 #include <memory>
 
 
