@@ -8,5 +8,8 @@ nitro_folder = custom_target(
     'nitro-data',
     input : [nitro_files],
     output : '.',
-    command : [find_program('cp'), '-t', '@OUTPUT@', '@INPUT@']
+    command : [
+        find_program('mkdir'), '-p', '@OUTPUT@', '&&',
+        find_program('cp'), '-t', '@OUTPUT@', '@INPUT@'
+    ]
 )
