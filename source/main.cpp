@@ -30,14 +30,12 @@ int main() {
     soundSystem.playMusic(Music::Hal2);
 
     Player player(graphics, mainRenderer.getCam());
-    int count = 0;
 
     while (true) {
         scanKeys();
         messageSystem.update();
         soundSystem.update();
         world->update();
-        printXY(5, 5, "Hi %f", ++count);
         player.update(*world, 1 / 60.f);
         mainRenderer.updateCenter(player.getPos());
         swiWaitForVBlank();
