@@ -8,7 +8,7 @@ class MainRenderer;
 
 class World {
 public:
-    static constexpr int sx = 256, sy = 64, blockSize = 16;
+    static constexpr int sx = 256, sy = 64;
 
     void generate();
     void update();

@@ -33,7 +33,7 @@ void MainRenderer::setScroll(cVec2i &pos) {
 
 void MainRenderer::begin() {
     setScroll(-project({0.f, 0.f}));
-    camRender = Vec2f(Vec2i(cam.pos * float(World::blockSize))) / float(World::blockSize);
+    camRender = Vec2f(Vec2i(cam.pos * float(Graphics::blockSize))) / float(Graphics::blockSize);
 }
 
 void MainRenderer::update() {
@@ -43,7 +43,7 @@ void MainRenderer::update() {
 }
 
 void MainRenderer::updateCenter(const Vec2f &pos) {
-    cam.target = pos - Vec2f(Graphics::px, Graphics::py) / (2.f * World::blockSize);
+    cam.target = pos - Vec2f(Graphics::px, Graphics::py) / (2.f * Graphics::blockSize);
 }
 
 const Vec2f &MainRenderer::getCam() {
@@ -51,5 +51,5 @@ const Vec2f &MainRenderer::getCam() {
 }
 
 Vec2i MainRenderer::project(cVec2f &pos) {
-    return Vec2i((pos - camRender) * float(World::blockSize));
+    return Vec2i((pos - camRender) * float(Graphics::blockSize));
 }

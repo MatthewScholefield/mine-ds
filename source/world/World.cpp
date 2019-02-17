@@ -3,6 +3,7 @@
 #include "../graphics/MainRenderer.hpp"
 #include "State.hpp"
 #include "SimplexNoise.hpp"
+#include "../graphics/Graphics.hpp"
 
 void World::update() {}
 
@@ -47,8 +48,8 @@ void World::render(MainRenderer &renderer) {
     auto &cam = renderer.getCam();
     const int blockX = int(cam.x);
     const int blockY = int(cam.y);
-    for (int renderX = blockX; renderX <= blockX + Graphics::px / blockSize; ++renderX) {
-        for (int renderY = blockY; renderY <= blockY + Graphics::py / blockSize; ++renderY) {
+    for (int renderX = blockX; renderX <= blockX + Graphics::px / Graphics::blockSize; ++renderX) {
+        for (int renderY = blockY; renderY <= blockY + Graphics::py / Graphics::blockSize; ++renderY) {
             renderer.renderBlock({renderX, renderY}, blocks[renderX][renderY]);
         }
     }

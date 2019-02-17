@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "../graphics/MainRenderer.hpp"
+#include "../graphics/Graphics.hpp"
 
 
 Player::Player(Graphics &graphics, const Vec2f &cam) :
@@ -25,7 +26,7 @@ void Player::update(World &world, float dt) {
     if (keysDown() & KEY_TOUCH) {
         touchPosition pos;
         touchRead(&pos);
-        auto touchBlock = Vec2i(cam + Vec2f(pos.px, pos.py) / float(World::blockSize));
+        auto touchBlock = Vec2i(cam + Vec2f(pos.px, pos.py) / float(Graphics::blockSize));
         Block &block = world[touchBlock];
         if (block != Block::Air) {
             block = Block::Air;

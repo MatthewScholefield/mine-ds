@@ -13,7 +13,7 @@ class SubRenderer;
 
 class Graphics {
 public:
-    static constexpr int px = 256, py = 192;
+    static constexpr int px = 256, py = 192, blockSize = 16;
 
     Graphics();
 
@@ -22,7 +22,6 @@ public:
     const Texture &getTexture() const;
     SkySystem &getSkySystem();
     Font &getFont();
-
 private:
     void updateTexture();
     bool loadTextureFile(const std::string &fileName, bool reloadGfx = true);
