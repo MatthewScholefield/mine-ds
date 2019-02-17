@@ -12,6 +12,7 @@ class World;
 class Player : public Entity {
 public:
     explicit Player(Graphics &graphics, const Vec2f &cam);
+    void respawn(const World &world, MainRenderer &mainRenderer);
     void update(World &world, float dt) override;
 
 private:

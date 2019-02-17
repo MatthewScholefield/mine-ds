@@ -20,3 +20,7 @@ void SmoothCoord::moveTo(const Vec2f &pos) {
 void SmoothCoord::setTo(const Vec2f &pos) {
     target = writeablePos = pos;
 }
+
+void SmoothCoord::bound(float minX, float maxX, float minY, float maxY) {
+    makeBound(writeablePos, minX, maxX, minY, maxY);
+}

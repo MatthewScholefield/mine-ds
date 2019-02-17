@@ -11,6 +11,7 @@
 #include "world/World.hpp"
 #include "entities/Player.hpp"
 #include <memory>
+#include <time.h>
 
 
 int main() {
@@ -24,12 +25,16 @@ int main() {
     SoundSystem soundSystem;
     MessageSystem messageSystem;
 
+    srand(time(nullptr));
+
     std::unique_ptr<World> world(new World());
     world->generate();
 
     soundSystem.playMusic(Music::Hal2);
 
     Player player(graphics, mainRenderer.getCam());
+    player.respawn(*world, mainRenderer);
+
 
     while (true) {
         scanKeys();

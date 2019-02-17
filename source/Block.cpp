@@ -24,3 +24,18 @@ bool isWalkThrough(Block block) {
             return false;
     }
 }
+
+int getLightEmission(Block block) {
+    switch (block) {
+        case Block::Torch:
+            return 15;
+        case Block::PumpkinLight:
+            return 13;
+        case Block::Glowstone:
+            return 15;
+        case Block::FurnaceLit:
+            return 12;
+        default:
+            return 0;
+    }
+}

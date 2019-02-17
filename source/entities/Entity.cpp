@@ -4,7 +4,7 @@
 
 
 Entity::Entity(const Graphic &graphic, const Vec2f &size, const Vec2f &spriteSize) :
-        size(size), spriteSize(spriteSize), graphic(graphic){}
+        size(size), spriteSize(spriteSize), graphic(graphic) {}
 
 void Entity::update(World &world, float dt) {
     vel += world.gravity * dt;
@@ -15,6 +15,9 @@ void Entity::update(World &world, float dt) {
     }
     pos += vel * dt;
     handleCollisions(world);
+    makeBound(pos,
+              size.x / 2, float(World::sx) - size.x / 2,
+              size.y / 2, float(World::sy) - size.y / 2);
 }
 
 void Entity::render(MainRenderer &renderer) {
@@ -27,7 +30,7 @@ const Vec2f &Entity::getPos() {
 
 void Entity::handleCollisions(World &world) {
     auto at = [&](float x, float y) {
-        return world.blocks[int(x)][int(y)];
+        return world.fg[int(x)][int(y)];
     };
 
     float left = pos.x - size.x / 2;
@@ -103,6 +106,6 @@ void Entity::handleCollisions(World &world) {
 }
 
 bool Entity::onGround(const World &world) {
-    return !isWalkThrough(world.blocks[int(pos.x)][int(pos.y + 1.01)]);
+    return !isWalkThrough(world.fg[int(pos.x)][int(pos.y + 1.01)]);
 }
 

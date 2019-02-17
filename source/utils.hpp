@@ -41,6 +41,12 @@ using cVec2d = const Vec2d;
 using cVec2i = const Vec2i;
 using cVec2u = const Vec2u;
 
+template<typename T>
+void makeBound(Vec<T, 2> &vec, T minX, T maxX, T minY, T maxY) {
+    vec.x = std::min(std::max(vec.x, minX), maxX);
+    vec.y = std::min(std::max(vec.y, minY), maxY);
+}
+
 void sleepThread(float seconds);
 void vBlank();
 

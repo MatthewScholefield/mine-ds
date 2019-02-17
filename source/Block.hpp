@@ -116,3 +116,4 @@ enum class Block : int {
 };
 
 bool isWalkThrough(Block block);
+int getLightEmission(Block block);

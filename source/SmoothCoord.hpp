@@ -18,4 +18,5 @@ public:
     bool needsUpdate();
     void moveTo(const Vec2f &pos);
     void setTo(const Vec2f &pos);
+    void bound(float minX, float maxX, float minY, float maxY);
 };

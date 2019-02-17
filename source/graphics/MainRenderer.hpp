@@ -9,10 +9,11 @@
 class MainRenderer {
 public:
     explicit MainRenderer(Graphics &graphics);
-    void renderBlock(cVec2i &pos, Block block);
+    void renderBlock(cVec2i &pos, Block block, int brightness);
     void begin();
     void update();
     void updateCenter(const Vec2f &pos);
+    void setCenter(const Vec2f &pos);
 
     const Vec2f &getCam();
     Vec2i project(cVec2f &pos);

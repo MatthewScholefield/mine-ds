@@ -21,8 +21,7 @@ void MainRenderer::renderTile16(Vec2i pos, int tile, int palette) {
     setTileXY({pos.x + 1, pos.y + 1}, tile + 3, palette);
 }
 
-void MainRenderer::renderBlock(cVec2i &pos, Block block) {
-    int brightness = 15;
+void MainRenderer::renderBlock(cVec2i &pos, Block block, int brightness) {
     renderTile16(pos, int(block), brightness);
 }
 
@@ -32,6 +31,8 @@ void MainRenderer::setScroll(cVec2i &pos) {
 }
 
 void MainRenderer::begin() {
+    cam.bound(0, World::sx - float(Graphics::px) / Graphics::blockSize,
+              0, World::sy - float(Graphics::py) / Graphics::blockSize);
     setScroll(-project({0.f, 0.f}));
     camRender = Vec2f(Vec2i(cam.pos * float(Graphics::blockSize))) / float(Graphics::blockSize);
 }
@@ -44,6 +45,10 @@ void MainRenderer::update() {
 
 void MainRenderer::updateCenter(const Vec2f &pos) {
     cam.target = pos - Vec2f(Graphics::px, Graphics::py) / (2.f * Graphics::blockSize);
+}
+
+void MainRenderer::setCenter(const Vec2f &pos) {
+    cam.setTo(pos  - Vec2f(Graphics::px, Graphics::py) / (2.f * Graphics::blockSize));
 }
 
 const Vec2f &MainRenderer::getCam() {
