@@ -3,7 +3,7 @@
 
 
 Player::Player(Graphics &graphics, const Vec2f &cam) :
-        Entity(Graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14), {6.f / 16.f, 2.f}, {1.f, 2.f}), cam(cam) {}
+        Entity(Graphic(graphics, GraphicType::MOB_ANIM, 0, true, 14), {4.f / 16.f, 2.f}, {1.f, 2.f}), cam(cam) {}
 
 void Player::update(World &world, float dt) {
     if (vel.x != 0) {

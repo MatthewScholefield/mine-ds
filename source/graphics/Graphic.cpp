@@ -167,20 +167,20 @@ SpriteSize Graphic::getSpriteSize(GraphicType type) {
     }
 }
 
-bool Graphic::draw(int x, int y, bool flip, int pri) {
+bool Graphic::draw(cVec2i &pos, bool flip, int pri) {
     if (type == GraphicType::NONE) {
         return false;
     }
     if (!gfx) {
         load();
     }
-    if (x < -16 || x > 256 || y < -32 || y > 192) {
+    if (pos.x < -16 || pos.x > 256 || pos.y < -32 || pos.y > 192) {
         return false;
     }
     if (loadIter != Graphic::textureID) {
         reload();
     }
-    oamSet(&getOAM(main), nextSpriteID(main), x, y, pri, paletteID, getSpriteSize(type), SpriteColorFormat_256Color,
+    oamSet(&getOAM(main), nextSpriteID(main), pos.x, pos.y, pri, paletteID, getSpriteSize(type), SpriteColorFormat_256Color,
            gfx, -1, false, false, flip, false, false);
     return true;
 }

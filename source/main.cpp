@@ -42,6 +42,7 @@ int main() {
         mainRenderer.updateCenter(player.getPos());
         swiWaitForVBlank();
         {
+            mainRenderer.begin();
             world->render(mainRenderer);
             player.render(mainRenderer);
             mainRenderer.update();

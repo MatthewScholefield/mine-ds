@@ -36,6 +36,11 @@ using Vec2d = Vec2<double>;
 using Vec2i = Vec2<int>;
 using Vec2u = Vec2<unsigned int>;
 
+using cVec2f = const Vec2f;
+using cVec2d = const Vec2d;
+using cVec2i = const Vec2i;
+using cVec2u = const Vec2u;
+
 void sleepThread(float seconds);
 void vBlank();
 

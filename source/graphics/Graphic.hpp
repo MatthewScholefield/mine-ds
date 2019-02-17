@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nds.h>
+#include "../utils.hpp"
 
 #define FRAMES_PER_ANIMATION 6
 
@@ -46,7 +47,7 @@ public:
     void setFrame(int frame);
     void reload(GraphicType type, int frame, bool main = true, int paletteID = 0);
     void reload();
-    bool draw(int x, int y, bool flip = false, int pri = 0);
+    bool draw(cVec2i &pos, bool flip = false, int pri = 0);
     Graphic(Graphics &graphics, GraphicType type, int frame, bool main = true, int paletteID = 0);
     Graphic(const Graphic &orig);
     explicit Graphic(Graphics &graphics);

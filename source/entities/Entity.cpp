@@ -18,8 +18,7 @@ void Entity::update(World &world, float dt) {
 }
 
 void Entity::render(MainRenderer &renderer) {
-    auto p = Vec2i((pos - spriteSize / 2.f - renderer.getCam()) * float(World::blockSize) + Vec2f(0.5f, 0.5f));
-    graphic.draw(p.x, p.y, orientation == Orientation::Left);
+    graphic.draw(renderer.project(pos - spriteSize / 2.f), orientation == Orientation::Left);
 }
 
 const Vec2f &Entity::getPos() {
