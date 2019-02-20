@@ -25,7 +25,7 @@ int main() {
     SoundSystem soundSystem;
     MessageSystem messageSystem;
 
-    srand(time(nullptr));
+    srand((unsigned int) time(nullptr));
 
     std::unique_ptr<World> world(new World());
     world->generate();

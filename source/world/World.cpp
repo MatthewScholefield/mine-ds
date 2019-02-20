@@ -70,7 +70,6 @@ void World::checkBlock(int x, int y) {
     brightnessUpdate(x, y - 1, level);
 }
 
-
 void World::calculateBrightness() {
     calculateBrightness(0, sx - 1, 0, sy - 1);
 }
@@ -96,8 +95,9 @@ void World::calculateBrightness(int leftBound, int rightBound, int topBound, int
                 }
             } else if (block == Block::Air && bg[i][j] == Block::Air)
                 brightness[i][j] = sunBrightness / 2;
-            else
+            else {
                 brightness[i][j] = 0;
+            }
             int emission = getLightEmission(block);
             if (emission) {
                 brightness[i][j] = max(brightness[i][j], emission);
