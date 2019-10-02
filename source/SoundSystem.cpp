@@ -54,9 +54,7 @@ void SoundSystem::update() {
 }
 
 s16 SoundSystem::volumeFunc(s16 orig, u16 factor) {
-    auto n = s32(orig * factor);
-    auto r = s16(n / 25);
-    return r;
+    return s16(s32(orig * factor) / 25);
 }
 
 mm_word SoundSystem::stream(mm_word length, mm_addr dest, mm_stream_formats format) {

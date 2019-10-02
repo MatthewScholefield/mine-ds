@@ -6,7 +6,8 @@ sources = files(
     'SmoothCoord.cpp',
     'MessageSystem.cpp',
     'main.cpp',
-    'Block.cpp'
+    'Block.cpp',
+    'Game.cpp'
 )
 
 subdir('entities')

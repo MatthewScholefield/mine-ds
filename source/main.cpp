@@ -1,55 +1,15 @@
 #include <nds.h>
 #include "FileSystem.hpp"
-#include "graphics/Graphic.hpp"
-#include "utils.hpp"
-#include "graphics/Graphics.hpp"
-#include "graphics/Font.hpp"
-#include "graphics/SubRenderer.hpp"
-#include "SoundSystem.hpp"
-#include "MessageSystem.hpp"
-#include "graphics/MainRenderer.hpp"
-#include "world/World.hpp"
-#include "entities/Player.hpp"
-#include <memory>
-#include <time.h>
+#include "Game.hpp"
 
 
 int main() {
     defaultExceptionHandler();
     initFile();
-
-    Graphics graphics;
-    SubRenderer subRenderer(graphics);
-    MainRenderer mainRenderer(graphics);
-
-    SoundSystem soundSystem;
-    MessageSystem messageSystem;
-
-    srand((unsigned int) time(nullptr));
-
-    auto world = std::make_unique<World>();
-    world->generate();
-
-    soundSystem.playMusic(Music::Hal2);
-
-    Player player(graphics, mainRenderer.getCam());
-    player.respawn(*world, mainRenderer);
-
+    
+    Game game;
 
     while (true) {
-        scanKeys();
-        messageSystem.update();
-        soundSystem.update();
-        world->update();
-        player.update(*world, 1 / 60.f);
-        mainRenderer.updateCenter(player.getPos());
-        swiWaitForVBlank();
-        {
-            mainRenderer.begin();
-            world->render(mainRenderer);
-            player.render(mainRenderer);
-            mainRenderer.update();
-            subRenderer.update();
-        }
+        game.update();
     }
 }
