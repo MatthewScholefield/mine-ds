@@ -26,6 +26,7 @@ endforeach
 
 inc = [
     include_directories('source'),
+    include_directories('libs'),
     include_directories(devkitpro + '/libnds/include')
 ]
 
