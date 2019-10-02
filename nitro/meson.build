@@ -1,7 +1,7 @@
 
 nitro_files = [
     soundbank_bin,
-    'soundtrack.wav'
+    'soundtrack.adpcm'
 ]
 
 nitro_folder = custom_target(

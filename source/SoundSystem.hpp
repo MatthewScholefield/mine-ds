@@ -1,9 +1,17 @@
 #pragma once
 
 #include <map>
-#include "soundbank.h"  // Soundbank definitions
-#include "audio.hpp"
+#include <nds.h>
 #include <maxmod9.h>
+
+#include "soundbank.h"  // Soundbank definitions
+#include "NibbleReader.hpp"
+#include "ADPCMProcessor.hpp"
+
+
+#define WAV_BUFFER_SIZE 1024
+#define MM_BUFFER_SIZE 4096
+
 
 enum class Sound : int {
     None = -1,
@@ -68,6 +76,7 @@ private:
     Music loadedMusic = Music::None;
     bool streamOpen = false;
     bool reqStreamClose = false;
-    FILE *file;
-    WaveInfo w;
+    FILE *file = nullptr;
+    ADPCMProcessor adpcmProcessor;
+    NibbleReader<WAV_BUFFER_SIZE> nibbleReader;
 };

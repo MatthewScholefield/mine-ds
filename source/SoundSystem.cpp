@@ -3,7 +3,6 @@
 #include <maxmod9.h>    // Maxmod definitions for ARM9
 
 #include "utils.hpp"
-#include "audio.hpp"
 #include "FileSystem.hpp"
 
 
@@ -61,16 +60,13 @@ s16 SoundSystem::volumeFunc(s16 orig, u16 factor) {
 }
 
 mm_word SoundSystem::stream(mm_word length, mm_addr dest, mm_stream_formats format) {
-    u16 musicVolume = 16;
     auto *d = (s16 *) dest;
-    uint req = 0;
-    while (req < length) {
-        if (w.dataSize < w.blockAlign) {
+    for (uint req = 0; req < length; ++req) {
+        if (nibbleReader.isDone()) {
             stopStream();
-            return length;
+            return req;
         }
-        *d++ = volumeFunc((s16) getADCM(file, &w), musicVolume);
-        req++;
+        *d++ = adpcmProcessor.decode(nibbleReader.get());
     }
     return length;
 }
@@ -86,19 +82,17 @@ void SoundSystem::playStreamSong() {
     if (streamOpen) {
         return;
     }
-    int ret = parseWave(file, &w);
-    if (ret) {
-        return;
-    }
-    ADCMReset();
+    
+    nibbleReader.reset();
+    adpcmProcessor.reset();
 
     instance = this;
 
     mm_stream musicStream;
     musicStream.manual = 1;
     musicStream.timer = MM_TIMER1;
-    musicStream.buffer_length = 1024;
-    musicStream.sampling_rate = w.sampleRate;
+    musicStream.buffer_length = MM_BUFFER_SIZE;
+    musicStream.sampling_rate = 22050;
     musicStream.format = MM_STREAM_16BIT_MONO;
     musicStream.callback = SoundSystem::streamFromInstance;
 
@@ -133,7 +127,6 @@ void SoundSystem::playSound(Sound sfx, mm_byte volume, mm_byte panning) {
 void SoundSystem::playMusic(Music song) {
     if (song == Music::None) {
         return;
-
     }
     if (song != loadedMusic) {
         stopMusic();
@@ -145,6 +138,7 @@ void SoundSystem::playMusic(Music song) {
             mmStart((mm_word) song, MM_PLAY_LOOP); //Prevents music restarting
             loadedMusic = song;
         } else {
+            nibbleReader.setFile(file);
             playStreamSong();
             loadedMusic = Music::Stream;
         }
@@ -169,7 +163,6 @@ void SoundSystem::loadSound(Sound sfx) {
 
     if (sfx == Sound::None) {
         return;
-
     }
     for (i = 0; i < LENGTH(loadedSounds); ++i) {
         if (loadedSounds[i] == sfx) {

@@ -1,8 +1,7 @@
 sources = files(
     'FileSystem.cpp',
     'utils.cpp',
-    'adpcmparse.cpp',
-    'shittywavparse.cpp',
+    'ADPCMProcessor.cpp',
     'SoundSystem.cpp',
     'SmoothCoord.cpp',
     'MessageSystem.cpp',

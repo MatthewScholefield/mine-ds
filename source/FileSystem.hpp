@@ -6,7 +6,7 @@
 #define SHOULD_SAVE true
 #define SHOULD_LOAD true
 #define SOUNDBANK_FILENAME "nitro:/soundbank.bin"
-#define SOUNDTRACK_FILENAME "nitro:/soundtrack.wav"
+#define SOUNDTRACK_FILENAME "nitro:/soundtrack.adpcm"
 #define MINE_DS_FOLDER "fat:/data/Mine-DS/"
 #endif
 
@@ -15,7 +15,7 @@
 #define SHOULD_SAVE false
 #define SHOULD_LOAD false
 #define SOUNDBANK_FILENAME "nitro:/soundbank.bin"
-#define SOUNDTRACK_FILENAME "nitro:/soundtrack.wav"
+#define SOUNDTRACK_FILENAME "nitro:/soundtrack.adpcm"
 #define MINE_DS_FOLDER "nitro:/Mine-DS/"
 #endif
 
@@ -24,7 +24,7 @@
 #define SHOULD_SAVE true
 #define SHOULD_LOAD true
 #define SOUNDBANK_FILENAME "fat:/data/Mine-DS/soundbank.bin"
-#define SOUNDTRACK_FILENAME "fat:/data/Mine-DS/soundtrack.wav"
+#define SOUNDTRACK_FILENAME "fat:/data/Mine-DS/soundtrack.adpcm"
 #define MINE_DS_FOLDER "fat:/data/Mine-DS/"
 #endif
 
