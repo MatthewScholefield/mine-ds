@@ -27,7 +27,7 @@ int main() {
 
     srand((unsigned int) time(nullptr));
 
-    std::unique_ptr<World> world(new World());
+    auto world = std::make_unique<World>();
     world->generate();
 
     soundSystem.playMusic(Music::Hal2);
