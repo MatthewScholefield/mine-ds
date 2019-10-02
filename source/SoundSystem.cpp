@@ -104,6 +104,11 @@ int SoundSystem::getBlockPanning(int x, int camX) {
     return (16 * (x - ((camX + 256 / 2) / 16)) + camX % 16) + 256 / 2 + 1;
 }
 
+void SoundSystem::playSound(SoundAudio audio, SoundType type, mm_byte volume, mm_byte panning) {
+    auto vals = sfxs[std::make_pair(audio, type)];
+    playSound(Sound(rand() % 2 ? vals.first : vals.second), volume, panning);
+}
+
 void SoundSystem::playSound(Sound sfx, mm_byte volume, mm_byte panning) {
     u16 sfxVolume = 16;
 

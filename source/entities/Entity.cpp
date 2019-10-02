@@ -1,20 +1,21 @@
 #include "Entity.hpp"
 
 #include "../graphics/MainRenderer.hpp"
+#include "../Game.hpp"
 
 
 Entity::Entity(const Graphic &graphic, const Vec2f &size, const Vec2f &spriteSize) :
         size(size), spriteSize(spriteSize), graphic(graphic) {}
 
-void Entity::update(World &world, float dt) {
-    vel += world.gravity * dt;
+void Entity::update(Game &g, float dt) {
+    vel += g.world.gravity * dt;
     if (vel.x > 0) {
         orientation = Orientation::Right;
     } else if (vel.x < 0) {
         orientation = Orientation::Left;
     }
     pos += vel * dt;
-    handleCollisions(world);
+    handleCollisions(g.world);
     makeBound(pos,
               size.x / 2, float(World::sx) - size.x / 2,
               size.y / 2, float(World::sy) - size.y / 2);

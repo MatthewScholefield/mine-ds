@@ -7,9 +7,9 @@ int main() {
     defaultExceptionHandler();
     initFile();
     
-    Game game;
+    auto game = std::make_unique<Game>();
 
     while (true) {
-        game.update();
+        game->update();
     }
 }

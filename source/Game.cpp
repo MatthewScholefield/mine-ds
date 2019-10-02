@@ -4,13 +4,13 @@
 
 Game::Game()
         : graphics(), subRenderer(graphics), mainRenderer(graphics),
-        soundSystem(), messageSystem(), world(std::make_unique<World>()),
+        soundSystem(), messageSystem(), world(),
         player(graphics, mainRenderer.getCam()) {
     srand((unsigned int) time(nullptr));
-    world->generate();
+    world.generate();
     
     soundSystem.playMusic(Music::Hal2);
-    player.respawn(*world, mainRenderer);
+    player.respawn(*this, mainRenderer);
 }
 
 
@@ -18,13 +18,13 @@ void Game::update() {
     scanKeys();
     messageSystem.update();
     soundSystem.update();
-    world->update();
-    player.update(*world, 1 / 60.f);
+    world.update();
+    player.update(*this, 1 / 60.f);
     mainRenderer.updateCenter(player.getPos());
     swiWaitForVBlank();
     {
         mainRenderer.begin();
-        world->render(mainRenderer);
+        world.render(mainRenderer);
         player.render(mainRenderer);
         mainRenderer.update();
         subRenderer.update();

@@ -6,7 +6,7 @@
 #include "../graphics/Graphic.hpp"
 
 class MainRenderer;
-class World;
+class Game;
 class Graphics;
 
 class Entity {
@@ -15,7 +15,7 @@ class Entity {
     };
 public:
     explicit Entity(const Graphic &graphic, const Vec2f &size, const Vec2f &spriteSize);
-    virtual void update(World &world, float dt);
+    virtual void update(Game &game, float dt);
     virtual void render(MainRenderer &renderer);
     virtual ~Entity() = default;
 

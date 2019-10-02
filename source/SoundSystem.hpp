@@ -61,6 +61,7 @@ public:
     mm_word stream(mm_word length, mm_addr dest, mm_stream_formats format);
     void playStreamSong();
     int getBlockPanning(int x, int camX);
+    void playSound(SoundAudio audio, SoundType type, mm_byte volume, mm_byte panning);
     void playSound(Sound sfx, mm_byte volume, mm_byte panning);
     void playMusic(Music song);
     void stopMusic();

@@ -16,7 +16,7 @@ public:
     MainRenderer mainRenderer;
     SoundSystem soundSystem;
     MessageSystem messageSystem;
-    std::unique_ptr<World> world;
+    World world;
     Player player;
     
     Game();
