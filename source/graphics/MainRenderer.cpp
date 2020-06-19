@@ -31,14 +31,14 @@ void MainRenderer::setScroll(cVec2i &pos) {
 }
 
 void MainRenderer::begin() {
-    cam.bound(0, World::sx - float(Graphics::px) / Graphics::blockSize,
-              0, World::sy - float(Graphics::py) / Graphics::blockSize);
-    setScroll(-project({0.f, 0.f}));
     camRender = Vec2f(Vec2i(cam.pos * float(Graphics::blockSize))) / float(Graphics::blockSize);
+    setScroll(-project({0.f, 0.f}));
 }
 
 void MainRenderer::update() {
     cam.update();
+    cam.bound(0, World::sx - float(Graphics::px) / Graphics::blockSize,
+              0, World::sy - float(Graphics::py) / Graphics::blockSize);
     oamUpdate(&oamMain);
     Graphic::resetSprites(true);
 }

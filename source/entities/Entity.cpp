@@ -35,10 +35,11 @@ void Entity::handleCollisions(World &world) {
     };
 
     float left = pos.x - size.x / 2;
-    float top = pos.y - size.y / 2;
     float right = pos.x + size.x / 2;
-    float bottom = pos.y + size.y / 2;
+    
+    float top = pos.y - size.y / 2;
     float center = pos.y;
+    float bottom = pos.y + size.y / 2;
 
     bool stuckBottomLeft = !isWalkThrough(at(left, bottom));
     bool stuckBottomRight = !isWalkThrough(at(right, bottom));
@@ -55,58 +56,92 @@ void Entity::handleCollisions(World &world) {
 
     if (stuckCenterLeft) {
         pos.x += inLeft;
-        vel.x = 0;
         inLeft = 0;
+        if (vel.x < 0) {
+            vel.x = 0;
+        }
     } else if (stuckCenterRight) {
         pos.x -= inRight;
-        vel.x = 0;
         inRight = 0;
+        if (vel.x > 0) {
+            vel.x = 0;
+        }
     }
 
     if (stuckBottomLeft && stuckBottomRight) {
         pos.y -= inBottom;
-        vel.y = 0;
+        inBottom = 0;
+        if (vel.y > 0) {
+            vel.y = 0;
+        }
     } else if (stuckBottomLeft) {
         if (inBottom < inLeft && !stuckTopLeft) {
             pos.y -= inBottom;
-            vel.y = 0;
+            inBottom = 0;
+            if (vel.y > 0) {
+                vel.y = 0;
+            }
         } else {
             pos.x += inLeft;
-            vel.x = 0;
+            inLeft = 0;
+            if (vel.x < 0) {
+                vel.x = 0;
+            }
         }
     } else if (stuckBottomRight) {
         if (inBottom < inRight && !stuckTopRight) {
             pos.y -= inBottom;
-            vel.y = 0;
+            inBottom = 0;
+            if (vel.y > 0) {
+                vel.y = 0;
+            }
         } else {
             pos.x -= inRight;
-            vel.x = 0;
+            inRight = 0;
+            if (vel.x > 0) {
+                vel.x = 0;
+            }
         }
     }
 
     if (stuckTopLeft && stuckTopRight) {
         pos.y += inTop;
-        vel.y = 0;
+        inTop = 0;
+        if (vel.y < 0) {
+            vel.y = 0;
+        }
     } else if (stuckTopLeft) {
         if (inTop < inLeft && !stuckBottomLeft) {
             pos.y += inTop;
-            vel.y = 0;
+            inTop = 0;
+            if (vel.y < 0) {
+                vel.y = 0;
+            }
         } else {
             pos.x += inLeft;
-            vel.x = 0;
+            inLeft = 0;
+            if (vel.x < 0) {
+                vel.x = 0;
+            }
         }
     } else if (stuckTopRight) {
         if (inTop < inRight && !stuckBottomRight) {
             pos.y += inTop;
-            vel.y = 0;
+            inTop = 0;
+            if (vel.y < 0) {
+                vel.y = 0;
+            }
         } else {
             pos.x -= inRight;
-            vel.x = 0;
+            inRight = 0;
+            if (vel.x > 0) {
+                vel.x = 0;
+            }
         }
     }
 }
 
 bool Entity::onGround(const World &world) {
-    return !isWalkThrough(world.fg[int(pos.x)][int(pos.y + 1.01)]);
+    return !isWalkThrough(world.fg[int(pos.x)][int(pos.y + size.y / 2.f + Graphics::eps)]);
 }
 

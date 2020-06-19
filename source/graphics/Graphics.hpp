@@ -14,6 +14,7 @@ class SubRenderer;
 class Graphics {
 public:
     static constexpr int px = 256, py = 192, blockSize = 16;
+    static constexpr float eps = 0.1f / blockSize;
 
     Graphics();
 

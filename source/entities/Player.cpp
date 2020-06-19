@@ -16,33 +16,52 @@ void Player::respawn(const Game &g, MainRenderer &mainRenderer) {
 }
 
 void Player::update(Game &g, float dt) {
-    if (vel.x != 0) {
+    if (std::abs(vel.x) > 0.5) {
         graphic.animate();
     } else {
         graphic.setFrame(0);
     }
+    vel.x *= 0.9f;
+    bool isOnGround = onGround(g.world);
     if (keysHeld() & KEY_RIGHT) {
-        vel.x = speed;
+        if (isOnGround) {
+            vel.x = speed;
+        } else {
+            vel.x += 25.f * dt;
+        }
         timeTillStep -= dt;
     } else if (keysHeld() & KEY_LEFT) {
-        vel.x = -speed;
+        if (isOnGround) {
+            vel.x = -speed;
+        } else {
+            vel.x -= 25.f * dt;
+        }
         timeTillStep -= dt;
     } else {
-        vel.x = 0;
+        if (isOnGround) {
+            vel.x = 0;
+        }
         timeTillStep = 0.f;
     }
+    
     if (timeTillStep < 0.f) {
         g.soundSystem.playSound(SoundAudio::Grass, SoundType::Step, 255, 128);
         timeTillStep = stepAudioInterval;
     }
-    if (keysHeld() & KEY_UP && onGround(g.world)) {
+    if (isOnGround) {
+        if (keysHeld() & KEY_UP) {
+            vel.y = -jumpSpeed;
+        } else {
+            jumpState = jumpAny;
+        }
+    } else if (keysHeld() & KEY_UP && tryWallJump(g.world)) {
         vel.y = -speed;
     }
 
     if (keysDown() & KEY_TOUCH) {
         touchPosition pos;
         touchRead(&pos);
-        auto touchBlock = Vec2i(cam + Vec2f(pos.px, pos.py) / float(Graphics::blockSize));
+        auto touchBlock = Vec2i(cam + Vec2f(pos.px - 1, pos.py - 1) / float(Graphics::blockSize));
         Block &block = g.world.fg[touchBlock.x][touchBlock.y];
         if (block != Block::Air) {
             block = Block::Air;
@@ -53,4 +72,22 @@ void Player::update(Game &g, float dt) {
     }
 
     Entity::update(g, dt);
+}
+
+bool Player::tryWallJump(const World &world) {
+    if (vel.y < -0.1f) {
+        return false;
+    }
+    bool wallRight = !isWalkThrough(world.fg[int(pos.x + size.x / 2.f + Graphics::eps)][int(pos.y + size.y / 2.f + Graphics::eps)]);
+    bool wallLeft = !isWalkThrough(world.fg[int(pos.x - size.x / 2.f - Graphics::eps)][int(pos.y + size.y / 2.f + Graphics::eps)]);
+    if (wallLeft && jumpState & jumpLeft) {
+        jumpState = jumpRight;
+        vel.x = 2.01f * speed;
+    } else if (wallRight && jumpState & jumpRight) {
+        jumpState = jumpLeft;
+        vel.x = -2.0f * speed;
+    } else {
+        return false;
+    }
+    return true;
 }
