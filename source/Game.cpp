@@ -6,7 +6,7 @@ Game::Game()
         : graphics(), subRenderer(graphics), mainRenderer(graphics),
         soundSystem(), messageSystem(), world(),
         player(graphics, mainRenderer.getCam()) {
-    srand((unsigned int) time(nullptr));
+    // srand((unsigned int) time(nullptr));
     world.generate();
     
     soundSystem.playMusic(Music::Hal2);
@@ -21,6 +21,9 @@ void Game::update() {
     world.update();
     player.update(*this, 1 / 60.f);
     mainRenderer.updateCenter(player.getPos());
+    if (keysDown() & KEY_X) {
+        world.calculateBrightness(player.getPos().x, player.getPos().y);
+    }
     swiWaitForVBlank();
     {
         mainRenderer.begin();

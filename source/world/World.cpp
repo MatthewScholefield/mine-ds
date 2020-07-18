@@ -1,4 +1,7 @@
 
+#include <ctime>
+#include <queue>
+
 #include "World.hpp"
 #include "../graphics/MainRenderer.hpp"
 #include "State.hpp"
@@ -51,14 +54,9 @@ void World::brightnessUpdate(int x, int y, int level) {
     if ((unsigned) x >= sx || (unsigned) y >= sy)
         return;
     int before = brightness[x][y];
-    int after = max(before, level);
-    if (before != after) {
-        brightness[x][y] = after;
-        int give = after - (isWalkThrough(fg[x][y]) ? 1 : SUB_AMOUNT[after]);
-        brightnessUpdate(x + 1, y, give);
-        brightnessUpdate(x - 1, y, give);
-        brightnessUpdate(x, y + 1, give);
-        brightnessUpdate(x, y - 1, give);
+    if (level > before) {
+        brightness[x][y] = level;
+        checkBlock(x, y);
     }
 }
 
@@ -78,7 +76,18 @@ void World::calculateBrightness(int x, int y) {
     calculateBrightness(x - 8, x + 8, y - 6, y + 6);
 }
 
-void World::calculateBrightness(int leftBound, int rightBound, int topBound, int bottomBound) {
+struct Light {
+    int x, y, brightness;
+
+    Light(int x, int y, int brightness) : x(x), y(y), brightness(brightness) {}
+
+    bool operator<(const struct Light &other) const
+    {
+        return brightness < other.brightness;
+    }
+};
+
+void World::calcBrightnessDefault(int leftBound, int rightBound, int topBound, int bottomBound) {
     const int maxSpread = 7;
     const int minX = max(0, leftBound - maxSpread);
     const int maxX = min(sx - 1, rightBound + maxSpread);
@@ -108,6 +117,79 @@ void World::calculateBrightness(int leftBound, int rightBound, int topBound, int
         for (int j = minY; j <= maxY; ++j) {
             checkBlock(i, j);
         }
+    }
+}
+
+void World::calcBrightnessModified(int leftBound, int rightBound, int topBound, int bottomBound) {
+    const int maxSpread = 7;
+    const int minX = max(0, leftBound - maxSpread);
+    const int maxX = min(sx - 1, rightBound + maxSpread);
+    const int minY = max(0, topBound - maxSpread);
+    const int maxY = min(sy - 1, bottomBound + maxSpread);
+
+    std::queue<Light> lights;
+    for (int i = minX; i <= maxX; ++i) {
+        bool startedShade = false;
+        for (int j = 0; j <= maxY; ++j) {
+            Block block = fg[i][j];
+            int blockBrightness = 0;
+            if (!startedShade) {
+                blockBrightness = sunBrightness;
+                if (!isWalkThrough(block)) {
+                    startedShade = true;
+                }
+            } else if (block == Block::Air && bg[i][j] == Block::Air) {
+                blockBrightness = sunBrightness / 2;
+            }
+            if (j >= minY) {
+                brightness[i][j] = 0;
+                int emission = getLightEmission(block);
+                if (emission) {
+                    blockBrightness = max(blockBrightness, emission);
+                }
+                if (blockBrightness != 0) {
+                    lights.emplace(i, j, blockBrightness);
+                }
+            }
+        }
+    }
+    while (!lights.empty()) {
+        auto light = lights.front();
+        lights.pop();
+        auto &slot = brightness[light.x][light.y];
+        if (light.brightness > slot) {
+            slot = light.brightness;
+            int allDeltas[][2] = {
+                {1, 0},
+                {0, 1},
+                {-1, 0},
+                {0, -1}
+            };
+            int level = slot - (isWalkThrough(fg[light.x][light.y]) ? 1 : SUB_AMOUNT[slot]);
+            for (auto deltas : allDeltas) {
+                int nx = light.x + deltas[0];
+                int ny = light.y + deltas[1];
+                if ((unsigned)nx < sx && (unsigned)ny < sy && level > brightness[nx][ny]) {
+                    lights.emplace(nx, ny, level);
+                }
+            }
+        }
+    }
+}
+
+void World::calculateBrightness(int leftBound, int rightBound, int topBound, int bottomBound) {
+    static int counter = 0;
+    cpuStartTiming(0);
+    if (counter >= 2) {
+        calcBrightnessDefault(leftBound, rightBound, topBound, bottomBound);
+    } else {
+        calcBrightnessModified(leftBound, rightBound, topBound, bottomBound);
+    }
+    u32 diff = cpuEndTiming();
+	printXY(1, 8, "%s: %u   ", counter >= 2 ? " Default" : "Modified", diff);
+    ++counter;
+    if (counter >= 4) {
+        counter = 0;
     }
 }
 

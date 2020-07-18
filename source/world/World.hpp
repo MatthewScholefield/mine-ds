@@ -19,6 +19,8 @@ public:
     void calculateBrightness();
     void calculateBrightness(int x, int y);
     void calculateBrightness(int leftBound, int rightBound, int topBound, int bottomBound);
+    void calcBrightnessDefault(int leftBound, int rightBound, int topBound, int bottomBound);
+    void calcBrightnessModified(int leftBound, int rightBound, int topBound, int bottomBound);
 
     Block &operator[](const Vec2i &pos) {
         return fg[pos.x][pos.y];
