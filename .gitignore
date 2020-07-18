@@ -1,37 +1,11 @@
-*/*/*/*/*.*
-*/*/*/*.*
-*/*/*.*
-*/*.*
-*.*
+*.o
+*.s
+*.nds
 
-# Source Files
-!/**/*.cpp
-!/**/*.hpp
-!/**/*.h
-
-# Localisation files
-!/**/*.lang
-!/**/*.py
-
-# Graphics Files
-!/**/*.png
-!/**/*.grit
-
-# Audio Files
-!/**/*.wav
-!/**/*.it
-
-# Build Files
-!/**/meson.build
-
-# Other Files
-!README.md
-!icon.bmp
-!.gitignore
-
-# Exclude Generated Folders
 build/
 cmake-build-*/
-
-# Exclude Backup Files
 *~
+
+.vscode/
+.idea/
+
