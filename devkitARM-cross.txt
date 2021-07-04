@@ -1,0 +1,28 @@
+[binaries]
+c = '/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc'
+cpp = '/opt/devkitpro/devkitARM/bin/arm-none-eabi-g++'
+ar = '/opt/devkitpro/devkitARM/arm-none-eabi/bin/ar'
+strip = '/opt/devkitpro/devkitARM/bin/arm-none-eabi-strip'
+
+[properties]
+sizeof_int = 2
+sizeof_wchar_t = 2
+sizeof_void* = 2
+
+alignment_char = 1
+alignment_void* = 2
+alignment_double = 4
+
+has_function_printf = true
+
+cpp_args = []
+cpp_link_args = []
+
+needs_exe_wrapper = true
+
+
+[host_machine]
+system = 'unix'
+cpu_family = 'arm'
+cpu = 'arm7'
+endian = 'little'
