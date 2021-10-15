@@ -14,6 +14,9 @@ MyceliumUpdater::MyceliumUpdater()
 
 void MyceliumUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 {
+	if (!bg && (x ^ y) % 7 == 2 && rand() % 2 == 0 && (world.blocks[x][y - 1] == AIR || world.blocks[x][y - 1] == TALL_GRASS)) {
+		world.blocks[x][y - 1] = rand() % 2 ? MUSHROOM_RED : MUSHROOM_BROWN;
+	}
 	if (!bg)
 	{
 		if (!isBlockWalkThrough(world.blocks[x][y - 1]))

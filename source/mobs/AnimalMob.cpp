@@ -136,7 +136,7 @@ void AnimalMob::hurt(int amount, int type)
 			createItemMob(x / 16, y / 16, LEATHER, rand() % 3);
 			break;
 		case ANIMAL_SHEEP:
-			createItemMob(x / 16, y / 16, WHITE_WOOL, rand() % 4);
+			createItemMob(x / 16, y / 16, WHITE_WOOL, rand() % 7);
 			break;
 		case ANIMAL_PIG:
 			createItemMob(x / 16, y / 16, PORKCHOP_RAW, rand() % 3);

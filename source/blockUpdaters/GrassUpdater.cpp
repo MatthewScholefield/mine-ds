@@ -27,4 +27,7 @@ void GrassUpdater::chanceUpdate(World &world, int x, int y, bool bg)
 	}
 	else if (world.biome[x] == Biome::SNOW && bg && rand() % 10 == 0 && world.blocks[x][y - 1] == SNOW_TOP)
 		blockXY = SNOW_GRASS;
+	if (!bg && rand() % 2 == 0 && (x ^ y) % 7 == 0 && (blockAboveXY == AIR || blockAboveXY == TALL_GRASS)) {
+		world.blocks[x][y - 1] = rand() % 2 ? FLOWER_RED : FLOWER_YELLOW;
+	}
 }

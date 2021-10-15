@@ -33,7 +33,24 @@ const Recipe CraftingInterface::recipes[NUM_RECIPES] = {
 	{true ,DOOR_ITEM, 1, PLANKS_WOOD, 6},
 	{true ,BUCKET_EMPTY, 1, INGOT_IRON, 3},
 	{true ,FURNACE, 1, COBBLESTONE, 8},
-	{true ,TNT, 1, SAND, 7, COAL, 2}
+	{true ,TNT, 1, SAND, 7, COAL, 2},
+
+	// Wool
+	{false, GREEN_WOOL, 1, WHITE_WOOL, 1, SAPLING_OAK, 1},
+	{false, DARK_GREEN_WOOL, 1, WHITE_WOOL, 1, SAPLING_SPRUCE, 1},
+	{false, BROWN_WOOL, 3, WHITE_WOOL, 3, MUSHROOM_BROWN, 1},
+	{false, BlUE_WOOL, 4, WHITE_WOOL, 4, DIAMOND, 1},
+	{false, PURPLE_WOOL, 6, WHITE_WOOL, 6, DIAMOND, 1, RED_FLOWER, 1},
+	{false, CYAN_WOOL, 6, WHITE_WOOL, 6, DIAMOND, 1, SAPLING_OAK, 1},
+	{false, LIGHT_BLUE_WOOL, 6, WHITE_WOOL, 6, DIAMOND, 1},
+	{false, GRAY_WOOL, 4, WHITE_WOOL, 4, INGOT_IRON, 1},
+	{false, DARK_GRAY_WOOL, 2, WHITE_WOOL, 2, COAL, 1},
+	{false, LIGHT_GREEN_WOOL, 1, WHITE_WOOL, 1, SAPLING_JUNGLE, 1},
+	{false, RED_WOOL, 1, WHITE_WOOL, 1, RED_FLOWER, 1},
+	{false, PINK_WOOL, 2, WHITE_WOOL, 2, RED_FLOWER, 1},
+	{false, MAGENTA_WOOL, 2, WHITE_WOOL, 2, RED_FLOWER, 1},
+	{false, YELLOW_WOOL, 1, WHITE_WOOL, 1, YELLOW_FLOWER, 1},
+	{false, ORANGE_WOOL, 2, WHITE_WOOL, 2, PUMPKIN, 1}
 };
 
 void CraftingInterface::updateCraftingGraphics()
