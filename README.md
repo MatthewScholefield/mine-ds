@@ -43,4 +43,4 @@ Contact me with any questions at [matthew331199@gmail.com][2]
 
 [1]:http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/
 [2]:mailto://matthew331199@gmail.com
-[SS]:http://i.imgbox.com/ntnI7Sek.png "Screenshot"
+[SS]:https://github.com/MatthewScholefield/mine-ds/blob/gh-pages/images/screenshot.jpg?raw=true "Screenshot"
